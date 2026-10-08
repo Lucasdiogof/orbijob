@@ -33,3 +33,6 @@ supabase/.temp/
 
 .DS_Store
 *.log
+
+# design build scratch
+docs/design/identity/build/.work/
