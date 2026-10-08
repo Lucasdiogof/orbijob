@@ -38,12 +38,35 @@ PALETTES = {
   'light': dict(bg='#FFFFFF', surface='#FFFFFF', container='#F4F4F7', ink='#111113', muted='#55555F', line='#E4E4EA', outline='#8A8A96',
                 primary='#5B3DF5', onPrimary='#FFFFFF', primaryContainer='#ECE8FF', onPrimaryContainer='#2A1A8A',
                 accent='#111113', onAccent='#FFFFFF', accentText='#111113', success='#1B7A43', danger='#B3261E'),
-  'dark':  dict(bg='#0B0B0D', surface='#131316', container='#1C1C21', ink='#F4F4F6', muted='#A6A6B3', line='#2A2A31', outline='#7A7A88',
+  'dark':  dict(bg='#0C0C0E', surface='#131316', container='#1C1C21', ink='#F4F4F6', muted='#A6A6B3', line='#2A2A31', outline='#7A7A88',
                 primary='#A593FF', onPrimary='#1A0F57', primaryContainer='#3A2C99', onPrimaryContainer='#E6E0FF',
                 accent='#F4F4F6', onAccent='#111113', accentText='#F4F4F6', success='#6BD79B', danger='#FFB4AB')},
 }
 
+# Final design-system tokens of identity C = base roles above + these. Opacity tokens are state layers over `primary`.
+C_EXTENDED = {
+ 'light': dict(containerHigh='#EAEAF0', secondary='#111113', onSecondary='#FFFFFF', secondaryContainer='#E9E9EE', onSecondaryContainer='#111113',
+               error='#B3261E', onError='#FFFFFF', errorContainer='#FDECEA', onErrorContainer='#5F1410',
+               onSuccess='#FFFFFF', successContainer='#E3F4EA', onSuccessContainer='#0B3D20',
+               warning='#8A5A00', onWarning='#FFFFFF', warningContainer='#FFF1D6', onWarningContainer='#4A2F00',
+               disabledFg='#8A8A96', disabledBg='#EDEDF1', focus='#5B3DF5', divider='#E4E4EA',
+               skeletonBase='#F4F4F7', skeletonHighlight='#EAEAF0'),
+ 'dark':  dict(containerHigh='#26262C', secondary='#F4F4F6', onSecondary='#111113', secondaryContainer='#26262C', onSecondaryContainer='#F4F4F6',
+               error='#FFB4AB', onError='#690005', errorContainer='#93000A', onErrorContainer='#FFDAD6',
+               onSuccess='#00391C', successContainer='#12432A', onSuccessContainer='#C6F0D6',
+               warning='#FFC857', onWarning='#2B1A00', warningContainer='#4A3300', onWarningContainer='#FFE2A8',
+               disabledFg='#6E6E7A', disabledBg='#1E1E23', focus='#A593FF', divider='#2A2A31',
+               skeletonBase='#1C1C21', skeletonHighlight='#26262C'),
+}
+C_STATE_OPACITY = dict(hover=0.08, focus=0.12, pressed=0.12, selected=0.12)
+for _m in ('light', 'dark'):
+    PALETTES['c-minimal'][_m].update(C_EXTENDED[_m])
+
 # text pairs that must reach WCAG AA (4.5) and UI-component pairs that must reach 3.0
+C_TEXT_PAIRS = [('onSecondary', 'secondary'), ('onSecondaryContainer', 'secondaryContainer'), ('onError', 'error'), ('onErrorContainer', 'errorContainer'),
+                ('onSuccess', 'success'), ('onSuccessContainer', 'successContainer'), ('onWarning', 'warning'), ('onWarningContainer', 'warningContainer'),
+                ('error', 'surface'), ('error', 'bg'), ('success', 'bg'), ('warning', 'surface'), ('warning', 'bg'), ('ink', 'containerHigh'), ('muted', 'containerHigh')]
+C_UI_PAIRS = [('focus', 'bg'), ('focus', 'surface'), ('primary', 'surface'), ('outline', 'container')]
 TEXT_PAIRS = [('ink', 'bg'), ('ink', 'surface'), ('ink', 'container'), ('muted', 'bg'), ('muted', 'surface'), ('muted', 'container'),
               ('onPrimary', 'primary'), ('primary', 'bg'), ('primary', 'surface'), ('onPrimaryContainer', 'primaryContainer'),
               ('onAccent', 'accent'), ('accentText', 'surface'), ('success', 'surface'), ('danger', 'surface')]
@@ -51,11 +74,12 @@ UI_PAIRS = [('outline', 'bg'), ('outline', 'surface'), ('primary', 'bg')]
 
 def audit_palette(key):
     rows, ok = [], True
+    tp = TEXT_PAIRS + (C_TEXT_PAIRS if key == 'c-minimal' else []); up = UI_PAIRS + (C_UI_PAIRS if key == 'c-minimal' else [])
     for mode, c in PALETTES[key].items():
-        for a, b in TEXT_PAIRS:
+        for a, b in tp:
             r = contrast(c[a], c[b]); p = r >= 4.5; ok &= p
             rows.append((mode, f'{a} / {b}', c[a], c[b], r, 'texto AA ≥ 4,5', p))
-        for a, b in UI_PAIRS:
+        for a, b in up:
             r = contrast(c[a], c[b]); p = r >= 3.0; ok &= p
             rows.append((mode, f'{a} / {b}', c[a], c[b], r, 'componente ≥ 3,0', p))
     return rows, ok
@@ -164,7 +188,7 @@ def glyph_colors(key, variant):
 TILES = {  # app tile backgrounds
  'a-orbita': dict(app=('#12408F', '#081B4A'), light='#EEF3FF', dark='#081B4A', radius=22.5),
  'b-trajetorias': dict(app=('#0B7A6E', '#064740'), light='#E6F5F2', dark='#06302D', radius=22.5),
- 'c-minimal': dict(app=('#17171B', '#0B0B0D'), light='#F3F1FF', dark='#0B0B0D', radius=22.5),
+ 'c-minimal': dict(app=('#17171B', '#0C0C0E'), light='#F3F1FF', dark='#0C0C0E', radius=22.5),
 }
 
 def glyph_svg(key, variant, small=False, clean=False):
@@ -240,6 +264,12 @@ SHAPE = {
  'c-minimal': dict(radius=dict(xs=4, sm=6, md=8, lg=12, pill=8), density='compacta', elevation='sem sombras; linhas de 1px'),
 }
 def tokens(key):
+    t = _tokens(key)
+    if key == 'c-minimal':
+        t['stateLayers'] = C_STATE_OPACITY
+    return t
+
+def _tokens(key):
     return {
  'name': {'a-orbita': 'A · Órbita', 'b-trajetorias': 'B · Trajetórias', 'c-minimal': 'C · Minimal Tech'}[key],
  'status': 'PROPOSTA — não aplicada ao aplicativo',
