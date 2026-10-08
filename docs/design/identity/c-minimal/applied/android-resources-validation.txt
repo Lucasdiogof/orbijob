@@ -1,0 +1,33 @@
+== aapt2 compile (all res dirs incl. v31)
+OK
+== aapt2 link (min-sdk 21, without v31 dirs)
+OK
+== resource table (icons, splash)
+() (file) res/drawable/ic_launcher_foreground.xml type=XML
+() (file) res/drawable/ic_launcher_monochrome.xml type=XML
+() (file) res/drawable/splash_icon.xml type=XML
+() (file) res/drawable/splash_symbol.xml type=XML
+0x01010054=@color/splash_background
+0x01010054=@drawable/launch_background
+resource 0x7f010000 color/ic_launcher_background
+resource 0x7f010001 color/splash_background
+resource 0x7f020000 drawable/ic_launcher_foreground
+resource 0x7f020001 drawable/ic_launcher_monochrome
+resource 0x7f020002 drawable/launch_background
+resource 0x7f020003 drawable/splash_icon
+resource 0x7f020004 drawable/splash_symbol
+resource 0x7f030000 mipmap/ic_launcher
+resource 0x7f030001 mipmap/ic_launcher_round
+resource 0x7f040000 style/LaunchTheme
+resource 0x7f040001 style/NormalTheme
+== adaptive icon xml
+N: android=http://schemas.android.com/apk/res/android (line=2)
+  E: adaptive-icon (line=2)
+      E: background (line=3)
+        A: http://schemas.android.com/apk/res/android:drawable(0x01010199)=@0x7f010000
+      E: foreground (line=4)
+        A: http://schemas.android.com/apk/res/android:drawable(0x01010199)=@0x7f020000
+== API 31 splash attributes present in styles
+<item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+<item name="android:windowSplashScreenAnimationDuration">0</item>
+<item name="android:windowSplashScreenBackground">@color/splash_background</item>
