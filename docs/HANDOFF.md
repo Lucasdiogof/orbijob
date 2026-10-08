@@ -14,7 +14,7 @@
 4. Licença indefinida (repositório público sem LICENSE = todos os direitos reservados).
 5. Fontes finais das propostas (Sora/Manrope/Space Grotesk) não puderam ser usadas offline: logotipos finais precisam ser redesenhados após a escolha.
 6. Ícones padrão do Flutter ainda nos projetos Android/iOS/Web (substituir após aprovar identidade).
-7. CI ainda não executado no GitHub nesta data (verificar após o push); proteções de branch/Dependabot não configuradas.
+7. CI executou no GitHub: jobs worker, catalog e app passaram; o job de segredos falhou na 1ª execução por configuração (a action gitleaks montava um range a partir do commit raiz) e foi trocado pelo CLI do gitleaks varrendo todo o histórico. Proteções de branch/Dependabot ainda não configuradas (issue #4).
 8. Sem Supabase, sem migração aplicada, sem deploy Cloudflare, sem serviços pagos, sem publicação em lojas, lucksrei.com intocado.
 
 ## Próxima etapa recomendada
