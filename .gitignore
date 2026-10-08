@@ -1,0 +1,35 @@
+# Secrets - never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.dev.vars
+service-account*.json
+google-services.json
+GoogleService-Info.plist
+key.properties
+*.jks
+*.keystore
+
+# Node / Worker
+node_modules/
+worker/.wrangler/
+worker/dist/
+
+# Flutter
+app/.dart_tool/
+app/build/
+app/.flutter-plugins*
+app/.packages
+app/ios/Pods/
+app/ios/Flutter/ephemeral/
+app/android/.gradle/
+app/android/local.properties
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+.DS_Store
+*.log

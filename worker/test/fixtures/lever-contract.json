@@ -1,0 +1,5 @@
+[
+  {"id":"fx-1","text":"Fisioterapeuta Pélvica","hostedUrl":"https://jobs.lever.co/example/fx-1?lever-source=x","applyUrl":"https://jobs.lever.co/example/fx-1/apply","createdAt":1700000000000,"country":"BR","workplaceType":"on-site","descriptionPlain":"Atendimento clínico.","categories":{"commitment":"Full-time","location":"Goiânia"},"salaryRange":{"currency":"BRL","interval":"per-month","min":6000,"max":8000},"lists":[{"text":"Requisitos","content":"<li>CREFITO</li>"}]},
+  {"id":"fx-2","text":"Flutter Developer","hostedUrl":"https://jobs.lever.co/example/fx-2","applyUrl":"https://jobs.lever.co/example/fx-2/apply","country":"PT","workplaceType":"remote"},
+  {"id":"fx-3","text":"Electrician","hostedUrl":"https://jobs.lever.co/example/fx-3","applyUrl":"https://jobs.lever.co/example/fx-3/apply","workplaceType":"unspecified"}
+]

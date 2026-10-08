@@ -1,0 +1,608 @@
+country,source_id,status,evidence,integration_scope
+AE,lever,CONDITIONAL,doc,per-company only
+AE,greenhouse,CONDITIONAL,secondary,per-company only
+AE,ashby,CONDITIONAL,secondary,per-company only
+AE,himalayas,RESEARCH,secondary,country/global
+AE,jobicy,RESEARCH,secondary,country/global
+AE,remotive,CONDITIONAL,doc,country/global
+AE,jooble,RESEARCH,secondary,country/global
+AE,indeed,EXTERNAL_ONLY,secondary,country/global
+AE,linkedin,EXTERNAL_ONLY,prior,country/global
+AE,bayt,RESEARCH,none,not investigated
+AE,gulftalent,RESEARCH,none,not investigated
+AE,naukrigulf,RESEARCH,none,not investigated
+AR,lever,CONDITIONAL,doc,per-company only
+AR,greenhouse,CONDITIONAL,secondary,per-company only
+AR,ashby,CONDITIONAL,secondary,per-company only
+AR,himalayas,RESEARCH,secondary,country/global
+AR,jobicy,RESEARCH,secondary,country/global
+AR,remotive,CONDITIONAL,doc,country/global
+AR,jooble,RESEARCH,secondary,country/global
+AR,indeed,EXTERNAL_ONLY,secondary,country/global
+AR,linkedin,EXTERNAL_ONLY,prior,country/global
+AR,bumeran,RESEARCH,none,not investigated
+AT,lever,CONDITIONAL,doc,per-company only
+AT,greenhouse,CONDITIONAL,secondary,per-company only
+AT,ashby,CONDITIONAL,secondary,per-company only
+AT,himalayas,RESEARCH,secondary,country/global
+AT,jobicy,RESEARCH,secondary,country/global
+AT,remotive,CONDITIONAL,doc,country/global
+AT,adzuna,CONDITIONAL,secondary,country/global
+AT,eures,EXTERNAL_ONLY,doc,country/global
+AT,jooble,RESEARCH,secondary,country/global
+AT,indeed,EXTERNAL_ONLY,secondary,country/global
+AT,linkedin,EXTERNAL_ONLY,prior,country/global
+AU,lever,CONDITIONAL,doc,per-company only
+AU,greenhouse,CONDITIONAL,secondary,per-company only
+AU,ashby,CONDITIONAL,secondary,per-company only
+AU,himalayas,RESEARCH,secondary,country/global
+AU,jobicy,RESEARCH,secondary,country/global
+AU,remotive,CONDITIONAL,doc,country/global
+AU,adzuna,CONDITIONAL,secondary,country/global
+AU,workforce-au,EXTERNAL_ONLY,secondary,country/global
+AU,seek,CONDITIONAL,secondary,country/global
+AU,jooble,RESEARCH,secondary,country/global
+AU,indeed,EXTERNAL_ONLY,secondary,country/global
+AU,linkedin,EXTERNAL_ONLY,prior,country/global
+AU,jora,RESEARCH,none,not investigated
+BE,lever,CONDITIONAL,doc,per-company only
+BE,greenhouse,CONDITIONAL,secondary,per-company only
+BE,ashby,CONDITIONAL,secondary,per-company only
+BE,himalayas,RESEARCH,secondary,country/global
+BE,jobicy,RESEARCH,secondary,country/global
+BE,remotive,CONDITIONAL,doc,country/global
+BE,adzuna,CONDITIONAL,secondary,country/global
+BE,eures,EXTERNAL_ONLY,doc,country/global
+BE,jooble,RESEARCH,secondary,country/global
+BE,indeed,EXTERNAL_ONLY,secondary,country/global
+BE,linkedin,EXTERNAL_ONLY,prior,country/global
+BG,lever,CONDITIONAL,doc,per-company only
+BG,greenhouse,CONDITIONAL,secondary,per-company only
+BG,ashby,CONDITIONAL,secondary,per-company only
+BG,himalayas,RESEARCH,secondary,country/global
+BG,jobicy,RESEARCH,secondary,country/global
+BG,remotive,CONDITIONAL,doc,country/global
+BG,eures,EXTERNAL_ONLY,doc,country/global
+BG,jooble,RESEARCH,secondary,country/global
+BG,indeed,EXTERNAL_ONLY,secondary,country/global
+BG,linkedin,EXTERNAL_ONLY,prior,country/global
+BR,lever,CONDITIONAL,doc,per-company only
+BR,greenhouse,CONDITIONAL,secondary,per-company only
+BR,ashby,CONDITIONAL,secondary,per-company only
+BR,himalayas,RESEARCH,secondary,country/global
+BR,jobicy,RESEARCH,secondary,country/global
+BR,remotive,CONDITIONAL,doc,country/global
+BR,adzuna,CONDITIONAL,secondary,country/global
+BR,jooble,RESEARCH,secondary,country/global
+BR,indeed,EXTERNAL_ONLY,secondary,country/global
+BR,linkedin,EXTERNAL_ONLY,prior,country/global
+BR,catho,RESEARCH,none,not investigated
+BR,infojobs-brasil,RESEARCH,none,not investigated
+BR,gupy,RESEARCH,none,not investigated
+CA,lever,CONDITIONAL,doc,per-company only
+CA,greenhouse,CONDITIONAL,secondary,per-company only
+CA,ashby,CONDITIONAL,secondary,per-company only
+CA,himalayas,RESEARCH,secondary,country/global
+CA,jobicy,RESEARCH,secondary,country/global
+CA,remotive,CONDITIONAL,doc,country/global
+CA,adzuna,CONDITIONAL,secondary,country/global
+CA,jobbank-ca,CONDITIONAL,secondary,country/global
+CA,jooble,RESEARCH,secondary,country/global
+CA,indeed,EXTERNAL_ONLY,secondary,country/global
+CA,ziprecruiter,EXTERNAL_ONLY,secondary,country/global
+CA,linkedin,EXTERNAL_ONLY,prior,country/global
+CH,lever,CONDITIONAL,doc,per-company only
+CH,greenhouse,CONDITIONAL,secondary,per-company only
+CH,ashby,CONDITIONAL,secondary,per-company only
+CH,himalayas,RESEARCH,secondary,country/global
+CH,jobicy,RESEARCH,secondary,country/global
+CH,remotive,CONDITIONAL,doc,country/global
+CH,adzuna,CONDITIONAL,secondary,country/global
+CH,eures,EXTERNAL_ONLY,doc,country/global
+CH,jooble,RESEARCH,secondary,country/global
+CH,indeed,EXTERNAL_ONLY,secondary,country/global
+CH,linkedin,EXTERNAL_ONLY,prior,country/global
+CH,jobs-ch,RESEARCH,none,not investigated
+CN,lever,CONDITIONAL,doc,per-company only
+CN,greenhouse,CONDITIONAL,secondary,per-company only
+CN,ashby,CONDITIONAL,secondary,per-company only
+CN,himalayas,RESEARCH,secondary,country/global
+CN,jobicy,RESEARCH,secondary,country/global
+CN,remotive,CONDITIONAL,doc,country/global
+CN,jooble,RESEARCH,secondary,country/global
+CN,indeed,EXTERNAL_ONLY,secondary,country/global
+CN,linkedin,EXTERNAL_ONLY,prior,country/global
+CN,boss-zhipin,RESEARCH,none,not investigated
+CY,lever,CONDITIONAL,doc,per-company only
+CY,greenhouse,CONDITIONAL,secondary,per-company only
+CY,ashby,CONDITIONAL,secondary,per-company only
+CY,himalayas,RESEARCH,secondary,country/global
+CY,jobicy,RESEARCH,secondary,country/global
+CY,remotive,CONDITIONAL,doc,country/global
+CY,eures,EXTERNAL_ONLY,doc,country/global
+CY,jooble,RESEARCH,secondary,country/global
+CY,indeed,EXTERNAL_ONLY,secondary,country/global
+CY,linkedin,EXTERNAL_ONLY,prior,country/global
+CZ,lever,CONDITIONAL,doc,per-company only
+CZ,greenhouse,CONDITIONAL,secondary,per-company only
+CZ,ashby,CONDITIONAL,secondary,per-company only
+CZ,himalayas,RESEARCH,secondary,country/global
+CZ,jobicy,RESEARCH,secondary,country/global
+CZ,remotive,CONDITIONAL,doc,country/global
+CZ,eures,EXTERNAL_ONLY,doc,country/global
+CZ,jooble,RESEARCH,secondary,country/global
+CZ,indeed,EXTERNAL_ONLY,secondary,country/global
+CZ,linkedin,EXTERNAL_ONLY,prior,country/global
+DE,lever,CONDITIONAL,doc,per-company only
+DE,greenhouse,CONDITIONAL,secondary,per-company only
+DE,ashby,CONDITIONAL,secondary,per-company only
+DE,himalayas,RESEARCH,secondary,country/global
+DE,jobicy,RESEARCH,secondary,country/global
+DE,remotive,CONDITIONAL,doc,country/global
+DE,adzuna,CONDITIONAL,secondary,country/global
+DE,bundesagentur,RESEARCH,secondary,country/global
+DE,eures,EXTERNAL_ONLY,doc,country/global
+DE,jooble,RESEARCH,secondary,country/global
+DE,indeed,EXTERNAL_ONLY,secondary,country/global
+DE,linkedin,EXTERNAL_ONLY,prior,country/global
+DE,stepstone,RESEARCH,none,not investigated
+DK,lever,CONDITIONAL,doc,per-company only
+DK,greenhouse,CONDITIONAL,secondary,per-company only
+DK,ashby,CONDITIONAL,secondary,per-company only
+DK,himalayas,RESEARCH,secondary,country/global
+DK,jobicy,RESEARCH,secondary,country/global
+DK,remotive,CONDITIONAL,doc,country/global
+DK,eures,EXTERNAL_ONLY,doc,country/global
+DK,jooble,RESEARCH,secondary,country/global
+DK,indeed,EXTERNAL_ONLY,secondary,country/global
+DK,linkedin,EXTERNAL_ONLY,prior,country/global
+EE,lever,CONDITIONAL,doc,per-company only
+EE,greenhouse,CONDITIONAL,secondary,per-company only
+EE,ashby,CONDITIONAL,secondary,per-company only
+EE,himalayas,RESEARCH,secondary,country/global
+EE,jobicy,RESEARCH,secondary,country/global
+EE,remotive,CONDITIONAL,doc,country/global
+EE,eures,EXTERNAL_ONLY,doc,country/global
+EE,jooble,RESEARCH,secondary,country/global
+EE,indeed,EXTERNAL_ONLY,secondary,country/global
+EE,linkedin,EXTERNAL_ONLY,prior,country/global
+EG,lever,CONDITIONAL,doc,per-company only
+EG,greenhouse,CONDITIONAL,secondary,per-company only
+EG,ashby,CONDITIONAL,secondary,per-company only
+EG,himalayas,RESEARCH,secondary,country/global
+EG,jobicy,RESEARCH,secondary,country/global
+EG,remotive,CONDITIONAL,doc,country/global
+EG,jooble,RESEARCH,secondary,country/global
+EG,indeed,EXTERNAL_ONLY,secondary,country/global
+EG,linkedin,EXTERNAL_ONLY,prior,country/global
+EG,wuzzuf,RESEARCH,none,not investigated
+ES,lever,CONDITIONAL,doc,per-company only
+ES,greenhouse,CONDITIONAL,secondary,per-company only
+ES,ashby,CONDITIONAL,secondary,per-company only
+ES,himalayas,RESEARCH,secondary,country/global
+ES,jobicy,RESEARCH,secondary,country/global
+ES,remotive,CONDITIONAL,doc,country/global
+ES,adzuna,CONDITIONAL,secondary,country/global
+ES,eures,EXTERNAL_ONLY,doc,country/global
+ES,jooble,RESEARCH,secondary,country/global
+ES,indeed,EXTERNAL_ONLY,secondary,country/global
+ES,linkedin,EXTERNAL_ONLY,prior,country/global
+ES,infojobs,RESEARCH,none,not investigated
+FI,lever,CONDITIONAL,doc,per-company only
+FI,greenhouse,CONDITIONAL,secondary,per-company only
+FI,ashby,CONDITIONAL,secondary,per-company only
+FI,himalayas,RESEARCH,secondary,country/global
+FI,jobicy,RESEARCH,secondary,country/global
+FI,remotive,CONDITIONAL,doc,country/global
+FI,eures,EXTERNAL_ONLY,doc,country/global
+FI,jooble,RESEARCH,secondary,country/global
+FI,indeed,EXTERNAL_ONLY,secondary,country/global
+FI,linkedin,EXTERNAL_ONLY,prior,country/global
+FR,lever,CONDITIONAL,doc,per-company only
+FR,greenhouse,CONDITIONAL,secondary,per-company only
+FR,ashby,CONDITIONAL,secondary,per-company only
+FR,himalayas,RESEARCH,secondary,country/global
+FR,jobicy,RESEARCH,secondary,country/global
+FR,remotive,CONDITIONAL,doc,country/global
+FR,adzuna,CONDITIONAL,secondary,country/global
+FR,francetravail,CONDITIONAL,secondary,country/global
+FR,eures,EXTERNAL_ONLY,doc,country/global
+FR,jooble,RESEARCH,secondary,country/global
+FR,indeed,EXTERNAL_ONLY,secondary,country/global
+FR,linkedin,EXTERNAL_ONLY,prior,country/global
+GB,lever,CONDITIONAL,doc,per-company only
+GB,greenhouse,CONDITIONAL,secondary,per-company only
+GB,ashby,CONDITIONAL,secondary,per-company only
+GB,himalayas,RESEARCH,secondary,country/global
+GB,jobicy,RESEARCH,secondary,country/global
+GB,remotive,CONDITIONAL,doc,country/global
+GB,adzuna,CONDITIONAL,secondary,country/global
+GB,reed,RESEARCH,secondary,country/global
+GB,nhs-jobs,EXTERNAL_ONLY,secondary,country/global
+GB,jooble,RESEARCH,secondary,country/global
+GB,indeed,EXTERNAL_ONLY,secondary,country/global
+GB,ziprecruiter,EXTERNAL_ONLY,secondary,country/global
+GB,linkedin,EXTERNAL_ONLY,prior,country/global
+GB,totaljobs,RESEARCH,none,not investigated
+GB,cv-library,RESEARCH,none,not investigated
+GR,lever,CONDITIONAL,doc,per-company only
+GR,greenhouse,CONDITIONAL,secondary,per-company only
+GR,ashby,CONDITIONAL,secondary,per-company only
+GR,himalayas,RESEARCH,secondary,country/global
+GR,jobicy,RESEARCH,secondary,country/global
+GR,remotive,CONDITIONAL,doc,country/global
+GR,eures,EXTERNAL_ONLY,doc,country/global
+GR,jooble,RESEARCH,secondary,country/global
+GR,indeed,EXTERNAL_ONLY,secondary,country/global
+GR,linkedin,EXTERNAL_ONLY,prior,country/global
+HK,lever,CONDITIONAL,doc,per-company only
+HK,greenhouse,CONDITIONAL,secondary,per-company only
+HK,ashby,CONDITIONAL,secondary,per-company only
+HK,himalayas,RESEARCH,secondary,country/global
+HK,jobicy,RESEARCH,secondary,country/global
+HK,remotive,CONDITIONAL,doc,country/global
+HK,jobsdb,CONDITIONAL,prior,country/global
+HK,jooble,RESEARCH,secondary,country/global
+HK,indeed,EXTERNAL_ONLY,secondary,country/global
+HK,linkedin,EXTERNAL_ONLY,prior,country/global
+HR,lever,CONDITIONAL,doc,per-company only
+HR,greenhouse,CONDITIONAL,secondary,per-company only
+HR,ashby,CONDITIONAL,secondary,per-company only
+HR,himalayas,RESEARCH,secondary,country/global
+HR,jobicy,RESEARCH,secondary,country/global
+HR,remotive,CONDITIONAL,doc,country/global
+HR,eures,EXTERNAL_ONLY,doc,country/global
+HR,jooble,RESEARCH,secondary,country/global
+HR,indeed,EXTERNAL_ONLY,secondary,country/global
+HR,linkedin,EXTERNAL_ONLY,prior,country/global
+HU,lever,CONDITIONAL,doc,per-company only
+HU,greenhouse,CONDITIONAL,secondary,per-company only
+HU,ashby,CONDITIONAL,secondary,per-company only
+HU,himalayas,RESEARCH,secondary,country/global
+HU,jobicy,RESEARCH,secondary,country/global
+HU,remotive,CONDITIONAL,doc,country/global
+HU,eures,EXTERNAL_ONLY,doc,country/global
+HU,jooble,RESEARCH,secondary,country/global
+HU,indeed,EXTERNAL_ONLY,secondary,country/global
+HU,linkedin,EXTERNAL_ONLY,prior,country/global
+ID,lever,CONDITIONAL,doc,per-company only
+ID,greenhouse,CONDITIONAL,secondary,per-company only
+ID,ashby,CONDITIONAL,secondary,per-company only
+ID,himalayas,RESEARCH,secondary,country/global
+ID,jobicy,RESEARCH,secondary,country/global
+ID,remotive,CONDITIONAL,doc,country/global
+ID,jobstreet,CONDITIONAL,prior,country/global
+ID,jooble,RESEARCH,secondary,country/global
+ID,indeed,EXTERNAL_ONLY,secondary,country/global
+ID,linkedin,EXTERNAL_ONLY,prior,country/global
+ID,glints,RESEARCH,none,not investigated
+IE,lever,CONDITIONAL,doc,per-company only
+IE,greenhouse,CONDITIONAL,secondary,per-company only
+IE,ashby,CONDITIONAL,secondary,per-company only
+IE,himalayas,RESEARCH,secondary,country/global
+IE,jobicy,RESEARCH,secondary,country/global
+IE,remotive,CONDITIONAL,doc,country/global
+IE,eures,EXTERNAL_ONLY,doc,country/global
+IE,jooble,RESEARCH,secondary,country/global
+IE,indeed,EXTERNAL_ONLY,secondary,country/global
+IE,linkedin,EXTERNAL_ONLY,prior,country/global
+IN,lever,CONDITIONAL,doc,per-company only
+IN,greenhouse,CONDITIONAL,secondary,per-company only
+IN,ashby,CONDITIONAL,secondary,per-company only
+IN,himalayas,RESEARCH,secondary,country/global
+IN,jobicy,RESEARCH,secondary,country/global
+IN,remotive,CONDITIONAL,doc,country/global
+IN,adzuna,CONDITIONAL,secondary,country/global
+IN,jooble,RESEARCH,secondary,country/global
+IN,indeed,EXTERNAL_ONLY,secondary,country/global
+IN,linkedin,EXTERNAL_ONLY,prior,country/global
+IN,naukri,RESEARCH,none,not investigated
+IS,lever,CONDITIONAL,doc,per-company only
+IS,greenhouse,CONDITIONAL,secondary,per-company only
+IS,ashby,CONDITIONAL,secondary,per-company only
+IS,himalayas,RESEARCH,secondary,country/global
+IS,jobicy,RESEARCH,secondary,country/global
+IS,remotive,CONDITIONAL,doc,country/global
+IS,eures,EXTERNAL_ONLY,doc,country/global
+IS,jooble,RESEARCH,secondary,country/global
+IS,indeed,EXTERNAL_ONLY,secondary,country/global
+IS,linkedin,EXTERNAL_ONLY,prior,country/global
+IT,lever,CONDITIONAL,doc,per-company only
+IT,greenhouse,CONDITIONAL,secondary,per-company only
+IT,ashby,CONDITIONAL,secondary,per-company only
+IT,himalayas,RESEARCH,secondary,country/global
+IT,jobicy,RESEARCH,secondary,country/global
+IT,remotive,CONDITIONAL,doc,country/global
+IT,adzuna,CONDITIONAL,secondary,country/global
+IT,eures,EXTERNAL_ONLY,doc,country/global
+IT,jooble,RESEARCH,secondary,country/global
+IT,indeed,EXTERNAL_ONLY,secondary,country/global
+IT,linkedin,EXTERNAL_ONLY,prior,country/global
+JP,lever,CONDITIONAL,doc,per-company only
+JP,greenhouse,CONDITIONAL,secondary,per-company only
+JP,ashby,CONDITIONAL,secondary,per-company only
+JP,himalayas,RESEARCH,secondary,country/global
+JP,jobicy,RESEARCH,secondary,country/global
+JP,remotive,CONDITIONAL,doc,country/global
+JP,jooble,RESEARCH,secondary,country/global
+JP,indeed,EXTERNAL_ONLY,secondary,country/global
+JP,linkedin,EXTERNAL_ONLY,prior,country/global
+JP,rikunabi,RESEARCH,none,not investigated
+JP,mynavi,RESEARCH,none,not investigated
+JP,wantedly,RESEARCH,none,not investigated
+KE,lever,CONDITIONAL,doc,per-company only
+KE,greenhouse,CONDITIONAL,secondary,per-company only
+KE,ashby,CONDITIONAL,secondary,per-company only
+KE,himalayas,RESEARCH,secondary,country/global
+KE,jobicy,RESEARCH,secondary,country/global
+KE,remotive,CONDITIONAL,doc,country/global
+KE,jooble,RESEARCH,secondary,country/global
+KE,indeed,EXTERNAL_ONLY,secondary,country/global
+KE,linkedin,EXTERNAL_ONLY,prior,country/global
+KE,brightermonday,RESEARCH,none,not investigated
+KE,fuzu,RESEARCH,none,not investigated
+KR,lever,CONDITIONAL,doc,per-company only
+KR,greenhouse,CONDITIONAL,secondary,per-company only
+KR,ashby,CONDITIONAL,secondary,per-company only
+KR,himalayas,RESEARCH,secondary,country/global
+KR,jobicy,RESEARCH,secondary,country/global
+KR,remotive,CONDITIONAL,doc,country/global
+KR,jooble,RESEARCH,secondary,country/global
+KR,indeed,EXTERNAL_ONLY,secondary,country/global
+KR,linkedin,EXTERNAL_ONLY,prior,country/global
+KR,saramin,RESEARCH,none,not investigated
+KR,jobkorea,RESEARCH,none,not investigated
+LI,lever,CONDITIONAL,doc,per-company only
+LI,greenhouse,CONDITIONAL,secondary,per-company only
+LI,ashby,CONDITIONAL,secondary,per-company only
+LI,himalayas,RESEARCH,secondary,country/global
+LI,jobicy,RESEARCH,secondary,country/global
+LI,remotive,CONDITIONAL,doc,country/global
+LI,eures,EXTERNAL_ONLY,doc,country/global
+LI,jooble,RESEARCH,secondary,country/global
+LI,indeed,EXTERNAL_ONLY,secondary,country/global
+LI,linkedin,EXTERNAL_ONLY,prior,country/global
+LT,lever,CONDITIONAL,doc,per-company only
+LT,greenhouse,CONDITIONAL,secondary,per-company only
+LT,ashby,CONDITIONAL,secondary,per-company only
+LT,himalayas,RESEARCH,secondary,country/global
+LT,jobicy,RESEARCH,secondary,country/global
+LT,remotive,CONDITIONAL,doc,country/global
+LT,eures,EXTERNAL_ONLY,doc,country/global
+LT,jooble,RESEARCH,secondary,country/global
+LT,indeed,EXTERNAL_ONLY,secondary,country/global
+LT,linkedin,EXTERNAL_ONLY,prior,country/global
+LU,lever,CONDITIONAL,doc,per-company only
+LU,greenhouse,CONDITIONAL,secondary,per-company only
+LU,ashby,CONDITIONAL,secondary,per-company only
+LU,himalayas,RESEARCH,secondary,country/global
+LU,jobicy,RESEARCH,secondary,country/global
+LU,remotive,CONDITIONAL,doc,country/global
+LU,eures,EXTERNAL_ONLY,doc,country/global
+LU,jooble,RESEARCH,secondary,country/global
+LU,indeed,EXTERNAL_ONLY,secondary,country/global
+LU,linkedin,EXTERNAL_ONLY,prior,country/global
+LV,lever,CONDITIONAL,doc,per-company only
+LV,greenhouse,CONDITIONAL,secondary,per-company only
+LV,ashby,CONDITIONAL,secondary,per-company only
+LV,himalayas,RESEARCH,secondary,country/global
+LV,jobicy,RESEARCH,secondary,country/global
+LV,remotive,CONDITIONAL,doc,country/global
+LV,eures,EXTERNAL_ONLY,doc,country/global
+LV,jooble,RESEARCH,secondary,country/global
+LV,indeed,EXTERNAL_ONLY,secondary,country/global
+LV,linkedin,EXTERNAL_ONLY,prior,country/global
+MA,lever,CONDITIONAL,doc,per-company only
+MA,greenhouse,CONDITIONAL,secondary,per-company only
+MA,ashby,CONDITIONAL,secondary,per-company only
+MA,himalayas,RESEARCH,secondary,country/global
+MA,jobicy,RESEARCH,secondary,country/global
+MA,remotive,CONDITIONAL,doc,country/global
+MA,jooble,RESEARCH,secondary,country/global
+MA,indeed,EXTERNAL_ONLY,secondary,country/global
+MA,linkedin,EXTERNAL_ONLY,prior,country/global
+MA,rekrute,RESEARCH,none,not investigated
+MT,lever,CONDITIONAL,doc,per-company only
+MT,greenhouse,CONDITIONAL,secondary,per-company only
+MT,ashby,CONDITIONAL,secondary,per-company only
+MT,himalayas,RESEARCH,secondary,country/global
+MT,jobicy,RESEARCH,secondary,country/global
+MT,remotive,CONDITIONAL,doc,country/global
+MT,eures,EXTERNAL_ONLY,doc,country/global
+MT,jooble,RESEARCH,secondary,country/global
+MT,indeed,EXTERNAL_ONLY,secondary,country/global
+MT,linkedin,EXTERNAL_ONLY,prior,country/global
+MX,lever,CONDITIONAL,doc,per-company only
+MX,greenhouse,CONDITIONAL,secondary,per-company only
+MX,ashby,CONDITIONAL,secondary,per-company only
+MX,himalayas,RESEARCH,secondary,country/global
+MX,jobicy,RESEARCH,secondary,country/global
+MX,remotive,CONDITIONAL,doc,country/global
+MX,adzuna,CONDITIONAL,secondary,country/global
+MX,jooble,RESEARCH,secondary,country/global
+MX,indeed,EXTERNAL_ONLY,secondary,country/global
+MX,linkedin,EXTERNAL_ONLY,prior,country/global
+MX,computrabajo,RESEARCH,none,not investigated
+MY,lever,CONDITIONAL,doc,per-company only
+MY,greenhouse,CONDITIONAL,secondary,per-company only
+MY,ashby,CONDITIONAL,secondary,per-company only
+MY,himalayas,RESEARCH,secondary,country/global
+MY,jobicy,RESEARCH,secondary,country/global
+MY,remotive,CONDITIONAL,doc,country/global
+MY,jobstreet,CONDITIONAL,prior,country/global
+MY,jooble,RESEARCH,secondary,country/global
+MY,indeed,EXTERNAL_ONLY,secondary,country/global
+MY,linkedin,EXTERNAL_ONLY,prior,country/global
+NG,lever,CONDITIONAL,doc,per-company only
+NG,greenhouse,CONDITIONAL,secondary,per-company only
+NG,ashby,CONDITIONAL,secondary,per-company only
+NG,himalayas,RESEARCH,secondary,country/global
+NG,jobicy,RESEARCH,secondary,country/global
+NG,remotive,CONDITIONAL,doc,country/global
+NG,jooble,RESEARCH,secondary,country/global
+NG,indeed,EXTERNAL_ONLY,secondary,country/global
+NG,linkedin,EXTERNAL_ONLY,prior,country/global
+NG,jobberman,RESEARCH,none,not investigated
+NG,myjobmag,RESEARCH,none,not investigated
+NL,lever,CONDITIONAL,doc,per-company only
+NL,greenhouse,CONDITIONAL,secondary,per-company only
+NL,ashby,CONDITIONAL,secondary,per-company only
+NL,himalayas,RESEARCH,secondary,country/global
+NL,jobicy,RESEARCH,secondary,country/global
+NL,remotive,CONDITIONAL,doc,country/global
+NL,adzuna,CONDITIONAL,secondary,country/global
+NL,eures,EXTERNAL_ONLY,doc,country/global
+NL,jooble,RESEARCH,secondary,country/global
+NL,indeed,EXTERNAL_ONLY,secondary,country/global
+NL,linkedin,EXTERNAL_ONLY,prior,country/global
+NO,lever,CONDITIONAL,doc,per-company only
+NO,greenhouse,CONDITIONAL,secondary,per-company only
+NO,ashby,CONDITIONAL,secondary,per-company only
+NO,himalayas,RESEARCH,secondary,country/global
+NO,jobicy,RESEARCH,secondary,country/global
+NO,remotive,CONDITIONAL,doc,country/global
+NO,eures,EXTERNAL_ONLY,doc,country/global
+NO,jooble,RESEARCH,secondary,country/global
+NO,indeed,EXTERNAL_ONLY,secondary,country/global
+NO,linkedin,EXTERNAL_ONLY,prior,country/global
+NZ,lever,CONDITIONAL,doc,per-company only
+NZ,greenhouse,CONDITIONAL,secondary,per-company only
+NZ,ashby,CONDITIONAL,secondary,per-company only
+NZ,himalayas,RESEARCH,secondary,country/global
+NZ,jobicy,RESEARCH,secondary,country/global
+NZ,remotive,CONDITIONAL,doc,country/global
+NZ,adzuna,CONDITIONAL,secondary,country/global
+NZ,seek,CONDITIONAL,secondary,country/global
+NZ,jooble,RESEARCH,secondary,country/global
+NZ,indeed,EXTERNAL_ONLY,secondary,country/global
+NZ,linkedin,EXTERNAL_ONLY,prior,country/global
+NZ,trade-me-jobs,RESEARCH,none,not investigated
+PH,lever,CONDITIONAL,doc,per-company only
+PH,greenhouse,CONDITIONAL,secondary,per-company only
+PH,ashby,CONDITIONAL,secondary,per-company only
+PH,himalayas,RESEARCH,secondary,country/global
+PH,jobicy,RESEARCH,secondary,country/global
+PH,remotive,CONDITIONAL,doc,country/global
+PH,jobstreet,CONDITIONAL,prior,country/global
+PH,jooble,RESEARCH,secondary,country/global
+PH,indeed,EXTERNAL_ONLY,secondary,country/global
+PH,linkedin,EXTERNAL_ONLY,prior,country/global
+PL,lever,CONDITIONAL,doc,per-company only
+PL,greenhouse,CONDITIONAL,secondary,per-company only
+PL,ashby,CONDITIONAL,secondary,per-company only
+PL,himalayas,RESEARCH,secondary,country/global
+PL,jobicy,RESEARCH,secondary,country/global
+PL,remotive,CONDITIONAL,doc,country/global
+PL,adzuna,CONDITIONAL,secondary,country/global
+PL,eures,EXTERNAL_ONLY,doc,country/global
+PL,jooble,RESEARCH,secondary,country/global
+PL,indeed,EXTERNAL_ONLY,secondary,country/global
+PL,linkedin,EXTERNAL_ONLY,prior,country/global
+PL,pracuj-pl,RESEARCH,none,not investigated
+PT,lever,CONDITIONAL,doc,per-company only
+PT,greenhouse,CONDITIONAL,secondary,per-company only
+PT,ashby,CONDITIONAL,secondary,per-company only
+PT,himalayas,RESEARCH,secondary,country/global
+PT,jobicy,RESEARCH,secondary,country/global
+PT,remotive,CONDITIONAL,doc,country/global
+PT,eures,EXTERNAL_ONLY,doc,country/global
+PT,jooble,RESEARCH,secondary,country/global
+PT,indeed,EXTERNAL_ONLY,secondary,country/global
+PT,linkedin,EXTERNAL_ONLY,prior,country/global
+RO,lever,CONDITIONAL,doc,per-company only
+RO,greenhouse,CONDITIONAL,secondary,per-company only
+RO,ashby,CONDITIONAL,secondary,per-company only
+RO,himalayas,RESEARCH,secondary,country/global
+RO,jobicy,RESEARCH,secondary,country/global
+RO,remotive,CONDITIONAL,doc,country/global
+RO,eures,EXTERNAL_ONLY,doc,country/global
+RO,jooble,RESEARCH,secondary,country/global
+RO,indeed,EXTERNAL_ONLY,secondary,country/global
+RO,linkedin,EXTERNAL_ONLY,prior,country/global
+SE,lever,CONDITIONAL,doc,per-company only
+SE,greenhouse,CONDITIONAL,secondary,per-company only
+SE,ashby,CONDITIONAL,secondary,per-company only
+SE,himalayas,RESEARCH,secondary,country/global
+SE,jobicy,RESEARCH,secondary,country/global
+SE,remotive,CONDITIONAL,doc,country/global
+SE,eures,EXTERNAL_ONLY,doc,country/global
+SE,jooble,RESEARCH,secondary,country/global
+SE,indeed,EXTERNAL_ONLY,secondary,country/global
+SE,linkedin,EXTERNAL_ONLY,prior,country/global
+SG,lever,CONDITIONAL,doc,per-company only
+SG,greenhouse,CONDITIONAL,secondary,per-company only
+SG,ashby,CONDITIONAL,secondary,per-company only
+SG,himalayas,RESEARCH,secondary,country/global
+SG,jobicy,RESEARCH,secondary,country/global
+SG,remotive,CONDITIONAL,doc,country/global
+SG,adzuna,CONDITIONAL,secondary,country/global
+SG,jobstreet,CONDITIONAL,prior,country/global
+SG,jooble,RESEARCH,secondary,country/global
+SG,indeed,EXTERNAL_ONLY,secondary,country/global
+SG,linkedin,EXTERNAL_ONLY,prior,country/global
+SG,mycareersfuture,RESEARCH,none,not investigated
+SI,lever,CONDITIONAL,doc,per-company only
+SI,greenhouse,CONDITIONAL,secondary,per-company only
+SI,ashby,CONDITIONAL,secondary,per-company only
+SI,himalayas,RESEARCH,secondary,country/global
+SI,jobicy,RESEARCH,secondary,country/global
+SI,remotive,CONDITIONAL,doc,country/global
+SI,eures,EXTERNAL_ONLY,doc,country/global
+SI,jooble,RESEARCH,secondary,country/global
+SI,indeed,EXTERNAL_ONLY,secondary,country/global
+SI,linkedin,EXTERNAL_ONLY,prior,country/global
+SK,lever,CONDITIONAL,doc,per-company only
+SK,greenhouse,CONDITIONAL,secondary,per-company only
+SK,ashby,CONDITIONAL,secondary,per-company only
+SK,himalayas,RESEARCH,secondary,country/global
+SK,jobicy,RESEARCH,secondary,country/global
+SK,remotive,CONDITIONAL,doc,country/global
+SK,eures,EXTERNAL_ONLY,doc,country/global
+SK,jooble,RESEARCH,secondary,country/global
+SK,indeed,EXTERNAL_ONLY,secondary,country/global
+SK,linkedin,EXTERNAL_ONLY,prior,country/global
+TH,lever,CONDITIONAL,doc,per-company only
+TH,greenhouse,CONDITIONAL,secondary,per-company only
+TH,ashby,CONDITIONAL,secondary,per-company only
+TH,himalayas,RESEARCH,secondary,country/global
+TH,jobicy,RESEARCH,secondary,country/global
+TH,remotive,CONDITIONAL,doc,country/global
+TH,jobstreet,CONDITIONAL,prior,country/global
+TH,jobsdb,CONDITIONAL,prior,country/global
+TH,jooble,RESEARCH,secondary,country/global
+TH,indeed,EXTERNAL_ONLY,secondary,country/global
+TH,linkedin,EXTERNAL_ONLY,prior,country/global
+TW,lever,CONDITIONAL,doc,per-company only
+TW,greenhouse,CONDITIONAL,secondary,per-company only
+TW,ashby,CONDITIONAL,secondary,per-company only
+TW,himalayas,RESEARCH,secondary,country/global
+TW,jobicy,RESEARCH,secondary,country/global
+TW,remotive,CONDITIONAL,doc,country/global
+TW,jooble,RESEARCH,secondary,country/global
+TW,indeed,EXTERNAL_ONLY,secondary,country/global
+TW,linkedin,EXTERNAL_ONLY,prior,country/global
+TW,104-job-bank,RESEARCH,none,not investigated
+US,lever,CONDITIONAL,doc,per-company only
+US,greenhouse,CONDITIONAL,secondary,per-company only
+US,ashby,CONDITIONAL,secondary,per-company only
+US,himalayas,RESEARCH,secondary,country/global
+US,jobicy,RESEARCH,secondary,country/global
+US,remotive,CONDITIONAL,doc,country/global
+US,usajobs,CONDITIONAL,secondary,country/global
+US,adzuna,CONDITIONAL,secondary,country/global
+US,jooble,RESEARCH,secondary,country/global
+US,indeed,EXTERNAL_ONLY,secondary,country/global
+US,ziprecruiter,EXTERNAL_ONLY,secondary,country/global
+US,linkedin,EXTERNAL_ONLY,prior,country/global
+ZA,lever,CONDITIONAL,doc,per-company only
+ZA,greenhouse,CONDITIONAL,secondary,per-company only
+ZA,ashby,CONDITIONAL,secondary,per-company only
+ZA,himalayas,RESEARCH,secondary,country/global
+ZA,jobicy,RESEARCH,secondary,country/global
+ZA,remotive,CONDITIONAL,doc,country/global
+ZA,adzuna,CONDITIONAL,secondary,country/global
+ZA,jooble,RESEARCH,secondary,country/global
+ZA,indeed,EXTERNAL_ONLY,secondary,country/global
+ZA,linkedin,EXTERNAL_ONLY,prior,country/global
+ZA,pnet,RESEARCH,none,not investigated
+ZA,careers24,RESEARCH,none,not investigated

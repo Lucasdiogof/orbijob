@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "appTitle": "JobRadar",
+  "searchHint": "Any profession, e.g. electrician, nurse, Flutter developer",
+  "emptyTitle": "Search for any profession",
+  "emptyBody": "No job source is connected yet. Results will only ever show real data from approved sources.",
+  "loading": "Searching…",
+  "errorTitle": "Something went wrong",
+  "retry": "Try again",
+  "noSourceTitle": "No integrated source for this search",
+  "noSourceBody": "Try the original portals instead."
+}

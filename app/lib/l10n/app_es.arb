@@ -1,0 +1,12 @@
+{
+  "@@locale": "es",
+  "appTitle": "JobRadar",
+  "searchHint": "Cualquier profesión, p. ej. electricista, enfermero, desarrollador Flutter",
+  "emptyTitle": "Busca cualquier profesión",
+  "emptyBody": "Aún no hay ninguna fuente de empleos conectada. Los resultados solo mostrarán datos reales de fuentes aprobadas.",
+  "loading": "Buscando…",
+  "errorTitle": "Algo salió mal",
+  "retry": "Reintentar",
+  "noSourceTitle": "Sin fuente integrada para esta búsqueda",
+  "noSourceBody": "Prueba los portales originales."
+}

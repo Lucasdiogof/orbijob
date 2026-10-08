@@ -1,0 +1,138 @@
+{
+  "ranAt": "2026-10-08T21:16:41.434Z",
+  "node": "v22.22.0",
+  "results": [
+    {
+      "country": "US",
+      "q": "Flutter Developer",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "usajobs",
+          "state": "SKIPPED_NO_KEY"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://www.indeed.com/jobs?q=Flutter%20Developer"
+    },
+    {
+      "country": "DE",
+      "q": "Physiotherapeut Beckenboden",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://de.indeed.com/jobs?q=Physiotherapeut%20Beckenboden"
+    },
+    {
+      "country": "PT",
+      "q": "Pedreiro",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://pt.indeed.com/jobs?q=Pedreiro"
+    },
+    {
+      "country": "AU",
+      "q": "House painter",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://au.indeed.com/jobs?q=House%20painter"
+    },
+    {
+      "country": "CA",
+      "q": "Registered nurse",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://ca.indeed.com/jobs?q=Registered%20nurse"
+    },
+    {
+      "country": "ZA",
+      "q": "Electrician",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://za.indeed.com/jobs?q=Electrician"
+    },
+    {
+      "country": "SG",
+      "q": "Teacher",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        },
+        {
+          "source": "adzuna",
+          "state": "SKIPPED_NO_KEY"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://sg.indeed.com/jobs?q=Teacher"
+    },
+    {
+      "country": "AE",
+      "q": "Driver",
+      "attempts": [
+        {
+          "source": "remotive",
+          "scope": "remote only, global",
+          "state": "HTTP_403"
+        }
+      ],
+      "verdict": "NO_INTEGRATED_SOURCE",
+      "externalAlternative": "https://ae.indeed.com/jobs?q=Driver"
+    }
+  ]
+}
