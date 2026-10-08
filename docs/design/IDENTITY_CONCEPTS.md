@@ -1,22 +1,21 @@
-# OrbiJob — três propostas de identidade visual (nenhuma aprovada)
+# OrbiJob — propostas de identidade visual (refinadas; nenhuma aprovada)
 
-**Nenhuma identidade foi aplicada ao app.** O tema atual usa semente provisória (`kProvisionalSeed`). A aprovação é do proprietário.
+**Nenhuma identidade foi aplicada ao app.** O tema do Flutter continua com semente provisória (`kProvisionalSeed`) e os ícones padrão do Flutter permanecem. A escolha é do proprietário.
 
-Todos os arquivos estão em `docs/design/identity/<proposta>/`:
-`logo-horizontal-{light,dark}.svg|png` · `icon-{light,dark}.svg|png` · `palette.md` (com razões de contraste WCAG calculadas) · `preview.html|png` (login, home e cartão de vaga, claro e escuro).
-Reprodutível: `python3 docs/design/identity/generate.py && python3 docs/design/identity/render.py` (requer `fonttools`, Chromium headless). Wordmarks são **curvas vetoriais** geradas de Inter / DejaVu Sans Mono (fontes abertas) — as fontes finais sugeridas abaixo (Sora, Manrope, Space Grotesk) **não estavam instaláveis offline**, portanto os logotipos finais devem ser redesenhados com elas antes da adoção. Prévias usam Inter como fonte de interface. Os dados nas telas são **exemplos ilustrativos, rotulados como tal**.
+➡️ **Comece pela comparação:** [`comparison/README.md`](comparison/README.md) → `comparison/index.html` (navegável) ou `comparison/png/` (imagens rápidas).
 
 | | A · Órbita | B · Trajetórias | C · Minimal Tech |
 |---|---|---|---|
-| Conceito | Globo com órbita e "satélite" = oportunidade que gira ao redor do mundo | Rede de pontos ligados por trajetórias; um nó em destaque = a vaga certa | "O" geométrico com cunha e pixel: precisão, dados, engenharia |
-| Logotipo | Wordmark "OrbiJob" extra-bold arredondado | wordmark minúsculo "orbijob", peso médio, espaçado | wordmark monoespaçado "orbijob" |
-| Ícone | planeta + anel + ponto âmbar | hexágono de 6 nós, 1 em coral | arco "O" + haste + pixel violeta |
-| Paleta clara | fundo `#F6F8FC`, tinta `#0B1F4B`, azul `#2456D6`, âmbar `#F59E0B` | `#F3FAF8`, `#0F2A2E`, verde-azulado `#0B7F72`, coral `#E5502F` | `#FFFFFF`, `#111113`, violeta `#5B3DF5` |
-| Paleta escura | `#0A1226`, azul `#7BA2FF`, âmbar `#FBBF24` | `#0A1819`, turquesa `#3DD4BF`, coral `#FF8266` | `#0C0C0E`, lavanda `#A593FF` |
-| Tipografia sugerida | Sora + Inter | Manrope | Space Grotesk + JetBrains Mono + Inter |
-| Linguagem de UI | cantos 20dp, ilustração de órbita, suave e amigável | cantos 14dp, linhas de trajetória, humano e editorial | cantos 6dp, linhas finas, rótulos mono, denso e técnico |
-| Risco | astro/planeta é motivo comum em apps | ícone detalhado: precisa simplificação em 16–24px | pode soar frio para ofícios/saúde |
+| Conceito | oportunidades ao redor do mundo: globo + órbita + ponto âmbar | pessoas e lugares conectados por rotas: anel de nós com um nó coral | busca com precisão: "O" de dois arcos, espaço negativo e ponto violeta |
+| Wordmark | `OrbiJob` (Sora Bold, "Job" em azul) | `orbijob` (Manrope ExtraBold, ponto do "j" coral) | `ORBIJOB` (Space Grotesk SemiBold, caixa-alta espaçada) |
+| Cores (claro) | azul `#1F5FE0`, âmbar `#F5A524`, fundo `#F5F8FF` | verde-azulado `#0B7F72`, coral `#CC3D1A`, fundo `#F4FAF8` | violeta `#5B3DF5`, preto `#111113`, fundo `#FFFFFF` |
+| Linguagem de UI | suave, cantos 20 dp, sombras leves, navegação em pílula | acolhedora, cantos 16 dp, borda de "trilha" nos cartões, avatar com anel | densa, cantos 8 dp, linhas de 1 px, rótulos monoespaçados |
+| Tipografia | Sora + Inter | Manrope | Space Grotesk + Inter + JetBrains Mono |
 
-Aplicações: login, home e cartão de vaga em cada `preview.png`. Acessibilidade: `palette.md` traz razões de contraste WCAG calculadas para 4 pares por tema; todos os pares calculados atingiram AA (≥ 4,5:1). Outros pares (bordas, estados, gráficos) ainda não foram verificados.
+Entregáveis por proposta (em `identity/<proposta>/`): logotipo horizontal claro/escuro/monocromático (SVG), ícone de app claro/escuro/monocromático/maskable (SVG), favicon (SVG + ICO), PNGs de prévia e nos tamanhos reais 16–512 px, aplicação em fundo branco e escuro, `palette.md` (contrastes calculados), `tokens.json`, `typography.md`, 8 telas + 4 estados em claro/escuro, tablet e desktop. Veja `identity/<proposta>/README.md`.
 
-Próximo passo: escolher uma proposta (ou combinar), então gerar assets finais (SVG redesenhado, ícones de app Android/iOS/PWA, splash), tokens `ColorScheme` e substituir `kProvisionalSeed`.
+**Fontes:** Sora, Manrope, Space Grotesk, Inter e JetBrains Mono, todas SIL OFL 1.1 (licenças em `fonts/`). **Conteúdo das telas:** fictício, igual nas três propostas e rotulado em cada tela.
+
+**Verificações automáticas:** `comparison/verification.md`. **Recomendação de design (não decisão):** A · Órbita como principal, com ressalvas — veja `comparison/png/09-recomendacao.png`.
+
+Próximo passo após a escolha: redesenhar o logotipo com as famílias completas, gerar ícones Android/iOS/PWA e splash definitivos, aplicar os tokens ao `ThemeData` (substituindo `kProvisionalSeed`) e atualizar `DESIGN_SYSTEM.md`.
