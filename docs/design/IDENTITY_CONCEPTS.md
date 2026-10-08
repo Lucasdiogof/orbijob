@@ -1,6 +1,11 @@
-# OrbiJob — propostas de identidade visual (refinadas; nenhuma aprovada)
+# OrbiJob — identidade visual
 
-**Nenhuma identidade foi aplicada ao app.** O tema do Flutter continua com semente provisória (`kProvisionalSeed`) e os ícones padrão do Flutter permanecem. A escolha é do proprietário.
+> ## ✅ Identidade oficial: **C — Minimal Tech** (escolhida pelo proprietário)
+> Aplicada ao app Flutter, aos ícones Android/iOS/Web, ao splash e ao design system. Documentação da aplicação: [`identity/c-minimal/APPLIED.md`](identity/c-minimal/APPLIED.md) e [`../DESIGN_SYSTEM.md`](../DESIGN_SYSTEM.md). Capturas reais: [`flutter-screenshots/`](flutter-screenshots/README.md).
+>
+> As propostas **A · Órbita** e **B · Trajetórias** abaixo ficam apenas como **histórico de exploração visual** e não são aplicadas nem devem ser misturadas à C.
+
+## Histórico: as três propostas refinadas
 
 ➡️ **Comece pela comparação:** [`comparison/README.md`](comparison/README.md) → `comparison/index.html` (navegável) ou `comparison/png/` (imagens rápidas).
 
@@ -16,6 +21,6 @@ Entregáveis por proposta (em `identity/<proposta>/`): logotipo horizontal claro
 
 **Fontes:** Sora, Manrope, Space Grotesk, Inter e JetBrains Mono, todas SIL OFL 1.1 (licenças em `fonts/`). **Conteúdo das telas:** fictício, igual nas três propostas e rotulado em cada tela.
 
-**Verificações automáticas:** `comparison/verification.md`. **Recomendação de design (não decisão):** A · Órbita como principal, com ressalvas — veja `comparison/png/09-recomendacao.png`.
+**Verificações automáticas:** `comparison/verification.md`. **Recomendação de design da época (superada pela decisão do proprietário, que escolheu a C):** A · Órbita, com ressalvas — veja `comparison/png/09-recomendacao.png`.
 
-Próximo passo após a escolha: redesenhar o logotipo com as famílias completas, gerar ícones Android/iOS/PWA e splash definitivos, aplicar os tokens ao `ThemeData` (substituindo `kProvisionalSeed`) e atualizar `DESIGN_SYSTEM.md`.
+Após a escolha da C: o logotipo e os ícones foram regenerados pelo pipeline `identity/build/apply_c.py`, os tokens aplicados ao `ThemeData` (sem `kProvisionalSeed`) e o design system atualizado. Pendências da C (marca, fontes não latinas, build nativo) estão em `APPLIED.md`.

@@ -34,8 +34,18 @@ jobs:
         with: { channel: stable, cache: true }
       - run: flutter pub get
       - run: flutter gen-l10n
+      - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter analyze
       - run: flutter test
+      - name: Build web (production entrypoint, bundled CanvasKit)
+        run: flutter build web --release --no-web-resources-cdn
+  android-resources:
+    # Resource-level check of launcher/adaptive/monochrome/splash with the real aapt2. It does not build an APK.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y aapt libandroid-23-java
+      - run: bash docs/design/identity/build/validate_android.sh
   secrets:
     runs-on: ubuntu-latest
     steps:

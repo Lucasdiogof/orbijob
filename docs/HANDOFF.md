@@ -1,24 +1,22 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-08, rodada 3 — refinamento visual)
+# HANDOFF — OrbiJob (atualizado 2026-10-08, rodada 4 — identidade C aplicada)
 
 ## Estado
-- Repositório: https://github.com/Lucasdiogof/orbijob (**público**), branch `main`. Histórico da Fase 0 preservado (commit `4214c30`) e integrado ao commit inicial do remoto (`de24b41`, README placeholder) por *merge* de históricos não relacionados, sem force push.
-- Rebranding **JobRadar → OrbiJob** concluído: pacote Dart `orbijob`, applicationId/bundle id `com.lucksrei.orbijob` (diretório Kotlin movido), nome exibido "OrbiJob" (Android, iOS, Web/manifest), classe `OrbiJobApp`, ARB pt/en/es, package do Worker `orbijob-worker`, docs e READMEs. "JobRadar" permanece apenas como registro histórico em `docs/BRAND_NAME_CHECK.md`. Identificadores de banco não continham o nome antigo (nada a migrar).
-- App: shell de navegação (Início, Explorar, Favoritos, Candidaturas; perfil no cabeçalho), busca com estados honestos. Worker: núcleo de conectores, dedupe, ocupações, teste de RLS. Detalhes no README.
-- Identidade visual (rodada 3, branch `design/identity-refinement`): três propostas refinadas (logotipos, ícones, mono, favicon, paletas, tokens, 8 telas + estados em claro/escuro, tablet/desktop) em `docs/design/identity/`, comparação navegável em `docs/design/comparison/` e verificações automáticas. **Nenhuma aprovada nem aplicada**; app, splash e ícones do Flutter inalterados.
-- Issues: ver `docs/ISSUES_SEED.md` (espelho das issues do GitHub).
+- Repositório: https://github.com/Lucasdiogof/orbijob (**público**). Trabalho desta rodada no PR #38, branch `design/identity-refinement` (**sem merge**; aguarda autorização do proprietário).
+- **Identidade oficial: C — Minimal Tech** (decisão do proprietário). Aplicada ao app Flutter real: tokens gerados de `tokens.json`, Space Grotesk/Inter, logotipo e símbolo SVG, ícones Android/iOS/Web, splash estática, temas claro/escuro/sistema, componentes e telas (Início, Explorar, Favoritos, Candidaturas, Perfil), responsividade (barra, rail, rail estendido, lista/detalhe) e acessibilidade. `kProvisionalSeed` removido. A e B ficam só como histórico.
+- Documentação: `docs/design/identity/c-minimal/APPLIED.md` (tokens, fontes, logotipo, ícones, splash, padrões, limitações), `docs/DESIGN_SYSTEM.md` (estrutura, testes), `docs/design/flutter-screenshots/` (capturas reais).
+- Verificado nesta rodada: `dart format`, `flutter analyze` (limpo), **139 testes Flutter**, 43 testes do Worker, `flutter build web --release` (produção e prévia), `aapt2` compile+link dos recursos Android, gitleaks. Worker, conectores, Supabase e Cloudflare **não foram tocados**.
 
-## Bloqueios e pendências reais
-1. Rede da sessão bloqueia APIs de vagas → nenhuma validação ao vivo; nenhuma fonte `READY` (ver `GLOBAL_SOURCES.md`).
-2. Chaves gratuitas (USAJOBS, Adzuna, France Travail) não obtidas — ação do proprietário.
-3. Nome OrbiJob: sem conflito direto encontrado, mas busca formal de marca/lojas/domínios pendente; proximidade com "Orbyt Jobs" a avaliar (`BRAND_NAME_CHECK.md`).
-4. Licença indefinida (repositório público sem LICENSE = todos os direitos reservados).
-5. Fontes das propostas (Sora, Manrope, Space Grotesk, Inter, JetBrains Mono; OFL) já usadas nas prévias e nos wordmarks (subconjunto latino). Após a escolha: redesenhar o logotipo final com as famílias completas e definir fallbacks para CJK/árabe.
-6. Ícones padrão do Flutter ainda nos projetos Android/iOS/Web (substituir após aprovar identidade).
-7. CI executou no GitHub: jobs worker, catalog e app passaram; o job de segredos falhou na 1ª execução por configuração (a action gitleaks montava um range a partir do commit raiz) e foi trocado pelo CLI do gitleaks varrendo todo o histórico. Proteções de branch/Dependabot ainda não configuradas (issue #4).
-8. Sem Supabase, sem migração aplicada, sem deploy Cloudflare, sem serviços pagos, sem publicação em lojas, lucksrei.com intocado.
+## O que NÃO foi verificado (e por quê)
+1. **APK Android:** `flutter build apk --debug` falha com "No Android SDK found"; o SDK vem de `dl.google.com`, bloqueado neste ambiente. Os recursos (ícone adaptativo, monocromático, splash) foram validados com `aapt2`, mas **não** houve build, instalação nem teste em aparelho/emulador. Fazer em CI/máquina com SDK.
+2. **iOS:** sem macOS/Xcode. Ícones (PNG opacos, dimensões, `Contents.json`) e storyboard foram validados por testes estruturais; o storyboard (cor nomeada `LaunchBackground`) **nunca foi aberto no Xcode**. Ícones iOS 18 escuro/tingido não incluídos.
+3. Splash em inicialização fria/quente em dispositivo real; leitores de tela em aparelho; simulação de daltonismo; teste com usuários.
 
-## Aguardando decisão do proprietário
-Escolher A, B, C ou uma combinação (ver `docs/design/comparison/`). Recomendação de design: A · Órbita, com ressalvas descritas na comparação.
+## Pendências
+- Build e teste em aparelho Android/iOS; revisar a splash nativa.
+- Busca formal de marca "OrbiJob" (INPI/USPTO/EUIPO/WIPO), lojas e domínios; proteção de branch/Dependabot (issue #4).
+- Persistir preferência de tema e favoritos; nomes de países localizados; fontes não latinas (CJK, árabe) se for necessário embutir.
+- Fonte de vagas real (chaves gratuitas, termos, 1º conector) — nenhuma fonte `READY` ainda (ver `GLOBAL_SOURCES.md`).
+- Licença do repositório; Supabase/Cloudflare só com aprovação.
 
 ## Próxima etapa recomendada
-Aprovar uma identidade; obter chaves; rodar `scripts/acceptance.mjs` com internet; implementar um conector real (USAJOBS ou Adzuna); só então promover a `READY`.
+Autorizar o merge do PR #38 após revisar as capturas; em seguida validar em dispositivos (Android/iOS) e retomar a Fase 1 de fontes de vagas (chaves, termos, primeiro conector real).

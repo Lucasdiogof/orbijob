@@ -36,3 +36,5 @@ supabase/.temp/
 
 # design build scratch
 docs/design/identity/build/.work/
+__pycache__/
+*.pyc

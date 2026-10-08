@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Status real: Fase 0 concluída (fundação). Em desenvolvimento inicial.** Não há backend publicado, nenhuma fonte de vagas integrada e nenhuma vaga real exibida. Nenhum recurso de vagas, ranking, perfil, favoritos, candidaturas ou autofill funciona ainda — estão **planejados**.
+> **Status real: Fase 0 concluída (fundação) + identidade visual C aplicada à interface.** Não há backend publicado, nenhuma fonte de vagas integrada e nenhuma vaga real exibida. Busca real, ranking, perfil, candidaturas e autofill ainda **não funcionam** — estão **planejados**.
 
 🇬🇧 [English README](README_EN.md) · Antigo nome provisório: *JobRadar* (descontinuado — [ver motivo](docs/BRAND_NAME_CHECK.md)).
 
@@ -15,13 +15,15 @@ Vagas estão espalhadas em centenas de portais; ofícios e saúde são mal atend
 ## Funcionalidades
 | Funcionalidade | Estado |
 |---|---|
-| Navegação Início / Explorar / Favoritos / Candidaturas, perfil no cabeçalho (adaptativa: barra inferior / rail) | ✅ implementada (páginas vazias honestas) |
-| Busca com estados loading / vazio / erro / **sem fonte integrada**, tema claro/escuro, PT/EN/ES | ✅ implementada, **sem dados reais** |
+| Identidade **C — Minimal Tech** no app (tokens, Space Grotesk/Inter, logotipo, ícones Android/iOS/Web, splash, temas claro/escuro/sistema) | ✅ aplicada e testada (APK/iOS **não compilados** neste ambiente) |
+| Navegação Início / Explorar / Favoritos / Candidaturas, perfil no cabeçalho (barra inferior < 600 dp, rail, rail estendido + lista/detalhe) | ✅ implementada (estados vazios honestos) |
+| Componentes: botões, campo de busca, chips, cartão de vaga (compatibilidade e confiança separadas), favorito, badges, skeleton, estados | ✅ implementados (cartões só aparecem na prévia/testes: não há fonte de vagas) |
+| Busca com estados carregando / vazio / erro / **sem fonte integrada**, PT/EN/ES | ✅ implementada, **sem dados reais** |
 | Resolvedor de profissões multilíngue (seed ISCO-08, 12 ocupações) | ✅ implementado e testado |
 | Núcleo de conectores: contrato, dedupe, retry/backoff, rate limiter, regra de encerramento de vagas | ✅ implementado e testado (conector Lever só com fixture sintética) |
 | Esquema SQL + RLS | ✅ proposto e testado em PGlite · ❌ **não aplicado** em Supabase |
 | Catálogo de fontes e matriz de cobertura | ✅ documentado · **nenhuma fonte `READY`** |
-| Busca mundial real, filtros internacionais, ranking 0–100 + confiança, detalhes da vaga | 🗓️ planejado |
+| Busca mundial real, filtros internacionais, ranking 0–100 + confiança calculados, candidatura oficial | 🗓️ planejado |
 | Perfil/currículo/experiências, favoritos, candidaturas, preenchimento assistido | 🗓️ planejado |
 
 ## Stack
@@ -31,7 +33,7 @@ Flutter / Dart · Clean Architecture · BLoC/Cubit · GetIt · Supabase (Postgre
 Flutter → Cloudflare Workers (API + sincronização) → Supabase. Dados públicos (vagas) separados de dados privados (perfil, currículo, candidaturas), protegidos por RLS. Detalhes: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/DATABASE.md](docs/DATABASE.md).
 
 ## Plataformas
-Android, iOS e Web/PWA (projetos gerados). Até agora só testes Flutter headless foram executados; **nenhum build Android/iOS/Web foi gerado ou publicado**.
+Android, iOS e Web/PWA. Verificado: build web de produção e prévia (capturas reais em [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md)), testes de widget e validação dos recursos Android com `aapt2`. **Não verificado aqui:** APK (sem Android SDK) e iOS (sem macOS/Xcode). Nada foi publicado em lojas.
 
 ## Integrações de vagas
 Todas as fontes estão `CONDITIONAL`, `RESEARCH` ou `EXTERNAL_ONLY` — nenhuma `READY` (faltam chaves, leitura de termos e validação ao vivo). Sem scraping proibido, sem burlar CAPTCHA, sem candidatura automática. Veja [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) e [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
@@ -41,7 +43,8 @@ Requisitos: Flutter estável (testado com 3.47.6), Node 22.
 ```bash
 # App
 cd app && flutter pub get && flutter gen-l10n && flutter analyze && flutter test
-flutter run -d chrome
+flutter run -d chrome                         # app real (sem dados)
+flutter run -d chrome -t lib/main_preview.dart  # mesma UI com vagas FICTÍCIAS e faixa de aviso
 # Worker
 cd worker && npm ci && npm run typecheck && npm test
 # Catálogo e cobertura (gera data/coverage-matrix.csv e docs/*.md)
@@ -63,19 +66,19 @@ docs/        arquitetura, requisitos, fontes, banco, segurança, roadmap, design
 ```
 
 ## Testes
-`flutter analyze` + `flutter test` (app) · `tsc` + `vitest` (worker: conectores, dedupe, retry, ocupações, RLS) · verificação da matriz gerada no CI. Cobertura de testes de integração/E2E: ainda não existe.
+`flutter analyze` + `flutter test` (139 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash) · `tsc` + `vitest` (43 testes do worker) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
 
 ## Segurança
 RLS dono-único, currículos em bucket privado (planejado/proposto), nenhum segredo no repositório (**público**), sem scraping proibido, sem candidatura automática, autofill só em domínios autorizados. [docs/SECURITY.md](docs/SECURITY.md)
 
 ## Identidade visual
-Três propostas aguardam aprovação — [docs/design/IDENTITY_CONCEPTS.md](docs/design/IDENTITY_CONCEPTS.md). Nenhuma foi aplicada.
+Identidade oficial: **C — Minimal Tech** (símbolo "O" de dois arcos com ponto violeta; ORBIJOB em Space Grotesk). [docs/design/identity/c-minimal/APPLIED.md](docs/design/identity/c-minimal/APPLIED.md) · [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md). As propostas A e B ficam como histórico.
 
 ## Roadmap
 [docs/ROADMAP.md](docs/ROADMAP.md) · issues por área no GitHub · [docs/HANDOFF.md](docs/HANDOFF.md)
 
 ## Screenshots
-Ainda não existem.
+Capturas reais do app em [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md) (claro/escuro, mobile/tablet/desktop; as com vagas são prévia fictícia, sempre sinalizada).
 
 ## Licença
 Ainda não definida; **todos os direitos reservados** até decisão (nenhum arquivo LICENSE).
