@@ -40,9 +40,13 @@ Gerado por `docs/design/identity/build/verify.py`.
 | ✅ | SVG c-minimal/logo-horizontal-light.svg | 6881 B · sem texto/imagem/script/refs externas |
 | ✅ | SVG c-minimal/logo-horizontal-mono-black.svg | 6881 B · sem texto/imagem/script/refs externas |
 | ✅ | SVG c-minimal/logo-horizontal-mono-white.svg | 6881 B · sem texto/imagem/script/refs externas |
+| ✅ | SVG c-minimal/symbol-dark.svg | 335 B · sem texto/imagem/script/refs externas |
+| ✅ | SVG c-minimal/symbol-light.svg | 335 B · sem texto/imagem/script/refs externas |
+| ✅ | SVG c-minimal/symbol-mono-black.svg | 335 B · sem texto/imagem/script/refs externas |
+| ✅ | SVG c-minimal/symbol-mono-white.svg | 335 B · sem texto/imagem/script/refs externas |
 | ✅ | Contraste a-orbita | 34 pares; pior par de texto 5.24:1 (AA ≥ 4,5) |
 | ✅ | Contraste b-trajetorias | 34 pares; pior par de texto 4.63:1 (AA ≥ 4,5) |
-| ✅ | Contraste c-minimal | 34 pares; pior par de texto 5.37:1 (AA ≥ 4,5) |
+| ✅ | Contraste c-minimal | 72 pares; pior par de texto 5.37:1 (AA ≥ 4,5) |
 | ✅ | PNGs de ícone em tamanho nativo a-orbita | 16/32/48/64/128/512 renderizados do vetor em cada tamanho (sem ampliar) |
 | ✅ | favicon.ico a-orbita | imagens [16, 32, 48] |
 | ✅ | PNGs de ícone em tamanho nativo b-trajetorias | 16/32/48/64/128/512 renderizados do vetor em cada tamanho (sem ampliar) |

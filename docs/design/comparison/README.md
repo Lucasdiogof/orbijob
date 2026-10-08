@@ -1,6 +1,6 @@
 # Comparação das identidades do OrbiJob
 
-> **Propostas, não decisões.** Nenhuma identidade foi escolhida ou aplicada ao aplicativo, ao splash, aos ícones do Flutter ou ao site. Todo conteúdo de tela é fictício e identificado como tal.
+> **Material histórico.** Esta comparação serviu à decisão: o proprietário escolheu a identidade **C — Minimal Tech**, hoje aplicada ao app ([`../identity/c-minimal/APPLIED.md`](../identity/c-minimal/APPLIED.md)). A e B não são aplicadas. Todo conteúdo de tela aqui é fictício e identificado como tal (mockups; as capturas do app real estão em [`../flutter-screenshots/`](../flutter-screenshots/README.md)).
 
 ## Como visualizar
 1. **Navegável (recomendado):** abra [`index.html`](index.html) no navegador (duplo clique ou `python3 -m http.server` na pasta `docs/design`, depois `http://localhost:8000/comparison/`). Usa fontes locais de `../fonts/` e imagens de `../identity/`, portanto **mantenha a estrutura de pastas**. O GitHub exibe HTML como código; clone o repositório (ou baixe a branch) para ver a página.
