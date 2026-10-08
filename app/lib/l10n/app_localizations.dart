@@ -106,54 +106,6 @@ abstract class AppLocalizations {
   /// **'OrbiJob'**
   String get appTitle;
 
-  /// No description provided for @searchHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Any profession, e.g. electrician, nurse, Flutter developer'**
-  String get searchHint;
-
-  /// No description provided for @emptyTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Search for any profession'**
-  String get emptyTitle;
-
-  /// No description provided for @emptyBody.
-  ///
-  /// In en, this message translates to:
-  /// **'No job source is connected yet. Results will only ever show real data from approved sources.'**
-  String get emptyBody;
-
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'Searching…'**
-  String get loading;
-
-  /// No description provided for @errorTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong'**
-  String get errorTitle;
-
-  /// No description provided for @retry.
-  ///
-  /// In en, this message translates to:
-  /// **'Try again'**
-  String get retry;
-
-  /// No description provided for @noSourceTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'No integrated source for this search'**
-  String get noSourceTitle;
-
-  /// No description provided for @noSourceBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Try the original portals instead.'**
-  String get noSourceBody;
-
   /// No description provided for @navHome.
   ///
   /// In en, this message translates to:
@@ -178,23 +130,197 @@ abstract class AppLocalizations {
   /// **'Applications'**
   String get navApplications;
 
+  /// No description provided for @navMain.
+  ///
+  /// In en, this message translates to:
+  /// **'Main navigation'**
+  String get navMain;
+
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile;
 
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
   /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to OrbiJob'**
+  /// **'What are you looking for?'**
   String get homeTitle;
 
-  /// No description provided for @homeBody.
+  /// No description provided for @homeSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Your matches and recent activity will appear here once job sources are connected.'**
-  String get homeBody;
+  /// **'Any profession, any country'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeAreasTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse by area'**
+  String get homeAreasTitle;
+
+  /// No description provided for @areaTechnology.
+  ///
+  /// In en, this message translates to:
+  /// **'Technology'**
+  String get areaTechnology;
+
+  /// No description provided for @areaHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get areaHealth;
+
+  /// No description provided for @areaConstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Construction'**
+  String get areaConstruction;
+
+  /// No description provided for @areaEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get areaEducation;
+
+  /// No description provided for @areaServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get areaServices;
+
+  /// No description provided for @areaIndustry.
+  ///
+  /// In en, this message translates to:
+  /// **'Industry'**
+  String get areaIndustry;
+
+  /// No description provided for @areaTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get areaTransport;
+
+  /// No description provided for @homeForYouTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For you'**
+  String get homeForYouTitle;
+
+  /// No description provided for @homeForYouEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches yet'**
+  String get homeForYouEmptyTitle;
+
+  /// No description provided for @homeForYouEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches appear here once job sources are connected and your profile is filled in.'**
+  String get homeForYouEmptyBody;
+
+  /// No description provided for @homeApplicationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get homeApplicationsTitle;
+
+  /// No description provided for @homeApplicationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications tracked'**
+  String get homeApplicationsEmptyTitle;
+
+  /// No description provided for @homeApplicationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Track where you applied, interviews and offers.'**
+  String get homeApplicationsEmptyBody;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any profession, e.g. electrician, nurse, Flutter developer'**
+  String get searchHint;
+
+  /// No description provided for @searchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search jobs'**
+  String get searchLabel;
+
+  /// No description provided for @searchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchClear;
+
+  /// No description provided for @exploreIdleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for any profession'**
+  String get exploreIdleTitle;
+
+  /// No description provided for @exploreIdleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a profession or pick an area. Results only ever come from approved sources.'**
+  String get exploreIdleBody;
+
+  /// No description provided for @searching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching…'**
+  String get searching;
+
+  /// No description provided for @emptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No jobs found'**
+  String get emptyTitle;
+
+  /// No description provided for @emptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another profession or a broader search.'**
+  String get emptyBody;
+
+  /// No description provided for @noSourceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No integrated source for this search'**
+  String get noSourceTitle;
+
+  /// No description provided for @noSourceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not have an authorised source for this country and profession yet. Try the original job portals.'**
+  String get noSourceBody;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorTitle;
+
+  /// No description provided for @errorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not load results. Check your connection and try again.'**
+  String get errorBody;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retry;
 
   /// No description provided for @favoritesTitle.
   ///
@@ -205,7 +331,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoritesBody.
   ///
   /// In en, this message translates to:
-  /// **'Saved jobs will appear here.'**
+  /// **'Saved jobs appear here.'**
   String get favoritesBody;
 
   /// No description provided for @applicationsTitle.
@@ -220,11 +346,227 @@ abstract class AppLocalizations {
   /// **'Track where you applied, interviews and offers. Status is updated manually.'**
   String get applicationsBody;
 
-  /// No description provided for @profileSoon.
+  /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile, résumé and experiences are coming soon.'**
-  String get profileSoon;
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your professional profile is coming soon'**
+  String get profileEmptyTitle;
+
+  /// No description provided for @profileEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumé, experience and preferences will live here.'**
+  String get profileEmptyBody;
+
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearanceTitle;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @workModeRemote.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote'**
+  String get workModeRemote;
+
+  /// No description provided for @workModeHybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Hybrid'**
+  String get workModeHybrid;
+
+  /// No description provided for @workModeOnsite.
+  ///
+  /// In en, this message translates to:
+  /// **'On-site'**
+  String get workModeOnsite;
+
+  /// No description provided for @compatibilityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility'**
+  String get compatibilityLabel;
+
+  /// No description provided for @compatibilityValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility {score} out of 100'**
+  String compatibilityValue(int score);
+
+  /// No description provided for @confidenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get confidenceLabel;
+
+  /// No description provided for @confidenceHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High confidence'**
+  String get confidenceHigh;
+
+  /// No description provided for @confidenceMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium confidence'**
+  String get confidenceMedium;
+
+  /// No description provided for @confidenceLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low confidence'**
+  String get confidenceLow;
+
+  /// No description provided for @confidenceSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis confidence: {level}'**
+  String confidenceSemantic(String level);
+
+  /// No description provided for @scoreExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility and confidence are separate measures.'**
+  String get scoreExplainer;
+
+  /// No description provided for @sourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {name}'**
+  String sourceLabel(String name);
+
+  /// No description provided for @favoriteAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Save job'**
+  String get favoriteAdd;
+
+  /// No description provided for @favoriteRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get favoriteRemove;
+
+  /// No description provided for @perHour.
+  ///
+  /// In en, this message translates to:
+  /// **'/h'**
+  String get perHour;
+
+  /// No description provided for @perDay.
+  ///
+  /// In en, this message translates to:
+  /// **'/day'**
+  String get perDay;
+
+  /// No description provided for @perWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'/week'**
+  String get perWeek;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/month'**
+  String get perMonth;
+
+  /// No description provided for @perYear.
+  ///
+  /// In en, this message translates to:
+  /// **'/year'**
+  String get perYear;
+
+  /// No description provided for @publishedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted today'**
+  String get publishedToday;
+
+  /// No description provided for @publishedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted yesterday'**
+  String get publishedYesterday;
+
+  /// No description provided for @publishedDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {count} days ago'**
+  String publishedDaysAgo(int count);
+
+  /// No description provided for @publishedWeeksAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Posted 1 week ago} other{Posted {count} weeks ago}}'**
+  String publishedWeeksAgo(int count);
+
+  /// No description provided for @publishedMonthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Posted 1 month ago} other{Posted {count} months ago}}'**
+  String publishedMonthsAgo(int count);
+
+  /// No description provided for @jobDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job details'**
+  String get jobDetailTitle;
+
+  /// No description provided for @openOfficialApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Open official application'**
+  String get openOfficialApplication;
+
+  /// No description provided for @selectJobHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a job to see its details.'**
+  String get selectJobHint;
+
+  /// No description provided for @resultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 result} other{{count} results}}'**
+  String resultsCount(int count);
+
+  /// No description provided for @previewBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'PREVIEW · ILLUSTRATIVE DATA, NOT REAL JOBS'**
+  String get previewBanner;
+
+  /// No description provided for @previewAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview only: this action is not available.'**
+  String get previewAction;
 }
 
 class _AppLocalizationsDelegate

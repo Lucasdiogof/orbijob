@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/widgets/state_message.dart';
+import '../../core/widgets/state_view.dart';
 import '../../l10n/app_localizations.dart';
 
 class ApplicationsPage extends StatelessWidget {
@@ -9,7 +9,7 @@ class ApplicationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return StateMessage(
+    return StateView(
       icon: Icons.assignment_outlined,
       title: l.applicationsTitle,
       body: l.applicationsBody,
