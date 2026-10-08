@@ -1,4 +1,4 @@
-package com.lucksrei.jobradar
+package com.lucksrei.orbijob
 
 import io.flutter.embedding.android.FlutterActivity
 

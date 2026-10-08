@@ -1,8 +1,8 @@
-# Roadmap
+# OrbiJob — roadmap
 
 | Fase | Entregas | Critério de saída |
 |---|---|---|
-| 0 Fundação (esta) | docs, esqueleto Flutter/Worker, esquema SQL proposto, catálogo de fontes, resolvedor de profissões, CI | testes verdes; bloqueios registrados |
+| 0 Fundação (concluída) | docs, esqueleto Flutter/Worker, esquema SQL proposto, catálogo de fontes, resolvedor de profissões, CI | testes verdes; bloqueios registrados |
 | 1 Fontes reais | chaves gratuitas; `acceptance.mjs` com internet; leitura de termos; 1º conector real (USAJOBS ou Adzuna); sync + `sync_runs` | ≥1 fonte `READY` com evidência |
 | 2 Backend | projeto Supabase (com aprovação), migração em staging, Worker de busca/cron, cache, rate limit | RLS testada no Supabase real |
 | 3 Perfil + Auth | login Supabase, perfis múltiplos, upload de currículo privado | isolamento comprovado |

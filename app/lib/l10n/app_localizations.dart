@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'JobRadar'**
+  /// **'OrbiJob'**
   String get appTitle;
 
   /// No description provided for @searchHint.
@@ -153,6 +153,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try the original portals instead.'**
   String get noSourceBody;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get navExplore;
+
+  /// No description provided for @navFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get navFavorites;
+
+  /// No description provided for @navApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get navApplications;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @homeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to OrbiJob'**
+  String get homeTitle;
+
+  /// No description provided for @homeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your matches and recent activity will appear here once job sources are connected.'**
+  String get homeBody;
+
+  /// No description provided for @favoritesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get favoritesTitle;
+
+  /// No description provided for @favoritesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved jobs will appear here.'**
+  String get favoritesBody;
+
+  /// No description provided for @applicationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications tracked'**
+  String get applicationsTitle;
+
+  /// No description provided for @applicationsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Track where you applied, interviews and offers. Status is updated manually.'**
+  String get applicationsBody;
+
+  /// No description provided for @profileSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile, résumé and experiences are coming soon.'**
+  String get profileSoon;
 }
 
 class _AppLocalizationsDelegate

@@ -10,56 +10,67 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(l.appTitle)),
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 720),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  TextField(
-                    textInputAction: TextInputAction.search,
-                    decoration: InputDecoration(
-                      hintText: l.searchHint,
-                      prefixIcon: const Icon(Icons.search),
-                    ),
-                    onSubmitted: (q) => context.read<SearchCubit>().search(q),
+    return SafeArea(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                TextField(
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    hintText: l.searchHint,
+                    prefixIcon: const Icon(Icons.search),
                   ),
-                  const SizedBox(height: 24),
-                  Expanded(
-                    child: BlocBuilder<SearchCubit, SearchState>(
-                      builder: (context, s) => switch (s) {
-                        SearchIdle() => _Message(Icons.travel_explore, l.emptyTitle, l.emptyBody),
-                        SearchLoading() => Center(
-                            child: Semantics(
-                              label: l.loading,
-                              child: const CircularProgressIndicator(),
+                  onSubmitted: (q) => context.read<SearchCubit>().search(q),
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: BlocBuilder<SearchCubit, SearchState>(
+                    builder: (context, s) => switch (s) {
+                      SearchIdle() => _Message(
+                        Icons.travel_explore,
+                        l.emptyTitle,
+                        l.emptyBody,
+                      ),
+                      SearchLoading() => Center(
+                        child: Semantics(
+                          label: l.loading,
+                          child: const CircularProgressIndicator(),
+                        ),
+                      ),
+                      SearchNoSource() => _Message(
+                        Icons.public_off,
+                        l.noSourceTitle,
+                        l.noSourceBody,
+                      ),
+                      SearchFailure(:final query) => _Message(
+                        Icons.error_outline,
+                        l.errorTitle,
+                        '',
+                        action: TextButton(
+                          onPressed: () =>
+                              context.read<SearchCubit>().search(query),
+                          child: Text(l.retry),
+                        ),
+                      ),
+                      SearchSuccess(:final jobs) => ListView(
+                        children: [
+                          for (final j in jobs)
+                            Card(
+                              child: ListTile(
+                                title: Text(j.title),
+                                subtitle: Text(j.company),
+                              ),
                             ),
-                          ),
-                        SearchNoSource() => _Message(Icons.public_off, l.noSourceTitle, l.noSourceBody),
-                        SearchFailure(:final query) => _Message(
-                            Icons.error_outline,
-                            l.errorTitle,
-                            '',
-                            action: TextButton(
-                              onPressed: () => context.read<SearchCubit>().search(query),
-                              child: Text(l.retry),
-                            ),
-                          ),
-                        SearchSuccess(:final jobs) => ListView(
-                            children: [
-              for (final j in jobs)
-                Card(child: ListTile(title: Text(j.title), subtitle: Text(j.company))),
-            ],
-                          ),
-                      },
-                    ),
+                        ],
+                      ),
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -85,7 +96,10 @@ class _Message extends StatelessWidget {
           Icon(icon, size: 48, color: Theme.of(context).colorScheme.primary),
           const SizedBox(height: 12),
           Text(title, style: t.titleMedium, textAlign: TextAlign.center),
-          if (body.isNotEmpty) ...[const SizedBox(height: 8), Text(body, textAlign: TextAlign.center)],
+          if (body.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(body, textAlign: TextAlign.center),
+          ],
           ?action,
         ],
       ),

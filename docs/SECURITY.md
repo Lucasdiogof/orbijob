@@ -1,4 +1,6 @@
-# Segurança
+# OrbiJob — segurança
+
+> O repositório `Lucasdiogof/orbijob` é **público**: nada sensível pode entrar nele. Antes do primeiro push foram verificados working tree e histórico (ver HANDOFF).
 
 ## Modelo de ameaças (resumo)
 Usuário malicioso lendo dados de outro · vazamento de segredos · abuso/DoS da API · XSS/injeção via descrições de vagas (HTML de terceiros) · JS de autofill em domínio não autorizado · scraping reverso do nosso índice.

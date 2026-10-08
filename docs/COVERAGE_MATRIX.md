@@ -1,4 +1,4 @@
-# Matriz de cobertura (gerada)
+# OrbiJob — Matriz de cobertura (gerada)
 
 > Gerada por `node scripts/build-coverage.mjs` a partir de `data/sources.catalog.json`. **Não editar à mão.**
 > Nenhuma fonte está `READY`: o ambiente da Fase 0 não alcançou nenhum host de API de vagas, então nenhuma validação ao vivo foi possível.

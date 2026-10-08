@@ -1,6 +1,12 @@
-# Requisitos de produto
+# OrbiJob — requisitos de produto
 
 **Visão:** plataforma de busca e acompanhamento de vagas para **qualquer profissão**, com cobertura crescente e **transparente** (sem prometer cobertura mundial).
+
+## Missão
+Ajudar qualquer pessoa, em qualquer profissão, a encontrar, avaliar e acompanhar oportunidades de emprego pelo mundo, com transparência sobre fontes e cobertura.
+
+## Telas planejadas
+Início (resumo, melhores compatibilidades) · Explorar (busca mundial + filtros internacionais) · Favoritos · Candidaturas (histórico/etapas) · Perfil no cabeçalho (currículo, experiências, formação, licenças, preferências) · Detalhe da vaga (compatibilidade 0–100 + confiança + justificativas) · Fluxo de preenchimento assistido (revisão antes de qualquer envio). Hoje: shell de navegação e páginas vazias honestas; Explorar tem busca com estado "sem fonte integrada".
 
 ## Princípios
 Honestidade de dados (nunca mock como real) · privacidade por padrão · sem candidatura automática · sem burlar CAPTCHA/bloqueios · gratuito no MVP.

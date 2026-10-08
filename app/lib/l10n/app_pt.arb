@@ -1,6 +1,6 @@
 {
   "@@locale": "pt",
-  "appTitle": "JobRadar",
+  "appTitle": "OrbiJob",
   "searchHint": "Qualquer profissão, ex.: eletricista, enfermeiro, desenvolvedor Flutter",
   "emptyTitle": "Pesquise qualquer profissão",
   "emptyBody": "Nenhuma fonte de vagas está conectada ainda. Os resultados mostrarão apenas dados reais de fontes aprovadas.",
@@ -8,5 +8,17 @@
   "errorTitle": "Algo deu errado",
   "retry": "Tentar novamente",
   "noSourceTitle": "Nenhuma fonte integrada para esta busca",
-  "noSourceBody": "Tente os portais originais."
+  "noSourceBody": "Tente os portais originais.",
+  "navHome": "Início",
+  "navExplore": "Explorar",
+  "navFavorites": "Favoritos",
+  "navApplications": "Candidaturas",
+  "profile": "Perfil",
+  "homeTitle": "Bem-vindo ao OrbiJob",
+  "homeBody": "Suas compatibilidades e atividade recente aparecerão aqui quando as fontes de vagas estiverem conectadas.",
+  "favoritesTitle": "Nenhum favorito ainda",
+  "favoritesBody": "As vagas salvas aparecerão aqui.",
+  "applicationsTitle": "Nenhuma candidatura registrada",
+  "applicationsBody": "Acompanhe onde se candidatou, entrevistas e propostas. O status é atualizado manualmente.",
+  "profileSoon": "Perfil, currículo e experiências chegam em breve."
 }

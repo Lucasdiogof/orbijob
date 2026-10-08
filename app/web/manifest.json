@@ -1,6 +1,6 @@
 {
-    "name": "jobradar",
-    "short_name": "jobradar",
+    "name": "OrbiJob",
+    "short_name": "OrbiJob",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

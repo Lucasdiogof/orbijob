@@ -1,20 +1,16 @@
-# Verificação do nome provisório "JobRadar"
+# Verificação de nome
 
-Data: 2026-10-08 · Resultado: **ALTO RISCO DE CONFLITO — não recomendado como nome definitivo sem busca formal.**
+## OrbiJob (nome oficial) — verificado em 2026-10-08
+**Resultado preliminar: sem conflito direto encontrado; verificação formal ainda pendente.**
 
-## Evidências (busca no GitHub e na web)
-- GitHub: ≥ 497 repositórios com "jobradar" no nome (ex.: `suvamneog/jobradar`, 183★; `Slackness1/JobRadar`, 158★; `jason-huanghao/jobradar`; `kayden-vs/jobradar`; `Tikhon-Voloshchuk-02/JobRadar` — rastreador de candidaturas com Gmail).
-- Pacote PyPI `job-radar` (CLI que consulta Greenhouse/Lever/Ashby e pontua vagas) — **mesmo conceito do nosso produto**.
-- Extensão Chrome "JobRadar – Smart Job Tracker" (agregador de vagas).
-- Projeto acadêmico português chamado JobRadar (busca de vagas por localização).
-- Busca web não encontrou registros de marca, mas **a busca não consulta bases oficiais**.
+Evidências (busca no GitHub e na web, não em bases oficiais):
+- GitHub: o único repositório com `orbijob` no nome é o próprio `Lucasdiogof/orbijob`.
+- Web: nenhum produto chamado "OrbiJob" encontrado. Nomes **próximos** a observar:
+  - **Orbyt Jobs** (orbytjobs.ai) — CRM/plataforma de busca de emprego com IA, fundada em 2026; **mesmo segmento e fonética parecida**.
+  - **Orbi** (Netgear) — app de roteadores Wi-Fi; classe diferente, mas "Orbi" é marca conhecida.
+- **Não verificado (exige consulta humana):** INPI (BR, classes 9/35/42), USPTO, EUIPO eSearch, WIPO Global Brand Database, Google Play/App Store, domínios (orbijob.com/.app/.com.br), perfis sociais.
 
-## Conclusão
-- Disponibilidade do nome de repositório na conta `Lucasdiogof`: livre (nenhum repositório próprio com esse nome encontrado), mas a criação do repositório falhou por permissão (ver HANDOFF).
-- Como marca: nome genérico/descritivo ("radar de vagas"), já em uso por produtos do mesmo segmento → difícil registrar e fácil de confundir.
+Recomendação: fazer a busca formal antes de investir em marca/lojas; consultar especialista de PI sobre a proximidade com "Orbyt Jobs".
 
-## Não verificado (pendente — requer consulta humana nas bases oficiais)
-INPI (BR, classes 35/42/9), USPTO, EUIPO eSearch, WIPO Global Brand Database, lojas Google Play / App Store, domínios (.com/.app/.com.br), handles sociais.
-
-## Recomendação
-Manter "JobRadar" só como codinome interno. Antes de qualquer lançamento: busca formal nas bases acima e avaliar alternativas (ver conceitos de identidade em `docs/design/IDENTITY_CONCEPTS.md`, que também propõem nomes de trabalho alternativos para checagem).
+## JobRadar (nome provisório anterior) — histórico
+Abandonado. Havia ≥ 497 repositórios `jobradar` no GitHub, um pacote PyPI `job-radar` com a mesma proposta (consulta Greenhouse/Lever/Ashby e pontua vagas), uma extensão Chrome "JobRadar – Smart Job Tracker" e um projeto acadêmico homônimo: alto risco de conflito e baixa distintividade. Mantido aqui apenas como registro da decisão.

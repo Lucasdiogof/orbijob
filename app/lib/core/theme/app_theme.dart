@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 const Color kProvisionalSeed = Color(0xFF2F5BEA);
 
 ThemeData buildTheme(Brightness brightness) {
-  final scheme = ColorScheme.fromSeed(seedColor: kProvisionalSeed, brightness: brightness);
+  final scheme = ColorScheme.fromSeed(
+    seedColor: kProvisionalSeed,
+    brightness: brightness,
+  );
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,

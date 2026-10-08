@@ -1,4 +1,4 @@
-# Catálogo de fontes (gerado)
+# OrbiJob — Catálogo de fontes (gerado)
 
 > Gerado por `node scripts/build-coverage.mjs` de `data/sources.catalog.json`. Não editar à mão.
 > `Evidência`: doc = lido em texto primário; secondary = só resumo de terceiros; prior = conhecimento prévio não verificado.

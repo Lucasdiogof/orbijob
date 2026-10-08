@@ -33,7 +33,7 @@ for (const c of [...countries].sort()) {
 }
 writeFileSync(new URL('data/coverage-matrix.csv', root), rows.map((r) => r.join(',')).join('\n') + '\n');
 
-let md = '# Matriz de cobertura (gerada)\n\n> Gerada por `node scripts/build-coverage.mjs` a partir de `data/sources.catalog.json`. **Não editar à mão.**\n> Nenhuma fonte está `READY`: o ambiente da Fase 0 não alcançou nenhum host de API de vagas, então nenhuma validação ao vivo foi possível.\n\n';
+let md = '# OrbiJob — Matriz de cobertura (gerada)\n\n> Gerada por `node scripts/build-coverage.mjs` a partir de `data/sources.catalog.json`. **Não editar à mão.**\n> Nenhuma fonte está `READY`: o ambiente da Fase 0 não alcançou nenhum host de API de vagas, então nenhuma validação ao vivo foi possível.\n\n';
 md += '## Casos de aceite (país × profissão)\n\n| País | Profissão | ISCO-08 | Fontes candidatas (status) | Fonte integrada hoje | Alternativa externa |\n|---|---|---|---|---|---|\n';
 const ext = { US: 'us.indeed.com', DE: 'de.indeed.com', PT: 'pt.indeed.com', AU: 'au.indeed.com', CA: 'ca.indeed.com', ZA: 'za.indeed.com', SG: 'sg.indeed.com', AE: 'ae.indeed.com' };
 for (const [c, id, label] of CASES) {
@@ -46,7 +46,7 @@ writeFileSync(new URL('docs/COVERAGE_MATRIX.md', root), md);
 console.log(`ok: ${rows.length - 1} rows, ${countries.size} countries`);
 
 // Per-source table (generated) used by docs/GLOBAL_SOURCES.md
-let t = '# Catálogo de fontes (gerado)\n\n> Gerado por `node scripts/build-coverage.mjs` de `data/sources.catalog.json`. Não editar à mão.\n> `Evidência`: doc = lido em texto primário; secondary = só resumo de terceiros; prior = conhecimento prévio não verificado.\n\n';
+let t = '# OrbiJob — Catálogo de fontes (gerado)\n\n> Gerado por `node scripts/build-coverage.mjs` de `data/sources.catalog.json`. Não editar à mão.\n> `Evidência`: doc = lido em texto primário; secondary = só resumo de terceiros; prior = conhecimento prévio não verificado.\n\n';
 t += '| Fonte | Região | Países | Tipo | Status | Evidência | Autenticação | Limites | Termos / redistribuição | Docs |\n|---|---|---|---|---|---|---|---|---|---|\n';
 for (const s of cat.sources) {
   const cs = s.countries.includes('*') ? 'global' : s.countries.join(' ');

@@ -5,5 +5,5 @@ import 'core/di/injector.dart';
 
 void main() {
   configureDependencies();
-  runApp(const JobRadarApp());
+  runApp(const OrbiJobApp());
 }

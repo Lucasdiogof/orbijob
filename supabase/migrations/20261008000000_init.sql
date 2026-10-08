@@ -1,4 +1,4 @@
--- JobRadar initial schema (PROPOSAL - NOT EXECUTED against any Supabase project).
+-- OrbiJob initial schema (PROPOSAL - NOT EXECUTED against any Supabase project).
 -- Public job data is separated from private user data. All private tables are
 -- owner-only through RLS; public job tables are read-only for clients and
 -- written exclusively by the Worker with the service role.

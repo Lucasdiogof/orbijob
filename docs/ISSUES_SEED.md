@@ -1,31 +1,43 @@
-# Issues sugeridas (não criadas no GitHub: repositório não pôde ser criado)
+# Issues do OrbiJob (por área)
 
-Cada item = uma issue; milestone = fase do ROADMAP.
+Fonte de verdade das issues abertas no GitHub (rótulo `area:*` + `phase:*`). Mantenha este arquivo e o GitHub alinhados; **evite duplicatas** buscando pelo título antes de criar.
 
-**M1 — Fontes reais**
-- Obter chaves gratuitas USAJOBS / Adzuna / France Travail (ação humana)
-- Rodar `scripts/acceptance.mjs` com internet e arquivar evidência
-- Ler e registrar termos oficiais: Himalayas, Jobicy, Greenhouse, Ashby, Reed, Adzuna (cache)
-- Investigar serviços públicos: IEFP (PT), MyCareersFuture (SG), Bayt (AE), Job Bank (CA), SAPS (ZA), Bundesagentur (DE – permissão)
-- Conector USAJOBS + fixtures reais
-- Conector Adzuna com atribuição obrigatória na UI
-- Job de sync com `sync_runs` e métricas por conector
-**M2 — Backend**
-- Criar projeto Supabase de staging (aprovação) e aplicar migração
-- Repetir testes de RLS no Supabase real
-- Worker: `/search`, cache KV, rate limit
-- Política de backup e runbook de restauração
-**M3 — Perfil/Auth**
-- Login Supabase (e-mail + OAuth), perfis múltiplos, bucket de currículos
-- Exportar/excluir dados do usuário (LGPD/GDPR)
-**M4 — Ranking**
-- Motor determinístico + confiança + evidências; fixtures de 8+ profissões
-**M5 — Favoritos & candidaturas**
-- Favoritos/notas/pesquisas salvas/histórico; candidaturas e etapas; lembretes
-**M6 — Autofill**
-- `ApplicationAutofillService` mobile; dicionário multilíngue de campos; allowlist; relatório; guarda anti-submit
-- Web: painel de respostas copiáveis
-**M7 — Ocupações**
-- Importar ESCO/ISCO (confirmar licença dos dados); revisão nativa de rótulos
-**M8 — Marca/Lançamento**
-- Busca formal de marca; escolher identidade; assets; material do portfólio Lucksrei
+| # | Área | Fase | Título |
+|---|---|---|---|
+| 1 | foundation | 1 | Publicar identidade escolhida e aplicar tema/ícones do app |
+| 2 | foundation | 1 | Busca formal de marca "OrbiJob" (INPI/USPTO/EUIPO/WIPO), lojas e domínios |
+| 3 | foundation | 1 | Definir licença do repositório (público) e adicionar LICENSE |
+| 4 | foundation | 1 | Habilitar proteção de branch, Dependabot e secret scanning no GitHub |
+| 5 | data-sources | 1 | Obter chaves gratuitas USAJOBS / Adzuna / France Travail |
+| 6 | data-sources | 1 | Rodar `scripts/acceptance.mjs` com internet e arquivar evidência |
+| 7 | data-sources | 1 | Ler e registrar termos oficiais (Himalayas, Jobicy, Greenhouse, Ashby, Reed, Adzuna-cache) |
+| 8 | data-sources | 1 | Conector USAJOBS com fixtures reais |
+| 9 | data-sources | 1 | Conector Adzuna com atribuição obrigatória |
+| 10 | data-sources | 7 | Investigar serviços públicos por país (IEFP-PT, MyCareersFuture-SG, Bayt-AE, SAPS-ZA, Job Bank-CA, Bundesagentur-DE) |
+| 11 | backend | 2 | Worker: rotas /search e /jobs/:id com cache KV |
+| 12 | backend | 2 | Worker: rate limiting por IP/usuário |
+| 13 | backend | 1 | Job de sincronização com `sync_runs` e métricas por conector |
+| 14 | backend | 2 | Runbook de backup e recuperação |
+| 15 | database | 2 | Criar projeto Supabase de staging (requer aprovação) e aplicar migração |
+| 16 | database | 2 | Repetir testes de RLS no Supabase real |
+| 17 | database | 2 | Validar índices de busca (tsvector/trigram) com volume real |
+| 18 | flutter-ui | 3 | Login e cadastro com Supabase Auth |
+| 19 | flutter-ui | 3 | Perfil (cabeçalho): currículo, experiências, formação, licenças |
+| 20 | flutter-ui | 3 | Componentes: JobCard, FilterSheet, MatchBadge, StageTimeline, SourceAttribution |
+| 21 | flutter-ui | 3 | Detalhe da vaga |
+| 22 | search | 1 | Importar ESCO/ISCO e revisar rótulos com falantes nativos |
+| 23 | search | 2 | Filtros internacionais (país, modalidade, salário, profissão, idioma) |
+| 24 | search | 2 | Conectar busca ao Worker com estados loading/vazio/erro/sem-fonte |
+| 25 | ranking | 4 | Motor de compatibilidade 0–100 determinístico com evidências |
+| 26 | ranking | 4 | Confiança da análise separada da pontuação |
+| 27 | applications | 5 | Favoritos, notas, pesquisas salvas e histórico de visualização |
+| 28 | applications | 5 | Candidaturas: etapas, entrevistas, propostas, lembretes |
+| 29 | autofill | 6 | `ApplicationAutofillService` mobile (InAppWebView, allowlist, sem submit) |
+| 30 | autofill | 6 | Web/PWA: painel de respostas copiáveis |
+| 31 | security | 2 | Sanitização de HTML de vagas e testes |
+| 32 | security | 3 | Exportar e excluir dados do usuário (LGPD/GDPR) |
+| 33 | qa | 1 | Rodar CI no GitHub Actions e corrigir falhas |
+| 34 | qa | 3 | Testes de integração dos fluxos críticos |
+| 35 | qa | 3 | Verificações de acessibilidade (contraste, leitores de tela, alvos de toque) |
+| 36 | release | 8 | Ícones/splash finais Android/iOS/PWA e metadados das lojas |
+| 37 | release | 8 | Material no portfólio lucksrei.com (sem alterar o site antes da aprovação) |

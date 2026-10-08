@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "JobRadar",
+  "appTitle": "OrbiJob",
   "searchHint": "Any profession, e.g. electrician, nurse, Flutter developer",
   "emptyTitle": "Search for any profession",
   "emptyBody": "No job source is connected yet. Results will only ever show real data from approved sources.",
@@ -8,5 +8,17 @@
   "errorTitle": "Something went wrong",
   "retry": "Try again",
   "noSourceTitle": "No integrated source for this search",
-  "noSourceBody": "Try the original portals instead."
+  "noSourceBody": "Try the original portals instead.",
+  "navHome": "Home",
+  "navExplore": "Explore",
+  "navFavorites": "Favorites",
+  "navApplications": "Applications",
+  "profile": "Profile",
+  "homeTitle": "Welcome to OrbiJob",
+  "homeBody": "Your matches and recent activity will appear here once job sources are connected.",
+  "favoritesTitle": "No favorites yet",
+  "favoritesBody": "Saved jobs will appear here.",
+  "applicationsTitle": "No applications tracked",
+  "applicationsBody": "Track where you applied, interviews and offers. Status is updated manually.",
+  "profileSoon": "Profile, résumé and experiences are coming soon."
 }

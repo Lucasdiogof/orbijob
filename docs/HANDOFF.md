@@ -1,22 +1,21 @@
-# HANDOFF — estado ao fim da Fase 0 (2026-10-08)
+# HANDOFF — OrbiJob (atualizado 2026-10-08, rodada 2)
 
-## O que existe
-- Repositório **local** `jobradar` (git, branch `main`). **Não foi publicado no GitHub** (ver bloqueios).
-- `app/` Flutter 3.47.6 (Dart 3.13): busca com estados, tema M3, l10n pt/en/es, BLoC + get_it. `flutter analyze` limpo; 7 testes (cubit, widget, contraste, alvo de toque, tema escuro).
-- `worker/` TypeScript: contrato de conectores, normalizador Lever (fixture sintética), dedupe, retry/backoff, rate limiter, regra de encerramento, resolvedor de profissões, teste de RLS (PGlite). `tsc` limpo; 43 testes.
-- `supabase/migrations/…_init.sql` (proposta, **não aplicada**).
-- `data/` catálogo de fontes, seed de ocupações, matriz CSV (gerada). `scripts/` geradores e aceite.
-- `docs/` todos os documentos pedidos + GLOBAL_SOURCES, COVERAGE_MATRIX, SOURCES_TABLE, OCCUPATIONS, BRAND_NAME_CHECK, design/IDENTITY_CONCEPTS, portfolio, ISSUES_SEED, evidence/.
+## Estado
+- Repositório: https://github.com/Lucasdiogof/orbijob (**público**), branch `main`. Histórico da Fase 0 preservado (commit `4214c30`) e integrado ao commit inicial do remoto (`de24b41`, README placeholder) por *merge* de históricos não relacionados, sem force push.
+- Rebranding **JobRadar → OrbiJob** concluído: pacote Dart `orbijob`, applicationId/bundle id `com.lucksrei.orbijob` (diretório Kotlin movido), nome exibido "OrbiJob" (Android, iOS, Web/manifest), classe `OrbiJobApp`, ARB pt/en/es, package do Worker `orbijob-worker`, docs e READMEs. "JobRadar" permanece apenas como registro histórico em `docs/BRAND_NAME_CHECK.md`. Identificadores de banco não continham o nome antigo (nada a migrar).
+- App: shell de navegação (Início, Explorar, Favoritos, Candidaturas; perfil no cabeçalho), busca com estados honestos. Worker: núcleo de conectores, dedupe, ocupações, teste de RLS. Detalhes no README.
+- Identidade visual: três propostas com SVG/PNG/prévias em `docs/design/identity/` — **nenhuma aprovada nem aplicada**.
+- Issues: ver `docs/ISSUES_SEED.md` (espelho das issues do GitHub).
 
-## Bloqueios registrados (nada foi simulado)
-1. **Criação do repositório GitHub negada:** `create_repository` → 403 "Resource not accessible by integration". A sessão só tinha escopo ao repositório existente `Lucasdiogof/busaogyn` (outro produto, não alterado). Issues **não** foram criadas (sem repositório) → `docs/ISSUES_SEED.md`.
-2. **Egress bloqueado:** APIs de vagas e a maior parte da documentação oficial inacessíveis → nenhuma validação ao vivo; evidências de terceiros marcadas como `secondary`.
-3. **Nome:** conflito amplo; busca oficial de marca (INPI/USPTO/EUIPO/WIPO), lojas e domínios não feita.
-4. **Chaves** (USAJOBS, Adzuna, France Travail) não obtidas — requer ação do proprietário.
-5. **LICENSE** não criada (licença não definida). Sem Supabase, sem deploy Cloudflare, sem alteração em lucksrei.com, sem serviços pagos.
-
-## Para publicar
-Criar o repositório (privado) pela conta `Lucasdiogof` com um token/escopo que permita, então: `git remote add origin … && git push -u origin main`, e criar as issues de `docs/ISSUES_SEED.md`.
+## Bloqueios e pendências reais
+1. Rede da sessão bloqueia APIs de vagas → nenhuma validação ao vivo; nenhuma fonte `READY` (ver `GLOBAL_SOURCES.md`).
+2. Chaves gratuitas (USAJOBS, Adzuna, France Travail) não obtidas — ação do proprietário.
+3. Nome OrbiJob: sem conflito direto encontrado, mas busca formal de marca/lojas/domínios pendente; proximidade com "Orbyt Jobs" a avaliar (`BRAND_NAME_CHECK.md`).
+4. Licença indefinida (repositório público sem LICENSE = todos os direitos reservados).
+5. Fontes finais das propostas (Sora/Manrope/Space Grotesk) não puderam ser usadas offline: logotipos finais precisam ser redesenhados após a escolha.
+6. Ícones padrão do Flutter ainda nos projetos Android/iOS/Web (substituir após aprovar identidade).
+7. CI ainda não executado no GitHub nesta data (verificar após o push); proteções de branch/Dependabot não configuradas.
+8. Sem Supabase, sem migração aplicada, sem deploy Cloudflare, sem serviços pagos, sem publicação em lojas, lucksrei.com intocado.
 
 ## Próxima etapa recomendada
-Fase 1: obter chaves gratuitas, rodar `scripts/acceptance.mjs` com internet, ler termos oficiais, implementar **um** conector (USAJOBS ou Adzuna) e promover a `READY` só com evidência. Decidir identidade/nome.
+Aprovar uma identidade; obter chaves; rodar `scripts/acceptance.mjs` com internet; implementar um conector real (USAJOBS ou Adzuna); só então promover a `READY`.

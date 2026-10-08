@@ -1,4 +1,4 @@
-# Fontes globais de vagas — pesquisa, classificação e evidências
+# OrbiJob — fontes globais de vagas: pesquisa, classificação e evidências
 
 Status: **Fase 0, 2026-10-08.** Documento vivo. Tabela completa gerada em [`SOURCES_TABLE.md`](SOURCES_TABLE.md); matriz país × fonte em [`COVERAGE_MATRIX.md`](COVERAGE_MATRIX.md) e `data/coverage-matrix.csv`.
 

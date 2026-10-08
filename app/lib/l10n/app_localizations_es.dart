@@ -10,7 +10,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'JobRadar';
+  String get appTitle => 'OrbiJob';
 
   @override
   String get searchHint =>
@@ -37,4 +37,43 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noSourceBody => 'Prueba los portales originales.';
+
+  @override
+  String get navHome => 'Inicio';
+
+  @override
+  String get navExplore => 'Explorar';
+
+  @override
+  String get navFavorites => 'Favoritos';
+
+  @override
+  String get navApplications => 'Postulaciones';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get homeTitle => 'Bienvenido a OrbiJob';
+
+  @override
+  String get homeBody =>
+      'Tus coincidencias y actividad reciente aparecerán aquí cuando haya fuentes de empleo conectadas.';
+
+  @override
+  String get favoritesTitle => 'Aún no hay favoritos';
+
+  @override
+  String get favoritesBody => 'Los empleos guardados aparecerán aquí.';
+
+  @override
+  String get applicationsTitle => 'Sin postulaciones registradas';
+
+  @override
+  String get applicationsBody =>
+      'Sigue dónde te postulaste, entrevistas y ofertas. El estado se actualiza manualmente.';
+
+  @override
+  String get profileSoon =>
+      'Perfil, currículum y experiencias llegarán pronto.';
 }

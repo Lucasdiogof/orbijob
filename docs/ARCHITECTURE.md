@@ -1,4 +1,4 @@
-# Arquitetura proposta
+# OrbiJob — arquitetura proposta
 
 ```
 Flutter (Android/iOS/Web-PWA) ──HTTPS──> Cloudflare Workers (API + cron sync) ──> Supabase (Postgres + Auth + Storage)
@@ -13,7 +13,8 @@ lib/
   features/<feature>/{domain(entities,usecases,repositories), data(datasources,models,repo impl), presentation(cubit,pages,widgets)}
   l10n/ (ARB pt/en/es)
 ```
-Features planejadas: search, job_detail, profile, matching, favorites, applications, autofill, settings. BLoC/Cubit para estado; `get_it` para DI (manual, sem geração de código). Implementado: `search` (entidade, repositório "sem fonte", cubit, página), tema M3 claro/escuro, l10n, DI.
+Features planejadas: home, search, job_detail, profile, matching, favorites, applications, autofill, settings. BLoC/Cubit para estado; `get_it` para DI (manual, sem geração de código).
+Implementado: shell de navegação adaptativa (Início, Explorar, Favoritos, Candidaturas; perfil no cabeçalho; barra inferior < 600dp, rail ≥ 600dp), `search` (entidade, repositório "sem fonte", cubit, página), páginas vazias honestas de Início/Favoritos/Candidaturas, `StateMessage` reutilizável, tema M3 claro/escuro, l10n pt/en/es, DI. Nome técnico do pacote: `orbijob`; applicationId/bundle id `com.lucksrei.orbijob`.
 
 ## Worker (`worker/`)
 ```
