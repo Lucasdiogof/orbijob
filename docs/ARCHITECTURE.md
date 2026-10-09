@@ -22,6 +22,7 @@ Design system (identidade C): `core/design` (tokens gerados de `docs/design/iden
 src/{types,dedupe,http,occupations}.ts, src/connectors/<id>.ts
 test/ (vitest; fixtures; RLS via PGlite)
 ```
+Estado: biblioteca testada, **sem ponto de entrada nem `wrangler.toml`** ainda; `http.ts` fornece `getJson` (timeout, `HttpError`, `Retry-After`) e `withRetry`. O `RateLimiter` em memória não serve em produção (usar Durable Object). Guia: [CLOUDFLARE_SETUP.md](CLOUDFLARE_SETUP.md). Banco: migrations `20261008…_init` + `20261009…_rls_hardening` (propostas, não executadas) — [SUPABASE_SETUP.md](SUPABASE_SETUP.md). Fontes: [SOURCES_VALIDATION.md](SOURCES_VALIDATION.md).
 Planejado: rotas `/search`, `/jobs/:id`, `/sources/health`; `scheduled()` por fonte; KV para cache de buscas; Durable Object ou KV para rate limit por IP/usuário; Cron Triggers para sync; métricas por conector em `sync_runs` + Workers Analytics (sem PII). **Sem deploy nesta fase.**
 
 ## Decisões

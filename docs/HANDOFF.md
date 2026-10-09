@@ -1,22 +1,23 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-08, rodada 4 — identidade C aplicada)
+# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 2)
 
 ## Estado
-- Repositório: https://github.com/Lucasdiogof/orbijob (**público**). Trabalho desta rodada no PR #38, branch `design/identity-refinement` (**sem merge**; aguarda autorização do proprietário).
-- **Identidade oficial: C — Minimal Tech** (decisão do proprietário). Aplicada ao app Flutter real: tokens gerados de `tokens.json`, Space Grotesk/Inter, logotipo e símbolo SVG, ícones Android/iOS/Web, splash estática, temas claro/escuro/sistema, componentes e telas (Início, Explorar, Favoritos, Candidaturas, Perfil), responsividade (barra, rail, rail estendido, lista/detalhe) e acessibilidade. `kProvisionalSeed` removido. A e B ficam só como histórico.
-- Documentação: `docs/design/identity/c-minimal/APPLIED.md` (tokens, fontes, logotipo, ícones, splash, padrões, limitações), `docs/DESIGN_SYSTEM.md` (estrutura, testes), `docs/design/flutter-screenshots/` (capturas reais).
-- Verificado nesta rodada: `dart format`, `flutter analyze` (limpo), **139 testes Flutter**, 43 testes do Worker, `flutter build web --release` (produção e prévia), `aapt2` compile+link dos recursos Android, gitleaks. Worker, conectores, Supabase e Cloudflare **não foram tocados**.
+- Repositório: https://github.com/Lucasdiogof/orbijob (**público**). **PR #38 (identidade C) integrado na `main`** com merge commit `3f5dc6185bc8f5da592ddb415b9a2404c5ab4e40` (histórico preservado, sem force push). CI da `main` nesse commit: **verde** (catalog, worker, app, android-resources, secrets; run 37862754804).
+- **Identidade oficial: C — Minimal Tech**, presente na `main` (tokens gerados de `docs/design/identity/c-minimal/tokens.json`, fontes, logotipo, ícones, splash, temas, componentes, responsividade).
+- Trabalho da Fase 2 está na branch `feat/phase2-stabilization` (PR próprio, **sem merge automático**): conteúdo original das vagas com selo de idioma, cartão compacto, Início com pesquisas recentes/países de interesse, migration de endurecimento RLS (proposta), Worker com `getJson`/timeout/`Retry-After`, `scripts/probe-sources.mjs`, `web_checks.mjs`, guias `SUPABASE_SETUP.md`, `CLOUDFLARE_SETUP.md`, `SOURCES_VALIDATION.md`.
 
-## O que NÃO foi verificado (e por quê)
-1. **APK Android:** `flutter build apk --debug` falha com "No Android SDK found"; o SDK vem de `dl.google.com`, bloqueado neste ambiente. Os recursos (ícone adaptativo, monocromático, splash) foram validados com `aapt2`, mas **não** houve build, instalação nem teste em aparelho/emulador. Fazer em CI/máquina com SDK.
-2. **iOS:** sem macOS/Xcode. Ícones (PNG opacos, dimensões, `Contents.json`) e storyboard foram validados por testes estruturais; o storyboard (cor nomeada `LaunchBackground`) **nunca foi aberto no Xcode**. Ícones iOS 18 escuro/tingido não incluídos.
-3. Splash em inicialização fria/quente em dispositivo real; leitores de tela em aparelho; simulação de daltonismo; teste com usuários.
+## Verificado na Fase 2
+`dart format`, `flutter analyze` (limpo), **144 testes Flutter**, **58 testes do Worker** (RLS em PGlite com 16 casos, HTTP/retry), `tsc`, `flutter build web --release`, checagens web (`docs/evidence/web-checks-2026-10-09.json`: manifest, 4 ícones com dimensões corretas incl. maskable, theme-color claro/escuro, favicons, sem erros de console nem rolagem horizontal em 3 tamanhos × claro/escuro).
 
-## Pendências
-- Build e teste em aparelho Android/iOS; revisar a splash nativa.
-- Busca formal de marca "OrbiJob" (INPI/USPTO/EUIPO/WIPO), lojas e domínios; proteção de branch/Dependabot (issue #4).
-- Persistir preferência de tema e favoritos; nomes de países localizados; fontes não latinas (CJK, árabe) se for necessário embutir.
-- Fonte de vagas real (chaves gratuitas, termos, 1º conector) — nenhuma fonte `READY` ainda (ver `GLOBAL_SOURCES.md`).
-- Licença do repositório; Supabase/Cloudflare só com aprovação.
+## Plataformas — o que NÃO foi validado
+1. **Android:** `flutter build apk --debug` / `appbundle` **impossíveis aqui** (sem Android SDK; `dl.google.com` bloqueado). Só validação estática (`aapt2`, testes de assets). Nome, `applicationId com.lucksrei.orbijob`, ícone adaptativo/monocromático e splash validados estaticamente; **falta** build, instalação e teste em aparelho/emulador (fazer no CI com `setup-android` ou localmente).
+2. **iOS:** sem macOS/Xcode — **não compilado**. Pendências no Mac: abrir `Runner.xcworkspace`, conferir `LaunchScreen.storyboard` e a cor `LaunchBackground`, `flutter build ios --no-codesign`, ícones, assinatura/Team ID, ícones iOS 18 escuro/tingido (não incluídos).
+3. Splash fria/quente em aparelho, leitores de tela reais, daltonismo, testes com usuários.
+
+## Pendências técnicas
+- Fontes de vagas: **nenhuma `READY`**. Sonda de 2026-10-09: ambiente bloqueia os hosts (`EGRESS_BLOCKED`) e faltam chaves (USAJOBS, Adzuna, France Travail). Primeira recomendada: **Adzuna** (cobre qualquer profissão em vários países); depois USAJOBS. Ver `docs/SOURCES_VALIDATION.md`.
+- Supabase: nada criado/executado. Seguir `docs/SUPABASE_SETUP.md` (revisar migrations → `db push`; policies de storage no SQL editor; testar isolamento em staging).
+- Cloudflare: Worker é biblioteca sem entrada/`wrangler.toml`; rate limit precisa de Durable Object. Ver `docs/CLOUDFLARE_SETUP.md`.
+- Persistir tema, favoritos e pesquisas recentes; busca de marca (INPI/USPTO/EUIPO/WIPO); proteção de branch; licença do repositório; autoria dos commits antigos mostra "Claude" (histórico público, não reescrito).
 
 ## Próxima etapa recomendada
-Autorizar o merge do PR #38 após revisar as capturas; em seguida validar em dispositivos (Android/iOS) e retomar a Fase 1 de fontes de vagas (chaves, termos, primeiro conector real).
+Revisar/mergear o PR da Fase 2; criar contas/chaves (Adzuna, USAJOBS) e rodar `scripts/probe-sources.mjs` com rede liberada; ler os termos; implementar o 1º conector real com teste de contrato; só depois criar o projeto Supabase (staging) e o Worker.

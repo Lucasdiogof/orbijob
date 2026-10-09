@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Status real: Fase 0 concluída (fundação) + identidade visual C aplicada à interface.** Não há backend publicado, nenhuma fonte de vagas integrada e nenhuma vaga real exibida. Busca real, ranking, perfil, candidaturas e autofill ainda **não funcionam** — estão **planejados**.
+> **Status real: Fase 0 concluída (fundação) + identidade visual C integrada na `main` (PR #38) + Fase 2 de preparação (PR em revisão).** Não há backend publicado, nenhuma fonte de vagas integrada e nenhuma vaga real exibida. Busca real, ranking, perfil, candidaturas e autofill ainda **não funcionam** — estão **planejados**.
 
 🇬🇧 [English README](README_EN.md) · Antigo nome provisório: *JobRadar* (descontinuado — [ver motivo](docs/BRAND_NAME_CHECK.md)).
 
@@ -66,7 +66,7 @@ docs/        arquitetura, requisitos, fontes, banco, segurança, roadmap, design
 ```
 
 ## Testes
-`flutter analyze` + `flutter test` (139 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash) · `tsc` + `vitest` (43 testes do worker) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
+`flutter analyze` + `flutter test` (144 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash) · `tsc` + `vitest` (58 testes do worker, incluindo RLS em PGlite e HTTP/retry) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
 
 ## Segurança
 RLS dono-único, currículos em bucket privado (planejado/proposto), nenhum segredo no repositório (**público**), sem scraping proibido, sem candidatura automática, autofill só em domínios autorizados. [docs/SECURITY.md](docs/SECURITY.md)
