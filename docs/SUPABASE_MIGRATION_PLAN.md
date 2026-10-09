@@ -69,9 +69,10 @@ Na máquina do proprietário (token pessoal; nunca no repositório ou no chat):
 - Projetos gratuitos pausam por inatividade e não têm PITR; para uso real, considerar plano pago.
 
 ## 5. Reversão
-Não há migrations "down" na pasta de migrations (a CLI as aplicaria). Para uma instalação nova e **sem dados a preservar**: esvaziar o bucket `resumes` pela Storage API/painel e executar, na máquina do proprietário,
-`PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$DB_URL" -v ON_ERROR_STOP=1 -f supabase/rollback/rollback_all.sql`.
-O script recusa rodar sem a confirmação ou com objetos no bucket, remove tabelas, funções, policies de storage, bucket e `pg_trgm`, restaura os default privileges da plataforma e apaga as 4 versões de `schema_migrations`, permitindo reaplicar. Foi testado em ida-e-volta (aplicar → desfazer → verificar limpo → reaplicar). **Com dados de usuários, não usar:** restaure um dump ou escreva uma migration corretiva.
+Não há migrations "down" na pasta de migrations (a CLI as aplicaria). Para uma instalação nova e **sem dados a preservar**:
+1. **Pela Storage API ou painel** (não por SQL): esvaziar e excluir o bucket `resumes`. A plataforma bloqueia `DELETE` direto em `storage.buckets`/`storage.objects` ("Direct deletion from storage tables is not allowed") e um delete por SQL deixaria os arquivos.
+2. Executar, na máquina do proprietário: `PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$DB_URL" -v ON_ERROR_STOP=1 -f supabase/rollback/rollback_all.sql`.
+O script recusa rodar sem a confirmação ou enquanto o bucket existir; remove tabelas, funções, policies de storage e `pg_trgm`; restaura os default privileges da plataforma e apaga as 4 versões de `schema_migrations`, permitindo reaplicar. Foi testado em ida-e-volta localmente (aplicar → recusar com bucket → excluir bucket "pela API" → desfazer → verificar limpo → reaplicar), mas **nunca foi executado no Supabase real**. **Com dados de usuários, não usar:** restaure um dump ou escreva uma migration corretiva.
 
 ## 6. Idempotência dos procedimentos
 - Pré-checagem, auditoria e dry-run: somente leitura, repetíveis.
@@ -85,10 +86,24 @@ O script recusa rodar sem a confirmação ou com objetos no bucket, remove tabel
 - **Varredura de órfãos** (Worker agendado, service role): remove objetos do bucket sem linha correspondente em `resumes` com mais de 1 h (cobre upload sem linha, por falha ou abuso, já que o número de arquivos não é limitado por SQL — ver `20261011000000_quotas.sql`).
 - Ambos exigem o Worker com segredos e **não estão implementados nem implantados**.
 
-## 8. Riscos
+## 8. Incompatibilidades possíveis com o Supabase real (que os testes locais não detectam)
+Auditoria das 4 migrations contra o comportamento documentado da plataforma. **Nenhum item foi verificado em projeto real.**
+| # | Ponto | Por que o teste local não cobre | Como confirmar |
+|---|---|---|---|
+| 1 | `storage.protect_delete`: DELETE direto em tabelas de storage é bloqueado | o stub só imita o gatilho (a partir da documentação); já corrigiu o teardown | passo 7 + teardown em staging |
+| 2 | Role `postgres` não é superusuário: precisa poder `insert` em `storage.buckets` e criar/dropar policies em `storage.objects` (dono: `supabase_storage_admin`) | stub roda como superusuário | falha explícita no `db push` (a migration 3 não degrada em silêncio) |
+| 3 | `alter extension pg_trgm set schema extensions` exige ser dono da extensão e que `extensions` exista | idem | pré-checagem lista a extensão e seu schema; se já existir de outro dono, ajustar a migration antes |
+| 4 | Default privileges: a plataforma concede por padrão (para objetos de `postgres`) `ALL` a `anon`/`authenticated`/`service_role` em tabelas **e funções**; a migration 2 revoga tabelas e as migrations 3–4 revogam as próprias funções | o stub só concede em tabelas | `01_audit.sql` remoto (verifica grants e execução de funções) |
+| 5 | A CLI divide cada arquivo em instruções antes de enviar; blocos `do $$…$$` e funções com `$$` devem sobreviver ao divisor | `psql` envia o arquivo inteiro | `db push --dry-run` e, se falhar, mover o bloco para uma função/ajustar delimitadores |
+| 6 | `REFERENCES auth.users(id)` exige o privilégio `REFERENCES` para `postgres` em `auth.users` (concedido na plataforma) | stub é superusuário | erro explícito no push |
+| 7 | Versões do Postgres: testado em 16; o projeto pode estar em 15 ou 17 | só 16 | `select version()` na pré-checagem |
+| 8 | Gatilho de cota dispara também em `upsert … on conflict do update` (re-favoritar um item já salvo no limite de 1000 falha) | comportamento do Postgres, aceito | limitação conhecida; só afeta quem está exatamente no teto |
+| 9 | Auth real (PKCE, confirmação por e-mail, limites de taxa), Storage API (limites de MIME/tamanho, signed URL), Advisors e exposição do PostgREST | não existem no stub | passos 6–7 |
+
+## 9. Riscos
 | Risco | Mitigação |
 |---|---|
-| Diferença entre stub e plataforma (privilégios, dono de `storage.*`, extensão) | passos 1, 6 e 7 no projeto real; parar na primeira divergência |
+| Diferença entre stub e plataforma (seção 8) | passos 1, 6 e 7 no projeto real; parar na primeira divergência |
 | Falha parcial no `db push` | não presumir atomicidade; checar estado; teardown se vazio |
 | Arquivos órfãos / uploads sem linha | varredura agendada (não implementada); cota de linhas; limites do bucket |
 | Projeto gratuito pausa / sem PITR | plano pago antes de dados reais |

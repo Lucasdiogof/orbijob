@@ -1,20 +1,23 @@
 -- OrbiJob TEARDOWN (destructive). Removes everything the four migrations created so the project can be
 -- re-provisioned from scratch. There are no "down" migrations in supabase/migrations: this file is run BY HAND,
--- only on a project that holds no data worth keeping, and only after the Storage bucket has been emptied through
--- the Storage API/dashboard (SQL deletes of storage.objects leave the files behind).
+-- only on a project that holds no data worth keeping.
+--
+-- Storage first, through the Storage API or the dashboard (NOT SQL): empty the `resumes` bucket and delete it.
+-- Supabase blocks direct DELETEs on storage.buckets / storage.objects (and SQL deletes would leave the files behind),
+-- so this script refuses to run while the bucket still exists.
 --
 --   PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$DB_URL" -v ON_ERROR_STOP=1 -f supabase/rollback/rollback_all.sql
 --
 -- Without the confirmation setting it aborts before touching anything. Tested in supabase/tests/run.sh
--- (apply chain -> rollback -> verify clean -> re-apply chain).
+-- (apply chain -> remove bucket "through the API" -> rollback -> verify clean -> re-apply chain).
 begin;
 do $$
 begin
   if coalesce(current_setting('orbijob.confirm_rollback', true), '') <> 'yes' then
     raise exception 'refusing to run: set orbijob.confirm_rollback=yes to confirm this destructive teardown';
   end if;
-  if exists (select 1 from storage.objects where bucket_id = 'resumes') then
-    raise exception 'bucket "resumes" still holds objects: empty it through the Storage API first';
+  if exists (select 1 from storage.buckets where id = 'resumes') then
+    raise exception 'bucket "resumes" still exists: empty and delete it through the Storage API or dashboard first';
   end if;
 end $$;
 
@@ -22,7 +25,6 @@ drop policy if exists resumes_objects_select on storage.objects;
 drop policy if exists resumes_objects_insert on storage.objects;
 drop policy if exists resumes_objects_update on storage.objects;
 drop policy if exists resumes_objects_delete on storage.objects;
-delete from storage.buckets where id = 'resumes';
 
 drop table if exists
   public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,

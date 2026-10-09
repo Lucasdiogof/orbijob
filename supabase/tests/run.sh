@@ -22,7 +22,10 @@ run 01_audit.sql
 
 # teardown: refuses without confirmation, empties cleanly, and the chain applies again afterwards
 if psql "$URL" -v ON_ERROR_STOP=1 -q -f ../rollback/rollback_all.sql >/dev/null 2>&1; then echo "rollback ran WITHOUT confirmation"; exit 1; fi
-psql "$URL" -qc "delete from storage.objects" >/dev/null
+# rollback must refuse while the bucket exists (the real platform forbids SQL deletes on storage tables)
+if PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$URL" -v ON_ERROR_STOP=1 -q -f ../rollback/rollback_all.sql >/dev/null 2>&1; then echo "rollback ran with the bucket still present"; exit 1; fi
+# simulate the Storage API emptying and deleting the bucket
+psql "$URL" -qc "set storage.allow_delete_query = 'true'; delete from storage.objects; delete from storage.buckets where id = 'resumes'" >/dev/null
 PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$URL" -v ON_ERROR_STOP=1 -q -f ../rollback/rollback_all.sql >/dev/null
 run 04_rollback_clean.sql
 for m in ../migrations/*.sql; do run "$m" >/dev/null 2>&1 || { echo "re-apply failed: $m"; exit 1; }; done
