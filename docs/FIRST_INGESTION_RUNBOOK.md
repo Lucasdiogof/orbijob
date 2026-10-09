@@ -85,7 +85,7 @@ from public.jobs where source_id = 'jobicy' order by published_at desc nulls las
 Conferir: `sync_runs` com `ok`; links em `jobicy.com`; salários só quando há moeda e período; nenhum HTML na descrição; nenhuma vaga de outra fonte.
 
 ### 11. Validar no Flutter · quem: proprietário, com conta de teste
-1. Abrir o app (`scripts\\windows\\run_orbijob_web.ps1`) → Explorar → **Ver vagas recentes**. Deve aparecer a lista com **"Fonte: Jobicy"**.
+1. Abrir o app (`scripts\windows\run_orbijob_web.ps1`) → Explorar → **Ver vagas recentes**. Deve aparecer a lista com **"Fonte: Jobicy"**.
 2. Abrir uma vaga: descrição, elegibilidade, botão **Abrir anúncio original** (deve abrir a página do Jobicy).
 3. Salvar nos favoritos → F5 → aba Favoritos (a vaga continua).
 4. Sair e entrar com outra conta: os favoritos da primeira **não** aparecem.
