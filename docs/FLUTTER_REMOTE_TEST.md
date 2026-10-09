@@ -11,7 +11,8 @@ Estado: **procedimento preparado; nada disto foi executado contra o Supabase rea
    | _(futura)_ `https://<domínio-de-produção>/**` | só quando houver hospedagem definida — **não existe ainda; não inventar** |
    **Site URL** hoje é `http://localhost:3000` (serve para teste Web em desenvolvimento). Troque pela URL pública só quando ela existir. Sem a URL do esquema móvel na lista, o Supabase ignora o `redirectTo` e o link do e-mail cai no Site URL (localhost) — no celular isso não abre o app.
 2. Duas contas **descartáveis** (ex.: Gmail `+orbijob-a` / `+orbijob-b`). Nunca use contas reais de pessoas.
-3. Em um computador com Flutter (Android Studio / Xcode):
+3. **Windows (Web):** `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows\run_orbijob_web.ps1` faz tudo (SDK isolado, validações, `localhost:3000`); ver `docs/WINDOWS_WEB_RUN.md`.
+   Demais plataformas: em um computador com Flutter (Android Studio / Xcode):
    ```
    cd app
    copy dart_defines.example.json dart_defines.dev.json      (preencha URL e chave PUBLISHABLE; o arquivo é ignorado pelo git)

@@ -1,0 +1,43 @@
+name: windows-bootstrap
+# Runs the Windows run script for real on a Windows runner (Windows PowerShell 5.1, private Flutter install,
+# pub get, analyze) with a FAKE local config. It never contacts Supabase and never starts the app.
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/windows/**', 'app/pubspec.yaml', '.github/workflows/windows-bootstrap.yml']
+  pull_request:
+    paths: ['scripts/windows/**', 'app/pubspec.yaml', '.github/workflows/windows-bootstrap.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  script-tests-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Script tests (pure functions + fake repository, PowerShell 7)
+        shell: pwsh
+        run: ./scripts/windows/test_run_orbijob_web.ps1
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Script tests under Windows PowerShell 5.1
+        shell: powershell
+        run: .\scripts\windows\test_run_orbijob_web.ps1
+      - name: Fake local config (CI only; the key is not real)
+        shell: powershell
+        run: |
+          $json = '{"SUPABASE_URL":"https://rpmlfxwebnlxnwadyvle.supabase.co","SUPABASE_PUBLISHABLE_KEY":"sb_publishable_CiFakeKeyNotReal_0000000","AUTH_REDIRECT_URL":"http://localhost:3000/"}'
+          [System.IO.File]::WriteAllText("$PWD\app\dart_defines.web.json", $json, (New-Object System.Text.UTF8Encoding($false)))
+      - name: Bootstrap (installs the private Flutter, pub get, analyze, tests)
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows\run_orbijob_web.ps1 -NoRun -RunTests
+      - name: Second run must reuse the private SDK
+        shell: powershell
+        run: |
+          $out = powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\windows\run_orbijob_web.ps1 -NoRun -SkipAnalyze 2>&1 | Out-String
+          Write-Host $out
+          if ($LASTEXITCODE -ne 0) { throw "second run failed" }
+          if ($out -notmatch 'already installed') { throw "second run did not reuse the private SDK" }
