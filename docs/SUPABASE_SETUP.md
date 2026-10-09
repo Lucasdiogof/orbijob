@@ -37,8 +37,14 @@ Variáveis (`--dart-define` ou `--dart-define-from-file`; só valores públicos)
 | `AUTH_REDIRECT_URL` | para onde os e-mails de confirmação/recuperação voltam (ver abaixo) |
 
 **Redirect URLs a cadastrar pelo proprietário** em Supabase → Authentication → URL Configuration (o assistente não altera Auth Settings):
-- Web: a origem publicada do app (ex.: `https://app.lucksrei.com/`) e `http://localhost:3000/**` só para desenvolvimento.
-- Android/iOS: `com.lucksrei.orbijob://auth-callback` (o intent-filter e o `CFBundleURLTypes` já estão no projeto; **não foram testados em aparelho**).
-- **Site URL** hoje é `http://localhost:3000`: troque pela URL pública antes de abrir o cadastro ao público. Enquanto for localhost, os links dos e-mails levam a localhost → **não considerar produção pronta**.
+| URL | Uso |
+|---|---|
+| `http://localhost:3000/**` | Web em desenvolvimento (`flutter run -d chrome --web-port=3000`, `AUTH_REDIRECT_URL=http://localhost:3000/`) |
+| `com.lucksrei.orbijob://auth-callback` | Android e iOS (intent-filter e `CFBundleURLTypes` já no projeto; **não testados em aparelho**) |
+| `https://<domínio-de-produção>/**` | **futura** — não existe hospedagem definida; não cadastrar nada inventado |
+
+O **Site URL** hoje é `http://localhost:3000`: serve ao teste Web local, mas **não** para produção. Troque-o só quando existir a URL pública. Enquanto for localhost, **não considerar produção pronta**. Se a URL do esquema móvel não estiver na lista, o Supabase ignora o `redirectTo` e o e-mail cai no Site URL (no celular não abre o app).
+
+Roteiro de teste com duas contas descartáveis: [FLUTTER_REMOTE_TEST.md](FLUTTER_REMOTE_TEST.md).
 
 Sem essas variáveis o app abre normalmente, sem contas, e as telas dizem que a conta não está configurada.

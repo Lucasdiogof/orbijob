@@ -1,4 +1,16 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 4 — Flutter ligado ao Supabase)
+# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 4.1 — PR #48 auditado e integrado)
+
+## Fase 4.1 (2026-10-09) — auditoria do PR #48, correções e preparo da validação real
+**Corrigido na branch antes do merge (defeitos reais encontrados na auditoria):**
+1. `AndroidManifest.xml` **não tinha `INTERNET`**: um APK de release não alcançaria o Supabase (debug/profile adicionam a permissão sozinhos, então teria passado despercebido). Adicionada, com `queries` para abrir links https.
+2. Roteamento nativo de deep link do Flutter ficaria ligado junto com o `app_links` do `supabase_flutter` (o link de autenticação tentaria abrir uma rota inexistente): `flutter_deeplinking_enabled=false` (Android) e `FlutterDeepLinkingEnabled=false` (iOS).
+3. Erro de link duplicado/expirado ficava preso no estado e reaparecia depois: limpo ao existir sessão; link inválido agora avisa por snackbar em qualquer tela.
+4. `AUTH_REDIRECT_URL` incluído em `dart_defines.example.json` e `.env.example`.
+Regressões: `test/assets/native_auth_config_test.dart` (manifestos) e teste de erro de link obsoleto em `test/cubits/auth_recovery_test.dart`.
+
+**Verificado sem o Supabase real:** build Web de release (`--no-web-resources-cdn`) em Chromium contra rede **simulada**: inicialização com Supabase configurado, 0 chamadas REST antes do login, após o login `Authorization` com o JWT do usuário e `apikey` publishable, sessão restaurada após recarregar, sem erros no console. Isso **não** é validação contra o Supabase hospedado.
+**Não verificado:** Android e iOS (sem Android SDK nem Xcode neste ambiente): nenhum build nativo, nenhum deep link, nenhuma URL assinada aberta em aparelho, nenhum ciclo de vida de sessão em dispositivo. Roteiro: `docs/FLUTTER_REMOTE_TEST.md`.
+**Pontos de atenção conhecidos (não bloqueiam):** (a) o link de recuperação cria uma sessão normal; se o app for fechado na tela de nova senha, a sessão persiste (comportamento do Supabase). (b) No iOS o Keychain pode sobreviver à desinstalação; a sessão restaurada continua válida até expirar/logout. (c) Excluir um currículo remove o objeto do Storage e depois a linha; se a policy negasse a remoção do objeto o Storage devolve lista vazia sem erro — as policies da Fase E permitem a pasta própria, mas confira "sem órfãos" no teste real. (d) Tema/idioma ficam no aparelho entre contas até as preferências da nova conta carregarem.
 
 ## Fase 4 (2026-10-09) — telas ligadas aos repositórios Supabase (PR de `feat/flutter-supabase-integration`, sem merge)
 **Estado do Supabase real (informado pelo proprietário, não verificado pelo assistente):**

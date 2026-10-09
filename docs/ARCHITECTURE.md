@@ -26,6 +26,7 @@ Design system (identidade C): `core/design` (tokens gerados de `docs/design/iden
 - **Escopo por conta:** `session/user_scope.dart` cria `Favorites/Profile/Applications/Preferences/SavedSearches` Cubits dentro de um `KeyedSubtree` com o id do usuário e esvazia a pilha do `Navigator` na troca; recentes (aparelho) são limpos.
 - **Escrita:** favoritos otimistas com reversão por vaga; demais escritas aguardam o servidor. Candidaturas: `application_events` é escrito por trigger e só lido.
 - **Auth:** `AuthCubit` (inclui `recovering`, `sessionExpired`), `AuthEffects` abre `NewPasswordPage`; `AUTH_REDIRECT_URL` define o retorno dos e-mails.
+- **Nativo:** esquema `com.lucksrei.orbijob://auth-callback` (Android intent-filter, iOS `CFBundleURLTypes`); o roteamento de deep link do Flutter fica desligado porque o `supabase_flutter` lê o link. Release Android precisa de `INTERNET` (coberto por teste estático).
 - Pré-visualização/testes: `preview/in_memory_favorites.dart` (só em `main_preview` e testes); fakes de teste em `test/helpers/fakes.dart`.
 
 ## Worker (`worker/`)
