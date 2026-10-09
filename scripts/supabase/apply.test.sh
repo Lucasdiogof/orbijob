@@ -18,8 +18,11 @@ echo "supabase \$*" >> "$W/calls"
 case "\$*" in
   "db push --dry-run") for v in \$PENDING; do echo "Would push: \${v}_x.sql"; done;;
   "db push") echo pushed >> "$W/pushes";;
+  "db dump"*) while [ "\$#" -gt 0 ]; do [ "\$1" = "-f" ] && echo "-- dump" > "\$2"; shift; done;;
 esac
 FAKE
+# CI runners have a working Docker; the test must not depend on the host: pretend there is none, so the pg_dump path is used
+printf '#!/usr/bin/env bash\nexit 1\n' > "$W/bin/docker"
 cat > "$W/bin/pg_dump" <<FAKE
 #!/usr/bin/env bash
 while [ "\$#" -gt 0 ]; do [ "\$1" = "-f" ] && echo "-- dump" > "\$2"; shift; done
