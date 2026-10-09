@@ -1,0 +1,167 @@
+{
+  "manifest": {
+    "name": "OrbiJob",
+    "short_name": "OrbiJob",
+    "display": "standalone",
+    "theme_color": "#111113",
+    "background_color": "#FFFFFF",
+    "icons": [
+      {
+        "src": "icons/Icon-192.png?v=c1",
+        "purpose": "any",
+        "declared": "192x192",
+        "actual": "192x192",
+        "ok": true
+      },
+      {
+        "src": "icons/Icon-512.png?v=c1",
+        "purpose": "any",
+        "declared": "512x512",
+        "actual": "512x512",
+        "ok": true
+      },
+      {
+        "src": "icons/Icon-maskable-192.png?v=c1",
+        "purpose": "maskable",
+        "declared": "192x192",
+        "actual": "192x192",
+        "ok": true
+      },
+      {
+        "src": "icons/Icon-maskable-512.png?v=c1",
+        "purpose": "maskable",
+        "declared": "512x512",
+        "actual": "512x512",
+        "ok": true
+      }
+    ],
+    "hasMaskable": true
+  },
+  "html": {
+    "title": "OrbiJob",
+    "viewportFit": true,
+    "themeColorLight": "#FFFFFF",
+    "themeColorDark": "#0C0C0E",
+    "favicons": [
+      {
+        "f": "favicon.svg",
+        "linked": true,
+        "exists": true
+      },
+      {
+        "f": "favicon.png",
+        "linked": true,
+        "exists": true
+      },
+      {
+        "f": "favicon.ico",
+        "linked": true,
+        "exists": true
+      },
+      {
+        "f": "icons/apple-touch-icon.png",
+        "linked": true,
+        "exists": true
+      }
+    ],
+    "staticSplash": true
+  },
+  "runs": [
+    {
+      "scheme": "light",
+      "size": "390x844",
+      "bodyBg": "rgb(255, 255, 255)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "Search jobs\nAny profession, any country",
+        "FLUTTER-VIEW",
+        "FLUTTER-VIEW",
+        "Search jobs\nAny profession, any country",
+        "FLUTTER-VIEW"
+      ],
+      "errors": []
+    },
+    {
+      "scheme": "light",
+      "size": "820x1180",
+      "bodyBg": "rgb(255, 255, 255)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "Search jobs\nAny profession, any country"
+      ],
+      "errors": []
+    },
+    {
+      "scheme": "light",
+      "size": "1440x900",
+      "bodyBg": "rgb(255, 255, 255)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "Search jobs\nAny profession, any country"
+      ],
+      "errors": []
+    },
+    {
+      "scheme": "dark",
+      "size": "390x844",
+      "bodyBg": "rgb(12, 12, 14)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "Search jobs\nAny profession, any country",
+        "FLUTTER-VIEW",
+        "FLUTTER-VIEW",
+        "Search jobs\nAny profession, any country",
+        "FLUTTER-VIEW"
+      ],
+      "errors": []
+    },
+    {
+      "scheme": "dark",
+      "size": "820x1180",
+      "bodyBg": "rgb(12, 12, 14)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS"
+      ],
+      "errors": []
+    },
+    {
+      "scheme": "dark",
+      "size": "1440x900",
+      "bodyBg": "rgb(12, 12, 14)",
+      "pageScrollsHorizontally": false,
+      "pageScrollsVertically": false,
+      "tabStops": [
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "FLT-SEMANTICS",
+        "Search jobs\nAny profession, any country"
+      ],
+      "errors": []
+    }
+  ]
+}
