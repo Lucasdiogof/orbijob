@@ -7,7 +7,7 @@
 | #39 | Fase 2 (conteúdo original das vagas, RLS hardening, Worker HTTP) | `eaae3ea3228905cb25e766392d85bfda2c9e354d` |
 | #40 | Fase 3 (migration de integração, testes SQL, auth e repositórios Flutter) | `dce2599f68e7941940f40763c7f4f53a15718815` |
 | #41 | cotas, teardown testado, remoção de arquivos ao apagar perfil, plano revisado | `4ba5023faee3dde6d88cb1f7acaa22b0f0bdfd70` |
-CI verde na `main` após #38, #39 e #40; para #41, ver a seção "CI da main" abaixo. Histórico preservado (merge commits), sem force push.
+CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-sql, worker, catalog, android-resources e secrets). Histórico preservado (merge commits), sem force push.
 
 ## Supabase (projeto `rpmlfxwebnlxnwadyvle`) — estado conhecido
 - **Nada foi aplicado e nada foi lido do projeto.** Acesso de leitura tentado em 2026-10-09 (duas vezes):
