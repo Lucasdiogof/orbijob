@@ -124,8 +124,12 @@ begin
 end $$;
 reset role;
 
--- ===== service_role bypasses RLS (backend only) =====
+-- ===== service_role (backend only): bypasses RLS on the tables it was granted, and nothing else =====
+-- (the full privilege matrix is asserted in 08_service_role.sql)
 set role service_role;
-do $$ begin perform tests.count('select 1 from public.jobs', 2); perform tests.count('select 1 from public.applications', 2); end $$;
+do $$ begin
+  perform tests.count('select 1 from public.jobs', 2);
+  perform tests.fails('select 1 from public.applications', 'permission denied');
+end $$;
 reset role;
 \echo 'behaviour: ok'

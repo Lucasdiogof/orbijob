@@ -6,21 +6,21 @@ import { classify, parseInspection, MIGRATIONS } from './classify_state.mjs';
 const load = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}.json`, import.meta.url), 'utf8'));
 const V = MIGRATIONS.map((m) => m.version);
 
-test('fresh project is EMPTY and all five migrations are pending', () => {
+test('fresh project is EMPTY and all six migrations are pending', () => {
   const r = classify(load('empty'));
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 5);
+  assert.equal(r.pending.length, 6);
   assert.equal(r.safeToPlan, true);
 });
 
-test('database that stops at migration 4 needs only the corrective fifth', () => {
+test('database that stops at migration 4 needs the corrective fifth and the service_role grants', () => {
   const r = classify(load('after-1-to-4'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix']);
+  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix', '20261013000000_service_role_grants']);
 });
 
 test('fully migrated database has nothing pending', () => {
-  const r = classify(load('after-1-to-5'));
+  const r = classify(load('after-1-to-6'));
   assert.equal(r.state, 'CONSISTENT_UP_TO_DATE');
   assert.deepEqual(r.pending, []);
 });
@@ -112,7 +112,7 @@ const real = () => JSON.parse(readFileSync(new URL('./fixtures/owner-reported-20
 test('real project (PostgreSQL 17.11, no OrbiJob objects, null history) is EMPTY with its justification', () => {
   const r = classify(real());
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 5);
+  assert.equal(r.pending.length, 6);
   assert.match(r.evidence.join('\n'), /history table .* does not exist/);
   assert.match(r.evidence.join('\n'), /public tables: 0, policies: 0, triggers: 0, buckets: 0/);
 });
@@ -156,4 +156,20 @@ test('an old PostgreSQL major version only warns, PostgreSQL 17 does not', () =>
   assert.equal(classify(real()).warnings.some((w) => /PostgreSQL/.test(w)), false);
   const d = real(); d.server_version = '14.2';
   assert.equal(classify(d).warnings.some((w) => /PostgreSQL 14/.test(w)), true);
+});
+
+// ── the REAL inspection taken right after migrations 1-5 were applied (2026-10-09, transcribed from the SQL Editor) ──
+test('real project after migrations 1-5: consistent, only the service_role grants are pending', () => {
+  const r = classify(JSON.parse(readFileSync(new URL('./fixtures/real-after-1-to-5-2026-10-09.json', import.meta.url), 'utf8')));
+  assert.equal(r.state, 'CONSISTENT_PARTIAL');
+  assert.deepEqual(r.pending, ['20261013000000_service_role_grants']);
+  assert.deepEqual(r.problems, []);
+});
+
+test('service_role already reading the catalogue while the history lacks migration 6 is DRIFT (grant applied by hand)', () => {
+  const d = JSON.parse(readFileSync(new URL('./fixtures/real-after-1-to-5-2026-10-09.json', import.meta.url), 'utf8'));
+  d.public_grants.find((g) => g.role === 'service_role' && g.table === 'jobs').privileges.push('SELECT');
+  const r = classify(d);
+  assert.equal(r.state, 'DRIFT');
+  assert.match(r.problems.join('\n'), /service_role_grants .* history does not list it/);
 });
