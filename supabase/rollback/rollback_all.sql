@@ -1,4 +1,4 @@
--- OrbiJob TEARDOWN (destructive). Removes everything the four migrations created so the project can be
+-- OrbiJob TEARDOWN (destructive). Removes everything the five migrations created so the project can be
 -- re-provisioned from scratch. There are no "down" migrations in supabase/migrations: this file is run BY HAND,
 -- only on a project that holds no data worth keeping.
 --
@@ -45,7 +45,7 @@ do $$
 begin
   if to_regclass('supabase_migrations.schema_migrations') is not null then
     delete from supabase_migrations.schema_migrations
-    where version in ('20261008000000', '20261009000000', '20261010000000', '20261011000000');
+    where version in ('20261008000000', '20261009000000', '20261010000000', '20261011000000', '20261012000000');
   end if;
 end $$;
 commit;

@@ -15,6 +15,7 @@ for m in ../migrations/*.sql; do echo "migration: $(basename "$m")"; run "$m"; d
 run 01_audit.sql
 run 02_behaviour.sql
 run 03_quotas.sql
+./05_concurrency.sh "$URL"
 # the storage section must be re-runnable without error (idempotence of the bucket/policy statements)
 awk '/-- ───────── private storage: resumes/{f=1} f' ../migrations/20261010000000_app_integration.sql > /tmp/storage_section_$$.sql
 run /tmp/storage_section_$$.sql && rm -f /tmp/storage_section_$$.sql
@@ -30,4 +31,18 @@ PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$URL" -v ON_ERROR_STOP=1 -q -f
 run 04_rollback_clean.sql
 for m in ../migrations/*.sql; do run "$m" >/dev/null 2>&1 || { echo "re-apply failed: $m"; exit 1; }; done
 run 01_audit.sql
+
+# upgrade path: a database that already holds migrations 1-4 and a full favourites list receives migration 5
+DB2="${DB}_up"
+psql "$PGURL" -v ON_ERROR_STOP=1 -qc "create database $DB2"
+trap 'psql "$PGURL" -qc "drop database if exists $DB" >/dev/null; psql "$PGURL" -qc "drop database if exists $DB2" >/dev/null' EXIT
+URL2="${PGURL%/*}/$DB2"
+run2() { psql "$URL2" -v ON_ERROR_STOP=1 -q -f "$1"; }
+run2 00_platform_stub.sql
+for m in $(ls ../migrations/*.sql | grep -v quota_upsert_fix); do run2 "$m" >/dev/null 2>&1 || { echo "upgrade setup failed: $m"; exit 1; }; done
+psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into auth.users (id) values ('00000000-0000-0000-0000-0000000000e1'); insert into public.saved_jobs (user_id, job_key, snapshot) select '00000000-0000-0000-0000-0000000000e1', 'k' || g, '{\"a\":1}' from generate_series(1, 1000) g;"
+# the original trigger is the one that is wrongly strict at the cap
+if psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into public.saved_jobs (user_id, job_key, snapshot) values ('00000000-0000-0000-0000-0000000000e1', 'k5', '{}') on conflict (user_id, job_key) do update set snapshot = excluded.snapshot" >/dev/null 2>&1; then echo "expected the pre-fix trigger to refuse the upsert"; exit 1; fi
+run2 ../migrations/20261012000000_quota_upsert_fix.sql
+run2 06_upgrade_path.sql
 echo "ALL SQL TESTS PASSED"

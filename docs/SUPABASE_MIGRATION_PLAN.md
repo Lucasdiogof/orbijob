@@ -19,12 +19,13 @@ Consequência: tabelas, migrations aplicadas, extensões, buckets e configuraç�
 | 2 | `20261009000000_rls_hardening.sql` | políticas *restrictive* de pai, check do caminho do currículo, `revoke all` + `grant` mínimos a `anon`/`authenticated`, índices de FK | só `revoke` e `drop/create policy` de objetos do passo 1 |
 | 3 | `20261010000000_app_integration.sql` | `pg_trgm` → schema `extensions`; `updated_at`; `user_preferences`; `saved_jobs` com snapshot (troca de PK numa tabela vazia); limites de tamanho; trigger de histórico (SECURITY INVOKER); bucket `resumes` privado + 4 policies em `storage.objects` | `drop constraint` da PK de `saved_jobs` e `drop policy` de 2 policies recriadas na mesma migration; seguro com tabelas vazias |
 | 4 | `20261011000000_quotas.sql` | cotas por usuário via trigger (currículos 10, favoritos 1000, pesquisas 100, candidaturas 2000) | não |
+| 5 | `20261012000000_quota_upsert_fix.sql` | **corretiva** da 4: upsert de favorito já existente no teto passa (chave natural `job_key`) e inserts concorrentes não ultrapassam a cota (lock advisory por usuário/tabela). A 4 não foi reescrita, pois pode já ter sido aplicada | `create or replace function` e recriação de 1 trigger |
 
 Dependências: 2 usa objetos de 1; 3 usa `saved_jobs_visible_job`, `resumes` e a extensão de 1–2; 4 usa tabelas de 1. A ordem é a dos timestamps; a CLI aplica nessa ordem. Nenhuma migration usa `SECURITY DEFINER` nem cria trigger em `auth.users`; `anon` só recebe `SELECT` no catálogo.
 
 ## 2. O que já foi validado — e o que NÃO foi
 **Validado em PostgreSQL 16 real, descartável, com um stub da plataforma** (`supabase/tests/run.sh`, job `supabase-sql` no CI):
-- Cadeia das 4 migrations: sintaxe, dependências, ordem.
+- Cadeia das 5 migrations: sintaxe, dependências, ordem.
 - `01_audit.sql`: RLS em todas as tabelas e em `storage.objects`; `anon` só lê o catálogo; `authenticated` não escreve catálogo nem lê `sync_runs`; nenhuma função `SECURITY DEFINER` nem executável pelas roles de API; nenhum trigger em `auth.users`; toda FK indexada; toda tabela privada com policy de dono; bucket `resumes` privado, 5 MiB, só PDF, 4 policies.
 - `02_behaviour.sql`: A não lê/altera/apaga/vincula nada de B em 12 tabelas + `storage.objects`; anônimo sem acesso; caminho de currículo fora da própria pasta rejeitado; histórico de etapas gravado pelo trigger; limites de tamanho.
 - `03_quotas.sql`: cada cota barra a inserção seguinte e libera ao remover.
@@ -53,7 +54,7 @@ Na máquina do proprietário (token pessoal; nunca no repositório ou no chat):
    Registre os resultados (sem dados pessoais) em `docs/evidence/`.
 2. `supabase login` · `supabase link --project-ref rpmlfxwebnlxnwadyvle`.
 3. `supabase db dump -f backup-before-orbijob.sql` (fora do repositório). Em projeto vazio o dump é só o esquema da plataforma; o rollback real é o teardown da seção 5.
-4. `supabase migration list` → remoto sem versões, local com as 4. `supabase db push --dry-run` → deve listar exatamente as 4, nesta ordem.
+4. `supabase migration list` → remoto sem versões, local com as 5. `supabase db push --dry-run` → deve listar exatamente as 5, nesta ordem.
 5. `supabase db push`. Cada migration é enviada como um lote; **não presuma atomicidade por arquivo** — se o comando falhar, rode `supabase migration list` e a pré-checagem para ver até onde foi, e decida entre corrigir adiante ou executar o teardown (seção 5).
 6. **Auditoria no projeto real:** executar `supabase/tests/01_audit.sql` no SQL Editor (remova a linha `\set`; só lê o catálogo) → deve terminar sem erro. Rodar os **Advisors** (Security e Performance) e registrar os avisos.
 7. **Isolamento com Auth e Storage reais** (staging ou contas descartáveis), pela API e não pelo SQL Editor: criar 2 usuários; com o token de A tentar ler/gravar linhas de B via PostgREST (`curl` com a chave publishable), tentar ler/baixar/enviar para a pasta de B no bucket `resumes`, tentar enviar um não-PDF e um arquivo > 5 MiB, confirmar que a signed URL expira, e que o 11º currículo é recusado. Não executar `02_behaviour.sql`/`03_quotas.sql` no projeto real (inserem dados).
@@ -72,7 +73,7 @@ Na máquina do proprietário (token pessoal; nunca no repositório ou no chat):
 Não há migrations "down" na pasta de migrations (a CLI as aplicaria). Para uma instalação nova e **sem dados a preservar**:
 1. **Pela Storage API ou painel** (não por SQL): esvaziar e excluir o bucket `resumes`. A plataforma bloqueia `DELETE` direto em `storage.buckets`/`storage.objects` ("Direct deletion from storage tables is not allowed") e um delete por SQL deixaria os arquivos.
 2. Executar, na máquina do proprietário: `PGOPTIONS="-c orbijob.confirm_rollback=yes" psql "$DB_URL" -v ON_ERROR_STOP=1 -f supabase/rollback/rollback_all.sql`.
-O script recusa rodar sem a confirmação ou enquanto o bucket existir; remove tabelas, funções, policies de storage e `pg_trgm`; restaura os default privileges da plataforma e apaga as 4 versões de `schema_migrations`, permitindo reaplicar. Foi testado em ida-e-volta localmente (aplicar → recusar com bucket → excluir bucket "pela API" → desfazer → verificar limpo → reaplicar), mas **nunca foi executado no Supabase real**. **Com dados de usuários, não usar:** restaure um dump ou escreva uma migration corretiva.
+O script recusa rodar sem a confirmação ou enquanto o bucket existir; remove tabelas, funções, policies de storage e `pg_trgm`; restaura os default privileges da plataforma e apaga as 5 versões de `schema_migrations`, permitindo reaplicar. Foi testado em ida-e-volta localmente (aplicar → recusar com bucket → excluir bucket "pela API" → desfazer → verificar limpo → reaplicar), mas **nunca foi executado no Supabase real**. **Com dados de usuários, não usar:** restaure um dump ou escreva uma migration corretiva.
 
 ## 6. Idempotência dos procedimentos
 - Pré-checagem, auditoria e dry-run: somente leitura, repetíveis.
@@ -87,7 +88,7 @@ O script recusa rodar sem a confirmação ou enquanto o bucket existir; remove t
 - Ambos exigem o Worker com segredos e **não estão implementados nem implantados**.
 
 ## 8. Incompatibilidades possíveis com o Supabase real (que os testes locais não detectam)
-Auditoria das 4 migrations contra o comportamento documentado da plataforma. **Nenhum item foi verificado em projeto real.**
+Auditoria das 5 migrations contra o comportamento documentado da plataforma. **Nenhum item foi verificado em projeto real.**
 | # | Ponto | Por que o teste local não cobre | Como confirmar |
 |---|---|---|---|
 | 1 | `storage.protect_delete`: DELETE direto em tabelas de storage é bloqueado | o stub só imita o gatilho (a partir da documentação); já corrigiu o teardown | passo 7 + teardown em staging |
@@ -97,7 +98,7 @@ Auditoria das 4 migrations contra o comportamento documentado da plataforma. **N
 | 5 | A CLI divide cada arquivo em instruções antes de enviar; blocos `do $$…$$` e funções com `$$` devem sobreviver ao divisor | `psql` envia o arquivo inteiro | `db push --dry-run` e, se falhar, mover o bloco para uma função/ajustar delimitadores |
 | 6 | `REFERENCES auth.users(id)` exige o privilégio `REFERENCES` para `postgres` em `auth.users` (concedido na plataforma) | stub é superusuário | erro explícito no push |
 | 7 | Versões do Postgres: testado em 16; o projeto pode estar em 15 ou 17 | só 16 | `select version()` na pré-checagem |
-| 8 | Gatilho de cota dispara também em `upsert … on conflict do update` (re-favoritar um item já salvo no limite de 1000 falha) | comportamento do Postgres, aceito | limitação conhecida; só afeta quem está exatamente no teto |
+| 8 | ~~Gatilho de cota barrava upsert de favorito existente no teto e tinha corrida entre inserts concorrentes~~ — **corrigido na migration 5**; testes de regressão, de concorrência (duas sessões) e de caminho de atualização (banco que já tinha 1–4) | — | concorrência real só é provada em Postgres real; repetir o teste de quotas no passo 7 |
 | 9 | Auth real (PKCE, confirmação por e-mail, limites de taxa), Storage API (limites de MIME/tamanho, signed URL), Advisors e exposição do PostgREST | não existem no stub | passos 6–7 |
 
 ## 9. Riscos
