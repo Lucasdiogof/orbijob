@@ -12,6 +12,24 @@ export class HttpError extends Error {
   }
 }
 
+/** Retry-After as milliseconds: delta-seconds or an HTTP date. Undefined when absent/invalid. Capped at 5 min. */
+export function parseRetryAfter(value: string | null, now: () => number = Date.now): number | undefined {
+  if (!value) return undefined;
+  const secs = Number(value);
+  const ms = Number.isFinite(secs) ? secs * 1000 : Date.parse(value) - now();
+  return Number.isFinite(ms) && ms >= 0 ? Math.min(ms, 300_000) : undefined;
+}
+
+/**
+ * GET JSON with a hard timeout. Non-2xx responses become HttpError (so withRetry retries only 429/5xx and
+ * honours Retry-After); network errors and timeouts propagate as plain errors (treated as retryable).
+ */
+export async function getJson<T>(fetchImpl: typeof fetch, url: string, init: RequestInit = {}, timeoutMs = 15_000): Promise<T> {
+  const res = await fetchImpl(url, { ...init, signal: AbortSignal.timeout(timeoutMs) });
+  if (!res.ok) throw new HttpError(res.status, parseRetryAfter(res.headers.get('retry-after')));
+  return (await res.json()) as T;
+}
+
 const retryable = (s: number) => s === 429 || s >= 500;
 
 /** Exponential backoff with full jitter; honours Retry-After. 4xx (except 429) is never retried. */

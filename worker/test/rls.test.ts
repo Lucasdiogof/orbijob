@@ -25,13 +25,15 @@ beforeAll(async () => {
     grant execute on function auth.uid() to anon, authenticated;
     insert into auth.users values ('${A}'), ('${B}');
   `);
-  const sql = readFileSync(new URL('../../supabase/migrations/20261008000000_init.sql', import.meta.url), 'utf8');
-  await db.exec(sql);
+  const migration = (f: string) => readFileSync(new URL(`../../supabase/migrations/${f}`, import.meta.url), 'utf8');
+  await db.exec(migration('20261008000000_init.sql'));
   await db.exec(`
     grant usage on schema public to anon, authenticated;
-    grant select on public.job_sources, public.jobs, public.job_clusters to anon, authenticated;
-    -- Supabase grants table privileges broadly to anon/authenticated; RLS is the real gate.
+    -- Supabase grants table privileges broadly to anon/authenticated by default; the hardening migration narrows them.
     grant select, insert, update, delete on all tables in schema public to anon, authenticated;
+  `);
+  await db.exec(migration('20261009000000_rls_hardening.sql'));
+  await db.exec(`
     insert into job_sources values ('open-src','CONDITIONAL',null,true), ('closed-src','RESEARCH',null,false);
     insert into jobs (source_id, external_id, company, title, last_checked_at, original_url, fingerprint, canonical_url) values
       ('open-src','1','Co','Visible job', now(), 'https://x/1', 'f1', 'https://x/1'),
@@ -75,10 +77,10 @@ describe('RLS', () => {
       )).rejects.toThrow(/row-level security/);
     });
   });
-  it('anonymous users see no private data', async () => {
+  it('anonymous users have no privilege on private tables', async () => {
     await as('anon', null, async () => {
-      for (const t of ['applications', 'professional_profiles', 'resumes', 'saved_jobs']) {
-        expect((await db.query(`select * from ${t}`)).rows).toHaveLength(0);
+      for (const t of ['applications', 'professional_profiles', 'resumes', 'saved_jobs', 'reminders', 'education']) {
+        await expect(db.query(`select * from ${t}`)).rejects.toThrow(/permission denied/);
       }
     });
   });
@@ -87,10 +89,62 @@ describe('RLS', () => {
       expect((await db.query('select title from jobs')).rows).toEqual([{ title: 'Visible job' }]);
     });
   });
-  it('clients cannot write jobs or read sync audit', async () => {
+  it('clients cannot write the catalogue or touch sync audit', async () => {
+    for (const [role, uid] of [['authenticated', A], ['anon', null]] as const) {
+      await as(role, uid, async () => {
+        await expect(db.query(`insert into jobs (source_id, external_id, company, title, last_checked_at, original_url, fingerprint, canonical_url) values ('open-src','9','c','t',now(),'u','f','c')`)).rejects.toThrow(/permission denied/);
+        await expect(db.query(`update job_sources set can_redistribute = true`)).rejects.toThrow(/permission denied/);
+        await expect(db.query('select * from sync_runs')).rejects.toThrow(/permission denied/);
+      });
+    }
+  });
+  it.each([
+    ['education', `insert into education (profile_id, user_id, institution) values ('10000000-0000-0000-0000-000000000002','${A}','x')`],
+    ['credentials', `insert into credentials (profile_id, user_id, kind, name) values ('10000000-0000-0000-0000-000000000002','${A}','license','x')`],
+    ['resumes', `insert into resumes (profile_id, user_id, storage_path) values ('10000000-0000-0000-0000-000000000002','${A}','${A}/cv.pdf')`],
+    ['applications', `insert into applications (user_id, profile_id, job_snapshot) values ('${A}','10000000-0000-0000-0000-000000000002','{}')`],
+    ['reminders', `insert into reminders (user_id, application_id, due_at, text) values ('${A}','20000000-0000-0000-0000-000000000002', now(), 'x')`],
+  ])('user A cannot link %s to B parent', async (_t, sql) => {
     await as('authenticated', A, async () => {
-      await expect(db.query(`insert into jobs (source_id, external_id, company, title, last_checked_at, original_url, fingerprint, canonical_url) values ('open-src','9','c','t',now(),'u','f','c')`)).rejects.toThrow(/row-level security/);
-      expect((await db.query('select * from sync_runs')).rows).toHaveLength(0);
+      await expect(db.query(sql)).rejects.toThrow(/row-level security/);
     });
+  });
+  it('own children and nullable parents still work', async () => {
+    await as('authenticated', A, async () => {
+      await db.query(`insert into education (profile_id, user_id, institution) values ('10000000-0000-0000-0000-000000000001','${A}','Uni')`);
+      await db.query(`insert into applications (user_id, job_snapshot) values ('${A}','{}')`);
+      await db.query(`insert into reminders (user_id, due_at, text) values ('${A}', now(), 'free reminder')`);
+      await db.query(`insert into reminders (user_id, application_id, due_at, text) values ('${A}','20000000-0000-0000-0000-000000000001', now(), 'x')`);
+    });
+  });
+  it('resume path must live in the owner folder', async () => {
+    await as('authenticated', A, async () => {
+      for (const path of [`${B}/cv.pdf`, `${A}/../${B}/cv.pdf`, 'cv.pdf']) {
+        await expect(db.query(`insert into resumes (profile_id, user_id, storage_path) values ('10000000-0000-0000-0000-000000000001','${A}','${path}')`)).rejects.toThrow(/violates check constraint|row-level security/);
+      }
+      await db.query(`insert into resumes (profile_id, user_id, storage_path) values ('10000000-0000-0000-0000-000000000001','${A}','${A}/cv.pdf')`);
+    });
+  });
+  it('only readable jobs can be saved, and only by their owner', async () => {
+    const hidden = (await db.query<{ id: string }>(`select id from jobs where title='Hidden job'`)).rows[0]!.id;
+    const visible = (await db.query<{ id: string }>(`select id from jobs where title='Visible job'`)).rows[0]!.id;
+    await as('authenticated', A, async () => {
+      await expect(db.query(`insert into saved_jobs (user_id, job_id) values ('${A}','${hidden}')`)).rejects.toThrow(/row-level security/);
+      await db.query(`insert into saved_jobs (user_id, job_id) values ('${A}','${visible}')`);
+    });
+  });
+  it('the app bundle never references the service role', async () => {
+    const { readdirSync, readFileSync: read, statSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    const root = join(import.meta.dirname, '../../app');
+    const walk = (d: string): string[] =>
+      readdirSync(d).flatMap((n) => {
+        const p = join(d, n);
+        return statSync(p).isDirectory() ? walk(p) : [p];
+      });
+    const files = ['lib', 'web', 'android/app/src', 'ios/Runner'].flatMap((d) => walk(join(root, d)));
+    expect(files.length).toBeGreaterThan(50); // guards against a vacuous scan
+    const hits = files.filter((f) => !/\.(png|ttf|otf|ico|webp)$/.test(f) && /service_role|SUPABASE_SERVICE/i.test(read(f, 'latin1')));
+    expect(hits).toEqual([]);
   });
 });
