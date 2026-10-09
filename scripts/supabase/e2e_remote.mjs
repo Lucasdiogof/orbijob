@@ -3,7 +3,7 @@
 // It talks to Auth, PostgREST and Storage exactly as the app does, and never uses a secret/service_role key.
 //   ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle SUPABASE_URL=https://rpmlfxwebnlxnwadyvle.supabase.co \
 //   SUPABASE_PUBLISHABLE_KEY=sb_publishable_... E2E_EMAIL_A=... E2E_EMAIL_B=... E2E_PASSWORD=... \
-//   node scripts/supabase/e2e_remote.mjs [--signup] [--quotas] [--quotas-bulk] [--dry-run]
+//   node scripts/supabase/e2e_remote.mjs [--signup] [--only=auth,anon,catalogue,rls,storage,quotas] [--quotas] [--quotas-bulk] [--dry-run]
 //
 //   --signup       only asks Auth to create A and B through the normal sign-up endpoint (a confirmation e-mail is sent
 //                  to each address; a human must click it). Nothing else runs. Reports whether Auth auto-confirmed
@@ -12,7 +12,11 @@
 //                  refresh and logout, cleanup. The accounts must already exist and be confirmed.
 //   --quotas       adds the small quota proofs (10 resumes, 100 saved searches), one bulk request each.
 //   --quotas-bulk  adds the large ones (1,000 saved jobs, 2,000 applications): about 3,000 small rows, then removed.
+//   --only=LIST    run just some sections (auth, anon, catalogue, rls, storage, quotas). Sign-in always runs. 'quotas' needs
+//                  --quotas or --quotas-bulk to choose the volume.
 //   --dry-run      prints the plan and touches nothing.
+// Safety: the two accounts must look disposable (e-mail contains e2e, orbijob, test, teste or descart; or set
+// ORBIJOB_E2E_ACCOUNTS_DISPOSABLE=yes) and must be EMPTY (no rows in any private table) before anything is written.
 // WRITES test rows/objects under those two accounts only (tagged e2e-<time>) and removes them at the end. Auth accounts
 // cannot be deleted with a publishable key: remove them in Dashboard -> Authentication -> Users.
 // Tokens, passwords and keys are never printed.
@@ -21,6 +25,16 @@ const args = new Set(process.argv.slice(2));
 const dry = args.has('--dry-run');
 const quotas = args.has('--quotas') || args.has('--quotas-bulk');
 const bulk = args.has('--quotas-bulk');
+export const SECTIONS = ['auth', 'anon', 'catalogue', 'rls', 'storage', 'quotas'];
+export function parseOnly(argv) {
+  const a = argv.find((x) => x.startsWith('--only='));
+  if (!a) return null;
+  const list = a.slice(7).split(',').map((x) => x.trim()).filter(Boolean);
+  const bad = list.filter((x) => !SECTIONS.includes(x));
+  if (!list.length || bad.length) throw new Error(`--only accepts: ${SECTIONS.join(', ')}${bad.length ? ` (got: ${bad.join(', ')})` : ''}`);
+  return new Set(list);
+}
+const only = (() => { try { return parseOnly(process.argv.slice(2)); } catch (e) { console.error(`E2E ABORTED: ${e.message}`); process.exit(1); } })();
 
 export const PRIVATE_TABLES = ['professional_profiles', 'experiences', 'education', 'credentials', 'resumes', 'saved_jobs',
   'saved_searches', 'applications', 'application_events', 'reminders', 'user_preferences', 'viewed_jobs'];
@@ -57,6 +71,11 @@ function guard(env) {
   if (!base || !key || !env.E2E_EMAIL_A || !env.E2E_EMAIL_B || !env.E2E_PASSWORD) throw new Error('missing SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, E2E_EMAIL_A, E2E_EMAIL_B or E2E_PASSWORD');
   if (new URL(base).hostname !== `${PROJECT_REF}.supabase.co` && !/^(localhost|127\.0\.0\.1)$/.test(new URL(base).hostname)) throw new Error('SUPABASE_URL does not belong to the expected project');
   if (isSecretKey(key)) throw new Error('refusing to run with a secret/service_role key: use the publishable key');
+  if (env.E2E_EMAIL_A.toLowerCase() === env.E2E_EMAIL_B.toLowerCase()) throw new Error('E2E_EMAIL_A and E2E_EMAIL_B must be two different accounts');
+  const looksDisposable = (e) => /e2e|orbijob|test|descart/i.test(e.split('@')[0]);
+  if (env.ORBIJOB_E2E_ACCOUNTS_DISPOSABLE !== 'yes' && !(looksDisposable(env.E2E_EMAIL_A) && looksDisposable(env.E2E_EMAIL_B))) {
+    throw new Error('the test accounts do not look disposable (the part before @ should contain e2e, orbijob, test or descart). Use throw-away accounts, or set ORBIJOB_E2E_ACCOUNTS_DISPOSABLE=yes to confirm they are');
+  }
   return { base, key };
 }
 
@@ -74,8 +93,9 @@ export async function signup(env, fetchImpl = fetch) {
   return out;
 }
 
-export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas, bulk: withBulk = bulk } = {}) {
+export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas, bulk: withBulk = bulk, only: sel = only } = {}) {
   const { base, key } = guard(env);
+  const want = (name) => !sel || sel.has(name);
 
   const results = [];
   const check = (name, ok, detail = '') => { results.push({ name, ok, detail }); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${ok ? '' : `  -> ${detail}`}`); };
@@ -100,7 +120,7 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
   const list = (tok, prefix) => obj(tok, 'POST', 'object/list/resumes', { body: JSON.stringify({ prefix, limit: 100 }), type: 'application/json' });
   const pdf = (bytes = 64) => { const b = Buffer.alloc(bytes, 0x20); b.write('%PDF-1.7\n'); return b; };
   const count = async (token, table, query = '') => {
-    const r = await rest(token, table, { query: `${query}${query ? '&' : '?'}select=id`, headers: { Prefer: 'count=exact', Range: '0-0' } });
+    const r = await rest(token, table, { query: `${query}${query ? '&' : '?'}select=*`, headers: { Prefer: 'count=exact', Range: '0-0' } });
     const m = /\/(\d+)$/.exec(r.headers.get('content-range') ?? '');
     return m ? Number(m[1]) : (await rows(r))?.length ?? -1;
   };
@@ -123,6 +143,7 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
     !!rj?.access_token && !!withNew?.ok && out.status < 300 && denied(afterLogout),
     `refresh ${refreshed.status} refreshed-token-read ${withNew?.status} logout ${out.status} refresh-after-logout ${afterLogout.status}`);
 
+  if (want('anon')) {
   // ───────── 2. anonymous
   const anonProblems = [];
   for (const t of PRIVATE_TABLES) {
@@ -136,7 +157,9 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
   if (!denied(anonSync)) anonProblems.push(`GET sync_runs (anon ${anonSync.status})`);
   if (!denied(authSync)) anonProblems.push(`GET sync_runs (authenticated ${authSync.status})`);
   check('anonymous key alone cannot read or write any private table; sync_runs unreadable', anonProblems.length === 0, anonProblems.join(', '));
+  }
 
+  if (want('catalogue')) {
   // ───────── 3. catalogue is public and read-only
   const catProblems = [];
   for (const t of CATALOGUE) {
@@ -152,7 +175,16 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
     }
   }
   check('catalogue (jobs, job_sources, job_clusters) is readable by anon and read-only for everyone', catProblems.length === 0, catProblems.join(', '));
+  }
 
+  if (sel?.has('quotas') && !withQuotas) throw new Error('--only=quotas needs --quotas or --quotas-bulk to choose the volume');
+  const needSeeds = want('rls') || want('quotas');
+  if (needSeeds || want('storage')) {
+    // the accounts must be empty: the test must never touch (or be confused by) data that is not its own
+    const dirty = [];
+    for (const U of [A, B]) for (const t of PRIVATE_TABLES) { const n = await count(U.token, t); if (n !== 0) dirty.push(`${U.label}:${t}${n < 0 ? '(unreadable)' : `(${n})`}`); }
+    if (dirty.length) throw new Error(`the test accounts must be empty before anything is written, but ${dirty.join(', ')} - use new disposable accounts`);
+  }
   const tag = `e2e-${Date.now()}`;
   const created = { objects: [], profiles: [], applications: [], prefs: [], favouritePrefix: `e2e:${tag}` };
   const seeds = {};
@@ -160,6 +192,7 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
   const post = async (user, table, body) => { const r = await rest(user.token, table, { method: 'POST', body }); return { ok: r.ok, status: r.status, row: r.ok ? (await r.json())[0] : null }; };
 
   try {
+  if (needSeeds) {
     // ───────── 4. seed one row per table, for each user
     for (const U of [A, B]) {
       const s = { user: U };
@@ -188,7 +221,9 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
     }
     const seedFail = [...seeds.A.seedFailures, ...seeds.B.seedFailures];
     check('A and B each seed a row in every private table that can be seeded without catalogue data', seedFail.length === 0, seedFail.join(', '));
+  }
 
+  if (want('rls')) {
     // ───────── 5. RLS both ways
     const ID = (t) => (t === 'user_preferences' ? 'user_id' : 'id');
     const PATCH = { professional_profiles: { name: 'pwn' }, experiences: { title: 'pwn' }, education: { institution: 'pwn' }, credentials: { name: 'pwn' },
@@ -254,9 +289,10 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
       check(`RLS ${X.user.label} -> ${O.user.label}: SELECT, UPDATE, DELETE, forged INSERT, foreign parent, re-parent and give-away all blocked on ${seededTables.length + 1} tables; owner data intact`,
         bad.length === 0, bad.join('; '));
     }
+  }
 
+  if (want('storage')) {
     // ───────── 6. Storage
-    const { A: SA, B: SB } = seeds;
     const okPath = `${A.id}/${tag}.pdf`;
     const up = await obj(A.token, 'POST', `object/resumes/${okPath}`, { body: pdf(), type: 'application/pdf' });
     if (up.ok) created.objects.push(okPath);
@@ -291,11 +327,15 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
     const later = signed ? await fetchImpl(`${base}/storage/v1${signed}`) : null;
     check('Storage: signed URL works and then expires; bucket is not public; B cannot sign A\'s file',
       !!first?.ok && !!later && denied(later) && denied(bSign) && denied(pub), `create ${sign.status} first ${first?.status} after-expiry ${later?.status} B-sign ${bSign.status}`);
+  }
 
+    const SA = seeds.A;
+    if (want('rls')) {
     const A2 = await signIn(env.E2E_EMAIL_A, 'A');
     const again = await (await rest(A2.token, 'professional_profiles', { query: `?id=eq.${SA.profile}&select=name` })).json();
     const favAgain = await count(A2.token, 'saved_jobs', `?job_key=eq.${encodeURIComponent(`${created.favouritePrefix}:A`)}`);
     check('A data persists after signing in again', again[0]?.name === `${tag}-A` && favAgain === 1, `profile ${again.length} fav ${favAgain}`);
+    }
 
     // ───────── 7. quotas
     const quotaProbe = async (user, table, limit, make, extraQuery = '') => {
@@ -307,14 +347,14 @@ export async function run(env, fetchImpl = fetch, { quotas: withQuotas = quotas,
       const body = over.ok ? '' : await over.text();
       return { ok: first.ok && !over.ok && /quota exceeded|53400/.test(body), why: `fill ${first.status} over ${over.status} ${body.slice(0, 80)}` };
     };
-    if (withQuotas) {
+    if (want('quotas') && withQuotas) {
       const q1 = await quotaProbe(A, 'resumes', 10, (i) => ({ user_id: A.id, profile_id: SA.profile, storage_path: `${A.id}/${tag}-q${i}.pdf` }));
       await rest(A.token, 'resumes', { method: 'DELETE', query: `?storage_path=like.${encodeURIComponent(`${A.id}/${tag}-`)}*` });
       const q2 = await quotaProbe(A, 'saved_searches', 100, (i) => ({ user_id: A.id, query: { q: tag, n: i } }));
       await rest(A.token, 'saved_searches', { method: 'DELETE', query: `?query->>q=eq.${tag}` });
       check('quota: 11th resume refused; 101st saved search refused (one bulk request each)', q1.ok && q2.ok, `resumes: ${q1.why}; saved_searches: ${q2.why}`);
     }
-    if (withBulk) {
+    if (want('quotas') && withBulk) {
       const q3 = await quotaProbe(A, 'saved_jobs', 1000, (i) => ({ user_id: A.id, job_key: `${created.favouritePrefix}:q${i}`, snapshot: { source: 'e2e', title: 'T', company: 'C' } }));
       const upsert = await rest(A.token, 'saved_jobs', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', query: '?on_conflict=user_id,job_key',
         body: { user_id: A.id, job_key: `${created.favouritePrefix}:q5`, note: 'upsert at the limit', snapshot: { source: 'e2e', title: 'T2', company: 'C' } } });

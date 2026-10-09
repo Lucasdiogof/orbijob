@@ -96,30 +96,42 @@ export DB_URL='postgresql://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/po
 Leitura via script (não escreve): `PATH="$PWD/node_modules/.bin:$PATH" bash scripts/supabase/apply.sh read` (roda as duas consultas, classifica e executa o verificador de pré-deploy). Um item `UNKNOWN` que você **leu** e aceita é liberado com `ORBIJOB_PREDEPLOY_ACK=<id>` (ex.: `function-rls_auto_enable`); um `FAIL` nunca pode ser liberado.
 Mapa das fases A–E e travas de segurança: `docs/SUPABASE_MIGRATION_PLAN.md`, seção 3. **O assistente só prepara; quem autoriza e dispara a aplicação é você.**
 
-### Fase E — validação real de Auth, RLS e Storage (duas contas descartáveis)
-Nada aqui altera schema, grants, policies, buckets nem configurações do projeto. O script grava só linhas e arquivos marcados `e2e-<hora>` nas duas contas de teste e remove tudo no final.
+### Fase E — validação real de Auth, RLS e Storage (duas contas descartáveis), no Windows
+Nada aqui altera schema, grants, policies, buckets nem configurações do projeto. O script grava só linhas e arquivos marcados `e2e-<hora>` nas duas contas de teste e remove tudo no final. Ele **não roda** com contas que já tenham dados e recusa e-mails que não pareçam de teste. Todos os comandos abaixo são do **PowerShell**, na pasta do projeto (`cd $HOME\orbijob`; depois de um `git pull`).
 
-**1. Auditoria de catálogo (somente leitura).** No SQL Editor, cole o conteúdo de `supabase/tests/01_audit.paste.sql` (ele só lê o catálogo) e clique em Run. Esperado: `audit: ok`. Qualquer falha começa com `AUDIT:` e diz o que está errado; me mande a mensagem.
+**1. Auditoria de catálogo (somente leitura).** No SQL Editor do Supabase, cole o conteúdo inteiro de `supabase/tests/01_audit.paste.sql` (abra o arquivo pelo botão *Raw* do GitHub, Ctrl+A, Ctrl+C) e clique em Run. Esperado: `audit: ok`. Qualquer falha começa com `AUDIT:` e diz o que está errado: me mande a mensagem e **não** continue.
 
-**2. Duas contas descartáveis, pelo fluxo normal de cadastro.** Use dois e-mails seus (por exemplo `voce+orbijob-a@gmail.com` e `voce+orbijob-b@gmail.com`) e uma senha forte só para teste. Em `bash` (WSL) ou no PowerShell, com a chave **publishable** (Project Settings → API Keys; nunca `sb_secret_…`/`service_role`):
-```bash
-export SUPABASE_URL=https://rpmlfxwebnlxnwadyvle.supabase.co
-export SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
-export E2E_EMAIL_A=... E2E_EMAIL_B=... E2E_PASSWORD=...
-export ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle
+**2. Preparar o terminal** (os dados ficam só nesta janela; nada é gravado em arquivo):
+```powershell
+cd $HOME\orbijob
+git pull
+$env:ORBIJOB_E2E_CONFIRM = "rpmlfxwebnlxnwadyvle"
+$env:SUPABASE_URL = "https://rpmlfxwebnlxnwadyvle.supabase.co"
+$env:SUPABASE_PUBLISHABLE_KEY = Read-Host "Chave publishable (sb_publishable_...)"
+$env:E2E_EMAIL_A = Read-Host "E-mail da conta A (ex.: voce+orbijob-a@gmail.com)"
+$env:E2E_EMAIL_B = Read-Host "E-mail da conta B (ex.: voce+orbijob-b@gmail.com)"
+$sec = Read-Host "Senha só para o teste (as duas contas)" -AsSecureString
+$env:E2E_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec))
+```
+A chave é a **publishable** (*Project Settings → API Keys*); nunca cole `sb_secret_…` nem a `service_role`: o script recusa. Use e-mails seus, com `orbijob`, `e2e` ou `test` antes do `@` (os `+apelido` do Gmail servem), e uma senha forte que você não usa em mais nada.
+
+**3. Cadastro pelo fluxo normal e confirmação de e-mail:**
+```powershell
 node scripts/supabase/e2e_remote.mjs --signup
 ```
-Cada endereço recebe um e-mail de confirmação: clique no link. Se o script avisar `e-mail confirmation is OFF`, me diga (é um achado de segurança); não desligue nem ligue nada para facilitar o teste. O limite de e-mails do Auth padrão é baixo: se o envio falhar, espere e repita.
+Cada endereço recebe um e-mail de confirmação: clique no link. Se o script avisar `e-mail confirmation is OFF`, me diga (é um achado de segurança); não ligue nem desligue nada para facilitar o teste. O envio de e-mail do Auth padrão tem limite baixo: se falhar, espere e repita.
 
-**3. Rodar as verificações** (as contas já confirmadas):
-```bash
-node scripts/supabase/e2e_remote.mjs --dry-run     # só imprime o plano
-node scripts/supabase/e2e_remote.mjs --quotas      # Auth, RLS em todas as tabelas, Storage, cotas pequenas
-node scripts/supabase/e2e_remote.mjs --quotas-bulk # opcional: ~3.000 linhas pequenas para 1.000 favoritos e 2.000 candidaturas
+**4. Ensaio (não envia nada)** e depois as verificações, uma seção por vez (mais fácil de ler e de repetir):
+```powershell
+node scripts/supabase/e2e_remote.mjs --dry-run
+node scripts/supabase/e2e_remote.mjs --only=anon,catalogue
+node scripts/supabase/e2e_remote.mjs --only=rls
+node scripts/supabase/e2e_remote.mjs --only=storage
+node scripts/supabase/e2e_remote.mjs --only=quotas --quotas
 ```
-O script nunca imprime senha, chave nem token. Cada falha mostra a tabela e a operação. Me mande a saída inteira.
+Sem `--only`, roda tudo (Auth, anônimo, catálogo, RLS, Storage). `--quotas` testa o 11º currículo e a 101ª busca salva; `--quotas-bulk` (≈3.000 linhas pequenas) **não** faz parte desta rodada. O script nunca imprime senha, chave nem token; cada falha mostra a tabela e a operação. Me mande a saída inteira (a de cada comando).
 
-**4. Limpeza.** O script apaga as linhas e os PDFs que criou e confere que não sobrou nada (linhas ou arquivos). Contas do Auth não podem ser apagadas com a chave publishable: remova as duas em *Authentication → Users*. Se a limpeza do script falhar, ele diz o que sobrou.
+**5. Limpeza.** Cada execução apaga as linhas e os PDFs que criou e confere que não sobrou nada. Contas do Auth não podem ser apagadas com a chave publishable: remova as duas em *Authentication → Users*. Depois, limpe a janela: `Remove-Item Env:E2E_PASSWORD, Env:SUPABASE_PUBLISHABLE_KEY`.
 
 **O que o script não cobre**: `viewed_jobs` (precisa de uma vaga no catálogo, que está vazio; coberto pelos testes SQL locais), persistência da sessão no aparelho (código do app, testado com mocks) e o envio real do e-mail de recuperação de senha.
 

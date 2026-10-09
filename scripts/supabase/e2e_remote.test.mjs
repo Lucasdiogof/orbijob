@@ -4,11 +4,11 @@
 // against the real project (see docs/SUPABASE_OWNER_RUNBOOK.md).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { run, signup, isSecretKey, PRIVATE_TABLES, CATALOGUE } from './e2e_remote.mjs';
+import { run, signup, isSecretKey, parseOnly, SECTIONS, PRIVATE_TABLES, CATALOGUE } from './e2e_remote.mjs';
 
 const REF = 'rpmlfxwebnlxnwadyvle';
 const ENV = { ORBIJOB_E2E_CONFIRM: REF, SUPABASE_URL: `https://${REF}.supabase.co`, SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_x',
-  E2E_EMAIL_A: 'a@test.invalid', E2E_EMAIL_B: 'b@test.invalid', E2E_PASSWORD: 'x', E2E_SIGNED_WAIT_MS: '60' };
+  E2E_EMAIL_A: 'e2e-a@test.invalid', E2E_EMAIL_B: 'e2e-b@test.invalid', E2E_PASSWORD: 'x', E2E_SIGNED_WAIT_MS: '60' };
 
 const PROFILE_CHILD = { parent: ['profile_id', 'professional_profiles'] };
 const META = {
@@ -25,9 +25,11 @@ const META = {
 };
 const CASCADE = { professional_profiles: ['experiences', 'education', 'credentials', 'resumes'], applications: ['application_events', 'reminders'] };
 
-function makeBackend(flaws = {}) {
-  const users = { 'a@test.invalid': 'user-a', 'b@test.invalid': 'user-b' };
+function makeBackend(flaws = {}, preload = {}) {
+  const users = { 'e2e-a@test.invalid': 'user-a', 'e2e-b@test.invalid': 'user-b' };
   const tables = Object.fromEntries([...PRIVATE_TABLES, ...CATALOGUE, 'sync_runs'].map((t) => [t, []]));
+  for (const [t, r] of Object.entries(preload)) tables[t].push({ id: 'pre1', ...r });
+  const writes = [];
   const objects = new Map(); // path -> owner
   const signed = new Map();
   const sessions = new Map(); // refresh -> { user, session, revoked }
@@ -53,7 +55,7 @@ function makeBackend(flaws = {}) {
     for (const c of CASCADE[t] ?? []) for (const ch of tables[c].filter((x) => x[c === 'application_events' || c === 'reminders' ? 'application_id' : 'profile_id'] === row.id)) remove(c, ch);
   };
 
-  return async (url, init = {}) => {
+  const handler = async (url, init = {}) => {
     const u = new URL(url); const h = init.headers ?? {}; const w = who(h); const me = w.id; const method = init.method ?? 'GET';
     const prefer = h.Prefer ?? '';
     if (u.pathname === '/auth/v1/signup') return res(200, flaws.autoConfirm ? { access_token: 't', user: {} } : { user: { id: 'x' } });
@@ -84,10 +86,12 @@ function makeBackend(flaws = {}) {
       if (!me) return res(200, tables[t]);
       const m = META[t]; const visible = mineOf(t, me);
       if (method === 'GET') {
+        if (t === 'user_preferences' && /select=id\b/.test(q)) return res(400, { code: '42703', message: 'column user_preferences.id does not exist' });
         const hit = visible.filter((r) => match(r, q));
         return res(prefer.includes('count=exact') ? 206 : 200, hit.slice(0, prefer.includes('count=exact') ? 1 : undefined), prefer.includes('count=exact') ? { 'content-range': `0-0/${hit.length}` } : {});
       }
       if (method === 'POST') {
+        writes.push(t);
         if (m.fk) return res(409, { code: '23503' });
         const batch = [].concat(JSON.parse(init.body));
         const merge = prefer.includes('merge-duplicates');
@@ -152,6 +156,8 @@ function makeBackend(flaws = {}) {
     }
     return res(404, {});
   };
+  handler.writes = writes;
+  return handler;
 }
 const quiet = async (fn) => { const log = console.log; console.log = () => {}; try { return await fn(); } finally { console.log = log; } };
 const failing = (r) => r.filter((x) => !x.ok).map((x) => x.name);
@@ -226,4 +232,43 @@ test('refuses without confirmation, wrong host, or a secret key', async () => {
   const jwt = (p) => `x.${Buffer.from(JSON.stringify(p)).toString('base64url')}.y`;
   assert.equal(isSecretKey(jwt({ role: 'service_role' })), true);
   assert.equal(isSecretKey(jwt({ role: 'anon' })), false);
+});
+
+test('the accounts must look disposable and be two different accounts', async () => {
+  await assert.rejects(run({ ...ENV, E2E_EMAIL_A: 'maria@gmail.com' }, makeBackend()), /do not look disposable/);
+  await run({ ...ENV, E2E_EMAIL_A: 'maria@gmail.com', E2E_EMAIL_B: 'joao@gmail.com', ORBIJOB_E2E_ACCOUNTS_DISPOSABLE: 'yes' }, makeBackend()).then(() => assert.fail('the backend has no such users'), (e) => assert.match(e.message, /sign-in failed/));
+  await assert.rejects(run({ ...ENV, E2E_EMAIL_B: ENV.E2E_EMAIL_A }, makeBackend()), /two different accounts/);
+  await assert.rejects(signup({ ...ENV, E2E_EMAIL_A: 'maria@gmail.com' }, makeBackend()), /do not look disposable/);
+});
+
+test('an account that already has data is refused BEFORE anything is written, and its data is untouched', async () => {
+  const be = makeBackend({}, { saved_searches: { user_id: 'user-a', query: { q: 'mine' } } });
+  await assert.rejects(quiet(() => run({ ...ENV }, be)), /must be empty.*A:saved_searches\(1\)/);
+  assert.deepEqual(be.writes, []);
+  const pre = makeBackend({}, { user_preferences: { user_id: 'user-b', theme: 'dark' } });
+  await assert.rejects(quiet(() => run({ ...ENV }, pre)), /B:user_preferences\(1\)/);
+});
+
+test('--only runs just the chosen sections (and quotas needs a volume flag)', async () => {
+  const names = async (only, opts = {}) => (await quiet(() => run({ ...ENV }, makeBackend(), { only, ...opts }))).map((r) => r.name.split(':')[0].split(' ')[0]);
+  const storage = await quiet(() => run({ ...ENV }, makeBackend(), { only: new Set(['storage']) }));
+  assert.deepEqual(failing(storage), []);
+  assert.ok(storage.some((r) => r.name.startsWith('Storage: valid PDF')));
+  assert.ok(!storage.some((r) => r.name.startsWith('RLS')));
+  assert.ok(!storage.some((r) => r.name.startsWith('catalogue')));
+  const rls = await quiet(() => run({ ...ENV }, makeBackend(), { only: new Set(['rls']) }));
+  assert.deepEqual(failing(rls), []);
+  assert.ok(rls.some((r) => r.name.startsWith('RLS')) && !rls.some((r) => r.name.startsWith('Storage')));
+  const anon = await quiet(() => run({ ...ENV }, makeBackend(), { only: new Set(['anon', 'catalogue']) }));
+  assert.deepEqual(failing(anon), []);
+  assert.ok(!anon.some((r) => r.name.startsWith('RLS')) && !anon.some((r) => r.name.startsWith('Storage')));
+  await assert.rejects(run({ ...ENV }, makeBackend(), { only: new Set(['quotas']) }), /needs --quotas/);
+  const q = await quiet(() => run({ ...ENV }, makeBackend(), { only: new Set(['quotas']), quotas: true }));
+  assert.deepEqual(failing(q), []);
+  assert.ok(q.some((r) => r.name.startsWith('quota:')));
+  assert.equal(parseOnly(['--only=rls,storage']).size, 2);
+  assert.equal(parseOnly([]), null);
+  assert.throws(() => parseOnly(['--only=rls,nope']), /nope/);
+  assert.throws(() => parseOnly(['--only=']), /accepts/);
+  assert.deepEqual(SECTIONS.slice().sort(), ['anon', 'auth', 'catalogue', 'quotas', 'rls', 'storage']);
 });
