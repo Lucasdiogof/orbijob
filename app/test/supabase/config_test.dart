@@ -116,7 +116,9 @@ void main() {
             'service_role|SERVICE_ROLE',
             caseSensitive: false,
           ).hasMatch(text) &&
-          !f.path.endsWith('core/config/app_config.dart')) {
+          !f.path
+              .replaceAll('\\', '/')
+              .endsWith('core/config/app_config.dart')) {
         offenders.add(f.path);
       }
     }
