@@ -1,73 +1,93 @@
-# OrbiJob — roteiro do proprietário: acessar e inspecionar o Supabase (somente leitura)
+# OrbiJob — roteiro do proprietário (Windows 10/11): inspecionar o Supabase em modo somente leitura
 
-Projeto: `rpmlfxwebnlxnwadyvle` · https://supabase.com/dashboard/project/rpmlfxwebnlxnwadyvle
+Projeto: `rpmlfxwebnlxnwadyvle` · Dashboard: https://supabase.com/dashboard/project/rpmlfxwebnlxnwadyvle
 
-**Por que este roteiro existe.** O ambiente em que o assistente trabalha bloqueia `*.supabase.co` e `api.supabase.com` (HTTP 403 "Host not in allowlist"), não tem o conector Supabase instalado e não recebe credenciais. Nada do projeto foi lido até agora. Estes passos são feitos **no seu computador**; nada aqui altera o projeto.
+**Objetivo desta etapa:** descobrir o estado real do banco **sem alterar nada**. O assistente não consegue ler o projeto (o ambiente dele bloqueia `*.supabase.co`, não tem o conector Supabase e não tem credenciais). Você roda um SQL de leitura no navegador, salva o resultado e (opcionalmente) classifica no seu PC.
 
-**Regras:** nunca cole senha, token, `service_role`/`secret key` ou a connection string no chat nem no Git. O que você vai compartilhar é um JSON com **nomes de objetos e flags** (sem dados de usuários).
+**Regras:** não compartilhe senha do banco, connection string, chaves (`anon`/`publishable`/`secret`/`service_role`), tokens de acesso nem capturas de tela com chaves. O JSON que você vai enviar tem apenas **nomes de objetos, flags e versões de migrations** — nenhum dado de usuário.
 
-## 1. Instalar a Supabase CLI (métodos oficiais)
-Confira a página oficial antes: https://supabase.com/docs/guides/local-development/cli/getting-started
-| Sistema | Comando |
-|---|---|
-| macOS / Linux (Homebrew) | `brew install supabase/tap/supabase` |
-| Windows (Scoop) | `scoop bucket add supabase https://github.com/supabase/scoop-bucket.git` · `scoop install supabase` |
-| Qualquer um com Node 20+ | dentro do repositório: `npm install supabase --save-dev` e use `npx supabase …` (instalação global via npm não é suportada) |
-| Linux sem Homebrew | pacote `.deb`/`.rpm`/`.apk` da página de *Releases* de https://github.com/supabase/cli |
-Verifique: `supabase --version`. Para `supabase db dump` é preciso Docker Desktop; sem Docker o script usa `pg_dump`.
-Os scripts em `scripts/supabase/*.sh` são Bash: no Windows use WSL ou Git Bash (ou siga só o caminho do SQL Editor, abaixo).
+---
+## Caminho recomendado: SQL Editor do Dashboard (não instala nada)
 
-## 2. Autenticar (pelo navegador) e vincular ao projeto existente
+### Passo 1 — Copiar o SQL
+Escolha uma:
+- **Navegador:** abra https://raw.githubusercontent.com/Lucasdiogof/orbijob/main/scripts/supabase/inspect_readonly.sql , pressione `Ctrl+A` e `Ctrl+C`. (Só funciona depois que o PR #44 estiver integrado; antes disso use a branch: troque `main` por `feat/supabase-deploy-tooling` no endereço.)
+- **PowerShell**, se já tiver o repositório (ver "Obter o repositório" abaixo), dentro da pasta dele:
+  ```powershell
+  Get-Content scripts\supabase\inspect_readonly.sql -Raw | Set-Clipboard
+  ```
+
+### Passo 2 — Executar no Dashboard
+1. Abra https://supabase.com/dashboard/project/rpmlfxwebnlxnwadyvle/sql/new e entre com sua conta.
+2. Cole o SQL (`Ctrl+V`) e clique em **Run**.
+3. O SQL é só `SELECT` dentro de `begin read only; … rollback;`: **não cria nem altera nada**. Se o editor reclamar de transação, apague a primeira linha (`begin read only;`) e a última (`rollback;`) e rode de novo.
+4. **Saída esperada:** uma linha, uma coluna chamada `inspection`, com um JSON que começa com `{ "format": 1, …`.
+
+### Passo 3 — Salvar o resultado
+1. Clique na célula `inspection` e copie o conteúdo (botão *Copy* do visualizador de célula), **ou** use *Export → JSON/CSV* do resultado.
+2. Abra o **Bloco de Notas**, cole, e salve em `Desktop\inspection.json` com *Tipo: Todos os arquivos* e *Codificação: UTF-8*.
+(O classificador entende o JSON puro, a célula exportada em CSV, e o JSON exportado pelo editor; qualquer um serve.)
+
+### Passo 4 — Compartilhar (mais simples)
+Cole o **texto do `inspection.json` no chat** (ou anexe o arquivo). Não há segredos nele. O assistente classifica e responde com `EMPTY`, `CONSISTENT_PARTIAL`, `CONSISTENT_UP_TO_DATE` ou `DRIFT` e com as migrations pendentes.
+
+### Passo 4 (alternativo) — Classificar você mesmo no PowerShell
+Precisa de Node.js e do repositório.
+```powershell
+winget install OpenJS.NodeJS.LTS      # instala o Node.js (oficial). Feche e reabra o PowerShell depois.
+node --version                         # esperado: v22.x ou v20.x
 ```
-supabase login                                   # abre o navegador; o token fica no cofre do sistema
-supabase link --project-ref rpmlfxwebnlxnwadyvle  # vincula este checkout ao projeto (não altera o projeto)
+**Obter o repositório** (escolha uma):
+```powershell
+winget install Git.Git                 # se ainda não tem Git; reabra o PowerShell
+cd $HOME\Documents
+git clone https://github.com/Lucasdiogof/orbijob.git
+cd orbijob
 ```
-Se pedir a senha do banco, você pode deixá-la em branco: ela só é necessária para comandos que falam direto com o Postgres. **Não crie outro projeto.**
+ou baixe o ZIP em https://github.com/Lucasdiogof/orbijob (botão *Code → Download ZIP*), extraia (ex.: `C:\Users\SEU_USUARIO\Downloads\orbijob-main`) e entre na pasta: `cd $HOME\Downloads\orbijob-main`.
 
-## 3. Inspeção somente leitura — escolha UM caminho
-**A. SQL Editor (não precisa de CLI):** Dashboard → SQL Editor → New query → cole o conteúdo de `scripts/supabase/inspect_readonly.sql` → Run. O resultado é uma única célula JSON. Copie e salve como `inspection.json`.
-**B. psql:** Dashboard → Connect → copie a connection string (do *pooler*, com `[YOUR-PASSWORD]`). Defina `DB_URL` **no seu terminal** digitando a senha ali. Depois:
-`psql "$DB_URL" -X -q -At -f scripts/supabase/inspect_readonly.sql > inspection.json`
-**C. Script de fases:** `DB_URL=… scripts/supabase/apply.sh read` (faz B e já classifica).
-
-O SQL só lê catálogos e o histórico de migrations (`begin read only`): tabelas, RLS, policies, grants, funções, triggers, extensões, buckets (id/público/limites), versões em `supabase_migrations.schema_migrations`. Não lê linhas de tabelas de usuários.
-
-## 4. Classificar o resultado
+Dentro da **pasta raiz do repositório** (onde existe `README.md` e a pasta `scripts`):
+```powershell
+node scripts\supabase\classify_state.mjs $HOME\Desktop\inspection.json
 ```
-node scripts/supabase/classify_state.mjs inspection.json
+**Saídas possíveis:**
 ```
-| Estado | Significado | O que fazer |
-|---|---|---|
-| `EMPTY` | nenhuma tabela/objeto/histórico do OrbiJob | as 5 migrations estão pendentes |
-| `CONSISTENT_PARTIAL` | histórico e objetos concordam até a migration N | só as seguintes estão pendentes |
-| `CONSISTENT_UP_TO_DATE` | tudo aplicado | nada a aplicar |
-| `DRIFT` | tabelas alheias em `public`, objetos sem histórico, histórico sem objetos, versões desconhecidas ou fora de ordem | **parar**; não aplicar nada até esclarecer |
-Avisos (`warning:`) não bloqueiam (ex.: `pg_trgm` já instalada, Postgres ≠ 16).
+state: EMPTY                      → as 5 migrations estão pendentes (lista as 5)
+state: CONSISTENT_PARTIAL         → lista só as pendentes (ex.: 20261012000000_quota_upsert_fix)
+state: CONSISTENT_UP_TO_DATE      → pending: none
+state: DRIFT                      → linhas "PROBLEM: …" explicando; NÃO aplique nada
+```
+Linhas `warning:` não bloqueiam (ex.: `pg_trgm` já instalada, Postgres diferente de 16).
+Se aparecer `cannot read …: not an OrbiJob inspection document`, o arquivo salvo não é o resultado do SQL (confira o passo 3).
 
-## 5. Conferir no painel o que o SQL não mostra
-- **Database → Migrations:** lista de versões aplicadas (deve bater com `migration_versions`).
-- **Storage:** buckets existentes (deve **não** existir `resumes` antes da migration 3; se existir, anote público/limites).
-- **Authentication → Providers / URL Configuration / Password / Rate limits:** anote o estado (confirmação de e-mail ligada? Redirect URLs?).
-- **Database → Extensions:** `pg_trgm` instalada? em qual schema?
-- **Project Settings → API:** schemas expostos; **Database → Advisors:** avisos de segurança/performance.
-- Versão do Postgres (campo `server_version` do JSON).
+### O que enviar / o que NÃO enviar
+- **Enviar:** o texto de `inspection.json` e a saída do classificador (as linhas `state:` / `pending:` / `PROBLEM:` / `warning:`).
+- **Enviar também, anotando à mão (30 s no painel):** *Database → Migrations* (lista de versões), *Storage* (nomes dos buckets e se são públicos), *Authentication → Providers* (e-mail ligado? *Confirm email*?), *Authentication → URL Configuration* (Site URL), *Database → Extensions* (`pg_trgm` instalada?), versão do Postgres.
+- **NÃO enviar:** senha do banco, connection string, qualquer chave de API, token pessoal, `.env`, capturas de tela que mostrem chaves.
 
-## 6. Devolver o resultado
-Cole no chat **apenas** o conteúdo de `inspection.json` e o resultado de `classify_state.mjs`, mais as anotações da seção 5. Se preferir, salve como `docs/evidence/supabase-inspection-AAAA-MM-DD.json` e abra um PR. Revise antes: não deve haver e-mails, senhas, tokens nem URLs com senha (por construção não há).
+---
+## Depois da leitura: CLI e fases de aplicação (só com autorização específica)
 
-## 7. Depois da leitura — fases de aplicação (exigem autorização específica)
-Mapa completo em `docs/SUPABASE_MIGRATION_PLAN.md` (seção 3). Resumo dos scripts, que **nunca** rodam em CI:
-| Fase | Comando | Escreve no projeto? |
-|---|---|---|
-| A Leitura | `scripts/supabase/apply.sh read` | não |
-| B Segurança | `scripts/supabase/apply.sh backup` (backup + conferência + dry-run comparado com a classificação) | não |
-| C Migração | `ORBIJOB_CONFIRM_APPLY=rpmlfxwebnlxnwadyvle scripts/supabase/apply.sh apply` | **sim** (`db push`, só pendentes, uma vez) |
-| D Auditoria | `scripts/supabase/apply.sh audit` + Advisors do painel | não |
-| E Testes | `node scripts/supabase/e2e_remote.mjs` com 2 contas de teste (`--dry-run` mostra o plano) | cria/remove dados só nas contas de teste |
-O `apply` exige backup recente, inspeção recente sem DRIFT, banco inalterado desde o backup e a variável de confirmação; aborta e não repete às cegas.
+As fases de aplicação usam scripts Bash (`scripts/supabase/apply.sh`) que precisam de `psql`. **No Windows, rode-os dentro do WSL 2** (Ubuntu), onde tudo roda sem adaptação:
+```powershell
+wsl --install -d Ubuntu          # PowerShell como administrador; reinicie se pedir
+```
+Dentro do Ubuntu (WSL):
+```bash
+sudo apt update && sudo apt install -y git nodejs npm postgresql-client
+git clone https://github.com/Lucasdiogof/orbijob.git && cd orbijob
+npm install supabase --save-dev   # CLI oficial via Node (instalação global por npm não é suportada)
+npx supabase login                # abre o navegador do Windows para autenticar
+npx supabase link --project-ref rpmlfxwebnlxnwadyvle
+read -s -p "Senha do banco: " PGPASSWORD; export PGPASSWORD; echo
+export DB_URL='postgresql://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/postgres'   # SEM senha na URL
+```
+(Alternativa nativa no PowerShell: Scoop — `scoop bucket add supabase https://github.com/supabase/scoop-bucket.git` e `scoop install supabase`. Confirme os comandos na página oficial https://supabase.com/docs/guides/local-development/cli/getting-started antes de usar.)
+Leitura via script (não escreve): `PATH="$PWD/node_modules/.bin:$PATH" bash scripts/supabase/apply.sh read`.
+Mapa das fases A–E e travas de segurança: `docs/SUPABASE_MIGRATION_PLAN.md`, seção 3. **O assistente só prepara; quem autoriza e dispara a aplicação é você.**
 
 ### Contas de teste da Fase E
-Crie 2 usuários descartáveis em Authentication → Users (e-mail confirmado, senha forte e a mesma para ambos), por exemplo `orbijob-test-a@…` e `orbijob-test-b@…`. Exporte no terminal: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (**publishable**, Settings → API Keys), `E2E_EMAIL_A`, `E2E_EMAIL_B`, `E2E_PASSWORD`, `ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle`. O script recusa chaves `sb_secret_…`/`service_role`. Apague as contas depois.
+Crie 2 usuários descartáveis em *Authentication → Users* (e-mail confirmado, mesma senha forte). Variáveis (bash/WSL): `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (**publishable**, *Project Settings → API Keys*), `E2E_EMAIL_A`, `E2E_EMAIL_B`, `E2E_PASSWORD`, `ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle`. O script recusa chaves `sb_secret_…`/`service_role`. Apague as contas depois.
 
-## 8. Se for liberar o acesso ao assistente em vez de rodar sozinho
-Configurações do ambiente de nuvem (menu do ambiente na barra de título da sessão → Edit): (1) Network access: permitir `rpmlfxwebnlxnwadyvle.supabase.co` e `api.supabase.com`; (2) guardar um **token pessoal somente leitura** em *Network secrets / API credentials* (ou variável `SUPABASE_ACCESS_TOKEN`); nova sessão. Ou instale o conector *Supabase* em claude.ai e habilite-o no chat. Mesmo assim, o assistente só fará leituras até você autorizar a aplicação.
+## Se preferir liberar o acesso ao assistente
+Configurações do ambiente de nuvem (menu do ambiente na barra de título da sessão → *Edit*): (1) *Network access*: permitir `rpmlfxwebnlxnwadyvle.supabase.co` e `api.supabase.com`; (2) guardar um **token pessoal somente leitura** em *Network secrets / API credentials* (ou variável `SUPABASE_ACCESS_TOKEN`); (3) iniciar nova sessão. Ou instale o conector *Supabase* em claude.ai e habilite-o no chat. Mesmo assim, o assistente só fará leituras até você autorizar a aplicação.

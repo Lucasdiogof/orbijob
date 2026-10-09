@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { classify, MIGRATIONS } from './classify_state.mjs';
+import { classify, parseInspection, MIGRATIONS } from './classify_state.mjs';
 
 const load = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}.json`, import.meta.url), 'utf8'));
 const V = MIGRATIONS.map((m) => m.version);
@@ -71,4 +71,37 @@ test('a pre-existing pg_trgm and old PostgreSQL only warn', () => {
 test('only the quota function without the key argument counts as migration 4, not 5', () => {
   const d = load('after-1-to-4');
   assert.equal(d.public_functions.find((f) => f.name === 'enforce_row_quota').quota_has_key_arg, false);
+});
+
+// ── input shapes people really end up with after copying the SQL Editor result on Windows ──
+const raw = () => readFileSync(new URL('./fixtures/after-1-to-5.json', import.meta.url), 'utf8');
+const doc = () => JSON.parse(raw());
+
+test('parseInspection accepts bare JSON, BOM, CRLF and surrounding whitespace', () => {
+  assert.equal(parseInspection(raw()).format, 1);
+  assert.equal(parseInspection('\uFEFF' + raw().replace(/\n/g, '\r\n') + '\r\n\r\n').format, 1);
+});
+
+test('parseInspection unwraps a CSV-quoted cell', () => {
+  const csvCell = '"' + JSON.stringify(doc()).replace(/"/g, '""') + '"';
+  assert.equal(parseInspection(csvCell).public_tables.length, doc().public_tables.length);
+});
+
+test('parseInspection unwraps the editor JSON export (string or object value)', () => {
+  assert.equal(parseInspection(JSON.stringify([{ inspection: JSON.stringify(doc()) }])).format, 1);
+  assert.equal(parseInspection(JSON.stringify([{ inspection: doc() }])).format, 1);
+  assert.equal(parseInspection(JSON.stringify({ inspection: doc() })).format, 1);
+});
+
+test('parseInspection rejects anything that is not an inspection instead of guessing', () => {
+  assert.throws(() => parseInspection('{"hello": 1}'), /not an OrbiJob inspection/);
+  assert.throws(() => parseInspection('not json at all'));
+  assert.throws(() => parseInspection(JSON.stringify([{ a: 1 }, { b: 2 }])), /not an OrbiJob inspection/);
+});
+
+test('the inspection document carries no credentials or row data (names and flags only)', () => {
+  const text = raw();
+  for (const needle of ['password', 'postgres://', 'eyJ', 'sb_secret', 'sb_publishable', '@']) {
+    assert.equal(text.includes(needle), false, `fixture unexpectedly contains ${needle}`);
+  }
 });

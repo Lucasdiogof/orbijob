@@ -36,6 +36,22 @@ function signatures(i) {
   ];
 }
 
+/**
+ * Accepts what people actually have after copying the SQL Editor result: the bare JSON text, a UTF-8 BOM, a CSV-quoted
+ * cell ("{""format"": 1 ...}"), the editor's JSON export ([{"inspection": "<json text>"}] or [{"inspection": {...}}]),
+ * or the object itself. Anything else is rejected with a clear message instead of being guessed.
+ */
+export function parseInspection(text) {
+  let t = String(text).replace(/^\uFEFF/, '').trim();
+  if (t.startsWith('"') && t.endsWith('"')) t = t.slice(1, -1).replace(/""/g, '"');
+  let v = JSON.parse(t);
+  if (Array.isArray(v) && v.length === 1 && v[0] && typeof v[0] === 'object') v = v[0];
+  if (v && typeof v === 'object' && 'inspection' in v) v = v.inspection;
+  if (typeof v === 'string') v = JSON.parse(v);
+  if (!v || v.format !== 1 || !Array.isArray(v.public_tables)) throw new Error('not an OrbiJob inspection document (expected "format": 1 and "public_tables")');
+  return v;
+}
+
 export function classify(i) {
   const problems = [];
   const warnings = [];
@@ -77,7 +93,9 @@ export function classify(i) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const file = process.argv[2];
   if (!file) { console.error('usage: classify_state.mjs inspection.json [--json]'); process.exit(1); }
-  const r = classify(JSON.parse(readFileSync(file, 'utf8')));
+  let doc;
+  try { doc = parseInspection(readFileSync(file, 'utf8')); } catch (e) { console.error(`cannot read ${file}: ${e.message}`); process.exit(1); }
+  const r = classify(doc);
   if (process.argv.includes('--json')) console.log(JSON.stringify(r, null, 2));
   else {
     console.log(`state: ${r.state}`);
