@@ -1,0 +1,813 @@
+{
+  "format": 1,
+  "schemas": [
+    "auth",
+    "extensions",
+    "public",
+    "storage",
+    "tests"
+  ],
+  "database": "fx_after_1_to_5",
+  "extensions": [
+    {
+      "name": "pg_trgm",
+      "schema": "extensions",
+      "version": "1.6"
+    },
+    {
+      "name": "plpgsql",
+      "schema": "pg_catalog",
+      "version": "1.0"
+    }
+  ],
+  "collected_at": "2026-10-09T00:00:00+00:00",
+  "connected_as": "postgres",
+  "public_grants": [
+    {
+      "role": "anon",
+      "table": "job_clusters",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "anon",
+      "table": "job_sources",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "anon",
+      "table": "jobs",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "application_events",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "applications",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "credentials",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "education",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "experiences",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "job_clusters",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "job_sources",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "jobs",
+      "privileges": [
+        "SELECT"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "professional_profiles",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "reminders",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "resumes",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "saved_jobs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "saved_searches",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "user_preferences",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "authenticated",
+      "table": "viewed_jobs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "application_events",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "applications",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "credentials",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "education",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "experiences",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "job_clusters",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "job_sources",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "jobs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "professional_profiles",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "reminders",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "resumes",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "saved_jobs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "saved_searches",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "sync_runs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "user_preferences",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    },
+    {
+      "role": "service_role",
+      "table": "viewed_jobs",
+      "privileges": [
+        "DELETE",
+        "INSERT",
+        "REFERENCES",
+        "SELECT",
+        "TRIGGER",
+        "TRUNCATE",
+        "UPDATE"
+      ]
+    }
+  ],
+  "public_tables": [
+    {
+      "rls": true,
+      "name": "application_events",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "applications",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "credentials",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "education",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "experiences",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "job_clusters",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "job_sources",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "jobs",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "professional_profiles",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "reminders",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "resumes",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "saved_jobs",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "saved_searches",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "sync_runs",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "user_preferences",
+      "owner": "postgres"
+    },
+    {
+      "rls": true,
+      "name": "viewed_jobs",
+      "owner": "postgres"
+    }
+  ],
+  "server_version": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "public_policies": [
+    {
+      "name": "application_events_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "application_events",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "application_events_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "application_events",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "applications_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "applications",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "applications_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "applications",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "credentials_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "credentials",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "credentials_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "credentials",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "education_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "education",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "education_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "education",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "experiences_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "experiences",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "experiences_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "experiences",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "clusters_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "table": "job_clusters",
+      "command": "SELECT",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "job_sources_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "table": "job_sources",
+      "command": "SELECT",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "jobs_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "table": "jobs",
+      "command": "SELECT",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "professional_profiles_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "professional_profiles",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "reminders_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "reminders",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "reminders_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "reminders",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "resumes_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "resumes",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "resumes_parent",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "resumes",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "saved_jobs_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "saved_jobs",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "saved_jobs_visible_job",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "saved_jobs",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    },
+    {
+      "name": "saved_searches_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "saved_searches",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "user_preferences_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "user_preferences",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "viewed_jobs_owner",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "viewed_jobs",
+      "command": "ALL",
+      "permissive": "PERMISSIVE"
+    },
+    {
+      "name": "viewed_jobs_visible_job",
+      "roles": [
+        "authenticated"
+      ],
+      "table": "viewed_jobs",
+      "command": "ALL",
+      "permissive": "RESTRICTIVE"
+    }
+  ],
+  "public_triggers": [
+    {
+      "name": "applications_log_stage",
+      "table": "applications"
+    },
+    {
+      "name": "applications_quota",
+      "table": "applications"
+    },
+    {
+      "name": "applications_touch",
+      "table": "applications"
+    },
+    {
+      "name": "professional_profiles_touch",
+      "table": "professional_profiles"
+    },
+    {
+      "name": "resumes_quota",
+      "table": "resumes"
+    },
+    {
+      "name": "saved_jobs_quota",
+      "table": "saved_jobs"
+    },
+    {
+      "name": "saved_searches_quota",
+      "table": "saved_searches"
+    },
+    {
+      "name": "user_preferences_touch",
+      "table": "user_preferences"
+    }
+  ],
+  "storage_buckets": [
+    {
+      "id": "resumes",
+      "public": false,
+      "file_size_limit": 5242880,
+      "allowed_mime_types": [
+        "application/pdf"
+      ]
+    }
+  ],
+  "public_functions": [
+    {
+      "name": "enforce_row_quota",
+      "anon_can_execute": false,
+      "security_definer": false,
+      "quota_has_key_arg": true,
+      "authenticated_can_execute": false
+    },
+    {
+      "name": "log_application_stage",
+      "anon_can_execute": false,
+      "security_definer": false,
+      "quota_has_key_arg": false,
+      "authenticated_can_execute": false
+    },
+    {
+      "name": "set_updated_at",
+      "anon_can_execute": false,
+      "security_definer": false,
+      "quota_has_key_arg": false,
+      "authenticated_can_execute": false
+    }
+  ],
+  "storage_policies": [
+    {
+      "name": "resumes_objects_delete",
+      "roles": [
+        "authenticated"
+      ],
+      "command": "DELETE"
+    },
+    {
+      "name": "resumes_objects_insert",
+      "roles": [
+        "authenticated"
+      ],
+      "command": "INSERT"
+    },
+    {
+      "name": "resumes_objects_select",
+      "roles": [
+        "authenticated"
+      ],
+      "command": "SELECT"
+    },
+    {
+      "name": "resumes_objects_update",
+      "roles": [
+        "authenticated"
+      ],
+      "command": "UPDATE"
+    }
+  ],
+  "migration_versions": [
+    "20261008000000",
+    "20261009000000",
+    "20261010000000",
+    "20261011000000",
+    "20261012000000"
+  ],
+  "auth_users_triggers": [],
+  "default_privileges_public": [
+    {
+      "acl": "{service_role=arwdDxt/postgres}",
+      "owner": "postgres",
+      "object_type": "r"
+    }
+  ]
+}

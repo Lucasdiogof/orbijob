@@ -20,8 +20,17 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
 - Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
 - Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
 
+## Fase 3.4 (2026-10-09) — estado
+- PR #42 (docs): `28a281fd88537f399ef35cc37f4b58971575ad97`. PR #43 (cota de favoritos): `3142ab8e63418c1c725707664683edef857fb536`. PR #44 (ferramentas de implantação): integrado nesta rodada; o SHA do merge está em `git log --first-parent main` (merge commit "Merge pull request #44"). CI da `main` verde após os merges anteriores.
+- **Cota de favoritos corrigida** pela migration corretiva `20261012000000_quota_upsert_fix.sql` (a 4 não foi reescrita): upsert de favorito existente no teto passa; inserts concorrentes não ultrapassam (lock advisory **por usuário**; um lock por tabela gerava `deadlock detected` entre duas tabelas de cota — medido). Limite conhecido: só vale em `READ COMMITTED` (padrão do PostgREST); em `REPEATABLE READ` medimos 999 + 2 inserts = 1001.
+- **Ferramentas** (`scripts/supabase/`): `inspect_readonly.sql`, `classify_state.mjs` (aceita as formas de exportação do SQL Editor), `apply.sh` (travas: projeto certo, CLI autenticada, backup válido com marcador final, atestado de backup de DADOS se o projeto não estiver vazio, banco inalterado entre backup e aplicação, confirmação explícita, trava gasta **antes** do `db push`), `e2e_remote.mjs`. Roteiro para Windows 10/11 em `docs/SUPABASE_OWNER_RUNBOOK.md` (SQL Editor primeiro; WSL 2 para as fases em Bash).
+- **Supabase `rpmlfxwebnlxnwadyvle`: classificação UNKNOWN.** Sem conector, sem CLI autenticada, sem credenciais e egress bloqueado no ambiente do assistente (sondado de novo nesta rodada, mesmo resultado). Nada lido, nada aplicado.
+- **Migrations pendentes (5, presumidas):** `20261008000000_init`, `20261009000000_rls_hardening`, `20261010000000_app_integration`, `20261011000000_quotas`, `20261012000000_quota_upsert_fix`.
+- Testes: ver "Classificação dos testes" no plano (seção 11): o que é local, simulado ou real. **Nenhum teste contra Auth/Storage reais foi executado.**
+- Lacunas do app antes de abrir o login ao público: deep link/`emailRedirectTo` dos e-mails e tela de nova senha (plano, seção 10); exclusão de conta e varredura de órfãos no Worker.
+
 ## Próxima ação necessária do proprietário
-1. Destravar o acesso de leitura (acima) **ou** rodar a pré-checagem manualmente.
+1. Rodar a inspeção somente leitura pelo SQL Editor (passo a passo para Windows em `docs/SUPABASE_OWNER_RUNBOOK.md`) e enviar o `inspection.json` (sem segredos) ao assistente, **ou** liberar o acesso de leitura (conector/rede+token somente leitura).
 2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 5 migrations (ou executar os passos 2–8 do plano).
 
 # Estado da Fase 2

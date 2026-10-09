@@ -42,3 +42,7 @@ __pycache__/
 # Real build-time configuration (the example file is tracked)
 app/dart_defines*.json
 !app/dart_defines.example.json
+
+# local state of scripts/supabase/apply.sh (inspections, backups)
+.orbijob-state/
+backups/
