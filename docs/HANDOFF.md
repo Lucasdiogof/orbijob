@@ -20,6 +20,13 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
 - Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
 - Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
 
+## Fase 3.3 (2026-10-09)
+- PR #42 (docs) integrado: `28a281fd88537f399ef35cc37f4b58971575ad97`; CI da `main` verde.
+- Cota de favoritos: upsert de favorito existente no teto e inserts concorrentes — corrigido pela migration **corretiva** `20261012000000_quota_upsert_fix.sql` (a 4 não foi reescrita), PR #43 (não integrado).
+- Ferramentas de implantação (PR de tooling, não integrado): `scripts/supabase/` — `inspect_readonly.sql` (inspeção somente leitura), `classify_state.mjs` (EMPTY / CONSISTENT / DRIFT), `apply.sh` (fases A–D com travas), `e2e_remote.mjs` (fase E com 2 contas), todos testados só com modelos/binários falsos. Roteiro do proprietário: `docs/SUPABASE_OWNER_RUNBOOK.md`.
+- Acesso ao Supabase: continua bloqueado no ambiente do assistente (sem conector, sem CLI, sem credenciais, egress 403). Não se repetiu a sondagem.
+- Flutter: revisão em `docs/SUPABASE_MIGRATION_PLAN.md` seção 10 (lacunas: deep link/redirect dos e-mails e tela de nova senha).
+
 ## Próxima ação necessária do proprietário
 1. Destravar o acesso de leitura (acima) **ou** rodar a pré-checagem manualmente.
 2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 5 migrations (ou executar os passos 2–8 do plano).

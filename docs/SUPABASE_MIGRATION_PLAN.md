@@ -42,23 +42,33 @@ Dependências: 2 usa objetos de 1; 3 usa `saved_jobs_visible_job`, `resumes` e a
 
 Por isso a pós-checagem (seção 3, passo 6–8) é obrigatória e não pode ser substituída pelos testes locais.
 
-## 3. Execução remota (aguarda autorização específica)
-Na máquina do proprietário (token pessoal; nunca no repositório ou no chat):
-1. **Pré-checagem (SQL Editor, somente leitura)** — todos devem dar o resultado esperado, senão **parar**:
-   - `select table_name from information_schema.tables where table_schema='public';` → vazio
-   - `select * from supabase_migrations.schema_migrations;` → vazio (ou tabela inexistente)
-   - `select extname, extnamespace::regnamespace from pg_extension;` → conferir se `pg_trgm` já existe e em qual schema
-   - `select id, public from storage.buckets;` → sem `resumes`
-   - `select policyname from pg_policies where schemaname='storage';` → sem `resumes_objects_*`
-   - `select rolname from pg_roles where rolname in ('anon','authenticated','service_role');` → existem
-   Registre os resultados (sem dados pessoais) em `docs/evidence/`.
-2. `supabase login` · `supabase link --project-ref rpmlfxwebnlxnwadyvle`.
-3. `supabase db dump -f backup-before-orbijob.sql` (fora do repositório). Em projeto vazio o dump é só o esquema da plataforma; o rollback real é o teardown da seção 5.
-4. `supabase migration list` → remoto sem versões, local com as 5. `supabase db push --dry-run` → deve listar exatamente as 5, nesta ordem.
-5. `supabase db push`. Cada migration é enviada como um lote; **não presuma atomicidade por arquivo** — se o comando falhar, rode `supabase migration list` e a pré-checagem para ver até onde foi, e decida entre corrigir adiante ou executar o teardown (seção 5).
-6. **Auditoria no projeto real:** executar `supabase/tests/01_audit.sql` no SQL Editor (remova a linha `\set`; só lê o catálogo) → deve terminar sem erro. Rodar os **Advisors** (Security e Performance) e registrar os avisos.
-7. **Isolamento com Auth e Storage reais** (staging ou contas descartáveis), pela API e não pelo SQL Editor: criar 2 usuários; com o token de A tentar ler/gravar linhas de B via PostgREST (`curl` com a chave publishable), tentar ler/baixar/enviar para a pasta de B no bucket `resumes`, tentar enviar um não-PDF e um arquivo > 5 MiB, confirmar que a signed URL expira, e que o 11º currículo é recusado. Não executar `02_behaviour.sql`/`03_quotas.sql` no projeto real (inserem dados).
-8. Configurar Auth (seção 4) e entregar ao app `SUPABASE_URL` + chave **publishable**.
+## 3. Execução remota (aguarda autorização específica) — fases A–E
+Tudo é feito na máquina do proprietário (ou onde houver rede e CLI autenticada); segredos só em variável de ambiente local. Passo a passo de acesso e inspeção: **`docs/SUPABASE_OWNER_RUNBOOK.md`**. Scripts: `scripts/supabase/` (nunca rodam em CI; testados com binários falsos e modelos em memória, **não** contra o Supabase real).
+
+**Fase A — Leitura** (`scripts/supabase/apply.sh read`, ou `inspect_readonly.sql` no SQL Editor)
+1. Confirmar o projeto (`supabase/.temp/project-ref` e `DB_URL` devem conter `rpmlfxwebnlxnwadyvle`).
+2. Inspeção somente leitura → `classify_state.mjs`: `EMPTY`, `CONSISTENT_PARTIAL`, `CONSISTENT_UP_TO_DATE` ou `DRIFT`.
+3. `supabase migration list --linked` e Database → Migrations devem concordar com o histórico do JSON.
+4. Objetos preexistentes (tabelas alheias, `resumes`, `pg_trgm`, triggers em `auth.users`, versões desconhecidas) aparecem como `DRIFT`/aviso: **parar e decidir**.
+
+**Fase B — Segurança** (`apply.sh backup`)
+1. Backup do schema (`supabase db dump --linked`, que exige Docker, ou `pg_dump --schema-only`); arquivo não vazio e `sha256` registrados. Abrir e conferir. Com dados de usuários, fazer também backup dos dados (painel/PITR em plano pago).
+2. Comparação: `supabase db push --dry-run` precisa listar **exatamente** as migrations que a classificação diz estarem pendentes, e nenhuma já aplicada.
+3. Recuperação de falha parcial: seção 5 (reversão) e seção 6 (idempotência). Em projeto vazio o caminho é o teardown; com dados, restaurar o backup ou migration corretiva.
+
+**Fase C — Migração** (`ORBIJOB_CONFIRM_APPLY=rpmlfxwebnlxnwadyvle apply.sh apply`)
+1. Exige: backup do passo B há ≤ 60 min, inspeção sem `DRIFT`, banco **idêntico** à inspeção (reinspeciona antes de escrever) e a variável de confirmação.
+2. Um único `supabase db push` (a CLI aplica só as versões ausentes do histórico e registra cada uma; não repete as já aplicadas). Se falhar: **não repetir**; rodar `read` para ver até onde foi.
+3. Reinspeciona e exige `CONSISTENT_UP_TO_DATE`; o "salvo-conduto" de backup é consumido (um backup autoriza uma aplicação).
+4. A CLI não oferece verificar cada migration individualmente dentro de um mesmo `push`; a verificação é depois do lote. Para verificar uma a uma, aplicar em lotes movendo temporariamente os arquivos posteriores para fora de `supabase/migrations/` (opcional, mais lento).
+
+**Fase D — Auditoria** (`apply.sh audit` + painel)
+1. `supabase/tests/01_audit.sql` contra o projeto real (somente leitura): RLS, grants, funções, triggers, FKs indexadas, bucket e policies.
+2. **Advisors** (Security e Performance): registrar avisos.
+3. Conferir privilégios reais (`public_grants` e `default_privileges_public` do JSON `inspection-after.json`), Auth (confirmação de e-mail, redirects, limites) e Storage (bucket privado, 5 MiB, PDF).
+
+**Fase E — Testes** (`node scripts/supabase/e2e_remote.mjs [--quotas]`)
+Com 2 contas descartáveis e a chave **publishable**: Auth real; anônimo sem acesso; isolamento entre A e B (leitura, escrita, update/delete, inserção em nome do outro); upload de PDF na própria pasta; rejeição de não-PDF e de arquivo > 5 MiB; B sem acesso à pasta de A e bucket não público; signed URL válida e depois expirada; persistência após novo login; com `--quotas`, o 11º currículo é recusado. Limpa o que criou. Complementar manualmente: persistência de perfil e favoritos pelo app (`--dart-define` apontando ao projeto) depois de ligadas as telas.
 
 ## 4. Configurações no painel (não são migrations)
 - Auth → Providers: e-mail habilitado; **Confirm email = ON**; desabilitar provedores não usados.
@@ -99,7 +109,8 @@ Auditoria das 5 migrations contra o comportamento documentado da plataforma. **N
 | 6 | `REFERENCES auth.users(id)` exige o privilégio `REFERENCES` para `postgres` em `auth.users` (concedido na plataforma) | stub é superusuário | erro explícito no push |
 | 7 | Versões do Postgres: testado em 16; o projeto pode estar em 15 ou 17 | só 16 | `select version()` na pré-checagem |
 | 8 | ~~Gatilho de cota barrava upsert de favorito existente no teto e tinha corrida entre inserts concorrentes~~ — **corrigido na migration 5**; testes de regressão, de concorrência (duas sessões) e de caminho de atualização (banco que já tinha 1–4) | — | concorrência real só é provada em Postgres real; repetir o teste de quotas no passo 7 |
-| 9 | Auth real (PKCE, confirmação por e-mail, limites de taxa), Storage API (limites de MIME/tamanho, signed URL), Advisors e exposição do PostgREST | não existem no stub | passos 6–7 |
+| 9 | A CLI divide cada arquivo em instruções; comentários `--` com apóstrofo (migrations 1–4 têm; a 5 não) podem confundir divisores ingênuos. `db push --dry-run` não faz parse | `psql` aceita; a CLI é a incógnita | se o `push` falhar com erro de sintaxe, colar o arquivo no SQL Editor e registrar com `supabase migration repair --status applied <versão>` |
+| 10 | Auth real (PKCE, confirmação por e-mail, limites de taxa), Storage API (limites de MIME/tamanho, signed URL), Advisors e exposição do PostgREST | não existem no stub | passos 6–7 |
 
 ## 9. Riscos
 | Risco | Mitigação |
@@ -110,3 +121,19 @@ Auditoria das 5 migrations contra o comportamento documentado da plataforma. **N
 | Projeto gratuito pausa / sem PITR | plano pago antes de dados reais |
 | Chave secret em lugar errado | app recusa iniciar com ela; gitleaks no CI; rotação |
 | `can_redistribute` indevido | manter `false` até licença aprovada |
+
+## 10. Revisão da integração Flutter (sem ligar telas a serviços remotos)
+Inspecionada em 2026-10-09; nenhuma tela usa dados remotos (apenas entrar/conta no Perfil, que só aparece com configuração).
+| Item | Estado |
+|---|---|
+| Inicialização | `initSupabase(AppConfig)` só roda com `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY`; sem eles o app roda sem contas. Configuração inválida (http, chave secret/`service_role`) lança `StateError` no início |
+| Chaves | só a *publishable*; teste varre `app/lib` por `service_role`; `e2e_remote.mjs` também recusa chaves privilegiadas |
+| Sessão | Keystore/Keychain via `flutter_secure_storage` (mobile); web usa o armazenamento do navegador (limite da plataforma). PKCE |
+| Erros | `mapAuthError` → `AuthFailureKind` tipado, mensagens PT/EN/ES, sem texto do servidor |
+| Logout | `signOut()` com escopo local (limpa a sessão persistida); sessões em outros dispositivos continuam |
+| Repositórios / DI | 7 repositórios Supabase registrados só com configuração; testados contra HTTP simulado (caminhos, filtros, ordem, `user_id`) |
+| **Lacuna: callbacks de e-mail no mobile** | não há esquema de deep link (`com.lucksrei.orbijob://login-callback`) em `AndroidManifest.xml`/`Info.plist` nem `emailRedirectTo` em `signUp`/`resetPasswordForEmail`: o link de confirmação/redefinição abre a *Site URL* (web), não o app |
+| **Lacuna: redefinição de senha** | o app envia o e-mail, mas não há tela para definir a nova senha ao voltar do link |
+| Lacuna: exclusão de conta | ver seção 7 |
+| Não verificado | PKCE e armazenamento seguro em aparelho real; comportamento do `onAuthStateChange` com token expirado offline |
+Essas lacunas não bloqueiam aplicar as migrations; bloqueiam abrir o login ao público.

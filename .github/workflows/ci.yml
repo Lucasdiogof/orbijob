@@ -16,6 +16,16 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test        # includes occupation resolver + RLS tests (PGlite)
+  supabase-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: State classifier and remote end-to-end script (against in-memory models, no network)
+        run: node --test scripts/supabase/*.test.mjs
+      - name: Gating logic of apply.sh (fake CLI binaries)
+        run: scripts/supabase/apply.test.sh
   supabase-sql:
     runs-on: ubuntu-latest
     services:
@@ -27,6 +37,8 @@ jobs:
           --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
       - name: Migrations + catalog audit + cross-user tests (disposable Postgres, no Supabase project involved)
         run: PGURL=postgres://postgres:postgres@localhost:5432/postgres supabase/tests/run.sh
   catalog:

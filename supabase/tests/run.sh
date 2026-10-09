@@ -21,6 +21,13 @@ awk '/-- ───────── private storage: resumes/{f=1} f' ../migrat
 run /tmp/storage_section_$$.sql && rm -f /tmp/storage_section_$$.sql
 run 01_audit.sql
 
+# the read-only inspection used before a real deployment must run on this chain and classify it as fully migrated
+psql "$URL" -v ON_ERROR_STOP=1 -q -c "create schema if not exists supabase_migrations; create table supabase_migrations.schema_migrations (version text primary key, name text); insert into supabase_migrations.schema_migrations (version) select regexp_replace(v, '_.*', '') from unnest(string_to_array('$(ls ../migrations | sed 's/\.sql$//' | tr '\n' ',' | sed 's/,$//')', ',')) v;" >/dev/null
+psql "$URL" -X -q -At -v ON_ERROR_STOP=1 -f ../../scripts/supabase/inspect_readonly.sql > /tmp/inspection_$$.json
+node ../../scripts/supabase/classify_state.mjs /tmp/inspection_$$.json | grep -q "CONSISTENT_UP_TO_DATE" || { echo "inspection/classification disagree with the applied chain"; node ../../scripts/supabase/classify_state.mjs /tmp/inspection_$$.json; exit 1; }
+rm -f /tmp/inspection_$$.json
+psql "$URL" -q -c "drop schema supabase_migrations cascade" >/dev/null
+
 # teardown: refuses without confirmation, empties cleanly, and the chain applies again afterwards
 if psql "$URL" -v ON_ERROR_STOP=1 -q -f ../rollback/rollback_all.sql >/dev/null 2>&1; then echo "rollback ran WITHOUT confirmation"; exit 1; fi
 # rollback must refuse while the bucket exists (the real platform forbids SQL deletes on storage tables)
