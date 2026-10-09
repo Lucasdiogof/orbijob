@@ -3,7 +3,7 @@
 O projeto Supabase existe (`rpmlfxwebnlxnwadyvle`), mas **nenhuma migration foi aplicada nele**. O passo a passo ordenado, com pré e pós-checagens, está em [SUPABASE_MIGRATION_PLAN.md](SUPABASE_MIGRATION_PLAN.md); aguarde autorização expressa do proprietário antes de executar.
 
 ## Auditoria (resumo)
-Migrations: `20261008000000_init.sql` (esquema), `20261009000000_rls_hardening.sql` (endurecimento) e `20261010000000_app_integration.sql` (preferências, favoritos com snapshot, histórico de etapas, bucket privado). Testadas em PostgreSQL 16 real (`supabase/tests/run.sh`: auditoria de catálogo + testes entre usuários + 9 mutações) e em PGlite (`worker/test/rls.test.ts`).
+Migrations: `20261008000000_init.sql` (esquema), `20261009000000_rls_hardening.sql` (endurecimento), `20261010000000_app_integration.sql` (preferências, favoritos com snapshot, histórico de etapas, bucket privado) e `20261011000000_quotas.sql` (cotas por usuário). Testadas em PostgreSQL 16 real (`supabase/tests/run.sh`: auditoria de catálogo + testes entre usuários + 9 mutações) e em PGlite (`worker/test/rls.test.ts`).
 
 | Item | Estado |
 |---|---|

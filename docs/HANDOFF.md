@@ -1,10 +1,15 @@
 # HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 3 — Supabase preparado)
 
-## Fase 3 (branch `feat/phase3-supabase`, PR próprio, sem merge)
-- Projeto Supabase **já criado pelo proprietário**: `rpmlfxwebnlxnwadyvle`. **Nada foi aplicado nele** (e o ambiente de desenvolvimento nem o alcança: egress bloqueado). Estado remoto = não verificado.
-- Entregue: migration `20261010000000_app_integration.sql`; testes SQL em PostgreSQL 16 real (`supabase/tests/`, job `supabase-sql` no CI); `AppConfig` (só valores públicos, recusa secret/service_role), sessão no keystore, `AuthCubit` + tela de login/conta no Perfil, repositórios Supabase (perfil, experiência, formação, currículos, favoritos, candidaturas + histórico, preferências, pesquisas salvas) testados contra backend HTTP simulado; `.env.example` e `app/dart_defines.example.json`.
-- **Plano de execução remota:** `docs/SUPABASE_MIGRATION_PLAN.md` — aguarda autorização expressa. Telas ainda não usam os repositórios (exceto conta).
-- A Fase 3 depende das migrations do PR #39 (Fase 2): o PR da Fase 3 tem base `feat/phase2-stabilization`.
+## Integração dos PRs (2026-10-09)
+- PR #39 (Fase 2) integrado na `main`: merge commit `eaae3ea3228905cb25e766392d85bfda2c9e354d`; CI da `main` verde.
+- PR #40 (Fase 3, retargetado de `feat/phase2-stabilization` para `main`) integrado: merge commit `dce2599f68e7941940f40763c7f4f53a15718815`.
+- Histórico preservado (merge commits), sem force push.
+
+## Supabase (projeto `rpmlfxwebnlxnwadyvle`) — estado
+- **Nada foi aplicado** e **o estado remoto não foi lido**: o conector Supabase não está instalado na conta/sessão e o egress do ambiente bloqueia `*.supabase.co` e `api.supabase.com` (403). Não se assume banco vazio: a pré-checagem do plano comprova.
+- Migrations no repositório (4): `init`, `rls_hardening`, `app_integration`, `quotas`. Plano exato, riscos e reversão: `docs/SUPABASE_MIGRATION_PLAN.md`. Teardown testado: `supabase/rollback/rollback_all.sql`.
+- Testes SQL rodam em PostgreSQL 16 real, mas com **stub** de Auth/Storage: **não** substituem a validação com Auth e Storage reais (plano, seção 2 e passo 7).
+- Pendente de implementar: exclusão de conta e varredura de órfãos no Worker (plano, seção 7); ligar as telas aos repositórios.
 
 # Estado da Fase 2
 
