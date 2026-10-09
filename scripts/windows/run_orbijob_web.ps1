@@ -242,7 +242,8 @@ function Install-IsolatedFlutter([string]$SdkDir, [string]$Version, [version]$Ne
   }
   New-Item -ItemType Directory -Force -Path $parent | Out-Null
   Write-Host "   Cloning Flutter $Version into $SdkDir (a few minutes, once)..."
-  $r = Invoke-Native 'git' @('clone', '--depth', '1', '--branch', $Version, 'https://github.com/flutter/flutter.git', $SdkDir) ''
+  # core.longpaths only for this one command (the Flutter repo has paths > 260 chars); never `git config --global`.
+  $r = Invoke-Native 'git' @('-c', 'core.longpaths=true', 'clone', '--depth', '1', '--branch', $Version, 'https://github.com/flutter/flutter.git', $SdkDir) ''
   if ($r.Code -ne 0) {
     if (Test-Path -LiteralPath $SdkDir) { Remove-Item -LiteralPath $SdkDir -Recurse -Force -ErrorAction SilentlyContinue }
     Stop-Bootstrap "git clone failed (exit $($r.Code)). Check your internet connection / firewall and that tag $Version exists, then run again."

@@ -172,6 +172,46 @@ try { $r = Run-Script $repo2 @('-SdkRoot', $root2, '-NoRun') } finally { [Enviro
 Assert (($r.Code -eq 1) -and ($r.Output -match 'Git was not found')) 'fails with a clear message when no compatible SDK exists and git is missing'
 Assert ((Test-Path (Join-Path $root2 '3.47.7\bin')) -and -not (Test-Path (Join-Path $root2 ('3.47.7\' + $script:MarkerName)))) 'an unverified folder is never marked as valid'
 
+Write-Host 'clone with a Git that has no core.longpaths (fake git on PATH)'
+$gitDir = Join-Path $tmp 'fakegit'; New-Item -ItemType Directory $gitDir | Out-Null
+$tpl = Join-Path $tmp 'flutter-template'; New-FakeFlutter $tpl '3.47.7' '3.13.5'
+$gitLog = Join-Path $tmp 'git.log'
+if ($isWin) {
+  $g = "@echo off`r`necho %*>>""%FAKE_GIT_LOG%""`r`nif ""%FAKE_GIT_FAIL%""==""1"" (echo fatal: network down & exit /b 128)`r`nfor %%a in (%*) do set ""DEST=%%~a""`r`necho %* | findstr /C:""-c core.longpaths=true"" >nul`r`nif errorlevel 1 (echo error: unable to create file x: Filename too long & mkdir ""%DEST%\packages\flutter"" >nul & exit /b 128)`r`nxcopy ""%FAKE_GIT_TEMPLATE%"" ""%DEST%\"" /E /I /Q /Y >nul`r`nexit /b 0`r`n"
+  [System.IO.File]::WriteAllText((Join-Path $gitDir 'git.cmd'), $g)
+} else {
+  $g = "#!/bin/sh`necho `"`$*`" >> `"`$FAKE_GIT_LOG`"`n[ `"`$FAKE_GIT_FAIL`" = 1 ] && { echo 'fatal: network down'; exit 128; }`nfor a; do DEST=`"`$a`"; done`ncase `"`$*`" in *'-c core.longpaths=true'*) ;; *) echo 'error: unable to create file x: Filename too long'; mkdir -p `"`$DEST/packages/flutter`"; exit 128;; esac`ncp -r `"`$FAKE_GIT_TEMPLATE`" `"`$DEST`"`nexit 0`n"
+  $gp = Join-Path $gitDir 'git'; [System.IO.File]::WriteAllText($gp, $g); chmod +x $gp
+}
+$repo3 = Join-Path $tmp 'repo3'; New-FakeRepo $repo3
+Write-Defines (Join-Path $repo3 'app\dart_defines.web.json') $goodUrl $goodKey $goodRedirect
+$root3 = Join-Path $tmp 'root 3'
+$sep = [System.IO.Path]::PathSeparator
+$oldPath = [Environment]::GetEnvironmentVariable('PATH')
+[Environment]::SetEnvironmentVariable('PATH', $gitDir + $sep + $oldPath)
+$env:FAKE_GIT_LOG = $gitLog; $env:FAKE_GIT_TEMPLATE = $tpl
+try {
+  $env:FAKE_GIT_FAIL = '1'
+  $r = Run-Script $repo3 @('-SdkRoot', $root3, '-NoRun')
+  Assert (($r.Code -eq 1) -and ($r.Output -match 'git clone failed')) 'a failed clone stops with a clear message'
+  Assert (-not (Test-Path (Join-Path $root3 '3.47.7'))) 'a failed clone leaves no partial folder behind'
+  $env:FAKE_GIT_FAIL = '0'
+  New-Item -ItemType Directory -Force (Join-Path $root3 '3.47.7\packages\flutter') | Out-Null   # partial clone from an earlier crash
+  $r = Run-Script $repo3 @('-SdkRoot', $root3, '-NoRun')
+  Assert ($r.Code -eq 0) 'recovers from a partial clone and installs'
+  Assert ($r.Output -match 'unfinished') 'tells that the partial copy was discarded'
+  Assert (Test-Path (Join-Path $root3 ('3.47.7\' + $script:MarkerName))) 'the verified install is marked'
+  $log = Get-Content -LiteralPath $gitLog -Raw
+  Assert ($log -match '-c core\.longpaths=true clone ') 'clone runs with -c core.longpaths=true'
+  Assert ($log -notmatch 'config') 'git config is never called (nothing global is changed)'
+  $r = Run-Script $repo3 @('-SdkRoot', $root3, '-NoRun')
+  Assert (($r.Code -eq 0) -and ($r.Output -match 'already installed')) 'second run reuses the install without cloning again'
+} finally {
+  [Environment]::SetEnvironmentVariable('PATH', $oldPath)
+  Remove-Item Env:FAKE_GIT_LOG, Env:FAKE_GIT_TEMPLATE, Env:FAKE_GIT_FAIL -ErrorAction SilentlyContinue
+}
+Assert ($text -match "'-c', 'core\.longpaths=true', 'clone'") 'script source passes core.longpaths only on the clone command'
+
 Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 Write-Host ''
 Write-Host ("passed: {0}  failed: {1}" -f $script:Passed, $script:Failed)
