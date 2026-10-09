@@ -9,11 +9,16 @@ abstract class AuthRepository {
   bool get isAvailable;
   AuthUser? get currentUser;
   Stream<AuthUser?> get userChanges;
+
+  /// Emits when the user opened a password-recovery link: the session it creates may only be used to choose a
+  /// new password ([updatePassword]).
+  Stream<void> get recoveryLinks;
   Future<void> signIn({required String email, required String password});
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
   });
   Future<void> sendPasswordReset(String email);
+  Future<void> updatePassword(String newPassword);
   Future<void> signOut();
 }

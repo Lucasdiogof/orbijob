@@ -6,6 +6,8 @@ enum AuthFailureKind {
   emailAlreadyRegistered,
   invalidEmail,
   weakPassword,
+  samePassword,
+  linkInvalid,
   rateLimited,
   network,
   unavailable,

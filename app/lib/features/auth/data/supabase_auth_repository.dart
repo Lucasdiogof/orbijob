@@ -29,6 +29,15 @@ AuthFailure mapAuthError(Object error) {
         return const AuthFailure(AuthFailureKind.invalidEmail);
       case 'weak_password':
         return const AuthFailure(AuthFailureKind.weakPassword);
+      case 'same_password':
+        return const AuthFailure(AuthFailureKind.samePassword);
+      // An expired or already used e-mail link (confirmation or recovery), or a link opened on another device.
+      case 'otp_expired':
+      case 'flow_state_not_found':
+      case 'flow_state_expired':
+      case 'bad_code_verifier':
+      case 'bad_oauth_callback':
+        return const AuthFailure(AuthFailureKind.linkInvalid);
       case 'over_request_rate_limit':
       case 'over_email_send_rate_limit':
       case 'over_sms_send_rate_limit':
@@ -53,8 +62,11 @@ AuthFailure mapAuthError(Object error) {
 }
 
 class SupabaseAuthRepository implements AuthRepository {
-  SupabaseAuthRepository(this._client);
+  /// [redirectTo] is where the e-mail links (confirmation, recovery) send the user back; it must also be listed in
+  /// the project's Auth "Redirect URLs". Null uses the project's Site URL.
+  SupabaseAuthRepository(this._client, {this.redirectTo});
   final sb.SupabaseClient _client;
+  final String? redirectTo;
 
   static AuthUser? _user(sb.User? u) =>
       u == null ? null : AuthUser(id: u.id, email: u.email);
@@ -66,6 +78,10 @@ class SupabaseAuthRepository implements AuthRepository {
   @override
   Stream<AuthUser?> get userChanges =>
       _client.auth.onAuthStateChange.map((s) => _user(s.session?.user));
+  @override
+  Stream<void> get recoveryLinks => _client.auth.onAuthStateChange
+      .where((s) => s.event == sb.AuthChangeEvent.passwordRecovery)
+      .map((_) {});
 
   Future<T> _guard<T>(Future<T> Function() run) async {
     try {
@@ -92,6 +108,7 @@ class SupabaseAuthRepository implements AuthRepository {
     final r = await _client.auth.signUp(
       email: email.trim(),
       password: password,
+      emailRedirectTo: redirectTo,
     );
     return r.session == null
         ? SignUpOutcome.confirmationRequired
@@ -99,8 +116,17 @@ class SupabaseAuthRepository implements AuthRepository {
   });
 
   @override
-  Future<void> sendPasswordReset(String email) =>
-      _guard(() => _client.auth.resetPasswordForEmail(email.trim()));
+  Future<void> sendPasswordReset(String email) => _guard(
+    () => _client.auth.resetPasswordForEmail(
+      email.trim(),
+      redirectTo: redirectTo,
+    ),
+  );
+
+  @override
+  Future<void> updatePassword(String newPassword) => _guard(
+    () => _client.auth.updateUser(sb.UserAttributes(password: newPassword)),
+  );
 
   @override
   Future<void> signOut() => _guard(() => _client.auth.signOut());
