@@ -48,6 +48,19 @@ for (const [name, [mutate, id, expected]] of Object.entries(breakIt)) {
   });
 }
 
+test('pg_trgm target follows the FIRST schema of the resolved search_path, like PostgreSQL does', () => {
+  let d = base(); d.pg_trgm.create_without_schema_would_use = 'extensions'; d.pg_trgm.create_without_schema_can_create = true;
+  d.search_path_schemas = [{ position: 1, name: 'extensions' }, { position: 2, name: 'public' }];
+  assert.equal(status(d, 'pg_trgm-target'), 'PASS');
+  assert.match(check(d).checks.find((c) => c.id === 'pg_trgm-target').why, /"extensions".*extensions, public/);
+  d = base(); d.pg_trgm.create_without_schema_would_use = 'extensions'; d.pg_trgm.create_without_schema_can_create = false; d.pg_trgm.first_creatable_schema_in_path = 'public';
+  assert.equal(status(d, 'pg_trgm-target'), 'FAIL');   // no fallback to the next schema, even though public would work
+  d = base(); d.pg_trgm.create_without_schema_would_use = null; d.pg_trgm.create_without_schema_can_create = null; d.search_path_schemas = [];
+  assert.equal(status(d, 'pg_trgm-target'), 'FAIL');
+  d = base(); delete d.pg_trgm.create_without_schema_would_use; delete d.pg_trgm.create_without_schema_can_create;
+  assert.equal(status(d, 'pg_trgm-target'), 'UNKNOWN'); // an old-format document is never silently accepted
+});
+
 const suspiciousBodies = {
   'drops a table': "execute 'drop table public.x';",
   'grants privileges': "execute format('grant all on %s to anon', cmd.object_identity);",

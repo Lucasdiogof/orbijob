@@ -48,7 +48,7 @@ select jsonb_pretty(jsonb_build_object(
       from pg_default_acl d where d.defaclnamespace = 'public'::regnamespace),
   'auth_users_triggers', case when to_regclass('auth.users') is null then null else
       (select coalesce(jsonb_agg(t.tgname order by t.tgname), '[]') from pg_trigger t
-       where t.tgrelid = 'auth.users'::regclass and not t.tgisinternal) end,
+       where t.tgrelid = to_regclass('auth.users') and not t.tgisinternal) end,
   'storage_policies', (select coalesce(jsonb_agg(jsonb_build_object(
         'name', policyname, 'command', cmd, 'roles', roles) order by policyname), '[]')
       from pg_policies where schemaname = 'storage' and tablename = 'objects'),

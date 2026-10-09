@@ -20,6 +20,9 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
 - Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
 - Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
 
+## Correção do `inspect_predeploy_details.sql` (2026-10-09)
+O proprietário rodou a consulta no Supabase hospedado (PostgreSQL 17.11) e ela falhou com `ERROR: 3F000: schema "$user" does not exist` (causa raiz e correção em `docs/SUPABASE_MIGRATION_PLAN.md` §12.10). Versão corrigida no PR #45; **precisa ser executada de novo** pelo proprietário. A correção só foi testada localmente (PostgreSQL 16 e 17); nada foi verificado no Supabase hospedado até o novo resultado chegar. Decisão técnica continua **BLOCKED**.
+
 ## Fase 3.6 (2026-10-09) — primeira inspeção REAL do Supabase
 - **Estado real informado pelo proprietário** (SQL Editor, 2026-10-09T03:02:11Z): PostgreSQL 17.11; `public` sem tabelas/policies/triggers; sem buckets; sem triggers em `auth.users`; sem histórico (`migration_versions: null`); `pg_trgm` não instalada; função `public.rls_auto_enable` (SECURITY DEFINER, executável por anon/authenticated) e default privileges para `postgres`/`supabase_admin`.
 - **Classificação formal: `EMPTY`** (justificada: schema `supabase_migrations` ausente **e** nenhum objeto do OrbiJob), com a exceção `rls_auto_enable` e um `BLOCKER-FOR-APPLY` até haver detalhe. As 5 migrations estão pendentes. Análise completa: `docs/SUPABASE_MIGRATION_PLAN.md` seção 12.

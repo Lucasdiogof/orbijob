@@ -63,7 +63,7 @@ Se aparecer `cannot read …: not an OrbiJob inspection document`, o arquivo sal
 ### Segunda consulta (única) — detalhes de pré-deploy
 A primeira inspeção mostrou uma função da plataforma (`public.rls_auto_enable`) e deixou perguntas sobre privilégios. Uma segunda consulta, **também somente leitura**, responde a todas de uma vez:
 1. Copie `scripts/supabase/inspect_predeploy_details.sql` (`Get-Content scripts\supabase\inspect_predeploy_details.sql -Raw | Set-Clipboard`, ou o endereço raw do arquivo no GitHub), cole no mesmo SQL Editor e rode.
-2. Saída esperada: uma linha, coluna `details`, JSON que começa com `{ "predeploy_format": 1, …`. Salve como `predeploy.json` (UTF-8).
+2. Saída esperada: uma linha, coluna `details`, JSON que começa com `{ "predeploy_format": 1, …`. Salve como `predeploy.json` (UTF-8). **Use a versão corrigida do arquivo** (a primeira versão falhava no Supabase hospedado com `schema "$user" does not exist`); o JSON correto contém o campo `search_path_schemas`.
 3. Cole o texto no chat **ou** rode `node scripts\supabase\predeploy_check.mjs $HOME\Desktop\predeploy.json`. Saída: `verdict: PRECHECK_OK` ou `verdict: BLOCKED` e uma linha por checagem (`PASS` / `FAIL` / `UNKNOWN`); o corpo da função de plataforma é impresso no fim para você ler.
 O arquivo contém nomes, flags, privilégios, a definição da função da plataforma e as versões de migrations — sem dados de usuários, chaves ou senhas.
 

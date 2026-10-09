@@ -35,7 +35,9 @@
                 "superuser_required": true
             }
         ],
-        "create_without_schema_would_use": "public"
+        "first_creatable_schema_in_path": "public",
+        "create_without_schema_would_use": "public",
+        "create_without_schema_can_create": true
     },
     "schemas": [
         {
@@ -89,8 +91,8 @@
         "postgres_can_update_buckets": true,
         "postgres_is_objects_owner_or_member": true
     },
-    "database": "pd1",
-    "collected_at": "2026-10-09T03:21:17.65024+00:00",
+    "database": "fx17",
+    "collected_at": "2026-10-09T04:23:56.123082+00:00",
     "connected_as": "postgres",
     "postgres_role": {
         "createdb": true,
@@ -126,6 +128,16 @@
         "schema_exists": false
     },
     "server_version_num": 170010,
+    "search_path_schemas": [
+        {
+            "name": "public",
+            "owner": "pg_database_owner",
+            "position": 1,
+            "current_user_can_use": true,
+            "current_user_can_create": true
+        }
+    ],
+    "search_path_setting": "\"$user\", public",
     "extensions_installed": [
         {
             "name": "plpgsql",
@@ -134,7 +146,6 @@
             "version": "1.0"
         }
     ],
-    "effective_search_path": "\"$user\", public",
     "platform_roles_present": {
         "anon": true,
         "service_role": true,
@@ -176,92 +187,14 @@
     ],
     "default_privileges_public": [
         {
-            "grantee": "anon",
-            "privilege": "DELETE",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "REFERENCES",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "TRIGGER",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "MAINTAIN",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "INSERT",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "SELECT",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "UPDATE",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
             "grantee": "authenticated",
             "privilege": "DELETE",
             "created_by": "postgres",
             "object_type": "table"
         },
         {
-            "grantee": "authenticated",
-            "privilege": "TRUNCATE",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "REFERENCES",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "TRIGGER",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "MAINTAIN",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "INSERT",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "SELECT",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "UPDATE",
+            "grantee": "anon",
+            "privilege": "DELETE",
             "created_by": "postgres",
             "object_type": "table"
         },
@@ -273,7 +206,7 @@
         },
         {
             "grantee": "service_role",
-            "privilege": "TRUNCATE",
+            "privilege": "INSERT",
             "created_by": "postgres",
             "object_type": "table"
         },
@@ -284,14 +217,8 @@
             "object_type": "table"
         },
         {
-            "grantee": "service_role",
-            "privilege": "REFERENCES",
-            "created_by": "postgres",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "TRIGGER",
+            "grantee": "authenticated",
+            "privilege": "INSERT",
             "created_by": "postgres",
             "object_type": "table"
         },
@@ -302,14 +229,68 @@
             "object_type": "table"
         },
         {
+            "grantee": "authenticated",
+            "privilege": "MAINTAIN",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "MAINTAIN",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "REFERENCES",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "REFERENCES",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "REFERENCES",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
             "grantee": "anon",
             "privilege": "SELECT",
             "created_by": "postgres",
             "object_type": "table"
         },
         {
+            "grantee": "authenticated",
+            "privilege": "SELECT",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "SELECT",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
             "grantee": "anon",
-            "privilege": "UPDATE",
+            "privilege": "TRIGGER",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "TRIGGER",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "TRIGGER",
             "created_by": "postgres",
             "object_type": "table"
         },
@@ -320,10 +301,34 @@
             "object_type": "table"
         },
         {
+            "grantee": "service_role",
+            "privilege": "TRUNCATE",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "TRUNCATE",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "UPDATE",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
             "grantee": "anon",
-            "privilege": "EXECUTE",
-            "created_by": "supabase_admin",
-            "object_type": "function"
+            "privilege": "UPDATE",
+            "created_by": "postgres",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "UPDATE",
+            "created_by": "postgres",
+            "object_type": "table"
         },
         {
             "grantee": "authenticated",
@@ -332,82 +337,16 @@
             "object_type": "function"
         },
         {
-            "grantee": "service_role",
+            "grantee": "anon",
             "privilege": "EXECUTE",
             "created_by": "supabase_admin",
             "object_type": "function"
         },
         {
             "grantee": "service_role",
-            "privilege": "TRUNCATE",
+            "privilege": "EXECUTE",
             "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "INSERT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "SELECT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "UPDATE",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "DELETE",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "TRUNCATE",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "REFERENCES",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "TRIGGER",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "anon",
-            "privilege": "MAINTAIN",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "INSERT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "SELECT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "UPDATE",
-            "created_by": "supabase_admin",
-            "object_type": "table"
+            "object_type": "function"
         },
         {
             "grantee": "authenticated",
@@ -416,44 +355,8 @@
             "object_type": "table"
         },
         {
-            "grantee": "authenticated",
-            "privilege": "TRUNCATE",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "REFERENCES",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "TRIGGER",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "authenticated",
-            "privilege": "MAINTAIN",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "INSERT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "SELECT",
-            "created_by": "supabase_admin",
-            "object_type": "table"
-        },
-        {
-            "grantee": "service_role",
-            "privilege": "UPDATE",
+            "grantee": "anon",
+            "privilege": "DELETE",
             "created_by": "supabase_admin",
             "object_type": "table"
         },
@@ -465,7 +368,85 @@
         },
         {
             "grantee": "service_role",
+            "privilege": "INSERT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "INSERT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "INSERT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "MAINTAIN",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "MAINTAIN",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "MAINTAIN",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
             "privilege": "REFERENCES",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "REFERENCES",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "REFERENCES",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "SELECT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "SELECT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "SELECT",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "TRIGGER",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "TRIGGER",
             "created_by": "supabase_admin",
             "object_type": "table"
         },
@@ -476,8 +457,38 @@
             "object_type": "table"
         },
         {
+            "grantee": "anon",
+            "privilege": "TRUNCATE",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
             "grantee": "service_role",
-            "privilege": "MAINTAIN",
+            "privilege": "TRUNCATE",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "TRUNCATE",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "authenticated",
+            "privilege": "UPDATE",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "anon",
+            "privilege": "UPDATE",
+            "created_by": "supabase_admin",
+            "object_type": "table"
+        },
+        {
+            "grantee": "service_role",
+            "privilege": "UPDATE",
             "created_by": "supabase_admin",
             "object_type": "table"
         }

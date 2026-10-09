@@ -57,8 +57,22 @@ export function check(d, ack = []) {
   add('extensions-schema', ext?.postgres_create ? 'PASS' : 'FAIL', 'postgres may create objects in schema "extensions" (migration 3 moves pg_trgm there)',
     !ext ? 'schema "extensions" missing (migration 3 creates it, needs database CREATE)' : ext.postgres_create ? `owner ${ext.owner}` : `owner ${ext.owner}; postgres has no CREATE: "alter extension pg_trgm set schema extensions" would fail at migration 3, after 1 and 2 are applied`);
   const installed = trgm.installed;
-  add('pg_trgm-target', installed ? (installed.owner === 'postgres' || pg.superuser ? 'PASS' : 'FAIL') : 'PASS',
-    'where init will install pg_trgm', installed ? `already installed in ${installed.schema} owned by ${installed.owner}` : `CREATE EXTENSION without schema would use "${trgm.create_without_schema_would_use}" (then migration 3 moves it)`);
+  const first = trgm.create_without_schema_would_use;
+  const canCreateFirst = trgm.create_without_schema_can_create;
+  const pathNames = (d.search_path_schemas ?? []).map((x) => x.name).join(', ');
+  let target;
+  if (installed) {
+    target = [installed.owner === 'postgres' || pg.superuser ? 'PASS' : 'FAIL', `already installed in ${installed.schema} owned by ${installed.owner}`];
+  } else if (first === undefined) {
+    target = ['UNKNOWN', 'legacy document without the resolved search path: run the current inspect_predeploy_details.sql'];
+  } else if (first === null) {
+    target = ['FAIL', 'the effective search_path contains no existing schema: CREATE EXTENSION without SCHEMA would fail'];
+  } else if (canCreateFirst) {
+    target = ['PASS', `CREATE EXTENSION without SCHEMA installs into "${first}" (first schema of the effective search_path: ${pathNames}); then migration 3 moves it`];
+  } else {
+    target = ['FAIL', `CREATE EXTENSION without SCHEMA would choose "${first}" (search_path: ${pathNames}) where the connected role cannot create; PostgreSQL does not fall back to the next schema`];
+  }
+  add('pg_trgm-target', target[0], 'where init will install pg_trgm', target[1]);
 
   const auth = d.auth ?? {};
   add('auth-users', auth.users_table_exists && auth.postgres_can_reference_users ? 'PASS' : 'FAIL', 'tables may reference auth.users(id)',
