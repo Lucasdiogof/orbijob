@@ -63,7 +63,11 @@ begin
   perform tests.fails(format($q$insert into storage.objects (bucket_id,name,owner) values ('resumes',%L,%L)$q$, B||'/evil.pdf', A), 'row-level security');
   perform tests.fails($q$insert into storage.objects (bucket_id,name,owner) values ('resumes','loose.pdf','00000000-0000-0000-0000-00000000000a')$q$, 'row-level security');
   perform tests.fails($q$insert into storage.objects (bucket_id,name,owner) values ('other','x/y.pdf','00000000-0000-0000-0000-00000000000a')$q$, 'foreign key|row-level security');
+  -- the Storage API deletes with the bypass setting on; RLS must still hide B's object from A
+  perform set_config('storage.allow_delete_query', 'true', true);
   perform tests.affected(format($q$delete from storage.objects where name=%L$q$, B||'/cv.pdf'), 0);
+  perform set_config('storage.allow_delete_query', 'false', true);
+  perform tests.fails($q$delete from storage.objects where name = 'whatever'$q$, 'Direct deletion from storage tables is not allowed');
 end $$;
 
 -- own data works, and the stage history is written by the trigger

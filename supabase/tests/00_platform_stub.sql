@@ -33,6 +33,17 @@ begin
   select string_to_array(name, '/') into _parts;
   return _parts[1:array_length(_parts, 1) - 1];
 end $$;
+-- The hosted platform refuses direct DELETEs on its storage tables (files would be left behind). Mimicked here from
+-- documented behaviour; the Storage API sets the bypass GUC internally. NOT verified against a live project.
+create function storage.protect_delete() returns trigger language plpgsql as $$
+begin
+  if coalesce(current_setting('storage.allow_delete_query', true), 'false') <> 'true' then
+    raise exception 'Direct deletion from storage tables is not allowed. Use the Storage API instead.';
+  end if;
+  return old;
+end $$;
+create trigger protect_buckets_delete before delete on storage.buckets for each statement execute function storage.protect_delete();
+create trigger protect_objects_delete before delete on storage.objects for each statement execute function storage.protect_delete();
 grant usage on schema storage to anon, authenticated, service_role;
 -- Supabase grants broad table privileges to the API roles by default; RLS and the hardening migration are the real gates.
 grant select, insert, update, delete on all tables in schema storage to anon, authenticated, service_role;

@@ -295,6 +295,64 @@ void main() {
         expect(b.last.query['id'], 'eq.p1');
       },
     );
+    test(
+      'deleting a profile removes its resume files first, then the profile',
+      () async {
+        final b = FakeBackend(
+          respond: (m, u, body) {
+            if (u.path.contains('/storage/')) return (200, <Object>[]);
+            if (m == 'GET') {
+              return (
+                200,
+                [
+                  {'storage_path': '$testUserA/a.pdf'},
+                  {'storage_path': '$testUserA/b.pdf'},
+                ],
+              );
+            }
+            return (204, null);
+          },
+        );
+        await SupabaseProfileRepository(b.client).delete('p1');
+        final order = [for (final r in b.requests) '${r.method} ${r.path}'];
+        expect(order, [
+          'GET /rest/v1/resumes',
+          'DELETE /storage/v1/object/resumes',
+          'DELETE /rest/v1/professional_profiles',
+        ]);
+        expect((b.requests[1].json as Map)['prefixes'], [
+          '$testUserA/a.pdf',
+          '$testUserA/b.pdf',
+        ]);
+      },
+    );
+    test('a storage failure keeps the profile (no orphaned files)', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => u.path.contains('/storage/')
+            ? (500, {'message': 'storage down'})
+            : (
+                200,
+                [
+                  {'storage_path': '$testUserA/a.pdf'},
+                ],
+              ),
+      );
+      await expectLater(
+        SupabaseProfileRepository(b.client).delete('p1'),
+        throwsA(anything),
+      );
+      expect(
+        b.requests.any((r) => r.path.endsWith('professional_profiles')),
+        isFalse,
+      );
+    });
+    test('profile without resumes skips Storage', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => m == 'GET' ? (200, []) : (204, null),
+      );
+      await SupabaseProfileRepository(b.client).delete('p1');
+      expect(b.requests.any((r) => r.path.contains('/storage/')), isFalse);
+    });
     test('experience and education are written with the owner id', () async {
       final b = FakeBackend(respond: (m, u, body) => (201, {'id': 'e1'}));
       final repo = SupabaseProfileRepository(b.client);

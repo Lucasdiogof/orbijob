@@ -2,6 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/data/user_scope.dart';
 import '../domain/professional_profile.dart';
+import 'supabase_resume_repository.dart' show resumesBucket;
 
 String? _date(DateTime? d) => d == null
     ? null
@@ -80,6 +81,16 @@ class SupabaseProfileRepository implements ProfileRepository {
   @override
   Future<void> delete(String profileId) async {
     requireUserId(_client);
+    // Deleting the profile cascades to its resume ROWS but not to the files in Storage, so the files go first.
+    // If that fails the profile is kept, rather than leaving files nobody can reach any more.
+    final rows = await _client
+        .from('resumes')
+        .select('storage_path')
+        .eq('profile_id', profileId);
+    final paths = [for (final r in rows) r['storage_path'] as String];
+    if (paths.isNotEmpty) {
+      await _client.storage.from(resumesBucket).remove(paths);
+    }
     await _client.from('professional_profiles').delete().eq('id', profileId);
   }
 
