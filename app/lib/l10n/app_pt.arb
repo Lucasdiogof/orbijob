@@ -77,5 +77,19 @@
   "selectJobHint": "Selecione uma vaga para ver os detalhes.",
   "resultsCount": "{count, plural, =1{1 resultado} other{{count} resultados}}",
   "previewBanner": "PRÉVIA · DADOS ILUSTRATIVOS, NÃO SÃO VAGAS REAIS",
-  "previewAction": "Somente prévia: esta ação não está disponível."
+  "previewAction": "Somente prévia: esta ação não está disponível.",
+  "jobLanguageSemantic": "Idioma da vaga: {code}",
+  "originalLanguageNote": "Exibida no idioma original ({code}). Cargos, nomes de empresas e descrições não são traduzidos.",
+  "recentSearchesTitle": "Pesquisas recentes",
+  "recentSearchesClear": "Limpar pesquisas recentes",
+  "interestCountriesTitle": "Países de interesse",
+  "interestCountriesEmptyTitle": "Nenhum país escolhido ainda",
+  "interestCountriesEmptyBody": "Você escolherá os países no seu perfil para direcionar as recomendações.",
+  "applicationStageApplied": "Inscrito",
+  "applicationStageScreening": "Triagem",
+  "applicationStageInterview": "Entrevista",
+  "applicationStageOffer": "Proposta",
+  "applicationStageRejected": "Rejeitada",
+  "applicationStageWithdrawn": "Retirada",
+  "applicationStageClosed": "Encerrada"
 }

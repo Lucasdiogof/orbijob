@@ -35,12 +35,27 @@ class JobDetailView extends StatelessWidget {
     final salary = formatSalary(j, l);
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);
+    final ui = Localizations.localeOf(context).languageCode;
+    final langName = (j.language != null && j.language != ui)
+        ? nativeLanguageName(j.language)
+        : null;
     return ListView(
       padding: const EdgeInsets.all(AppSpace.s4),
       children: [
-        Semantics(header: true, child: Text(j.title, style: t.headlineMedium)),
-        const SizedBox(height: AppSpace.s2),
-        Text(j.company, style: t.titleSmall),
+        Semantics(
+          localeForSubtree: j.language == null ? null : Locale(j.language!),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Semantics(
+                header: true,
+                child: Text(j.title, style: t.headlineMedium),
+              ),
+              const SizedBox(height: AppSpace.s2),
+              Text(j.company, style: t.titleSmall),
+            ],
+          ),
+        ),
         if (place != null) ...[
           const SizedBox(height: AppSpace.s2),
           Row(
@@ -56,7 +71,9 @@ class JobDetailView extends StatelessWidget {
             ],
           ),
         ],
-        if (mode.isNotEmpty || (j.contractType ?? '').isNotEmpty) ...[
+        if (mode.isNotEmpty ||
+            (j.contractType ?? '').isNotEmpty ||
+            langName != null) ...[
           const SizedBox(height: AppSpace.s3),
           Wrap(
             spacing: AppSpace.s2,
@@ -65,7 +82,16 @@ class JobDetailView extends StatelessWidget {
               if (mode.isNotEmpty) StatusBadge(label: mode),
               if ((j.contractType ?? '').isNotEmpty)
                 StatusBadge(label: j.contractType!),
+              if (langName != null)
+                StatusBadge(label: langName, icon: Icons.translate),
             ],
+          ),
+        ],
+        if (langName != null) ...[
+          const SizedBox(height: AppSpace.s2),
+          Text(
+            l.originalLanguageNote(langName),
+            style: t.bodySmall!.copyWith(color: c.muted),
           ),
         ],
         if (salary != null || published != null) ...[

@@ -8,6 +8,7 @@ import '../../core/widgets/section_header.dart';
 import '../../l10n/app_localizations.dart';
 import '../search/presentation/cubit/search_cubit.dart';
 import '../shell/shell_cubit.dart';
+import 'recent_searches_cubit.dart';
 
 /// Home: a way into search plus honest empty panels for what needs a profile and connected sources.
 class HomePage extends StatelessWidget {
@@ -34,6 +35,11 @@ class HomePage extends StatelessWidget {
         body: l.homeForYouEmptyBody,
       ),
       _EmptyPanel(
+        icon: Icons.public,
+        title: l.interestCountriesEmptyTitle,
+        body: l.interestCountriesEmptyBody,
+      ),
+      _EmptyPanel(
         icon: Icons.assignment_outlined,
         title: l.homeApplicationsEmptyTitle,
         body: l.homeApplicationsEmptyBody,
@@ -57,6 +63,46 @@ class HomePage extends StatelessWidget {
               onTap: context.read<ShellCubit>().openSearch,
             ),
             const SizedBox(height: AppSpace.s6),
+            BlocBuilder<RecentSearchesCubit, List<String>>(
+              builder: (context, recent) => recent.isEmpty
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpace.s6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SectionHeader(
+                            title: l.recentSearchesTitle,
+                            action: TextButton(
+                              onPressed: context
+                                  .read<RecentSearchesCubit>()
+                                  .clear,
+                              child: Text(l.recentSearchesClear),
+                            ),
+                          ),
+                          const SizedBox(height: AppSpace.s3),
+                          Wrap(
+                            spacing: AppSpace.s2,
+                            runSpacing: AppSpace.s1,
+                            children: [
+                              for (final q in recent)
+                                AppFilterChip(
+                                  label: q,
+                                  icon: Icons.history,
+                                  selected: false,
+                                  onSelected: (_) {
+                                    context.read<SearchCubit>().search(q);
+                                    context.read<ShellCubit>().goTo(
+                                      ShellCubit.explore,
+                                    );
+                                  },
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+            ),
             SectionHeader(title: l.homeAreasTitle),
             const SizedBox(height: AppSpace.s3),
             Wrap(
@@ -91,11 +137,11 @@ class HomePage extends StatelessWidget {
                     ),
                 ],
               )
-            else ...[
-              panels[0],
-              const SizedBox(height: AppSpace.s3),
-              panels[1],
-            ],
+            else
+              for (final p in panels) ...[
+                p,
+                const SizedBox(height: AppSpace.s3),
+              ],
           ],
         ),
       ),

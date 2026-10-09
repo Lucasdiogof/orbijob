@@ -24,6 +24,7 @@ class JobPosting extends Equatable {
     this.salaryPeriod,
     this.publishedAt,
     this.sourceName,
+    this.language,
   });
 
   final String source;
@@ -44,6 +45,10 @@ class JobPosting extends Equatable {
 
   /// Human-readable origin shown on the card (attribution).
   final String? sourceName;
+
+  /// Language of the posting text (BCP-47 primary subtag, e.g. `de`). Job text is never translated silently:
+  /// the UI shows it as written and flags it when it differs from the interface language.
+  final String? language;
 
   @override
   List<Object?> get props => [source, externalId];

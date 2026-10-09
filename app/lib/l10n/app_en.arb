@@ -126,5 +126,33 @@
     }
   },
   "previewBanner": "PREVIEW · ILLUSTRATIVE DATA, NOT REAL JOBS",
-  "previewAction": "Preview only: this action is not available."
+  "previewAction": "Preview only: this action is not available.",
+  "jobLanguageSemantic": "Posting language: {code}",
+  "@jobLanguageSemantic": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "originalLanguageNote": "Shown in its original language ({code}). Job titles, company names and descriptions are not translated.",
+  "@originalLanguageNote": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "recentSearchesTitle": "Recent searches",
+  "recentSearchesClear": "Clear recent searches",
+  "interestCountriesTitle": "Countries of interest",
+  "interestCountriesEmptyTitle": "No countries chosen yet",
+  "interestCountriesEmptyBody": "You will pick countries in your profile to focus recommendations.",
+  "applicationStageApplied": "Applied",
+  "applicationStageScreening": "Screening",
+  "applicationStageInterview": "Interview",
+  "applicationStageOffer": "Offer",
+  "applicationStageRejected": "Rejected",
+  "applicationStageWithdrawn": "Withdrawn",
+  "applicationStageClosed": "Closed"
 }

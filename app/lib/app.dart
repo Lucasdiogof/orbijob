@@ -6,6 +6,7 @@ import 'core/design/design.dart';
 import 'core/di/injector.dart';
 import 'core/theme_cubit.dart';
 import 'features/favorites/favorites_cubit.dart';
+import 'features/home/recent_searches_cubit.dart';
 import 'features/search/presentation/cubit/search_cubit.dart';
 import 'features/shell/shell_cubit.dart';
 import 'features/shell/shell_page.dart';
@@ -24,6 +25,7 @@ class OrbiJobApp extends StatelessWidget {
       BlocProvider(create: (_) => sl<ShellCubit>()),
       BlocProvider(create: (_) => sl<SearchCubit>()),
       BlocProvider(create: (_) => sl<FavoritesCubit>()),
+      BlocProvider.value(value: sl<RecentSearchesCubit>()),
     ],
     child: BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, mode) => MaterialApp(
