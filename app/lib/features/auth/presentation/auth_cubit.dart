@@ -93,6 +93,8 @@ class AuthCubit extends Cubit<AuthState> {
         user: u,
         clearUser: u == null,
         busy: false,
+        // A new session supersedes an old link error (e.g. a duplicate callback that failed after the first worked).
+        clearFailure: u != null,
         recovering: u == null ? false : state.recovering,
         notice: ended ? AuthNotice.sessionExpired : AuthNotice.none,
       ),

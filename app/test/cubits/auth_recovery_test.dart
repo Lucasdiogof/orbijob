@@ -110,4 +110,22 @@ void main() {
       await c.close();
     },
   );
+
+  test('a stale link error is cleared once a session exists', () async {
+    final repo = FakeAuth();
+    final c = AuthCubit(repo);
+    repo.emitError(
+      const sb.AuthApiException(
+        'x',
+        statusCode: '400',
+        code: 'flow_state_not_found',
+      ),
+    );
+    await tick();
+    expect(c.state.failure, AuthFailureKind.linkInvalid);
+    repo.emit(a);
+    await tick();
+    expect(c.state.failure, isNull);
+    await c.close();
+  });
 }

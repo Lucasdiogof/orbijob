@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../domain/auth_failure.dart';
 import 'auth_cubit.dart';
 import 'auth_page.dart';
 import 'new_password_page.dart';
@@ -49,6 +50,16 @@ class _AuthEffectsState extends State<AuthEffects> {
         Navigator.of(context).pop();
       }
       final l = AppLocalizations.of(context);
+      // An expired / reused e-mail link arrives outside any form: say so instead of leaving it for later.
+      if (s.failure == AuthFailureKind.linkInvalid) {
+        ScaffoldMessenger.maybeOf(context)
+          ?..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text(authFailureText(l, s.failure!))),
+          );
+        context.read<AuthCubit>().dismissMessage();
+        return;
+      }
       if (s.notice == AuthNotice.sessionExpired ||
           s.notice == AuthNotice.passwordChanged) {
         ScaffoldMessenger.maybeOf(context)

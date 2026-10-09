@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Release builds need this to reach Supabase (debug/profile manifests add it automatically). -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="OrbiJob"
         android:name="${applicationName}"
@@ -21,6 +23,9 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- supabase_flutter reads the auth link itself (app_links); Flutter's own deep-link routing would try to
+                 open it as a screen route and fail. -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -46,6 +51,11 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- url_launcher: open posting / résumé links in the browser (Android 11+ package visibility). -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
