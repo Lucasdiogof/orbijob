@@ -32,6 +32,7 @@ ProfessionalProfile profileFromRow(Map<String, dynamic> r) =>
       preferences: Map<String, dynamic>.from(
         r['preferences'] as Map? ?? const {},
       ),
+      personal: Map<String, dynamic>.from(r['personal'] as Map? ?? const {}),
     );
 
 Map<String, dynamic> profileToRow(ProfessionalProfile p, String userId) => {
@@ -44,6 +45,7 @@ Map<String, dynamic> profileToRow(ProfessionalProfile p, String userId) => {
   'occupations': p.occupations,
   'skills': p.skills,
   'preferences': p.preferences,
+  'personal': p.personal,
 };
 
 class SupabaseProfileRepository implements ProfileRepository {
@@ -144,6 +146,27 @@ class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
+  Future<Experience> updateExperience(Experience e) async {
+    requireUserId(_client);
+    final id = e.id;
+    if (id == null) throw ArgumentError('updateExperience needs an id');
+    // The parent (profile_id) and the owner are not editable: the server also refuses to move a row.
+    await _client
+        .from('experiences')
+        .update({
+          'company': e.company,
+          'title': e.title,
+          'start_date': _date(e.startDate),
+          'end_date': _date(e.endDate),
+          'description': e.description,
+        })
+        .eq('id', id)
+        .select()
+        .single();
+    return e;
+  }
+
+  @override
   Future<void> removeExperience(String id) async {
     requireUserId(_client);
     await _client.from('experiences').delete().eq('id', id);
@@ -196,6 +219,26 @@ class SupabaseProfileRepository implements ProfileRepository {
       startDate: e.startDate,
       endDate: e.endDate,
     );
+  }
+
+  @override
+  Future<Education> updateEducation(Education e) async {
+    requireUserId(_client);
+    final id = e.id;
+    if (id == null) throw ArgumentError('updateEducation needs an id');
+    await _client
+        .from('education')
+        .update({
+          'institution': e.institution,
+          'degree': e.degree,
+          'field': e.field,
+          'start_date': _date(e.startDate),
+          'end_date': _date(e.endDate),
+        })
+        .eq('id', id)
+        .select()
+        .single();
+    return e;
   }
 
   @override

@@ -31,6 +31,9 @@ class ResumeRejected implements Exception {
 /// bucket enforces the same limits on the server. Reading is only through short-lived signed URLs.
 abstract class ResumeRepository {
   static const maxBytes = 5 * 1024 * 1024;
+
+  /// Per-user limit enforced by the database (`resumes` quota); checked here first to avoid a useless upload.
+  static const maxFiles = 10;
   Future<List<ResumeFile>> list(String profileId);
   Future<ResumeFile> upload(String profileId, Uint8List pdfBytes);
   Future<String> signedUrl(
