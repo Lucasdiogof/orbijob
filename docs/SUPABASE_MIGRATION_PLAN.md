@@ -138,3 +138,14 @@ Inspecionada em 2026-10-09; nenhuma tela usa dados remotos (apenas entrar/conta 
 | Lacuna: exclusão de conta | ver seção 7 |
 | Não verificado | PKCE e armazenamento seguro em aparelho real; comportamento do `onAuthStateChange` com token expirado offline |
 Essas lacunas não bloqueiam aplicar as migrations; bloqueiam abrir o login ao público.
+
+## 11. Classificação dos testes (o que cada um prova)
+| Teste | Natureza | O que prova | O que NÃO prova |
+|---|---|---|---|
+| `flutter analyze`/`test` (182), build web | **local** | código do app, repositórios contra `SupabaseClient` com HTTP simulado | comportamento do Supabase hospedado |
+| Worker `tsc` + 58 testes (inclui RLS em PGlite) | **local** | conectores, retry/timeout, RLS das migrations 1–2 em Postgres embutido | idem |
+| `supabase/tests/run.sh` (PostgreSQL 16 real + **stub** de Auth/Storage): auditoria de catálogo, isolamento entre usuários em 12 tabelas + `storage.objects`, cotas, concorrência (2 sessões), deadlock, caminho de atualização 1–4 → 5, teardown ida-e-volta, inspeção real sobre a cadeia | **local, motor real, plataforma simulada** | SQL, RLS, triggers, locks, grants e ordem das 5 migrations em PostgreSQL 16 | Auth real, Storage API, dono/privilégios do role `postgres` do Supabase, divisor de instruções da CLI, versões 15/17 |
+| `classify_state.test.mjs` (14), `e2e_remote.test.mjs` (8) | **simulado** (catálogos gerados do stub; modelo em memória da API) | lógica do classificador e do script e2e; cada falha injetada é detectada | que a API real responda como o modelo |
+| `apply.test.sh` (26) | **simulado** (binários falsos) | travas do `apply.sh`: nenhum `db push` sem as condições; uma única execução; gate gasto após falha | comportamento da CLI/rede reais; atomicidade do `db push` (**não verificada**) |
+| gitleaks | local | sem segredos no histórico e na árvore | — |
+| Fase E (`e2e_remote.mjs` contra o projeto) | **real — NÃO executada** | (futuro) Auth, RLS via API, Storage, signed URL, cotas | — |
