@@ -1,4 +1,25 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 3 — Supabase preparado)
+# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 4 — Flutter ligado ao Supabase)
+
+## Fase 4 (2026-10-09) — telas ligadas aos repositórios Supabase (PR de `feat/flutter-supabase-integration`, sem merge)
+**Estado do Supabase real (informado pelo proprietário, não verificado pelo assistente):**
+- 5 migrations aplicadas; inspeção `CONSISTENT_UP_TO_DATE`. Migration 6 (`service_role_grants`, PR #47) **mergeada mas NÃO aplicada**.
+- PR #46 (script da Fase E, SQL de auditoria, runbook): merge `7ba5fcc47a312c55651f47019cc0e12b6951ff62`. PR #47: merge `a6c9b6163315a19649de6d1268174716aa44fc88`. CI da `main` verde.
+- Fase E executada pelo proprietário no projeto real com duas contas descartáveis: auditoria `ok`; Auth; RLS A↔B em 12 tabelas; Storage; cotas pequenas; limpeza verificada (zero resíduos). Classificação: **VALIDADO nos itens críticos**. Lacunas: `viewed_jobs`, cotas grandes, persistência de sessão em dispositivo, e-mail de recuperação, **Site URL ainda `http://localhost:3000`** (não considerar produção pronta até mudar).
+
+**O que a Fase 4 entrega (código; validação remota NÃO feita — o ambiente do assistente não alcança `*.supabase.co`):**
+- Sessão: `UserScope` recria todos os Cubits por usuário (logout / troca A→B não deixa dado em cache) e esvazia a pilha de navegação; `AuthEffects` + `NewPasswordPage` (link de recuperação não pode ser ignorado); aviso de sessão expirada.
+- Perfil profissional (qualquer profissão), experiências, formação (opcional), currículos PDF (bucket privado, 5 MiB, 10 arquivos, URL assinada só ao abrir), favoritos (otimista com reversão, uma requisição por vaga), candidaturas manuais (etapa, nota, link, histórico pelo trigger), pesquisas salvas (servidor) × recentes (aparelho), tema/idioma/países de interesse na conta.
+- Estados distintos: carregando · sem dados · erro com tentar de novo · sessão expirada / entrar · "não configurado" (`DataFailureKind`).
+- Nenhuma migration nova; RLS/Storage intactos; nada de chave administrativa no app.
+- **O OrbiJob nunca envia candidaturas**: "Candidaturas" registra o que a pessoa fez fora; a tela diz isso.
+
+**Lacunas de esquema (sem coluna → guardado em JSON ou não implementado; NÃO foi criada migration):**
+- `professional_profiles` não tem headline/resumo/cidade/modalidade: ficam em `personal` (`headline`,`summary`,`city`) e `preferences.workMode`.
+- `experiences` não tem coluna "emprego atual": derivado (início sem fim).
+- `education` não tem descrição; `resumes` não tem marcador de "currículo principal" → não implementados.
+- Exigem migration futura se forem desejados (decisão do proprietário).
+
+**Validação remota que falta (proprietário, com contas descartáveis):** abrir o app com `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY`/`AUTH_REDIRECT_URL`, criar conta, confirmar e-mail, criar perfil/experiência/formação, favoritar, registrar candidatura, subir PDF, sair e entrar com outra conta. Checklist e Redirect URLs em `docs/SUPABASE_SETUP.md` ("Fase 4").
 
 ## Integração dos PRs (2026-10-09)
 | PR | Conteúdo | Merge commit |

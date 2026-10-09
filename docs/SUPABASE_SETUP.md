@@ -27,3 +27,18 @@ Migrations: `20261008000000_init.sql` (esquema), `20261009000000_rls_hardening.s
 6. App Flutter (somente valores públicos): copie `app/dart_defines.example.json` para `app/dart_defines.dev.json` (ignorado pelo git) e rode `flutter run --dart-define-from-file=dart_defines.dev.json`; equivalente: `--dart-define=SUPABASE_URL=… --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_…`. Sem esses valores o app roda sem contas. O app **recusa iniciar** com uma chave `sb_secret_…` ou JWT `service_role` e há testes que falham se `service_role` aparecer no código do app. Variáveis por ambiente: `.env.example`.
 7. Worker: `wrangler secret put SUPABASE_SERVICE_ROLE_KEY` (ver `docs/CLOUDFLARE_SETUP.md`).
 8. Checklist em staging antes de produção: criar 2 usuários e confirmar que um não lê/escreve/anexa nada do outro (inclusive via Storage); conferir Advisors (security/performance) do painel; ativar backups/PITR.
+
+## Fase 4 — rodar o app contra o projeto real
+Variáveis (`--dart-define` ou `--dart-define-from-file`; só valores públicos):
+| Variável | Valor |
+|---|---|
+| `SUPABASE_URL` | Project URL (`https://<ref>.supabase.co`) |
+| `SUPABASE_PUBLISHABLE_KEY` | chave `sb_publishable_…` (nunca `sb_secret_…`/service_role: o app recusa iniciar) |
+| `AUTH_REDIRECT_URL` | para onde os e-mails de confirmação/recuperação voltam (ver abaixo) |
+
+**Redirect URLs a cadastrar pelo proprietário** em Supabase → Authentication → URL Configuration (o assistente não altera Auth Settings):
+- Web: a origem publicada do app (ex.: `https://app.lucksrei.com/`) e `http://localhost:3000/**` só para desenvolvimento.
+- Android/iOS: `com.lucksrei.orbijob://auth-callback` (o intent-filter e o `CFBundleURLTypes` já estão no projeto; **não foram testados em aparelho**).
+- **Site URL** hoje é `http://localhost:3000`: troque pela URL pública antes de abrir o cadastro ao público. Enquanto for localhost, os links dos e-mails levam a localhost → **não considerar produção pronta**.
+
+Sem essas variáveis o app abre normalmente, sem contas, e as telas dizem que a conta não está configurada.

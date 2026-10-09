@@ -18,7 +18,15 @@ Implementado: shell de navegação adaptativa (Início, Explorar, Favoritos, Can
 Design system (identidade C): `core/design` (tokens gerados de `docs/design/identity/c-minimal/tokens.json`, tipografia, tema, marca) e `core/widgets` (componentes); ver `docs/DESIGN_SYSTEM.md`. Dois entrypoints: `lib/main.dart` (real, sem dados) e `lib/main_preview.dart` (mesma UI com vagas **fictícias** e faixa de aviso, só para revisão visual). Estado de UI com Cubits: tema (`ThemeCubit`), navegação (`ShellCubit`), busca (`SearchCubit`), favoritos em memória (`FavoritesCubit`).
 
 ### Integração Supabase (Fase 3)
-`core/config` (AppConfig por `--dart-define`, `initSupabase`, sessão no keystore) · `features/auth` (domain `AuthRepository`/`AuthFailure`, data `SupabaseAuthRepository`, presentation `AuthCubit` + `AuthPage`) · repositórios por feature (`domain` = interface, `data` = Supabase): perfil/experiência/formação, currículos (Storage privado), favoritos (snapshot), candidaturas (+histórico por trigger), preferências e pesquisas salvas. Registrados em `registerSupabaseRepositories` apenas quando há configuração; ainda não ligados às telas. Testes usam um `SupabaseClient` real com `MockClient` (sem rede). Plano remoto: [SUPABASE_MIGRATION_PLAN.md](SUPABASE_MIGRATION_PLAN.md).
+`core/config` (AppConfig por `--dart-define`, `initSupabase`, sessão no keystore) · `features/auth` (domain `AuthRepository`/`AuthFailure`, data `SupabaseAuthRepository`, presentation `AuthCubit` + `AuthPage`) · repositórios por feature (`domain` = interface, `data` = Supabase): perfil/experiência/formação, currículos (Storage privado), favoritos (snapshot), candidaturas (+histórico por trigger), preferências e pesquisas salvas. Registrados em `registerSupabaseRepositories` apenas quando há configuração. Testes usam um `SupabaseClient` real com `MockClient` (sem rede). Plano remoto: [SUPABASE_MIGRATION_PLAN.md](SUPABASE_MIGRATION_PLAN.md).
+
+### Ligação das telas (Fase 4)
+- **Sem Supabase nos widgets.** Cada tela fala com um Cubit; o Cubit recebe o repositório (interface) via `maybe<T>()` e, se ele não existir (build sem configuração), reporta `DataFailureKind.notConfigured` em vez de simular persistência.
+- **Erros centralizados:** `core/data/data_failure.dart` mapeia `PostgrestException` (42501 negado, PGRST301 sessão, 53400 cota, 23505 duplicado…), `StorageException`, rede e `ResumeRejected` para `DataFailureKind`; a UI mostra texto localizado (`dataFailureText`), nunca a mensagem do servidor. `DataFailureView` decide entre entrar, "não configurado" e tentar de novo.
+- **Escopo por conta:** `session/user_scope.dart` cria `Favorites/Profile/Applications/Preferences/SavedSearches` Cubits dentro de um `KeyedSubtree` com o id do usuário e esvazia a pilha do `Navigator` na troca; recentes (aparelho) são limpos.
+- **Escrita:** favoritos otimistas com reversão por vaga; demais escritas aguardam o servidor. Candidaturas: `application_events` é escrito por trigger e só lido.
+- **Auth:** `AuthCubit` (inclui `recovering`, `sessionExpired`), `AuthEffects` abre `NewPasswordPage`; `AUTH_REDIRECT_URL` define o retorno dos e-mails.
+- Pré-visualização/testes: `preview/in_memory_favorites.dart` (só em `main_preview` e testes); fakes de teste em `test/helpers/fakes.dart`.
 
 ## Worker (`worker/`)
 ```
