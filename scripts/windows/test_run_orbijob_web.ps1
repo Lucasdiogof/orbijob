@@ -173,14 +173,15 @@ Assert (($r.Code -eq 1) -and ($r.Output -match 'Git was not found')) 'fails with
 Assert ((Test-Path (Join-Path $root2 '3.47.7\bin')) -and -not (Test-Path (Join-Path $root2 ('3.47.7\' + $script:MarkerName)))) 'an unverified folder is never marked as valid'
 
 Write-Host 'clone with a Git that has no core.longpaths (fake git on PATH)'
+# The fake git only acts on `clone`; any other call (e.g. check-ignore) must be a harmless no-op, otherwise it would write into the real checkout.
 $gitDir = Join-Path $tmp 'fakegit'; New-Item -ItemType Directory $gitDir | Out-Null
 $tpl = Join-Path $tmp 'flutter-template'; New-FakeFlutter $tpl '3.47.7' '3.13.5'
 $gitLog = Join-Path $tmp 'git.log'
 if ($isWin) {
-  $g = "@echo off`r`necho %*>>""%FAKE_GIT_LOG%""`r`nif ""%FAKE_GIT_FAIL%""==""1"" (echo fatal: network down & exit /b 128)`r`nfor %%a in (%*) do set ""DEST=%%~a""`r`necho %* | findstr /C:""-c core.longpaths=true"" >nul`r`nif errorlevel 1 (echo error: unable to create file x: Filename too long & mkdir ""%DEST%\packages\flutter"" >nul & exit /b 128)`r`nxcopy ""%FAKE_GIT_TEMPLATE%"" ""%DEST%\"" /E /I /Q /Y >nul`r`nexit /b 0`r`n"
+  $g = "@echo off`r`necho %*>>""%FAKE_GIT_LOG%""`r`necho %* | findstr /C:""clone"" >nul`r`nif errorlevel 1 exit /b 0`r`nif ""%FAKE_GIT_FAIL%""==""1"" (echo fatal: network down & exit /b 128)`r`nfor %%a in (%*) do set ""DEST=%%~a""`r`necho %* | findstr /C:""-c core.longpaths=true"" >nul`r`nif errorlevel 1 (echo error: unable to create file x: Filename too long & mkdir ""%DEST%\packages\flutter"" >nul & exit /b 128)`r`nxcopy ""%FAKE_GIT_TEMPLATE%"" ""%DEST%\"" /E /I /Q /Y >nul`r`nexit /b 0`r`n"
   [System.IO.File]::WriteAllText((Join-Path $gitDir 'git.cmd'), $g)
 } else {
-  $g = "#!/bin/sh`necho `"`$*`" >> `"`$FAKE_GIT_LOG`"`n[ `"`$FAKE_GIT_FAIL`" = 1 ] && { echo 'fatal: network down'; exit 128; }`nfor a; do DEST=`"`$a`"; done`ncase `"`$*`" in *'-c core.longpaths=true'*) ;; *) echo 'error: unable to create file x: Filename too long'; mkdir -p `"`$DEST/packages/flutter`"; exit 128;; esac`ncp -r `"`$FAKE_GIT_TEMPLATE`" `"`$DEST`"`nexit 0`n"
+  $g = "#!/bin/sh`necho `"`$*`" >> `"`$FAKE_GIT_LOG`"`ncase `" `$* `" in *' clone '*) ;; *) exit 0;; esac`n[ `"`$FAKE_GIT_FAIL`" = 1 ] && { echo 'fatal: network down'; exit 128; }`nfor a; do DEST=`"`$a`"; done`ncase `"`$*`" in *'-c core.longpaths=true'*) ;; *) echo 'error: unable to create file x: Filename too long'; mkdir -p `"`$DEST/packages/flutter`"; exit 128;; esac`ncp -r `"`$FAKE_GIT_TEMPLATE`" `"`$DEST`"`nexit 0`n"
   $gp = Join-Path $gitDir 'git'; [System.IO.File]::WriteAllText($gp, $g); chmod +x $gp
 }
 $repo3 = Join-Path $tmp 'repo3'; New-FakeRepo $repo3
@@ -211,6 +212,8 @@ try {
   Remove-Item Env:FAKE_GIT_LOG, Env:FAKE_GIT_TEMPLATE, Env:FAKE_GIT_FAIL -ErrorAction SilentlyContinue
 }
 Assert ($text -match "'-c', 'core\.longpaths=true', 'clone'") 'script source passes core.longpaths only on the clone command'
+
+Assert (-not (Test-Path (Join-Path $repoRoot 'app\dart_defines.web.json'))) 'the tests left nothing behind in the real checkout (app/dart_defines.web.json)'
 
 Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 Write-Host ''
