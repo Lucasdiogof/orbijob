@@ -9,6 +9,12 @@
 | #41 | cotas, teardown testado, remoção de arquivos ao apagar perfil, plano revisado | `4ba5023faee3dde6d88cb1f7acaa22b0f0bdfd70` |
 CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-sql, worker, catalog, android-resources e secrets). Histórico preservado (merge commits), sem force push.
 
+## Fase 3.8–3.10 — migrations aplicadas ao projeto real (2026-10-09)
+- PR #45 integrado (`beda11ae04154c7fb7684f737b9d7205878c6acd`); CI da `main` verde.
+- O proprietário aplicou as **cinco** migrations com `supabase db push --linked` (CLI no PowerShell, sem backup: banco vazio, decisão dele). Evidências reais: `migration list` com Local = Remote; inspeção posterior classificada `CONSISTENT_UP_TO_DATE` (16 tabelas com RLS, 24 policies, bucket `resumes` privado de 5 MiB e só PDF, 4 policies de Storage, 8 triggers, `pg_trgm` em `extensions`, funções sem `SECURITY DEFINER`).
+- **Achado:** `service_role` só tem `REFERENCES/TRIGGER/TRUNCATE` nas tabelas (sem DML). Migration 6 (`20261013000000_service_role_grants.sql`) com privilégios mínimos preparada em PR separado, **não aplicada**. Ver `docs/SUPABASE_MIGRATION_PLAN.md` §13.
+- Fase E (Auth, RLS entre dois usuários, Storage, cotas) ainda **não foi executada no projeto real**: o ambiente do assistente não alcança `*.supabase.co` e não tem credenciais. O script ampliado e o passo a passo estão em outro PR (`feat/phase-e-real-validation`) e no runbook.
+
 ## Supabase (projeto `rpmlfxwebnlxnwadyvle`) — estado conhecido
 - **Nada foi aplicado e nada foi lido do projeto.** Acesso de leitura tentado em 2026-10-09 (duas vezes):
   - conector Supabase: existe no registro, **não instalado** na conta nem habilitado na sessão;

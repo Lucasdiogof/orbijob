@@ -20,6 +20,7 @@ Consequência: tabelas, migrations aplicadas, extensões, buckets e configuraç�
 | 3 | `20261010000000_app_integration.sql` | `pg_trgm` → schema `extensions`; `updated_at`; `user_preferences`; `saved_jobs` com snapshot (troca de PK numa tabela vazia); limites de tamanho; trigger de histórico (SECURITY INVOKER); bucket `resumes` privado + 4 policies em `storage.objects` | `drop constraint` da PK de `saved_jobs` e `drop policy` de 2 policies recriadas na mesma migration; seguro com tabelas vazias |
 | 4 | `20261011000000_quotas.sql` | cotas por usuário via trigger (currículos 10, favoritos 1000, pesquisas 100, candidaturas 2000) | não |
 | 5 | `20261012000000_quota_upsert_fix.sql` | **corretiva** da 4: upsert de favorito já existente no teto passa (chave natural `job_key`) e inserts concorrentes não ultrapassam a cota (lock advisory por usuário/tabela). A 4 não foi reescrita, pois pode já ter sido aplicada | `create or replace function` e recriação de 1 trigger |
+| 6 | `20261013000000_service_role_grants.sql` | **futura, ainda NÃO aplicada ao projeto real**: privilégios mínimos de tabela para o `service_role` (ver §13). Independente das demais | `revoke`/`grant` e `alter default privileges` (idempotente) |
 
 Dependências: 2 usa objetos de 1; 3 usa `saved_jobs_visible_job`, `resumes` e a extensão de 1–2; 4 usa tabelas de 1. A ordem é a dos timestamps; a CLI aplica nessa ordem. Nenhuma migration usa `SECURITY DEFINER` nem cria trigger em `auth.users`; `anon` só recebe `SELECT` no catálogo.
 
@@ -211,3 +212,19 @@ A consulta única rodou sem erro no SQL Editor (PostgreSQL 17.11, conectado como
 Consulta somente leitura devolveu: `postgres` é membro de `supabase_privileged_role`; `supautils.privileged_role = supabase_privileged_role`; `supautils.policy_grants` concede a `postgres` as tabelas `storage.objects` (e `storage.buckets`, `auth.users` etc.); `postgres` tem todos os privilégios com grant option em `storage.objects`; `pg_trgm` consta em `supautils.privileged_extensions`; ainda não há policies em `storage`. Isso é evidência de configuração da plataforma, não de execução: o `CREATE POLICY` em si só será provado na aplicação real (Fase D) e no e2e (Fase E).
 
 `predeploy_check.mjs --evidence=<arquivo>` (ou `ORBIJOB_STORAGE_EVIDENCE` no `apply.sh`) aceita `storage-policies` quando há essa evidência. Com ela, o resultado sobre a inspeção real é **PRECHECK_OK**. Isso continua sendo condição necessária, não suficiente: faltam backup, dry-run e autorização específica. Contingência se o `CREATE POLICY` falhar na migration 3: a migration roda em transação e é revertida inteira; policies/bucket seriam criados pelo painel e a migration dividida.
+
+
+## 13. `service_role`: o que ele realmente tem no projeto real (2026-10-09) e a migration 6
+
+**Achado (inspeção real após as migrations 1–5):** `service_role` só tem `REFERENCES`, `TRIGGER` e `TRUNCATE` nas 16 tabelas de `public` (default `{service_role=Dxtm/postgres}` para objetos criados por `postgres`). `BYPASSRLS` ignora as policies, mas **não é privilégio de tabela**: uma chamada do Worker com a chave de serviço receberia `permission denied`. Nenhuma migration anterior menciona o papel, e o stub local concedia `ALL` por padrão, por isso os testes não viram o problema. O stub agora reproduz os defaults reais (`truncate, references, trigger`; o `maintain` do PostgreSQL 17 só existe no real) e `02_behaviour.sql` deixou de assumir que `service_role` lê `applications`.
+
+**Migration 6 (`20261013000000_service_role_grants.sql`, não aplicada, PR separado):** revoga tudo de `service_role` em `public`, zera o default para tabelas futuras e concede só o necessário:
+
+| Operação do backend | Privilégio |
+|---|---|
+| Ingestão e sincronização de fontes | `job_sources` select/insert/update; `jobs` select/insert/update; `sync_runs` select/insert/update |
+| Manutenção do catálogo (dedupe, remoção de vagas velhas) | `jobs` e `job_clusters` também delete |
+| Varredura de currículos órfãos | `resumes` select (os arquivos saem pela Storage API) |
+| Exclusão de conta | **nenhum privilégio de tabela**: `auth.admin.deleteUser` cascateia pelas FKs e os arquivos saem pela Storage API |
+
+Não concede: `ALL`, escrita em tabelas de usuário, delete em `job_sources`/`sync_runs`, `EXECUTE` em funções, `TRUNCATE`/`REFERENCES`/`TRIGGER`. O app Flutter nunca usa esse papel. Testes: `08_service_role.sql` (matriz exata de privilégios em todas as tabelas, sem `EXECUTE`, tabela futura nasce sem privilégio, operações que funcionam e que falham, em PostgreSQL 16 e 17); três mutantes (sem a migration, `grant all`, sem delete em `job_clusters`) são detectados. O classificador passou a reconhecer a migration 6 pela assinatura do grant e a tratar o projeto real como `CONSISTENT_PARTIAL` com ela pendente. O `rollback_all.sql` restaura os defaults reais da plataforma, não `ALL`. **A aplicação depende de autorização expressa; o procedimento é o mesmo (`db push --dry-run`, depois `db push`).**

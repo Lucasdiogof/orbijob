@@ -90,7 +90,7 @@ case "$phase" in
     (cd "$ROOT" && supabase db push --dry-run) | tee "$STATE/dry-run.txt"
     expected="$(node "$HERE/classify_state.mjs" "$STATE/inspection-before.json" --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).pending.map(x=>x.split("_")[0]).join(" ")))')"
     for v in $expected; do grep -q "$v" "$STATE/dry-run.txt" || die "dry run does not list expected pending migration $v"; done
-    for v in 20261008000000 20261009000000 20261010000000 20261011000000 20261012000000; do
+    for v in 20261008000000 20261009000000 20261010000000 20261011000000 20261012000000 20261013000000; do
       case " $expected " in *" $v "*) ;; *) if grep -q "$v" "$STATE/dry-run.txt"; then die "dry run would re-apply $v, which the classification says is already applied"; fi;; esac
     done
     echo "dry run matches the classification. Recovery for a partial failure: docs/SUPABASE_MIGRATION_PLAN.md sections 5 and 6."

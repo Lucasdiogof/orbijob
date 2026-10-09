@@ -37,8 +37,13 @@ drop function if exists public.log_application_stage();
 drop function if exists public.enforce_row_quota();
 drop extension if exists pg_trgm cascade;
 
--- restore the platform's default table privileges that the hardening migration removed
-alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+-- restore the platform's own defaults for objects created by postgres (observed: TRUNCATE, REFERENCES, TRIGGER and, from PostgreSQL 17, MAINTAIN)
+alter default privileges in schema public grant truncate, references, trigger on tables to anon, authenticated, service_role;
+do $$ begin
+  if current_setting('server_version_num')::int >= 170000 then
+    execute 'alter default privileges in schema public grant maintain on tables to anon, authenticated, service_role';
+  end if;
+end $$;
 
 -- forget the migrations so `supabase db push` can apply them again
 do $$

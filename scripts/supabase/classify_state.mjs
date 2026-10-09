@@ -12,6 +12,7 @@ export const MIGRATIONS = [
   { version: '20261010000000', name: 'app_integration' },
   { version: '20261011000000', name: 'quotas' },
   { version: '20261012000000', name: 'quota_upsert_fix' },
+  { version: '20261013000000', name: 'service_role_grants' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -40,6 +41,8 @@ function signatures(i) {
     tables.has('user_preferences') && buckets.some((b) => b.id === 'resumes'),
     triggers.has('resumes.resumes_quota'),
     Boolean(fn?.quota_has_key_arg),
+    // service_role can read the catalogue (a grant: invisible to the objects above). Until migration 6 it only has TRUNCATE/REFERENCES/TRIGGER.
+    (i.public_grants ?? []).some((g) => g.role === 'service_role' && g.table === 'jobs' && (g.privileges ?? []).includes('SELECT')),
   ];
 }
 

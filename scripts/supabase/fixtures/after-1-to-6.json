@@ -7,7 +7,7 @@
     "storage",
     "tests"
   ],
-  "database": "fx_after_1_to_4",
+  "database": "fx_after_1_to_5",
   "extensions": [
     {
       "name": "pg_trgm",
@@ -187,146 +187,47 @@
     },
     {
       "role": "service_role",
-      "table": "application_events",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "applications",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "credentials",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "education",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "experiences",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "job_clusters",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
       "table": "job_sources",
       "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
+        "INSERT",
+        "SELECT",
+        "UPDATE"
       ]
     },
     {
       "role": "service_role",
       "table": "jobs",
       "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
       ]
     },
     {
       "role": "service_role",
-      "table": "professional_profiles",
+      "table": "job_clusters",
       "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "reminders",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "resumes",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "saved_jobs",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "saved_searches",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
+        "DELETE",
+        "INSERT",
+        "SELECT",
+        "UPDATE"
       ]
     },
     {
       "role": "service_role",
       "table": "sync_runs",
       "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
+        "INSERT",
+        "SELECT",
+        "UPDATE"
       ]
     },
     {
       "role": "service_role",
-      "table": "user_preferences",
+      "table": "resumes",
       "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
-      ]
-    },
-    {
-      "role": "service_role",
-      "table": "viewed_jobs",
-      "privileges": [
-        "REFERENCES",
-        "TRIGGER",
-        "TRUNCATE"
+        "SELECT"
       ]
     }
   ],
@@ -683,7 +584,7 @@
       "name": "enforce_row_quota",
       "anon_can_execute": false,
       "security_definer": false,
-      "quota_has_key_arg": false,
+      "quota_has_key_arg": true,
       "authenticated_can_execute": false
     },
     {
@@ -735,7 +636,9 @@
     "20261008000000",
     "20261009000000",
     "20261010000000",
-    "20261011000000"
+    "20261011000000",
+    "20261012000000",
+    "20261013000000"
   ],
   "auth_users_triggers": [],
   "default_privileges_public": [

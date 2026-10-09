@@ -47,7 +47,11 @@ create trigger protect_objects_delete before delete on storage.objects for each 
 grant usage on schema storage to anon, authenticated, service_role;
 -- Supabase grants broad table privileges to the API roles by default; RLS and the hardening migration are the real gates.
 grant select, insert, update, delete on all tables in schema storage to anon, authenticated, service_role;
-alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+-- Observed on the real project (2026-10-09, PostgreSQL 17.11): objects created by `postgres` in public give the API roles
+-- only TRUNCATE, REFERENCES, TRIGGER and MAINTAIN (acl {anon=Dxtm/postgres, authenticated=Dxtm/postgres, service_role=Dxtm/postgres}).
+-- NOT select/insert/update/delete: service_role bypasses RLS but has no table privilege until a migration grants it.
+-- (MAINTAIN exists only from PostgreSQL 17; it is omitted here so the stub runs on 16 as well.)
+alter default privileges in schema public grant truncate, references, trigger on tables to anon, authenticated, service_role;
 
 -- Hosted Supabase projects ship an event trigger that enables RLS on every table created in `public`, implemented by
 -- `public.rls_auto_enable()` (SECURITY DEFINER, executable by anon/authenticated through the default PUBLIC EXECUTE).

@@ -189,208 +189,144 @@
       "role": "service_role",
       "table": "application_events",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "applications",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "credentials",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "education",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "experiences",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "job_clusters",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "job_sources",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "jobs",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "professional_profiles",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "reminders",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "resumes",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "saved_jobs",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "saved_searches",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "sync_runs",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "user_preferences",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     },
     {
       "role": "service_role",
       "table": "viewed_jobs",
       "privileges": [
-        "DELETE",
-        "INSERT",
         "REFERENCES",
-        "SELECT",
         "TRIGGER",
-        "TRUNCATE",
-        "UPDATE"
+        "TRUNCATE"
       ]
     }
   ],
