@@ -1,15 +1,28 @@
 # HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 3 — Supabase preparado)
 
 ## Integração dos PRs (2026-10-09)
-- PR #39 (Fase 2) integrado na `main`: merge commit `eaae3ea3228905cb25e766392d85bfda2c9e354d`; CI da `main` verde.
-- PR #40 (Fase 3, retargetado de `feat/phase2-stabilization` para `main`) integrado: merge commit `dce2599f68e7941940f40763c7f4f53a15718815`.
-- Histórico preservado (merge commits), sem force push.
+| PR | Conteúdo | Merge commit |
+|---|---|---|
+| #38 | identidade C | `3f5dc6185bc8f5da592ddb415b9a2404c5ab4e40` |
+| #39 | Fase 2 (conteúdo original das vagas, RLS hardening, Worker HTTP) | `eaae3ea3228905cb25e766392d85bfda2c9e354d` |
+| #40 | Fase 3 (migration de integração, testes SQL, auth e repositórios Flutter) | `dce2599f68e7941940f40763c7f4f53a15718815` |
+| #41 | cotas, teardown testado, remoção de arquivos ao apagar perfil, plano revisado | `4ba5023faee3dde6d88cb1f7acaa22b0f0bdfd70` |
+CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-sql, worker, catalog, android-resources e secrets). Histórico preservado (merge commits), sem force push.
 
-## Supabase (projeto `rpmlfxwebnlxnwadyvle`) — estado
-- **Nada foi aplicado** e **o estado remoto não foi lido**: o conector Supabase não está instalado na conta/sessão e o egress do ambiente bloqueia `*.supabase.co` e `api.supabase.com` (403). Não se assume banco vazio: a pré-checagem do plano comprova.
-- Migrations no repositório (4): `init`, `rls_hardening`, `app_integration`, `quotas`. Plano exato, riscos e reversão: `docs/SUPABASE_MIGRATION_PLAN.md`. Teardown testado: `supabase/rollback/rollback_all.sql`.
-- Testes SQL rodam em PostgreSQL 16 real, mas com **stub** de Auth/Storage: **não** substituem a validação com Auth e Storage reais (plano, seção 2 e passo 7).
-- Pendente de implementar: exclusão de conta e varredura de órfãos no Worker (plano, seção 7); ligar as telas aos repositórios.
+## Supabase (projeto `rpmlfxwebnlxnwadyvle`) — estado conhecido
+- **Nada foi aplicado e nada foi lido do projeto.** Acesso de leitura tentado em 2026-10-09 (duas vezes):
+  - conector Supabase: existe no registro, **não instalado** na conta nem habilitado na sessão;
+  - rede: `*.supabase.co` e `api.supabase.com` → `CONNECT tunnel failed, response 403` (host fora da allowlist do ambiente);
+  - CLI `supabase`: não instalada; sem token no ambiente (nenhuma variável `SUPABASE_*`).
+  Não se assume banco vazio.
+- **Para destravar (feito por você, nas configurações do ambiente — nunca colando segredos no chat):** (1) Editar o ambiente de nuvem → Network access → liberar `rpmlfxwebnlxnwadyvle.supabase.co` e `api.supabase.com` (Allowed domains); (2) criar um **token de acesso pessoal somente leitura** em supabase.com/dashboard/account/tokens e guardá-lo em *Network secrets/API credentials* (ou variável de ambiente `SUPABASE_ACCESS_TOKEN`) do ambiente; (3) alternativa sem rede: instalar o conector *Supabase* em claude.ai e habilitá-lo neste chat; (4) alternativa manual: rodar a pré-checagem do plano (seção 3, passo 1) no SQL Editor e colar só os resultados.
+- Migrations pendentes (4): `20261008000000_init`, `20261009000000_rls_hardening`, `20261010000000_app_integration`, `20261011000000_quotas`. Plano exato, riscos e reversão: `docs/SUPABASE_MIGRATION_PLAN.md`. Teardown (não executado): `supabase/rollback/rollback_all.sql`, exige excluir o bucket pela Storage API antes.
+- Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
+- Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
+
+## Próxima ação necessária do proprietário
+1. Destravar o acesso de leitura (acima) **ou** rodar a pré-checagem manualmente.
+2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 4 migrations (ou executar os passos 2–8 do plano).
 
 # Estado da Fase 2
 
