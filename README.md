@@ -53,7 +53,7 @@ node scripts/build-coverage.mjs
 # Aceite de buscas (precisa de internet; chaves opcionais)
 USAJOBS_KEY=… USAJOBS_EMAIL=… ADZUNA_APP_ID=… ADZUNA_APP_KEY=… node scripts/acceptance.mjs --out docs/evidence/acceptance-$(date +%F).json
 ```
-Copie `.env.example` para `.env` (nunca commitar). O projeto Supabase do proprietário existe (migrations aplicadas); nenhum Cloudflare foi publicado. Passo a passo do app contra o projeto real: `docs/SUPABASE_SETUP.md` (Fase 4).
+Copie `.env.example` para `.env` (nunca commitar). O projeto Supabase do proprietário existe (migrations aplicadas); nenhum Cloudflare foi publicado. Passo a passo do app contra o projeto real: `docs/SUPABASE_SETUP.md` (Fase 4). No Windows, um comando prepara um Flutter isolado e abre o app em `localhost:3000`: `docs/WINDOWS_WEB_RUN.md`.
 
 ## Estrutura de diretórios
 ```
