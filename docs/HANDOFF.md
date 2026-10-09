@@ -16,13 +16,13 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
   - CLI `supabase`: não instalada; sem token no ambiente (nenhuma variável `SUPABASE_*`).
   Não se assume banco vazio.
 - **Para destravar (feito por você, nas configurações do ambiente — nunca colando segredos no chat):** (1) Editar o ambiente de nuvem → Network access → liberar `rpmlfxwebnlxnwadyvle.supabase.co` e `api.supabase.com` (Allowed domains); (2) criar um **token de acesso pessoal somente leitura** em supabase.com/dashboard/account/tokens e guardá-lo em *Network secrets/API credentials* (ou variável de ambiente `SUPABASE_ACCESS_TOKEN`) do ambiente; (3) alternativa sem rede: instalar o conector *Supabase* em claude.ai e habilitá-lo neste chat; (4) alternativa manual: rodar a pré-checagem do plano (seção 3, passo 1) no SQL Editor e colar só os resultados.
-- Migrations pendentes (4): `20261008000000_init`, `20261009000000_rls_hardening`, `20261010000000_app_integration`, `20261011000000_quotas`. Plano exato, riscos e reversão: `docs/SUPABASE_MIGRATION_PLAN.md`. Teardown (não executado): `supabase/rollback/rollback_all.sql`, exige excluir o bucket pela Storage API antes.
+- Migrations pendentes (5): `20261008000000_init`, `20261009000000_rls_hardening`, `20261010000000_app_integration`, `20261011000000_quotas`, `20261012000000_quota_upsert_fix` (corretiva da cota de favoritos). Plano exato, riscos e reversão: `docs/SUPABASE_MIGRATION_PLAN.md`. Teardown (não executado): `supabase/rollback/rollback_all.sql`, exige excluir o bucket pela Storage API antes.
 - Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
 - Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
 
 ## Próxima ação necessária do proprietário
 1. Destravar o acesso de leitura (acima) **ou** rodar a pré-checagem manualmente.
-2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 4 migrations (ou executar os passos 2–8 do plano).
+2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 5 migrations (ou executar os passos 2–8 do plano).
 
 # Estado da Fase 2
 

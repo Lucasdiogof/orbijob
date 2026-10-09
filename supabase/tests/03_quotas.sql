@@ -22,6 +22,20 @@ begin
   insert into public.saved_jobs (user_id, job_key, snapshot) select U::uuid, 'k' || g, '{"a":1}' from generate_series(1, 1000) g;
   perform tests.fails(format($q$insert into public.saved_jobs (user_id, job_key, snapshot) values (%L, 'over', '{"a":1}')$q$, U), 'quota exceeded');
 
+  -- Regression (favourites at the cap): existing rows stay editable and re-saving them (upsert) must not hit the quota.
+  insert into public.saved_jobs (user_id, job_key, snapshot) values (U::uuid, 'k1', '{"v":2}')
+    on conflict (user_id, job_key) do update set snapshot = excluded.snapshot;
+  if (select snapshot ->> 'v' from public.saved_jobs where job_key = 'k1') is distinct from '2' then
+    raise exception 'upsert of an existing favourite at the cap did not update the row';
+  end if;
+  update public.saved_jobs set note = 'still editable' where job_key = 'k2';
+  if (select count(*) from public.saved_jobs where note = 'still editable') <> 1 then raise exception 'update at the cap failed'; end if;
+  -- ...while a NEW key through upsert, or a plain insert, is still refused; a duplicate key is a unique violation
+  perform tests.fails(format($q$insert into public.saved_jobs (user_id, job_key, snapshot) values (%L, 'brand-new', '{"a":1}')
+    on conflict (user_id, job_key) do update set snapshot = excluded.snapshot$q$, U), 'quota exceeded');
+  perform tests.fails(format($q$insert into public.saved_jobs (user_id, job_key, snapshot) values (%L, 'k3', '{"a":1}')$q$, U), 'duplicate key');
+  perform tests.count(format($q$select 1 from public.saved_jobs where user_id = %L$q$, U), 1000);
+
   insert into public.applications (user_id, job_snapshot) select U::uuid, '{}' from generate_series(1, 2000) g;
   perform tests.fails(format($q$insert into public.applications (user_id, job_snapshot) values (%L, '{}')$q$, U), 'quota exceeded');
 end $$;
