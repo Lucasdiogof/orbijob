@@ -14,6 +14,13 @@ export const MIGRATIONS = [
   { version: '20261012000000', name: 'quota_upsert_fix' },
 ];
 
+const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
+// Functions the Supabase platform itself installs in `public`. Known by name only: the inspection must still be backed by
+// inspect_predeploy_details.sql (return type, event trigger binding, definition) before the apply is called ready.
+const PLATFORM_FUNCTIONS = {
+  rls_auto_enable: 'Supabase "automatically enable RLS" event-trigger function',
+};
+
 const OWN_TABLES = [
   'job_sources', 'jobs', 'job_clusters', 'sync_runs', 'professional_profiles', 'experiences', 'education',
   'credentials', 'resumes', 'saved_jobs', 'saved_searches', 'viewed_jobs', 'applications', 'application_events',
@@ -41,13 +48,18 @@ function signatures(i) {
  * cell ("{""format"": 1 ...}"), the editor's JSON export ([{"inspection": "<json text>"}] or [{"inspection": {...}}]),
  * or the object itself. Anything else is rejected with a clear message instead of being guessed.
  */
-export function parseInspection(text) {
+export function unwrapExport(text) {
   let t = String(text).replace(/^\uFEFF/, '').trim();
   if (t.startsWith('"') && t.endsWith('"')) t = t.slice(1, -1).replace(/""/g, '"');
   let v = JSON.parse(t);
   if (Array.isArray(v) && v.length === 1 && v[0] && typeof v[0] === 'object') v = v[0];
-  if (v && typeof v === 'object' && 'inspection' in v) v = v.inspection;
+  if (v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 1 && typeof Object.values(v)[0] !== 'number') v = Object.values(v)[0];
   if (typeof v === 'string') v = JSON.parse(v);
+  return v;
+}
+
+export function parseInspection(text) {
+  const v = unwrapExport(text);
   if (!v || v.format !== 1 || !Array.isArray(v.public_tables)) throw new Error('not an OrbiJob inspection document (expected "format": 1 and "public_tables")');
   return v;
 }
@@ -77,17 +89,41 @@ export function classify(i) {
     if (!inHistory && sig[k]) problems.push(`objects of migration ${MIGRATIONS[k].name} exist but the history does not list it (applied by hand?)`);
   }
 
+  const exceptions = [];
+  const blockers = [];
+  const evidence = [];
+  for (const f of i.public_functions) {
+    if (OWN_FUNCTIONS.includes(f.name)) continue;
+    if (f.name in PLATFORM_FUNCTIONS) {
+      const exposed = f.anon_can_execute || f.authenticated_can_execute;
+      exceptions.push(`public.${f.name}: ${PLATFORM_FUNCTIONS[f.name]} (by name). security_definer=${f.security_definer}, anon_can_execute=${f.anon_can_execute}, authenticated_can_execute=${f.authenticated_can_execute}`);
+      if (f.security_definer && exposed) blockers.push(`public.${f.name} is SECURITY DEFINER and executable by API roles: confirm with inspect_predeploy_details.sql that it returns event_trigger and is bound to an event trigger (then it cannot be called as a normal function) before applying`);
+      continue;
+    }
+    problems.push(`public schema already has a function that is neither OrbiJob's nor a known platform function: public.${f.name}`);
+  }
+  const acl = i.default_privileges_public ?? [];
+  const aclOwners = [...new Set(acl.map((a) => a.owner))].sort();
+  if (aclOwners.length) evidence.push(`default privileges in public exist for role(s): ${aclOwners.join(', ')} (the migrations revoke only the ones of the role that runs them)`);
+  const strange = aclOwners.filter((o) => !['postgres', 'supabase_admin'].includes(o));
+  if (strange.length) warnings.push(`default privileges defined for unexpected role(s): ${strange.join(', ')}`);
+
   const nothingOurs = ownPresent.length === 0 && applied.length === 0 && !sig.some(Boolean);
   if (nothingOurs) {
     if ((i.extensions ?? []).some((e) => e.name === 'pg_trgm')) warnings.push('pg_trgm is already installed: confirm it is owned by the migration role (migration 3 moves it to schema "extensions")');
-    if (history === null) warnings.push('supabase_migrations.schema_migrations does not exist yet (normal for a project that never ran migrations)');
+    if (history === null) {
+      evidence.push('migration_versions is null: the history table supabase_migrations.schema_migrations does not exist. Alone that proves nothing; together with zero OrbiJob tables, policies, triggers, buckets and migration objects it means nothing was applied (the CLI creates the table on the first push)');
+      if (!(i.schemas ?? []).includes('supabase_migrations')) evidence.push('schema supabase_migrations is absent as well, consistent with a project that never ran migrations');
+    }
+    evidence.push(`public tables: ${i.public_tables.length}, policies: ${i.public_policies.length}, triggers: ${i.public_triggers.length}, buckets: ${(i.storage_buckets ?? []).length}, storage policies: ${i.storage_policies.length}`);
   }
   if ((i.auth_users_triggers ?? []).length) warnings.push(`user triggers exist on auth.users: ${i.auth_users_triggers.join(', ')} (not created by OrbiJob; review)`);
   if (!/^1[5-9]/.test(String(i.server_version))) warnings.push(`PostgreSQL ${i.server_version}: migrations were tested on 16`);
 
   const pending = problems.length ? null : MIGRATIONS.slice(prefixLen).map((m) => `${m.version}_${m.name}`);
   const state = problems.length ? 'DRIFT' : nothingOurs ? 'EMPTY' : pending.length === 0 ? 'CONSISTENT_UP_TO_DATE' : 'CONSISTENT_PARTIAL';
-  return { state, safeToPlan: !problems.length, appliedCount: prefixLen, pending, problems, warnings };
+  if (history === null && !nothingOurs && !problems.length) blockers.push('no history table but OrbiJob objects exist');
+  return { state, safeToPlan: !problems.length, appliedCount: prefixLen, pending, problems, warnings, exceptions, blockers, evidence };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
@@ -101,6 +137,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     console.log(`state: ${r.state}`);
     console.log(`pending: ${r.pending ? (r.pending.join(', ') || 'none') : 'UNKNOWN (resolve the problems first)'}`);
     for (const p of r.problems) console.log(`PROBLEM: ${p}`);
+    for (const e of r.evidence) console.log(`evidence: ${e}`);
+    for (const e of r.exceptions) console.log(`exception: ${e}`);
+    for (const b of r.blockers) console.log(`BLOCKER-FOR-APPLY: ${b}`);
     for (const w of r.warnings) console.log(`warning: ${w}`);
   }
   process.exit(r.safeToPlan ? 0 : 2);

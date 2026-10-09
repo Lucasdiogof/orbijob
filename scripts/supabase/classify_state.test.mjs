@@ -105,3 +105,55 @@ test('the inspection document carries no credentials or row data (names and flag
     assert.equal(text.includes(needle), false, `fixture unexpectedly contains ${needle}`);
   }
 });
+
+// ── the first REAL inspection (owner-reported summary, 2026-10-09) ──
+const real = () => JSON.parse(readFileSync(new URL('./fixtures/owner-reported-2026-10-09.json', import.meta.url), 'utf8'));
+
+test('real project (PostgreSQL 17.11, no OrbiJob objects, null history) is EMPTY with its justification', () => {
+  const r = classify(real());
+  assert.equal(r.state, 'EMPTY');
+  assert.equal(r.pending.length, 5);
+  assert.match(r.evidence.join('\n'), /history table .* does not exist/);
+  assert.match(r.evidence.join('\n'), /public tables: 0, policies: 0, triggers: 0, buckets: 0/);
+});
+
+test('the platform function rls_auto_enable is reported as an exception AND blocks "ready" until verified', () => {
+  const r = classify(real());
+  assert.equal(r.safeToPlan, true);
+  assert.equal(r.problems.length, 0);
+  assert.match(r.exceptions.join('\n'), /rls_auto_enable/);
+  assert.match(r.blockers.join('\n'), /inspect_predeploy_details/);
+});
+
+test('the SQL Editor export of the real result (array with an "inspection" JSON string) is accepted', () => {
+  const editorExport = JSON.stringify([{ inspection: JSON.stringify(real(), null, 4) }]);
+  const r = classify(parseInspection(editorExport));
+  assert.equal(r.state, 'EMPTY');
+});
+
+test('an unknown function in public is DRIFT, not silently accepted', () => {
+  const d = real();
+  d.public_functions.push({ name: 'someones_helper', security_definer: false, anon_can_execute: false, authenticated_can_execute: false, quota_has_key_arg: false });
+  const r = classify(d);
+  assert.equal(r.state, 'DRIFT');
+  assert.match(r.problems.join('\n'), /someones_helper/);
+});
+
+test('null history is never read as "nothing applied" when OrbiJob objects exist', () => {
+  const d = load('after-1-to-4');
+  d.migration_versions = null;
+  const r = classify(d);
+  assert.equal(r.state, 'DRIFT');
+});
+
+test('unexpected default-privilege owners are surfaced as warnings', () => {
+  const d = real();
+  d.default_privileges_public.push({ owner: 'some_role', object_type: 'r', acl: 'x' });
+  assert.match(classify(d).warnings.join('\n'), /some_role/);
+});
+
+test('an old PostgreSQL major version only warns, PostgreSQL 17 does not', () => {
+  assert.equal(classify(real()).warnings.some((w) => /PostgreSQL/.test(w)), false);
+  const d = real(); d.server_version = '14.2';
+  assert.equal(classify(d).warnings.some((w) => /PostgreSQL 14/.test(w)), true);
+});

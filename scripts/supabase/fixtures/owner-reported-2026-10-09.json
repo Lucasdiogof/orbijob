@@ -1,0 +1,75 @@
+{
+  "_note": "RECONSTRUCTED from the summary the project owner reported on 2026-10-09 for rpmlfxwebnlxnwadyvle. This is not the raw SQL Editor export (the raw JSON was not shared); fields not reported (exact ACL strings, table owners) are omitted or generic.",
+  "format": 1,
+  "collected_at": "2026-10-09T03:02:11+00:00",
+  "server_version": "17.11",
+  "database": "postgres",
+  "connected_as": "postgres",
+  "schemas": [
+    "auth",
+    "extensions",
+    "graphql",
+    "graphql_public",
+    "pgbouncer",
+    "public",
+    "realtime",
+    "storage",
+    "vault"
+  ],
+  "extensions": [
+    {
+      "name": "pg_stat_statements",
+      "schema": "extensions",
+      "version": "reported"
+    },
+    {
+      "name": "pgcrypto",
+      "schema": "extensions",
+      "version": "reported"
+    },
+    {
+      "name": "plpgsql",
+      "schema": "pg_catalog",
+      "version": "reported"
+    },
+    {
+      "name": "supabase_vault",
+      "schema": "vault",
+      "version": "reported"
+    },
+    {
+      "name": "uuid-ossp",
+      "schema": "extensions",
+      "version": "reported"
+    }
+  ],
+  "migration_versions": null,
+  "public_tables": [],
+  "public_policies": [],
+  "public_triggers": [],
+  "public_functions": [
+    {
+      "name": "rls_auto_enable",
+      "security_definer": true,
+      "anon_can_execute": true,
+      "authenticated_can_execute": true,
+      "quota_has_key_arg": false
+    }
+  ],
+  "public_grants": [],
+  "default_privileges_public": [
+    {
+      "owner": "postgres",
+      "object_type": "reported",
+      "acl": "reported: broad privileges"
+    },
+    {
+      "owner": "supabase_admin",
+      "object_type": "reported",
+      "acl": "reported: broad privileges"
+    }
+  ],
+  "auth_users_triggers": [],
+  "storage_policies": [],
+  "storage_buckets": []
+}

@@ -20,7 +20,14 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
 - Testes SQL rodam em PostgreSQL 16 real com **stub** de Auth/Storage: não substituem validação real. Incompatibilidades possíveis estão listadas na seção 8 do plano.
 - Pendentes de implementar: exclusão de conta e varredura de órfãos no Worker; ligar telas aos repositórios.
 
-## Fase 3.4 (2026-10-09) — estado
+## Fase 3.6 (2026-10-09) — primeira inspeção REAL do Supabase
+- **Estado real informado pelo proprietário** (SQL Editor, 2026-10-09T03:02:11Z): PostgreSQL 17.11; `public` sem tabelas/policies/triggers; sem buckets; sem triggers em `auth.users`; sem histórico (`migration_versions: null`); `pg_trgm` não instalada; função `public.rls_auto_enable` (SECURITY DEFINER, executável por anon/authenticated) e default privileges para `postgres`/`supabase_admin`.
+- **Classificação formal: `EMPTY`** (justificada: schema `supabase_migrations` ausente **e** nenhum objeto do OrbiJob), com a exceção `rls_auto_enable` e um `BLOCKER-FOR-APPLY` até haver detalhe. As 5 migrations estão pendentes. Análise completa: `docs/SUPABASE_MIGRATION_PLAN.md` seção 12.
+- **Decisão técnica: BLOCKED para aplicar** — faltam evidências de privilégio de `postgres` em `extensions`, `storage.*` e `auth.users`, e a definição real de `rls_auto_enable`. **Próxima consulta (única, somente leitura):** `scripts/supabase/inspect_predeploy_details.sql` → `node scripts\supabase\predeploy_check.mjs predeploy.json`.
+- Corrigido: `01_audit.sql` falharia no projeto real por causa de `rls_auto_enable`; agora tolera só event-trigger functions ligadas a um event trigger (testado, com mutantes). Classificador devolve `exceptions`/`blockers`/`evidence`; novo `predeploy_check.mjs`; `apply.sh` exige o veredito de pré-deploy em `backup` e de novo antes do `db push`.
+- Suíte SQL agora em PostgreSQL **16 e 17** (CI em matriz). Nada foi aplicado, criado ou alterado no projeto remoto.
+
+## Fase 3.4 (2026-10-09) — estado anterior
 - PR #42 (docs): `28a281fd88537f399ef35cc37f4b58971575ad97`. PR #43 (cota de favoritos): `3142ab8e63418c1c725707664683edef857fb536`. PR #44 (ferramentas de implantação): integrado nesta rodada; o SHA do merge está em `git log --first-parent main` (merge commit "Merge pull request #44"). CI da `main` verde após os merges anteriores.
 - **Cota de favoritos corrigida** pela migration corretiva `20261012000000_quota_upsert_fix.sql` (a 4 não foi reescrita): upsert de favorito existente no teto passa; inserts concorrentes não ultrapassam (lock advisory **por usuário**; um lock por tabela gerava `deadlock detected` entre duas tabelas de cota — medido). Limite conhecido: só vale em `READ COMMITTED` (padrão do PostgREST); em `REPEATABLE READ` medimos 999 + 2 inserts = 1001.
 - **Ferramentas** (`scripts/supabase/`): `inspect_readonly.sql`, `classify_state.mjs` (aceita as formas de exportação do SQL Editor), `apply.sh` (travas: projeto certo, CLI autenticada, backup válido com marcador final, atestado de backup de DADOS se o projeto não estiver vazio, banco inalterado entre backup e aplicação, confirmação explícita, trava gasta **antes** do `db push`), `e2e_remote.mjs`. Roteiro para Windows 10/11 em `docs/SUPABASE_OWNER_RUNBOOK.md` (SQL Editor primeiro; WSL 2 para as fases em Bash).
@@ -30,7 +37,7 @@ CI da `main` verde após cada merge (#38, #39, #40 e #41; no #41: app, supabase-
 - Lacunas do app antes de abrir o login ao público: deep link/`emailRedirectTo` dos e-mails e tela de nova senha (plano, seção 10); exclusão de conta e varredura de órfãos no Worker.
 
 ## Próxima ação necessária do proprietário
-1. Rodar a inspeção somente leitura pelo SQL Editor (passo a passo para Windows em `docs/SUPABASE_OWNER_RUNBOOK.md`) e enviar o `inspection.json` (sem segredos) ao assistente, **ou** liberar o acesso de leitura (conector/rede+token somente leitura).
+1. Rodar no SQL Editor a **segunda consulta** `scripts/supabase/inspect_predeploy_details.sql` (passo a passo para Windows em `docs/SUPABASE_OWNER_RUNBOOK.md`, seção "Segunda consulta") e enviar o `predeploy.json` (sem segredos) ao assistente.
 2. Com o estado remoto conhecido, autorizar **especificamente** a aplicação das 5 migrations (ou executar os passos 2–8 do plano).
 
 # Estado da Fase 2

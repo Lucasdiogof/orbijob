@@ -11,6 +11,11 @@ trap 'psql "$PGURL" -qc "drop database if exists $DB" >/dev/null' EXIT
 URL="${PGURL%/*}/$DB"
 run() { psql "$URL" -v ON_ERROR_STOP=1 -q -f "$1"; }
 run 00_platform_stub.sql
+# the pre-deploy details query must run on this server, and on a platform-like database that has NOT been migrated yet
+# the verdict must be PRECHECK_OK (it is a "before" check: after the migrations the OrbiJob objects would, correctly, clash)
+psql "$URL" -X -q -At -v ON_ERROR_STOP=1 -f ../../scripts/supabase/inspect_predeploy_details.sql > /tmp/predeploy_$$.json
+node ../../scripts/supabase/predeploy_check.mjs /tmp/predeploy_$$.json >/tmp/predeploy_$$.txt || { cat /tmp/predeploy_$$.txt; echo "pre-deploy details disagree with the stub"; exit 1; }
+rm -f /tmp/predeploy_$$.json /tmp/predeploy_$$.txt
 for m in ../migrations/*.sql; do echo "migration: $(basename "$m")"; run "$m"; done
 run 01_audit.sql
 run 02_behaviour.sql

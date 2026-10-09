@@ -8,7 +8,7 @@ mkdir -p "$W/bin" "$W/state" "$ROOT/supabase/.temp"; echo rpmlfxwebnlxnwadyvle >
 FX="$HERE/fixtures"
 cat > "$W/bin/psql" <<FAKE
 #!/usr/bin/env bash
-case "\$*" in *inspect_readonly.sql*)
+case "\$*" in *inspect_predeploy_details.sql*) cat "\${FX_PREDEPLOY}";; *inspect_readonly.sql*)
   n=\$(cat "$W/n" 2>/dev/null || echo 0); echo \$((n+1)) > "$W/n"
   if [ -f "$W/after" ] && [ "\$n" -ge "\$(cat "$W/after")" ]; then cat "\${FX_AFTER}"; else cat "\${FX_BEFORE}"; fi;; esac
 FAKE
@@ -36,7 +36,7 @@ done
 FAKE
 chmod +x "$W/bin"/*
 export PATH="$W/bin:$PATH" DB_URL="postgres://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/postgres" ORBIJOB_STATE_DIR="$W/state"
-export FX_BEFORE="$FX/empty.json" FX_AFTER="$FX/after-1-to-5.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000"
+export FX_PREDEPLOY="$FX/predeploy-local-stub-pg17.json" FX_BEFORE="$FX/empty.json" FX_AFTER="$FX/after-1-to-5.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000"
 pass=0; fail=0
 ok() { if [ "$2" = 0 ]; then pass=$((pass+1)); echo "PASS $1"; else fail=$((fail+1)); echo "FAIL $1"; fi; }
 pushes() { [ -f "$W/pushes" ] && wc -l < "$W/pushes" | tr -d ' ' || echo 0; }
@@ -106,4 +106,21 @@ DB_URL="postgres://postgres.rpmlfxwebnlxnwadyvle@aws-0-sa-east-1.pooler.supabase
 # secrets never reach the output
 SECRET="s3cr3t-pass"; out=$(DB_URL="postgres://postgres:$SECRET@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/postgres" PGPASSWORD="$SECRET" "$HERE/apply.sh" read 2>&1)
 ok "neither the password nor the connection string appears in the output" $(echo "$out" | grep -q "$SECRET\|postgres://" && echo 1 || echo 0)
+
+# pre-deploy details gate: FAIL cannot be bypassed, UNKNOWN only by an explicit acknowledgement of that check id
+python3 - "$FX/predeploy-local-stub-pg17.json" "$W" <<'PY'
+import json,sys
+d=json.load(open(sys.argv[1])); w=sys.argv[2]
+a=json.loads(json.dumps(d)); a['auth']['postgres_can_reference_users']=False; json.dump(a,open(f'{w}/pd_fail.json','w'))
+b=json.loads(json.dumps(d)); [f.update(bound_event_triggers=[]) for f in b['public_functions_detail'] if f['name']=='rls_auto_enable']; json.dump(b,open(f'{w}/pd_unknown.json','w'))
+PY
+rm -f "$W/state"/* "$W/pushes"; export FX_BEFORE="$FX/empty.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000"
+FX_PREDEPLOY="$W/pd_fail.json" "$HERE/apply.sh" read >/dev/null 2>&1
+FX_PREDEPLOY="$W/pd_fail.json" ORBIJOB_PREDEPLOY_ACK=auth-users "$HERE/apply.sh" backup >/dev/null 2>&1; ok "a FAIL in the pre-deploy details blocks the backup gate and cannot be acknowledged" $([ $? -ne 0 ] && echo 0 || echo 1)
+rm -f "$W/state"/*; FX_PREDEPLOY="$W/pd_unknown.json" "$HERE/apply.sh" read >/dev/null 2>&1
+FX_PREDEPLOY="$W/pd_unknown.json" "$HERE/apply.sh" backup >/dev/null 2>&1; ok "an UNKNOWN pre-deploy item blocks the backup gate" $([ $? -ne 0 ] && echo 0 || echo 1)
+FX_PREDEPLOY="$W/pd_unknown.json" ORBIJOB_PREDEPLOY_ACK=function-rls_auto_enable "$HERE/apply.sh" backup >/dev/null 2>&1; ok "an UNKNOWN item the owner acknowledged by id lets the backup gate pass" $?
+rm -f "$W/state"/* "$W/pushes"; "$HERE/apply.sh" read >/dev/null 2>&1; "$HERE/apply.sh" backup >/dev/null 2>&1
+FX_PREDEPLOY="$W/pd_fail.json" ORBIJOB_CONFIRM_APPLY=rpmlfxwebnlxnwadyvle "$HERE/apply.sh" apply >/dev/null 2>&1
+ok "apply re-checks the pre-deploy details right before writing: a newly failing check stops it, no push" $([ $? -ne 0 ] && [ "$(pushes)" = 0 ] && echo 0 || echo 1)
 echo "$pass passed, $fail failed"; [ "$fail" = 0 ]

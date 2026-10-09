@@ -37,6 +37,14 @@ auth_check() { # the CLI must be logged in and able to see the linked project, b
   (cd "$ROOT" && supabase migration list --linked >/dev/null 2>&1) || die "the Supabase CLI cannot reach project $REF (not logged in? run: supabase login)"
 }
 
+predeploy() { # -> $1 file ; read-only details about privileges, platform functions, event triggers, storage
+  psql "$DB_URL" -X -q -At -v ON_ERROR_STOP=1 -f "$HERE/inspect_predeploy_details.sql" > "$1"
+}
+predeploy_gate() { # $1 file ; ORBIJOB_PREDEPLOY_ACK may list UNKNOWN check ids the owner has read and accepts
+  node "$HERE/predeploy_check.mjs" "$1" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" >"$STATE/predeploy-verdict.txt" 2>&1 || {
+    cat "$STATE/predeploy-verdict.txt" >&2; die "the pre-deploy check is BLOCKED (FAIL/UNKNOWN items above). Resolve them, or acknowledge a UNKNOWN item you have READ with ORBIJOB_PREDEPLOY_ACK=<id>"; }
+}
+
 inspect() { # -> $1 file
   psql "$DB_URL" -X -q -At -v ON_ERROR_STOP=1 -f "$HERE/inspect_readonly.sql" > "$1"
 }
@@ -47,6 +55,9 @@ case "$phase" in
     inspect "$out"
     echo "inspection saved to $out (object names and flags only)"
     node "$HERE/classify_state.mjs" "$out" | tee "$STATE/classification-before.txt"
+    predeploy "$STATE/predeploy-before.json"
+    echo "--- pre-deploy checks (privileges, platform function, storage) ---"
+    node "$HERE/predeploy_check.mjs" "$STATE/predeploy-before.json" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" | tee "$STATE/predeploy-verdict.txt" || true
     echo "--- supabase migration list (read-only) ---"
     (cd "$ROOT" && supabase migration list --linked) || true
     ;;
@@ -55,6 +66,8 @@ case "$phase" in
     [ -f "$STATE/inspection-before.json" ] || die "run '$0 read' first"
     [ "$(age_min "$STATE/inspection-before.json")" -le 60 ] || die "inspection is older than 60 minutes: run '$0 read' again"
     node "$HERE/classify_state.mjs" "$STATE/inspection-before.json" >/dev/null || die "state is DRIFT: resolve before backing up for an apply"
+    [ -f "$STATE/predeploy-before.json" ] || die "no pre-deploy details: run '$0 read' first"
+    predeploy_gate "$STATE/predeploy-before.json"
     ts="$(date -u +%Y%m%dT%H%M%SZ)"
     # supabase db dump needs Docker Desktop; pg_dump with DB_URL is the alternative (same result).
     if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
@@ -90,6 +103,7 @@ case "$phase" in
     [ "$(age_min "$STATE/inspection-before.json")" -le 60 ] || die "inspection is stale"
     node "$HERE/classify_state.mjs" "$STATE/inspection-before.json" >/dev/null || die "state is DRIFT"
     # Re-inspect right before writing: abort if anything changed since the backup.
+    predeploy "$STATE/predeploy-pre-apply.json"; predeploy_gate "$STATE/predeploy-pre-apply.json"
     inspect "$STATE/inspection-pre-apply.json"
     diff -q <(node -e 'const j=require(process.argv[1]);delete j.collected_at;console.log(JSON.stringify(j))' "$STATE/inspection-before.json") \
             <(node -e 'const j=require(process.argv[1]);delete j.collected_at;console.log(JSON.stringify(j))' "$STATE/inspection-pre-apply.json") >/dev/null \
