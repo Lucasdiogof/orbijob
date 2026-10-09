@@ -651,6 +651,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed'**
   String get applicationStageClosed;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountTitle;
+
+  /// No description provided for @accountUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts are not enabled in this build'**
+  String get accountUnavailableTitle;
+
+  /// No description provided for @accountUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything works on this device without signing in. Sync arrives once the service is connected.'**
+  String get accountUnavailableBody;
+
+  /// No description provided for @accountSignedInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {email}'**
+  String accountSignedInAs(String email);
+
+  /// No description provided for @accountSignedInNoEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get accountSignedInNoEmail;
+
+  /// No description provided for @accountSignedOutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to keep your profile, favourites and applications in your account.'**
+  String get accountSignedOutBody;
+
+  /// No description provided for @accountSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get accountSignIn;
+
+  /// No description provided for @accountSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get accountSignOut;
+
+  /// No description provided for @authSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignInTitle;
+
+  /// No description provided for @authSignUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authSignUpTitle;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'E-mail'**
+  String get authEmail;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authSignInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignInAction;
+
+  /// No description provided for @authSignUpAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authSignUpAction;
+
+  /// No description provided for @authSwitchToSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'No account yet? Create one'**
+  String get authSwitchToSignUp;
+
+  /// No description provided for @authSwitchToSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get authSwitchToSignIn;
+
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password'**
+  String get authForgotPassword;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid e-mail'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authPasswordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get authPasswordShort;
+
+  /// No description provided for @authConfirmationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your e-mail to confirm the account, then sign in.'**
+  String get authConfirmationSent;
+
+  /// No description provided for @authResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'If the address has an account, a reset link is on its way.'**
+  String get authResetSent;
+
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'E-mail or password is incorrect.'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorEmailNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your e-mail first. Check your inbox.'**
+  String get authErrorEmailNotConfirmed;
+
+  /// No description provided for @authErrorEmailTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'This e-mail is already registered. Try signing in.'**
+  String get authErrorEmailTaken;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'This e-mail address is not valid.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak. Use a longer, less common one.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a few minutes and try again.'**
+  String get authErrorRateLimited;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check the internet and try again.'**
+  String get authErrorNetwork;
+
+  /// No description provided for @authErrorUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The service is unavailable right now.'**
+  String get authErrorUnavailable;
+
+  /// No description provided for @authErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get authErrorUnknown;
 }
 
 class _AppLocalizationsDelegate

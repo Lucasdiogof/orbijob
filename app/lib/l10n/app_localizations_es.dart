@@ -332,4 +332,106 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get applicationStageClosed => 'Cerrada';
+
+  @override
+  String get accountTitle => 'Cuenta';
+
+  @override
+  String get accountUnavailableTitle =>
+      'Las cuentas no están activadas en esta versión';
+
+  @override
+  String get accountUnavailableBody =>
+      'Todo funciona en este dispositivo sin iniciar sesión. La sincronización llegará cuando se conecte el servicio.';
+
+  @override
+  String accountSignedInAs(String email) {
+    return 'Sesión iniciada como $email';
+  }
+
+  @override
+  String get accountSignedInNoEmail => 'Sesión iniciada';
+
+  @override
+  String get accountSignedOutBody =>
+      'Inicia sesión para guardar perfil, favoritos y postulaciones en tu cuenta.';
+
+  @override
+  String get accountSignIn => 'Iniciar sesión';
+
+  @override
+  String get accountSignOut => 'Cerrar sesión';
+
+  @override
+  String get authSignInTitle => 'Iniciar sesión';
+
+  @override
+  String get authSignUpTitle => 'Crear cuenta';
+
+  @override
+  String get authEmail => 'Correo electrónico';
+
+  @override
+  String get authPassword => 'Contraseña';
+
+  @override
+  String get authSignInAction => 'Iniciar sesión';
+
+  @override
+  String get authSignUpAction => 'Crear cuenta';
+
+  @override
+  String get authSwitchToSignUp => '¿Aún no tienes cuenta? Crea una';
+
+  @override
+  String get authSwitchToSignIn => '¿Ya tienes cuenta? Inicia sesión';
+
+  @override
+  String get authForgotPassword => 'Olvidé mi contraseña';
+
+  @override
+  String get authEmailInvalid => 'Introduce un correo válido';
+
+  @override
+  String get authPasswordShort => 'Usa al menos 8 caracteres';
+
+  @override
+  String get authConfirmationSent =>
+      'Revisa tu correo para confirmar la cuenta y luego inicia sesión.';
+
+  @override
+  String get authResetSent =>
+      'Si la dirección tiene cuenta, se envió un enlace de restablecimiento.';
+
+  @override
+  String get authErrorInvalidCredentials => 'Correo o contraseña incorrectos.';
+
+  @override
+  String get authErrorEmailNotConfirmed =>
+      'Confirma primero tu correo. Revisa tu bandeja.';
+
+  @override
+  String get authErrorEmailTaken =>
+      'Este correo ya está registrado. Intenta iniciar sesión.';
+
+  @override
+  String get authErrorInvalidEmail => 'Esta dirección de correo no es válida.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Contraseña demasiado débil. Usa una más larga y poco común.';
+
+  @override
+  String get authErrorRateLimited =>
+      'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.';
+
+  @override
+  String get authErrorNetwork =>
+      'Sin conexión. Revisa internet e inténtalo de nuevo.';
+
+  @override
+  String get authErrorUnavailable => 'El servicio no está disponible ahora.';
+
+  @override
+  String get authErrorUnknown => 'Algo salió mal. Inténtalo de nuevo.';
 }

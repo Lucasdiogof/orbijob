@@ -331,4 +331,106 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get applicationStageClosed => 'Encerrada';
+
+  @override
+  String get accountTitle => 'Conta';
+
+  @override
+  String get accountUnavailableTitle =>
+      'Contas não estão ativadas nesta versão';
+
+  @override
+  String get accountUnavailableBody =>
+      'Tudo funciona neste aparelho sem entrar. A sincronização chega quando o serviço for conectado.';
+
+  @override
+  String accountSignedInAs(String email) {
+    return 'Conectado como $email';
+  }
+
+  @override
+  String get accountSignedInNoEmail => 'Conectado';
+
+  @override
+  String get accountSignedOutBody =>
+      'Entre para guardar perfil, favoritos e candidaturas na sua conta.';
+
+  @override
+  String get accountSignIn => 'Entrar';
+
+  @override
+  String get accountSignOut => 'Sair';
+
+  @override
+  String get authSignInTitle => 'Entrar';
+
+  @override
+  String get authSignUpTitle => 'Criar conta';
+
+  @override
+  String get authEmail => 'E-mail';
+
+  @override
+  String get authPassword => 'Senha';
+
+  @override
+  String get authSignInAction => 'Entrar';
+
+  @override
+  String get authSignUpAction => 'Criar conta';
+
+  @override
+  String get authSwitchToSignUp => 'Ainda não tem conta? Crie uma';
+
+  @override
+  String get authSwitchToSignIn => 'Já tem conta? Entre';
+
+  @override
+  String get authForgotPassword => 'Esqueci a senha';
+
+  @override
+  String get authEmailInvalid => 'Informe um e-mail válido';
+
+  @override
+  String get authPasswordShort => 'Use pelo menos 8 caracteres';
+
+  @override
+  String get authConfirmationSent =>
+      'Confira seu e-mail para confirmar a conta e depois entre.';
+
+  @override
+  String get authResetSent =>
+      'Se o endereço tiver conta, um link de redefinição foi enviado.';
+
+  @override
+  String get authErrorInvalidCredentials => 'E-mail ou senha incorretos.';
+
+  @override
+  String get authErrorEmailNotConfirmed =>
+      'Confirme seu e-mail primeiro. Veja sua caixa de entrada.';
+
+  @override
+  String get authErrorEmailTaken =>
+      'Este e-mail já está cadastrado. Tente entrar.';
+
+  @override
+  String get authErrorInvalidEmail => 'Este endereço de e-mail não é válido.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Senha fraca demais. Use uma mais longa e incomum.';
+
+  @override
+  String get authErrorRateLimited =>
+      'Muitas tentativas. Aguarde alguns minutos e tente de novo.';
+
+  @override
+  String get authErrorNetwork =>
+      'Sem conexão. Verifique a internet e tente de novo.';
+
+  @override
+  String get authErrorUnavailable => 'O serviço está indisponível no momento.';
+
+  @override
+  String get authErrorUnknown => 'Algo deu errado. Tente novamente.';
 }

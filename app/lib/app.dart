@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/design/design.dart';
 import 'core/di/injector.dart';
 import 'core/theme_cubit.dart';
+import 'features/auth/presentation/auth_cubit.dart';
 import 'features/favorites/favorites_cubit.dart';
 import 'features/home/recent_searches_cubit.dart';
 import 'features/search/presentation/cubit/search_cubit.dart';
@@ -21,6 +22,7 @@ class OrbiJobApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
     providers: [
+      BlocProvider(create: (_) => sl<AuthCubit>()),
       BlocProvider(create: (_) => sl<ThemeCubit>()),
       BlocProvider(create: (_) => sl<ShellCubit>()),
       BlocProvider(create: (_) => sl<SearchCubit>()),
