@@ -42,6 +42,14 @@ class _FakeAuth implements AuthRepository {
     if (error != null) throw error!;
   }
 
+  final recovery = StreamController<void>.broadcast();
+  @override
+  Stream<void> get recoveryLinks => recovery.stream;
+  @override
+  Future<void> updatePassword(String newPassword) async {
+    if (error != null) throw error!;
+  }
+
   @override
   Future<void> signOut() async {
     currentUser = null;
