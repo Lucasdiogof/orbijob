@@ -1,4 +1,12 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 2)
+# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 3 — Supabase preparado)
+
+## Fase 3 (branch `feat/phase3-supabase`, PR próprio, sem merge)
+- Projeto Supabase **já criado pelo proprietário**: `rpmlfxwebnlxnwadyvle`. **Nada foi aplicado nele** (e o ambiente de desenvolvimento nem o alcança: egress bloqueado). Estado remoto = não verificado.
+- Entregue: migration `20261010000000_app_integration.sql`; testes SQL em PostgreSQL 16 real (`supabase/tests/`, job `supabase-sql` no CI); `AppConfig` (só valores públicos, recusa secret/service_role), sessão no keystore, `AuthCubit` + tela de login/conta no Perfil, repositórios Supabase (perfil, experiência, formação, currículos, favoritos, candidaturas + histórico, preferências, pesquisas salvas) testados contra backend HTTP simulado; `.env.example` e `app/dart_defines.example.json`.
+- **Plano de execução remota:** `docs/SUPABASE_MIGRATION_PLAN.md` — aguarda autorização expressa. Telas ainda não usam os repositórios (exceto conta).
+- A Fase 3 depende das migrations do PR #39 (Fase 2): o PR da Fase 3 tem base `feat/phase2-stabilization`.
+
+# Estado da Fase 2
 
 ## Estado
 - Repositório: https://github.com/Lucasdiogof/orbijob (**público**). **PR #38 (identidade C) integrado na `main`** com merge commit `3f5dc6185bc8f5da592ddb415b9a2404c5ab4e40` (histórico preservado, sem force push). CI da `main` nesse commit: **verde** (catalog, worker, app, android-resources, secrets; run 37862754804).

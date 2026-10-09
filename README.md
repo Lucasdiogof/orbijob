@@ -66,7 +66,7 @@ docs/        arquitetura, requisitos, fontes, banco, segurança, roadmap, design
 ```
 
 ## Testes
-`flutter analyze` + `flutter test` (144 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash) · `tsc` + `vitest` (58 testes do worker, incluindo RLS em PGlite e HTTP/retry) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
+`flutter analyze` + `flutter test` (179 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash, configuração/autenticação/repositórios Supabase contra backend HTTP simulado) · `tsc` + `vitest` (58 testes do worker, incluindo RLS em PGlite e HTTP/retry) · testes SQL em PostgreSQL 16 real (`supabase/tests/run.sh`: auditoria + isolamento entre usuários) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
 
 ## Segurança
 RLS dono-único, currículos em bucket privado (planejado/proposto), nenhum segredo no repositório (**público**), sem scraping proibido, sem candidatura automática, autofill só em domínios autorizados. [docs/SECURITY.md](docs/SECURITY.md)
