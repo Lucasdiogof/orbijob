@@ -38,3 +38,7 @@ supabase/.temp/
 docs/design/identity/build/.work/
 __pycache__/
 *.pyc
+
+# Real build-time configuration (the example file is tracked)
+app/dart_defines*.json
+!app/dart_defines.example.json

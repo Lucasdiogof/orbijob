@@ -154,5 +154,42 @@
   "applicationStageOffer": "Offer",
   "applicationStageRejected": "Rejected",
   "applicationStageWithdrawn": "Withdrawn",
-  "applicationStageClosed": "Closed"
+  "applicationStageClosed": "Closed",
+  "accountTitle": "Account",
+  "accountUnavailableTitle": "Accounts are not enabled in this build",
+  "accountUnavailableBody": "Everything works on this device without signing in. Sync arrives once the service is connected.",
+  "accountSignedInAs": "Signed in as {email}",
+  "@accountSignedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountSignedInNoEmail": "Signed in",
+  "accountSignedOutBody": "Sign in to keep your profile, favourites and applications in your account.",
+  "accountSignIn": "Sign in",
+  "accountSignOut": "Sign out",
+  "authSignInTitle": "Sign in",
+  "authSignUpTitle": "Create account",
+  "authEmail": "E-mail",
+  "authPassword": "Password",
+  "authSignInAction": "Sign in",
+  "authSignUpAction": "Create account",
+  "authSwitchToSignUp": "No account yet? Create one",
+  "authSwitchToSignIn": "Already have an account? Sign in",
+  "authForgotPassword": "Forgot password",
+  "authEmailInvalid": "Enter a valid e-mail",
+  "authPasswordShort": "Use at least 8 characters",
+  "authConfirmationSent": "Check your e-mail to confirm the account, then sign in.",
+  "authResetSent": "If the address has an account, a reset link is on its way.",
+  "authErrorInvalidCredentials": "E-mail or password is incorrect.",
+  "authErrorEmailNotConfirmed": "Confirm your e-mail first. Check your inbox.",
+  "authErrorEmailTaken": "This e-mail is already registered. Try signing in.",
+  "authErrorInvalidEmail": "This e-mail address is not valid.",
+  "authErrorWeakPassword": "Password is too weak. Use a longer, less common one.",
+  "authErrorRateLimited": "Too many attempts. Wait a few minutes and try again.",
+  "authErrorNetwork": "No connection. Check the internet and try again.",
+  "authErrorUnavailable": "The service is unavailable right now.",
+  "authErrorUnknown": "Something went wrong. Try again."
 }

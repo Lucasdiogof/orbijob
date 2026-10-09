@@ -144,7 +144,9 @@ describe('RLS', () => {
       });
     const files = ['lib', 'web', 'android/app/src', 'ios/Runner'].flatMap((d) => walk(join(root, d)));
     expect(files.length).toBeGreaterThan(50); // guards against a vacuous scan
-    const hits = files.filter((f) => !/\.(png|ttf|otf|ico|webp)$/.test(f) && /service_role|SUPABASE_SERVICE/i.test(read(f, 'latin1')));
+    // AppConfig is the one file allowed to name the key: it is the guard that REJECTS such keys at start-up.
+    const guard = join(root, 'lib/core/config/app_config.dart');
+    const hits = files.filter((f) => f !== guard && !/\.(png|ttf|otf|ico|webp)$/.test(f) && /service_role|SUPABASE_SERVICE/i.test(read(f, 'latin1')));
     expect(hits).toEqual([]);
   });
 });

@@ -17,6 +17,9 @@ Features planejadas: home, search, job_detail, profile, matching, favorites, app
 Implementado: shell de navegação adaptativa (Início, Explorar, Favoritos, Candidaturas; perfil no cabeçalho; barra inferior < 600dp, rail ≥ 600dp), `search` (entidade, repositório "sem fonte", cubit, página), páginas vazias honestas de Início/Favoritos/Candidaturas, `StateMessage` reutilizável, tema M3 claro/escuro, l10n pt/en/es, DI. Nome técnico do pacote: `orbijob`; applicationId/bundle id `com.lucksrei.orbijob`.
 Design system (identidade C): `core/design` (tokens gerados de `docs/design/identity/c-minimal/tokens.json`, tipografia, tema, marca) e `core/widgets` (componentes); ver `docs/DESIGN_SYSTEM.md`. Dois entrypoints: `lib/main.dart` (real, sem dados) e `lib/main_preview.dart` (mesma UI com vagas **fictícias** e faixa de aviso, só para revisão visual). Estado de UI com Cubits: tema (`ThemeCubit`), navegação (`ShellCubit`), busca (`SearchCubit`), favoritos em memória (`FavoritesCubit`).
 
+### Integração Supabase (Fase 3)
+`core/config` (AppConfig por `--dart-define`, `initSupabase`, sessão no keystore) · `features/auth` (domain `AuthRepository`/`AuthFailure`, data `SupabaseAuthRepository`, presentation `AuthCubit` + `AuthPage`) · repositórios por feature (`domain` = interface, `data` = Supabase): perfil/experiência/formação, currículos (Storage privado), favoritos (snapshot), candidaturas (+histórico por trigger), preferências e pesquisas salvas. Registrados em `registerSupabaseRepositories` apenas quando há configuração; ainda não ligados às telas. Testes usam um `SupabaseClient` real com `MockClient` (sem rede). Plano remoto: [SUPABASE_MIGRATION_PLAN.md](SUPABASE_MIGRATION_PLAN.md).
+
 ## Worker (`worker/`)
 ```
 src/{types,dedupe,http,occupations}.ts, src/connectors/<id>.ts

@@ -330,4 +330,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applicationStageClosed => 'Closed';
+
+  @override
+  String get accountTitle => 'Account';
+
+  @override
+  String get accountUnavailableTitle =>
+      'Accounts are not enabled in this build';
+
+  @override
+  String get accountUnavailableBody =>
+      'Everything works on this device without signing in. Sync arrives once the service is connected.';
+
+  @override
+  String accountSignedInAs(String email) {
+    return 'Signed in as $email';
+  }
+
+  @override
+  String get accountSignedInNoEmail => 'Signed in';
+
+  @override
+  String get accountSignedOutBody =>
+      'Sign in to keep your profile, favourites and applications in your account.';
+
+  @override
+  String get accountSignIn => 'Sign in';
+
+  @override
+  String get accountSignOut => 'Sign out';
+
+  @override
+  String get authSignInTitle => 'Sign in';
+
+  @override
+  String get authSignUpTitle => 'Create account';
+
+  @override
+  String get authEmail => 'E-mail';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authSignInAction => 'Sign in';
+
+  @override
+  String get authSignUpAction => 'Create account';
+
+  @override
+  String get authSwitchToSignUp => 'No account yet? Create one';
+
+  @override
+  String get authSwitchToSignIn => 'Already have an account? Sign in';
+
+  @override
+  String get authForgotPassword => 'Forgot password';
+
+  @override
+  String get authEmailInvalid => 'Enter a valid e-mail';
+
+  @override
+  String get authPasswordShort => 'Use at least 8 characters';
+
+  @override
+  String get authConfirmationSent =>
+      'Check your e-mail to confirm the account, then sign in.';
+
+  @override
+  String get authResetSent =>
+      'If the address has an account, a reset link is on its way.';
+
+  @override
+  String get authErrorInvalidCredentials => 'E-mail or password is incorrect.';
+
+  @override
+  String get authErrorEmailNotConfirmed =>
+      'Confirm your e-mail first. Check your inbox.';
+
+  @override
+  String get authErrorEmailTaken =>
+      'This e-mail is already registered. Try signing in.';
+
+  @override
+  String get authErrorInvalidEmail => 'This e-mail address is not valid.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Password is too weak. Use a longer, less common one.';
+
+  @override
+  String get authErrorRateLimited =>
+      'Too many attempts. Wait a few minutes and try again.';
+
+  @override
+  String get authErrorNetwork =>
+      'No connection. Check the internet and try again.';
+
+  @override
+  String get authErrorUnavailable => 'The service is unavailable right now.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Try again.';
 }

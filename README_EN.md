@@ -61,7 +61,7 @@ docs/      architecture, requirements, sources, database, security, roadmap, des
 ```
 
 ## Tests
-`flutter analyze` + `flutter test` (144 tests: tokens and contrast, themes, navigation, **no overflow** across 8 sizes × 100/150/200% text, accessibility, i18n, assets/icons/splash) · `tsc` + `vitest` (58 worker tests, including RLS on PGlite and HTTP/retry) · web build and `aapt2` validation in CI. No on-device integration/E2E tests yet.
+`flutter analyze` + `flutter test` (179 tests: tokens and contrast, themes, navigation, **no overflow** across 8 sizes × 100/150/200% text, accessibility, i18n, assets/icons/splash, Supabase config/auth/repositories against a simulated HTTP backend) · `tsc` + `vitest` (58 worker tests, including RLS on PGlite and HTTP/retry) · SQL tests on real PostgreSQL 16 (`supabase/tests/run.sh`: audit + cross-user isolation) · web build and `aapt2` validation in CI. No on-device integration/E2E tests yet.
 
 ## Security
 Owner-only RLS, private résumé bucket (planned/proposed), no secrets in the (**public**) repository, no prohibited scraping, no automatic applications, autofill only on allow-listed domains. [docs/SECURITY.md](docs/SECURITY.md)

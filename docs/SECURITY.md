@@ -6,7 +6,8 @@
 Usuário malicioso lendo dados de outro · vazamento de segredos · abuso/DoS da API · XSS/injeção via descrições de vagas (HTML de terceiros) · JS de autofill em domínio não autorizado · scraping reverso do nosso índice.
 
 ## Controles
-- **Segredos:** nunca no repo (`.gitignore`, `.env.example`, `wrangler secret`, gitleaks no CI). `anon key` é pública por desenho; `service_role` só no Worker.
+- **Segredos:** nunca no repo (`.gitignore`, `.env.example`, `wrangler secret`, gitleaks no CI). A chave *publishable* (ex-anon) é pública por desenho; a *secret*/`service_role` só no Worker. O app valida a configuração no início e recusa chaves privilegiadas (`AppConfig.validate`).
+- **Sessão:** tokens guardados no Keystore (Android) / Keychain (iOS) via `flutter_secure_storage`; na web, o armazenamento do navegador (limite da plataforma). Erros de autenticação são traduzidos para tipos próprios; mensagens do servidor nunca aparecem na tela.
 - **RLS:** dono-único em todas as tabelas privadas; policies restritivas para filhos; jobs read-only para clientes. Testes: `worker/test/rls.test.ts`.
 - **Currículos:** bucket privado, pasta por usuário, URL assinada curta, sem logs de conteúdo.
 - **Rate limiting:** por IP/usuário no Worker (KV/DO) + respeito aos limites de cada fonte (`RateLimiter`).
