@@ -32,4 +32,32 @@ if grep -qi 'error' "$A_OUT"; then echo "FAIL: first session failed: $(cat "$A_O
 N=$(psql "$URL" -Atc "select count(*) from public.saved_jobs where user_id = '$U'")
 [ "$N" = "1000" ] || { echo "FAIL: user ended with $N favourites"; exit 1; }
 rm -f "$A_OUT"
+
+# Opposite-order inserts into two quota tables by the same user must not deadlock (one lock per user, not per table).
+U2=00000000-0000-0000-0000-0000000000d2
+psql "$URL" -v ON_ERROR_STOP=1 -q -c "insert into auth.users (id) values ('$U2')"
+C_OUT=$(mktemp)
+(
+  psql "$URL" -v ON_ERROR_STOP=1 -q >"$A_OUT" 2>&1 <<SQL
+begin;
+insert into public.saved_jobs (user_id, job_key, snapshot) values ('$U2', 'dl-a', '{"a":1}');
+select pg_sleep(1);
+insert into public.saved_searches (user_id, query) values ('$U2', '{}');
+commit;
+SQL
+) &
+sleep 0.3
+psql "$URL" -v ON_ERROR_STOP=1 -q >"$C_OUT" 2>&1 <<SQL || true
+begin;
+insert into public.saved_searches (user_id, query) values ('$U2', '{}');
+select pg_sleep(1);
+insert into public.saved_jobs (user_id, job_key, snapshot) values ('$U2', 'dl-b', '{"a":1}');
+commit;
+SQL
+wait
+if grep -qi 'deadlock' "$A_OUT" "$C_OUT"; then echo "FAIL: deadlock between two quota tables"; cat "$A_OUT" "$C_OUT"; exit 1; fi
+J=$(psql "$URL" -Atc "select count(*) from public.saved_jobs where user_id = '$U2'")
+S=$(psql "$URL" -Atc "select count(*) from public.saved_searches where user_id = '$U2'")
+[ "$J" = "2" ] && [ "$S" = "2" ] || { echo "FAIL: expected 2+2 rows, got jobs=$J searches=$S"; exit 1; }
+rm -f "$A_OUT" "$C_OUT"
 echo "concurrency: ok"

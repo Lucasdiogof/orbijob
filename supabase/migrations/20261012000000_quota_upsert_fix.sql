@@ -8,9 +8,11 @@
 --     updates. Fix: an optional second trigger argument names the natural-key column; when a row with the same key
 --     already exists for the user the insert is not a new row and passes (it either becomes the UPDATE, or fails with a
 --     plain unique violation). UPDATEs were never affected (the trigger is insert-only).
---  2. Concurrency. Two sessions could both count 999 and both insert, ending at 1001. Fix: a per-user, per-table
+--  2. Concurrency. Two sessions could both count 999 and both insert, ending at 1001. Fix: a per-user
 --     transaction-level advisory lock serialises the count-then-insert; the second session waits for the first to
 --     commit, then counts again. Locks are released automatically at transaction end.
+--     Known limit: the recount sees rows committed by others only in READ COMMITTED (the PostgREST default). A
+--     transaction opened as REPEATABLE READ or SERIALIZABLE keeps its old snapshot and can still exceed the limit.
 -- Still SECURITY INVOKER and still counting through the caller RLS (own rows only); no policy references its own
 -- table, so there is no RLS recursion.
 
@@ -22,8 +24,10 @@ declare
   key_column text := nullif(tg_argv[1], '');
   already boolean := false;
 begin
+  -- One lock per user (not per table): two transactions of the same user that touch two quota tables in opposite
+  -- order would otherwise wait on each other (deadlock detected, one aborted).
   perform pg_catalog.pg_advisory_xact_lock(
-    pg_catalog.hashtextextended(tg_table_name || ':' || new.user_id::text, 0));
+    pg_catalog.hashtextextended('orbijob-quota:' || new.user_id::text, 0));
 
   if key_column is not null then
     execute format('select exists (select 1 from %I.%I where user_id = $1 and %I::text = $2)',
