@@ -84,6 +84,17 @@ details '"$user", public' > /tmp/pd_ok_$$.json
 node ../../scripts/supabase/predeploy_check.mjs /tmp/pd_ok_$$.json >/tmp/pd_ok_$$.txt && ok "verdict" "PRECHECK_OK" "PRECHECK_OK" || { cat /tmp/pd_ok_$$.txt; ok "verdict" "BLOCKED" "PRECHECK_OK"; }
 rm -f /tmp/pd_ok_$$.json /tmp/pd_ok_$$.txt
 
+echo "[paste variants] the comment-free single-statement versions return the same document as the full files"
+same() { # $1 full file, $2 paste file
+  local full paste
+  full=$(psql "$URL" -X -q -At -f "$1" 2>&1); paste=$(psql "$URL" -X -q -At -c "$(cat "$2")" 2>&1)
+  node -e 'const [a,b]=process.argv.slice(1).map(s=>{const j=JSON.parse(s);delete j.collected_at;return JSON.stringify(j)});process.exit(a===b?0:1)' "$full" "$paste" && echo same || echo different
+}
+ok "inspect_predeploy_details.paste.sql == full file (minus collected_at)" "$(same "$SQL" ../../scripts/supabase/inspect_predeploy_details.paste.sql)" "same"
+ok "inspect_readonly.paste.sql == full file (minus collected_at)" "$(same ../../scripts/supabase/inspect_readonly.sql ../../scripts/supabase/inspect_readonly.paste.sql)" "same"
+out=$(psql "$URL" -X -q -At -c "$(cat ../../scripts/supabase/inspect_predeploy_details.paste.sql)" 2>&1 | head -c 1)
+ok "the paste variant runs as ONE statement through a plain -c (simple query protocol)" "$out" "{"
+
 echo "[first inspection] inspect_readonly.sql also runs with a hostile search_path"
 out=$( { echo "set search_path = nonexistent, \"\$user\";"; cat ../../scripts/supabase/inspect_readonly.sql; } | psql "$URL" -X -q -At 2>&1 | head -c 20)
 ok "inspect_readonly.sql returns JSON" "$(echo "$out" | head -c 1)" "{"
