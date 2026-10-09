@@ -11,7 +11,7 @@
 --  2. Concurrency. Two sessions could both count 999 and both insert, ending at 1001. Fix: a per-user, per-table
 --     transaction-level advisory lock serialises the count-then-insert; the second session waits for the first to
 --     commit, then counts again. Locks are released automatically at transaction end.
--- Still SECURITY INVOKER and still counting through the caller's RLS (own rows only); no policy references its own
+-- Still SECURITY INVOKER and still counting through the caller RLS (own rows only); no policy references its own
 -- table, so there is no RLS recursion.
 
 create or replace function public.enforce_row_quota() returns trigger
