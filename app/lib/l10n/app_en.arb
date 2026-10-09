@@ -42,8 +42,6 @@
   "applicationsTitle": "No applications tracked",
   "applicationsBody": "Track where you applied, interviews and offers. Status is updated manually.",
   "profileTitle": "Profile",
-  "profileEmptyTitle": "Your professional profile is coming soon",
-  "profileEmptyBody": "Résumé, experience and preferences will live here.",
   "appearanceTitle": "Appearance",
   "themeSystem": "System",
   "themeLight": "Light",
@@ -147,7 +145,7 @@
   "recentSearchesClear": "Clear recent searches",
   "interestCountriesTitle": "Countries of interest",
   "interestCountriesEmptyTitle": "No countries chosen yet",
-  "interestCountriesEmptyBody": "You will pick countries in your profile to focus recommendations.",
+  "interestCountriesEmptyBody": "Add countries in your profile to focus on them.",
   "applicationStageApplied": "Applied",
   "applicationStageScreening": "Screening",
   "applicationStageInterview": "Interview",
@@ -167,7 +165,7 @@
     }
   },
   "accountSignedInNoEmail": "Signed in",
-  "accountSignedOutBody": "Sign in to keep your profile, favourites and applications in your account.",
+  "accountSignedOutBody": "Sign in to keep your profile, favorites and applications in your account.",
   "accountSignIn": "Sign in",
   "accountSignOut": "Sign out",
   "authSignInTitle": "Sign in",
@@ -191,5 +189,176 @@
   "authErrorRateLimited": "Too many attempts. Wait a few minutes and try again.",
   "authErrorNetwork": "No connection. Check the internet and try again.",
   "authErrorUnavailable": "The service is unavailable right now.",
-  "authErrorUnknown": "Something went wrong. Try again."
+  "authErrorUnknown": "Something went wrong. Try again.",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonDelete": "Delete",
+  "commonEdit": "Edit",
+  "commonAdd": "Add",
+  "commonClose": "Close",
+  "commonOptional": "Optional",
+  "commonRequired": "Required field",
+  "commonDeleteConfirmBody": "This cannot be undone.",
+  "fieldStartDate": "Start date",
+  "fieldEndDate": "End date",
+  "dateChoose": "Choose a date",
+  "dateClear": "Clear date",
+  "tooLongError": "Too long (maximum {max} characters)",
+  "@tooLongError": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dataLoadErrorTitle": "Could not load your data",
+  "dataSignInTitle": "Sign in to continue",
+  "dataFailureNotConfigured": "This build is not connected to an account service, so nothing can be saved here.",
+  "dataFailureSignedOut": "Your data is kept in your account. Sign in to see and change it.",
+  "dataFailureSessionExpired": "Your session ended. Sign in again to continue.",
+  "dataFailureNetwork": "No connection. Check your internet and try again.",
+  "dataFailureDenied": "The server did not allow this action for your account.",
+  "dataFailureQuota": "You reached the limit for this kind of item. Remove one to add another.",
+  "dataFailureDuplicate": "This already exists.",
+  "dataFailureInvalid": "Some data is not valid. Check the fields and try again.",
+  "dataFailureTooLarge": "The file is larger than 5 MB.",
+  "dataFailureNotPdf": "Only PDF files are accepted.",
+  "dataFailureEmptyFile": "The file is empty.",
+  "dataFailureNotFound": "This item no longer exists. Refresh and try again.",
+  "dataFailureUnavailable": "The service is unavailable right now. Try again later.",
+  "dataFailureUnknown": "Something went wrong. Try again.",
+  "applicationsAdd": "Add application",
+  "applicationsDisclaimer": "OrbiJob never sends applications. Here you record the ones you sent yourself.",
+  "applicationNewTitle": "New application",
+  "applicationDetailTitle": "Application",
+  "applicationCompany": "Company",
+  "applicationJobTitle": "Job title",
+  "applicationLink": "Link to the posting",
+  "applicationLinkInvalid": "Enter a link starting with https://",
+  "applicationChannel": "Where you applied",
+  "applicationStageLabel": "Stage",
+  "applicationAppliedOn": "Applied on",
+  "applicationNote": "Notes",
+  "applicationSaveNote": "Save notes",
+  "applicationOpenLink": "Open posting",
+  "applicationLinkCannotOpen": "Could not open the link.",
+  "applicationHistory": "History",
+  "applicationHistoryEmpty": "No stage changes recorded yet.",
+  "applicationDeleteTitle": "Delete this application?",
+  "applicationNoDate": "Date not informed",
+  "homeApplicationsCount": "{count, plural, =1{1 application tracked} other{{count} applications tracked}}",
+  "@homeApplicationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileSectionProfessional": "Professional profile",
+  "profileCreateTitle": "Create your professional profile",
+  "profileCreateBody": "Say who you are professionally. Any profession is welcome.",
+  "profileCreateAction": "Create profile",
+  "profileEditAction": "Edit profile",
+  "profileFieldName": "Professional name",
+  "profileFieldHeadline": "Role or profession",
+  "profileFieldSummary": "Summary",
+  "profileFieldCountry": "Country of residence (2-letter code)",
+  "profileFieldCity": "City",
+  "profileFieldWorkMode": "Preferred work mode",
+  "profileWorkModeAny": "No preference",
+  "profileFieldSkills": "Skills",
+  "profileSkillAdd": "Add skill",
+  "profileSkillRemove": "Remove skill {name}",
+  "@profileSkillRemove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSkillsLimit": "Up to 200 skills.",
+  "profileCountryInvalid": "Use a 2-letter code, for example BR",
+  "profileSaved": "Profile saved",
+  "profileNeedsProfile": "Create your profile first to add this.",
+  "profileSignInBody": "Sign in to create and keep your professional profile.",
+  "experienceSection": "Experience",
+  "experienceAdd": "Add experience",
+  "experienceNewTitle": "New experience",
+  "experienceEditTitle": "Edit experience",
+  "experienceCompany": "Company",
+  "experienceRole": "Role",
+  "experienceCurrent": "I currently work here",
+  "experienceDescription": "Description",
+  "experiencePresent": "Present",
+  "experienceEmpty": "No experience added yet.",
+  "experienceDatesInvalid": "The end date must not be before the start date",
+  "experienceCurrentNeedsStart": "Choose a start date for a current job",
+  "experienceDeleteTitle": "Delete this experience?",
+  "educationSection": "Education",
+  "educationAdd": "Add education",
+  "educationNewTitle": "New education",
+  "educationEditTitle": "Edit education",
+  "educationInstitution": "Institution",
+  "educationDegree": "Degree (if any)",
+  "educationField": "Course or field of study",
+  "educationEmpty": "No education added. It is optional.",
+  "educationDeleteTitle": "Delete this education?",
+  "resumesSection": "Résumés",
+  "resumesBody": "PDF only, up to 5 MB each, up to 10 files. Stored privately in your account.",
+  "resumesUpload": "Upload PDF",
+  "resumesUploading": "Uploading…",
+  "resumesEmpty": "No résumé uploaded yet.",
+  "resumeItem": "Résumé from {date}",
+  "@resumeItem": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "resumeOpen": "Open",
+  "resumeUploaded": "Résumé uploaded",
+  "resumeDeleteTitle": "Delete this résumé?",
+  "resumeDeleteBody": "The file is removed from your account.",
+  "preferencesSection": "Search preferences",
+  "languageTitle": "Language",
+  "languageSystem": "Device language",
+  "languagePt": "Português",
+  "languageEn": "English",
+  "languageEs": "Español",
+  "preferencesLocalOnly": "Sign in to keep these choices in your account. Until then they only apply on this device.",
+  "countriesTitle": "Countries of interest",
+  "countriesHint": "Add a country (2-letter code)",
+  "countriesEmpty": "No countries chosen.",
+  "countriesInvalid": "Use a 2-letter code that is not already in the list, for example DE",
+  "countriesRemove": "Remove country {code}",
+  "@countriesRemove": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "savedSearchesTitle": "Saved searches",
+  "savedSearchesNote": "Kept in your account.",
+  "recentSearchesNote": "Recent searches stay on this device.",
+  "savedSearchSave": "Save this search",
+  "savedSearchSaved": "Search saved",
+  "savedSearchRemove": "Remove saved search {term}",
+  "@savedSearchRemove": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "authNewPasswordTitle": "Choose a new password",
+  "authNewPasswordLabel": "New password",
+  "authNewPasswordAction": "Save new password",
+  "authPasswordChanged": "Password updated.",
+  "authSessionExpired": "Your session ended. Sign in again.",
+  "authErrorLinkInvalid": "This link has expired or was already used. Request a new one.",
+  "authErrorSamePassword": "Choose a password different from the current one.",
+  "authCancelRecovery": "Cancel",
+  "commonLoading": "Loading"
 }
