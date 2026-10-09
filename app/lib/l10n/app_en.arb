@@ -1,24 +1,130 @@
 {
   "@@locale": "en",
   "appTitle": "OrbiJob",
-  "searchHint": "Any profession, e.g. electrician, nurse, Flutter developer",
-  "emptyTitle": "Search for any profession",
-  "emptyBody": "No job source is connected yet. Results will only ever show real data from approved sources.",
-  "loading": "Searching…",
-  "errorTitle": "Something went wrong",
-  "retry": "Try again",
-  "noSourceTitle": "No integrated source for this search",
-  "noSourceBody": "Try the original portals instead.",
   "navHome": "Home",
   "navExplore": "Explore",
   "navFavorites": "Favorites",
   "navApplications": "Applications",
+  "navMain": "Main navigation",
   "profile": "Profile",
-  "homeTitle": "Welcome to OrbiJob",
-  "homeBody": "Your matches and recent activity will appear here once job sources are connected.",
+  "back": "Back",
+  "homeTitle": "What are you looking for?",
+  "homeSearchHint": "Any profession, any country",
+  "homeAreasTitle": "Browse by area",
+  "areaTechnology": "Technology",
+  "areaHealth": "Health",
+  "areaConstruction": "Construction",
+  "areaEducation": "Education",
+  "areaServices": "Services",
+  "areaIndustry": "Industry",
+  "areaTransport": "Transport",
+  "homeForYouTitle": "For you",
+  "homeForYouEmptyTitle": "No matches yet",
+  "homeForYouEmptyBody": "Matches appear here once job sources are connected and your profile is filled in.",
+  "homeApplicationsTitle": "Applications",
+  "homeApplicationsEmptyTitle": "No applications tracked",
+  "homeApplicationsEmptyBody": "Track where you applied, interviews and offers.",
+  "searchHint": "Any profession, e.g. electrician, nurse, Flutter developer",
+  "searchLabel": "Search jobs",
+  "searchClear": "Clear search",
+  "exploreIdleTitle": "Search for any profession",
+  "exploreIdleBody": "Type a profession or pick an area. Results only ever come from approved sources.",
+  "searching": "Searching…",
+  "emptyTitle": "No jobs found",
+  "emptyBody": "Try another profession or a broader search.",
+  "noSourceTitle": "No integrated source for this search",
+  "noSourceBody": "We do not have an authorised source for this country and profession yet. Try the original job portals.",
+  "errorTitle": "Something went wrong",
+  "errorBody": "We could not load results. Check your connection and try again.",
+  "retry": "Try again",
   "favoritesTitle": "No favorites yet",
-  "favoritesBody": "Saved jobs will appear here.",
+  "favoritesBody": "Saved jobs appear here.",
   "applicationsTitle": "No applications tracked",
   "applicationsBody": "Track where you applied, interviews and offers. Status is updated manually.",
-  "profileSoon": "Profile, résumé and experiences are coming soon."
+  "profileTitle": "Profile",
+  "profileEmptyTitle": "Your professional profile is coming soon",
+  "profileEmptyBody": "Résumé, experience and preferences will live here.",
+  "appearanceTitle": "Appearance",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "workModeRemote": "Remote",
+  "workModeHybrid": "Hybrid",
+  "workModeOnsite": "On-site",
+  "compatibilityLabel": "Compatibility",
+  "compatibilityValue": "Compatibility {score} out of 100",
+  "@compatibilityValue": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "confidenceLabel": "Confidence",
+  "confidenceHigh": "High confidence",
+  "confidenceMedium": "Medium confidence",
+  "confidenceLow": "Low confidence",
+  "confidenceSemantic": "Analysis confidence: {level}",
+  "@confidenceSemantic": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "scoreExplainer": "Compatibility and confidence are separate measures.",
+  "sourceLabel": "Source: {name}",
+  "@sourceLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "favoriteAdd": "Save job",
+  "favoriteRemove": "Remove from favorites",
+  "perHour": "/h",
+  "perDay": "/day",
+  "perWeek": "/week",
+  "perMonth": "/month",
+  "perYear": "/year",
+  "publishedToday": "Posted today",
+  "publishedYesterday": "Posted yesterday",
+  "publishedDaysAgo": "Posted {count} days ago",
+  "@publishedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "publishedWeeksAgo": "{count, plural, =1{Posted 1 week ago} other{Posted {count} weeks ago}}",
+  "@publishedWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "publishedMonthsAgo": "{count, plural, =1{Posted 1 month ago} other{Posted {count} months ago}}",
+  "@publishedMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jobDetailTitle": "Job details",
+  "openOfficialApplication": "Open official application",
+  "selectJobHint": "Select a job to see its details.",
+  "resultsCount": "{count, plural, =1{1 result} other{{count} results}}",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "previewBanner": "PREVIEW · ILLUSTRATIVE DATA, NOT REAL JOBS",
+  "previewAction": "Preview only: this action is not available."
 }

@@ -15,6 +15,7 @@ lib/
 ```
 Features planejadas: home, search, job_detail, profile, matching, favorites, applications, autofill, settings. BLoC/Cubit para estado; `get_it` para DI (manual, sem geração de código).
 Implementado: shell de navegação adaptativa (Início, Explorar, Favoritos, Candidaturas; perfil no cabeçalho; barra inferior < 600dp, rail ≥ 600dp), `search` (entidade, repositório "sem fonte", cubit, página), páginas vazias honestas de Início/Favoritos/Candidaturas, `StateMessage` reutilizável, tema M3 claro/escuro, l10n pt/en/es, DI. Nome técnico do pacote: `orbijob`; applicationId/bundle id `com.lucksrei.orbijob`.
+Design system (identidade C): `core/design` (tokens gerados de `docs/design/identity/c-minimal/tokens.json`, tipografia, tema, marca) e `core/widgets` (componentes); ver `docs/DESIGN_SYSTEM.md`. Dois entrypoints: `lib/main.dart` (real, sem dados) e `lib/main_preview.dart` (mesma UI com vagas **fictícias** e faixa de aviso, só para revisão visual). Estado de UI com Cubits: tema (`ThemeCubit`), navegação (`ShellCubit`), busca (`SearchCubit`), favoritos em memória (`FavoritesCubit`).
 
 ## Worker (`worker/`)
 ```

@@ -1,0 +1,7 @@
+{
+  "name": "orbijob-identity-build",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Renders identity previews with headless Chromium (playwright-core). Not part of the app.",
+  "dependencies": { "playwright-core": "1.49.1" }
+}

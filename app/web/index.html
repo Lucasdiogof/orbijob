@@ -1,46 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="OrbiJob by Lucksrei: busca inteligente de oportunidades profissionais em qualquer lugar do mundo.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C0C0E">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="OrbiJob">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
+  <meta name="application-name" content="OrbiJob">
+  <meta name="author" content="Lucksrei">
+  <!-- ?v= busts browser/favicon caches when the identity changes (Flutter 3.47's service worker does not cache assets). -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=c1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=c1">
+  <link rel="icon" href="favicon.ico?v=c1" sizes="any">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=c1">
+  <link rel="manifest" href="manifest.json?v=c1">
   <title>OrbiJob</title>
-  <link rel="manifest" href="manifest.json">
+  <style>
+    html,body{margin:0;height:100%;background:#FFFFFF}
+    #splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#FFFFFF}
+    #splash .s{width:96px;height:96px} #splash .d{display:none}
+    @media (prefers-color-scheme: dark){html,body,#splash{background:#0C0C0E} #splash .s{display:none} #splash .d{display:block}}
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <!-- Static splash (no animation, so nothing to reduce): removed on the first Flutter frame. -->
+  <div id="splash" role="img" aria-label="OrbiJob"><svg class="s" xmlns="http://www.w3.org/2000/svg" viewBox="8 8 84 84" aria-hidden="true"><path d="M75.08 31.78A31 31 0 0 1 31.78 75.08" stroke="#111113" stroke-width="13" fill="none"/><path d="M24.92 68.22A31 31 0 0 1 68.22 24.92" stroke="#111113" stroke-width="13" fill="none"/><circle cx="50" cy="50" r="9" fill="#5B3DF5"/></svg>
+<svg class="s d" xmlns="http://www.w3.org/2000/svg" viewBox="8 8 84 84" aria-hidden="true"><path d="M75.08 31.78A31 31 0 0 1 31.78 75.08" stroke="#F4F4F6" stroke-width="13" fill="none"/><path d="M24.92 68.22A31 31 0 0 1 68.22 24.92" stroke="#F4F4F6" stroke-width="13" fill="none"/><circle cx="50" cy="50" r="9" fill="#A593FF"/></svg>
+</div>
+  <noscript>OrbiJob precisa de JavaScript habilitado. / OrbiJob needs JavaScript enabled.</noscript>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash'); if (s) s.remove();
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

@@ -15,14 +15,26 @@ class SearchIdle extends SearchState {
 }
 
 class SearchLoading extends SearchState {
-  const SearchLoading();
+  const SearchLoading(this.query);
+  final String query;
+  @override
+  List<Object?> get props => [query];
 }
 
 class SearchSuccess extends SearchState {
-  const SearchSuccess(this.jobs);
-  final List<JobPosting> jobs;
+  const SearchSuccess(this.query, this.jobs);
+  final String query;
+  final List<ScoredJob> jobs;
   @override
-  List<Object?> get props => [jobs];
+  List<Object?> get props => [query, jobs];
+}
+
+/// An integrated source answered but nothing matched.
+class SearchEmpty extends SearchState {
+  const SearchEmpty(this.query);
+  final String query;
+  @override
+  List<Object?> get props => [query];
 }
 
 class SearchNoSource extends SearchState {
@@ -46,13 +58,16 @@ class SearchCubit extends Cubit<SearchState> {
   Future<void> search(String query, {String? countryCode}) async {
     final q = query.trim();
     if (q.isEmpty) return emit(const SearchIdle());
-    emit(const SearchLoading());
+    emit(SearchLoading(q));
     try {
       final r = await _repo.search(q, countryCode: countryCode);
       if (!r.hasIntegratedSource) return emit(SearchNoSource(q));
-      emit(SearchSuccess(r.jobs));
+      if (r.jobs.isEmpty) return emit(SearchEmpty(q));
+      emit(SearchSuccess(q, r.jobs));
     } catch (_) {
       emit(SearchFailure(q));
     }
   }
+
+  void clear() => emit(const SearchIdle());
 }
