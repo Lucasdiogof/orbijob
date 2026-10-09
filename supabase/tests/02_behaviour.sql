@@ -119,6 +119,8 @@ begin
   end loop;
   perform tests.count('select 1 from public.jobs', 1);
   perform tests.count('select 1 from storage.objects', 0);
+  -- the platform's SECURITY DEFINER event-trigger function is executable by anon, but only as an event trigger
+  perform tests.fails('select public.rls_auto_enable()', 'event trigger|only be called');
 end $$;
 reset role;
 

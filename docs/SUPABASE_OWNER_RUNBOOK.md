@@ -60,6 +60,16 @@ state: DRIFT                      → linhas "PROBLEM: …" explicando; NÃO apl
 Linhas `warning:` não bloqueiam (ex.: `pg_trgm` já instalada, Postgres diferente de 16).
 Se aparecer `cannot read …: not an OrbiJob inspection document`, o arquivo salvo não é o resultado do SQL (confira o passo 3).
 
+### Segunda consulta (única) — detalhes de pré-deploy
+A primeira inspeção mostrou uma função da plataforma (`public.rls_auto_enable`) e deixou perguntas sobre privilégios. Uma segunda consulta, **também somente leitura**, responde a todas de uma vez:
+1. Copie **`scripts/supabase/inspect_predeploy_details.paste.sql`** (`Get-Content scripts\supabase\inspect_predeploy_details.paste.sql -Raw | Set-Clipboard`, ou o endereço raw do arquivo no GitHub). É a mesma consulta, em **um único comando**, sem comentários nem `begin`/`rollback` (a versão comentada e com transação deu `42601: syntax error at end of input` no editor). Antes de colar: clique no editor, `Ctrl+A`, `Delete` (editor vazio, nada selecionado — o editor executa **só o trecho selecionado**), depois `Ctrl+V` e clique em **Run**.
+2. Saída esperada: uma linha, coluna `details`, JSON que começa com `{ "predeploy_format": 1, …`. Salve como `predeploy.json` (UTF-8). **Use a versão corrigida do arquivo** (a primeira versão falhava no Supabase hospedado com `schema "$user" does not exist`); o JSON correto contém o campo `search_path_schemas`.
+3. Cole o texto no chat **ou** rode `node scripts\supabase\predeploy_check.mjs $HOME\Desktop\predeploy.json`. Saída: `verdict: PRECHECK_OK` ou `verdict: BLOCKED` e uma linha por checagem (`PASS` / `FAIL` / `UNKNOWN`); o corpo da função de plataforma é impresso no fim para você ler.
+O arquivo contém nomes, flags, privilégios, a definição da função da plataforma e as versões de migrations — sem dados de usuários, chaves ou senhas.
+
+### Se aparecer `42601: syntax error at end of input`
+Significa que o editor enviou um texto **incompleto** ao banco. Causas comuns: (a) havia texto selecionado no editor e só o trecho selecionado foi executado; (b) a colagem foi cortada; (c) a versão com `begin`/`rollback` foi dividida pelo editor. O que fazer: esvazie o editor (`Ctrl+A`, `Delete`), cole o arquivo `*.paste.sql`, confira que a **primeira linha** é `select jsonb_pretty(jsonb_build_object(` e a **última** é `)) as details;`, e clique em **Run** sem selecionar nada. Se o erro continuar, envie só o texto do erro e a primeira e a última linha que aparecem no editor (sem rolar o resto).
+
 ### O que enviar / o que NÃO enviar
 - **Enviar:** o texto de `inspection.json` e a saída do classificador (as linhas `state:` / `pending:` / `PROBLEM:` / `warning:`).
 - **Enviar também, anotando à mão (30 s no painel):** *Database → Migrations* (lista de versões), *Storage* (nomes dos buckets e se são públicos), *Authentication → Providers* (e-mail ligado? *Confirm email*?), *Authentication → URL Configuration* (Site URL), *Database → Extensions* (`pg_trgm` instalada?), versão do Postgres.
@@ -83,7 +93,7 @@ read -s -p "Senha do banco: " PGPASSWORD; export PGPASSWORD; echo
 export DB_URL='postgresql://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/postgres'   # SEM senha na URL
 ```
 (Alternativa nativa no PowerShell: Scoop — `scoop bucket add supabase https://github.com/supabase/scoop-bucket.git` e `scoop install supabase`. Confirme os comandos na página oficial https://supabase.com/docs/guides/local-development/cli/getting-started antes de usar.)
-Leitura via script (não escreve): `PATH="$PWD/node_modules/.bin:$PATH" bash scripts/supabase/apply.sh read`.
+Leitura via script (não escreve): `PATH="$PWD/node_modules/.bin:$PATH" bash scripts/supabase/apply.sh read` (roda as duas consultas, classifica e executa o verificador de pré-deploy). Um item `UNKNOWN` que você **leu** e aceita é liberado com `ORBIJOB_PREDEPLOY_ACK=<id>` (ex.: `function-rls_auto_enable`); um `FAIL` nunca pode ser liberado.
 Mapa das fases A–E e travas de segurança: `docs/SUPABASE_MIGRATION_PLAN.md`, seção 3. **O assistente só prepara; quem autoriza e dispara a aplicação é você.**
 
 ### Contas de teste da Fase E

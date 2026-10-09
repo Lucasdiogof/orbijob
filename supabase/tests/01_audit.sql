@@ -27,17 +27,24 @@ begin
     raise exception 'AUDIT: authenticated has % on public.%', r.privilege_type, r.table_name;
   end loop;
 
-  -- 4. no SECURITY DEFINER function and no function callable by API roles in public
-  for r in select p.proname from pg_proc p join pg_namespace s on s.oid = p.pronamespace
-           where s.nspname = 'public' and p.prosecdef loop
-    raise exception 'AUDIT: SECURITY DEFINER function public.%', r.proname;
-  end loop;
-  for r in select p.proname, rol.rolname from pg_proc p join pg_namespace s on s.oid = p.pronamespace
-           cross join (values ('anon'),('authenticated')) rol(rolname)
-           where s.nspname = 'public' and has_function_privilege(rol.rolname, p.oid, 'execute')
-             and p.prokind = 'f' and p.proname not like 'gin\_%' and p.proname not like 'gtrgm%'
+  -- 4. functions in public: none may be SECURITY DEFINER or callable by the API roles, except event-trigger functions
+  --    that the PLATFORM bound to an event trigger (e.g. rls_auto_enable): those cannot be invoked as normal functions
+  --    (checked in 02_behaviour.sql / reported in the pre-deploy details) and are listed here as a note.
+  for r in select p.oid, p.proname, p.prosecdef, p.prorettype::regtype::text as ret,
+                  has_function_privilege('anon', p.oid, 'execute') as anon_exec,
+                  has_function_privilege('authenticated', p.oid, 'execute') as auth_exec
+           from pg_proc p join pg_namespace s on s.oid = p.pronamespace
+           where s.nspname = 'public' and p.prokind = 'f'
+             and p.proname not like 'gin\_%' and p.proname not like 'gtrgm%'
              and p.proname not in ('set_limit','show_limit','show_trgm') loop
-    raise exception 'AUDIT: % can execute public.%()', r.rolname, r.proname;
+    if r.ret = 'event_trigger' and exists (select 1 from pg_event_trigger e where e.evtfoid = r.oid) then
+      raise notice 'AUDIT-NOTE: platform event-trigger function public.%() (security definer: %, anon exec: %, authenticated exec: %)',
+        r.proname, r.prosecdef, r.anon_exec, r.auth_exec;
+      continue;
+    end if;
+    if r.prosecdef then raise exception 'AUDIT: SECURITY DEFINER function public.%', r.proname; end if;
+    if r.anon_exec then raise exception 'AUDIT: anon can execute public.%()', r.proname; end if;
+    if r.auth_exec then raise exception 'AUDIT: authenticated can execute public.%()', r.proname; end if;
   end loop;
 
   -- 5. nothing on auth.users from triggers (no admin-privileged hook)

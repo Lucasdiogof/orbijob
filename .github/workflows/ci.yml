@@ -28,9 +28,14 @@ jobs:
         run: scripts/supabase/apply.test.sh
   supabase-sql:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pg: [16, 17]   # the hosted project runs 17; 16 is kept until 17 has been green for a while
+    name: supabase-sql (postgres ${{ matrix.pg }})
     services:
       postgres:
-        image: postgres:16
+        image: postgres:${{ matrix.pg }}
         env: { POSTGRES_PASSWORD: postgres }
         ports: ['5432:5432']
         options: >-

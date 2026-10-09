@@ -49,6 +49,29 @@ grant usage on schema storage to anon, authenticated, service_role;
 grant select, insert, update, delete on all tables in schema storage to anon, authenticated, service_role;
 alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 
+-- Hosted Supabase projects ship an event trigger that enables RLS on every table created in `public`, implemented by
+-- `public.rls_auto_enable()` (SECURITY DEFINER, executable by anon/authenticated through the default PUBLIC EXECUTE).
+-- Reported by the owner's real inspection of project rpmlfxwebnlxnwadyvle (2026-10-09). The body below is an
+-- APPROXIMATION written for tests; the real definition must be read with scripts/supabase/inspect_predeploy_details.sql.
+create function public.rls_auto_enable() returns event_trigger language plpgsql security definer set search_path = pg_catalog as $$
+declare cmd record;
+begin
+  for cmd in select * from pg_event_trigger_ddl_commands()
+             where command_tag in ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO') and object_type in ('table', 'partitioned table') loop
+    if cmd.schema_name = 'public' then
+      execute format('alter table if exists %s enable row level security', cmd.object_identity);
+    end if;
+  end loop;
+end $$;
+create event trigger ensure_rls on ddl_command_end when tag in ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO')
+  execute function public.rls_auto_enable();
+-- Default privileges of the platform admin role (observed on the real project: broad grants for supabase_admin objects)
+do $$ begin
+  if not exists (select 1 from pg_roles where rolname = 'supabase_admin') then create role supabase_admin nologin; end if;
+end $$;
+alter default privileges for role supabase_admin in schema public grant all on tables to anon, authenticated, service_role;
+alter default privileges for role supabase_admin in schema public grant all on functions to anon, authenticated, service_role;
+
 -- assertion helpers
 create schema tests;
 grant usage on schema tests to anon, authenticated, service_role;

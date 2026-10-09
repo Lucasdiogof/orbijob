@@ -1,9 +1,3 @@
--- OrbiJob: READ-ONLY inspection of a Supabase (or any PostgreSQL) database.
--- Reads catalog metadata and the migration history only: no personal data, no table contents, no secrets.
--- Produces ONE jsonb document that is safe to save and share (object names, flags, versions).
--- Run it in the dashboard SQL Editor, or: psql "$DB_URL" -X -q -At -f scripts/supabase/inspect_readonly.sql > inspection.json
--- If your SQL Editor rejects the BEGIN/ROLLBACK lines, delete them: every statement below is a plain SELECT anyway.
-begin read only;
 select jsonb_pretty(jsonb_build_object(
   'format', 1,
   'collected_at', now(),
@@ -15,7 +9,6 @@ select jsonb_pretty(jsonb_build_object(
   'extensions', (select coalesce(jsonb_agg(jsonb_build_object('name', e.extname, 'schema', n.nspname, 'version', e.extversion)
                                            order by e.extname), '[]')
                  from pg_extension e join pg_namespace n on n.oid = e.extnamespace),
-  -- migration history; null = the history table does not exist
   'migration_versions', case when to_regclass('supabase_migrations.schema_migrations') is null then null else
       coalesce((select jsonb_agg(v order by v) from (
         select unnest(xpath('//version/text()', query_to_xml(
@@ -52,11 +45,9 @@ select jsonb_pretty(jsonb_build_object(
   'storage_policies', (select coalesce(jsonb_agg(jsonb_build_object(
         'name', policyname, 'command', cmd, 'roles', roles) order by policyname), '[]')
       from pg_policies where schemaname = 'storage' and tablename = 'objects'),
-  -- bucket metadata only (no object names)
   'storage_buckets', case when to_regclass('storage.buckets') is null then null else
       coalesce((select (xpath('//j/text()', query_to_xml(
         'select coalesce(jsonb_agg(jsonb_build_object(''id'', id, ''public'', public, ''file_size_limit'', file_size_limit, '
         || '''allowed_mime_types'', allowed_mime_types) order by id), ''[]''::jsonb)::text as j from storage.buckets',
         false, false, '')))[1]::text::jsonb), '[]'::jsonb) end
 )) as inspection;
-rollback;
