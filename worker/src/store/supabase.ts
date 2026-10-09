@@ -36,7 +36,9 @@ export class SupabaseJobStore implements JobStore {
       method: init.method,
       headers: {
         apikey: this.serviceKey,
-        Authorization: `Bearer ${this.serviceKey}`,
+        // New-style keys (sb_secret_...) are not JWTs and Supabase says to send them ONLY in `apikey`: in Authorization they
+        // fail JWT verification. A classic service_role JWT (and a direct PostgREST) needs the Bearer header.
+        ...(isJwt(this.serviceKey) ? { Authorization: `Bearer ${this.serviceKey}` } : {}),
         'Content-Type': 'application/json',
         Accept: 'application/json',
         ...(init.prefer ? { Prefer: init.prefer } : {}),
@@ -87,6 +89,11 @@ export class SupabaseJobStore implements JobStore {
   async recordRun(run: SyncRunRow): Promise<void> {
     await this.call('sync_runs', { method: 'POST', body: run, prefer: 'return=minimal' });
   }
+}
+
+/** True for a three-part JWT (the legacy service_role key); false for `sb_secret_...` keys. */
+export function isJwt(key: string): boolean {
+  return /^eyJ[\w-]+\.[\w-]+\.[\w-]+$/.test(key);
 }
 
 /** At most [maxRows] rows and about [maxChars] characters of JSON per request: a hundred long descriptions must not make one huge body. */

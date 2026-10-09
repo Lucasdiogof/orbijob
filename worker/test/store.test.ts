@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { normalizeJobicy } from '../src/connectors/jobicy';
 import { HttpError } from '../src/http';
-import { SupabaseJobStore, chunkRows } from '../src/store/supabase';
+import { SupabaseJobStore, chunkRows, isJwt } from '../src/store/supabase';
 import { toJobRow } from '../src/sync';
 import feed from './fixtures/jobicy-feed.sanitized.json';
 
@@ -25,7 +25,7 @@ describe('SupabaseJobStore (request contract, no network)', () => {
     await store.upsertJobs(rows);
     expect(calls).toHaveLength(1);
     expect(calls[0]).toMatchObject({ method: 'POST', url: 'https://example.supabase.co/rest/v1/jobs?on_conflict=source_id,external_id' });
-    expect(calls[0]!.headers).toMatchObject({ apikey: KEY, Authorization: `Bearer ${KEY}`, Prefer: 'resolution=merge-duplicates,return=minimal' });
+    expect(calls[0]!.headers).toMatchObject({ apikey: KEY, Prefer: 'resolution=merge-duplicates,return=minimal' });
     expect(calls[0]!.body).toEqual(rows);
   });
 
@@ -104,5 +104,27 @@ describe('SupabaseJobStore (request contract, no network)', () => {
   it('a single row bigger than the limit is still sent (alone), never dropped', () => {
     const huge = { ...rows[0]!, description: 'x'.repeat(900_000) };
     expect(chunkRows([huge, rows[1]!]).map((c) => c.length)).toEqual([1, 1]);
+  });
+
+  it('a new-style secret key goes ONLY in apikey; a JWT key also goes in Authorization', async () => {
+    const send = async (key: string) => {
+      const { calls, store } = (() => {
+        const calls: Call[] = [];
+        const f = (async (url: string, init: RequestInit) => (calls.push({ url, method: init.method!, headers: init.headers as Record<string, string>, body: undefined }), new Response(null, { status: 201 }))) as unknown as typeof fetch;
+        return { calls, store: new SupabaseJobStore('https://example.supabase.co', key, f) };
+      })();
+      await store.recordRun({ source_id: 'jobicy', scope: '', started_at: 'a', finished_at: 'b', status: 'ok', fetched: 0, upserted: 0, duplicates: 0, closed: 0, http_errors: 0, error_class: null });
+      return calls[0]!.headers;
+    };
+    const secret = await send('sb_secret_abcdefghijklmnopqrstuvwxyz0123456789');
+    expect(secret.apikey).toBe('sb_secret_abcdefghijklmnopqrstuvwxyz0123456789');
+    expect(Object.keys(secret)).not.toContain('Authorization');
+    const jwt = 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIn0.c2ln';
+    const legacy = await send(jwt);
+    expect(legacy).toMatchObject({ apikey: jwt, Authorization: `Bearer ${jwt}` });
+    expect(isJwt(jwt)).toBe(true);
+    expect(isJwt('sb_secret_x')).toBe(false);
+    expect(isJwt('eyJhbGci.only.two')).toBe(true); // shape check only: PostgREST/Supabase verify the signature
+    expect(isJwt('not-a-jwt')).toBe(false);
   });
 });
