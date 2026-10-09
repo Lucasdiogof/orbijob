@@ -10,13 +10,16 @@ import '../../../../core/widgets/skeleton.dart';
 import '../../../../core/widgets/state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
+import '../../../preferences/presentation/preferences_cubit.dart';
 import '../../../preferences/presentation/saved_searches_cubit.dart';
 import '../../../home/home_page.dart';
 import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
+import '../../domain/job_filters.dart';
 import '../cubit/search_cubit.dart';
 import '../widgets/job_card.dart';
 import '../widgets/job_detail_view.dart';
+import '../widgets/search_filters_panel.dart';
 import 'job_detail_page.dart';
 
 /// Explore: search field + results. Expanded windows (>= 1024) show list and detail side by side.
@@ -34,6 +37,7 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
   ScoredJob? _selected;
+  bool _showFilters = false;
 
   @override
   void dispose() {
@@ -91,6 +95,21 @@ class _SearchPageState extends State<SearchPage> {
               onClear: () => context.read<SearchCubit>().clear(),
             ),
           );
+          final header = Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              field,
+              BlocBuilder<SearchCubit, SearchState>(
+                buildWhen: (a, b) => a.filters != b.filters,
+                builder: (context, s) => _FiltersArea(
+                  filters: s.filters,
+                  open: _showFilters,
+                  maxHeight: box.maxHeight * 0.45,
+                  onToggle: () => setState(() => _showFilters = !_showFilters),
+                ),
+              ),
+            ],
+          );
           final results = BlocBuilder<SearchCubit, SearchState>(
             builder: (context, s) => _Results(
               state: s,
@@ -108,7 +127,7 @@ class _SearchPageState extends State<SearchPage> {
                 constraints: const BoxConstraints(maxWidth: 760),
                 child: Column(
                   children: [
-                    field,
+                    header,
                     Expanded(child: results),
                   ],
                 ),
@@ -121,7 +140,7 @@ class _SearchPageState extends State<SearchPage> {
                 width: AppSize.listPaneWidth,
                 child: Column(
                   children: [
-                    field,
+                    header,
                     Expanded(child: results),
                   ],
                 ),
@@ -236,6 +255,15 @@ class _Results extends StatelessWidget {
                 ),
             ],
           ),
+          const SizedBox(height: AppSpace.s4),
+          Center(
+            child: AppButton(
+              label: l.browseLatest,
+              icon: Icons.list_alt,
+              variant: AppButtonVariant.secondary,
+              onPressed: () => context.read<SearchCubit>().browse(),
+            ),
+          ),
         ],
       ),
       SearchLoading() => const Padding(
@@ -248,12 +276,20 @@ class _Results extends StatelessWidget {
         body: l.noSourceBody,
         kind: StateKind.info,
       ),
-      SearchEmpty() => StateView(
+      SearchEmpty(:final filters) => StateView(
         icon: Icons.search_off,
         title: l.emptyTitle,
-        body: l.emptyBody,
+        body: filters.isActive ? l.emptyFiltersBody : l.emptyBody,
+        action: filters.isActive
+            ? AppButton(
+                label: l.filtersClear,
+                icon: Icons.filter_alt_off_outlined,
+                variant: AppButtonVariant.secondary,
+                onPressed: () => context.read<SearchCubit>().clearFilters(),
+              )
+            : null,
       ),
-      SearchFailure(:final query) => StateView(
+      SearchFailure() => StateView(
         icon: Icons.error_outline,
         title: l.errorTitle,
         body: l.errorBody,
@@ -261,10 +297,16 @@ class _Results extends StatelessWidget {
         action: AppButton(
           label: l.retry,
           icon: Icons.refresh,
-          onPressed: () => onSearch(query),
+          onPressed: () => context.read<SearchCubit>().retry(),
         ),
       ),
-      SearchSuccess(:final jobs, :final query) =>
+      SearchSuccess(
+        :final jobs,
+        :final query,
+        :final hasMore,
+        :final loadingMore,
+        :final loadMoreFailed,
+      ) =>
         BlocConsumer<FavoritesCubit, FavoritesState>(
           listenWhen: (a, b) => a.actionTick != b.actionTick,
           listener: (context, f) {
@@ -274,7 +316,7 @@ class _Results extends StatelessWidget {
           },
           builder: (context, favs) => ListView.separated(
             padding: const EdgeInsets.all(AppSpace.s4),
-            itemCount: jobs.length + 1,
+            itemCount: jobs.length + 1 + (hasMore || loadMoreFailed ? 1 : 0),
             separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
             itemBuilder: (context, i) {
               if (i == 0) {
@@ -284,15 +326,25 @@ class _Results extends StatelessWidget {
                       child: Semantics(
                         liveRegion: true,
                         child: Text(
-                          l.resultsCount(jobs.length),
+                          // With more pages behind it the count is "shown so far", never a catalogue total.
+                          hasMore
+                              ? l.resultsShown(jobs.length)
+                              : l.resultsCount(jobs.length),
                           style: context.text.labelMedium!.copyWith(
                             color: context.colors.muted,
                           ),
                         ),
                       ),
                     ),
-                    _SaveSearchButton(query: query),
+                    if (query.isNotEmpty) _SaveSearchButton(query: query),
                   ],
+                );
+              }
+              if (i == jobs.length + 1) {
+                return _LoadMoreFooter(
+                  loading: loadingMore,
+                  failed: loadMoreFailed,
+                  onLoadMore: () => context.read<SearchCubit>().loadMore(),
                 );
               }
               final s = jobs[i - 1];
@@ -343,6 +395,110 @@ class _SaveSearchButton extends StatelessWidget {
           icon: Icon(saved ? Icons.bookmark : Icons.bookmark_border),
         );
       },
+    );
+  }
+}
+
+/// Button that opens/closes the filter panel (with the number of active filters) and the panel itself.
+class _FiltersArea extends StatelessWidget {
+  const _FiltersArea({
+    required this.filters,
+    required this.open,
+    required this.maxHeight,
+    required this.onToggle,
+  });
+  final JobFilters filters;
+  final bool open;
+  final double maxHeight;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final countries = _countriesOfInterest(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.s4),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: AppButton(
+              label: activeFilterCount(filters) == 0
+                  ? l.filtersButton
+                  : l.filtersButtonCount(activeFilterCount(filters)),
+              icon: open ? Icons.expand_less : Icons.tune,
+              variant: AppButtonVariant.secondary,
+              onPressed: onToggle,
+            ),
+          ),
+        ),
+        if (open)
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: maxHeight < 160 ? 160 : maxHeight,
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: AppSpace.s2),
+                child: SearchFiltersPanel(
+                  filters: filters,
+                  countries: countries,
+                  onChanged: (f) => context.read<SearchCubit>().setFilters(f),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Countries of interest from the user's profile; empty when preferences are not available (signed out, preview).
+List<String> _countriesOfInterest(BuildContext context) {
+  try {
+    return context.watch<PreferencesCubit>().state.prefs.countriesOfInterest;
+  } catch (_) {
+    return const [];
+  }
+}
+
+class _LoadMoreFooter extends StatelessWidget {
+  const _LoadMoreFooter({
+    required this.loading,
+    required this.failed,
+    required this.onLoadMore,
+  });
+  final bool loading;
+  final bool failed;
+  final VoidCallback onLoadMore;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpace.s2),
+      child: Column(
+        children: [
+          if (failed)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpace.s2),
+              child: Text(
+                l.loadMoreFailed,
+                style: context.text.bodyMedium!.copyWith(
+                  color: context.colors.muted,
+                ),
+              ),
+            ),
+          AppButton(
+            label: failed ? l.retry : l.loadMore,
+            icon: failed ? Icons.refresh : Icons.expand_more,
+            variant: AppButtonVariant.secondary,
+            loading: loading,
+            onPressed: loading ? null : onLoadMore,
+          ),
+        ],
+      ),
     );
   }
 }

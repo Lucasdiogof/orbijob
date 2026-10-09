@@ -1,4 +1,5 @@
 import '../features/search/domain/entities/job_posting.dart';
+import '../features/search/domain/job_filters.dart';
 import '../features/search/domain/search_repository.dart';
 
 /// ILLUSTRATIVE fixtures: fictional jobs, companies, salaries and scores used ONLY by the preview entrypoint
@@ -135,7 +136,13 @@ class PreviewSearchRepository implements SearchRepository {
   };
 
   @override
-  Future<SearchResult> search(String query, {String? countryCode}) async {
+  Future<SearchResult> search(
+    String query, {
+    String? countryCode,
+    JobFilters filters = const JobFilters(),
+    int offset = 0,
+    int limit = 20,
+  }) async {
     if (delay > Duration.zero) await Future<void>.delayed(delay);
     final q = query.toLowerCase();
     final ids = (_areas[q] ?? '').split(',');

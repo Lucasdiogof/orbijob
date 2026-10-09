@@ -21,6 +21,7 @@ Map<String, Object?> jobToSnapshot(JobPosting j) => {
     'publishedAt': j.publishedAt!.toUtc().toIso8601String(),
   if (j.sourceName != null) 'sourceName': j.sourceName,
   if (j.language != null) 'language': j.language,
+  if (j.geoRestrictions.isNotEmpty) 'geoRestrictions': j.geoRestrictions,
 };
 
 /// `source` of postings the user typed in (applications added by hand); their `originalUrl` may be empty.
@@ -39,13 +40,21 @@ T? _enum<T extends Enum>(List<T> values, Object? name) {
 String? _s(Object? v) => v is String && v.isNotEmpty ? v : null;
 double? _n(Object? v) => v is num ? v.toDouble() : null;
 
+List<String> _strings(Object? v) => v is List
+    ? [
+        for (final e in v)
+          if (e is String && e.isNotEmpty) e,
+      ]
+    : const [];
+
 /// Returns null when the snapshot lacks the identity fields (corrupt/foreign data is skipped, not guessed).
 JobPosting? jobFromSnapshot(Object? raw) {
   if (raw is! Map) return null;
   final source = _s(raw['source']);
   final id = _s(raw['externalId']);
   final title = _s(raw['title']);
-  final company = _s(raw['company']);
+  // A company may be empty (some sources omit it); it must still be text, never a reason to lose the favourite.
+  final company = raw['company'] is String ? raw['company'] as String : null;
   // Entries the user adds by hand have no link; every other source must carry one.
   final url = _s(raw['originalUrl']) ?? (source == manualSource ? '' : null);
   if (source == null ||
@@ -73,5 +82,6 @@ JobPosting? jobFromSnapshot(Object? raw) {
     publishedAt: DateTime.tryParse(_s(raw['publishedAt']) ?? ''),
     sourceName: _s(raw['sourceName']),
     language: _s(raw['language']),
+    geoRestrictions: _strings(raw['geoRestrictions']),
   );
 }

@@ -24,6 +24,7 @@ import '../../features/profile/presentation/resumes_cubit.dart';
 
 import '../../features/favorites/favorites_cubit.dart';
 import '../../features/home/recent_searches_cubit.dart';
+import '../../features/search/data/supabase_job_catalog_repository.dart';
 import '../../features/search/domain/search_repository.dart';
 import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
@@ -32,8 +33,9 @@ import '../theme_cubit.dart';
 
 final sl = GetIt.instance;
 
-/// Registers the app graph. [searchRepository] lets previews and tests plug another source;
-/// by default no connector is wired and search honestly reports "no integrated source".
+/// Registers the app graph. [searchRepository] lets previews and tests plug another source; without one, a build with a
+/// Supabase configuration reads the job catalogue ([registerSupabaseRepositories]) and a build without it honestly
+/// reports "no integrated source".
 /// A registered dependency, or null when this build does not have it (no Supabase configuration). Cubits receive
 /// null and report "not configured" instead of pretending to store data.
 T? maybe<T extends Object>() => sl.isRegistered<T>() ? sl<T>() : null;
@@ -47,19 +49,19 @@ void configureDependencies({
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
   }
+  if (searchRepository != null) {
+    sl.registerLazySingleton<SearchRepository>(() => searchRepository);
+  }
   sl
     ..registerLazySingleton<PdfPicker>(() => pdfPicker ?? FilePickerPdfPicker())
     ..registerLazySingleton<AuthRepository>(
       () => authRepository ?? UnconfiguredAuthRepository(),
     )
     ..registerFactory<AuthCubit>(() => AuthCubit(sl<AuthRepository>()))
-    ..registerLazySingleton<SearchRepository>(
-      () => searchRepository ?? NoSourceSearchRepository(),
-    )
     ..registerLazySingleton<RecentSearchesCubit>(RecentSearchesCubit.new)
     ..registerFactory<SearchCubit>(
       () => SearchCubit(
-        sl<SearchRepository>(),
+        maybe<SearchRepository>() ?? NoSourceSearchRepository(),
         onQuery: sl<RecentSearchesCubit>().record,
       ),
     )
@@ -92,6 +94,11 @@ void registerSupabaseRepositories(SupabaseClient client) {
   if (!sl.isRegistered<FavoritesRepository>()) {
     sl.registerLazySingleton<FavoritesRepository>(
       () => SupabaseFavoritesRepository(client),
+    );
+  }
+  if (!sl.isRegistered<SearchRepository>()) {
+    sl.registerLazySingleton<SearchRepository>(
+      () => SupabaseJobCatalogRepository(client),
     );
   }
   sl

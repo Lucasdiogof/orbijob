@@ -853,4 +853,71 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get commonLoading => 'Carregando';
+
+  @override
+  String get filtersButton => 'Filtros';
+
+  @override
+  String filtersButtonCount(int count) {
+    return 'Filtros ($count)';
+  }
+
+  @override
+  String get filtersClear => 'Limpar filtros';
+
+  @override
+  String get filterWorkMode => 'Modalidade';
+
+  @override
+  String get filterPublished => 'Publicada';
+
+  @override
+  String get filterPublished1 => 'Últimas 24 horas';
+
+  @override
+  String get filterPublished7 => 'Últimos 7 dias';
+
+  @override
+  String get filterPublished30 => 'Últimos 30 dias';
+
+  @override
+  String get filterWithSalary => 'Só com salário';
+
+  @override
+  String get filterCountry => 'País (do seu perfil)';
+
+  @override
+  String get browseLatest => 'Ver vagas recentes';
+
+  @override
+  String get loadMore => 'Mostrar mais';
+
+  @override
+  String get loadMoreFailed => 'Não foi possível carregar mais vagas.';
+
+  @override
+  String resultsShown(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mostrando $count vagas',
+      one: 'Mostrando 1 vaga',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emptyFiltersBody =>
+      'Nenhuma vaga com esses filtros. Tente remover algum.';
+
+  @override
+  String get openOriginalListing => 'Abrir anúncio original';
+
+  @override
+  String eligibleIn(String places) {
+    return 'Aberta a candidatos em: $places';
+  }
+
+  @override
+  String get jobDescriptionTitle => 'Descrição';
 }

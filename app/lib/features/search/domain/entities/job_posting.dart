@@ -25,6 +25,8 @@ class JobPosting extends Equatable {
     this.publishedAt,
     this.sourceName,
     this.language,
+    this.geoRestrictions = const [],
+    this.description,
   });
 
   final String source;
@@ -49,6 +51,14 @@ class JobPosting extends Equatable {
   /// Language of the posting text (BCP-47 primary subtag, e.g. `de`). Job text is never translated silently:
   /// the UI shows it as written and flags it when it differs from the interface language.
   final String? language;
+
+  /// Where the applicant must be (ISO alpha-2 codes, region names such as `EMEA`, or names as the source wrote them).
+  /// Empty = the source states no restriction. Never expanded or guessed.
+  final List<String> geoRestrictions;
+
+  /// Plain-text description when the catalogue provides one. NOT stored in favourites or applications (their
+  /// snapshots are limited to 16 KB); those open the original listing instead.
+  final String? description;
 
   @override
   List<Object?> get props => [source, externalId];

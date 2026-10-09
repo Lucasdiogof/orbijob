@@ -849,4 +849,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonLoading => 'Loading';
+
+  @override
+  String get filtersButton => 'Filters';
+
+  @override
+  String filtersButtonCount(int count) {
+    return 'Filters ($count)';
+  }
+
+  @override
+  String get filtersClear => 'Clear filters';
+
+  @override
+  String get filterWorkMode => 'Work mode';
+
+  @override
+  String get filterPublished => 'Posted';
+
+  @override
+  String get filterPublished1 => 'Last 24 hours';
+
+  @override
+  String get filterPublished7 => 'Last 7 days';
+
+  @override
+  String get filterPublished30 => 'Last 30 days';
+
+  @override
+  String get filterWithSalary => 'Only with salary';
+
+  @override
+  String get filterCountry => 'Country (from your profile)';
+
+  @override
+  String get browseLatest => 'Show latest jobs';
+
+  @override
+  String get loadMore => 'Show more';
+
+  @override
+  String get loadMoreFailed => 'Could not load more jobs.';
+
+  @override
+  String resultsShown(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Showing $count jobs',
+      one: 'Showing 1 job',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emptyFiltersBody =>
+      'No jobs match these filters. Try removing some.';
+
+  @override
+  String get openOriginalListing => 'Open original listing';
+
+  @override
+  String eligibleIn(String places) {
+    return 'Open to applicants in: $places';
+  }
+
+  @override
+  String get jobDescriptionTitle => 'Description';
 }

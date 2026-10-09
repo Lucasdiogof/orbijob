@@ -1593,6 +1593,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading'**
   String get commonLoading;
+
+  /// No description provided for @filtersButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filtersButton;
+
+  /// No description provided for @filtersButtonCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters ({count})'**
+  String filtersButtonCount(int count);
+
+  /// No description provided for @filtersClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get filtersClear;
+
+  /// No description provided for @filterWorkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Work mode'**
+  String get filterWorkMode;
+
+  /// No description provided for @filterPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted'**
+  String get filterPublished;
+
+  /// No description provided for @filterPublished1.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 24 hours'**
+  String get filterPublished1;
+
+  /// No description provided for @filterPublished7.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get filterPublished7;
+
+  /// No description provided for @filterPublished30.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get filterPublished30;
+
+  /// No description provided for @filterWithSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Only with salary'**
+  String get filterWithSalary;
+
+  /// No description provided for @filterCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country (from your profile)'**
+  String get filterCountry;
+
+  /// No description provided for @browseLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Show latest jobs'**
+  String get browseLatest;
+
+  /// No description provided for @loadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get loadMore;
+
+  /// No description provided for @loadMoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load more jobs.'**
+  String get loadMoreFailed;
+
+  /// No description provided for @resultsShown.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Showing 1 job} other{Showing {count} jobs}}'**
+  String resultsShown(int count);
+
+  /// No description provided for @emptyFiltersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No jobs match these filters. Try removing some.'**
+  String get emptyFiltersBody;
+
+  /// No description provided for @openOriginalListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Open original listing'**
+  String get openOriginalListing;
+
+  /// No description provided for @eligibleIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Open to applicants in: {places}'**
+  String eligibleIn(String places);
+
+  /// No description provided for @jobDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get jobDescriptionTitle;
 }
 
 class _AppLocalizationsDelegate
