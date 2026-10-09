@@ -1,0 +1,86 @@
+# Jobicy — integração de vagas (Fase 5.2)
+
+Estado: **implementado e testado localmente; não implantado**. Nada foi gravado no Supabase hospedado, nenhuma migration foi aplicada, nenhum segredo foi configurado, nenhum Worker foi publicado.
+
+Regras da fonte lidas em texto primário em 2026-10-09: [README oficial](https://github.com/Jobicy/remote-jobs-api) (seções Remote Jobs API, Production Recommendations, Fair Use, License) e [OpenAPI](https://jobicy.com/api/openapi.json). Um payload real de referência está em `worker/test/fixtures/jobicy-feed.sanitized.json`.
+
+## O que a fonte garante (e o que isso exige de nós)
+
+| Ponto | Texto oficial | Como o código respeita |
+|---|---|---|
+| Endpoint | `GET https://jobicy.com/api/v2/remote-jobs`, sem chave | `connectors/jobicy.ts` |
+| Janela | só vagas publicadas nos **últimos 7 dias**; "sua ausência no feed não indica fechamento" | `isFullSnapshot` é sempre `false`; fechamento só pelo endpoint de status |
+| Paginação | `count` 1–200; `nextCursor` opaco, válido 24 h; ordem por data desc; cursor expirado ou alterado → HTTP 400, recomeçar | 100 por página; cursor repassado sem alteração; `runSync` recomeça **uma vez** em 400 |
+| Frequência | "não iniciar novas passadas de sincronização mais de uma vez por hora" | a passada é do agendador (≤ 1/h). Dentro da passada, 1 req/s entre páginas é **escolha nossa** (a fonte não publica cota) |
+| Identificador | `id` inteiro; "deduplicar por `id`" | `external_id = String(id)`; único por `(source_id, external_id)` |
+| Link canônico | "preservar a URL canônica do Jobicy"; botões de candidatura vão para a URL do feed | `original_url = apply_url = url`; só aceita `https` em `jobicy.com` |
+| Atribuição | creditar o Jobicy com link direto; não apresentar como vaga própria | `job_sources.attribution`; a UI deve mostrar a fonte e o link |
+| Descrição | HTML: "sanitizar antes de exibir" | reduzida a texto simples (`text.ts`); HTML nunca é guardado |
+| Expiração | endpoint `GET /api/v2/remote-jobs/status?ids=` (≤ 100): `active`, `closed`, `unknown`; "`unknown` não confirma fechamento" | `active→open`, `closed→closed`, `unknown` não altera a vaga |
+| Uso / retenção | "pode usar em seus produtos sem pedir permissão individual"; "cache onde apropriado"; "armazenar por `id`" | persistência permitida, com a fonte e a URL preservadas |
+| Dados vs. código | MIT vale para o repositório; **não** transfere a propriedade das vagas, logos ou conteúdo de empregadores | logos **não** são armazenados |
+
+**Limite da leitura:** o texto de uso é o "Fair Use" do README, não um contrato. Para grande volume ou uso diferente do normal, a própria fonte manda falar com ela. O `can_redistribute = true` abaixo é uma **decisão do dono**, apoiada nesse texto.
+
+## Arquitetura
+
+```
+agendador (Cron, ≤ 1×/h)  ──►  runSync(connector, store, scope)           worker/src/sync.ts
+                                 │  RateLimiter + withRetry (429/5xx, Retry-After)   worker/src/http.ts
+                                 ├─► connector.fetchPage(cursor)            worker/src/connectors/jobicy.ts
+                                 │      getJson (timeout 15 s) → normalizeJobicy (valida + normaliza)
+                                 │          geo.ts (países/regiões)  text.ts (HTML → texto)
+                                 ├─► Deduper (id, URL canônica, impressão digital)   worker/src/dedupe.ts
+                                 ├─► store.upsertJobs (por página)          worker/src/store/supabase.ts
+                                 └─► fim da passada COMPLETA: closeStale → checkStatuses (lotes de 100) → markClosed
+                                     store.recordRun  → public.sync_runs (só contagens)
+```
+
+Para uma nova fonte basta um `Connector` (`fetchPage`, `minIntervalMs`, opcionalmente `checkStatuses`) e a regra de licença dela. O pipeline não muda.
+
+### Campos normalizados (Jobicy → `NormalizedJob` → coluna de `jobs`)
+
+| Jobicy | Normalizado | Observação |
+|---|---|---|
+| `id` | `externalId` | inteiro positivo; senão a vaga é rejeitada |
+| `jobTitle` | `title` | entidades decodificadas; vazio → rejeitada |
+| `companyName` | `company` | pode ser `''` (a fonte admite); nunca inventada |
+| `url` | `originalUrl`, `applyUrl`, `canonical_url` | `https` + `jobicy.com`, senão rejeitada |
+| `jobDescription` (HTML) | `description` (texto) | cai para `jobExcerpt` se vazia |
+| `jobType[]` | `contractType` | valores unidos por `, ` |
+| `jobGeo` | `country`, `geoRestrictions` | país só quando é **um** país e nada mais; regiões (`EMEA`, `Europe`, `APAC`, `LATAM`) ficam como região; nomes desconhecidos ficam como escritos; `Anywhere` = sem restrição |
+| `salaryMin/Max/Currency/Period` | salário | só com **moeda ISO e período reconhecido**; `min > max` ou campo faltando → nenhum salário |
+| `pubDate` | `publishedAt` | data inválida → `null` |
+| (fixo) | `workMode = 'remote'` | o endpoint é só de vagas remotas |
+| — | `city`, `language`, `skills`, `requirements` | `null`/vazio: a fonte não informa |
+| `jobIndustry`, `jobLevel`, `companyLogo` | **descartados** | sem coluna; logo não é armazenado |
+
+## Dependências de implantação (nenhuma foi executada)
+
+1. **Migration 6** (`20261013000000_service_role_grants.sql`), **não aplicada** no projeto hospedado. Sem ela, o `service_role` não tem privilégio de tabela e o Worker recebe `permission denied`. Os testes (`jobicy-schema.test.ts`) provam que o conjunto de permissões dela basta para este fluxo.
+2. **Linha da fonte** (`jobs.source_id` é chave estrangeira). SQL para o dono rodar depois de revisar (não executado):
+   ```sql
+   insert into public.job_sources (id, status, attribution, can_redistribute)
+   values ('jobicy', 'CONDITIONAL', 'Remote jobs via Jobicy (https://jobicy.com)', true)
+   on conflict (id) do update set attribution = excluded.attribution;
+   ```
+   A política `jobs_read` só deixa o app ler vagas de fontes com `can_redistribute = true` e status `READY`/`CONDITIONAL`.
+3. **Segredo** `SUPABASE_SERVICE_ROLE_KEY` (e a URL do projeto) no Worker. Só no Worker, nunca no Flutter, nunca no chat.
+4. **Worker + agendador:** ponto de entrada (`scheduled`) que monta `jobicyConnector(fetch)` + `SupabaseJobStore` e chama `runSync`. **Cron no máximo de hora em hora.** O plano gratuito do Workers dá 10 ms de CPU por chamada (provavelmente insuficiente para interpretar páginas de ~1 MB; não medido); o plano pago (US$ 5/mês) dá 30 s por padrão.
+5. **Flutter:** hoje `NoSourceSearchRepository`. Falta um repositório que leia `jobs` (com filtros, e `geo_restrictions` para a elegibilidade de vagas remotas) e mostre a atribuição. As telas e os cartões existentes já exibem os campos; `JobPosting` ainda não traz `geoRestrictions` nem a descrição.
+
+## O que foi testado
+
+* `worker/test/jobicy.test.ts` — normalização com payloads **reais** sanitizados, localização ambígua, salários incompletos, URLs inválidas, HTML hostil, paginação, status.
+* `worker/test/sync.test.ts` — passada completa, idempotência, duplicados, vagas inválidas, vaga removida/expirada, 429 com `Retry-After`, 500, timeout, 404, cursor expirado, limite de páginas, falha ao gravar, logs sem conteúdo.
+* `worker/test/jobicy-schema.test.ts` — as linhas contra o **schema real** (PGlite, migrations 1, 2 e 6): constraints, upsert repetido, permissões do `service_role`, leitura por `anon`.
+* `worker/test/store.test.ts` — contrato das requisições PostgREST, sem rede; chave e corpo da resposta nunca vazam em erros.
+* `worker/test/live/jobicy.live.test.ts` — **chamada real somente leitura**, desligada por padrão (`JOBICY_LIVE=1`). Executada uma vez em 2026-10-09: 100 vagas reais, 0 rejeitadas, status coerente.
+
+## Limitações conhecidas
+
+* Conteúdo: sobretudo tecnologia e escritório, inglês, só remoto, só a última semana. Sem ofícios, sem Brasil/Portugal. A cobertura "mundial" não pode ser prometida.
+* Dados de `jobIndustry` e `jobLevel` não são guardados (sem coluna); poderiam alimentar filtros numa fase futura, com migration revisada.
+* A deduplicação entre fontes (`job_clusters`) ainda não é preenchida: `jobs.fingerprint` e `canonical_url` já são gravados, mas `cluster_id` fica vazio.
+* Vagas que a fonte devolve como `unknown` e que saíram do feed permanecem `open` até a fonte dizer `closed`. Uma política de idade máxima exigiria decisão de produto.
+* O limite de 30 lotes de status por passada (3.000 ids) evita rajadas; o excedente espera a próxima passada.

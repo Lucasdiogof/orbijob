@@ -1,4 +1,4 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 4.2 — validação real em andamento)
+# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 5.2 — primeira fonte real de vagas, Jobicy, em PR)
 
 ## RETOMADA RÁPIDA (leia primeiro; escrito para continuar em outra conta/sessão)
 **Dono:** Lucas Diogo França (Lucksrei). Projeto OrbiJob: app Flutter `app/`, Worker Cloudflare `worker/`, Supabase `rpmlfxwebnlxnwadyvle`. Repositório `Lucasdiogof/orbijob`. Responder em português, direto; o dono quer **resultados e automação, não tutoriais longos**.
@@ -9,9 +9,11 @@
 | Migrations 1–5 | aplicadas no Supabase real; Fase E (Auth, RLS A↔B em 12 tabelas, Storage, cotas pequenas) VALIDADA pelo dono |
 | Migration 6 `service_role_grants` | mergeada (PR #47, `a6c9b61`), **NÃO aplicada** — não aplicar sem autorização |
 | PR #48 (Flutter ligado ao Supabase + correções de auditoria) | **mergeado**, merge `5f512354f852542f9c21d990a902a4c4c3470855`; CI da `main` (run 39) verde |
-| PR #49 `chore/windows-flutter-bootstrap` (script de um comando para Windows) | **aberto, CI verde nos 10 checks** (head `757865b`), **aguardando decisão do dono para merge** (não fazer merge sem ele pedir) |
+| PR #49 `chore/windows-flutter-bootstrap` (script de um comando para Windows) | **mergeado**, merge `65790a7fca9b94dc56bce5bffdc41a84a983936f` (inclui a correção `core.longpaths` do clone do Flutter, achada na execução real no Windows do dono) |
 | Redirect URLs no Supabase | CONFIGURADAS pelo dono: Site URL `http://localhost:3000`; `http://localhost:3000/**`; `com.lucksrei.orbijob://auth-callback` (2 Redirect URLs). Produção: sem domínio definido — não inventar |
-| Fluxos Flutter contra o Supabase REAL | **NÃO TESTADOS** (o ambiente do assistente não alcança `*.supabase.co`) |
+| Fluxos Flutter contra o Supabase REAL | Web abre em `localhost:3000` (prints do dono). **Cadastro/confirmação/login/F5/logout: confirmados por prints do dono em 2026-10-09** (com uma conta Gmail pessoal: apagar a conta e os dados ao fim). **Ainda NÃO testados:** recuperação de senha, perfil, PDF, candidaturas, isolamento A↔B, falha de rede |
+| Fase 5.1 (pesquisa de fontes) | `docs/PHASE_5_1_SOURCES_RESEARCH.md` |
+| Fase 5.2 (Jobicy) | branch `feat/jobicy-ingestion`, **ver seção abaixo**; nada gravado no Supabase real, nada implantado |
 | Android/iOS | **NÃO compilados/testados** (sem Android SDK/Xcode no ambiente do assistente) |
 
 **Bloqueio atual do dono (Windows):** o Flutter global dele tem Dart 3.13.3 e o app exige `^3.13.5`. Solução entregue no PR #49: `scripts/windows/run_orbijob_web.ps1` instala um Flutter 3.47.7 **isolado** em `%LOCALAPPDATA%\OrbiJob\flutter\3.47.7` (sem admin, sem PATH permanente, sem tocar no Flutter global/outros projetos), roda `pub get`+`analyze`, valida `app\dart_defines.web.json` sem imprimir valores e abre `http://localhost:3000` no Chrome. Comando único (raiz do repo):
@@ -19,18 +21,27 @@
 Se o arquivo local não tiver a chave publishable, o script abre o Bloco de Notas; o dono cola **no computador dele** (nunca no chat). Validado em Linux (PowerShell 7, instalação real) e no runner Windows do CI (Windows PowerShell 5.1) com configuração FALSA; **falta o dono rodar na máquina dele** (Chrome + Supabase real). Arquivos locais `app/dart_defines*.json` são ignorados pelo Git.
 
 **Próximos passos, em ordem:**
-1. Dono decide o merge do PR #49 (ou roda direto da branch) e executa o comando acima. Pedir só o resultado (abriu/não abriu em localhost:3000; mensagem de erro exata sem chave).
+1. ~~PR #49~~ integrado (`65790a7`). O app já abre; o dono confirmou login, F5 e logout.
 2. Validação real na Web com conta descartável (Gmail `+orbijob-a` / `+orbijob-b`): cadastro, confirmação por e-mail, login, logout, F5, recuperação/redefinição de senha, link expirado; perfil/experiência/formação; PDF (subir, abrir, excluir, inválidos, >5 MiB); candidaturas manuais; pesquisas/preferências/idioma/tema; troca A↔B sem dados cruzados. Roteiro: `docs/FLUTTER_REMOTE_TEST.md`. Favoritos com vaga real ficam PENDENTES (catálogo vazio; não criar vagas fictícias no banco).
 3. Limpeza pelo dono: excluir as contas em Authentication → Users e conferir `resumes` vazio no Storage.
 4. Depois: Android (`flutter run --release` com `AUTH_REDIRECT_URL=com.lucksrei.orbijob://auth-callback`), iOS (Mac/Xcode) — só declarar validado após build e teste reais.
 5. Se algo falhar: registrar o erro real, reproduzir com teste automatizado, corrigir em branch, abrir PR, **sem merge automático**.
-6. Só depois dos fluxos essenciais confirmados: Fase 5 — ingestão de vagas reais (várias profissões/países/modalidades). Não começar antes.
+6. Fase 5: 5.1 (pesquisa) e 5.2 (Jobicy) feitas em código; **implantação e leitura no app pendentes** (ver seção Fase 5.2). USAJOBS e Adzuna dependem de chaves que o dono pede e guarda como segredo.
 
 **Regras permanentes do dono (valem sempre):** nunca expor/pedir senhas, tokens, `service_role`, `sb_secret`; só a chave **publishable** no Flutter; sem `db push`/DDL remoto/rollback/deploy Cloudflare/publicação em lojas/alteração de lucksrei.com/novo projeto Supabase; não alterar RLS, policies, buckets, Auth Settings sem autorização; sem force push; sem merge automático (aguardar aprovação); **sem rodapés/assinaturas de IA em commits e PRs**; não editar migrations históricas; não criar vagas fictícias no banco real; sem scraping nem candidaturas automáticas; não criar commit direto na `main` só para atualizar este HANDOFF (atualizar dentro de PRs com conteúdo); parar antes de qualquer mudança estrutural remota e esperar autorização explícita.
 
 **Fatos técnicos úteis:** Flutter do assistente em `/home/user/tools/sdk/flutter/bin` (3.47.6/Dart 3.13.5; adicionar ao PATH); gitleaks `/tmp/gl/gitleaks`; PowerShell 7 em `/tmp/pwsh/pwsh` (baixar de novo se o container for novo); Postgres 16 local precisa ser iniciado a cada sessão; nunca usar `pkill -f <padrão que aparece no próprio comando>` (mata o shell); avisos do stop-hook "unpushed commits/no remote branch" costumam ser falsos positivos (rodar `git fetch origin +refs/heads/<branch>:refs/remotes/origin/<branch>`); o app só funciona com Supabase quando recebe `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` e `AUTH_REDIRECT_URL` via `--dart-define-from-file` (Web: `http://localhost:3000/`; mobile: `com.lucksrei.orbijob://auth-callback`). Testes: 265 Flutter, 58 Worker, suíte SQL PG16/17, 59 do script PowerShell.
 
 ---
+
+# Fase 5.2 — primeira fonte real: Jobicy (branch `feat/jobicy-ingestion`, PR sem merge)
+
+Detalhes técnicos e dependências: [`JOBICY_INGESTION.md`](JOBICY_INGESTION.md). Pesquisa e correções de licenciamento: [`PHASE_5_1_SOURCES_RESEARCH.md`](PHASE_5_1_SOURCES_RESEARCH.md).
+* **Implementado (só código e testes locais):** adaptador `worker/src/connectors/jobicy.ts`, orquestração `worker/src/sync.ts` (`runSync`), persistência `worker/src/store/supabase.ts`, geografia `geo.ts`, texto seguro `text.ts`, `Deduper` incremental. 148 testes do Worker passam (+1 teste ao vivo opcional, `JOBICY_LIVE=1`).
+* **NÃO feito, de propósito:** sem escrita no Supabase real, sem migration 6, sem deploy, sem Cron Trigger, sem secrets, sem Adzuna, sem mudança nas telas Flutter.
+* **Descoberta importante:** o Flutter ainda usa `NoSourceSearchRepository` (`app/lib/core/di/injector.dart`). Não existe repositório que leia a tabela `jobs`. Os cartões já desenham fonte, empresa, cargo, local, modalidade, salário, data e link, mas **nenhuma vaga aparece no app até existir esse repositório** (próxima fase).
+* **Para implantar (todas dependem de autorização do dono):** (1) aplicar a migration 6; (2) criar a linha `jobicy` em `job_sources` (SQL em `JOBICY_INGESTION.md`); (3) segredo `SUPABASE_SERVICE_ROLE_KEY` no Worker (o dono define; nunca no chat); (4) Worker + Cron de no máximo 1 passada/hora; (5) repositório Flutter que leia `jobs`.
+* **Limite do conteúdo:** o Jobicy tem sobretudo vagas de tecnologia e escritório em inglês, só remotas e só da última semana. Não cobre ofícios nem Brasil/Portugal. Não prometer cobertura mundial.
 
 # (histórico) Fase 4.1 — PR #48 auditado e integrado
 

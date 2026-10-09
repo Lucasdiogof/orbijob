@@ -22,9 +22,15 @@ export function canonicalUrl(raw: string): string {
   }
 }
 
-/** Stable fingerprint: company + title + country + city (exact-ish duplicate across sources). */
+/**
+ * Stable fingerprint: company + title + country + city (exact-ish duplicate across sources).
+ * Without a company the match would be "same title in the same place", which merges unrelated employers, so such
+ * a job is only ever identified by its own source id.
+ */
 export function fingerprint(j: NormalizedJob): string {
-  return [norm(j.company), norm(j.title), j.country ?? '', norm(j.city ?? '')].join('|');
+  const company = norm(j.company);
+  if (!company) return `${j.source}:${j.externalId}`;
+  return [company, norm(j.title), j.country ?? '', norm(j.city ?? '')].join('|');
 }
 
 /**
@@ -35,26 +41,30 @@ export function fingerprint(j: NormalizedJob): string {
  * The first occurrence wins; others are returned in `duplicates` for audit.
  */
 export function dedupe(jobs: NormalizedJob[]): { unique: NormalizedJob[]; duplicates: NormalizedJob[] } {
-  const seenKey = new Set<string>();
-  const seenUrl = new Set<string>();
-  const seenFp = new Set<string>();
+  const d = new Deduper();
   const unique: NormalizedJob[] = [];
   const duplicates: NormalizedJob[] = [];
-  for (const j of jobs) {
+  for (const j of jobs) (d.accept(j) ? unique : duplicates).push(j);
+  return { unique, duplicates };
+}
+
+/** Incremental form of `dedupe`: remembers what it has accepted so a sync can dedupe page by page. */
+export class Deduper {
+  private seenKey = new Set<string>();
+  private seenUrl = new Set<string>();
+  private seenFp = new Set<string>();
+
+  /** True when the job is new (and now remembered); false when it duplicates an accepted one. */
+  accept(j: NormalizedJob): boolean {
     const key = `${j.source}:${j.externalId}`;
     const urls = [j.applyUrl, j.originalUrl].filter((u): u is string => !!u).map(canonicalUrl);
     const fp = fingerprint(j);
-    const dup = seenKey.has(key) || urls.some((u) => seenUrl.has(u)) || seenFp.has(fp);
-    if (dup) {
-      duplicates.push(j);
-      continue;
-    }
-    seenKey.add(key);
-    urls.forEach((u) => seenUrl.add(u));
-    seenFp.add(fp);
-    unique.push(j);
+    if (this.seenKey.has(key) || urls.some((u) => this.seenUrl.has(u)) || this.seenFp.has(fp)) return false;
+    this.seenKey.add(key);
+    urls.forEach((u) => this.seenUrl.add(u));
+    this.seenFp.add(fp);
+    return true;
   }
-  return { unique, duplicates };
 }
 
 /**
