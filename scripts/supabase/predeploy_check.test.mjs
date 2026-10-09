@@ -107,3 +107,11 @@ test('an UNKNOWN item can be acknowledged by id after a human read it; a FAIL ne
   d.auth.postgres_can_reference_users = false;
   assert.equal(check(d, ['auth-users']).verdict, 'BLOCKED');
 });
+
+test('first real hosted inspection (PG 17.11, 2026-10-09): only storage-policies is unresolved', () => {
+  // Real result pasted by the owner; default_privileges_public is abridged in the fixture.
+  const d = JSON.parse(readFileSync(new URL('./fixtures/predeploy-real-2026-10-09.json', import.meta.url), 'utf8'));
+  const r = check(d);
+  assert.equal(r.verdict, 'BLOCKED');
+  assert.deepEqual(r.checks.filter((c) => c.status !== 'PASS').map((c) => `${c.id}:${c.status}`), ['storage-policies:FAIL']);
+});

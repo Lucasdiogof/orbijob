@@ -196,3 +196,12 @@ Motivos críticos ainda sem evidência: (1) privilégio de `postgres` em `extens
 
 ### 12.11 Segundo erro no SQL Editor: `42601: syntax error at end of input`
 Depois da correção do `search_path`, o proprietário recebeu `42601: syntax error at end of input` (`LINE 0:`). O arquivo completo é válido (rodou em PostgreSQL 16 e 17 por `psql`), então a causa está no caminho de transporte até o banco — texto incompleto enviado pelo editor (seleção parcial, colagem cortada ou divisão do script em vários comandos); **não foi reproduzido localmente e a causa exata não está confirmada**. Mitigação: `scripts/supabase/build_paste_variants.mjs` gera `inspect_*.paste.sql`: a mesma consulta como **um único comando**, sem comentários, linhas em branco nem `begin`/`rollback`, com um único `;` final. Testes garantem que o arquivo está atualizado, que tem uma só instrução e que devolve o mesmo documento que o arquivo completo (PostgreSQL 16 e 17).
+
+### 12.12 Segunda inspeção real (detalhes pré-deploy, 2026-10-09)
+
+A consulta única rodou sem erro no SQL Editor (PostgreSQL 17.11, conectado como `postgres`). Resultado de `predeploy_check`: 20 PASS e 1 FAIL.
+
+- `public.rls_auto_enable`: lida a definição real. Função de event trigger, ligada a `ensure_rls`, `SECURITY DEFINER` com `search_path=pg_catalog`, só executa `alter table if exists … enable row level security` em `public`. O EXECUTE para anon/authenticated não permite chamá-la (event triggers não são chamáveis). Aceita; compatível com as migrations, que já habilitam RLS.
+- pg_trgm entra em `public` (primeiro schema criável do caminho) e a migration 3 move para `extensions`, onde `postgres` tem CREATE. OK.
+- **Pendência única**: `postgres` não é dono nem membro de `supabase_storage_admin` (dono de `storage.objects`), então `CREATE POLICY` em `storage.objects` (migration 3) não está provado. `postgres` é membro de `supabase_privileged_role` (supautils), que na plataforma costuma permitir isso, mas não há evidência. O verificador continua FAIL de propósito. Evidência somente leitura: `scripts/supabase/inspect_storage_policy_evidence.paste.sql`.
+- Decisão: **BLOCKED** até essa evidência (ou autorização específica para um teste transacional com ROLLBACK).
