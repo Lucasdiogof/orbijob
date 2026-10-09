@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { normalizeJobicy } from '../src/connectors/jobicy';
 import { HttpError } from '../src/http';
-import { SupabaseJobStore } from '../src/store/supabase';
+import { SupabaseJobStore, chunkRows } from '../src/store/supabase';
 import { toJobRow } from '../src/sync';
 import feed from './fixtures/jobicy-feed.sanitized.json';
 
@@ -75,5 +75,34 @@ describe('SupabaseJobStore (request contract, no network)', () => {
     expect(err).toMatchObject({ status: 403, retryAfterMs: 2000 });
     expect(String((err as Error).message) + JSON.stringify(err)).not.toContain(KEY);
     expect((err as Error).message).toBe('HTTP 403');
+  });
+
+  it('refuses a URL that would send the service key in clear text or to a place with credentials', () => {
+    const f = (async () => new Response(null, { status: 201 })) as unknown as typeof fetch;
+    for (const bad of ['http://example.supabase.co', 'ftp://example.supabase.co', 'https://user:pw@example.supabase.co', 'not a url', '', 'http://localhost.evil.test']) {
+      expect(() => new SupabaseJobStore(bad, KEY, f), bad).toThrow(/SupabaseJobStore/);
+    }
+    for (const ok of ['https://example.supabase.co', 'https://example.supabase.co/', 'http://localhost:3000', 'http://127.0.0.1:54321']) {
+      expect(() => new SupabaseJobStore(ok, KEY, f), ok).not.toThrow();
+    }
+  });
+
+  it('the error for a bad URL never contains the key', () => {
+    try { new SupabaseJobStore('http://evil.test', KEY); } catch (e) { expect(String(e)).not.toContain(KEY); }
+  });
+
+  it('splits by size as well as by count, keeping order and every row', () => {
+    const big = (i: number) => ({ ...rows[0]!, external_id: String(i), description: 'x'.repeat(150_000) });
+    const input = [0, 1, 2, 3, 4].map(big);
+    const chunks = chunkRows(input);
+    expect(chunks.map((c) => c.length)).toEqual([2, 2, 1]);
+    expect(chunks.flat().map((r) => r.external_id)).toEqual(['0', '1', '2', '3', '4']);
+    expect(chunkRows(rows)).toHaveLength(1); // the real sanitized fixture fits in one request
+    expect(chunkRows([])).toEqual([]);
+  });
+
+  it('a single row bigger than the limit is still sent (alone), never dropped', () => {
+    const huge = { ...rows[0]!, description: 'x'.repeat(900_000) };
+    expect(chunkRows([huge, rows[1]!]).map((c) => c.length)).toEqual([1, 1]);
   });
 });

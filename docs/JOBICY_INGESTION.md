@@ -77,6 +77,13 @@ Para uma nova fonte basta um `Connector` (`fetchPage`, `minIntervalMs`, opcional
 * `worker/test/store.test.ts` — contrato das requisições PostgREST, sem rede; chave e corpo da resposta nunca vazam em erros.
 * `worker/test/live/jobicy.live.test.ts` — **chamada real somente leitura**, desligada por padrão (`JOBICY_LIVE=1`). Executada uma vez em 2026-10-09: 100 vagas reais, 0 rejeitadas, status coerente.
 
+## Auditoria final (Fase 5.4)
+
+* **Defeito corrigido (reproduzido por teste):** em uma fonte com vários escopos sob o mesmo `source_id` (um quadro por empresa, como o Lever), a passada completa de um escopo fechava as vagas abertas dos outros, porque "ausente do snapshot" era tratado como encerrada. O Jobicy nunca foi afetado (só fecha o que a própria fonte responde `closed`), mas o pipeline é reutilizável. Agora a ausência em snapshot só fecha vagas se quem chama declara `snapshotCoversSource: true` (padrão `false`). Teste: `worker/test/sync-scope.test.ts`.
+* **Endurecimento do `SupabaseJobStore`:** recusa URL que não seja `https` (e `http` só para `localhost`), ou com credenciais embutidas, porque a chave `service_role` vai em todas as requisições; e divide as gravações por tamanho (≈ 400 mil caracteres de JSON por requisição, no máximo 100 linhas), para que cem descrições longas não virem um corpo gigante.
+* **Teste de contrato com PostgREST real** (`worker/test/live/postgrest.contract.test.ts`, job de CI `worker-postgrest`, PostgREST v14.18 e v16.4, Postgres 17, schema das 6 migrations, JWT HS256 assinado de verdade): `runSync` + `SupabaseJobStore` gravam as 10 vagas da fixture, registram o `sync_runs`, repetem sem duplicar, fecham só o que a fonte diz `closed` (PATCH real), não fecham nada quando o feed cai, e o `service_role` **não** lê dados de usuário nem apaga fontes. Isso prova também que o conjunto de permissões da migration 6 basta para este fluxo.
+* **Deduplicação medida em dados reais:** em 100 vagas reais do Jobicy, 0 descartadas por "empresa + título + país". Risco residual: duas vagas distintas com a mesma empresa, título e país nulo seriam tratadas como a mesma.
+
 ## Limitações conhecidas
 
 * Conteúdo: sobretudo tecnologia e escritório, inglês, só remoto, só a última semana. Sem ofícios, sem Brasil/Portugal. A cobertura "mundial" não pode ser prometida.

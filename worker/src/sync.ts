@@ -93,6 +93,13 @@ export interface SyncOptions {
   retry?: Partial<RetryOptions>;
   /** Safety cap on pages per pass. */
   maxPages?: number;
+  /**
+   * Declares that a COMPLETE traversal of [scope] lists every open job of the source (a single-board source). Only then is
+   * "absent from a full snapshot" treated as closed. Default false: with several scopes under one source id (one board per
+   * company), a snapshot of one scope says nothing about the jobs of the others, and closing them would be wrong.
+   * Sources that expose a status endpoint (Jobicy) do not need this: they close only what the source itself reports closed.
+   */
+  snapshotCoversSource?: boolean;
   /** Structured log sink. Receives counts and error classes only: never job content, URLs of users, keys or tokens. */
   log?: (event: string, data: Record<string, unknown>) => void;
 }
@@ -184,7 +191,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
 
   if (completed && s.status === 'ok') {
     try {
-      s.closed = await closeStale(o, sourceId, seen, lastPageFull, retry, limiter, sleep);
+      s.closed = await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep);
     } catch (e) {
       fail(e); // the pass itself was fine; only the closure step is missing
       s.status = 'partial';
@@ -210,15 +217,18 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
 const STATUS_BATCH = 100;
 const MAX_STATUS_BATCHES = 30;
 
-/** Closes only what the source proves closed: absent from a FULL snapshot, or answered "closed" by its status endpoint. */
+/**
+ * Closes only what the source proves closed: absent from a full snapshot that covers the whole source (`snapshotCovers`),
+ * or answered "closed" by its status endpoint.
+ */
 async function closeStale(
-  o: SyncOptions, sourceId: string, seen: Set<string>, lastPageFull: boolean, retry: RetryOptions,
+  o: SyncOptions, sourceId: string, seen: Set<string>, snapshotCovers: boolean, retry: RetryOptions,
   limiter: RateLimiter, sleep: (ms: number) => Promise<void>,
 ): Promise<number> {
   const open = await withRetry(() => o.store.listOpenExternalIds(sourceId), retry);
   const absent = open.filter((id) => !seen.has(id));
   if (!absent.length) return 0;
-  let toClose: string[] = shouldMarkClosed({ isFullSnapshot: lastPageFull }, open, seen);
+  let toClose: string[] = shouldMarkClosed({ isFullSnapshot: snapshotCovers }, open, seen);
   if (!toClose.length && o.connector.checkStatuses) {
     const check = o.connector.checkStatuses.bind(o.connector);
     for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += STATUS_BATCH, b++) {

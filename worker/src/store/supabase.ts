@@ -11,13 +11,24 @@ import type { JobRow, JobStore, SyncRunRow } from '../sync';
  */
 export class SupabaseJobStore implements JobStore {
   private readonly base: string;
+
+  /**
+   * @throws if [supabaseUrl] is not https (http is accepted only for localhost, used by tests): the service key is sent in
+   * every request, so a mistyped or hostile URL must never receive it in clear text.
+   */
   constructor(
     supabaseUrl: string,
     private readonly serviceKey: string,
     private readonly fetchImpl: typeof fetch = fetch,
     private readonly timeoutMs = 20_000,
   ) {
-    this.base = `${supabaseUrl.replace(/\/+$/, '')}/rest/v1`;
+    let u: URL;
+    try { u = new URL(supabaseUrl); } catch { throw new Error('SupabaseJobStore: invalid URL'); }
+    const local = ['localhost', '127.0.0.1', '[::1]'].includes(u.hostname);
+    if (!(u.protocol === 'https:' || (u.protocol === 'http:' && local)) || u.username || u.password) {
+      throw new Error('SupabaseJobStore: the URL must be https without credentials (http only for localhost)');
+    }
+    this.base = `${u.origin}/rest/v1`;
   }
 
   private async call(path: string, init: { method: string; body?: unknown; prefer?: string }): Promise<Response> {
@@ -39,10 +50,10 @@ export class SupabaseJobStore implements JobStore {
   }
 
   async upsertJobs(rows: JobRow[]): Promise<void> {
-    for (let i = 0; i < rows.length; i += 100) {
+    for (const chunk of chunkRows(rows)) {
       await this.call('jobs?on_conflict=source_id,external_id', {
         method: 'POST',
-        body: rows.slice(i, i + 100),
+        body: chunk,
         prefer: 'resolution=merge-duplicates,return=minimal',
       });
     }
@@ -76,4 +87,19 @@ export class SupabaseJobStore implements JobStore {
   async recordRun(run: SyncRunRow): Promise<void> {
     await this.call('sync_runs', { method: 'POST', body: run, prefer: 'return=minimal' });
   }
+}
+
+/** At most [maxRows] rows and about [maxChars] characters of JSON per request: a hundred long descriptions must not make one huge body. */
+export function chunkRows(rows: JobRow[], maxRows = 100, maxChars = 400_000): JobRow[][] {
+  const out: JobRow[][] = [];
+  let cur: JobRow[] = [];
+  let size = 0;
+  for (const r of rows) {
+    const n = JSON.stringify(r).length;
+    if (cur.length && (cur.length >= maxRows || size + n > maxChars)) { out.push(cur); cur = []; size = 0; }
+    cur.push(r);
+    size += n;
+  }
+  if (cur.length) out.push(cur);
+  return out;
 }
