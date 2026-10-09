@@ -108,10 +108,24 @@ test('an UNKNOWN item can be acknowledged by id after a human read it; a FAIL ne
   assert.equal(check(d, ['auth-users']).verdict, 'BLOCKED');
 });
 
-test('first real hosted inspection (PG 17.11, 2026-10-09): only storage-policies is unresolved', () => {
+const real = () => JSON.parse(readFileSync(new URL('./fixtures/predeploy-real-2026-10-09.json', import.meta.url), 'utf8'));
+const evidence = () => JSON.parse(readFileSync(new URL('./fixtures/storage-policy-evidence-real-2026-10-09.json', import.meta.url), 'utf8'));
+
+test('first real hosted inspection (PG 17.11, 2026-10-09): only storage-policies is unresolved without evidence', () => {
   // Real result pasted by the owner; default_privileges_public is abridged in the fixture.
-  const d = JSON.parse(readFileSync(new URL('./fixtures/predeploy-real-2026-10-09.json', import.meta.url), 'utf8'));
-  const r = check(d);
+  const r = check(real());
   assert.equal(r.verdict, 'BLOCKED');
   assert.deepEqual(r.checks.filter((c) => c.status !== 'PASS').map((c) => `${c.id}:${c.status}`), ['storage-policies:FAIL']);
+});
+
+test('real supautils.policy_grants evidence for storage.objects resolves storage-policies', () => {
+  const d = real(); d.storage_policy_evidence = evidence();
+  assert.equal(check(d).verdict, 'PRECHECK_OK');
+});
+
+test('policy_grants evidence does not help without privileged-role membership or the table', () => {
+  let d = real(); d.storage_policy_evidence = evidence(); d.storage_policy_evidence.postgres_member_of_privileged = false;
+  assert.equal(status(d, 'storage-policies'), 'FAIL');
+  d = real(); d.storage_policy_evidence = evidence(); d.storage_policy_evidence.supautils_settings['supautils.policy_grants'] = '{"postgres":["storage.buckets"]}';
+  assert.equal(status(d, 'storage-policies'), 'FAIL');
 });

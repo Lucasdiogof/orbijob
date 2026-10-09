@@ -205,3 +205,9 @@ A consulta única rodou sem erro no SQL Editor (PostgreSQL 17.11, conectado como
 - pg_trgm entra em `public` (primeiro schema criável do caminho) e a migration 3 move para `extensions`, onde `postgres` tem CREATE. OK.
 - **Pendência única**: `postgres` não é dono nem membro de `supabase_storage_admin` (dono de `storage.objects`), então `CREATE POLICY` em `storage.objects` (migration 3) não está provado. `postgres` é membro de `supabase_privileged_role` (supautils), que na plataforma costuma permitir isso, mas não há evidência. O verificador continua FAIL de propósito. Evidência somente leitura: `scripts/supabase/inspect_storage_policy_evidence.paste.sql`.
 - Decisão: **BLOCKED** até essa evidência (ou autorização específica para um teste transacional com ROLLBACK).
+
+### 12.13 Evidência de `CREATE POLICY` em `storage.objects` (2026-10-09)
+
+Consulta somente leitura devolveu: `postgres` é membro de `supabase_privileged_role`; `supautils.privileged_role = supabase_privileged_role`; `supautils.policy_grants` concede a `postgres` as tabelas `storage.objects` (e `storage.buckets`, `auth.users` etc.); `postgres` tem todos os privilégios com grant option em `storage.objects`; `pg_trgm` consta em `supautils.privileged_extensions`; ainda não há policies em `storage`. Isso é evidência de configuração da plataforma, não de execução: o `CREATE POLICY` em si só será provado na aplicação real (Fase D) e no e2e (Fase E).
+
+`predeploy_check.mjs --evidence=<arquivo>` (ou `ORBIJOB_STORAGE_EVIDENCE` no `apply.sh`) aceita `storage-policies` quando há essa evidência. Com ela, o resultado sobre a inspeção real é **PRECHECK_OK**. Isso continua sendo condição necessária, não suficiente: faltam backup, dry-run e autorização específica. Contingência se o `CREATE POLICY` falhar na migration 3: a migration roda em transação e é revertida inteira; policies/bucket seriam criados pelo painel e a migration dividida.

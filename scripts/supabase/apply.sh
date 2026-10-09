@@ -41,7 +41,7 @@ predeploy() { # -> $1 file ; read-only details about privileges, platform functi
   psql "$DB_URL" -X -q -At -v ON_ERROR_STOP=1 -f "$HERE/inspect_predeploy_details.sql" > "$1"
 }
 predeploy_gate() { # $1 file ; ORBIJOB_PREDEPLOY_ACK may list UNKNOWN check ids the owner has read and accepts
-  node "$HERE/predeploy_check.mjs" "$1" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" >"$STATE/predeploy-verdict.txt" 2>&1 || {
+  node "$HERE/predeploy_check.mjs" "$1" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" ${ORBIJOB_STORAGE_EVIDENCE:+"--evidence=$ORBIJOB_STORAGE_EVIDENCE"} >"$STATE/predeploy-verdict.txt" 2>&1 || {
     cat "$STATE/predeploy-verdict.txt" >&2; die "the pre-deploy check is BLOCKED (FAIL/UNKNOWN items above). Resolve them, or acknowledge a UNKNOWN item you have READ with ORBIJOB_PREDEPLOY_ACK=<id>"; }
 }
 
@@ -57,7 +57,7 @@ case "$phase" in
     node "$HERE/classify_state.mjs" "$out" | tee "$STATE/classification-before.txt"
     predeploy "$STATE/predeploy-before.json"
     echo "--- pre-deploy checks (privileges, platform function, storage) ---"
-    node "$HERE/predeploy_check.mjs" "$STATE/predeploy-before.json" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" | tee "$STATE/predeploy-verdict.txt" || true
+    node "$HERE/predeploy_check.mjs" "$STATE/predeploy-before.json" "--ack=${ORBIJOB_PREDEPLOY_ACK:-}" ${ORBIJOB_STORAGE_EVIDENCE:+"--evidence=$ORBIJOB_STORAGE_EVIDENCE"} | tee "$STATE/predeploy-verdict.txt" || true
     echo "--- supabase migration list (read-only) ---"
     (cd "$ROOT" && supabase migration list --linked) || true
     ;;

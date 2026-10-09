@@ -2,6 +2,7 @@
 // Evaluates the JSON produced by inspect_predeploy_details.sql against what the five migrations need from the hosted
 // project, and returns PRECHECK_OK or BLOCKED with one line per check. It reads facts; it never contacts the project.
 //   node scripts/supabase/predeploy_check.mjs predeploy.json [--json] [--ack=function-rls_auto_enable,...]
+// --evidence=file: result of inspect_storage_policy_evidence.paste.sql (supautils.policy_grants); lets storage-policies pass when postgres is not owner/member of storage.objects.
 // --ack: after READING an UNKNOWN item (for example the definition of a platform function) the owner may accept it by id.
 // Exit codes: 0 = PRECHECK_OK, 2 = BLOCKED (any FAIL or UNKNOWN), 1 = usage/input error.
 // PRECHECK_OK is a necessary condition only: applying still needs the state classification, a backup, a dry run and the
@@ -87,8 +88,13 @@ export function check(d, ack = []) {
   add('storage-bucket-columns', cols.includes('file_size_limit') && cols.includes('allowed_mime_types') ? 'PASS' : 'FAIL', 'storage.buckets has file_size_limit and allowed_mime_types', `columns: ${cols.join(', ') || 'none'}`);
   add('storage-insert-bucket', st.postgres_can_insert_buckets ? 'PASS' : 'FAIL', 'postgres may insert into storage.buckets (migration 3 creates the private "resumes" bucket)', st.postgres_can_insert_buckets ? 'yes' : 'no: the bucket would have to be created from the dashboard/Storage API instead');
   add('storage-update-bucket', st.postgres_can_update_buckets ? 'PASS' : 'UNKNOWN', 'postgres may update storage.buckets (the statement uses ON CONFLICT DO UPDATE)', String(st.postgres_can_update_buckets));
-  add('storage-policies', st.objects_rls_enabled && st.postgres_is_objects_owner_or_member ? 'PASS' : 'FAIL', 'postgres may create policies on storage.objects (owner/member) and RLS is enabled',
-    `objects owner=${st.objects_owner}, postgres owner-or-member=${st.postgres_is_objects_owner_or_member}, rls=${st.objects_rls_enabled}`);
+  const ev = d.storage_policy_evidence;
+  let grants = [];
+  try { grants = JSON.parse(ev?.supautils_settings?.['supautils.policy_grants'] ?? '{}').postgres ?? []; } catch { /* malformed: no evidence */ }
+  const viaSupautils = ev?.postgres_member_of_privileged === true && grants.includes('storage.objects');
+  const policyOk = st.objects_rls_enabled && (st.postgres_is_objects_owner_or_member || viaSupautils);
+  add('storage-policies', policyOk ? 'PASS' : 'FAIL', 'postgres may create policies on storage.objects (owner/member, or supautils.policy_grants) and RLS is enabled',
+    `objects owner=${st.objects_owner}, postgres owner-or-member=${st.postgres_is_objects_owner_or_member}, supautils policy_grants for postgres on storage.objects=${viaSupautils}, rls=${st.objects_rls_enabled}`);
   add('storage-foldername', st.foldername_exists ? 'PASS' : 'FAIL', 'storage.foldername(text) exists (the 4 policies use it)', String(st.foldername_exists));
   const existingPol = (st.objects_policies ?? []).filter((p) => p.startsWith('resumes_objects_'));
   add('storage-no-clash', existingPol.length === 0 && (d.orbijob_objects_present?.resumes_bucket ?? 0) === 0 ? 'PASS' : 'FAIL', 'no OrbiJob bucket/policies exist yet', existingPol.length ? `existing: ${existingPol.join(', ')}` : `resumes bucket rows: ${d.orbijob_objects_present?.resumes_bucket}`);
@@ -137,7 +143,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (!file) { console.error('usage: predeploy_check.mjs predeploy.json [--json]'); process.exit(1); }
   let r;
   const ack = (process.argv.find((a) => a.startsWith('--ack=')) ?? '--ack=').slice(6).split(',').filter(Boolean);
-  try { r = check(parseDetails(readFileSync(file, 'utf8')), ack); } catch (e) { console.error(`cannot read ${file}: ${e.message}`); process.exit(1); }
+  try {
+    const det = parseDetails(readFileSync(file, 'utf8'));
+    const evf = (process.argv.find((a) => a.startsWith('--evidence=')) ?? '').slice(11);
+    if (evf) det.storage_policy_evidence = unwrapExport(readFileSync(evf, 'utf8'));
+    r = check(det, ack);
+  } catch (e) { console.error(`cannot read ${file}: ${e.message}`); process.exit(1); }
   if (process.argv.includes('--json')) console.log(JSON.stringify(r, null, 2));
   else {
     console.log(`verdict: ${r.verdict}`);
