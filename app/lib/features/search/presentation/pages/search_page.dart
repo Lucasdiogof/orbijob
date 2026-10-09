@@ -5,10 +5,12 @@ import '../../../../core/design/design.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_filter_chip.dart';
 import '../../../../core/widgets/app_search_field.dart';
+import '../../../../core/widgets/data_state_view.dart';
 import '../../../../core/widgets/skeleton.dart';
 import '../../../../core/widgets/state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
+import '../../../preferences/presentation/saved_searches_cubit.dart';
 import '../../../home/home_page.dart';
 import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
@@ -262,29 +264,42 @@ class _Results extends StatelessWidget {
           onPressed: () => onSearch(query),
         ),
       ),
-      SearchSuccess(:final jobs) =>
-        BlocBuilder<FavoritesCubit, Map<String, ScoredJob>>(
+      SearchSuccess(:final jobs, :final query) =>
+        BlocConsumer<FavoritesCubit, FavoritesState>(
+          listenWhen: (a, b) => a.actionTick != b.actionTick,
+          listener: (context, f) {
+            if (f.actionFailure != null) {
+              showDataFailure(context, f.actionFailure!);
+            }
+          },
           builder: (context, favs) => ListView.separated(
             padding: const EdgeInsets.all(AppSpace.s4),
             itemCount: jobs.length + 1,
             separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
             itemBuilder: (context, i) {
               if (i == 0) {
-                return Semantics(
-                  liveRegion: true,
-                  child: Text(
-                    l.resultsCount(jobs.length),
-                    style: context.text.labelMedium!.copyWith(
-                      color: context.colors.muted,
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Semantics(
+                        liveRegion: true,
+                        child: Text(
+                          l.resultsCount(jobs.length),
+                          style: context.text.labelMedium!.copyWith(
+                            color: context.colors.muted,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    _SaveSearchButton(query: query),
+                  ],
                 );
               }
               final s = jobs[i - 1];
               return JobCard(
                 scored: s,
                 selected: split && selected?.job == s.job,
-                isFavorite: favs.containsKey(FavoritesCubit.keyOf(s.job)),
+                isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(s.job)),
                 onFavoriteChanged: (_) =>
                     context.read<FavoritesCubit>().toggle(s),
                 onTap: () => onSelect(s, split),
@@ -293,5 +308,41 @@ class _Results extends StatelessWidget {
           ),
         ),
     };
+  }
+}
+
+/// Keeps the current search in the account (server side). Recent searches are separate and stay on the device.
+class _SaveSearchButton extends StatelessWidget {
+  const _SaveSearchButton({required this.query});
+  final String query;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return BlocConsumer<SavedSearchesCubit, SavedSearchesState>(
+      listenWhen: (a, b) => a.actionTick != b.actionTick,
+      listener: (context, s) {
+        if (s.actionFailure != null) showDataFailure(context, s.actionFailure!);
+      },
+      builder: (context, s) {
+        final saved = context.read<SavedSearchesCubit>().isSaved(query);
+        return IconButton(
+          tooltip: saved ? l.savedSearchSaved : l.savedSearchSave,
+          onPressed: saved || s.busy
+              ? null
+              : () async {
+                  final ok = await context.read<SavedSearchesCubit>().save(
+                    query,
+                  );
+                  if (ok && context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(l.savedSearchSaved)));
+                  }
+                },
+          icon: Icon(saved ? Icons.bookmark : Icons.bookmark_border),
+        );
+      },
+    );
   }
 }

@@ -27,3 +27,24 @@ Migrations: `20261008000000_init.sql` (esquema), `20261009000000_rls_hardening.s
 6. App Flutter (somente valores públicos): copie `app/dart_defines.example.json` para `app/dart_defines.dev.json` (ignorado pelo git) e rode `flutter run --dart-define-from-file=dart_defines.dev.json`; equivalente: `--dart-define=SUPABASE_URL=… --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_…`. Sem esses valores o app roda sem contas. O app **recusa iniciar** com uma chave `sb_secret_…` ou JWT `service_role` e há testes que falham se `service_role` aparecer no código do app. Variáveis por ambiente: `.env.example`.
 7. Worker: `wrangler secret put SUPABASE_SERVICE_ROLE_KEY` (ver `docs/CLOUDFLARE_SETUP.md`).
 8. Checklist em staging antes de produção: criar 2 usuários e confirmar que um não lê/escreve/anexa nada do outro (inclusive via Storage); conferir Advisors (security/performance) do painel; ativar backups/PITR.
+
+## Fase 4 — rodar o app contra o projeto real
+Variáveis (`--dart-define` ou `--dart-define-from-file`; só valores públicos):
+| Variável | Valor |
+|---|---|
+| `SUPABASE_URL` | Project URL (`https://<ref>.supabase.co`) |
+| `SUPABASE_PUBLISHABLE_KEY` | chave `sb_publishable_…` (nunca `sb_secret_…`/service_role: o app recusa iniciar) |
+| `AUTH_REDIRECT_URL` | para onde os e-mails de confirmação/recuperação voltam (ver abaixo) |
+
+**Redirect URLs a cadastrar pelo proprietário** em Supabase → Authentication → URL Configuration (o assistente não altera Auth Settings):
+| URL | Uso |
+|---|---|
+| `http://localhost:3000/**` | Web em desenvolvimento (`flutter run -d chrome --web-port=3000`, `AUTH_REDIRECT_URL=http://localhost:3000/`) |
+| `com.lucksrei.orbijob://auth-callback` | Android e iOS (intent-filter e `CFBundleURLTypes` já no projeto; **não testados em aparelho**) |
+| `https://<domínio-de-produção>/**` | **futura** — não existe hospedagem definida; não cadastrar nada inventado |
+
+O **Site URL** hoje é `http://localhost:3000`: serve ao teste Web local, mas **não** para produção. Troque-o só quando existir a URL pública. Enquanto for localhost, **não considerar produção pronta**. Se a URL do esquema móvel não estiver na lista, o Supabase ignora o `redirectTo` e o e-mail cai no Site URL (no celular não abre o app).
+
+Roteiro de teste com duas contas descartáveis: [FLUTTER_REMOTE_TEST.md](FLUTTER_REMOTE_TEST.md).
+
+Sem essas variáveis o app abre normalmente, sem contas, e as telas dizem que a conta não está configurada.

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/data/load_status.dart';
 import '../../core/design/design.dart';
 import '../../core/widgets/app_filter_chip.dart';
 import '../../core/widgets/app_search_field.dart';
 import '../../core/widgets/section_header.dart';
 import '../../l10n/app_localizations.dart';
+import '../applications/applications_cubit.dart';
+import '../preferences/presentation/preferences_cubit.dart';
+import '../preferences/presentation/saved_searches_cubit.dart';
 import '../search/presentation/cubit/search_cubit.dart';
 import '../shell/shell_cubit.dart';
 import 'recent_searches_cubit.dart';
@@ -29,20 +33,33 @@ class HomePage extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final wide = MediaQuery.sizeOf(context).width >= 840;
     final panels = [
-      _EmptyPanel(
+      _InfoPanel(
         icon: Icons.auto_awesome_outlined,
         title: l.homeForYouEmptyTitle,
         body: l.homeForYouEmptyBody,
       ),
-      _EmptyPanel(
-        icon: Icons.public,
-        title: l.interestCountriesEmptyTitle,
-        body: l.interestCountriesEmptyBody,
+      BlocBuilder<PreferencesCubit, PreferencesState>(
+        builder: (context, p) {
+          final countries = p.prefs.countriesOfInterest;
+          final has = p.synced && countries.isNotEmpty;
+          return _InfoPanel(
+            icon: Icons.public,
+            title: has ? l.countriesTitle : l.interestCountriesEmptyTitle,
+            body: has ? countries.join(', ') : l.interestCountriesEmptyBody,
+          );
+        },
       ),
-      _EmptyPanel(
-        icon: Icons.assignment_outlined,
-        title: l.homeApplicationsEmptyTitle,
-        body: l.homeApplicationsEmptyBody,
+      BlocBuilder<ApplicationsCubit, ApplicationsState>(
+        builder: (context, a) {
+          final has = a.status == LoadStatus.ready && a.items.isNotEmpty;
+          return _InfoPanel(
+            icon: Icons.assignment_outlined,
+            title: has ? l.applicationsTitle : l.homeApplicationsEmptyTitle,
+            body: has
+                ? l.homeApplicationsCount(a.items.length)
+                : l.homeApplicationsEmptyBody,
+          );
+        },
       ),
     ];
     return Align(
@@ -103,6 +120,40 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
             ),
+            BlocBuilder<SavedSearchesCubit, SavedSearchesState>(
+              builder: (context, saved) => saved.items.isEmpty
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpace.s6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SectionHeader(title: l.savedSearchesTitle),
+                          const SizedBox(height: AppSpace.s3),
+                          Wrap(
+                            spacing: AppSpace.s2,
+                            runSpacing: AppSpace.s1,
+                            children: [
+                              for (final q in saved.items)
+                                AppFilterChip(
+                                  label: SavedSearchesCubit.termOf(q),
+                                  icon: Icons.bookmark_border,
+                                  selected: false,
+                                  onSelected: (_) {
+                                    context.read<SearchCubit>().search(
+                                      SavedSearchesCubit.termOf(q),
+                                    );
+                                    context.read<ShellCubit>().goTo(
+                                      ShellCubit.explore,
+                                    );
+                                  },
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+            ),
             SectionHeader(title: l.homeAreasTitle),
             const SizedBox(height: AppSpace.s3),
             Wrap(
@@ -149,8 +200,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _EmptyPanel extends StatelessWidget {
-  const _EmptyPanel({
+class _InfoPanel extends StatelessWidget {
+  const _InfoPanel({
     required this.icon,
     required this.title,
     required this.body,

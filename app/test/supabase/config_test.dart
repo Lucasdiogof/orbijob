@@ -33,6 +33,36 @@ void main() {
       }
     });
 
+    test(
+      'auth redirect: optional, https / localhost / custom app scheme only',
+      () {
+        AppConfig c(String r) => AppConfig(
+          supabaseUrl: 'https://x.supabase.co',
+          supabasePublishableKey: 'sb_publishable_abc',
+          authRedirectUrl: r,
+        );
+        expect(c('').redirectTo, isNull);
+        expect(c('  ').redirectTo, isNull);
+        for (final ok in [
+          'https://app.example.com',
+          'http://localhost:3000',
+          'com.lucksrei.orbijob://auth-callback',
+        ]) {
+          expect(c(ok).validate(), isNull, reason: ok);
+          expect(c(ok).redirectTo, ok);
+        }
+        for (final bad in [
+          'http://app.example.com',
+          'javascript:alert(1)',
+          'data:text/html,x',
+          'file:///etc/passwd',
+          'not a url',
+        ]) {
+          expect(c(bad).validate(), isNotNull, reason: bad);
+        }
+      },
+    );
+
     test('rejects secret and service_role keys', () {
       for (final key in [
         'sb_secret_abc123',

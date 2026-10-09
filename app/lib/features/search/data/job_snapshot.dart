@@ -23,6 +23,9 @@ Map<String, Object?> jobToSnapshot(JobPosting j) => {
   if (j.language != null) 'language': j.language,
 };
 
+/// `source` of postings the user typed in (applications added by hand); their `originalUrl` may be empty.
+const manualSource = 'manual';
+
 /// Stable key for a posting across sources: `<source>:<externalId>`.
 String jobKey(JobPosting j) => '${j.source}:${j.externalId}';
 
@@ -43,7 +46,8 @@ JobPosting? jobFromSnapshot(Object? raw) {
   final id = _s(raw['externalId']);
   final title = _s(raw['title']);
   final company = _s(raw['company']);
-  final url = _s(raw['originalUrl']);
+  // Entries the user adds by hand have no link; every other source must carry one.
+  final url = _s(raw['originalUrl']) ?? (source == manualSource ? '' : null);
   if (source == null ||
       id == null ||
       title == null ||

@@ -78,8 +78,11 @@ class SupabaseResumeRepository implements ResumeRepository {
           .single();
       return _file(row);
     } catch (_) {
-      // Do not leave an orphan object if the row could not be created.
-      await _client.storage.from(resumesBucket).remove([path]);
+      // Do not leave an orphan object if the row could not be created. If even this cleanup fails (network down),
+      // the ORIGINAL error is the one to report; the stray file is for the orphan sweep (docs/SUPABASE_MIGRATION_PLAN.md).
+      try {
+        await _client.storage.from(resumesBucket).remove([path]);
+      } catch (_) {}
       rethrow;
     }
   }

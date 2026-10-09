@@ -143,13 +143,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileTitle => 'Perfil';
 
   @override
-  String get profileEmptyTitle => 'Tu perfil profesional llegará pronto';
-
-  @override
-  String get profileEmptyBody =>
-      'Currículum, experiencia y preferencias estarán aquí.';
-
-  @override
   String get appearanceTitle => 'Apariencia';
 
   @override
@@ -310,7 +303,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get interestCountriesEmptyBody =>
-      'Elegirás países en tu perfil para enfocar las recomendaciones.';
+      'Añade países en tu perfil para enfocarte en ellos.';
 
   @override
   String get applicationStageApplied => 'Postulado';
@@ -354,7 +347,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountSignedOutBody =>
-      'Inicia sesión para guardar perfil, favoritos y postulaciones en tu cuenta.';
+      'Inicia sesión para guardar tu perfil, favoritos y candidaturas en tu cuenta.';
 
   @override
   String get accountSignIn => 'Iniciar sesión';
@@ -434,4 +427,432 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authErrorUnknown => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get commonCancel => 'Cancelar';
+
+  @override
+  String get commonSave => 'Guardar';
+
+  @override
+  String get commonDelete => 'Eliminar';
+
+  @override
+  String get commonEdit => 'Editar';
+
+  @override
+  String get commonAdd => 'Añadir';
+
+  @override
+  String get commonClose => 'Cerrar';
+
+  @override
+  String get commonOptional => 'Opcional';
+
+  @override
+  String get commonRequired => 'Campo obligatorio';
+
+  @override
+  String get commonDeleteConfirmBody => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get fieldStartDate => 'Fecha de inicio';
+
+  @override
+  String get fieldEndDate => 'Fecha de finalización';
+
+  @override
+  String get dateChoose => 'Elegir fecha';
+
+  @override
+  String get dateClear => 'Borrar fecha';
+
+  @override
+  String tooLongError(int max) {
+    return 'Demasiado largo (máximo $max caracteres)';
+  }
+
+  @override
+  String get dataLoadErrorTitle => 'No se pudieron cargar tus datos';
+
+  @override
+  String get dataSignInTitle => 'Inicia sesión para continuar';
+
+  @override
+  String get dataFailureNotConfigured =>
+      'Esta versión de la app no está conectada a un servicio de cuentas, así que aquí no se puede guardar nada.';
+
+  @override
+  String get dataFailureSignedOut =>
+      'Tus datos se guardan en tu cuenta. Inicia sesión para verlos y cambiarlos.';
+
+  @override
+  String get dataFailureSessionExpired =>
+      'Tu sesión terminó. Inicia sesión de nuevo para continuar.';
+
+  @override
+  String get dataFailureNetwork =>
+      'Sin conexión. Revisa tu internet e inténtalo de nuevo.';
+
+  @override
+  String get dataFailureDenied =>
+      'El servidor no permitió esta acción para tu cuenta.';
+
+  @override
+  String get dataFailureQuota =>
+      'Alcanzaste el límite para este tipo de elemento. Elimina uno para añadir otro.';
+
+  @override
+  String get dataFailureDuplicate => 'Esto ya existe.';
+
+  @override
+  String get dataFailureInvalid =>
+      'Algún dato no es válido. Revisa los campos e inténtalo de nuevo.';
+
+  @override
+  String get dataFailureTooLarge => 'El archivo supera los 5 MB.';
+
+  @override
+  String get dataFailureNotPdf => 'Solo se aceptan archivos PDF.';
+
+  @override
+  String get dataFailureEmptyFile => 'El archivo está vacío.';
+
+  @override
+  String get dataFailureNotFound =>
+      'Este elemento ya no existe. Actualiza e inténtalo de nuevo.';
+
+  @override
+  String get dataFailureUnavailable =>
+      'El servicio no está disponible ahora. Inténtalo más tarde.';
+
+  @override
+  String get dataFailureUnknown => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get applicationsAdd => 'Añadir candidatura';
+
+  @override
+  String get applicationsDisclaimer =>
+      'OrbiJob nunca envía candidaturas. Aquí registras las que enviaste por tu cuenta.';
+
+  @override
+  String get applicationNewTitle => 'Nueva candidatura';
+
+  @override
+  String get applicationDetailTitle => 'Candidatura';
+
+  @override
+  String get applicationCompany => 'Empresa';
+
+  @override
+  String get applicationJobTitle => 'Puesto de la vacante';
+
+  @override
+  String get applicationLink => 'Enlace de la vacante';
+
+  @override
+  String get applicationLinkInvalid =>
+      'Introduce un enlace que empiece por https://';
+
+  @override
+  String get applicationChannel => 'Dónde te postulaste';
+
+  @override
+  String get applicationStageLabel => 'Etapa';
+
+  @override
+  String get applicationAppliedOn => 'Postulación el';
+
+  @override
+  String get applicationNote => 'Notas';
+
+  @override
+  String get applicationSaveNote => 'Guardar notas';
+
+  @override
+  String get applicationOpenLink => 'Abrir vacante';
+
+  @override
+  String get applicationLinkCannotOpen => 'No se pudo abrir el enlace.';
+
+  @override
+  String get applicationHistory => 'Historial';
+
+  @override
+  String get applicationHistoryEmpty =>
+      'Aún no hay cambios de etapa registrados.';
+
+  @override
+  String get applicationDeleteTitle => '¿Eliminar esta candidatura?';
+
+  @override
+  String get applicationNoDate => 'Fecha no indicada';
+
+  @override
+  String homeApplicationsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count candidaturas en seguimiento',
+      one: '1 candidatura en seguimiento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileSectionProfessional => 'Perfil profesional';
+
+  @override
+  String get profileCreateTitle => 'Crea tu perfil profesional';
+
+  @override
+  String get profileCreateBody =>
+      'Cuenta quién eres profesionalmente. Cualquier profesión es bienvenida.';
+
+  @override
+  String get profileCreateAction => 'Crear perfil';
+
+  @override
+  String get profileEditAction => 'Editar perfil';
+
+  @override
+  String get profileFieldName => 'Nombre profesional';
+
+  @override
+  String get profileFieldHeadline => 'Cargo o profesión';
+
+  @override
+  String get profileFieldSummary => 'Resumen';
+
+  @override
+  String get profileFieldCountry => 'País de residencia (código de 2 letras)';
+
+  @override
+  String get profileFieldCity => 'Ciudad';
+
+  @override
+  String get profileFieldWorkMode => 'Modalidad de trabajo deseada';
+
+  @override
+  String get profileWorkModeAny => 'Sin preferencia';
+
+  @override
+  String get profileFieldSkills => 'Competencias';
+
+  @override
+  String get profileSkillAdd => 'Añadir competencia';
+
+  @override
+  String profileSkillRemove(String name) {
+    return 'Quitar competencia $name';
+  }
+
+  @override
+  String get profileSkillsLimit => 'Hasta 200 competencias.';
+
+  @override
+  String get profileCountryInvalid =>
+      'Usa un código de 2 letras, por ejemplo BR';
+
+  @override
+  String get profileSaved => 'Perfil guardado';
+
+  @override
+  String get profileNeedsProfile => 'Crea tu perfil primero para añadir esto.';
+
+  @override
+  String get profileSignInBody =>
+      'Inicia sesión para crear y mantener tu perfil profesional.';
+
+  @override
+  String get experienceSection => 'Experiencia profesional';
+
+  @override
+  String get experienceAdd => 'Añadir experiencia';
+
+  @override
+  String get experienceNewTitle => 'Nueva experiencia';
+
+  @override
+  String get experienceEditTitle => 'Editar experiencia';
+
+  @override
+  String get experienceCompany => 'Empresa';
+
+  @override
+  String get experienceRole => 'Cargo';
+
+  @override
+  String get experienceCurrent => 'Trabajo aquí actualmente';
+
+  @override
+  String get experienceDescription => 'Descripción';
+
+  @override
+  String get experiencePresent => 'Actual';
+
+  @override
+  String get experienceEmpty => 'Aún no has añadido experiencia.';
+
+  @override
+  String get experienceDatesInvalid =>
+      'La fecha de finalización no puede ser anterior a la de inicio';
+
+  @override
+  String get experienceCurrentNeedsStart =>
+      'Elige la fecha de inicio para un trabajo actual';
+
+  @override
+  String get experienceDeleteTitle => '¿Eliminar esta experiencia?';
+
+  @override
+  String get educationSection => 'Formación académica';
+
+  @override
+  String get educationAdd => 'Añadir formación';
+
+  @override
+  String get educationNewTitle => 'Nueva formación';
+
+  @override
+  String get educationEditTitle => 'Editar formación';
+
+  @override
+  String get educationInstitution => 'Institución';
+
+  @override
+  String get educationDegree => 'Grado (si lo hay)';
+
+  @override
+  String get educationField => 'Curso o área de estudio';
+
+  @override
+  String get educationEmpty => 'Aún no has añadido formación. Es opcional.';
+
+  @override
+  String get educationDeleteTitle => '¿Eliminar esta formación?';
+
+  @override
+  String get resumesSection => 'Currículos';
+
+  @override
+  String get resumesBody =>
+      'Solo PDF, hasta 5 MB cada uno, hasta 10 archivos. Se guardan de forma privada en tu cuenta.';
+
+  @override
+  String get resumesUpload => 'Subir PDF';
+
+  @override
+  String get resumesUploading => 'Subiendo…';
+
+  @override
+  String get resumesEmpty => 'Aún no has subido ningún currículo.';
+
+  @override
+  String resumeItem(String date) {
+    return 'Currículo del $date';
+  }
+
+  @override
+  String get resumeOpen => 'Abrir';
+
+  @override
+  String get resumeUploaded => 'Currículo subido';
+
+  @override
+  String get resumeDeleteTitle => '¿Eliminar este currículo?';
+
+  @override
+  String get resumeDeleteBody => 'El archivo se elimina de tu cuenta.';
+
+  @override
+  String get preferencesSection => 'Preferencias de búsqueda';
+
+  @override
+  String get languageTitle => 'Idioma';
+
+  @override
+  String get languageSystem => 'Idioma del dispositivo';
+
+  @override
+  String get languagePt => 'Português';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get languageEs => 'Español';
+
+  @override
+  String get preferencesLocalOnly =>
+      'Inicia sesión para guardar estas opciones en tu cuenta. Hasta entonces solo valen en este dispositivo.';
+
+  @override
+  String get countriesTitle => 'Países de interés';
+
+  @override
+  String get countriesHint => 'Añadir país (código de 2 letras)';
+
+  @override
+  String get countriesEmpty => 'Ningún país elegido.';
+
+  @override
+  String get countriesInvalid =>
+      'Usa un código de 2 letras que aún no esté en la lista, por ejemplo DE';
+
+  @override
+  String countriesRemove(String code) {
+    return 'Quitar país $code';
+  }
+
+  @override
+  String get savedSearchesTitle => 'Búsquedas guardadas';
+
+  @override
+  String get savedSearchesNote => 'Guardadas en tu cuenta.';
+
+  @override
+  String get recentSearchesNote =>
+      'Las búsquedas recientes se quedan en este dispositivo.';
+
+  @override
+  String get savedSearchSave => 'Guardar esta búsqueda';
+
+  @override
+  String get savedSearchSaved => 'Búsqueda guardada';
+
+  @override
+  String savedSearchRemove(String term) {
+    return 'Quitar búsqueda guardada $term';
+  }
+
+  @override
+  String get authNewPasswordTitle => 'Elige una nueva contraseña';
+
+  @override
+  String get authNewPasswordLabel => 'Nueva contraseña';
+
+  @override
+  String get authNewPasswordAction => 'Guardar nueva contraseña';
+
+  @override
+  String get authPasswordChanged => 'Contraseña actualizada.';
+
+  @override
+  String get authSessionExpired => 'Tu sesión terminó. Inicia sesión de nuevo.';
+
+  @override
+  String get authErrorLinkInvalid =>
+      'Este enlace caducó o ya se usó. Solicita uno nuevo.';
+
+  @override
+  String get authErrorSamePassword =>
+      'Elige una contraseña distinta de la actual.';
+
+  @override
+  String get authCancelRecovery => 'Cancelar';
+
+  @override
+  String get commonLoading => 'Cargando';
 }

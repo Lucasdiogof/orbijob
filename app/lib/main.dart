@@ -13,9 +13,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
   // Public configuration only (--dart-define). Without it the app runs fully offline-first, without accounts.
-  final client = await initSupabase(AppConfig.fromEnvironment());
+  final config = AppConfig.fromEnvironment();
+  final client = await initSupabase(config);
   configureDependencies(
-    authRepository: client == null ? null : SupabaseAuthRepository(client),
+    authRepository: client == null
+        ? null
+        : SupabaseAuthRepository(client, redirectTo: config.redirectTo),
   );
   if (client != null) registerSupabaseRepositories(client);
   runApp(const OrbiJobApp());

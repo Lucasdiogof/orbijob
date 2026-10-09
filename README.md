@@ -21,10 +21,11 @@ Vagas estão espalhadas em centenas de portais; ofícios e saúde são mal atend
 | Busca com estados carregando / vazio / erro / **sem fonte integrada**, PT/EN/ES | ✅ implementada, **sem dados reais** |
 | Resolvedor de profissões multilíngue (seed ISCO-08, 12 ocupações) | ✅ implementado e testado |
 | Núcleo de conectores: contrato, dedupe, retry/backoff, rate limiter, regra de encerramento de vagas | ✅ implementado e testado (conector Lever só com fixture sintética) |
-| Esquema SQL + RLS | ✅ proposto e testado em PGlite · ❌ **não aplicado** em Supabase |
+| Esquema SQL + RLS | ✅ testado em PostgreSQL 16/17 · ✅ 5 migrations aplicadas no Supabase do proprietário e validadas (Auth, RLS A↔B, Storage, cotas) · migration 6 (`service_role`) pendente |
 | Catálogo de fontes e matriz de cobertura | ✅ documentado · **nenhuma fonte `READY`** |
 | Busca mundial real, filtros internacionais, ranking 0–100 + confiança calculados, candidatura oficial | 🗓️ planejado |
-| Perfil/currículo/experiências, favoritos, candidaturas, preenchimento assistido | 🗓️ planejado |
+| Perfil/experiências/formação, currículos PDF, favoritos, candidaturas manuais, pesquisas salvas e preferências ligados ao Supabase | ✅ implementado e testado com backend simulado · ⚠️ **não validado ponta a ponta contra o Supabase real** |
+| Preenchimento assistido, envio de candidaturas | 🗓️ planejado (o OrbiJob nunca envia candidaturas por conta própria) |
 
 ## Stack
 Flutter / Dart · Clean Architecture · BLoC/Cubit · GetIt · Supabase (PostgreSQL, Auth, Storage) · Cloudflare Workers (TypeScript) · GitHub Actions · i18n PT/EN/ES. Priorizamos infraestrutura gratuita, respeitando limites e licenças.
@@ -52,7 +53,7 @@ node scripts/build-coverage.mjs
 # Aceite de buscas (precisa de internet; chaves opcionais)
 USAJOBS_KEY=… USAJOBS_EMAIL=… ADZUNA_APP_ID=… ADZUNA_APP_KEY=… node scripts/acceptance.mjs --out docs/evidence/acceptance-$(date +%F).json
 ```
-Copie `.env.example` para `.env` (nunca commitar). Nenhum projeto Supabase ou Cloudflare foi criado.
+Copie `.env.example` para `.env` (nunca commitar). O projeto Supabase do proprietário existe (migrations aplicadas); nenhum Cloudflare foi publicado. Passo a passo do app contra o projeto real: `docs/SUPABASE_SETUP.md` (Fase 4).
 
 ## Estrutura de diretórios
 ```
@@ -66,7 +67,7 @@ docs/        arquitetura, requisitos, fontes, banco, segurança, roadmap, design
 ```
 
 ## Testes
-`flutter analyze` + `flutter test` (179 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash, configuração/autenticação/repositórios Supabase contra backend HTTP simulado) · `tsc` + `vitest` (58 testes do worker, incluindo RLS em PGlite e HTTP/retry) · testes SQL em PostgreSQL 16 real (`supabase/tests/run.sh`: auditoria + isolamento entre usuários) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
+`flutter analyze` + `flutter test` (259 testes: tokens e contraste, temas, navegação, **sem overflow** em 8 tamanhos × texto 100/150/200%, acessibilidade, i18n, assets/ícones/splash, configuração/autenticação/repositórios Supabase contra backend HTTP simulado) · `tsc` + `vitest` (58 testes do worker, incluindo RLS em PGlite e HTTP/retry) · testes SQL em PostgreSQL 16 real (`supabase/tests/run.sh`: auditoria + isolamento entre usuários) · build web e validação `aapt2` no CI. Testes de integração/E2E em dispositivo: ainda não existem.
 
 ## Segurança
 RLS dono-único, currículos em bucket privado (planejado/proposto), nenhum segredo no repositório (**público**), sem scraping proibido, sem candidatura automática, autofill só em domínios autorizados. [docs/SECURITY.md](docs/SECURITY.md)

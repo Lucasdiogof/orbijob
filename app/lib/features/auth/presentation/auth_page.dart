@@ -17,7 +17,18 @@ String authFailureText(AppLocalizations l, AuthFailureKind k) => switch (k) {
   AuthFailureKind.rateLimited => l.authErrorRateLimited,
   AuthFailureKind.network => l.authErrorNetwork,
   AuthFailureKind.unavailable => l.authErrorUnavailable,
+  AuthFailureKind.samePassword => l.authErrorSamePassword,
+  AuthFailureKind.linkInvalid => l.authErrorLinkInvalid,
   AuthFailureKind.unknown => l.authErrorUnknown,
+};
+
+/// Localised text for an informational notice.
+String authNoticeText(AppLocalizations l, AuthNotice n) => switch (n) {
+  AuthNotice.confirmationSent => l.authConfirmationSent,
+  AuthNotice.resetSent => l.authResetSent,
+  AuthNotice.passwordChanged => l.authPasswordChanged,
+  AuthNotice.sessionExpired => l.authSessionExpired,
+  AuthNotice.none => '',
 };
 
 /// Sign in / create account. Closes itself when a session appears.
@@ -105,9 +116,7 @@ class _AuthPageState extends State<AuthPage> {
                       child: Text(
                         s.failure != null
                             ? authFailureText(l, s.failure!)
-                            : (s.notice == AuthNotice.confirmationSent
-                                  ? l.authConfirmationSent
-                                  : l.authResetSent),
+                            : authNoticeText(l, s.notice),
                         style: context.text.bodyMedium!.copyWith(
                           color: s.failure != null ? c.error : c.ink,
                         ),

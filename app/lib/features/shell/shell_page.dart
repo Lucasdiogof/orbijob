@@ -5,6 +5,7 @@ import '../../core/design/design.dart';
 import '../../core/widgets/app_navigation.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/applications_page.dart';
+import '../auth/presentation/auth_effects.dart';
 import '../favorites/favorites_page.dart';
 import '../home/home_page.dart';
 import '../profile/profile_page.dart';
@@ -48,60 +49,62 @@ class ShellPage extends StatelessWidget {
         label: l.navApplications,
       ),
     ];
-    return BlocBuilder<ShellCubit, ShellState>(
-      builder: (context, shell) {
-        final size = MediaQuery.sizeOf(context);
-        final window = WindowClass.of(size.width);
-        final body = IndexedStack(index: shell.index, children: _pages);
-        final appBar = AppBar(
-          titleSpacing: AppSpace.s4,
-          title: const BrandLogo(height: 24),
-          actions: [
-            IconButton(
-              tooltip: l.profile,
-              icon: const Icon(Icons.account_circle_outlined),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const ProfilePage()),
+    return AuthEffects(
+      child: BlocBuilder<ShellCubit, ShellState>(
+        builder: (context, shell) {
+          final size = MediaQuery.sizeOf(context);
+          final window = WindowClass.of(size.width);
+          final body = IndexedStack(index: shell.index, children: _pages);
+          final appBar = AppBar(
+            titleSpacing: AppSpace.s4,
+            title: const BrandLogo(height: 24),
+            actions: [
+              IconButton(
+                tooltip: l.profile,
+                icon: const Icon(Icons.account_circle_outlined),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const ProfilePage()),
+                ),
               ),
-            ),
-            const SizedBox(width: AppSpace.s1),
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1),
-            child: Divider(color: context.colors.divider, height: 1),
-          ),
-        );
-        if (window == WindowClass.compact) {
-          return Scaffold(
-            appBar: appBar,
-            body: body,
-            bottomNavigationBar: AppNavBar(
-              destinations: destinations,
-              selectedIndex: shell.index,
-              onSelected: context.read<ShellCubit>().goTo,
-              semanticLabel: l.navMain,
+              const SizedBox(width: AppSpace.s1),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Divider(color: context.colors.divider, height: 1),
             ),
           );
-        }
-        final shortLandscape = size.height < 480;
-        return Scaffold(
-          appBar: appBar,
-          body: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppNavRail(
+          if (window == WindowClass.compact) {
+            return Scaffold(
+              appBar: appBar,
+              body: body,
+              bottomNavigationBar: AppNavBar(
                 destinations: destinations,
                 selectedIndex: shell.index,
                 onSelected: context.read<ShellCubit>().goTo,
-                extended: window == WindowClass.expanded,
-                showLabels: !shortLandscape,
                 semanticLabel: l.navMain,
               ),
-              Expanded(child: body),
-            ],
-          ),
-        );
-      },
+            );
+          }
+          final shortLandscape = size.height < 480;
+          return Scaffold(
+            appBar: appBar,
+            body: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AppNavRail(
+                  destinations: destinations,
+                  selectedIndex: shell.index,
+                  onSelected: context.read<ShellCubit>().goTo,
+                  extended: window == WindowClass.expanded,
+                  showLabels: !shortLandscape,
+                  semanticLabel: l.navMain,
+                ),
+                Expanded(child: body),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

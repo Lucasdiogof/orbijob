@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/design/design.dart';
-import '../../core/theme_cubit.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/section_header.dart';
-import '../../core/widgets/state_view.dart';
 import '../../l10n/app_localizations.dart';
 import '../auth/presentation/auth_cubit.dart';
 import '../auth/presentation/auth_page.dart';
+import '../preferences/presentation/preferences_section.dart';
+import 'presentation/widgets/profile_sections.dart';
+import 'presentation/widgets/resumes_section.dart';
 
-/// Profile entry (reached from the header). The professional profile itself is not built yet; appearance is.
+/// Profile hub (reached from the header): account, professional profile, experience, education, résumés, and preferences.
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -37,42 +38,11 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: AppSpace.s3),
               const _AccountSection(),
               const SizedBox(height: AppSpace.s6),
-              SectionHeader(title: l.appearanceTitle),
-              const SizedBox(height: AppSpace.s3),
-              BlocBuilder<ThemeCubit, ThemeMode>(
-                builder: (context, mode) => SegmentedButton<ThemeMode>(
-                  showSelectedIcon: true,
-                  segments: [
-                    ButtonSegment(
-                      value: ThemeMode.system,
-                      icon: const Icon(Icons.brightness_auto_outlined),
-                      label: Text(l.themeSystem),
-                    ),
-                    ButtonSegment(
-                      value: ThemeMode.light,
-                      icon: const Icon(Icons.light_mode_outlined),
-                      label: Text(l.themeLight),
-                    ),
-                    ButtonSegment(
-                      value: ThemeMode.dark,
-                      icon: const Icon(Icons.dark_mode_outlined),
-                      label: Text(l.themeDark),
-                    ),
-                  ],
-                  selected: {mode},
-                  onSelectionChanged: (s) =>
-                      context.read<ThemeCubit>().select(s.first),
-                ),
-              ),
+              const ProfileSections(),
               const SizedBox(height: AppSpace.s6),
-              SizedBox(
-                height: 260,
-                child: StateView(
-                  icon: Icons.person_outline,
-                  title: l.profileEmptyTitle,
-                  body: l.profileEmptyBody,
-                ),
-              ),
+              const ResumesSection(),
+              const SizedBox(height: AppSpace.s6),
+              const PreferencesSection(),
             ],
           ),
         ),

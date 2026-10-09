@@ -5,7 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/app.dart';
 import 'package:orbijob/core/di/injector.dart';
+import 'package:orbijob/features/auth/domain/auth_repository.dart';
+import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
+import 'package:orbijob/features/profile/domain/pdf_picker.dart';
 import 'package:orbijob/features/search/domain/search_repository.dart';
+import 'package:orbijob/preview/in_memory_favorites.dart';
+
+import 'fakes.dart';
 
 /// Loads the bundled fonts so text is measured and drawn with the real faces (not the test "Ahem" box font).
 Future<void> loadBrandFonts() async {
@@ -36,6 +42,10 @@ Future<void> pumpApp(
   ThemeMode? themeMode,
   Brightness platformBrightness = Brightness.light,
   SearchRepository? repo,
+  FavoritesRepository? favorites,
+  Fakes? fakes,
+  AuthRepository? auth,
+  PdfPicker? pdfPicker,
   Locale? locale,
   double devicePixelRatio = 1,
 }) async {
@@ -49,7 +59,13 @@ Future<void> pumpApp(
     t.platformDispatcher.clearAllTestValues();
   });
   await sl.reset();
-  configureDependencies(searchRepository: repo);
+  configureDependencies(
+    searchRepository: repo,
+    authRepository: auth,
+    pdfPicker: pdfPicker,
+    favoritesRepository: favorites ?? InMemoryFavoritesRepository(),
+  );
+  (fakes ?? Fakes()).register();
   await t.pumpWidget(const OrbiJobApp());
   await t.pumpAndSettle();
 }

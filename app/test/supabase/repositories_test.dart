@@ -374,6 +374,37 @@ void main() {
     });
   });
 
+  group('profile updates', () {
+    test('updateExperience / updateEducation patch one row by id and never change the owner', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => (
+          200,
+          {
+            'id': 'x1',
+            'profile_id': 'p1',
+            'company': 'C',
+            'title': 'T2',
+            'institution': 'Uni',
+          },
+        ),
+      );
+      final repo = SupabaseProfileRepository(b.client);
+      await repo.updateExperience(
+        Experience(id: 'x1', profileId: 'p1', company: 'C', title: 'T2'),
+      );
+      expect(b.last.method, 'PATCH');
+      expect(b.last.path, '/rest/v1/experiences');
+      expect(b.last.query['id'], 'eq.x1');
+      expect((b.last.json as Map).containsKey('user_id'), isFalse);
+      await repo.updateEducation(
+        const Education(id: 'e1', profileId: 'p1', institution: 'Uni'),
+      );
+      expect(b.last.method, 'PATCH');
+      expect(b.last.path, '/rest/v1/education');
+      expect(b.last.query['id'], 'eq.e1');
+    });
+  });
+
   group('resumes', () {
     final pdf = Uint8List.fromList([
       0x25,

@@ -10,6 +10,8 @@ class UnconfiguredAuthRepository implements AuthRepository {
   AuthUser? get currentUser => null;
   @override
   Stream<AuthUser?> get userChanges => const Stream.empty();
+  @override
+  Stream<void> get recoveryLinks => const Stream.empty();
 
   Never _off() => throw const AuthFailure(AuthFailureKind.unavailable);
   @override
@@ -24,6 +26,8 @@ class UnconfiguredAuthRepository implements AuthRepository {
   }) async => _off();
   @override
   Future<void> sendPasswordReset(String email) async => _off();
+  @override
+  Future<void> updatePassword(String newPassword) async => _off();
   @override
   Future<void> signOut() async {}
 }

@@ -352,18 +352,6 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
-  /// No description provided for @profileEmptyTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your professional profile is coming soon'**
-  String get profileEmptyTitle;
-
-  /// No description provided for @profileEmptyBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Résumé, experience and preferences will live here.'**
-  String get profileEmptyBody;
-
   /// No description provided for @appearanceTitle.
   ///
   /// In en, this message translates to:
@@ -607,7 +595,7 @@ abstract class AppLocalizations {
   /// No description provided for @interestCountriesEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'You will pick countries in your profile to focus recommendations.'**
+  /// **'Add countries in your profile to focus on them.'**
   String get interestCountriesEmptyBody;
 
   /// No description provided for @applicationStageApplied.
@@ -685,7 +673,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountSignedOutBody.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to keep your profile, favourites and applications in your account.'**
+  /// **'Sign in to keep your profile, favorites and applications in your account.'**
   String get accountSignedOutBody;
 
   /// No description provided for @accountSignIn.
@@ -831,6 +819,780 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Try again.'**
   String get authErrorUnknown;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get commonCancel;
+
+  /// No description provided for @commonSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get commonSave;
+
+  /// No description provided for @commonDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commonDelete;
+
+  /// No description provided for @commonEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get commonEdit;
+
+  /// No description provided for @commonAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get commonAdd;
+
+  /// No description provided for @commonClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get commonClose;
+
+  /// No description provided for @commonOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get commonOptional;
+
+  /// No description provided for @commonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required field'**
+  String get commonRequired;
+
+  /// No description provided for @commonDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone.'**
+  String get commonDeleteConfirmBody;
+
+  /// No description provided for @fieldStartDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get fieldStartDate;
+
+  /// No description provided for @fieldEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get fieldEndDate;
+
+  /// No description provided for @dateChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get dateChoose;
+
+  /// No description provided for @dateClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear date'**
+  String get dateClear;
+
+  /// No description provided for @tooLongError.
+  ///
+  /// In en, this message translates to:
+  /// **'Too long (maximum {max} characters)'**
+  String tooLongError(int max);
+
+  /// No description provided for @dataLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your data'**
+  String get dataLoadErrorTitle;
+
+  /// No description provided for @dataSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue'**
+  String get dataSignInTitle;
+
+  /// No description provided for @dataFailureNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'This build is not connected to an account service, so nothing can be saved here.'**
+  String get dataFailureNotConfigured;
+
+  /// No description provided for @dataFailureSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is kept in your account. Sign in to see and change it.'**
+  String get dataFailureSignedOut;
+
+  /// No description provided for @dataFailureSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session ended. Sign in again to continue.'**
+  String get dataFailureSessionExpired;
+
+  /// No description provided for @dataFailureNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your internet and try again.'**
+  String get dataFailureNetwork;
+
+  /// No description provided for @dataFailureDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'The server did not allow this action for your account.'**
+  String get dataFailureDenied;
+
+  /// No description provided for @dataFailureQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'You reached the limit for this kind of item. Remove one to add another.'**
+  String get dataFailureQuota;
+
+  /// No description provided for @dataFailureDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This already exists.'**
+  String get dataFailureDuplicate;
+
+  /// No description provided for @dataFailureInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Some data is not valid. Check the fields and try again.'**
+  String get dataFailureInvalid;
+
+  /// No description provided for @dataFailureTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is larger than 5 MB.'**
+  String get dataFailureTooLarge;
+
+  /// No description provided for @dataFailureNotPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Only PDF files are accepted.'**
+  String get dataFailureNotPdf;
+
+  /// No description provided for @dataFailureEmptyFile.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is empty.'**
+  String get dataFailureEmptyFile;
+
+  /// No description provided for @dataFailureNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This item no longer exists. Refresh and try again.'**
+  String get dataFailureNotFound;
+
+  /// No description provided for @dataFailureUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The service is unavailable right now. Try again later.'**
+  String get dataFailureUnavailable;
+
+  /// No description provided for @dataFailureUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get dataFailureUnknown;
+
+  /// No description provided for @applicationsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add application'**
+  String get applicationsAdd;
+
+  /// No description provided for @applicationsDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob never sends applications. Here you record the ones you sent yourself.'**
+  String get applicationsDisclaimer;
+
+  /// No description provided for @applicationNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New application'**
+  String get applicationNewTitle;
+
+  /// No description provided for @applicationDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application'**
+  String get applicationDetailTitle;
+
+  /// No description provided for @applicationCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get applicationCompany;
+
+  /// No description provided for @applicationJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job title'**
+  String get applicationJobTitle;
+
+  /// No description provided for @applicationLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Link to the posting'**
+  String get applicationLink;
+
+  /// No description provided for @applicationLinkInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a link starting with https://'**
+  String get applicationLinkInvalid;
+
+  /// No description provided for @applicationChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you applied'**
+  String get applicationChannel;
+
+  /// No description provided for @applicationStageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage'**
+  String get applicationStageLabel;
+
+  /// No description provided for @applicationAppliedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied on'**
+  String get applicationAppliedOn;
+
+  /// No description provided for @applicationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get applicationNote;
+
+  /// No description provided for @applicationSaveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Save notes'**
+  String get applicationSaveNote;
+
+  /// No description provided for @applicationOpenLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Open posting'**
+  String get applicationOpenLink;
+
+  /// No description provided for @applicationLinkCannotOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link.'**
+  String get applicationLinkCannotOpen;
+
+  /// No description provided for @applicationHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get applicationHistory;
+
+  /// No description provided for @applicationHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No stage changes recorded yet.'**
+  String get applicationHistoryEmpty;
+
+  /// No description provided for @applicationDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this application?'**
+  String get applicationDeleteTitle;
+
+  /// No description provided for @applicationNoDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date not informed'**
+  String get applicationNoDate;
+
+  /// No description provided for @homeApplicationsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 application tracked} other{{count} applications tracked}}'**
+  String homeApplicationsCount(int count);
+
+  /// No description provided for @profileSectionProfessional.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional profile'**
+  String get profileSectionProfessional;
+
+  /// No description provided for @profileCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your professional profile'**
+  String get profileCreateTitle;
+
+  /// No description provided for @profileCreateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Say who you are professionally. Any profession is welcome.'**
+  String get profileCreateBody;
+
+  /// No description provided for @profileCreateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create profile'**
+  String get profileCreateAction;
+
+  /// No description provided for @profileEditAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileEditAction;
+
+  /// No description provided for @profileFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional name'**
+  String get profileFieldName;
+
+  /// No description provided for @profileFieldHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Role or profession'**
+  String get profileFieldHeadline;
+
+  /// No description provided for @profileFieldSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get profileFieldSummary;
+
+  /// No description provided for @profileFieldCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country of residence (2-letter code)'**
+  String get profileFieldCountry;
+
+  /// No description provided for @profileFieldCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get profileFieldCity;
+
+  /// No description provided for @profileFieldWorkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred work mode'**
+  String get profileFieldWorkMode;
+
+  /// No description provided for @profileWorkModeAny.
+  ///
+  /// In en, this message translates to:
+  /// **'No preference'**
+  String get profileWorkModeAny;
+
+  /// No description provided for @profileFieldSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get profileFieldSkills;
+
+  /// No description provided for @profileSkillAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add skill'**
+  String get profileSkillAdd;
+
+  /// No description provided for @profileSkillRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove skill {name}'**
+  String profileSkillRemove(String name);
+
+  /// No description provided for @profileSkillsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 200 skills.'**
+  String get profileSkillsLimit;
+
+  /// No description provided for @profileCountryInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a 2-letter code, for example BR'**
+  String get profileCountryInvalid;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved'**
+  String get profileSaved;
+
+  /// No description provided for @profileNeedsProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your profile first to add this.'**
+  String get profileNeedsProfile;
+
+  /// No description provided for @profileSignInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to create and keep your professional profile.'**
+  String get profileSignInBody;
+
+  /// No description provided for @experienceSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get experienceSection;
+
+  /// No description provided for @experienceAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add experience'**
+  String get experienceAdd;
+
+  /// No description provided for @experienceNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New experience'**
+  String get experienceNewTitle;
+
+  /// No description provided for @experienceEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit experience'**
+  String get experienceEditTitle;
+
+  /// No description provided for @experienceCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get experienceCompany;
+
+  /// No description provided for @experienceRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get experienceRole;
+
+  /// No description provided for @experienceCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'I currently work here'**
+  String get experienceCurrent;
+
+  /// No description provided for @experienceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get experienceDescription;
+
+  /// No description provided for @experiencePresent.
+  ///
+  /// In en, this message translates to:
+  /// **'Present'**
+  String get experiencePresent;
+
+  /// No description provided for @experienceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No experience added yet.'**
+  String get experienceEmpty;
+
+  /// No description provided for @experienceDatesInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The end date must not be before the start date'**
+  String get experienceDatesInvalid;
+
+  /// No description provided for @experienceCurrentNeedsStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a start date for a current job'**
+  String get experienceCurrentNeedsStart;
+
+  /// No description provided for @experienceDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this experience?'**
+  String get experienceDeleteTitle;
+
+  /// No description provided for @educationSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get educationSection;
+
+  /// No description provided for @educationAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add education'**
+  String get educationAdd;
+
+  /// No description provided for @educationNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New education'**
+  String get educationNewTitle;
+
+  /// No description provided for @educationEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit education'**
+  String get educationEditTitle;
+
+  /// No description provided for @educationInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Institution'**
+  String get educationInstitution;
+
+  /// No description provided for @educationDegree.
+  ///
+  /// In en, this message translates to:
+  /// **'Degree (if any)'**
+  String get educationDegree;
+
+  /// No description provided for @educationField.
+  ///
+  /// In en, this message translates to:
+  /// **'Course or field of study'**
+  String get educationField;
+
+  /// No description provided for @educationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No education added. It is optional.'**
+  String get educationEmpty;
+
+  /// No description provided for @educationDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this education?'**
+  String get educationDeleteTitle;
+
+  /// No description provided for @resumesSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumés'**
+  String get resumesSection;
+
+  /// No description provided for @resumesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF only, up to 5 MB each, up to 10 files. Stored privately in your account.'**
+  String get resumesBody;
+
+  /// No description provided for @resumesUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload PDF'**
+  String get resumesUpload;
+
+  /// No description provided for @resumesUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading…'**
+  String get resumesUploading;
+
+  /// No description provided for @resumesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No résumé uploaded yet.'**
+  String get resumesEmpty;
+
+  /// No description provided for @resumeItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumé from {date}'**
+  String resumeItem(String date);
+
+  /// No description provided for @resumeOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get resumeOpen;
+
+  /// No description provided for @resumeUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumé uploaded'**
+  String get resumeUploaded;
+
+  /// No description provided for @resumeDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this résumé?'**
+  String get resumeDeleteTitle;
+
+  /// No description provided for @resumeDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is removed from your account.'**
+  String get resumeDeleteBody;
+
+  /// No description provided for @preferencesSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Search preferences'**
+  String get preferencesSection;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageTitle;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Device language'**
+  String get languageSystem;
+
+  /// No description provided for @languagePt.
+  ///
+  /// In en, this message translates to:
+  /// **'Português'**
+  String get languagePt;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEn;
+
+  /// No description provided for @languageEs.
+  ///
+  /// In en, this message translates to:
+  /// **'Español'**
+  String get languageEs;
+
+  /// No description provided for @preferencesLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to keep these choices in your account. Until then they only apply on this device.'**
+  String get preferencesLocalOnly;
+
+  /// No description provided for @countriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Countries of interest'**
+  String get countriesTitle;
+
+  /// No description provided for @countriesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a country (2-letter code)'**
+  String get countriesHint;
+
+  /// No description provided for @countriesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No countries chosen.'**
+  String get countriesEmpty;
+
+  /// No description provided for @countriesInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a 2-letter code that is not already in the list, for example DE'**
+  String get countriesInvalid;
+
+  /// No description provided for @countriesRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove country {code}'**
+  String countriesRemove(String code);
+
+  /// No description provided for @savedSearchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved searches'**
+  String get savedSearchesTitle;
+
+  /// No description provided for @savedSearchesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept in your account.'**
+  String get savedSearchesNote;
+
+  /// No description provided for @recentSearchesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches stay on this device.'**
+  String get recentSearchesNote;
+
+  /// No description provided for @savedSearchSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this search'**
+  String get savedSearchSave;
+
+  /// No description provided for @savedSearchSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Search saved'**
+  String get savedSearchSaved;
+
+  /// No description provided for @savedSearchRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove saved search {term}'**
+  String savedSearchRemove(String term);
+
+  /// No description provided for @authNewPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password'**
+  String get authNewPasswordTitle;
+
+  /// No description provided for @authNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get authNewPasswordLabel;
+
+  /// No description provided for @authNewPasswordAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save new password'**
+  String get authNewPasswordAction;
+
+  /// No description provided for @authPasswordChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated.'**
+  String get authPasswordChanged;
+
+  /// No description provided for @authSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session ended. Sign in again.'**
+  String get authSessionExpired;
+
+  /// No description provided for @authErrorLinkInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This link has expired or was already used. Request a new one.'**
+  String get authErrorLinkInvalid;
+
+  /// No description provided for @authErrorSamePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a password different from the current one.'**
+  String get authErrorSamePassword;
+
+  /// No description provided for @authCancelRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get authCancelRecovery;
+
+  /// No description provided for @commonLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get commonLoading;
 }
 
 class _AppLocalizationsDelegate
