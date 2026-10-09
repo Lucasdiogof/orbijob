@@ -1,3 +1,4 @@
+import { getJson } from '../http';
 import type { Connector, FetchPage, NormalizedJob, SalaryPeriod, WorkMode } from '../types';
 
 /** Subset of the documented Lever Postings API response (github.com/lever/postings-api). */
@@ -57,9 +58,10 @@ export function leverConnector(fetchImpl: typeof fetch, now: () => Date = () => 
     minIntervalMs: 500,
     async fetchPage(cursor, site): Promise<FetchPage> {
       const skip = cursor ? Number(cursor) : 0;
-      const res = await fetchImpl(`https://api.lever.co/v0/postings/${encodeURIComponent(site)}?mode=json&skip=${skip}&limit=${PAGE}`);
-      if (!res.ok) throw new Error(`lever ${res.status}`);
-      const data = (await res.json()) as LeverPosting[];
+      const data = await getJson<LeverPosting[]>(
+        fetchImpl,
+        `https://api.lever.co/v0/postings/${encodeURIComponent(site)}?mode=json&skip=${skip}&limit=${PAGE}`,
+      );
       const full = data.length < PAGE; // short page => end of board
       return {
         jobs: data.map((p) => normalizeLever(site, p, now().toISOString())),

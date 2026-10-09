@@ -76,15 +76,17 @@ void main() {
         ),
       );
       for (final s in [
-        'Fisioterapeuta pélvica',
-        'Clínica Exemplo',
-        'Berlim · DE',
+        'Beckenboden-Physiotherapeut:in',
+        'Beispiel Klinik GmbH',
+        'Berlin · DE',
+        'Vollzeit',
+        'Deutsch',
         'On-site',
         'Posted yesterday',
         'EUR',
         '81',
         'Medium confidence',
-        'Source: Fonte de exemplo',
+        'Source: Example source',
       ]) {
         expect(find.text(s), findsOneWidget, reason: s);
       }

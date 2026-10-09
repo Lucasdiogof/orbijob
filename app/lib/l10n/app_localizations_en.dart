@@ -283,4 +283,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get previewAction => 'Preview only: this action is not available.';
+
+  @override
+  String jobLanguageSemantic(String code) {
+    return 'Posting language: $code';
+  }
+
+  @override
+  String originalLanguageNote(String code) {
+    return 'Shown in its original language ($code). Job titles, company names and descriptions are not translated.';
+  }
+
+  @override
+  String get recentSearchesTitle => 'Recent searches';
+
+  @override
+  String get recentSearchesClear => 'Clear recent searches';
+
+  @override
+  String get interestCountriesTitle => 'Countries of interest';
+
+  @override
+  String get interestCountriesEmptyTitle => 'No countries chosen yet';
+
+  @override
+  String get interestCountriesEmptyBody =>
+      'You will pick countries in your profile to focus recommendations.';
+
+  @override
+  String get applicationStageApplied => 'Applied';
+
+  @override
+  String get applicationStageScreening => 'Screening';
+
+  @override
+  String get applicationStageInterview => 'Interview';
+
+  @override
+  String get applicationStageOffer => 'Offer';
+
+  @override
+  String get applicationStageRejected => 'Rejected';
+
+  @override
+  String get applicationStageWithdrawn => 'Withdrawn';
+
+  @override
+  String get applicationStageClosed => 'Closed';
 }

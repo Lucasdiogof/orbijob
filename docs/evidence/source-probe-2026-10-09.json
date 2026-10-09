@@ -1,0 +1,79 @@
+{
+  "probedAt": "2026-10-09T00:12:11.269Z",
+  "node": "v22.22.0",
+  "note": "Only observed HTTP outcomes. No sample job content is stored.",
+  "results": [
+    {
+      "source": "himalayas",
+      "auth": "none",
+      "scope": "remote, global",
+      "state": "EGRESS_BLOCKED",
+      "detail": "Host not in allowlist: himalayas.app. Add this host to your network egress settings to allow access.",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "jobicy",
+      "auth": "none",
+      "scope": "remote, global",
+      "state": "EGRESS_BLOCKED",
+      "detail": "Host not in allowlist: jobicy.com. Add this host to your network egress settings to allow access.",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "greenhouse",
+      "auth": "none (public board token)",
+      "scope": "per company board",
+      "state": "EGRESS_BLOCKED",
+      "detail": "Host not in allowlist: boards-api.greenhouse.io. Add this host to your network egress settings to allow access.",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "lever",
+      "auth": "none (public site)",
+      "scope": "per company site",
+      "state": "EGRESS_BLOCKED",
+      "detail": "Host not in allowlist: api.lever.co. Add this host to your network egress settings to allow access.",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "ashby",
+      "auth": "none (public board)",
+      "scope": "per company board",
+      "state": "EGRESS_BLOCKED",
+      "detail": "Host not in allowlist: api.ashbyhq.com. Add this host to your network egress settings to allow access.",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "usajobs",
+      "auth": "free API key + registered email",
+      "scope": "US federal jobs",
+      "state": "SKIPPED_NO_KEY",
+      "detail": "register at developer.usajobs.gov",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "france-travail",
+      "auth": "OAuth2 client credentials (free account)",
+      "scope": "France",
+      "state": "SKIPPED_NO_KEY",
+      "detail": "egress blocked by this environment; credentials also needed",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    },
+    {
+      "source": "adzuna",
+      "auth": "app_id + app_key (free tier)",
+      "scope": "multi-country aggregator",
+      "state": "SKIPPED_NO_KEY",
+      "detail": "egress blocked by this environment; credentials also needed",
+      "licence": "UNVERIFIED (review terms before READY)",
+      "promotedToReady": false
+    }
+  ]
+}

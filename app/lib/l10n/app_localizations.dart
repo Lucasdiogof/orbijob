@@ -567,6 +567,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preview only: this action is not available.'**
   String get previewAction;
+
+  /// No description provided for @jobLanguageSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Posting language: {code}'**
+  String jobLanguageSemantic(String code);
+
+  /// No description provided for @originalLanguageNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown in its original language ({code}). Job titles, company names and descriptions are not translated.'**
+  String originalLanguageNote(String code);
+
+  /// No description provided for @recentSearchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get recentSearchesTitle;
+
+  /// No description provided for @recentSearchesClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear recent searches'**
+  String get recentSearchesClear;
+
+  /// No description provided for @interestCountriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Countries of interest'**
+  String get interestCountriesTitle;
+
+  /// No description provided for @interestCountriesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No countries chosen yet'**
+  String get interestCountriesEmptyTitle;
+
+  /// No description provided for @interestCountriesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You will pick countries in your profile to focus recommendations.'**
+  String get interestCountriesEmptyBody;
+
+  /// No description provided for @applicationStageApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied'**
+  String get applicationStageApplied;
+
+  /// No description provided for @applicationStageScreening.
+  ///
+  /// In en, this message translates to:
+  /// **'Screening'**
+  String get applicationStageScreening;
+
+  /// No description provided for @applicationStageInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview'**
+  String get applicationStageInterview;
+
+  /// No description provided for @applicationStageOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer'**
+  String get applicationStageOffer;
+
+  /// No description provided for @applicationStageRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get applicationStageRejected;
+
+  /// No description provided for @applicationStageWithdrawn.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawn'**
+  String get applicationStageWithdrawn;
+
+  /// No description provided for @applicationStageClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get applicationStageClosed;
 }
 
 class _AppLocalizationsDelegate

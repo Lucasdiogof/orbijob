@@ -52,12 +52,16 @@ class SearchFailure extends SearchState {
 }
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit(this._repo) : super(const SearchIdle());
+  SearchCubit(this._repo, {this.onQuery}) : super(const SearchIdle());
   final SearchRepository _repo;
+
+  /// Notified with every non-empty query (feeds the recent-searches list).
+  final void Function(String query)? onQuery;
 
   Future<void> search(String query, {String? countryCode}) async {
     final q = query.trim();
     if (q.isEmpty) return emit(const SearchIdle());
+    onQuery?.call(q);
     emit(SearchLoading(q));
     try {
       final r = await _repo.search(q, countryCode: countryCode);

@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Actual status: Phase 0 (foundation) complete + visual identity C applied to the UI.** No published backend, no integrated job source and no real job is shown. Real search, ranking, profile, applications and autofill do **not** work yet — they are **planned**.
+> **Actual status: Phase 0 (foundation) complete + visual identity C merged into `main` (PR #38) + Phase 2 preparation (PR under review).** No published backend, no integrated job source and no real job is shown. Real search, ranking, profile, applications and autofill do **not** work yet — they are **planned**.
 
 🇧🇷 [README em português](README.md) · Previous provisional name: *JobRadar* (dropped — [why](docs/BRAND_NAME_CHECK.md)).
 
@@ -61,7 +61,7 @@ docs/      architecture, requirements, sources, database, security, roadmap, des
 ```
 
 ## Tests
-`flutter analyze` + `flutter test` (139 tests: tokens and contrast, themes, navigation, **no overflow** across 8 sizes × 100/150/200% text, accessibility, i18n, assets/icons/splash) · `tsc` + `vitest` (43 worker tests) · web build and `aapt2` validation in CI. No on-device integration/E2E tests yet.
+`flutter analyze` + `flutter test` (144 tests: tokens and contrast, themes, navigation, **no overflow** across 8 sizes × 100/150/200% text, accessibility, i18n, assets/icons/splash) · `tsc` + `vitest` (58 worker tests, including RLS on PGlite and HTTP/retry) · web build and `aapt2` validation in CI. No on-device integration/E2E tests yet.
 
 ## Security
 Owner-only RLS, private résumé bucket (planned/proposed), no secrets in the (**public**) repository, no prohibited scraping, no automatic applications, autofill only on allow-listed domains. [docs/SECURITY.md](docs/SECURITY.md)

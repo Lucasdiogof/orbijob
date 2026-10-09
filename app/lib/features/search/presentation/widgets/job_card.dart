@@ -43,6 +43,10 @@ class JobCard extends StatelessWidget {
     final salary = formatSalary(j, l);
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);
+    final ui = Localizations.localeOf(context).languageCode;
+    final langName = (j.language != null && j.language != ui)
+        ? nativeLanguageName(j.language)
+        : null;
 
     return FocusRing(
       child: Material(
@@ -60,9 +64,9 @@ class JobCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
               AppSpace.s4,
-              AppSpace.s4,
+              AppSpace.s3,
               AppSpace.s2,
-              AppSpace.s4,
+              AppSpace.s3,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,9 +83,19 @@ class JobCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(j.title, style: t.titleMedium),
-                            const SizedBox(height: AppSpace.s1),
-                            Text(j.company, style: t.bodyMedium),
+                            Semantics(
+                              localeForSubtree: j.language == null
+                                  ? null
+                                  : Locale(j.language!),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(j.title, style: t.titleMedium),
+                                  const SizedBox(height: AppSpace.s1),
+                                  Text(j.company, style: t.bodyMedium),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -124,7 +138,8 @@ class JobCard extends StatelessWidget {
                         ),
                       ],
                       if (mode.isNotEmpty ||
-                          (j.contractType ?? '').isNotEmpty) ...[
+                          (j.contractType ?? '').isNotEmpty ||
+                          langName != null) ...[
                         const SizedBox(height: AppSpace.s3),
                         Wrap(
                           spacing: AppSpace.s2,
@@ -137,6 +152,15 @@ class JobCard extends StatelessWidget {
                               ),
                             if ((j.contractType ?? '').isNotEmpty)
                               StatusBadge(label: j.contractType!),
+                            if (langName != null)
+                              Semantics(
+                                label: l.jobLanguageSemantic(langName),
+                                excludeSemantics: true,
+                                child: StatusBadge(
+                                  label: langName,
+                                  icon: Icons.translate,
+                                ),
+                              ),
                           ],
                         ),
                       ],
@@ -172,9 +196,9 @@ class JobCard extends StatelessWidget {
                         ),
                       ],
                       if (m != null) ...[
-                        const SizedBox(height: AppSpace.s3),
+                        const SizedBox(height: AppSpace.s2),
                         Divider(color: c.divider, height: 1),
-                        const SizedBox(height: AppSpace.s3),
+                        const SizedBox(height: AppSpace.s2),
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: AppSpace.s5,
@@ -182,6 +206,7 @@ class JobCard extends StatelessWidget {
                           children: [
                             CompatibilityIndicator(
                               score: m.score,
+                              size: 40,
                               showLabel: true,
                             ),
                             ConfidenceIndicator(level: m.confidence),

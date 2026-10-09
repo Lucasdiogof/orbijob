@@ -60,3 +60,16 @@ String? placeLabel(JobPosting j) {
   ];
   return parts.isEmpty ? null : parts.join(' · ');
 }
+
+/// Native name of a language (never translated, so a reader recognises it in any interface language).
+String? nativeLanguageName(String? code) => switch (code?.toLowerCase()) {
+  'en' => 'English',
+  'pt' => 'Português',
+  'es' => 'Español',
+  'de' => 'Deutsch',
+  'fr' => 'Français',
+  'it' => 'Italiano',
+  'nl' => 'Nederlands',
+  final c? when c.isNotEmpty => c.toUpperCase(),
+  _ => null,
+};

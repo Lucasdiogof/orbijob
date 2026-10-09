@@ -284,4 +284,51 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get previewAction => 'Somente prévia: esta ação não está disponível.';
+
+  @override
+  String jobLanguageSemantic(String code) {
+    return 'Idioma da vaga: $code';
+  }
+
+  @override
+  String originalLanguageNote(String code) {
+    return 'Exibida no idioma original ($code). Cargos, nomes de empresas e descrições não são traduzidos.';
+  }
+
+  @override
+  String get recentSearchesTitle => 'Pesquisas recentes';
+
+  @override
+  String get recentSearchesClear => 'Limpar pesquisas recentes';
+
+  @override
+  String get interestCountriesTitle => 'Países de interesse';
+
+  @override
+  String get interestCountriesEmptyTitle => 'Nenhum país escolhido ainda';
+
+  @override
+  String get interestCountriesEmptyBody =>
+      'Você escolherá os países no seu perfil para direcionar as recomendações.';
+
+  @override
+  String get applicationStageApplied => 'Inscrito';
+
+  @override
+  String get applicationStageScreening => 'Triagem';
+
+  @override
+  String get applicationStageInterview => 'Entrevista';
+
+  @override
+  String get applicationStageOffer => 'Proposta';
+
+  @override
+  String get applicationStageRejected => 'Rejeitada';
+
+  @override
+  String get applicationStageWithdrawn => 'Retirada';
+
+  @override
+  String get applicationStageClosed => 'Encerrada';
 }

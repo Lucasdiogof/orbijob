@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../../features/favorites/favorites_cubit.dart';
+import '../../features/home/recent_searches_cubit.dart';
 import '../../features/search/domain/search_repository.dart';
 import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
@@ -15,7 +16,13 @@ void configureDependencies({SearchRepository? searchRepository}) {
     ..registerLazySingleton<SearchRepository>(
       () => searchRepository ?? NoSourceSearchRepository(),
     )
-    ..registerFactory<SearchCubit>(() => SearchCubit(sl<SearchRepository>()))
+    ..registerLazySingleton<RecentSearchesCubit>(RecentSearchesCubit.new)
+    ..registerFactory<SearchCubit>(
+      () => SearchCubit(
+        sl<SearchRepository>(),
+        onQuery: sl<RecentSearchesCubit>().record,
+      ),
+    )
     ..registerFactory<ThemeCubit>(ThemeCubit.new)
     ..registerFactory<ShellCubit>(ShellCubit.new)
     ..registerFactory<FavoritesCubit>(FavoritesCubit.new);
