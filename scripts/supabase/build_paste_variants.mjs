@@ -14,6 +14,19 @@ export const FILES = [
   ['inspect_predeploy_details.sql', 'inspect_predeploy_details.paste.sql'],
 ];
 
+// 01_audit.sql is a DO block plus one SELECT (two statements) and starts with a psql meta-command the SQL Editor cannot
+// parse (\set ON_ERROR_STOP). The paste variant drops that line and the comments; it must stay strictly read-only.
+export const AUDIT = ['../../supabase/tests/01_audit.sql', '../../supabase/tests/01_audit.paste.sql'];
+export function toAuditPaste(sql) {
+  const out = sql.split('\n')
+    .filter((l) => !l.trim().startsWith('--') && !l.trim().startsWith('\\') && l.trim() !== '')
+    .join('\n') + '\n';
+  if (/--/.test(out)) throw new Error('inline comment left in the audit: refusing to build a paste variant');
+  const code = out.replace(/'[^']*'/g, "''");
+  if (/\b(insert|update|delete|create|drop|alter|grant|revoke|truncate|copy|set|reset)\b/i.test(code.replace(/\bset_limit\b/g, ''))) throw new Error('the audit must stay read-only');
+  return out;
+}
+
 export function toPaste(sql) {
   const lines = sql.split('\n')
     .filter((l) => !l.trim().startsWith('--'))
@@ -27,6 +40,13 @@ export function toPaste(sql) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   let stale = false;
+  {
+    const built = toAuditPaste(readFileSync(here(AUDIT[0]), 'utf8'));
+    if (process.argv.includes('--check')) {
+      let cur = ''; try { cur = readFileSync(here(AUDIT[1]), 'utf8'); } catch { /* missing */ }
+      if (cur !== built) { console.error(`STALE: ${AUDIT[1]}`); stale = true; }
+    } else { writeFileSync(here(AUDIT[1]), built); console.log(`wrote ${AUDIT[1]}`); }
+  }
   for (const [src, dst] of FILES) {
     const built = toPaste(readFileSync(here(src), 'utf8'));
     if (process.argv.includes('--check')) {

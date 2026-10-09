@@ -22,3 +22,19 @@ test('the builder refuses a query that would be cut by a naive splitter', () => 
   assert.throws(() => toPaste('select 1; select 2;'), /exactly one statement/);
   assert.throws(() => toPaste('select 1 -- inline\n;'), /inline comment/);
 });
+
+import { AUDIT, toAuditPaste } from './build_paste_variants.mjs';
+
+test('01_audit.paste.sql is up to date, has no psql meta-command and no comments', () => {
+  const src = read(`./${AUDIT[0]}`); const dst = read(`./${AUDIT[1]}`);
+  assert.equal(dst, toAuditPaste(src));
+  assert.equal(/^\s*\\/m.test(dst), false);
+  assert.equal(/--/.test(dst), false);
+  assert.equal(dst.trimEnd().endsWith("select 'audit: ok' as result;"), true);
+});
+
+test('the audit stays strictly read-only (no DML/DDL/GRANT/SET outside string literals)', () => {
+  const code = read(`./${AUDIT[0]}`).replace(/--.*$/gm, '').replace(/'[^']*'/g, "''");
+  assert.equal(/\b(insert|update|delete|create|drop|alter|grant|revoke|truncate|copy)\b/i.test(code), false);
+  assert.throws(() => toAuditPaste("do $$ begin delete from x; end $$;\nselect 1;"), /read-only/);
+});

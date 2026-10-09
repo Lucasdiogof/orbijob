@@ -21,6 +21,7 @@ node ../../scripts/supabase/predeploy_check.mjs /tmp/predeploy_$$.json >/tmp/pre
 rm -f /tmp/predeploy_$$.json /tmp/predeploy_$$.txt
 for m in ../migrations/*.sql; do echo "migration: $(basename "$m")"; run "$m"; done
 run 01_audit.sql
+run 01_audit.paste.sql
 run 02_behaviour.sql
 run 03_quotas.sql
 ./05_concurrency.sh "$URL"

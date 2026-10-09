@@ -96,8 +96,32 @@ export DB_URL='postgresql://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/po
 Leitura via script (não escreve): `PATH="$PWD/node_modules/.bin:$PATH" bash scripts/supabase/apply.sh read` (roda as duas consultas, classifica e executa o verificador de pré-deploy). Um item `UNKNOWN` que você **leu** e aceita é liberado com `ORBIJOB_PREDEPLOY_ACK=<id>` (ex.: `function-rls_auto_enable`); um `FAIL` nunca pode ser liberado.
 Mapa das fases A–E e travas de segurança: `docs/SUPABASE_MIGRATION_PLAN.md`, seção 3. **O assistente só prepara; quem autoriza e dispara a aplicação é você.**
 
-### Contas de teste da Fase E
-Crie 2 usuários descartáveis em *Authentication → Users* (e-mail confirmado, mesma senha forte). Variáveis (bash/WSL): `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (**publishable**, *Project Settings → API Keys*), `E2E_EMAIL_A`, `E2E_EMAIL_B`, `E2E_PASSWORD`, `ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle`. O script recusa chaves `sb_secret_…`/`service_role`. Apague as contas depois.
+### Fase E — validação real de Auth, RLS e Storage (duas contas descartáveis)
+Nada aqui altera schema, grants, policies, buckets nem configurações do projeto. O script grava só linhas e arquivos marcados `e2e-<hora>` nas duas contas de teste e remove tudo no final.
+
+**1. Auditoria de catálogo (somente leitura).** No SQL Editor, cole o conteúdo de `supabase/tests/01_audit.paste.sql` (ele só lê o catálogo) e clique em Run. Esperado: `audit: ok`. Qualquer falha começa com `AUDIT:` e diz o que está errado; me mande a mensagem.
+
+**2. Duas contas descartáveis, pelo fluxo normal de cadastro.** Use dois e-mails seus (por exemplo `voce+orbijob-a@gmail.com` e `voce+orbijob-b@gmail.com`) e uma senha forte só para teste. Em `bash` (WSL) ou no PowerShell, com a chave **publishable** (Project Settings → API Keys; nunca `sb_secret_…`/`service_role`):
+```bash
+export SUPABASE_URL=https://rpmlfxwebnlxnwadyvle.supabase.co
+export SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+export E2E_EMAIL_A=... E2E_EMAIL_B=... E2E_PASSWORD=...
+export ORBIJOB_E2E_CONFIRM=rpmlfxwebnlxnwadyvle
+node scripts/supabase/e2e_remote.mjs --signup
+```
+Cada endereço recebe um e-mail de confirmação: clique no link. Se o script avisar `e-mail confirmation is OFF`, me diga (é um achado de segurança); não desligue nem ligue nada para facilitar o teste. O limite de e-mails do Auth padrão é baixo: se o envio falhar, espere e repita.
+
+**3. Rodar as verificações** (as contas já confirmadas):
+```bash
+node scripts/supabase/e2e_remote.mjs --dry-run     # só imprime o plano
+node scripts/supabase/e2e_remote.mjs --quotas      # Auth, RLS em todas as tabelas, Storage, cotas pequenas
+node scripts/supabase/e2e_remote.mjs --quotas-bulk # opcional: ~3.000 linhas pequenas para 1.000 favoritos e 2.000 candidaturas
+```
+O script nunca imprime senha, chave nem token. Cada falha mostra a tabela e a operação. Me mande a saída inteira.
+
+**4. Limpeza.** O script apaga as linhas e os PDFs que criou e confere que não sobrou nada (linhas ou arquivos). Contas do Auth não podem ser apagadas com a chave publishable: remova as duas em *Authentication → Users*. Se a limpeza do script falhar, ele diz o que sobrou.
+
+**O que o script não cobre**: `viewed_jobs` (precisa de uma vaga no catálogo, que está vazio; coberto pelos testes SQL locais), persistência da sessão no aparelho (código do app, testado com mocks) e o envio real do e-mail de recuperação de senha.
 
 ## Se preferir liberar o acesso ao assistente
 Configurações do ambiente de nuvem (menu do ambiente na barra de título da sessão → *Edit*): (1) *Network access*: permitir `rpmlfxwebnlxnwadyvle.supabase.co` e `api.supabase.com`; (2) guardar um **token pessoal somente leitura** em *Network secrets / API credentials* (ou variável `SUPABASE_ACCESS_TOKEN`); (3) iniciar nova sessão. Ou instale o conector *Supabase* em claude.ai e habilite-o no chat. Mesmo assim, o assistente só fará leituras até você autorizar a aplicação.
