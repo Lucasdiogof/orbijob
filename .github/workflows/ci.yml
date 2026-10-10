@@ -16,6 +16,12 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test        # includes occupation resolver + RLS tests (PGlite)
+      - name: Worker configuration and bundle (wrangler, dry run: nothing is deployed, no account needed)
+        run: npx wrangler deploy --dry-run --outdir /tmp/worker-bundle
+        env: { WRANGLER_SEND_METRICS: 'false', CI: '1' }
+      - name: The Worker running in the real Cloudflare runtime (workerd, local), against an in-memory Supabase and Jobicy
+        run: node scripts/e2e-workerd.mjs
+        env: { WRANGLER_SEND_METRICS: 'false', CI: '1' }
   worker-postgrest:
     # The Worker's WRITE path (SupabaseJobStore + runSync + the service_role grants of migration 6) against a REAL PostgREST
     # on the REAL migrated schema, with a real signed JWT. Throw-away database; no Supabase project is involved.
@@ -62,6 +68,17 @@ jobs:
           POSTGREST_URL: http://localhost:3000
           POSTGREST_JWT_SECRET: ${{ env.PGRST_JWT_SECRET }}
         run: npx vitest run test/live/postgrest.contract.test.ts
+      - name: The Worker in workerd writing to the real database through PostgREST
+        working-directory: worker
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+          CI: '1'
+          POSTGREST_URL: http://localhost:3000
+          E2E_JWT_SECRET: ${{ env.PGRST_JWT_SECRET }}
+        run: |
+          # the contract test above leaves its own rows (fixed clocks); this run starts from an empty catalogue and ledger
+          psql "postgres://postgres:postgres@localhost:5432/worker_contract" -v ON_ERROR_STOP=1 -q -c "delete from public.sync_runs; delete from public.jobs;"
+          node scripts/e2e-workerd.mjs
       - name: PostgREST log
         if: failure()
         run: cat postgrest.log

@@ -5,6 +5,7 @@ import { JOBICY_SOURCE, jobicyConnector } from '../../src/connectors/jobicy';
 import { HttpError } from '../../src/http';
 import { SupabaseJobStore } from '../../src/store/supabase';
 import { runSync, toJobRow } from '../../src/sync';
+import { runScheduledSync } from '../../src/scheduled';
 import feed from '../fixtures/jobicy-feed.sanitized.json';
 
 /**
@@ -172,5 +173,105 @@ describe.skipIf(!URL_ || !SECRET)('ingestion against a real PostgREST', () => {
     expect(err).toBeInstanceOf(HttpError);
     expect((err as HttpError).status).toBe(401);
     expect(String(err) + JSON.stringify(err)).not.toContain(bad);
+  });
+});
+
+/**
+ * The scheduled handler and its lease against the real database. Dates are far in the future so that nothing recorded by the
+ * tests above (fixed clock) or by a real run can throttle them.
+ */
+describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () => {
+  const svc = sign('service_role');
+  const day = (n: number, hour = 12, minute = 0) => new Date(Date.UTC(2030, 0, n, hour, minute));
+
+  /** Supabase calls go straight to PostgREST (prefix stripped); everything else is the fake Jobicy. */
+  function world(clock: { now: Date }, statuses: Record<string, string> = {}) {
+    const counts = { feed: 0, supabase: 0 };
+    const jobicy = jobicyApi(statuses);
+    const f = (async (input: string, init?: RequestInit) => {
+      const u = new URL(String(input));
+      if (u.hostname === 'jobicy.com') { if (!u.pathname.endsWith('/status')) counts.feed++; return jobicy(String(input)); }
+      counts.supabase++;
+      return fetch(String(input).replace('/rest/v1/', '/'), init);
+    }) as unknown as typeof fetch;
+    const logs: string[] = [];
+    const sink = { log: (l: string) => logs.push(l), warn: (l: string) => logs.push(l), error: (l: string) => logs.push(l) };
+    const deps = () => ({ fetch: f, now: () => clock.now, sink, sleep: async () => {}, retry: { retries: 0, baseMs: 1, maxMs: 1 } });
+    return { counts, logs, deps };
+  }
+  const env = (key = svc) => ({ SUPABASE_URL: URL_ ?? 'http://localhost:3000', SUPABASE_SERVICE_ROLE_KEY: key });
+  const runsAt = async (t: Date) => ((await rest('GET', `/sync_runs?select=status,error_class,upserted&started_at=eq.${encodeURIComponent(t.toISOString())}&order=status`, { token: svc })).json as { status: string; error_class: string | null; upserted: number }[]);
+
+  it('a pass through the handler leaves ONE run row (the lease row, updated to its final state)', async () => {
+    const clock = { now: day(1) };
+    const w = world(clock);
+    const o = await runScheduledSync(env(), w.deps());
+    expect(o).toMatchObject({ status: 'ok', summary: { upserted: 10 } });
+    expect(await runsAt(day(1))).toEqual([{ status: 'ok', error_class: null, upserted: 10 }]);
+    expect(w.logs.join('\n')).not.toContain(svc);
+  });
+
+  it('three simultaneous invocations against the real database: one syncs, two step aside', async () => {
+    const clock = { now: day(2) };
+    const w = world(clock);
+    const out = await Promise.all([runScheduledSync(env(), w.deps()), runScheduledSync(env(), w.deps()), runScheduledSync(env(), w.deps())]);
+    expect(out.filter((o) => o.status === 'ok')).toHaveLength(1);
+    expect(out.filter((o) => o.status === 'skipped')).toHaveLength(2);
+    expect(w.counts.feed).toBe(2); // the two pages of ONE pass
+    const rows = await runsAt(day(2));
+    expect(rows.filter((r) => r.status === 'ok')).toHaveLength(1);
+    expect(rows.filter((r) => r.status === 'failed' && r.error_class === 'lost_lease')).toHaveLength(2);
+    expect(rows.filter((r) => r.status === 'running')).toHaveLength(0);
+  });
+
+  it('a repeat delivery within the hour is skipped; after the hour it runs again and the catalogue is unchanged', async () => {
+    const clock = { now: day(3) };
+    const w = world(clock);
+    expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
+    clock.now = day(3, 12, 10);
+    expect(await runScheduledSync(env(), w.deps())).toEqual({ status: 'skipped', reason: 'too_soon' });
+    expect(w.counts.feed).toBe(2);
+    clock.now = day(3, 13, 5);
+    expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
+    const n = (await rest('GET', '/jobs?select=external_id&source_id=eq.jobicy', { token: svc })).json as unknown[];
+    expect(n).toHaveLength(11); // 10 listings + the stale "unknown" one planted above; nothing duplicated
+  });
+
+  it('a crashed run left "running" in the database does not block the source: it is closed as stale', async () => {
+    const stale = await rest('POST', '/sync_runs?select=id', { token: svc, prefer: 'return=representation', body: { source_id: 'jobicy', scope: '', status: 'running', started_at: day(4, 11, 20).toISOString() } });
+    const id = (stale.json as { id: string }[])[0]!.id;
+    const clock = { now: day(4) };
+    expect((await runScheduledSync(env(), world(clock).deps())).status).toBe('ok');
+    const row = (await rest('GET', `/sync_runs?id=eq.${id}&select=status,error_class`, { token: svc })).json as { status: string; error_class: string }[];
+    expect(row).toEqual([{ status: 'failed', error_class: 'stale_lock' }]);
+  });
+
+  it('a live run in the database makes the handler skip without touching the source', async () => {
+    await rest('POST', '/sync_runs', { token: svc, prefer: 'return=minimal', body: { source_id: 'jobicy', scope: '', status: 'running', started_at: day(5, 11, 55).toISOString() } });
+    const w = world({ now: day(5) });
+    expect(await runScheduledSync(env(), w.deps())).toEqual({ status: 'skipped', reason: 'running' });
+    expect(w.counts.feed).toBe(0);
+  });
+
+  it('a credential signed with the wrong secret is refused by PostgREST: reported as auth failure before any request to Jobicy', async () => {
+    const h = b64({ alg: 'HS256', typ: 'JWT' });
+    const p = b64({ role: 'service_role', exp: Math.floor(Date.now() / 1000) + 3600 });
+    const forged = `${h}.${p}.${createHmac('sha256', 'a-completely-different-secret-0123456789').update(`${h}.${p}`).digest('base64url')}`;
+    const w = world({ now: day(6) });
+    await expect(runScheduledSync(env(forged), w.deps())).rejects.toMatchObject({ kind: 'auth' });
+    expect(w.counts.feed).toBe(0);
+    expect(w.logs.join('\n')).not.toContain(forged);
+  });
+
+  it('what the lease writes is the ledger of the run: counts, class and finish time on the SAME row', async () => {
+    const clock = { now: day(7) };
+    const w = world(clock);
+    const failing = { ...w, deps: () => ({ ...w.deps(), fetch: (async (i: string, n?: RequestInit) => (new URL(String(i)).hostname === 'jobicy.com' ? new Response('x', { status: 503 }) : fetch(String(i).replace('/rest/v1/', '/'), n))) as unknown as typeof fetch }) };
+    const o = await runScheduledSync(env(), failing.deps());
+    expect(o).toMatchObject({ status: 'failed', summary: { error_class: 'http_503' } });
+    const rows = (await rest('GET', `/sync_runs?started_at=eq.${encodeURIComponent(day(7).toISOString())}&select=status,error_class,finished_at`, { token: svc })).json as { status: string; error_class: string; finished_at: string | null }[];
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ status: 'failed', error_class: 'http_503' });
+    expect(rows[0]!.finished_at).not.toBeNull();
   });
 });

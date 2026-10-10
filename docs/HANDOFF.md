@@ -1,4 +1,4 @@
-# HANDOFF — OrbiJob (atualizado 2026-10-09, Fase 5.2 — primeira fonte real de vagas, Jobicy, em PR)
+# HANDOFF — OrbiJob (atualizado 2026-10-10, Fase 5.5 — Worker do Jobicy pronto para a primeira implantação, em PR)
 
 ## RETOMADA RÁPIDA (leia primeiro; escrito para continuar em outra conta/sessão)
 **Dono:** Lucas Diogo França (Lucksrei). Projeto OrbiJob: app Flutter `app/`, Worker Cloudflare `worker/`, Supabase `rpmlfxwebnlxnwadyvle`. Repositório `Lucasdiogof/orbijob`. Responder em português, direto; o dono quer **resultados e automação, não tutoriais longos**.
@@ -34,7 +34,22 @@ Se o arquivo local não tiver a chave publishable, o script abre o Bloco de Nota
 
 ---
 
-# Fase 5.2 — primeira fonte real: Jobicy (branch `feat/jobicy-ingestion`, PR sem merge)
+# Fase 5.5 — Worker Cloudflare do Jobicy (branch `feat/jobicy-worker-entrypoint`, PR sem merge)
+
+| Item | Estado |
+|---|---|
+| PR #50 (conector Jobicy, pipeline, store) | **mergeado**, merge `a0007a708ddab2f782ddff9a780ba505c1a1df12` |
+| PR #51 (Flutter lê o catálogo) | **mergeado**, merge `4da84f91e37d3c104824edefaeacd33de5c0d265` (a `main` aponta para ele) |
+| Worker com `scheduled`, `wrangler.toml`, cron `0 */6 * * *` | **implementado e testado** (unidade, PostgREST real, **workerd local**, `wrangler deploy --dry-run`); **não publicado**. [`JOBICY_WORKER.md`](JOBICY_WORKER.md) |
+| Bloqueio entre instâncias | lease otimista em `sync_runs` (sem mudar o banco); provado com PostgREST real; garantia estrita exigiria migration ou Durable Object (não feitos) |
+| Migration 6 | **NÃO aplicada** |
+| `job_sources` com `jobicy` | **não criada** |
+| Segredos do Worker, deploy, cron remoto | **nada feito** |
+| Catálogo hospedado | **vazio**: nenhuma vaga real apareceu no app |
+
+**Dependências restantes para a primeira ingestão** (cada uma com autorização separada, na ordem de [`FIRST_INGESTION_RUNBOOK.md`](FIRST_INGESTION_RUNBOOK.md)): integrar o PR do Worker; plano **Workers Paid**; backup + inspeção atualizada; revisar e aplicar a migration 6; auditoria; criar a fonte `jobicy`; `wrangler secret put` de `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY`; revisar direitos de uso e atribuição; `wrangler deploy`; primeira sincronização controlada; conferir as linhas no banco; testar Explorar, detalhes, favoritos e isolamento no Flutter.
+
+# Fase 5.2 — primeira fonte real: Jobicy (PR #50, mergeado)
 
 Detalhes técnicos e dependências: [`JOBICY_INGESTION.md`](JOBICY_INGESTION.md). Pesquisa e correções de licenciamento: [`PHASE_5_1_SOURCES_RESEARCH.md`](PHASE_5_1_SOURCES_RESEARCH.md).
 * **Implementado (só código e testes locais):** adaptador `worker/src/connectors/jobicy.ts`, orquestração `worker/src/sync.ts` (`runSync`), persistência `worker/src/store/supabase.ts`, geografia `geo.ts`, texto seguro `text.ts`, `Deduper` incremental. 148 testes do Worker passam (+1 teste ao vivo opcional, `JOBICY_LIVE=1`).

@@ -1,0 +1,24 @@
+# OrbiJob: Jobicy catalogue sync. NOT deployed. Deploying and every `wrangler secret put` need the owner's separate authorisation
+# (docs/FIRST_INGESTION_RUNBOOK.md). Nothing secret belongs in this file.
+
+name = "orbijob-jobicy-sync"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+# No public address: the Worker is reached only by its Cron Trigger.
+workers_dev = false
+preview_urls = false
+
+[triggers]
+# Every 6 hours, UTC. Jobicy asks for at most one automated pass per hour; the Worker also enforces it (lease.ts).
+# Cloudflare says a change of schedule can take up to 15 minutes to propagate.
+crons = ["0 */6 * * *"]
+
+[observability]
+enabled = true
+
+# Secrets (set with `wrangler secret put`, never here):
+#   SUPABASE_URL                  https://<project-ref>.supabase.co
+#   SUPABASE_SERVICE_ROLE_KEY     the project's secret key (sb_secret_...) or the legacy service_role JWT
+# Needs the Workers PAID plan: Cron Triggers on the free plan get 10 ms of CPU and 50 subrequests per invocation,
+# far below one pass (docs/JOBICY_WORKER.md).
