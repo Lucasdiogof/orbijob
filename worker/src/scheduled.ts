@@ -13,6 +13,8 @@ export interface Deps {
   sink: LogSink;
   sleep?: (ms: number) => Promise<void>;
   retry?: Partial<RetryOptions>;
+  /** Shorter wall-clock budget for the pass (never longer than RUN_BUDGET_MS). Used by the local first-ingestion runner. */
+  budgetMs?: number;
 }
 
 /** A Worker invocation may run up to 15 minutes of wall clock (Cron Triggers); the pass stops on its own well before. */
@@ -35,6 +37,7 @@ export class SyncFailure extends Error {
 }
 
 export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
+  const budgetMs = Math.max(0, Math.min(deps.budgetMs ?? RUN_BUDGET_MS, RUN_BUDGET_MS));
   const plainLog = createLogger(deps.sink, [env.SUPABASE_SERVICE_ROLE_KEY ?? ''], deps.now);
   let cfg;
   try {
@@ -68,7 +71,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   }
 
   // 2. The pass. Its final record goes to the row opened by the lease, so the table shows one row per run.
-  log('info', 'sync_start', { runId: lease.id, maxPages: cfg.maxPages, budgetMs: RUN_BUDGET_MS });
+  log('info', 'sync_start', { runId: lease.id, maxPages: cfg.maxPages, budgetMs });
   let summary: SyncSummary;
   try {
     summary = await runSync({
@@ -79,7 +82,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
       sleep: deps.sleep,
       retry: deps.retry,
       maxPages: cfg.maxPages,
-      deadlineAt: startedAt.getTime() + RUN_BUDGET_MS,
+      deadlineAt: startedAt.getTime() + budgetMs,
       recordRun: (run: SyncRunRow) => store.finishRun(lease.id, {
         status: run.status, finished_at: run.finished_at, fetched: run.fetched, upserted: run.upserted,
         duplicates: run.duplicates, closed: run.closed, http_errors: run.http_errors, error_class: run.error_class,

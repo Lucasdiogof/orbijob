@@ -74,7 +74,7 @@ describe.skipIf(!URL_ || !SECRET)('ingestion against a real PostgREST', () => {
   it('service_role can register the source (migration 6 grants insert/update on job_sources)', async () => {
     const r = await rest('POST', '/job_sources', {
       token: service, prefer: 'resolution=merge-duplicates,return=minimal',
-      body: { id: JOBICY_SOURCE.id, status: JOBICY_SOURCE.status, attribution: JOBICY_SOURCE.attribution, can_redistribute: JOBICY_SOURCE.canRedistribute },
+      body: { id: JOBICY_SOURCE.id, status: JOBICY_SOURCE.status, attribution: JOBICY_SOURCE.attribution, can_redistribute: true /* models the PUBLISHED state */ },
     });
     expect(r.status).toBe(201);
   });

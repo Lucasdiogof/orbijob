@@ -50,7 +50,7 @@ describe('Jobicy rows against the real schema', () => {
   it('service_role can create the source row with the attribution text', async () => {
     await as('service_role', async () => {
       await db.query('insert into public.job_sources (id, status, attribution, can_redistribute) values ($1,$2,$3,$4)',
-        [JOBICY_SOURCE.id, JOBICY_SOURCE.status, JOBICY_SOURCE.attribution, JOBICY_SOURCE.canRedistribute]);
+        [JOBICY_SOURCE.id, JOBICY_SOURCE.status, JOBICY_SOURCE.attribution, true /* models the PUBLISHED state; the real row is born false */]);
     });
     expect((await db.query('select attribution from public.job_sources')).rows).toEqual([{ attribution: JOBICY_SOURCE.attribution }]);
   });

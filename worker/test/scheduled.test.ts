@@ -219,6 +219,36 @@ describe('scheduled sync: Jobicy problems', () => {
     const o = await run(w, w.env({ SYNC_MAX_PAGES: '2' }));
     expect(o).toMatchObject({ status: 'partial', summary: { pages: 2, error_class: 'max_pages', closed: 0 } });
   });
+
+  it('a pass capped at 3 pages of a longer feed stores exactly 3 pages, is partial/max_pages and closes nothing already stored', async () => {
+    const w = new World();
+    w.jobs.set('jobicy:5001', storedJob('5001'));
+    w.feedPages = Array.from({ length: 6 }, (_, i) => [FEED_JOBS[i]!]);
+    const o = await run(w, w.env({ SYNC_MAX_PAGES: '3' }));
+    expect(o).toMatchObject({ status: 'partial', summary: { pages: 3, upserted: 3, error_class: 'max_pages', closed: 0 } });
+    expect(w.calls.feed).toBe(3);
+    expect(w.calls.status).toBe(0);
+    expect(w.status('5001')).toBe('open');
+  });
+
+  it('a shorter budget from the caller ends the pass by itself (partial/deadline), without closing anything', async () => {
+    const w = new World();
+    w.jobs.set('jobicy:5001', storedJob('5001'));
+    w.feedPages = Array.from({ length: 10 }, (_, i) => [FEED_JOBS[i]!]);
+    w.feedTakes = 60_000; // each page "takes" one minute
+    const o = await run(w, w.env(), { budgetMs: 3 * 60_000 });
+    expect(o).toMatchObject({ status: 'partial', summary: { error_class: 'deadline', closed: 0 } });
+    expect((o as { summary: { pages: number } }).summary.pages).toBe(3);
+    expect(w.status('5001')).toBe('open');
+  });
+
+  it('a budget longer than the Worker limit is clamped to it', async () => {
+    const w = new World();
+    w.feedPages = Array.from({ length: 10 }, (_, i) => [FEED_JOBS[i]!]);
+    w.feedTakes = 5 * 60_000;
+    const o = await run(w, w.env(), { budgetMs: 60 * 60_000 });
+    expect((o as { summary: { pages: number } }).summary.pages).toBe(3); // same as the default 12-minute budget
+  });
 });
 
 describe('scheduled sync: concurrency and repeated delivery', () => {

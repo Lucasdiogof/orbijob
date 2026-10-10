@@ -72,7 +72,7 @@ Rodam: `flutter analyze` (sem problemas), `dart format` (sem alterações), `flu
 
 ## Dependências para ver vagas em produção (nada disto foi feito)
 
-1. PR #50 integrado e a **ingestão autorizada e publicada** (migration 6, linha `jobicy` em `job_sources` com `can_redistribute = true`, segredo do Worker, cron).
+1. PR #50 integrado e a **ingestão autorizada e publicada** (migration 6, linha `jobicy` em `job_sources` criada com `can_redistribute = false` e só depois **publicada** por `scripts/supabase/ops/publish_jobicy.sql`, segredo do Worker, cron).
 2. Vagas gravadas no catálogo hospedado.
 3. Um teste remoto com conta descartável depois da primeira ingestão: abrir Explorar → "Ver vagas recentes" → ver "Fonte: Jobicy" → salvar uma vaga → reabrir o app → conferir em Favoritos → abrir o anúncio original.
 

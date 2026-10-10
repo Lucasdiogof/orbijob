@@ -16,10 +16,13 @@ import type { Connector, FetchPage, JobStatus, NormalizedJob, SalaryPeriod } fro
  */
 export const JOBICY_SOURCE = {
   id: 'jobicy',
-  /** Value for `job_sources`. `can_redistribute` rests on the README Fair Use text; the owner confirms it before the row is created. */
+  /**
+   * Value for `job_sources`. The row is born CONDITIONAL and NOT redistributable. Publishing (`can_redistribute = true`) is a
+   * separate, owner-authorised operation after the stored records are reviewed (scripts/supabase/ops/publish_jobicy.sql).
+   */
   status: 'CONDITIONAL' as const,
   attribution: 'Remote jobs via Jobicy (https://jobicy.com)',
-  canRedistribute: true,
+  canRedistribute: false,
 };
 
 const DEFAULT_ORIGIN = 'https://jobicy.com';

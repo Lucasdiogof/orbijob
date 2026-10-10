@@ -20,7 +20,7 @@ Regras da fonte lidas em texto primário em 2026-10-09: [README oficial](https:/
 | Uso / retenção | "pode usar em seus produtos sem pedir permissão individual"; "cache onde apropriado"; "armazenar por `id`" | persistência permitida, com a fonte e a URL preservadas |
 | Dados vs. código | MIT vale para o repositório; **não** transfere a propriedade das vagas, logos ou conteúdo de empregadores | logos **não** são armazenados |
 
-**Limite da leitura:** o texto de uso é o "Fair Use" do README, não um contrato. Para grande volume ou uso diferente do normal, a própria fonte manda falar com ela. O `can_redistribute = true` abaixo é uma **decisão do dono**, apoiada nesse texto.
+**Limite da leitura:** o texto de uso é o "Fair Use" do README, não um contrato. Para grande volume ou uso diferente do normal, a própria fonte manda falar com ela. Publicar o Jobicy (`can_redistribute = true`) é uma **decisão do dono**, apoiada nesse texto e tomada só depois de revisar os registros gravados; a linha nasce com `false`.
 
 ## Arquitetura
 
@@ -55,17 +55,17 @@ Para uma nova fonte basta um `Connector` (`fetchPage`, `minIntervalMs`, opcional
 | — | `city`, `language`, `skills`, `requirements` | `null`/vazio: a fonte não informa |
 | `jobIndustry`, `jobLevel`, `companyLogo` | **descartados** | sem coluna; logo não é armazenado |
 
-## Dependências de implantação (nenhuma foi executada)
+## Dependências de implantação
 
-1. **Migration 6** (`20261013000000_service_role_grants.sql`), **não aplicada** no projeto hospedado. Sem ela, o `service_role` não tem privilégio de tabela e o Worker recebe `permission denied`. Os testes (`jobicy-schema.test.ts`) provam que o conjunto de permissões dela basta para este fluxo.
-2. **Linha da fonte** (`jobs.source_id` é chave estrangeira). SQL para o dono rodar depois de revisar (não executado):
+1. **Migration 6** (`20261013000000_service_role_grants.sql`): **aplicada e auditada** em 2026-10-10 (15 grants para o `service_role`, nada além). Os testes (`jobicy-schema.test.ts`) provam que o conjunto de permissões dela basta para este fluxo.
+2. **Linha da fonte** (`jobs.source_id` é chave estrangeira): **criada em 2026-10-10 em estado NÃO publicado**: `status = 'CONDITIONAL'`, `can_redistribute = false`. É o único estado inicial permitido:
    ```sql
    insert into public.job_sources (id, status, attribution, can_redistribute)
-   values ('jobicy', 'CONDITIONAL', 'Remote jobs via Jobicy (https://jobicy.com)', true)
-   on conflict (id) do update set attribution = excluded.attribution;
+   values ('jobicy', 'CONDITIONAL', 'Remote jobs via Jobicy (https://jobicy.com)', false);
    ```
-   A política `jobs_read` só deixa o app ler vagas de fontes com `can_redistribute = true` e status `READY`/`CONDITIONAL`.
-3. **Segredo** `SUPABASE_SERVICE_ROLE_KEY` (e a URL do projeto) no Worker. Só no Worker, nunca no Flutter, nunca no chat.
+   (`insert` simples, sem `on conflict`: se a linha existir, o comando falha em vez de sobrescrever.) A política `jobs_read` só deixa o app ler vagas de fontes com `can_redistribute = true` e status `READY`/`CONDITIONAL`; com `false`, **nenhuma** vaga do Jobicy é visível ao app, mesmo depois da ingestão.
+   **Publicar é uma operação separada**, só depois de conferir os registros gravados e com autorização do dono: `scripts/supabase/ops/publish_jobicy.sql`. Esse arquivo se recusa a rodar sem a trava `orbijob.publish_jobicy`, sem uma passada `ok` em `sync_runs`, sem vagas, com URL fora de `jobicy.com` etc. `scripts/supabase/no_premature_publish.test.mjs` (CI) falha se qualquer outro arquivo do repositório ligar `can_redistribute`.
+3. **Segredo** do Worker (`SUPABASE_SERVICE_ROLE_KEY` e a URL do projeto). Só no Worker ou no processo local da primeira ingestão, nunca no Flutter, nunca no chat. Use uma chave `sb_secret_…` **nova e exclusiva** (a chave legada `service_role` foi exposta em 2026-10-10 e deve ser desativada: ver `FIRST_INGESTION_RUNBOOK.md`, passo 0).
 4. **Worker + agendador:** ponto de entrada (`scheduled`) que monta `jobicyConnector(fetch)` + `SupabaseJobStore` e chama `runSync`. **Cron no máximo de hora em hora.** O plano gratuito do Workers dá 10 ms de CPU por chamada (provavelmente insuficiente para interpretar páginas de ~1 MB; não medido); o plano pago (US$ 5/mês) dá 30 s por padrão.
 5. **Flutter:** hoje `NoSourceSearchRepository`. Falta um repositório que leia `jobs` (com filtros, e `geo_restrictions` para a elegibilidade de vagas remotas) e mostre a atribuição. As telas e os cartões existentes já exibem os campos; `JobPosting` ainda não traz `geoRestrictions` nem a descrição.
 
