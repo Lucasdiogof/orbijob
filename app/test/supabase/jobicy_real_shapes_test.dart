@@ -107,7 +107,7 @@ void main() {
       expect(j.geoRestrictions, ['CA', 'US', 'APAC', 'EMEA', 'LATAM']);
     });
 
-    test('"Anywhere" (stored as an empty list, 5 of 299): the app claims no place and no eligibility', () async {
+    test('a missing or empty location (5 of 299 are stored as an empty list): the app claims no place and no eligibility', () async {
       final j = await load(row('5'));
       expect(j.geoRestrictions, isEmpty);
       expect(j.country, isNull);

@@ -222,12 +222,12 @@ void main() {
       },
     );
 
-    test('country matches the job, an explicit eligibility entry, or a remote job open to anywhere', () async {
+    test('country matches the job, an explicit eligibility entry, or a remote job the source marks as Anywhere (an EMPTY list is unknown and never matches)', () async {
       final b = FakeBackend(respond: answer([row()]));
       await repoFor(b).search('', filters: const JobFilters(countryCode: 'pt'));
       expect(
         b.requests.first.request.url.queryParametersAll['or']!.single,
-        '(country.eq.PT,geo_restrictions.cs.{PT},and(work_mode.eq.remote,country.is.null,geo_restrictions.eq.{}))',
+        '(country.eq.PT,geo_restrictions.cs.{PT},and(work_mode.eq.remote,geo_restrictions.cs.{Anywhere}))',
       );
     });
 

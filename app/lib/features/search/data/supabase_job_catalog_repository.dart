@@ -57,7 +57,7 @@ class SupabaseJobCatalogRepository implements SearchRepository {
     if (country != null) {
       q = q.or(
         'country.eq.$country,geo_restrictions.cs.{$country},'
-        'and(work_mode.eq.remote,country.is.null,geo_restrictions.eq.{})',
+        'and(work_mode.eq.remote,geo_restrictions.cs.{Anywhere})',
       );
     }
     if (f.workModes.isNotEmpty) {

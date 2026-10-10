@@ -22,7 +22,7 @@ values
      'https://jobicy.com/jobs/1','https://jobicy.com/jobs/1','open','{US}','f1','https://jobicy.com/jobs/1'),
   ('jobicy','2','Care Co','Nurse Practitioner','Patient care.',null,'remote','Full-Time',
      null,null,null,null,'2026-10-07T10:00:00Z','2026-10-10T00:00:00Z',
-     'https://jobicy.com/jobs/2','https://jobicy.com/jobs/2','open','{}','f2','https://jobicy.com/jobs/2'),
+     'https://jobicy.com/jobs/2','https://jobicy.com/jobs/2','open','{Anywhere}','f2','https://jobicy.com/jobs/2'),
   ('jobicy','3','Emea Ltd','Senior Engineer EMEA','Platform work.',null,'remote','Full-Time',
      80000,90000,'GBP','year','2026-09-20T10:00:00Z','2026-10-10T00:00:00Z',
      'https://jobicy.com/jobs/3','https://jobicy.com/jobs/3','open','{EMEA}','f3','https://jobicy.com/jobs/3'),
@@ -35,6 +35,10 @@ values
   ('jobicy','8','Edge Inc','Remote Eligible Specialist','Anywhere in CA or US.',null,'remote','Contract',
      null,null,null,null,'2026-10-06T10:00:00Z','2026-10-10T00:00:00Z',
      'https://jobicy.com/jobs/8','https://jobicy.com/jobs/8','open','{CA,US}','f8','https://jobicy.com/jobs/8'),
+  -- visible, oldest: remote with NO usable location (empty list = eligibility unknown). It must never match a country filter.
+  ('jobicy','11','Nowhere Inc','Unknown Location Analyst','Location not stated.',null,'remote','Full-Time',
+     null,null,null,null,'2026-09-01T10:00:00Z','2026-10-10T00:00:00Z',
+     'https://jobicy.com/jobs/11','https://jobicy.com/jobs/11','open','{}','f11','https://jobicy.com/jobs/11'),
   -- hidden: closed job of an authorised source
   ('jobicy','7','Gone Co','Hidden Closed Job','x','US','remote','Full-Time',
      null,null,null,null,'2026-10-09T09:00:00Z','2026-10-10T00:00:00Z',
