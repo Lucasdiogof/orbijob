@@ -21,6 +21,11 @@ class SupabaseJobCatalogRepository implements SearchRepository {
 
   static const allowedSourceStatuses = ['READY', 'CONDITIONAL'];
 
+  /// A job is shown as open only while the source has vouched for it recently (`jobs.last_checked_at` is moved by every feed pass
+  /// and every "still active" answer of the sync). Past this age nobody can guarantee it is still open, so it is not offered; it
+  /// returns by itself as soon as a check confirms it. Same value as EXPIRE_MS in worker/src/freshness.ts.
+  static const maxVerificationAge = Duration(hours: 72);
+
   static const _columns =
       'id,source_id,external_id,company,title,description,country,city,language,work_mode,contract_type,'
       'salary_min,salary_max,salary_currency,salary_period,published_at,original_url,apply_url,status,'
@@ -45,7 +50,11 @@ class SupabaseJobCatalogRepository implements SearchRepository {
         .select(_columns)
         .eq('status', 'open')
         .eq('job_sources.can_redistribute', true)
-        .inFilter('job_sources.status', allowedSourceStatuses);
+        .inFilter('job_sources.status', allowedSourceStatuses)
+        .gte(
+          'last_checked_at',
+          _now().toUtc().subtract(maxVerificationAge).toIso8601String(),
+        );
 
     final term = sanitizeSearchTerm(query);
     if (term.isNotEmpty) {

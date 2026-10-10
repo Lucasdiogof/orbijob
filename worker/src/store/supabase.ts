@@ -88,6 +88,18 @@ export class SupabaseJobStore implements JobStore, RunLedger {
     }
   }
 
+  /** The source just confirmed these jobs are still open: only `last_checked_at` moves (status, content and everything else stay). */
+  async confirmOpen(sourceId: string, externalIds: string[]): Promise<void> {
+    for (let i = 0; i < externalIds.length; i += 100) {
+      const list = externalIds.slice(i, i + 100).map((id) => encodeURIComponent(`"${id.replace(/"/g, '')}"`)).join(',');
+      await this.call(`jobs?source_id=eq.${encodeURIComponent(sourceId)}&external_id=in.(${list})&status=eq.open`, {
+        method: 'PATCH',
+        body: { last_checked_at: new Date().toISOString() },
+        prefer: 'return=minimal',
+      });
+    }
+  }
+
   async recordRun(run: SyncRunRow): Promise<void> {
     await this.call('sync_runs', { method: 'POST', body: run, prefer: 'return=minimal' });
   }

@@ -42,6 +42,12 @@ export class World {
   /** Called with (feed call number starting at 0, cursor); return a Response or an Error to inject a failure. */
   jobicyFault?: (call: number, cursor: string | null) => Response | Error | null;
   statuses: Record<string, string> = {};
+  /** Called with the status-endpoint call number; return a Response or an Error to inject a failure into the status check. */
+  statusFault?: (call: number) => Response | Error | null;
+  /** Ids the status endpoint does not answer for (it answers only for ids it knows). */
+  statusSilent = new Set<string>();
+  /** Every request made to the fake Supabase: method and table (never deletes anything: a DELETE would show up here). */
+  requests: { method: string; table: string }[] = [];
   /** Advance the clock by this much on every feed request (for the deadline test). */
   feedTakes = 0;
 
@@ -66,9 +72,12 @@ export class World {
   // ───────── Jobicy ─────────
   private async jobicy(url: URL): Promise<Response> {
     if (url.pathname.endsWith('/status')) {
-      this.calls.status++;
+      const n = this.calls.status++;
+      const fault = this.statusFault?.(n);
+      if (fault instanceof Error) throw fault;
+      if (fault) return fault;
       const ids = url.searchParams.get('ids')!.split(',');
-      return json(200, { success: true, jobs: ids.map((id) => ({ id: Number(id), status: this.statuses[id] ?? 'active' })) });
+      return json(200, { success: true, jobs: ids.filter((id) => !this.statusSilent.has(id)).map((id) => ({ id: Number(id), status: this.statuses[id] ?? 'active' })) });
     }
     const call = this.calls.feed++;
     const cursor = url.searchParams.get('cursor');
@@ -91,6 +100,7 @@ export class World {
     if (headers.apikey !== this.expectedKey) return json(401, { message: 'Invalid API key' });
     const table = url.pathname.replace('/rest/v1/', '');
     const method = init.method ?? 'GET';
+    this.requests.push({ method, table });
     const body = init.body ? JSON.parse(String(init.body)) : undefined;
     const q = url.searchParams;
     const eq = (k: string) => (q.get(k) ?? '').replace(/^eq\./, '');

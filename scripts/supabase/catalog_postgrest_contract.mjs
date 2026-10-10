@@ -34,7 +34,7 @@ const EXPECT = {
   page_1: ['1', '4', '2', '8'], // limit 3 + 1
   page_2: ['8', '3', '11', '5'], // offset 3
 };
-const HIDDEN = new Set(['6', '7', '9', '10']);
+const HIDDEN = new Set(['6', '7', '9', '10', '12']); // 12: open but not verified for more than 72 h
 const SOURCES_OK = new Set(['jobicy', 'lever']);
 
 const failures = [];

@@ -231,6 +231,27 @@ void main() {
       );
     });
 
+    test('only jobs the source vouched for within 72 hours are requested (a stale "open" job is never offered)', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('');
+      final v = b
+          .requests
+          .first
+          .request
+          .url
+          .queryParametersAll['last_checked_at']!
+          .single;
+      expect(v, startsWith('gte.'));
+      expect(
+        DateTime.parse(v.substring(4)),
+        fixedNow.subtract(SupabaseJobCatalogRepository.maxVerificationAge),
+      );
+      expect(
+        SupabaseJobCatalogRepository.maxVerificationAge,
+        const Duration(hours: 72),
+      );
+    });
+
     test('an invalid country code is ignored, not sent', () async {
       expect(normalizeCountry('Portugal'), isNull);
       expect(normalizeCountry('p1'), isNull);

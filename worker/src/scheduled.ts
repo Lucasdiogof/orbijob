@@ -99,7 +99,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   if (!summary.runRecorded) log('warn', 'run_record_missing', { runId: lease.id }); // the lease row stays 'running' until its TTL
   log(summary.status === 'ok' ? 'info' : summary.status === 'partial' ? 'warn' : 'error', `sync_${summary.status}`, {
     runId: lease.id, pages: summary.pages, fetched: summary.fetched, upserted: summary.upserted, duplicates: summary.duplicates,
-    rejected: summary.rejected, closed: summary.closed, httpErrors: summary.http_errors, errorClass: summary.error_class,
+    rejected: summary.rejected, closed: summary.closed, confirmed: summary.confirmed, unverified: summary.unverified, httpErrors: summary.http_errors, errorClass: summary.error_class,
     restarted: summary.restarted, durationMs: deps.now().getTime() - startedAt.getTime(),
   });
   return { status: summary.status, summary };

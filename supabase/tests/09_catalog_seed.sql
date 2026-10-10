@@ -39,6 +39,10 @@ values
   ('jobicy','11','Nowhere Inc','Unknown Location Analyst','Location not stated.',null,'remote','Full-Time',
      null,null,null,null,'2026-09-01T10:00:00Z','2026-10-10T00:00:00Z',
      'https://jobicy.com/jobs/11','https://jobicy.com/jobs/11','open','{}','f11','https://jobicy.com/jobs/11'),
+  -- hidden: open, but nobody has vouched for it for more than 72 h (last_checked_at is old): never offered as an opportunity
+  ('jobicy','12','Stale Co','Unverified Old Listing','Not confirmed lately.','US','remote','Full-Time',
+     null,null,null,null,'2026-10-09T08:00:00Z','2026-10-01T00:00:00Z',
+     'https://jobicy.com/jobs/12','https://jobicy.com/jobs/12','open','{US}','f12','https://jobicy.com/jobs/12'),
   -- hidden: closed job of an authorised source
   ('jobicy','7','Gone Co','Hidden Closed Job','x','US','remote','Full-Time',
      null,null,null,null,'2026-10-09T09:00:00Z','2026-10-10T00:00:00Z',

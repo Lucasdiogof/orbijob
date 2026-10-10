@@ -104,6 +104,11 @@ describe('3. descriptions: readable text, no Markdown/entity residue, safe e-mai
       expect(isRoleAddress(a), a).toBe(false);
     expect(maskPersonalEmails('Questions? Ask jane.doe@example.com or careers@example.com.')).toBe(`Questions? Ask ${MASKED_EMAIL} or careers@example.com.`);
   });
+  it('is idempotent: cleaning already-clean text changes nothing (a re-import never rewrites corrected descriptions)', () => {
+    const dirty = '<p>**About us**</p><ul><li>Remote</li></ul><p>Apply: careers@example.com, jane.doe@example.com. R&amp;amp;D ______</p>';
+    const once = cleanDescription(dirty);
+    expect(cleanDescription(once)).toBe(once);
+  });
   it('the whole pipeline on a made-up listing; the listing URL is untouched', () => {
     const j = job({
       jobDescription: '<p>**About us**</p><ul><li>Remote</li></ul><p>Apply: careers@example.com. Contact Jane at jane.doe@example.com.</p>',

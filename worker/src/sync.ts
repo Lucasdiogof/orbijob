@@ -80,6 +80,11 @@ export interface JobStore {
   upsertJobs(rows: JobRow[]): Promise<void>;
   listOpenExternalIds(sourceId: string): Promise<string[]>;
   markClosed(sourceId: string, externalIds: string[]): Promise<void>;
+  /**
+   * Records that the source itself just confirmed these stored jobs are still open (their `last_checked_at` moves to now).
+   * Without it a job that left the 7-day feed could never be told apart from one nobody has verified for weeks.
+   */
+  confirmOpen?(sourceId: string, externalIds: string[]): Promise<void>;
   recordRun(run: SyncRunRow): Promise<void>;
 }
 
@@ -118,6 +123,10 @@ export interface SyncSummary extends Omit<SyncRunRow, 'source_id' | 'scope' | 's
   /** Cursor expired mid-pass and the pass was restarted from the beginning (at most once). */
   restarted: boolean;
   runRecorded: boolean;
+  /** Stored jobs the source confirmed open in this pass (status endpoint). */
+  confirmed: number;
+  /** Stored jobs the source could not confirm either way (answered 'unknown', or not answered): left as they are, never closed. */
+  unverified: number;
 }
 
 function errorClass(e: unknown): string {
@@ -146,7 +155,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   const startedAt = now().toISOString();
   const s: SyncSummary = {
     status: 'ok', fetched: 0, upserted: 0, duplicates: 0, closed: 0, http_errors: 0, error_class: null,
-    pages: 0, rejected: 0, restarted: false, runRecorded: false,
+    pages: 0, rejected: 0, restarted: false, runRecorded: false, confirmed: 0, unverified: 0,
   };
 
   let cursor: string | null = null;
@@ -200,7 +209,8 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
 
   if (completed && s.status === 'ok') {
     try {
-      s.closed = await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep, pastDeadline);
+      const r = await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep, pastDeadline);
+      s.closed = r.closed; s.confirmed = r.confirmed; s.unverified = r.unverified;
     } catch (e) {
       fail(e); // the pass itself was fine; only the closure step is missing
       s.status = 'partial';
@@ -218,7 +228,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   } catch (e) {
     log('sync.run_not_recorded', { source: sourceId, errorClass: errorClass(e) });
   }
-  log('sync.done', { source: sourceId, status: s.status, pages: s.pages, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates, rejected: s.rejected, closed: s.closed });
+  log('sync.done', { source: sourceId, status: s.status, pages: s.pages, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates, rejected: s.rejected, closed: s.closed, confirmed: s.confirmed, unverified: s.unverified });
   return s;
 }
 
@@ -227,29 +237,38 @@ const STATUS_BATCH = 100;
 const MAX_STATUS_BATCHES = 30;
 
 /**
- * Closes only what the source proves closed: absent from a full snapshot that covers the whole source (`snapshotCovers`),
- * or answered "closed" by its status endpoint.
+ * Closes only what the source proves closed (absent from a full snapshot that covers the whole source, or answered "closed" by its
+ * status endpoint) and records what it confirms still open. Progress is applied per batch: if a later batch fails, what earlier
+ * batches proved stays. A job the source answers "unknown" for, or does not answer for, is left exactly as it is.
  */
 async function closeStale(
   o: SyncOptions, sourceId: string, seen: Set<string>, snapshotCovers: boolean, retry: RetryOptions,
   limiter: RateLimiter, sleep: (ms: number) => Promise<void>, pastDeadline: () => boolean,
-): Promise<number> {
+): Promise<{ closed: number; confirmed: number; unverified: number }> {
+  const out = { closed: 0, confirmed: 0, unverified: 0 };
   const open = await withRetry(() => o.store.listOpenExternalIds(sourceId), retry);
   const absent = open.filter((id) => !seen.has(id));
-  if (!absent.length) return 0;
-  let toClose: string[] = shouldMarkClosed({ isFullSnapshot: snapshotCovers }, open, seen);
-  if (!toClose.length && o.connector.checkStatuses) {
-    const check = o.connector.checkStatuses.bind(o.connector);
-    for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += STATUS_BATCH, b++) {
-      if (pastDeadline()) throw new Error('deadline'); // the pass is reported as partial; closing what was proven so far is skipped
-      const batch = absent.slice(i, i + STATUS_BATCH);
-      const wait = limiter.reserve();
-      if (wait > 0) await sleep(wait);
-      const answers = await withRetry(() => check(batch), retry);
-      toClose.push(...batch.filter((id) => answers[id] === 'closed')); // 'open' and 'unknown' are left alone
-    }
+  if (!absent.length) return out;
+  const byAbsence: string[] = shouldMarkClosed({ isFullSnapshot: snapshotCovers }, open, seen);
+  if (byAbsence.length) {
+    await withRetry(() => o.store.markClosed(sourceId, byAbsence), retry);
+    out.closed = byAbsence.length;
+    return out;
   }
-  if (!toClose.length) return 0;
-  await withRetry(() => o.store.markClosed(sourceId, toClose), retry);
-  return toClose.length;
+  if (!o.connector.checkStatuses) return out;
+  const check = o.connector.checkStatuses.bind(o.connector);
+  for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += STATUS_BATCH, b++) {
+    if (pastDeadline()) throw new Error('deadline'); // the pass is reported as partial; what earlier batches proved is already stored
+    const batch = absent.slice(i, i + STATUS_BATCH);
+    const wait = limiter.reserve();
+    if (wait > 0) await sleep(wait);
+    const answers = await withRetry(() => check(batch), retry);
+    const closed = batch.filter((id) => answers[id] === 'closed');
+    const confirmed = batch.filter((id) => answers[id] === 'open');
+    if (closed.length) { await withRetry(() => o.store.markClosed(sourceId, closed), retry); out.closed += closed.length; }
+    if (confirmed.length && o.store.confirmOpen) { await withRetry(() => o.store.confirmOpen!(sourceId, confirmed), retry); }
+    out.confirmed += confirmed.length;
+    out.unverified += batch.length - closed.length - confirmed.length;
+  }
+  return out;
 }
