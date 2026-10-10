@@ -57,13 +57,10 @@ describe.skipIf(!URL_ || !SECRET)('mutual exclusion between concurrent runs, mea
   const report: Record<string, Record<string, unknown>> = { atomic: {}, legacy: {} };
 
   beforeAll(async () => {
+    // the two throw-away sources are created by the OWNER (CI seeds them as postgres): service_role cannot create sources
     for (const id of Object.values(SRC)) {
-      const r = await fetch(`${URL_}/job_sources`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${svc}`, Prefer: 'resolution=merge-duplicates,return=minimal' },
-        body: JSON.stringify({ id, status: 'RESEARCH', can_redistribute: false }),
-      });
-      expect(r.status).toBe(201);
+      const r = await fetch(`${URL_}/job_sources?select=id&id=eq.${id}`, { headers: { Authorization: `Bearer ${svc}` } });
+      expect(await r.json(), `source ${id} must be seeded by the owner before the tests`).toEqual([{ id }]);
     }
   });
 

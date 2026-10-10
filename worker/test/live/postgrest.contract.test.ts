@@ -71,12 +71,14 @@ describe.skipIf(!URL_ || !SECRET)('ingestion against a real PostgREST', () => {
       log: (e, d) => logs.push(e + JSON.stringify(d)),
     });
 
-  it('service_role can register the source (migration 6 grants insert/update on job_sources)', async () => {
-    const r = await rest('POST', '/job_sources', {
-      token: service, prefer: 'resolution=merge-duplicates,return=minimal',
-      body: { id: JOBICY_SOURCE.id, status: JOBICY_SOURCE.status, attribution: JOBICY_SOURCE.attribution, can_redistribute: true /* models the PUBLISHED state */ },
-    });
-    expect(r.status).toBe(201);
+  it('the source row was created by the OWNER (CI seeds it as postgres, in the PUBLISHED state); service_role reads it but can neither create nor change sources (migration 7)', async () => {
+    const own = await rest('GET', `/job_sources?select=id,status,attribution,can_redistribute&id=eq.${JOBICY_SOURCE.id}`, { token: service });
+    expect(own.json).toEqual([{ id: JOBICY_SOURCE.id, status: JOBICY_SOURCE.status, attribution: JOBICY_SOURCE.attribution, can_redistribute: true }]);
+    const insert = await rest('POST', '/job_sources', { token: service, prefer: 'return=minimal', body: { id: 'evil', status: 'READY', can_redistribute: true } });
+    expect([401, 403]).toContain(insert.status);
+    const flip = await rest('PATCH', `/job_sources?id=eq.${JOBICY_SOURCE.id}`, { token: service, prefer: 'return=minimal', body: { can_redistribute: false } });
+    expect([401, 403]).toContain(flip.status);
+    expect((await rest('GET', `/job_sources?select=can_redistribute&id=eq.${JOBICY_SOURCE.id}`, { token: service })).json).toEqual([{ can_redistribute: true }]);
   });
 
   it('a full pass writes every listing and records the run', async () => {
@@ -163,7 +165,13 @@ describe.skipIf(!URL_ || !SECRET)('ingestion against a real PostgREST', () => {
       expect([401, 403]).toContain((await rest('GET', '/saved_jobs', { token: service })).status);
       expect([401, 403]).toContain((await rest('GET', '/professional_profiles', { token: service })).status);
       expect([401, 403]).toContain((await rest('DELETE', '/job_sources?id=eq.jobicy', { token: service })).status);
-      expect((await rest('GET', '/job_sources?select=id', { token: service })).json).toEqual([{ id: 'jobicy' }]);
+      expect((await rest('GET', '/job_sources?select=id', { token: service })).json).toEqual(expect.arrayContaining([{ id: 'jobicy' }]));
+    });
+    it('service_role can never DELETE a job or read the resumes table (migration 7)', async () => {
+      expect([401, 403]).toContain((await rest('DELETE', '/jobs?external_id=eq.154956', { token: service })).status);
+      expect([401, 403]).toContain((await rest('DELETE', '/job_clusters?id=not.is.null', { token: service })).status);
+      expect([401, 403]).toContain((await rest('GET', '/resumes?select=id', { token: service })).status);
+      expect(((await rest('GET', '/jobs?select=external_id&external_id=eq.154956', { token: service })).json as unknown[]).length).toBe(1);
     });
   });
 

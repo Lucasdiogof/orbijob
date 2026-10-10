@@ -56,7 +56,7 @@ trap 'psql "$PGURL" -qc "drop database if exists $DB" >/dev/null; psql "$PGURL" 
 URL2="${PGURL%/*}/$DB2"
 run2() { psql "$URL2" -v ON_ERROR_STOP=1 -q -f "$1"; }
 run2 00_platform_stub.sql
-for m in $(ls ../migrations/*.sql | grep -v -e quota_upsert_fix -e service_role_grants); do run2 "$m" >/dev/null 2>&1 || { echo "upgrade setup failed: $m"; exit 1; }; done
+for m in $(ls ../migrations/*.sql | grep -v -e quota_upsert_fix -e service_role_grants -e service_role_least_privilege); do run2 "$m" >/dev/null 2>&1 || { echo "upgrade setup failed: $m"; exit 1; }; done
 psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into auth.users (id) values ('00000000-0000-0000-0000-0000000000e1'); insert into public.saved_jobs (user_id, job_key, snapshot) select '00000000-0000-0000-0000-0000000000e1', 'k' || g, '{\"a\":1}' from generate_series(1, 1000) g;"
 # the original trigger is the one that is wrongly strict at the cap
 if psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into public.saved_jobs (user_id, job_key, snapshot) values ('00000000-0000-0000-0000-0000000000e1', 'k5', '{}') on conflict (user_id, job_key) do update set snapshot = excluded.snapshot" >/dev/null 2>&1; then echo "expected the pre-fix trigger to refuse the upsert"; exit 1; fi

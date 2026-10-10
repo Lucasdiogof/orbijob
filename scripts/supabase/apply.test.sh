@@ -36,7 +36,7 @@ done
 FAKE
 chmod +x "$W/bin"/*
 export PATH="$W/bin:$PATH" DB_URL="postgres://postgres@db.rpmlfxwebnlxnwadyvle.supabase.co:5432/postgres" ORBIJOB_STATE_DIR="$W/state"
-export FX_PREDEPLOY="$FX/predeploy-local-stub-pg17.json" FX_BEFORE="$FX/empty.json" FX_AFTER="$FX/after-1-to-6.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000 20261013000000"
+export FX_PREDEPLOY="$FX/predeploy-local-stub-pg17.json" FX_BEFORE="$FX/empty.json" FX_AFTER="$FX/after-1-to-7.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000 20261013000000 20261014000000"
 pass=0; fail=0
 ok() { if [ "$2" = 0 ]; then pass=$((pass+1)); echo "PASS $1"; else fail=$((fail+1)); echo "FAIL $1"; fi; }
 pushes() { [ -f "$W/pushes" ] && wc -l < "$W/pushes" | tr -d ' ' || echo 0; }
@@ -91,7 +91,7 @@ ok "after a failed push the retry is refused (gate spent) and did not push again
 
 # a project that already has OrbiJob objects needs an explicit DATA backup attestation
 rm -f "$W/state"/* "$W/pushes"
-export FX_BEFORE="$FX/after-1-to-4.json" PENDING="20261012000000 20261013000000"
+export FX_BEFORE="$FX/after-1-to-4.json" PENDING="20261012000000 20261013000000 20261014000000"
 "$HERE/apply.sh" read >/dev/null 2>&1
 "$HERE/apply.sh" backup >/dev/null 2>&1; ok "non-empty project: schema-only backup alone is refused" $([ $? -ne 0 ] && echo 0 || echo 1)
 ORBIJOB_DATA_BACKUP_DONE=yes "$HERE/apply.sh" backup >/dev/null 2>&1; ok "non-empty project: accepted with the data-backup attestation" $?
@@ -114,7 +114,7 @@ d=json.load(open(sys.argv[1])); w=sys.argv[2]
 a=json.loads(json.dumps(d)); a['auth']['postgres_can_reference_users']=False; json.dump(a,open(f'{w}/pd_fail.json','w'))
 b=json.loads(json.dumps(d)); [f.update(bound_event_triggers=[]) for f in b['public_functions_detail'] if f['name']=='rls_auto_enable']; json.dump(b,open(f'{w}/pd_unknown.json','w'))
 PY
-rm -f "$W/state"/* "$W/pushes"; export FX_BEFORE="$FX/empty.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000 20261013000000"
+rm -f "$W/state"/* "$W/pushes"; export FX_BEFORE="$FX/empty.json" PENDING="20261008000000 20261009000000 20261010000000 20261011000000 20261012000000 20261013000000 20261014000000"
 FX_PREDEPLOY="$W/pd_fail.json" "$HERE/apply.sh" read >/dev/null 2>&1
 FX_PREDEPLOY="$W/pd_fail.json" ORBIJOB_PREDEPLOY_ACK=auth-users "$HERE/apply.sh" backup >/dev/null 2>&1; ok "a FAIL in the pre-deploy details blocks the backup gate and cannot be acknowledged" $([ $? -ne 0 ] && echo 0 || echo 1)
 rm -f "$W/state"/*; FX_PREDEPLOY="$W/pd_unknown.json" "$HERE/apply.sh" read >/dev/null 2>&1
