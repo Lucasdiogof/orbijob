@@ -1,0 +1,56 @@
+{
+  "apiVersion": "2.2.19",
+  "checkedAt": "2026-10-09T23:09:31+00:00",
+  "count": 11,
+  "jobs": [
+    {
+      "id": 154956,
+      "status": "active"
+    },
+    {
+      "id": 154950,
+      "status": "active"
+    },
+    {
+      "id": 154943,
+      "status": "active"
+    },
+    {
+      "id": 154930,
+      "status": "active"
+    },
+    {
+      "id": 154925,
+      "status": "active"
+    },
+    {
+      "id": 154909,
+      "status": "active"
+    },
+    {
+      "id": 154905,
+      "status": "active"
+    },
+    {
+      "id": 154903,
+      "status": "active"
+    },
+    {
+      "id": 154910,
+      "status": "active"
+    },
+    {
+      "id": 154936,
+      "status": "active"
+    },
+    {
+      "id": 1,
+      "status": "unknown"
+    }
+  ],
+  "statusCode": 200,
+  "success": true,
+  "_fixture": {
+    "note": "Real status response captured 2026-10-09 (id 1 is a deliberately non-existent id)."
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "_fixture": {
+    "note": "Real Jobicy API v2 payload captured 2026-10-09, sanitized: descriptions truncated, logos replaced, nothing else edited.",
+    "capturedAt": "2026-10-09",
+    "apiVersion": "2.2.19"
+  },
+  "apiVersion": "2.2.19",
+  "documentationUrl": "https://jobi.cy/apidocs",
+  "friendlyNotice": "Thanks for using Jobicy API! Please ensure Jobicy is clearly credited with a direct link to the source, and all application buttons redirect to the original job URL provided in this feed. That’s all! You might be building something amazing, we wish you the best of luck!",
+  "jobCount": 10,
+  "lastUpdate": "2026-10-09T18:42:49+00:00",
+  "nextCursor": "REDACTED-CURSOR",
+  "hasMore": true,
+  "appliedFilters": {
+    "count": 60
+  },
+  "jobs": [
+    {
+      "id": 154956,
+      "url": "https://jobicy.com/jobs/154956-account-executive-private-equity",
+      "jobSlug": "154956-account-executive-private-equity",
+      "jobTitle": "Account Executive, Private Equity",
+      "companyName": "Juniper Square",
+      "companyLogo": false,
+      "jobIndustry": [
+        "Sales"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "USA",
+      "jobLevel": "Director",
+      "jobExcerpt": "About Juniper Square Private markets are one of the largest, most complex, and most underserved corners of global finance. Our mission at ...",
+      "jobDescription": "<p>About Juniper Square Private markets are one of the largest, most complex, and most underserved corners of global finance. Our mission at Juniper Square is to unlock their full potential. We’re the Operations Partner trusted by 2,300+ GPs, ...</p>",
+      "pubDate": "2026-10-09T18:42:49+00:00",
+      "salaryMin": 120000,
+      "salaryMax": 145000,
+      "salaryCurrency": "USD",
+      "salaryPeriod": "yearly"
+    },
+    {
+      "id": 154950,
+      "url": "https://jobicy.com/jobs/154950-freelance-copywriter-pregnancy-baby",
+      "jobSlug": "154950-freelance-copywriter-pregnancy-baby",
+      "jobTitle": "Freelance Copywriter, Pregnancy & Baby",
+      "companyName": "Good Inside",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Content & Editorial"
+      ],
+      "jobType": [
+        "Contract"
+      ],
+      "jobGeo": "USA",
+      "jobLevel": "Any",
+      "jobExcerpt": "Who We Are Good Inside is redefining parenting - not as something that should “just come naturally,” but as a skill to learn and practice. ...",
+      "jobDescription": "<p>Who We Are Good Inside is redefining parenting - not as something that should “just come naturally,” but as a skill to learn and practice. Founded by Dr. Becky Kennedy and Dr. Erica Belsky, we combine sturdy leadership with innovative ...</p>",
+      "pubDate": "2026-10-09T18:42:45+00:00",
+      "salaryMin": 60,
+      "salaryMax": 70,
+      "salaryCurrency": "USD",
+      "salaryPeriod": "hourly"
+    },
+    {
+      "id": 154943,
+      "url": "https://jobicy.com/jobs/154943-enterprise-sales-manager-brisbane",
+      "jobSlug": "154943-enterprise-sales-manager-brisbane",
+      "jobTitle": "Enterprise Sales Manager (Brisbane)",
+      "companyName": "Halter",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Sales"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "Australia",
+      "jobLevel": "Senior",
+      "jobExcerpt": "About Halter At Halter, we’re on a mission to enable farmers and graziers to run the most productive and sustainable operations. Our ...",
+      "jobDescription": "<p>About Halter At Halter, we’re on a mission to enable farmers and graziers to run the most productive and sustainable operations. Our customers are using Halter to break free from the time-intensive constraints of conventional practices. ...</p>",
+      "pubDate": "2026-10-09T18:01:41+00:00"
+    },
+    {
+      "id": 154930,
+      "url": "https://jobicy.com/jobs/154930-manager-credit-risk",
+      "jobSlug": "154930-manager-credit-risk",
+      "jobTitle": "Manager, Credit Risk",
+      "companyName": "Jobber",
+      "companyLogo": false,
+      "jobIndustry": [
+        "Finance & Accounting"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "Canada",
+      "jobLevel": "Director",
+      "jobExcerpt": "Please note: Our Talent team at Jobber will be offline for Jobber Impact - our flagship event of the year, bringing Jobberinos together to ...",
+      "jobDescription": "<p>Please note: Our Talent team at Jobber will be offline for Jobber Impact - our flagship event of the year, bringing Jobberinos together to connect, learn, and celebrate what we're building - starting October 6th and extending until October ...</p>",
+      "pubDate": "2026-10-09T17:58:41+00:00",
+      "salaryMin": 121000,
+      "salaryMax": 163600,
+      "salaryPeriod": "yearly"
+    },
+    {
+      "id": 154925,
+      "url": "https://jobicy.com/jobs/154925-director-of-self-serve",
+      "jobSlug": "154925-director-of-self-serve",
+      "jobTitle": "Director of Self Serve",
+      "companyName": "Paddle",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Marketing & Sales"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "Canada,  Ireland,  Netherlands,  Portugal,  UK,  USA",
+      "jobLevel": "Director",
+      "jobExcerpt": "What do we do? Paddle offers digital product companies a completely different approach to their payment infrastructure. Instead of ...",
+      "jobDescription": "<p>What do we do? Paddle offers digital product companies a completely different approach to their payment infrastructure. Instead of assembling and maintaining a complex stack of payments-related apps and services, we’re a Merchant of Record ...</p>",
+      "pubDate": "2026-10-09T17:56:59+00:00"
+    },
+    {
+      "id": 154909,
+      "url": "https://jobicy.com/jobs/154909-sr-staff-machine-learning-systems-engineer",
+      "jobSlug": "154909-sr-staff-machine-learning-systems-engineer",
+      "jobTitle": "Sr. Staff Machine Learning Systems Engineer",
+      "companyName": "hims &#038; hers",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Software Engineering"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "USA",
+      "jobLevel": "Senior",
+      "jobExcerpt": "Hims & Hers is the leading health and wellness platform, on a mission to help the world feel great through the power of better health. We ...",
+      "jobDescription": "<p>Hims &amp; Hers is the leading health and wellness platform, on a mission to help the world feel great through the power of better health. We are redefining healthcare by putting the customer first and delivering access to care that is ...</p>",
+      "pubDate": "2026-10-09T13:31:15+00:00",
+      "salaryMin": 240000,
+      "salaryMax": 265000,
+      "salaryCurrency": "USD",
+      "salaryPeriod": "yearly"
+    },
+    {
+      "id": 154905,
+      "url": "https://jobicy.com/jobs/154905-accounting-automation-engineer",
+      "jobSlug": "154905-accounting-automation-engineer",
+      "jobTitle": "Accounting Automation Engineer",
+      "companyName": "Ruby Labs",
+      "companyLogo": false,
+      "jobIndustry": [
+        "Finance & Accounting"
+      ],
+      "jobType": [
+        "Contract"
+      ],
+      "jobGeo": "Europe",
+      "jobLevel": "Any",
+      "jobExcerpt": "About us Ruby Labs is a leading tech company that creates and operates innovative consumer products. We offer a diverse range of ...",
+      "jobDescription": "<p>About us Ruby Labs is a leading tech company that creates and operates innovative consumer products. We offer a diverse range of opportunities across the health, education, and entertainment industries. Our innovative teams are driving the ...</p>",
+      "pubDate": "2026-10-09T06:22:42+00:00"
+    },
+    {
+      "id": 154903,
+      "url": "https://jobicy.com/jobs/154903-product-support-engineer-emea",
+      "jobSlug": "154903-product-support-engineer-emea",
+      "jobTitle": "Product Support Engineer - EMEA",
+      "companyName": "Ashby",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Technical Support"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "EMEA",
+      "jobLevel": "Senior",
+      "jobExcerpt": "Hello! I’m Allie, Head of Support at Ashby. I’m excited to share that we’re hiring a Product Support Engineer in EMEA We’re expanding our ...",
+      "jobDescription": "<p>Hello! I’m Allie, Head of Support at Ashby . I’m excited to share that we’re hiring a Product Support Engineer in EMEA We’re expanding our global Support team to provide 24/7 coverage across time zones. You’ll join a global team while ...</p>",
+      "pubDate": "2026-10-09T06:22:41+00:00",
+      "salaryMin": 85000,
+      "salaryMax": 104000,
+      "salaryCurrency": "GBP",
+      "salaryPeriod": "yearly"
+    },
+    {
+      "id": 154910,
+      "url": "https://jobicy.com/jobs/154910-engineering-manager-experimentation",
+      "jobSlug": "154910-engineering-manager-experimentation",
+      "jobTitle": "Engineering Manager - Experimentation",
+      "companyName": "Spotify",
+      "companyLogo": "https://jobicy.com/data/example/logo-sanitized.png",
+      "jobIndustry": [
+        "Software Engineering"
+      ],
+      "jobType": [
+        "Full-Time"
+      ],
+      "jobGeo": "Sweden,  UK",
+      "jobLevel": "Senior",
+      "jobExcerpt": "Think it, build it, ship it, tweak it\" is at the core of Spotify's product development approach. In the Experimentation product area we are ...",
+      "jobDescription": "<p>Think it, build it, ship it, tweak it\" is at the core of Spotify 's product development approach. In the Experimentation product area we are providing Spotify and external customers with Confidence, our platform to quickly and safely ...</p>",
+      "pubDate": "2026-10-09T13:31:09+00:00"
+    },
+    {
+      "id": 154936,
+      "url": "https://jobicy.com/jobs/154936-applied-scientist-intern",
+      "jobSlug": "154936-applied-scientist-intern",
+      "jobTitle": "Applied Scientist Intern",
+      "companyName": "Upstart",
+      "companyLogo": false,
+      "jobIndustry": [
+        "Data Science & Analytics"
+      ],
+      "jobType": [
+        "Internship"
+      ],
+      "jobGeo": "USA",
+      "jobLevel": "Entry-Level, Junior",
+      "jobExcerpt": "About Upstart At Upstart, we’re united by a mission that matters: to radically reduce the cost and complexity of borrowing for all ...",
+      "jobDescription": "<p>About Upstart At Upstart, we’re united by a mission that matters: to radically reduce the cost and complexity of borrowing for all Americans. Every day, we bring creativity, experimentation, and advanced AI to reshape access to credit, ...</p>",
+      "pubDate": "2026-10-09T17:58:38+00:00",
+      "salaryMin": 141000,
+      "salaryMax": 150000,
+      "salaryCurrency": "USD",
+      "salaryPeriod": "yearly"
+    }
+  ],
+  "statusCode": 200,
+  "success": true
+}

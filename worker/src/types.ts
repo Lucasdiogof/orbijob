@@ -33,6 +33,8 @@ export interface FetchPage {
   nextCursor: string | null;
   /** True only if the source lists ALL open jobs in this scan (full snapshot). */
   isFullSnapshot: boolean;
+  /** Records the connector refused to normalize (invalid URL, missing id/title). Reasons only, never content. */
+  rejected?: { externalId: string | null; reason: string }[];
 }
 
 export interface Connector {
@@ -40,4 +42,9 @@ export interface Connector {
   /** Minimum ms between requests, derived from the source's documented limits. */
   readonly minIntervalMs: number;
   fetchPage(cursor: string | null, scope: string): Promise<FetchPage>;
+  /**
+   * For sources whose feed is a recent-jobs window (absence means nothing): asks the source whether stored jobs are
+   * still open. Returns only the ids the source answered for; 'unknown' must never be treated as closed.
+   */
+  checkStatuses?(externalIds: string[]): Promise<Record<string, JobStatus>>;
 }
