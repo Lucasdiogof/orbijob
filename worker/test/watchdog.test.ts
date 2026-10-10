@@ -38,7 +38,17 @@ describe('watchdog rules (pure)', () => {
   it('scheduled run not started: no run in 14 h, or none at all while enabled', () => {
     expect(ids(evaluate({ nowMs: NOW, enabled: true, runs: [run(13.9), run(20)], oldestCheckedAt: ago(5), visibleJobs: 1 }))).toEqual([]);
     expect(ids(evaluate({ nowMs: NOW, enabled: true, runs: [run(14.1), run(20)], oldestCheckedAt: ago(5), visibleJobs: 1 }))).toEqual(['schedule_missed']);
-    expect(ids(evaluate({ nowMs: NOW, enabled: true, runs: [], oldestCheckedAt: ago(5), visibleJobs: 1 }))).toEqual(['no_recent_success', 'schedule_missed']);
+    expect(ids(evaluate({ nowMs: NOW, enabled: true, runs: [], oldestCheckedAt: ago(20), visibleJobs: 1 }))).toEqual(['no_recent_success', 'schedule_missed']);
+  });
+
+  it('grace for the FIRST schedule: right after switching on (no scheduled run yet, catalogue verified recently) there is no false alarm', () => {
+    const base = { nowMs: NOW, enabled: true, runs: [] as ReturnType<typeof run>[], visibleJobs: 299 };
+    expect(ids(evaluate({ ...base, oldestCheckedAt: ago(1) }))).toEqual([]);
+    expect(ids(evaluate({ ...base, oldestCheckedAt: ago(13.9) }))).toEqual([]);
+    // the grace ends: no scheduled run AND a catalogue older than the threshold
+    expect(ids(evaluate({ ...base, oldestCheckedAt: ago(14.1) }))).toEqual(['no_recent_success', 'schedule_missed']);
+    // once any scheduled run exists the normal rules apply (a run that is old and not successful still alarms)
+    expect(ids(evaluate({ ...base, runs: [run(15, 'failure')], oldestCheckedAt: ago(1) }))).toEqual(['no_recent_success', 'schedule_missed']);
   });
 
   it('no success for a long period', () => {

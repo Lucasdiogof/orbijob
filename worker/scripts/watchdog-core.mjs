@@ -40,7 +40,12 @@ export function evaluate({ nowMs, enabled, runs, oldestCheckedAt, visibleJobs })
   }
 
   // 2. The scheduled runs (only meaningful once the automation is enabled).
-  if (enabled) {
+  // Grace for the very first schedule: right after the switch is turned on there is no SCHEDULED run yet (manual runs do not count),
+  // but the catalogue was verified recently (by the manual run that proved the set-up). Alarming then would be a false alarm; once
+  // the catalogue is older than the "no run" threshold without any scheduled run, the alerts below apply in full.
+  const ageH = oldestCheckedAt && Number.isFinite(Date.parse(oldestCheckedAt)) ? (nowMs - Date.parse(oldestCheckedAt)) / HOUR : null;
+  const waitingForFirstRun = runs.length === 0 && ageH !== null && ageH < THRESHOLDS.noRunHours;
+  if (enabled && !waitingForFirstRun) {
     const done = runs.filter((r) => r.status === 'completed');
     const newest = runs[0];
     if (!newest || (nowMs - Date.parse(newest.createdAt)) / HOUR >= THRESHOLDS.noRunHours) {
