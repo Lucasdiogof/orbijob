@@ -14,6 +14,14 @@ export interface Env {
   JOBICY_API_URL?: string;
   /** Optional: cap on feed pages per pass (1-100, default 40). */
   SYNC_MAX_PAGES?: string;
+  /**
+   * `full` (default): read the feed, store new and changed jobs, then revalidate stored jobs that left the feed.
+   * `revalidate`: touch NO feed and import NOTHING; only ask the source about the jobs already stored (closes the confirmed closed,
+   * stamps the confirmed open). The deployed wrangler.toml pins `revalidate`, so widening the catalogue is always an explicit edit.
+   */
+  SYNC_MODE?: string;
+  /** Optional, `full` mode only: at most this many jobs NOT already stored are added per pass (0-10000; unset = no cap). */
+  SYNC_MAX_NEW_JOBS?: string;
 }
 
 export interface ScheduledController {
@@ -56,6 +64,9 @@ export interface Config {
   /** Origin override for the Jobicy API; undefined in production. */
   jobicyOrigin?: string;
   maxPages: number;
+  mode: 'full' | 'revalidate';
+  /** Cap on jobs added per pass in `full` mode; undefined = uncapped. */
+  maxNewJobs?: number;
 }
 
 const LOCAL_HOSTS = ['localhost', '127.0.0.1', '[::1]'];
@@ -109,6 +120,20 @@ export function loadConfig(env: Env): Config {
     else problems.push('SYNC_MAX_PAGES must be an integer from 1 to 100');
   }
 
+  let mode: Config['mode'] = 'full';
+  if (env.SYNC_MODE !== undefined && env.SYNC_MODE.trim() !== '') {
+    const m = env.SYNC_MODE.trim();
+    if (m === 'full' || m === 'revalidate') mode = m;
+    else problems.push('SYNC_MODE must be "full" or "revalidate"');
+  }
+
+  let maxNewJobs: number | undefined;
+  if (env.SYNC_MAX_NEW_JOBS !== undefined && env.SYNC_MAX_NEW_JOBS.trim() !== '') {
+    const n = Number(env.SYNC_MAX_NEW_JOBS);
+    if (Number.isInteger(n) && n >= 0 && n <= 10_000) maxNewJobs = n;
+    else problems.push('SYNC_MAX_NEW_JOBS must be an integer from 0 to 10000');
+  }
+
   if (problems.length) throw new ConfigError(problems);
-  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, maxPages };
+  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, maxPages, mode, maxNewJobs };
 }

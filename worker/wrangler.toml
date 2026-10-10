@@ -14,6 +14,12 @@ preview_urls = false
 # Cloudflare says a change of schedule can take up to 15 minutes to propagate.
 crons = ["0 */6 * * *"]
 
+# The deployed mode is PINNED here, on purpose. `revalidate` asks Jobicy only about the jobs ALREADY stored (closes the confirmed closed,
+# stamps the confirmed open) and imports nothing. Widening the catalogue means editing this line to "full" (and, if wanted, adding
+# SYNC_MAX_NEW_JOBS) in a reviewed commit: it can never happen by leaving a variable unset. See docs/JOBICY_SYNC_PLAN.md.
+[vars]
+SYNC_MODE = "revalidate"
+
 [observability]
 enabled = true
 

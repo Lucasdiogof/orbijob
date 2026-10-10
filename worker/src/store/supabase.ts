@@ -77,12 +77,38 @@ export class SupabaseJobStore implements JobStore, RunLedger {
     }
   }
 
+  async listKnownExternalIds(sourceId: string): Promise<string[]> {
+    const ids: string[] = [];
+    const pageSize = 1000;
+    for (let offset = 0; ; offset += pageSize) {
+      const res = await this.call(
+        `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&order=external_id&limit=${pageSize}&offset=${offset}`,
+        { method: 'GET' },
+      );
+      const page = (await res.json()) as { external_id: string }[];
+      ids.push(...page.map((r) => r.external_id));
+      if (page.length < pageSize) return ids;
+    }
+  }
+
   async markClosed(sourceId: string, externalIds: string[]): Promise<void> {
     for (let i = 0; i < externalIds.length; i += 100) {
       const list = externalIds.slice(i, i + 100).map((id) => encodeURIComponent(`"${id.replace(/"/g, '')}"`)).join(',');
       await this.call(`jobs?source_id=eq.${encodeURIComponent(sourceId)}&external_id=in.(${list})`, {
         method: 'PATCH',
         body: { status: 'closed', last_checked_at: new Date().toISOString() },
+        prefer: 'return=minimal',
+      });
+    }
+  }
+
+  /** The source just confirmed these jobs are still open: only `last_checked_at` moves (status, content and everything else stay). */
+  async confirmOpen(sourceId: string, externalIds: string[]): Promise<void> {
+    for (let i = 0; i < externalIds.length; i += 100) {
+      const list = externalIds.slice(i, i + 100).map((id) => encodeURIComponent(`"${id.replace(/"/g, '')}"`)).join(',');
+      await this.call(`jobs?source_id=eq.${encodeURIComponent(sourceId)}&external_id=in.(${list})&status=eq.open`, {
+        method: 'PATCH',
+        body: { last_checked_at: new Date().toISOString() },
         prefer: 'return=minimal',
       });
     }

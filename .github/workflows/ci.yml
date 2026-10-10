@@ -22,6 +22,9 @@ jobs:
       - name: The Worker running in the real Cloudflare runtime (workerd, local), against an in-memory Supabase and Jobicy
         run: node scripts/e2e-workerd.mjs
         env: { WRANGLER_SEND_METRICS: 'false', CI: '1' }
+      - name: The setting pinned in wrangler.toml (production) revalidates and imports nothing, in workerd
+        run: node scripts/e2e-workerd.mjs
+        env: { WRANGLER_SEND_METRICS: 'false', CI: '1', E2E_MODE: pinned }
   worker-postgrest:
     # The Worker's WRITE path (SupabaseJobStore + runSync + the service_role grants of migration 6) against a REAL PostgREST
     # on the REAL migrated schema, with a real signed JWT. Throw-away database; no Supabase project is involved.
