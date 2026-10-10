@@ -14,6 +14,7 @@
 //
 // A verificação final compara o banco antes e depois: mesmo conjunto de vagas (nada importado), só transições open -> closed, o
 // número de fechadas igual ao que a passada informou, fonte inalterada. Qualquer diferença reprova (código de saída 1), sem desfazer nada.
+// Códigos de saída: 0 ok (ou adiada pela lease); 1 reprovada/falhou; 3 corte de tempo; 4 credencial recusada; 5 banco inalcançável; 6 passada parcial.
 import { build } from 'esbuild';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -61,7 +62,10 @@ const W = await import('data:text/javascript;base64,' + Buffer.from(out.outputFi
 if (W.classifyKey(KEY) !== 'secret') fail('credencial recusada: so uma chave sb_secret_ exclusiva e aceita (nunca a chave JWT legada)');
 
 const rest = async (path) => {
-  const r = await fetch(`${PROJECT_URL}/rest/v1/${path}`, { headers: { apikey: KEY }, signal: AbortSignal.timeout(20_000) });
+  let r;
+  try { r = await fetch(`${PROJECT_URL}/rest/v1/${path}`, { headers: { apikey: KEY }, signal: AbortSignal.timeout(20_000) }); }
+  catch { console.error('PARE: banco inalcancavel (rede/tempo esgotado)'); process.exit(5); }
+  if (r.status === 401 || r.status === 403) { console.error(`PARE: a credencial foi recusada pelo Supabase (HTTP ${r.status})`); process.exit(4); }
   if (!r.ok) fail(`consulta ${path.split('?')[0]} recusada (HTTP ${r.status})`);
   return await r.json();
 };
@@ -94,13 +98,15 @@ setTimeout(() => { console.error('PARE: corte duro de tempo atingido'); process.
 
 console.log('iniciando UMA revalidacao (nenhuma vaga sera importada)...');
 let outcome;
+let crash = null; // SyncFailure kind ('auth' | 'unreachable' | 'unexpected') or the error name, for the exit code
 try {
   outcome = await W.runScheduledSync(
     { SUPABASE_URL: PROJECT_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, SYNC_MODE: 'revalidate', ...(JOBICY_ORIGIN ? { JOBICY_API_URL: JOBICY_ORIGIN } : {}) },
     { fetch: (i, o) => fetch(i, o), now: () => new Date(), sink: W.consoleSink, budgetMs: BUDGET_MS },
   );
 } catch (e) {
-  console.error(`a passada terminou com erro: ${e instanceof Error ? e.name : 'desconhecido'} (detalhes nos logs acima; nenhum valor secreto e impresso)`);
+  crash = e && typeof e === 'object' && 'kind' in e ? String(e.kind) : (e instanceof Error ? e.name : 'desconhecido');
+  console.error(`a passada terminou com erro: ${crash} (detalhes nos logs acima; nenhum valor secreto e impresso)`);
 }
 if (outcome) console.log(`resultado: ${outcome.status}${outcome.status === 'skipped' ? ` (${outcome.reason})` : ''}${outcome.summary ? ` fechadas=${outcome.summary.closed} confirmadas=${outcome.summary.confirmed} sem_resposta=${outcome.summary.unverified}` : ''}`);
 
@@ -121,4 +127,13 @@ if (JSON.stringify(after.source) !== JSON.stringify(before.source)) problems.pus
 if (outcome && outcome.status !== 'skipped' && after.runs !== before.runs + 1) problems.push('esperava exatamente 1 linha nova em sync_runs');
 console.log(`verificacao: ${problems.length ? 'REPROVADO' : 'OK'}  vagas=${after.jobs.length} (antes ${before.jobs.length}) fechadas_agora=${newlyClosed} com_nova_data=${stamped} fonte=${after.source?.status}/${after.source?.can_redistribute}`);
 for (const p of problems) console.log(`  FALHA  ${p}`);
-process.exit(problems.length || !outcome || outcome.status === 'failed' ? 1 : 0);
+// Exit codes (the GitHub Actions workflow maps them to alerts): 0 ok or skipped by the lease; 1 verification failed / pass failed;
+// 4 Supabase refused the credential; 5 Supabase unreachable; 6 partial pass (API errors or timeout on some batch).
+const code = problems.length ? 1
+  : crash === 'auth' ? 4
+  : crash === 'unreachable' ? 5
+  : !outcome || outcome.status === 'failed' ? 1
+  : outcome.status === 'partial' ? 6
+  : 0;
+console.log(`codigo de saida: ${code}`);
+process.exit(code);
