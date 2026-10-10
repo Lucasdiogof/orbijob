@@ -26,6 +26,15 @@ drop policy if exists resumes_objects_insert on storage.objects;
 drop policy if exists resumes_objects_update on storage.objects;
 drop policy if exists resumes_objects_delete on storage.objects;
 
+-- the in-database Jobicy revalidation (migration 20261015000000): forget its cron jobs, then drop its schema
+do $$
+begin
+  if to_regnamespace('cron') is not null then
+    perform cron.unschedule(jobname) from cron.job where jobname in ('jobicy-revalidate-start', 'jobicy-revalidate-collect', 'ops-cron-history-purge');
+  end if;
+end $$;
+drop schema if exists ops cascade;
+
 drop table if exists
   public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,
   public.saved_jobs, public.resumes, public.credentials, public.education, public.experiences,
@@ -50,7 +59,8 @@ do $$
 begin
   if to_regclass('supabase_migrations.schema_migrations') is not null then
     delete from supabase_migrations.schema_migrations
-    where version in ('20261008000000', '20261009000000', '20261010000000', '20261011000000', '20261012000000');
+    where version in ('20261008000000', '20261009000000', '20261010000000', '20261011000000', '20261012000000',
+                      '20261013000000', '20261014000000', '20261015000000');
   end if;
 end $$;
 commit;

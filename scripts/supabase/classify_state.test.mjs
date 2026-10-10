@@ -6,28 +6,35 @@ import { classify, parseInspection, MIGRATIONS } from './classify_state.mjs';
 const load = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}.json`, import.meta.url), 'utf8'));
 const V = MIGRATIONS.map((m) => m.version);
 
-test('fresh project is EMPTY and all seven migrations are pending', () => {
+test('fresh project is EMPTY and all eight migrations are pending', () => {
   const r = classify(load('empty'));
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 7);
+  assert.equal(r.pending.length, 8);
   assert.equal(r.safeToPlan, true);
 });
 
 test('database that stops at migration 4 needs the corrective fifth and the service_role grants', () => {
   const r = classify(load('after-1-to-4'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix', '20261013000000_service_role_grants', '20261014000000_service_role_least_privilege']);
+  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix', '20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation']);
 });
 
-test('a database that stops at migration 6 (the real project today) needs only the least-privilege migration', () => {
+test('a database that stops at migration 6 needs the least-privilege migration and the in-database revalidation', () => {
   const r = classify(load('after-1-to-6'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261014000000_service_role_least_privilege']);
+  assert.deepEqual(r.pending, ['20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation']);
+  assert.deepEqual(r.problems, []);
+});
+
+test('a database that stops at migration 7 (the real project today) needs only the in-database revalidation', () => {
+  const r = classify(load('after-1-to-7'));
+  assert.equal(r.state, 'CONSISTENT_PARTIAL');
+  assert.deepEqual(r.pending, ['20261015000000_supabase_cron_revalidation']);
   assert.deepEqual(r.problems, []);
 });
 
 test('fully migrated database has nothing pending', () => {
-  const r = classify(load('after-1-to-7'));
+  const r = classify(load('after-1-to-8'));
   assert.equal(r.state, 'CONSISTENT_UP_TO_DATE');
   assert.deepEqual(r.pending, []);
 });
@@ -119,7 +126,7 @@ const real = () => JSON.parse(readFileSync(new URL('./fixtures/owner-reported-20
 test('real project (PostgreSQL 17.11, no OrbiJob objects, null history) is EMPTY with its justification', () => {
   const r = classify(real());
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 7);
+  assert.equal(r.pending.length, 8);
   assert.match(r.evidence.join('\n'), /history table .* does not exist/);
   assert.match(r.evidence.join('\n'), /public tables: 0, policies: 0, triggers: 0, buckets: 0/);
 });
@@ -169,7 +176,7 @@ test('an old PostgreSQL major version only warns, PostgreSQL 17 does not', () =>
 test('real project after migrations 1-5: consistent, only the service_role migrations are pending', () => {
   const r = classify(JSON.parse(readFileSync(new URL('./fixtures/real-after-1-to-5-2026-10-09.json', import.meta.url), 'utf8')));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261013000000_service_role_grants', '20261014000000_service_role_least_privilege']);
+  assert.deepEqual(r.pending, ['20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation']);
   assert.deepEqual(r.problems, []);
 });
 
@@ -182,9 +189,20 @@ test('service_role already reading the catalogue while the history lacks migrati
 });
 
 test('the DELETE privilege coming back on jobs after migration 7 is DRIFT (a grant reverted by hand)', () => {
-  const d = load('after-1-to-7');
+  const d = load('after-1-to-8');
   d.public_grants.find((g) => g.role === 'service_role' && g.table === 'jobs').privileges.push('DELETE');
   const r = classify(d);
   assert.equal(r.state, 'DRIFT');
   assert.match(r.problems.join('\n'), /service_role_least_privilege .* objects are missing/);
+});
+
+test('the `ops` schema existing while the history lacks migration 8 is DRIFT (applied by hand), and its absence after migration 8 is too', () => {
+  const a = load('after-1-to-7'); a.schemas = [...a.schemas, 'ops'];
+  const ra = classify(a);
+  assert.equal(ra.state, 'DRIFT');
+  assert.match(ra.problems.join(' | '), /supabase_cron_revalidation .* history does not list it/);
+  const b = load('after-1-to-8'); b.schemas = b.schemas.filter((x) => x !== 'ops');
+  const rb = classify(b);
+  assert.equal(rb.state, 'DRIFT');
+  assert.match(rb.problems.join(' | '), /supabase_cron_revalidation .* objects are missing/);
 });
