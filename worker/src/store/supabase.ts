@@ -1,4 +1,5 @@
 import { HttpError, parseRetryAfter } from '../http';
+import { RunConflict, type RunLedger, type RunPatch, type RunRef } from '../lease';
 import type { JobRow, JobStore, SyncRunRow } from '../sync';
 
 /**
@@ -9,7 +10,7 @@ import type { JobRow, JobStore, SyncRunRow } from '../sync';
  *   - migration 20261013000000_service_role_grants.sql (service_role has no table privilege without it)
  *   - a `job_sources` row for the source (jobs.source_id is a foreign key)
  */
-export class SupabaseJobStore implements JobStore {
+export class SupabaseJobStore implements JobStore, RunLedger {
   private readonly base: string;
 
   /**
@@ -19,7 +20,8 @@ export class SupabaseJobStore implements JobStore {
   constructor(
     supabaseUrl: string,
     private readonly serviceKey: string,
-    private readonly fetchImpl: typeof fetch = fetch,
+    // an arrow, not `fetch` itself: in Workers a platform function called as a method of another object throws "Illegal invocation"
+    private readonly fetchImpl: typeof fetch = (input, init) => fetch(input, init),
     private readonly timeoutMs = 20_000,
   ) {
     let u: URL;
@@ -89,7 +91,46 @@ export class SupabaseJobStore implements JobStore {
   async recordRun(run: SyncRunRow): Promise<void> {
     await this.call('sync_runs', { method: 'POST', body: run, prefer: 'return=minimal' });
   }
+
+  // ───────── RunLedger: the run record doubles as the lease (see lease.ts) ─────────
+
+  async runningRuns(sourceId: string): Promise<RunRef[]> {
+    const res = await this.call(
+      `sync_runs?select=id,status,started_at,error_class&source_id=eq.${encodeURIComponent(sourceId)}&status=eq.running&order=started_at.asc&limit=50`,
+      { method: 'GET' },
+    );
+    return (await res.json()) as RunRef[];
+  }
+
+  async finishedSince(sourceId: string, sinceIso: string, untilIso: string): Promise<RunRef[]> {
+    const res = await this.call(
+      `sync_runs?select=id,status,started_at,error_class&source_id=eq.${encodeURIComponent(sourceId)}&status=neq.running&started_at=gte.${encodeURIComponent(sinceIso)}&started_at=lte.${encodeURIComponent(untilIso)}&order=started_at.desc&limit=50`,
+      { method: 'GET' },
+    );
+    return (await res.json()) as RunRef[];
+  }
+
+  async beginRun(row: { id?: string; source_id: string; scope: string; started_at: string }): Promise<string> {
+    if (row.id !== undefined && !UUID.test(row.id)) throw new Error('SupabaseJobStore: invalid run id');
+    // Plain INSERT (no merge-duplicates): with an explicit id that already exists PostgreSQL refuses it (unique violation,
+    // HTTP 409 through PostgREST). That refusal is the mutual exclusion between Worker instances.
+    const res = await this.call('sync_runs?select=id', {
+      method: 'POST',
+      body: { ...row, status: 'running' },
+      prefer: 'return=representation',
+    }).catch((e) => { throw e instanceof HttpError && e.status === 409 ? new RunConflict() : e; });
+    const id = ((await res.json()) as { id?: unknown }[])[0]?.id;
+    if (typeof id !== 'string' || !UUID.test(id)) throw new Error('SupabaseJobStore: the run id was not returned');
+    return id;
+  }
+
+  async finishRun(id: string, patch: RunPatch): Promise<void> {
+    if (!UUID.test(id)) throw new Error('SupabaseJobStore: invalid run id');
+    await this.call(`sync_runs?id=eq.${id}`, { method: 'PATCH', body: patch, prefer: 'return=minimal' });
+  }
 }
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** True for a three-part JWT (the legacy service_role key); false for `sb_secret_...` keys. */
 export function isJwt(key: string): boolean {

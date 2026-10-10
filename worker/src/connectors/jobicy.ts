@@ -22,7 +22,7 @@ export const JOBICY_SOURCE = {
   canRedistribute: true,
 };
 
-const BASE = 'https://jobicy.com/api/v2/remote-jobs';
+const DEFAULT_ORIGIN = 'https://jobicy.com';
 const PAGE_SIZE = 100; // README: "Use 100 for smaller pages" (default and maximum are 200)
 const STATUS_BATCH = 100; // README: 1-100 ids per status request
 
@@ -117,7 +117,12 @@ interface JobicyPage {
 }
 
 /** `scope` is an optional filter query string such as `geo=usa&industry=engineering` ('' = all remote jobs). */
-export function jobicyConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date()): Connector {
+export function jobicyConnector(
+  fetchImpl: typeof fetch,
+  now: () => Date = () => new Date(),
+  opts: { origin?: string } = {},
+): Connector {
+  const BASE = `${(opts.origin ?? DEFAULT_ORIGIN).replace(/\/+$/, '')}/api/v2/remote-jobs`;
   return {
     id: JOBICY_SOURCE.id,
     // Not a documented limit: Jobicy publishes no request quota. One request per second is this adapter's own

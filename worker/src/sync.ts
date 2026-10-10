@@ -94,6 +94,13 @@ export interface SyncOptions {
   /** Safety cap on pages per pass. */
   maxPages?: number;
   /**
+   * Epoch milliseconds after which no new request is started. The pass then ends as `partial` (error class `deadline`)
+   * and nothing is closed: a Worker invocation has a wall-clock limit and must stop on its own terms.
+   */
+  deadlineAt?: number;
+  /** Where the final run record goes. Default: `store.recordRun` (a new row). A caller that opened the row earlier (lease) updates it instead. */
+  recordRun?: (run: SyncRunRow) => Promise<void>;
+  /**
    * Declares that a COMPLETE traversal of [scope] lists every open job of the source (a single-board source). Only then is
    * "absent from a full snapshot" treated as closed. Default false: with several scopes under one source id (one board per
    * company), a snapshot of one scope says nothing about the jobs of the others, and closing them would be wrong.
@@ -152,8 +159,10 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     log('sync.error', { source: sourceId, errorClass: s.error_class, pages: s.pages });
   };
 
+  const pastDeadline = () => o.deadlineAt !== undefined && now().getTime() >= o.deadlineAt;
   for (let guard = 0; guard < (o.maxPages ?? 50) + 1; guard++) {
     if (s.pages >= (o.maxPages ?? 50)) { s.status = 'partial'; s.error_class = 'max_pages'; break; }
+    if (pastDeadline()) { s.status = s.upserted > 0 ? 'partial' : 'failed'; s.error_class = 'deadline'; break; }
     const wait = limiter.reserve();
     if (wait > 0) await sleep(wait);
     let page;
@@ -191,7 +200,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
 
   if (completed && s.status === 'ok') {
     try {
-      s.closed = await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep);
+      s.closed = await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep, pastDeadline);
     } catch (e) {
       fail(e); // the pass itself was fine; only the closure step is missing
       s.status = 'partial';
@@ -204,7 +213,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     http_errors: s.http_errors, error_class: s.error_class,
   };
   try {
-    await withRetry(() => o.store.recordRun(run), retry);
+    await withRetry(() => (o.recordRun ?? ((r) => o.store.recordRun(r)))(run), retry);
     s.runRecorded = true;
   } catch (e) {
     log('sync.run_not_recorded', { source: sourceId, errorClass: errorClass(e) });
@@ -223,7 +232,7 @@ const MAX_STATUS_BATCHES = 30;
  */
 async function closeStale(
   o: SyncOptions, sourceId: string, seen: Set<string>, snapshotCovers: boolean, retry: RetryOptions,
-  limiter: RateLimiter, sleep: (ms: number) => Promise<void>,
+  limiter: RateLimiter, sleep: (ms: number) => Promise<void>, pastDeadline: () => boolean,
 ): Promise<number> {
   const open = await withRetry(() => o.store.listOpenExternalIds(sourceId), retry);
   const absent = open.filter((id) => !seen.has(id));
@@ -232,6 +241,7 @@ async function closeStale(
   if (!toClose.length && o.connector.checkStatuses) {
     const check = o.connector.checkStatuses.bind(o.connector);
     for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += STATUS_BATCH, b++) {
+      if (pastDeadline()) throw new Error('deadline'); // the pass is reported as partial; closing what was proven so far is skipped
       const batch = absent.slice(i, i + STATUS_BATCH);
       const wait = limiter.reserve();
       if (wait > 0) await sleep(wait);
