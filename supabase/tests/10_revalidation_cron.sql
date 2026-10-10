@@ -47,7 +47,8 @@ begin
   perform tests.count($q$select 1 from public.jobs where source_id = 'jobicy' and status = 'open' and last_checked_at < timestamptz '2026-10-02'$q$, 148);
   if ops.jobicy_revalidate_collect() <> 'nothing_to_collect' then raise exception 'collect must be idempotent'; end if;
   if ops.jobicy_revalidate_start() <> 'skipped:too_soon' then raise exception 'one pass per hour'; end if;
-  perform tests.count($q$select 1 from public.jobs$q$, 150);
+  -- The previous SQL suites leave two non-Jobicy fixture jobs in the same database.
+  perform tests.count($q$select 1 from public.jobs$q$, 152);
   perform tests.count($q$select 1 from public.job_sources where id = 'jobicy' and can_redistribute$q$, 1);
 end $$;
 
