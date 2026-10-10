@@ -117,7 +117,7 @@ describe('diagnostics-schedule.yml (temporary)', () => {
   });
   it('fires every 15 minutes, away from minute 0, and can be run by hand; no other trigger', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['7,22,37,52 * * * *']);
+    expect(crons).toEqual(['11,26,41,56 * * * *']);
     expect(c).toMatch(/workflow_dispatch:/);
     const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
     expect(on).not.toMatch(/push:|pull_request|workflow_run|issue|repository_dispatch/);
