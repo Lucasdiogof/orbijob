@@ -1,19 +1,30 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
+import 'package:orbijob/features/search/domain/job_filters.dart';
 import 'package:orbijob/features/search/domain/search_repository.dart';
 import 'package:orbijob/features/search/presentation/cubit/search_cubit.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
 
 class _Throwing implements SearchRepository {
   @override
-  Future<SearchResult> search(String query, {String? countryCode}) async =>
-      throw Exception('x');
+  Future<SearchResult> search(
+    String query, {
+    String? countryCode,
+    JobFilters filters = const JobFilters(),
+    int offset = 0,
+    int limit = 20,
+  }) async => throw Exception('x');
 }
 
 class _Empty implements SearchRepository {
   @override
-  Future<SearchResult> search(String query, {String? countryCode}) async =>
-      const SearchResult(jobs: [], hasIntegratedSource: true);
+  Future<SearchResult> search(
+    String query, {
+    String? countryCode,
+    JobFilters filters = const JobFilters(),
+    int offset = 0,
+    int limit = 20,
+  }) async => const SearchResult(jobs: [], hasIntegratedSource: true);
 }
 
 void main() {

@@ -58,6 +58,10 @@ String? placeLabel(JobPosting j) {
     if (j.city != null && j.city!.isNotEmpty) j.city!,
     if (j.country != null && j.country!.isNotEmpty) j.country!,
   ];
+  if (parts.isEmpty && j.geoRestrictions.isNotEmpty) {
+    // A remote job tied to no city/country still tells where applicants must be (codes and regions as published).
+    return j.geoRestrictions.join(', ');
+  }
   return parts.isEmpty ? null : parts.join(' · ');
 }
 

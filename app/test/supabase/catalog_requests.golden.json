@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "clock": "2026-10-10T12:00:00.000Z",
+  "scenarios": [
+    {
+      "name": "browse",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "text_flutter",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.flutter%2Ctitle.ilike.%2Aflutter%2A%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "text_partial_title",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.engin%2Ctitle.ilike.%2Aengin%2A%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "text_hostile",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.a+status+eq+closed+b+c+d+e%2Ctitle.ilike.%2Aa+status+eq+closed+b+c+d+e%2A%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "country_us",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28country.eq.US%2Cgeo_restrictions.cs.%7BUS%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "country_pt",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28country.eq.PT%2Cgeo_restrictions.cs.%7BPT%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "country_de",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28country.eq.DE%2Cgeo_restrictions.cs.%7BDE%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "mode_onsite",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&work_mode=in.%28%22onsite%22%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "mode_remote_hybrid",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&work_mode=in.%28%22remote%22%2C%22hybrid%22%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "published_7d",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&published_at=gte.2026-10-03T12%3A00%3A00.000Z&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "only_with_salary",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28salary_min.not.is.null%2Csalary_max.not.is.null%29&salary_currency=not.is.null&salary_period=not.is.null&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "text_and_country_two_or_groups",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.developer%2Ctitle.ilike.%2Adeveloper%2A%29&or=%28country.eq.PT%2Cgeo_restrictions.cs.%7BPT%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "text_and_country_overlap",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.nurse%2Ctitle.ilike.%2Anurse%2A%29&or=%28country.eq.US%2Cgeo_restrictions.cs.%7BUS%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "all_filters",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28country.eq.US%2Cgeo_restrictions.cs.%7BUS%7D%2Cand%28work_mode.eq.remote%2Ccountry.is.null%2Cgeo_restrictions.eq.%7B%7D%29%29&or=%28salary_min.not.is.null%2Csalary_max.not.is.null%29&work_mode=in.%28%22remote%22%29&published_at=gte.2026-10-03T12%3A00%3A00.000Z&salary_currency=not.is.null&salary_period=not.is.null&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        }
+      ]
+    },
+    {
+      "name": "page_1",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=4"
+        }
+      ]
+    },
+    {
+      "name": "page_2",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=3&limit=4"
+        }
+      ]
+    },
+    {
+      "name": "empty_catalogue_source_check",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/rest/v1/jobs",
+          "query": "select=id%2Csource_id%2Cexternal_id%2Ccompany%2Ctitle%2Cdescription%2Ccountry%2Ccity%2Clanguage%2Cwork_mode%2Ccontract_type%2Csalary_min%2Csalary_max%2Csalary_currency%2Csalary_period%2Cpublished_at%2Coriginal_url%2Capply_url%2Cstatus%2Cgeo_restrictions%2Cjob_sources%21inner%28id%2Cattribution%2Ccan_redistribute%2Cstatus%29&status=eq.open&job_sources.can_redistribute=eq.true&job_sources.status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&or=%28search.wfts%28simple%29.nurse%2Ctitle.ilike.%2Anurse%2A%29&order=published_at.desc.nullslast%2Cid.desc.nullslast&offset=0&limit=21"
+        },
+        {
+          "method": "GET",
+          "path": "/rest/v1/job_sources",
+          "query": "select=id&can_redistribute=eq.true&status=in.%28%22READY%22%2C%22CONDITIONAL%22%29&limit=1"
+        }
+      ]
+    }
+  ]
+}

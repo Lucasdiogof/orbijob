@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/design/design.dart';
 import '../../../../core/format/job_format.dart';
+import '../../../../core/open_link.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/compatibility_indicator.dart';
 import '../../../../core/widgets/confidence_indicator.dart';
 import '../../../../core/widgets/status_badge.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../data/job_snapshot.dart' show manualSource;
 import '../../domain/entities/job_posting.dart';
 
 /// Details of one job. Shown as a page on narrow screens and as the detail pane on wide ones.
@@ -52,7 +54,7 @@ class JobDetailView extends StatelessWidget {
                 child: Text(j.title, style: t.headlineMedium),
               ),
               const SizedBox(height: AppSpace.s2),
-              Text(j.company, style: t.titleSmall),
+              if (j.company.isNotEmpty) Text(j.company, style: t.titleSmall),
             ],
           ),
         ),
@@ -69,6 +71,13 @@ class JobDetailView extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ],
+        if (j.geoRestrictions.isNotEmpty) ...[
+          const SizedBox(height: AppSpace.s2),
+          Text(
+            l.eligibleIn(j.geoRestrictions.join(', ')),
+            style: t.bodyMedium!.copyWith(color: c.muted),
           ),
         ],
         if (mode.isNotEmpty ||
@@ -107,6 +116,19 @@ class JobDetailView extends StatelessWidget {
               if (published != null)
                 Text(published, style: t.bodySmall!.copyWith(color: c.muted)),
             ],
+          ),
+        ],
+        if ((j.description ?? '').isNotEmpty) ...[
+          const SizedBox(height: AppSpace.s5),
+          Semantics(
+            header: true,
+            child: Text(l.jobDescriptionTitle, style: t.titleMedium),
+          ),
+          const SizedBox(height: AppSpace.s2),
+          Semantics(
+            localeForSubtree: j.language == null ? null : Locale(j.language!),
+            // Plain text only: the catalogue strips markup before storing.
+            child: Text(j.description!, style: t.bodyMedium),
           ),
         ],
         if (m != null) ...[
@@ -150,6 +172,25 @@ class JobDetailView extends StatelessWidget {
           Text(
             l.sourceLabel(j.sourceName!),
             style: t.bodySmall!.copyWith(color: c.muted),
+          ),
+        ],
+        if (j.source != manualSource && j.originalUrl.isNotEmpty) ...[
+          const SizedBox(height: AppSpace.s3),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: AppButton(
+              label: l.openOriginalListing,
+              icon: Icons.open_in_new,
+              variant: AppButtonVariant.secondary,
+              onPressed: () async {
+                final ok = await openExternalLink(j.originalUrl);
+                if (!ok && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l.applicationLinkCannotOpen)),
+                  );
+                }
+              },
+            ),
           ),
         ],
         if (onOpenApplication != null) ...[

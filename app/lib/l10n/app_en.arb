@@ -360,5 +360,44 @@
   "authErrorLinkInvalid": "This link has expired or was already used. Request a new one.",
   "authErrorSamePassword": "Choose a password different from the current one.",
   "authCancelRecovery": "Cancel",
-  "commonLoading": "Loading"
+  "commonLoading": "Loading",
+  "filtersButton": "Filters",
+  "filtersButtonCount": "Filters ({count})",
+  "@filtersButtonCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filtersClear": "Clear filters",
+  "filterWorkMode": "Work mode",
+  "filterPublished": "Posted",
+  "filterPublished1": "Last 24 hours",
+  "filterPublished7": "Last 7 days",
+  "filterPublished30": "Last 30 days",
+  "filterWithSalary": "Only with salary",
+  "filterCountry": "Country (from your profile)",
+  "browseLatest": "Show latest jobs",
+  "loadMore": "Show more",
+  "loadMoreFailed": "Could not load more jobs.",
+  "resultsShown": "{count, plural, =1{Showing 1 job} other{Showing {count} jobs}}",
+  "@resultsShown": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyFiltersBody": "No jobs match these filters. Try removing some.",
+  "openOriginalListing": "Open original listing",
+  "eligibleIn": "Open to applicants in: {places}",
+  "@eligibleIn": {
+    "placeholders": {
+      "places": {
+        "type": "String"
+      }
+    }
+  },
+  "jobDescriptionTitle": "Description"
 }

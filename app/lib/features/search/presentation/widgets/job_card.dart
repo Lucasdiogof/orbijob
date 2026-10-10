@@ -91,8 +91,10 @@ class JobCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(j.title, style: t.titleMedium),
-                                  const SizedBox(height: AppSpace.s1),
-                                  Text(j.company, style: t.bodyMedium),
+                                  if (j.company.isNotEmpty) ...[
+                                    const SizedBox(height: AppSpace.s1),
+                                    Text(j.company, style: t.bodyMedium),
+                                  ],
                                 ],
                               ),
                             ),
