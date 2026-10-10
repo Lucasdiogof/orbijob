@@ -47,7 +47,9 @@ Garantias (cada uma tem teste: `worker/test/supabase-cron-revalidation.test.ts`,
 Limites conhecidos: 1000 vagas por passada (hoje 299; com o catálogo maior, a verificação mais antiga vai primeiro e o alerta de validade avisa); o pg_net guarda
 respostas em tabela não registrada (perdida num crash do banco: o run vira timeout e a próxima passada refaz); a coleta tem 5 tentativas por ciclo.
 
-## Ativação (só com autorização; nada disso foi executado)
+## Ativação (executada com autorização do proprietário em 2026-10-10)
+Estado: migration aplicada; prova manual (20:28 UTC) e prova disparada pelo Supabase Cron (21:31 start / 21:34 collect, jobs temporários já removidos) concluídas; agenda definitiva ativa (3 jobs). Arquitetura e recuperação: `docs/DEPLOYED_ARCHITECTURE.md`. Os passos abaixo ficam como procedimento de reativação.
+
 1. Merge do PR (a migration só cria funções; **não agenda nada**).
 2. Aplicar a migration `20261015000000_supabase_cron_revalidation.sql` (`supabase db push`; instala `pg_net` e `pg_cron` onde faltarem).
 3. **Prova real, uma vez, sem agendar:** `select ops.jobicy_revalidate_start();` → esperar ~10 s → `select ops.jobicy_revalidate_collect();`. Conferir: 299 vagas,
