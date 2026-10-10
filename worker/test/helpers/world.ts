@@ -98,10 +98,12 @@ export class World {
     if (table === 'sync_runs') {
       if (method === 'GET') {
         const status = q.get('status') ?? '';
-        const since = q.get('started_at')?.replace(/^gte\./, '');
+        const bounds = q.getAll('started_at'); // [gte.<since>, lte.<until>]: PostgREST ANDs repeated filters on one column
+        const lo = bounds.find((b) => b.startsWith('gte.'))?.slice(4);
+        const hi = bounds.find((b) => b.startsWith('lte.'))?.slice(4);
         const rows = this.runs.filter((r) => r.source_id === eq('source_id')
           && (status === 'eq.running' ? r.status === 'running' : status === 'neq.running' ? r.status !== 'running' : true)
-          && (!since || Date.parse(r.started_at) >= Date.parse(since)));
+          && (!lo || Date.parse(r.started_at) >= Date.parse(lo)) && (!hi || Date.parse(r.started_at) <= Date.parse(hi)));
         return json(200, rows.map((r) => ({ id: r.id, status: r.status, started_at: r.started_at, error_class: r.error_class })));
       }
       if (method === 'POST') {

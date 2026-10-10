@@ -52,6 +52,24 @@ Uma linha `running` com mais de 20 min é uma execução que caiu: é fechada co
 
 **Por que o resto é inofensivo:** toda gravação do catálogo é `upsert` por chave única e nenhuma vaga é fechada sem a resposta `closed` da própria fonte. Uma passada a mais custa uma requisição a mais ao Jobicy, não corrompe dados.
 
+### Política de janelas e de recuperação
+
+**Janela.** É a hora UTC cheia: `floor(agora / 1 h)`, alinhada à época (12:00:00.000 a 12:59:59.999 é uma janela). O id da execução é derivado de `(fonte, janela)`. A pergunta "terminou alguma execução na última hora?" olha o intervalo **fechado dos dois lados**, `(agora − 1 h, agora]`: uma linha datada **depois** de "agora" (relógio de outra instância um pouco adiantado, backup restaurado, dado de teste) **não** conta como "a última hora". Esse limite superior faltava no primeiro desenho e era a causa dos cinco testes que falharam no CI (ver abaixo).
+
+| Situação | O que fica no banco | Nova tentativa |
+|---|---|---|
+| **Sucesso** | linha `ok` | só depois de 60 min (no cron de 6 h, na próxima entrega). Dentro da hora: `too_soon` ou recusa pela chave |
+| **Falha total** (429, 5xx, timeout ao falar com a fonte) | linha `failed` com a classe (`http_429`, `timeout`…) e nada fechado | **retry na mesma hora é proibido de propósito**: uma falha também conta como passada, para não martelar uma fonte que acabou de nos recusar. As tentativas com recuo (*backoff*) acontecem **dentro** da mesma passada. Próxima tentativa: a janela seguinte |
+| **Falha parcial** | linha `partial`, o que foi gravado fica, **nada é fechado** | igual à falha |
+| **Prazo interno de 12 min** | linha `partial`, `error_class = deadline` | igual à falha |
+| **Queda do Worker** (limite da plataforma, reinício, deploy no meio) | a linha fica `running` | a partir de **20 min** ela é *stale*: a próxima execução que começar a lê e a fecha como `failed / stale_lock`. A janela da execução que caiu continua usada pela chave: a nova tentativa é na **janela seguinte** (no cron de 6 h, a próxima entrega) |
+| **Credencial recusada / banco inalcançável** | nada (a execução nem começou) | a próxima entrega do cron; nenhuma janela foi ocupada |
+| **Entrega duplicada do cron** | nada novo | pulada (`running`, `too_soon` ou `lost_race`), registrada em log |
+
+**Como uma lease *stale* é identificada:** pela **idade** da linha `running` (`agora − started_at ≥ 20 min`), nunca por um relógio de quem a criou. **Como evitar uma execução presa para sempre:** a idade é avaliada a cada novo início, então uma linha esquecida em `running` nunca bloqueia a fonte por mais de 20 min; ela só continua listada como `running` até a próxima execução limpá-la (efeito apenas cosmético).
+
+**Risco: um processo antigo continuar trabalhando depois de a lease expirar.** Com esta chave única, a lease não tem um "token de fencing": se uma execução pudesse viver mais que o TTL, outra poderia começar e as duas escreveriam. Aqui isso **não pode acontecer na plataforma**: o prazo da própria passada é de 12 min (`RUN_BUDGET_MS`) e a Cloudflare limita um cron a **15 min** de relógio, ambos **menores que o TTL de 20 min**. Se o TTL algum dia ficasse menor que o tempo máximo de uma execução (ou se a plataforma mudasse o limite), seria preciso um *fencing token* (um número que cresce a cada lease e que toda gravação confere, rejeitando o antigo), ou uma operação transacional no banco (por exemplo, uma função SQL que reivindica e grava com verificação). Isso exigiria uma migration e **não foi feito**. Mesmo no pior caso, as gravações são `upsert` por chave única e fechar vaga exige a resposta `closed` da fonte, então uma execução zumbi não corrompe o catálogo.
+
 **Garantia estrita opcional (migration, NÃO aplicada, a ser aprovada à parte):** um índice único parcial faria o banco recusar duas linhas `running` da mesma fonte em qualquer momento, inclusive entre janelas:
 
 ```sql

@@ -35,7 +35,7 @@ async function legacyAcquire(ledger: RunLedger, o: { sourceId: string; now: Date
   const t = (iso: string) => Date.parse(iso);
   const live = (await ledger.runningRuns(o.sourceId)).filter((r) => now - t(r.started_at) < 20 * 60_000);
   if (live.length) return 'skipped';
-  const recent = await ledger.finishedSince(o.sourceId, new Date(now - 60 * 60_000 + 1).toISOString());
+  const recent = await ledger.finishedSince(o.sourceId, new Date(now - 60 * 60_000 + 1).toISOString(), '9999-12-31T00:00:00.000Z'); // the first design had no upper bound
   if (recent.length) return 'skipped';
   const id = await ledger.beginRun({ source_id: o.sourceId, scope: '', started_at: o.now.toISOString() }); // random id: nothing can refuse it
   const before = (a: { id: string; started_at: string }, b: { id: string; started_at: string }) => t(a.started_at) < t(b.started_at) || (t(a.started_at) === t(b.started_at) && a.id < b.id);

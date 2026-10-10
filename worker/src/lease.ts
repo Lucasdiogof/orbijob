@@ -52,8 +52,12 @@ export class RunConflict extends Error {
 export interface RunLedger {
   /** Runs of the source with status 'running', of any age. */
   runningRuns(sourceId: string): Promise<RunRef[]>;
-  /** Runs of the source that are not 'running' and started at or after [sinceIso]. */
-  finishedSince(sourceId: string, sinceIso: string): Promise<RunRef[]>;
+  /**
+   * Runs of the source that are not 'running' and started within [sinceIso, untilIso] (both inclusive). The window is closed on
+   * BOTH sides on purpose: a row dated after "now" (another instance's clock a little ahead, a test, a restored backup) says
+   * nothing about the last hour and must never throttle this run.
+   */
+  finishedSince(sourceId: string, sinceIso: string, untilIso: string): Promise<RunRef[]>;
   /**
    * Inserts a 'running' row and returns its id. With an explicit `id` the insert must be ATOMIC and fail with
    * {@link RunConflict} if that id exists already (that is the whole mutual exclusion).
@@ -109,8 +113,9 @@ export async function acquireLease(ledger: RunLedger, o: LeaseOptions): Promise<
   }
   if (live.length) return { kind: 'skipped', reason: 'running' };
 
-  // `+ 1`: a run that started exactly one interval ago is no longer "within the interval" (it is the previous slot)
-  const recent = (await ledger.finishedSince(o.sourceId, new Date(now - minInterval + 1).toISOString()))
+  // The window is (now - interval, now]. `+ 1`: a run that started exactly one interval ago is no longer "within the interval"
+  // (it is the previous slot). The upper bound is `now`: rows dated later are not "the last hour".
+  const recent = (await ledger.finishedSince(o.sourceId, new Date(now - minInterval + 1).toISOString(), nowIso))
     .filter((r) => !LEASE_CLASSES.has(r.error_class ?? ''));
   if (recent.length) return { kind: 'skipped', reason: 'too_soon' };
 

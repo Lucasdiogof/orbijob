@@ -212,6 +212,26 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
   const runsBetween = async (a: Date, b: Date) => (await rest('GET', `/sync_runs?select=status,error_class&source_id=eq.jobicy&started_at=gte.${encodeURIComponent(a.toISOString())}&started_at=lte.${encodeURIComponent(b.toISOString())}`, { token: svc })).json as RunRow[];
   const jobStatus = async (id: string) => ((await rest('GET', `/jobs?select=status&source_id=eq.jobicy&external_id=eq.${id}`, { token: svc })).json as { status: string }[])[0]?.status;
 
+  /**
+   * Everything needed to understand a surprising outcome, sanitized (no credentials, ids cut short): the clock the run used,
+   * the one-hour slot and its deterministic id, and the state of the ledger around it. Attached to the assertion message, so
+   * a failure in CI explains itself in the annotation.
+   */
+  const why = async (outcome: unknown, now: Date) => {
+    const ledger = (await rest('GET', '/sync_runs?select=id,started_at,status,error_class&source_id=eq.jobicy&order=started_at.asc', { token: svc })).json as { id: string; started_at: string; status: string; error_class: string | null }[];
+    const around = ledger.filter((r) => Math.abs(Date.parse(r.started_at) - now.getTime()) < 3 * 3_600_000).map((r) => `${r.id.slice(0, 8)}@${r.started_at.slice(0, 16)}:${r.status}${r.error_class ? '/' + r.error_class : ''}`);
+    return `now=${now.toISOString()} slotId=${(await slotRunId('jobicy', now.getTime(), 3_600_000)).slice(0, 8)} outcome=${JSON.stringify(outcome)} ledgerRowsWithin3h=[${around.join(' ')}] totalLedgerRows=${ledger.length}`;
+  };
+  const runOk = async (w: ReturnType<typeof world>, now: Date) => {
+    const o = await runScheduledSync(env(), w.deps());
+    expect(o.status, await why(o, now)).toBe('ok');
+    return o;
+  };
+  const expectSkipped = async (w: ReturnType<typeof world>, now: Date, reason: string) => {
+    const o = await runScheduledSync(env(), w.deps());
+    expect(o, await why(o, now)).toEqual({ status: 'skipped', reason });
+  };
+
   it('a pass through the handler leaves ONE run row (the claim row, updated to its final state)', async () => {
     const clock = { now: day(1) };
     const w = world(clock);
@@ -239,25 +259,35 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     const clock = { now: day(10 + n) };
     const w = world(clock);
     const out = await Promise.all(Array.from({ length: n }, () => runScheduledSync(env(), w.deps())));
-    expect(out.filter((o) => o.status === 'ok')).toHaveLength(1);
+    expect(out.filter((o) => o.status === 'ok'), await why(out, clock.now)).toHaveLength(1);
     const skipped = out.filter((o) => o.status === 'skipped') as { status: 'skipped'; reason: string }[];
     expect(skipped).toHaveLength(n - 1);
-    expect(skipped.every((o) => ['running', 'lost_race'].includes(o.reason))).toBe(true);
+    // every legitimate way to be turned away: saw the winner running, lost the key, or arrived after the winner had finished
+    expect(skipped.every((o) => ['running', 'lost_race', 'too_soon'].includes(o.reason))).toBe(true);
     expect(w.counts.feed).toBe(2); // the two pages of ONE pass: the source was asked once
     // STRICT: one row for the hour, finished ok. The losers left no trace and nothing is stuck "running".
     expect(await runsAt(clock.now)).toEqual([{ status: 'ok', error_class: null, upserted: 10 }]);
     expect(await runsBetween(day(10 + n, 0), day(10 + n, 23))).toEqual([{ status: 'ok', error_class: null }]);
   });
 
+  it('rows of other days (earlier OR later) never decide this hour: the isolation the failures in CI exposed', async () => {
+    // finished rows weeks ahead and behind, all in the table already (the n-simultaneous tests left some at days 12, 13 and 20)
+    const rowsAhead = (await rest('GET', `/sync_runs?select=id&source_id=eq.jobicy&status=eq.ok&started_at=gte.${encodeURIComponent(day(11).toISOString())}`, { token: svc })).json as unknown[];
+    expect(rowsAhead.length).toBeGreaterThanOrEqual(3);
+    const w = world({ now: day(2) });
+    await runOk(w, day(2)); // not "too_soon" because of a run dated later
+    expect(w.counts.feed).toBe(2);
+  });
+
   it('a repeat delivery within the hour is skipped; after the hour it runs again and the catalogue is unchanged', async () => {
     const clock = { now: day(3) };
     const w = world(clock);
-    expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
+    await runOk(w, clock.now);
     clock.now = day(3, 12, 10);
-    expect(await runScheduledSync(env(), w.deps())).toEqual({ status: 'skipped', reason: 'too_soon' });
+    await expectSkipped(w, clock.now, 'too_soon');
     expect(w.counts.feed).toBe(2);
     clock.now = day(3, 13, 0); // exactly one hour later is a new slot
-    expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
+    await runOk(w, clock.now);
     const n = (await rest('GET', '/jobs?select=external_id&source_id=eq.jobicy', { token: svc })).json as unknown[];
     expect(n).toHaveLength(12); // 10 listings + the two stale rows planted above (one closed, one "unknown"); nothing duplicated
   });
@@ -266,7 +296,7 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     const stale = await rest('POST', '/sync_runs?select=id', { token: svc, prefer: 'return=representation', body: { source_id: 'jobicy', scope: '', status: 'running', started_at: day(4, 11, 20).toISOString() } });
     const id = (stale.json as { id: string }[])[0]!.id;
     const clock = { now: day(4) };
-    expect((await runScheduledSync(env(), world(clock).deps())).status).toBe('ok');
+    await runOk(world(clock), clock.now);
     const row = (await rest('GET', `/sync_runs?id=eq.${id}&select=status,error_class`, { token: svc })).json as { status: string; error_class: string }[];
     expect(row).toEqual([{ status: 'failed', error_class: 'stale_lock' }]);
   });
@@ -276,17 +306,17 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     await rest('POST', '/sync_runs', { token: svc, prefer: 'return=minimal', body: { id, source_id: 'jobicy', scope: '', status: 'running', started_at: day(8, 12, 5).toISOString() } });
     const clock = { now: day(8, 12, 40) }; // 35 minutes later: past the 20-minute lease
     const w = world(clock);
-    expect(await runScheduledSync(env(), w.deps())).toEqual({ status: 'skipped', reason: 'lost_race' });
+    await expectSkipped(w, clock.now, 'lost_race');
     expect(w.counts.feed).toBe(0);
     expect((await rest('GET', `/sync_runs?id=eq.${id}&select=status,error_class`, { token: svc })).json).toEqual([{ status: 'failed', error_class: 'stale_lock' }]);
     clock.now = day(8, 13, 0);
-    expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
+    await runOk(w, clock.now);
   });
 
   it('a live run in the database makes the handler skip without touching the source', async () => {
     await rest('POST', '/sync_runs', { token: svc, prefer: 'return=minimal', body: { source_id: 'jobicy', scope: '', status: 'running', started_at: day(5, 11, 55).toISOString() } });
     const w = world({ now: day(5) });
-    expect(await runScheduledSync(env(), w.deps())).toEqual({ status: 'skipped', reason: 'running' });
+    await expectSkipped(w, day(5), 'running');
     expect(w.counts.feed).toBe(0);
   });
 
@@ -310,9 +340,9 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     expect(rows[0]).toMatchObject({ status: 'failed', error_class: 'http_503' });
     expect(rows[0]!.finished_at).not.toBeNull();
     clock.now = day(7, 12, 30); // within the hour: the failure still throttles (do not hammer a source that just failed us)
-    expect(await runScheduledSync(env(), down.deps())).toEqual({ status: 'skipped', reason: 'too_soon' });
+    await expectSkipped(down, clock.now, 'too_soon');
     clock.now = day(7, 13, 0);
-    expect((await runScheduledSync(env(), world(clock).deps())).status).toBe('ok'); // recovery
+    await runOk(world(clock), clock.now); // recovery
   });
 
   it('a PARTIAL pass closes nothing even when the source would say "closed"; the next complete pass closes exactly that', async () => {
@@ -325,7 +355,8 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     expect(await jobStatus(stale)).toBe('open'); // NOT closed by an incomplete pass
     clock.now = day(9, 13, 0);
     const full = world(clock, { [stale]: 'closed' });
-    expect(await runScheduledSync(env(), full.deps())).toMatchObject({ status: 'ok', summary: { closed: 1 } });
+    const done = await runScheduledSync(env(), full.deps());
+    expect(done, await why(done, clock.now)).toMatchObject({ status: 'ok', summary: { closed: 1 } });
     expect(await jobStatus(stale)).toBe('closed');
   });
 });

@@ -15,7 +15,7 @@ class MemoryLedger implements RunLedger {
   constructor(private delay: () => number = () => 0) {}
   private tick = () => new Promise<void>((r) => setTimeout(r, this.delay()));
   async runningRuns(sourceId: string) { await this.tick(); return this.rows.filter((r) => r.source_id === sourceId && r.status === 'running').map((r) => ({ ...r })); }
-  async finishedSince(sourceId: string, since: string) { await this.tick(); return this.rows.filter((r) => r.source_id === sourceId && r.status !== 'running' && Date.parse(r.started_at) >= Date.parse(since)).map((r) => ({ ...r })); }
+  async finishedSince(sourceId: string, since: string, until: string) { await this.tick(); return this.rows.filter((r) => r.source_id === sourceId && r.status !== 'running' && Date.parse(r.started_at) >= Date.parse(since) && Date.parse(r.started_at) <= Date.parse(until)).map((r) => ({ ...r })); }
   async beginRun(row: { id?: string; source_id: string; scope: string; started_at: string }) {
     await this.tick(); // the request travels...
     const id = row.id ?? `gen-${++this.n}`;
@@ -183,5 +183,41 @@ describe('acquireLease', () => {
     await l.finishRun(a.id, { status: 'ok' });
     expect(await acquireLease(l, opts(new Date(T0.getTime() + 4000)))).toEqual({ kind: 'skipped', reason: 'too_soon' });
     expect(l.rows).toHaveLength(1);
+  });
+
+  describe('the "last hour" window is closed on both sides (root cause of the CI failures)', () => {
+    it('REGRESSION: finished runs dated LATER than now do not throttle this run', async () => {
+      const l = new MemoryLedger();
+      // what the live tests left behind: finished runs 1, 2 and 19 days ahead of the run under test
+      for (const [i, d] of [1, 2, 19].entries()) l.rows.push({ id: `future-${i}`, source_id: 'jobicy', status: 'ok', started_at: new Date(T0.getTime() + d * 86_400_000).toISOString(), error_class: null });
+      expect((await acquireLease(l, opts(T0))).kind).toBe('acquired');
+    });
+
+    it('finished runs from long ago do not throttle either; only (now - 1 h, now] does', async () => {
+      const l = new MemoryLedger();
+      l.rows.push({ id: 'old', source_id: 'jobicy', status: 'ok', started_at: at(-61).toISOString(), error_class: null });
+      expect((await acquireLease(l, opts(T0))).kind).toBe('acquired');
+    });
+
+    it('a finished run 59 minutes ago throttles; one exactly 60 minutes ago does not (it is the previous slot)', async () => {
+      const mk = (min: number) => { const l = new MemoryLedger(); l.rows.push({ id: `r${min}`, source_id: 'jobicy', status: 'ok', started_at: at(min).toISOString(), error_class: null }); return l; };
+      expect(await acquireLease(mk(-59), opts(T0))).toEqual({ kind: 'skipped', reason: 'too_soon' });
+      expect((await acquireLease(mk(-60), opts(T0))).kind).toBe('acquired');
+    });
+
+    it('a finished run at this very instant throttles (inclusive upper bound)', async () => {
+      const l = new MemoryLedger();
+      l.rows.push({ id: 'now', source_id: 'jobicy', status: 'ok', started_at: T0.toISOString(), error_class: null });
+      expect(await acquireLease(l, opts(T0))).toEqual({ kind: 'skipped', reason: 'too_soon' });
+    });
+
+    it('two different hours are independent regardless of the order they run in (later first, then earlier)', async () => {
+      const l = new MemoryLedger();
+      const later = (await acquireLease(l, opts(at(180)))) as { id: string };
+      await l.finishRun(later.id, { status: 'ok' });
+      const earlier = await acquireLease(l, opts(T0)); // dated BEFORE a finished run: still its own slot, still allowed
+      expect(earlier.kind).toBe('acquired');
+      expect((earlier as { id: string }).id).not.toBe(later.id);
+    });
   });
 });

@@ -102,9 +102,9 @@ export class SupabaseJobStore implements JobStore, RunLedger {
     return (await res.json()) as RunRef[];
   }
 
-  async finishedSince(sourceId: string, sinceIso: string): Promise<RunRef[]> {
+  async finishedSince(sourceId: string, sinceIso: string, untilIso: string): Promise<RunRef[]> {
     const res = await this.call(
-      `sync_runs?select=id,status,started_at,error_class&source_id=eq.${encodeURIComponent(sourceId)}&status=neq.running&started_at=gte.${encodeURIComponent(sinceIso)}&order=started_at.desc&limit=50`,
+      `sync_runs?select=id,status,started_at,error_class&source_id=eq.${encodeURIComponent(sourceId)}&status=neq.running&started_at=gte.${encodeURIComponent(sinceIso)}&started_at=lte.${encodeURIComponent(untilIso)}&order=started_at.desc&limit=50`,
       { method: 'GET' },
     );
     return (await res.json()) as RunRef[];
