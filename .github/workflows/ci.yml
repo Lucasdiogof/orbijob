@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test        # includes occupation resolver + RLS tests (PGlite)
-      - name: Worker configuration and bundle (wrangler, dry run: nothing is deployed, no account needed)
+      - name: Worker configuration and bundle (wrangler dry run, nothing is deployed and no account is needed)
         run: npx wrangler deploy --dry-run --outdir /tmp/worker-bundle
         env: { WRANGLER_SEND_METRICS: 'false', CI: '1' }
       - name: The Worker running in the real Cloudflare runtime (workerd, local), against an in-memory Supabase and Jobicy
