@@ -28,21 +28,37 @@ cron ─► loadConfig ──(inválida)──► log config_invalid + falha vis
 
 **`waitUntil`:** não é usado de propósito. A sincronização é aguardada dentro do handler para que uma falha seja atribuída à invocação; `waitUntil` só a esconderia.
 
-## Concorrência: variável global não resolve
+## Concorrência: a decisão é do banco, atômica
 
-Um Worker roda em muitos isolados, em muitos lugares. A [documentação de Cron Triggers](https://developers.cloudflare.com/workers/configuration/cron-triggers/) **não** descreve garantia de entrega exatamente-uma-vez nem diz o que acontece com execuções sobrepostas. Uma flag no módulo só protegeria o mesmo isolado. Por isso o bloqueio é feito no banco, **com tabelas que já existem** (`sync_runs.status` já aceita `running`, e a migration 6 já concede `select/insert/update` ao `service_role`), sem nenhuma alteração de schema:
+**O problema.** Um Worker roda em muitos isolados, em muitos lugares. A [documentação de Cron Triggers](https://developers.cloudflare.com/workers/configuration/cron-triggers/) **não** descreve garantia de entrega exatamente-uma-vez nem diz o que acontece com execuções sobrepostas. Uma variável global só protegeria o mesmo isolado.
 
-1. Existe execução `running` com menos de 20 min? → **pula**.
-2. Existe execução terminada há menos de 60 min? → **pula** (regra da fonte: no máximo uma passada por hora; também absorve entrega duplicada do cron).
-3. Insere a própria linha `running`, relê, e se existir uma **mais antiga** (desempate por id) → **cede** e fecha a própria linha como `lost_lease`. **A releitura é feita duas vezes, com 1 s de pausa entre elas:** uma linha recém-inserida não aparece instantaneamente para outro leitor, então uma única conferência pode não ver um rival mais antigo. Teste que prova isso: `lease.test.ts` ("a segunda conferência pega um rival invisível na primeira" e o controle sem pausa, que o deixa passar).
-4. Linha `running` mais velha que 20 min = execução que caiu → fechada como `stale_lock`.
+**O primeiro desenho não bastava.** Era "ler, inserir uma linha `running` com id aleatório, reler e ceder se houver uma mais antiga" (depois com uma pausa e uma segunda leitura). Cada passo é uma requisição em outra conexão, uma linha recém-inserida não é visível a todos os leitores ao mesmo tempo, e a ordem entre rivais por relógio/id é decidida *depois* do fato. Uma pausa só torna a falha mais rara, nunca impossível, e o resultado dependia da versão do PostgREST (a v14.18 e a v16.4 se comportaram de modos diferentes). **Não se usa mais.** O CI mede os dois desenhos no mesmo PostgREST real a cada execução do job `worker-postgrest` (anotações "Lease legacy" e "Lease atomic", de `test/live/lease-stress.test.ts`).
 
-**É uma lease otimista, não um mutex.** Testes: 3 invocações simultâneas resultam em exatamente 1 sincronizando e 2 cedendo, em memória (`lease.test.ts`, `scheduled.test.ts`) e contra um PostgREST real no CI (`worker/test/live/postgrest.contract.test.ts`, job `worker-postgrest`). Limite honesto: duas instâncias inserindo no mesmo instante com relógios defasados poderiam ambas prosseguir. Isso **não corrompe nada** (toda gravação é `upsert` por chave única; fechar exige a evidência da fonte; uma vaga reaberta por engano é refechada na passada seguinte) e o custo é uma passada a mais no Jobicy. Para uma garantia estrita existem duas saídas, **ambas fora desta fase**:
+**O desenho atual.** O id de uma execução **não é aleatório**: é derivado de `(fonte, janela de 1 hora)` (UUID v5-like, SHA-256). `sync_runs.id` é `PRIMARY KEY`, então, entre quantas execuções tentarem começar na mesma janela, **o PostgreSQL deixa exatamente uma inserção passar** e recusa as demais com violação de unicidade (HTTP 409 pelo PostgREST). A decisão acontece dentro do banco, em um único comando, **sem depender de pausa, de relógio, de visibilidade entre conexões nem da versão do PostgREST**. Quem perde não grava nada: não há linha para limpar.
 
-| Opção | Custo | Quando |
-|---|---|---|
-| Índice único parcial `sync_runs (source_id) where status = 'running'` | migration (altera o banco: autorização separada) | se a duplicidade ocorrer na prática |
-| Durable Object por fonte | binding + migration de DO no `wrangler.toml` | se houver várias fontes disparadas em paralelo |
+Antes da reivindicação, duas conferências baratas evitam tentativas inúteis e dão o motivo nos logs:
+1. existe execução `running` com menos de 20 min? → pula (cobre uma execução longa que atravessa a virada da hora);
+2. existe execução terminada há menos de 60 min? → pula (regra da fonte: uma passada por hora; também absorve entrega duplicada do cron, e uma falha também conta, para não martelar uma fonte que acabou de nos recusar).
+
+Uma linha `running` com mais de 20 min é uma execução que caiu: é fechada como `stale_lock`. Nenhuma migration é necessária: o `id` é fornecido pelo cliente e a migration 6 já dá `insert/update/select` ao `service_role`.
+
+### O que é e o que não é garantido
+
+| Garantido (pelo PostgreSQL) | Não garantido |
+|---|---|
+| no máximo **uma** execução reivindica uma mesma fonte em uma mesma janela de 1 h, por mais instâncias, conexões ou entregas duplicadas que existam | que o cron seja entregue **exatamente uma vez** (a Cloudflare não promete isso; entregas duplicadas são **absorvidas**, não evitadas) |
+| quem perde a corrida não escreve nada nem chama a fonte | que duas execuções nunca se sobreponham no tempo **entre janelas diferentes**: uma execução que começa às 11:58 e ainda roda às 12:00 é protegida pela conferência 1 (`running`), que é leitura e não é atômica |
+| uma execução que caiu não bloqueia a fonte para sempre (TTL de 20 min) | retry na mesma hora de uma execução que caiu: a janela dela continua usada; a próxima tentativa é na hora seguinte (com cron de 6 h, na próxima entrega) |
+
+**Por que o resto é inofensivo:** toda gravação do catálogo é `upsert` por chave única e nenhuma vaga é fechada sem a resposta `closed` da própria fonte. Uma passada a mais custa uma requisição a mais ao Jobicy, não corrompe dados.
+
+**Garantia estrita opcional (migration, NÃO aplicada, a ser aprovada à parte):** um índice único parcial faria o banco recusar duas linhas `running` da mesma fonte em qualquer momento, inclusive entre janelas:
+
+```sql
+create unique index sync_runs_one_running_per_source on public.sync_runs (source_id) where status = 'running';
+```
+
+Só vale a pena se a medição em produção mostrar execuções cruzando a virada da hora. A alternativa seria um Durable Object por fonte (binding e migration de DO no `wrangler.toml`).
 
 ## Limites da plataforma (Cloudflare, páginas oficiais lidas em 2026-10-10)
 
@@ -91,10 +107,10 @@ Uma linha JSON por evento (`sync_start`, `sync_skipped`, `sync_ok|partial|failed
 
 | Camada | Onde | O quê |
 |---|---|---|
-| Unidade | `worker/test/env.test.ts`, `lease.test.ts` | configuração (chaves, URLs, faixas), logger e máscara, lease (corrida de 3, intervalo mínimo, linha estagnada, outras fontes) |
+| Unidade | `worker/test/env.test.ts`, `lease.test.ts` | configuração (chaves, URLs, faixas), logger e máscara; lease: id da janela, 2/3/10 simultâneos, **propriedade com 150 rodadas aleatórias de 2 a 10 concorrentes**, intervalo mínimo, falha e recuperação, execução caída |
 | Orquestração | `worker/test/scheduled.test.ts` (26) | passada normal, idempotência, configuração ausente, chave publishable, credencial recusada (401/403), banco fora do ar, 429, timeout, 500 parcial, fechamento só com prova, prazo, limite de páginas, concorrência, entrega duplicada, execução caída, logs sem segredo |
 | Entrada | `worker/test/entry.test.ts` | `fetch` = 404, `scheduled` falha visível só quando deve |
-| Banco/PostgREST reais | `worker/test/live/postgrest.contract.test.ts` (CI `worker-postgrest`, v14.18 e v16.4) | handler completo, **3 invocações simultâneas contra o banco real**, entrega repetida, execução caída, credencial forjada |
+| Banco/PostgREST reais | `worker/test/live/postgrest.contract.test.ts` e `lease-stress.test.ts` (CI `worker-postgrest`, v14.18 e v16.4) | o 409 do banco para um id repetido; **2, 3 e 10 invocações simultâneas contra o banco real, com asserção estrita (1 vencedora, 1 linha, nada em `running`)**; entrega repetida; execução caída e retry na mesma hora; falha e recuperação na hora seguinte; passada parcial que não fecha nada; credencial forjada; **estresse de 20 rodadas × 10 concorrentes, desenho antigo × atual** |
 | Runtime real | `worker/scripts/e2e-workerd.mjs` (CI `worker`, e `worker-postgrest` contra PostgREST) | o handler executa de verdade em **workerd**: passada completa, 2ª entrega pulada, credencial no cabeçalho certo, sem `Illegal invocation`, sem segredo nos logs |
 | Configuração | `wrangler deploy --dry-run` (CI) | `wrangler.toml` e pacote válidos, sem deploy |
 

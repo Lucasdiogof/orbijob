@@ -54,7 +54,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   let lease;
   try {
     lease = await withRetry(
-      () => acquireLease(store, { sourceId: JOBICY_SOURCE.id, scope: '', now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS, sleep: deps.sleep }),
+      () => acquireLease(store, { sourceId: JOBICY_SOURCE.id, scope: '', now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS }),
       retry,
     );
   } catch (e) {

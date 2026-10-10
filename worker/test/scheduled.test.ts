@@ -229,8 +229,10 @@ describe('scheduled sync: concurrency and repeated delivery', () => {
     expect(out.filter((o) => o.status === 'skipped')).toHaveLength(2);
     expect(w.calls.feed).toBe(2); // the two pages of ONE pass
     expect(w.openIds()).toHaveLength(10);
-    expect(w.runs.filter((r) => r.status === 'ok')).toHaveLength(1);
-    expect(w.runs.filter((r) => r.error_class === 'lost_lease').length).toBe(2);
+    // The two losers were refused by the primary key (or saw the winner running): they wrote NOTHING, so there is exactly one row.
+    expect(w.runs).toHaveLength(1);
+    expect(w.runs[0]).toMatchObject({ status: 'ok', upserted: 10 });
+    expect(out.filter((o) => o.status === 'skipped').every((o) => o.status === 'skipped' && ['running', 'lost_race'].includes(o.reason))).toBe(true);
     expectClean(w);
   });
 

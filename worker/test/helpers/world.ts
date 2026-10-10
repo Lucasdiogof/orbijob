@@ -105,8 +105,10 @@ export class World {
         return json(200, rows.map((r) => ({ id: r.id, status: r.status, started_at: r.started_at, error_class: r.error_class })));
       }
       if (method === 'POST') {
+        // the primary key: an id that already exists is refused (unique violation -> HTTP 409), atomically
+        if (body.id && this.runs.some((r) => r.id === body.id)) return json(409, { code: '23505', message: 'duplicate key value violates unique constraint "sync_runs_pkey"' });
         const row: RunRow = { id: this.nextId(), finished_at: null, fetched: 0, upserted: 0, duplicates: 0, closed: 0, http_errors: 0, error_class: null, scope: '', ...body };
-        this.runs.push(row);
+        this.runs.push(row); // (an explicit body.id overrides the generated one above)
         return q.get('select') ? json(201, [{ id: row.id }]) : new Response(null, { status: 201 });
       }
       if (method === 'PATCH') {

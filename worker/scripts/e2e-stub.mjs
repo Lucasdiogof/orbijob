@@ -63,6 +63,7 @@ async function supabase(req, url, res) {
       return send(res, 200, rows.map((r) => ({ id: r.id, status: r.status, started_at: r.started_at, error_class: r.error_class })));
     }
     if (req.method === 'POST') {
+      if (body.id && state.runs.some((r) => r.id === body.id)) return send(res, 409, { code: '23505', message: 'duplicate key' });
       const row = { id: nextId(), finished_at: null, fetched: 0, upserted: 0, duplicates: 0, closed: 0, http_errors: 0, error_class: null, scope: '', ...body };
       state.runs.push(row);
       return q.get('select') ? send(res, 201, [{ id: row.id }]) : send(res, 201);

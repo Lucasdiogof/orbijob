@@ -9,6 +9,13 @@ const controller = { cron: '0 */6 * * *', scheduledTime: Date.parse('2026-10-10T
 
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
+/** Advances the fake clock until the promise settles, letting real async work (crypto) finish in between. */
+async function drive(p: Promise<unknown>): Promise<void> {
+  let done = false;
+  void p.then(() => { done = true; }, () => { done = true; });
+  for (let i = 0; i < 2000 && !done; i++) { await vi.advanceTimersByTimeAsync(1000); await new Promise<void>((r) => setImmediate(r)); }
+}
+
 /** Runs the real entry point with the platform globals replaced by the in-memory world. */
 function boot(w: World, timers = false) {
   vi.stubGlobal('fetch', w.fetch);
@@ -65,14 +72,14 @@ describe('Worker entry point', () => {
     down.jobicyFault = () => new Response('x', { status: 500 });
     boot(down, true);
     const failing = expect(worker.scheduled(controller, down.env(), ctx)).rejects.toThrow(/jobicy sync failed \(http_500\)/);
-    await vi.runAllTimersAsync();
+    await drive(failing);
     await failing;
 
     const part = new World();
     part.jobicyFault = (_c, cursor) => (cursor ? new Response('x', { status: 500 }) : null);
     boot(part, true);
     const partial = expect(worker.scheduled(controller, part.env(), ctx)).resolves.toBeUndefined();
-    await vi.runAllTimersAsync();
+    await drive(partial);
     await partial;
     expect(part.runs[0]!.status).toBe('partial');
   });

@@ -4,6 +4,17 @@
 //   npx vitest run --reporter=json --outputFile=out.json ...; node scripts/ci-annotate-vitest.mjs out.json
 import { existsSync, readFileSync } from 'node:fs';
 
+// Optional second argument: a lease-stress measurement (see test/live/lease-stress.test.ts), published as a notice.
+const stress = process.argv[3];
+if (stress && existsSync(stress)) {
+  const m = JSON.parse(readFileSync(stress, 'utf8'));
+  for (const [design, variants] of Object.entries(m)) {
+    for (const [variant, r] of Object.entries(variants)) {
+      console.log(`::notice title=Lease ${design} (${variant} clock)::${r.rounds} rounds x ${r.contenders} contenders; winners per round (winners:rounds) = ${JSON.stringify(r.winnersPerRound)}`);
+    }
+  }
+}
+
 const file = process.argv[2];
 if (!file || !existsSync(file)) { console.log(`::warning title=No test report::${file ?? '(no file)'} was not produced; see the job log`); process.exit(0); }
 const report = JSON.parse(readFileSync(file, 'utf8'));

@@ -1,5 +1,5 @@
 import { HttpError, parseRetryAfter } from '../http';
-import type { RunLedger, RunPatch, RunRef } from '../lease';
+import { RunConflict, type RunLedger, type RunPatch, type RunRef } from '../lease';
 import type { JobRow, JobStore, SyncRunRow } from '../sync';
 
 /**
@@ -110,12 +110,15 @@ export class SupabaseJobStore implements JobStore, RunLedger {
     return (await res.json()) as RunRef[];
   }
 
-  async beginRun(row: { source_id: string; scope: string; started_at: string }): Promise<string> {
+  async beginRun(row: { id?: string; source_id: string; scope: string; started_at: string }): Promise<string> {
+    if (row.id !== undefined && !UUID.test(row.id)) throw new Error('SupabaseJobStore: invalid run id');
+    // Plain INSERT (no merge-duplicates): with an explicit id that already exists PostgreSQL refuses it (unique violation,
+    // HTTP 409 through PostgREST). That refusal is the mutual exclusion between Worker instances.
     const res = await this.call('sync_runs?select=id', {
       method: 'POST',
       body: { ...row, status: 'running' },
       prefer: 'return=representation',
-    });
+    }).catch((e) => { throw e instanceof HttpError && e.status === 409 ? new RunConflict() : e; });
     const id = ((await res.json()) as { id?: unknown }[])[0]?.id;
     if (typeof id !== 'string' || !UUID.test(id)) throw new Error('SupabaseJobStore: the run id was not returned');
     return id;
