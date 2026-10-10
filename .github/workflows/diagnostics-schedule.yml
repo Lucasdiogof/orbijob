@@ -3,7 +3,7 @@
 # Pergunta que responde: "este repositorio recebe eventos `schedule`?". O workflow de producao (Jobicy revalidate, cron 17 */6) e o
 # monitor (Jobicy watchdog, cron 43 5,17) nao geraram nenhuma execucao agendada, e nao ha causa objetiva conhecida.
 #
-# O que faz: a cada 15 minutos registra a hora UTC, o tipo do evento, o cron que o disparou e o SHA. So isso.
+# O que faz: a cada 15 minutos (cron atualizado para testar novo registro) registra a hora UTC, o tipo do evento, o cron que o disparou e o SHA. So isso.
 # O que NAO faz: nenhum segredo, nenhuma variavel, nenhum checkout, nenhuma chamada de rede, nenhum acesso ao Supabase, nenhuma
 # alteracao em vagas ou no repositorio (permissoes vazias).
 #
@@ -14,7 +14,7 @@ name: Diagnostics schedule
 
 on:
   schedule:
-    - cron: '7,22,37,52 * * * *'   # a cada 15 minutos, fora do minuto 0
+    - cron: '11,26,41,56 * * * *'   # a cada 15 minutos, fora do minuto 0
   workflow_dispatch:
 
 permissions: {}

@@ -16,7 +16,7 @@ Em 2026-10-10 18:44 UTC já tinham passado o das 17:43 (monitor) e o das 18:17 (
   agendamento de um workflow recém-criado pode demorar, e o GitHub não dá visibilidade do agendador.
 
 ## O diagnóstico
-`.github/workflows/diagnostics-schedule.yml` (este PR): a cada 15 minutos (`7,22,37,52 * * * *`) registra a hora UTC, o evento, o cron e o SHA. **Só isso:**
+`.github/workflows/diagnostics-schedule.yml` (este PR): a cada 15 minutos (`11,26,41,56 * * * *`) registra a hora UTC, o evento, o cron e o SHA. **Só isso:**
 sem segredos, sem variáveis, sem checkout, sem rede, sem Supabase, sem alterar vagas, `permissions: {}`.
 
 > Como todo workflow agendado, só começa a disparar **depois do merge na `main`** (a branch do PR não agenda). Também é possível rodá-lo na hora por *Run workflow*,
