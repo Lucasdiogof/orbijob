@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Actual status: Phase 0 (foundation) complete + visual identity C merged into `main` (PR #38) + Phase 2 preparation (PR under review).** No published backend, no integrated job source and no real job is shown. Real search, ranking, profile, applications and autofill do **not** work yet — they are **planned**.
+> **Actual status (2026-10-10):** backend is live (Supabase, 8 migrations applied, RLS) with **299 real Jobicy jobs** (133 companies), **revalidated automatically every 6 h** by Supabase Cron. **Importing new jobs is still switched off** (proposed in a separate PR). The Cloudflare Worker is **not** deployed. Ranking, assisted form filling and the other sources remain **planned**; the app has not been validated end to end on a device.
 
 🇧🇷 [README em português](README.md) · Previous provisional name: *JobRadar* (dropped — [why](docs/BRAND_NAME_CHECK.md)).
 
@@ -21,7 +21,9 @@ Jobs are scattered across hundreds of portals; trades and healthcare are poorly 
 | Search with loading / empty / error / **no integrated source** states, PT/EN/ES | ✅ implemented, **no real data** |
 | Multilingual occupation resolver (ISCO-08 seed, 12 occupations) | ✅ implemented and tested |
 | Connector core: contract, dedupe, retry/backoff, rate limiter, job-closure rule | ✅ implemented and tested (Lever connector uses a synthetic fixture only) |
-| SQL schema + RLS | ✅ proposed, tested on PGlite · ❌ **not applied** to Supabase |
+| SQL schema + RLS | ✅ tested on PostgreSQL 16/17 · ✅ 8 migrations applied to the owner's Supabase project (Auth, RLS, Storage, quotas, least-privilege `service_role`, `pg_cron` revalidation) |
+| Real **Jobicy** catalogue (`CONDITIONAL` source, attribution and original-listing link kept) | ✅ 299 jobs stored · one controlled first ingestion; **no automatic import of new jobs** |
+| Automatic revalidation (closes only what Jobicy confirms closed; refreshes the active ones) | ✅ Supabase Cron + `pg_net`, every 6 h, no key, no paid service · fallback: GitHub Actions · [deployed architecture](docs/DEPLOYED_ARCHITECTURE.md) |
 | Source catalog and coverage matrix | ✅ documented · **no source is `READY`** |
 | Real worldwide search, international filters, computed 0–100 ranking + confidence, official application | 🗓️ planned |
 | Profile/résumé/experience, favorites, application tracking, assisted form filling | 🗓️ planned |
@@ -30,13 +32,13 @@ Jobs are scattered across hundreds of portals; trades and healthcare are poorly 
 Flutter / Dart · Clean Architecture · BLoC/Cubit · GetIt · Supabase (PostgreSQL, Auth, Storage) · Cloudflare Workers (TypeScript) · GitHub Actions · PT/EN/ES i18n. Free infrastructure first, respecting limits and licenses.
 
 ## Architecture
-Flutter → Cloudflare Workers (API + sync) → Supabase. Public data (jobs) is separated from private data (profile, résumé, applications), protected by RLS. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/DATABASE.md](docs/DATABASE.md).
+Deployed today: Flutter → Supabase (catalogue reads under RLS); revalidation runs inside Supabase itself (`pg_cron` + `pg_net`), with GitHub Actions as a fallback. The Cloudflare Worker code (API + sync) exists and is reused, but is **not deployed**. Public data (jobs) is separated from private data (profile, résumé, applications), protected by RLS. See [docs/DEPLOYED_ARCHITECTURE.md](docs/DEPLOYED_ARCHITECTURE.md) (what runs today and how to recover), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/DATABASE.md](docs/DATABASE.md) and [docs/JOBICY_SUPABASE_CRON.md](docs/JOBICY_SUPABASE_CRON.md).
 
 ## Platforms
 Android, iOS and Web/PWA. Verified: production and preview web builds (real screenshots in [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md)), widget tests and Android resource validation with `aapt2`. **Not verified here:** APK (no Android SDK) and iOS (no macOS/Xcode). Nothing was published to stores.
 
 ## Job integrations
-Every source is `CONDITIONAL`, `RESEARCH` or `EXTERNAL_ONLY` — none is `READY` (keys, terms review and live validation pending). No prohibited scraping, no CAPTCHA bypass, no automatic applications. See [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) and [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
+The only source with real data is **Jobicy** (`CONDITIONAL`; official keyless API, attribution and original link kept). The others are `CONDITIONAL`, `RESEARCH` or `EXTERNAL_ONLY` — none is `READY`. No prohibited scraping, no CAPTCHA bypass, no automatic applications. See [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) and [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
 
 ## Local setup
 Requires stable Flutter (tested with 3.47.6) and Node 22.
@@ -47,21 +49,21 @@ flutter run -d chrome -t lib/main_preview.dart  # same UI with FICTIONAL jobs an
 cd worker && npm ci && npm run typecheck && npm test
 node scripts/build-coverage.mjs
 ```
-Copy `.env.example` to `.env` (never commit it). No Supabase or Cloudflare project has been created.
+Copy `.env.example` to `.env` (never commit it). The owner's Supabase project exists (8 migrations applied); nothing is published on Cloudflare.
 
 ## Directory layout
 ```
 app/       Flutter (orbijob): lib/{core,features,l10n}, test/
 worker/    Cloudflare Worker (TypeScript): src/, test/ (incl. RLS via PGlite)
-supabase/  proposed migrations (not applied)
+supabase/  migrations (1–8 applied to the owner's project), SQL tests and rollbacks
 data/      source catalog, occupation seed, coverage matrix (CSV)
 scripts/   coverage generation and search acceptance run
 docs/      architecture, requirements, sources, database, security, roadmap, design, portfolio, evidence
-.github/   CI
+.github/   CI, revalidation (fallback) and monitor
 ```
 
 ## Tests
-`flutter analyze` + `flutter test` (179 tests: tokens and contrast, themes, navigation, **no overflow** across 8 sizes × 100/150/200% text, accessibility, i18n, assets/icons/splash, Supabase config/auth/repositories against a simulated HTTP backend) · `tsc` + `vitest` (58 worker tests, including RLS on PGlite and HTTP/retry) · SQL tests on real PostgreSQL 16 (`supabase/tests/run.sh`: audit + cross-user isolation) · web build and `aapt2` validation in CI. No on-device integration/E2E tests yet.
+`flutter analyze` + `flutter test` (tokens and contrast, themes, navigation, **no overflow** across sizes and text scales, accessibility, i18n, Supabase repositories against a simulated HTTP backend) · `tsc` + `vitest` in `worker/` (connectors, lease, revalidation, RLS and the SQL revalidation on real PostgreSQL via PGlite) · SQL tests on PostgreSQL 16 and 17 (`supabase/tests/run.sh`) · web build and `aapt2` validation in CI. Current counts are in CI. No on-device integration/E2E tests yet.
 
 ## Security
 Owner-only RLS, private résumé bucket (planned/proposed), no secrets in the (**public**) repository, no prohibited scraping, no automatic applications, autofill only on allow-listed domains. [docs/SECURITY.md](docs/SECURITY.md)

@@ -1,5 +1,7 @@
 # Revalidação automática do Jobicy com GitHub Actions (custo zero)
 
+> **Papel atual: contingência.** Desde 2026-10-10 o mecanismo principal é o Supabase Cron (`docs/JOBICY_SUPABASE_CRON.md`). Este workflow continua ativo e compartilha a mesma lease: se o Cron já revalidou na última hora, ele termina `skipped (too_soon)` sem chamar o Jobicy. O agendador do GitHub atrasa (3–3,5 h nas primeiras execuções): `docs/GITHUB_SCHEDULE_DIAGNOSTIC.md`.
+
 **Decisão:** sem Cloudflare Workers Paid. A revalidação roda no GitHub Actions, gratuito para repositório público com runner padrão.
 O Worker e o `wrangler.toml` continuam no repositório como alternativa **não implantada** (`docs/JOBICY_WORKER_DEPLOY.md`).
 
