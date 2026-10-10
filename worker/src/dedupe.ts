@@ -54,6 +54,15 @@ export class Deduper {
   private seenUrl = new Set<string>();
   private seenFp = new Set<string>();
 
+  /** Remembers a job that is ALREADY stored, so a later listing of the same job (or a duplicate of it) is not accepted again. */
+  rememberStored(source: string, k: { external_id: string; fingerprint?: string | null; canonical_url?: string | null }, live: boolean): void {
+    this.seenKey.add(`${source}:${k.external_id}`);
+    // A CLOSED job must not hide a later posting of the same company and title (a re-opened position is a new listing): only live rows count for fingerprint and URL.
+    if (!live) return;
+    if (k.canonical_url) this.seenUrl.add(k.canonical_url);
+    if (k.fingerprint) this.seenFp.add(k.fingerprint);
+  }
+
   /** True when the job is new (and now remembered); false when it duplicates an accepted one. */
   accept(j: NormalizedJob): boolean {
     const key = `${j.source}:${j.externalId}`;

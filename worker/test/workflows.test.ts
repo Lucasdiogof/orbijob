@@ -132,3 +132,65 @@ describe('diagnostics-schedule.yml (temporary)', () => {
     expect(read('diagnostics-schedule.yml')).toMatch(/TEMPORARIO.*REMOVER DEPOIS/);
   });
 });
+
+describe('jobicy-discover.yml', () => {
+  const d = read('jobicy-discover.yml');
+  const c = code(d);
+
+  it('is OFF by default: the schedule needs JOBICY_DISCOVERY_ENABLED == \'true\', and a manual import needs the typed confirmation', () => {
+    expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.JOBICY_DISCOVERY_ENABLED == 'true'/);
+    expect(c).toMatch(/default: check/);
+    expect(c).toMatch(/options: \[check, preview, discover\]/);
+    expect(c).toMatch(/inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'/);
+    // the import step is never reachable by a plain run: only the schedule (already gated above) or the confirmed manual run
+    const discoverStep = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
+    expect(discoverStep).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover'/);
+  });
+
+  it('runs 4 times a day at minute 47, three hours away from the revalidation, and has no other trigger', () => {
+    const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
+    expect(crons).toEqual(['47 3,9,15,21 * * *']);
+    const rvHours = /- cron: '17 \*\/6/.test(rv) ? [0, 6, 12, 18] : [];
+    for (const h of [3, 9, 15, 21]) for (const r of rvHours) expect(Math.abs(h - r)).toBeGreaterThanOrEqual(3);
+    const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
+    expect(on).not.toMatch(/push:|pull_request|pull_request_target|workflow_run|issue_comment|repository_dispatch/);
+  });
+
+  it('has minimal permissions, no overlap, a timeout, pinned actions, Node 22 and a lockfile install without scripts', () => {
+    expect(c).toMatch(/^permissions:\n  contents: read\n/m);
+    expect(c).not.toMatch(/(write|admin)\b/);
+    expect(c).toMatch(/concurrency:\n  group: jobicy-discover\n  cancel-in-progress: false/);
+    expect(Number(/timeout-minutes: (\d+)/.exec(c)![1])).toBeLessThanOrEqual(15);
+    for (const m of c.matchAll(/uses: ([^\s]+)/g)) expect(m[1]).toMatch(/^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/);
+    expect(c).toMatch(/node-version: 22/);
+    expect(c).toMatch(/npm ci --ignore-scripts/);
+    expect(c).toMatch(/persist-credentials: false/);
+  });
+
+  it('uses ONE secret, from the dedicated environment, never in install/checkout steps; no legacy or local-ingestion key', () => {
+    expect(new Set([...c.matchAll(/secrets\.([A-Z0-9_]+)/g)].map((m) => m[1]))).toEqual(new Set(['ORBIJOB_SYNC_WORKER_KEY']));
+    expect(c).toMatch(/environment: jobicy-revalidation/);
+    for (const s of steps(d)) {
+      const name = /name: (.+)/.exec(s)?.[1] ?? '';
+      if (/Install dependencies|checkout|setup-node/i.test(name + s.split('\n')[0])) expect(s.includes('secrets.'), name).toBe(false);
+    }
+    expect(c).not.toMatch(/GITHUB_TOKEN|github\.token|SERVICE_ROLE|service_role|orbijob_ingest_local|ORBIJOB_REHEARSAL/);
+    expect(c).toMatch(/::add-mask::\$KEY/);
+    expect(c).not.toMatch(/upload-artifact|actions\/cache|set -x|\bsh -x|--debug|ACTIONS_STEP_DEBUG/);
+  });
+
+  it('can only discover: it calls the discovery script and the read-only key check; no full mode, no first ingestion, no deploy, no database command', () => {
+    const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
+    expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
+    expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_jobicy|wrangler|supabase db|--prompt-key|revalidate-local/);
+  });
+
+  it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6)', () => {
+    for (const k of ['auth', 'unreachable', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
+    expect(c).toMatch(/steps\.rv\.outputs\.code == '4'/);
+    expect(c).toMatch(/steps\.rv\.outputs\.code == '5'/);
+    expect(c).toMatch(/steps\.rv\.outputs\.code == '6'/);
+    expect(c).toMatch(/name: 'ALERT storage:/);
+    expect(c).toMatch(/steps\.rv\.outputs\.code == '7'/);
+  });
+});

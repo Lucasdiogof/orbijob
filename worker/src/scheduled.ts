@@ -57,7 +57,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   let lease;
   try {
     lease = await withRetry(
-      () => acquireLease(store, { sourceId: JOBICY_SOURCE.id, scope: cfg.mode === 'revalidate' ? 'revalidate' : '', now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS }),
+      () => acquireLease(store, { sourceId: JOBICY_SOURCE.id, scope: cfg.mode === 'full' ? '' : cfg.mode, now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS }),
       retry,
     );
   } catch (e) {
@@ -84,6 +84,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
       maxPages: cfg.maxPages,
       mode: cfg.mode,
       maxNewJobs: cfg.maxNewJobs,
+      maxTotalJobs: cfg.maxCatalogue,
       deadlineAt: startedAt.getTime() + budgetMs,
       recordRun: (run: SyncRunRow) => store.finishRun(lease.id, {
         status: run.status, finished_at: run.finished_at, fetched: run.fetched, upserted: run.upserted,
@@ -101,7 +102,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   if (!summary.runRecorded) log('warn', 'run_record_missing', { runId: lease.id }); // the lease row stays 'running' until its TTL
   log(summary.status === 'ok' ? 'info' : summary.status === 'partial' ? 'warn' : 'error', `sync_${summary.status}`, {
     runId: lease.id, pages: summary.pages, fetched: summary.fetched, upserted: summary.upserted, duplicates: summary.duplicates,
-    rejected: summary.rejected, closed: summary.closed, confirmed: summary.confirmed, unverified: summary.unverified, skippedNew: summary.skippedNew, mode: cfg.mode, httpErrors: summary.http_errors, errorClass: summary.error_class,
+    rejected: summary.rejected, closed: summary.closed, confirmed: summary.confirmed, unverified: summary.unverified, skippedNew: summary.skippedNew, alreadyKnown: summary.alreadyKnown, inactive: summary.inactive, mode: cfg.mode, httpErrors: summary.http_errors, errorClass: summary.error_class,
     restarted: summary.restarted, durationMs: deps.now().getTime() - startedAt.getTime(),
   });
   return { status: summary.status, summary };

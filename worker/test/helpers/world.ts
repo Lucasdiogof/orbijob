@@ -46,6 +46,8 @@ export class World {
   statusFault?: (call: number) => Response | Error | null;
   /** Ids the status endpoint does not answer for (it answers only for ids it knows). */
   statusSilent = new Set<string>();
+  /** Every POST to jobs: whether it asked to ignore duplicates (insert-only) and how many rows it carried. */
+  jobPosts: { ignoreDuplicates: boolean; rows: number }[] = [];
   /** Every request made to the fake Supabase: method and table (never deletes anything: a DELETE would show up here). */
   requests: { method: string; table: string }[] = [];
   /** Advance the clock by this much on every feed request (for the deadline test). */
@@ -132,11 +134,26 @@ export class World {
 
     if (table === 'jobs') {
       if (method === 'POST') {
+        const prefer = headers.Prefer ?? '';
+        this.jobPosts.push({ ignoreDuplicates: prefer.includes('ignore-duplicates'), rows: (body as unknown[]).length });
+        if (prefer.includes('ignore-duplicates')) {
+          // INSERT ... ON CONFLICT (source_id, external_id) DO NOTHING RETURNING external_id: a stored row is never touched
+          const inserted: { external_id: unknown }[] = [];
+          for (const r of body as Record<string, unknown>[]) {
+            const key = `${r.source_id}:${r.external_id}`;
+            if (this.jobs.has(key)) continue;
+            this.jobs.set(key, { ...r });
+            inserted.push({ external_id: r.external_id });
+          }
+          return prefer.includes('return=representation') ? json(201, inserted) : new Response(null, { status: 201 });
+        }
         for (const r of body as Record<string, unknown>[]) this.jobs.set(`${r.source_id}:${r.external_id}`, { ...(this.jobs.get(`${r.source_id}:${r.external_id}`) ?? {}), ...r });
         return new Response(null, { status: 201 });
       }
       if (method === 'GET') {
-        const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && (!q.get('status') || j.status === eq('status'))).map((j) => ({ external_id: j.external_id }));
+        const cols = (q.get('select') ?? 'external_id').split(',');
+        const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && (!q.get('status') || j.status === eq('status')))
+          .map((j) => Object.fromEntries(cols.map((c) => [c, j[c] ?? null])));
         const off = Number(q.get('offset') ?? 0);
         return json(200, ids.slice(off, off + Number(q.get('limit') ?? 1000)));
       }
