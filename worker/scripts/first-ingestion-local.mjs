@@ -18,7 +18,6 @@
 // uma vez. Nada aqui toca em can_redistribute: a fonte continua não publicada e o app não vê nenhuma vaga.
 import { build } from 'esbuild';
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { evaluatePreflight, evaluateVerification } from './first-ingestion-checks.mjs';
 
@@ -44,18 +43,42 @@ if (!['preflight', 'run', 'verify'].includes(mode)) {
 }
 const fail = (m) => { console.error(`PARE: ${m}`); process.exit(1); };
 
-/** Chave pelo NOME, via CLI logada. Só o valor da chave escolhida sai desta função; o resto da saída é descartado. */
-function keyFromCli() {
+/**
+ * Uma unica chamada a CLI logada (`projects api-keys --reveal`). Devolve SO as duas chaves de que o runner precisa: a secreta
+ * pelo NOME e a publishable (publica por desenho, usada para ver o que o app enxerga). O resto da saida, que inclui as chaves
+ * legadas completas, e descartado ali mesmo: nunca e impresso, gravado nem guardado.
+ */
+let cliCache;
+let cliStatus = null; // codigo de saida da CLI (so o numero: nunca a saida)
+function cliKeys() {
+  if (cliCache) return cliCache;
   const cli = ['supabase', 'projects', 'api-keys', '--project-ref', REF, '--reveal', '-o', 'json'];
   const cwd = fileURLToPath(new URL('../../', import.meta.url)); // raiz do repositorio, onde supabase/.temp ja existe (a CLI nao cria pastas novas em worker/)
   const r = process.platform === 'win32'
     ? spawnSync(process.env.ComSpec ?? 'cmd.exe', ['/d', '/s', '/c', 'npx', ...cli], { cwd, encoding: 'utf8', maxBuffer: 1e7, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true })
     : spawnSync('npx', cli, { cwd, encoding: 'utf8', maxBuffer: 1e7, stdio: ['ignore', 'pipe', 'pipe'] });
-  const text = r.stdout ?? '';
+  cliStatus = r.error ? `erro ao iniciar (${r.error.code ?? 'desconhecido'})` : r.status;
+  let text = r.stdout ?? '';
+  r.stdout = ''; r.stderr = '';
   let keys;
-  try { keys = JSON.parse(text.slice(text.indexOf('['))); } catch { return null; }
+  try { keys = JSON.parse(text.slice(text.indexOf('['))); } catch { return (cliCache = { secret: null, publishable: null }); } finally { text = ''; }
   const found = keys.filter((k) => k.type === 'secret' && k.name === KEY_NAME);
-  return found.length === 1 && typeof found[0].api_key === 'string' ? found[0].api_key : null;
+  const pub = keys.find((k) => k.type === 'publishable');
+  cliCache = {
+    secret: found.length === 1 && typeof found[0].api_key === 'string' ? found[0].api_key : null,
+    publishable: typeof pub?.api_key === 'string' && pub.api_key.startsWith('sb_publishable_') ? pub.api_key : null,
+  };
+  keys.length = 0; found.length = 0;
+  return cliCache;
+}
+const keyFromCli = () => cliKeys().secret;
+
+/** Chave publishable: variavel ORBIJOB_PUBLISHABLE_KEY, ou a da CLI. (Nao depende de arquivos locais fora do Git.) */
+function resolvePublishable() {
+  const v = (process.env.ORBIJOB_PUBLISHABLE_KEY ?? '').trim();
+  const k = v || cliKeys().publishable;
+  if (!k || !k.startsWith('sb_publishable_')) fail('nao consegui obter a chave publishable (defina ORBIJOB_PUBLISHABLE_KEY ou deixe a CLI logada)');
+  return k;
 }
 
 async function promptSecret() {
@@ -80,7 +103,7 @@ async function resolveKey() {
   if (fromEnv) return fromEnv;
   if (flags.includes('--prompt-key')) return await promptSecret();
   const k = keyFromCli();
-  if (!k) fail(`nao achei a chave secreta "${KEY_NAME}" (crie-a no painel do Supabase, em Project Settings > API Keys) ou a CLI nao esta logada`);
+  if (!k) fail(`nao achei a chave secreta "${KEY_NAME}" (crie-a no painel do Supabase, em Project Settings > API Keys) ou a CLI nao esta logada (a CLI terminou com: ${cliStatus})`);
   return k;
 }
 
@@ -94,6 +117,7 @@ const W = await import('data:text/javascript;base64,' + Buffer.from(out.outputFi
 
 const KEY = await resolveKey();
 const keyKind = W.classifyKey(KEY);
+const PUBLISHABLE = resolvePublishable(); // antes de qualquer gravacao: a verificacao final precisa dela
 // Recusa ANTES de qualquer requisicao: a chave legada (ou qualquer outra que nao seja sb_secret_) nunca e enviada a lugar nenhum.
 if (keyKind !== 'secret') fail(`credencial recusada: tipo "${keyKind}"; so uma chave sb_secret_ exclusiva e aceita (a chave JWT legada service_role esta comprometida)`);
 const rest = async (path, { key = KEY, count = false } = {}) => {
@@ -121,8 +145,7 @@ function report(title, { failures, warnings }) {
 
 /** Leituras novas, sem usar nada do resultado da passada: o que vale é o que está no banco e o que o público enxerga. */
 async function verify() {
-  const pub = readFileSync(fileURLToPath(new URL('../../app/dart_defines.web.json', import.meta.url)), 'utf8').match(/sb_publishable_[A-Za-z0-9_-]+/)?.[0];
-  if (!pub) fail('chave publishable nao encontrada em app/dart_defines.web.json');
+  const pub = PUBLISHABLE;
   const state = {
     source: (await rest('job_sources?select=id,status,attribution,can_redistribute&id=eq.jobicy'))[0] ?? null,
     runs: await rest('sync_runs?select=status,fetched,upserted,duplicates,closed,http_errors,error_class,started_at,finished_at&source_id=eq.jobicy'),

@@ -80,10 +80,12 @@ describe('publish_jobicy.sql guard', () => {
     await db.exec('reset role');
     await expect(db.exec(`${AUTH} ${PUBLISH}`)).rejects.toThrow(/ja esta publicada/);
   });
-  it('before publishing, clients see no job even though one is stored', async () => {
+  it('before publishing, clients (anon AND signed-in users, i.e. the Flutter app) see no job even though one is stored', async () => {
     await addRun(); await addJob();
-    await db.exec('set role anon');
-    expect((await db.query<{ n: number }>('select count(*)::int as n from public.jobs')).rows[0]!.n).toBe(0);
-    await db.exec('reset role');
+    for (const role of ['anon', 'authenticated']) {
+      await db.exec(`set role ${role}`);
+      expect((await db.query<{ n: number }>('select count(*)::int as n from public.jobs')).rows[0]!.n).toBe(0);
+      await db.exec('reset role');
+    }
   });
 });

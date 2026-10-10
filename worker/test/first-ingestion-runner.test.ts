@@ -1,5 +1,7 @@
 import { spawn } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { delimiter, join } from 'node:path';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -13,7 +15,7 @@ const RUNNER = fileURLToPath(new URL('../scripts/first-ingestion-local.mjs', imp
 const SECRET = 'sb_secret_' + 'REHEARSALKEY'.repeat(4);
 const ANON_JWT_LIKE = 'eyJhbGciOiJIUzI1NiJ9.' + Buffer.from(JSON.stringify({ role: 'service_role' })).toString('base64url') + '.sig';
 const ATTRIBUTION = 'Remote jobs via Jobicy (https://jobicy.com)';
-const PUBLISHABLE = readFileSync(new URL('../../app/dart_defines.web.json', import.meta.url), 'utf8').match(/sb_publishable_[A-Za-z0-9_-]+/)![0];
+const PUBLISHABLE = 'sb_publishable_' + 'REHEARSALPUB'.repeat(3);
 
 interface World {
   source: { id: string; status: string; attribution: string; can_redistribute: boolean };
@@ -100,7 +102,7 @@ afterEach(() => new Promise<void>((r) => server.close(() => r())));
 function runner(args: string[], env: Record<string, string> = {}) {
   return new Promise<{ code: number | null; out: string }>((resolve) => {
     const p = spawn(process.execPath, [RUNNER, ...args], {
-      env: { ...process.env, ORBIJOB_SUPABASE_SECRET: SECRET, ORBIJOB_REHEARSAL_BASE: base, ORBIJOB_REHEARSAL_JOBICY: base, ...env },
+      env: { ...process.env, ORBIJOB_SUPABASE_SECRET: SECRET, ORBIJOB_PUBLISHABLE_KEY: PUBLISHABLE, ORBIJOB_REHEARSAL_BASE: base, ORBIJOB_REHEARSAL_JOBICY: base, ...env },
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let out = '';
@@ -175,7 +177,7 @@ describe('first-ingestion-local.mjs (rehearsal against a local stand-in)', () =>
   it('verify alone (a separate process, after the run) re-reads the database and passes', async () => {
     await runner(['run', '--yes']);
     const r = await runner(['verify']);
-    expect(r.code).toBe(0);
+    expect(r.code, r.out).toBe(0);
     expect(r.out).toContain('verificacao: OK');
   });
 
@@ -191,6 +193,75 @@ describe('first-ingestion-local.mjs (rehearsal against a local stand-in)', () =>
     const r = await runner(['preflight'], { ORBIJOB_REHEARSAL_BASE: 'http://example.com' });
     expect(r.code).toBe(1);
     expect(r.out).toContain('so aceita http://127.0.0.1');
+    expect(w.requests).toBe(0);
+  });
+});
+
+describe('credential from the Supabase CLI (a fake CLI that returns canary keys)', () => {
+  // The runner asks the CLI for the keys with --reveal. Here a fake `npx` answers with made-up keys, including a full legacy
+  // JWT, and also writes a canary to stderr: none of it may appear in the runner output, and the CLI arguments must carry no secret.
+  const CANARY = 'sb_secret_' + 'CANARYORBIJOBKEY'.repeat(3);
+  const LEGACY = 'eyJhbGciOiJIUzI1NiJ9.' + Buffer.from(JSON.stringify({ role: 'service_role', canary: 'LEGACYCANARY' })).toString('base64url') + '.sig';
+  let dir = '';
+  const fakeCli = (keys: unknown) => {
+    dir = mkdtempSync(join(tmpdir(), 'orbijob-fakecli-'));
+    writeFileSync(join(dir, 'fake-cli.mjs'), `
+      import { appendFileSync } from 'node:fs';
+      appendFileSync(${JSON.stringify(join(dir, 'argv.log'))}, process.argv.slice(2).join(' ') + '\\n');
+      process.stderr.write('debug: ' + ${JSON.stringify(CANARY)} + '\\n');
+      process.stdout.write(JSON.stringify(${JSON.stringify(keys)}, null, 2));`);
+    writeFileSync(join(dir, 'npx.cmd'), ['@node "%~dp0fake-cli.mjs" %*', ''].join('\r\n'));
+    writeFileSync(join(dir, 'npx'), ['#!/bin/sh', 'exec node "$(dirname "$0")/fake-cli.mjs" "$@"', ''].join('\n'));
+    chmodSync(join(dir, 'npx'), 0o755);
+    // Windows may carry the variable as PATH and/or Path: every spelling must point at the fake directory first
+    const spellings = Object.keys(process.env).filter((k) => k.toLowerCase() === 'path');
+    const patched = Object.fromEntries((spellings.length ? spellings : ['PATH']).map((k) => [k, dir + delimiter + (process.env[k] ?? '')]));
+    return { ...patched, ORBIJOB_SUPABASE_SECRET: '', ORBIJOB_PUBLISHABLE_KEY: '' };
+  };
+  afterEach(() => { if (dir) rmSync(dir, { recursive: true, force: true }); dir = ''; });
+  const keys = (extra: unknown[] = []) => [
+    { name: 'service_role', type: 'legacy', api_key: LEGACY },
+    { name: 'default', type: 'publishable', api_key: PUBLISHABLE },
+    { name: 'default', type: 'secret', api_key: 'sb_secret_' + 'DEFAULTKEY'.repeat(4) },
+    { name: 'orbijob-ingest-local', type: 'secret', api_key: SECRET },
+    ...extra,
+  ];
+
+  it('finds the key by NAME, runs, and prints none of the keys (stdout, stderr, canaries) nor puts one in the CLI arguments', async () => {
+    const env = fakeCli(keys());
+    const r = await runner(['run', '--yes'], env);
+    expect(r.code, r.out).toBe(0);
+    expect(r.out).toContain('verificacao: OK');
+    for (const secret of [SECRET, CANARY, LEGACY, 'CANARYORBIJOBKEY', 'LEGACYCANARY', 'DEFAULTKEY', 'REHEARSALKEY']) expect(r.out).not.toContain(secret);
+    const argv = readFileSync(join(dir, 'argv.log'), 'utf8');
+    expect(argv).toContain('--reveal');
+    expect(argv).not.toMatch(/sb_secret_|eyJ/);
+    expect(w.requests).toBeGreaterThan(0); // it did use the key it found (the stand-in accepts only SECRET)
+  });
+
+  it.each([
+    ['key not created yet', () => keys().filter((k) => (k as { name: string }).name !== 'orbijob-ingest-local')],
+    ['two keys with the same name (ambiguous)', () => keys([{ name: 'orbijob-ingest-local', type: 'secret', api_key: 'sb_secret_OTHER' }])],
+    ['only the legacy key is present', () => [{ name: 'service_role', type: 'legacy', api_key: LEGACY }]],
+  ])('refuses before any request when: %s', async (_n, make) => {
+    const r = await runner(['preflight'], fakeCli(make()));
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('nao achei a chave secreta');
+    expect(w.requests).toBe(0);
+    for (const secret of [LEGACY, CANARY, 'LEGACYCANARY', 'DEFAULTKEY']) expect(r.out).not.toContain(secret);
+  });
+
+  it('no publishable key available (env empty, CLI has none): refuses BEFORE writing anything', async () => {
+    const r = await runner(['run', '--yes'], fakeCli(keys().filter((k) => (k as { type: string }).type !== 'publishable')));
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('chave publishable');
+    expect(w.feedCalls).toBe(0); expect(w.runs).toHaveLength(0); expect(w.jobs.size).toBe(0);
+  });
+
+  it('garbage from the CLI is not echoed', async () => {
+    const r = await runner(['preflight'], fakeCli('[not json'));
+    expect(r.code).toBe(1);
+    expect(r.out).not.toContain('not json');
     expect(w.requests).toBe(0);
   });
 });
