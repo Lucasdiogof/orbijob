@@ -7,7 +7,7 @@ import { toJobRow, type JobRow } from '../src/sync';
 import feed from './fixtures/jobicy-feed.sanitized.json';
 
 /**
- * The rows the Worker would write, executed against the REAL schema (migrations 1, 2 and 6, in PGlite): CHECK constraints,
+ * The rows the Worker would write, executed against the REAL schema (migrations 1, 2, 6 and 7, in PGlite): CHECK constraints,
  * column types, the unique (source_id, external_id) upsert, the service_role grants and the client-side read policy.
  * Nothing here touches a hosted Supabase project.
  */
@@ -44,15 +44,20 @@ beforeAll(async () => {
   await db.exec('grant select, insert, update, delete on all tables in schema public to anon, authenticated;');
   await db.exec(migration('20261009000000_rls_hardening.sql'));
   await db.exec(migration('20261013000000_service_role_grants.sql'));
+  await db.exec(migration('20261014000000_service_role_least_privilege.sql'));
 });
 
 describe('Jobicy rows against the real schema', () => {
-  it('service_role can create the source row with the attribution text', async () => {
+  it('the OWNER creates the source row with the attribution text; service_role can read it but never create or change it', async () => {
+    // the owner (postgres) creates and publishes sources, never the sync
+    await db.query('insert into public.job_sources (id, status, attribution, can_redistribute) values ($1,$2,$3,$4)',
+      [JOBICY_SOURCE.id, JOBICY_SOURCE.status, JOBICY_SOURCE.attribution, true /* models the PUBLISHED state; the real row is born false */]);
     await as('service_role', async () => {
-      await db.query('insert into public.job_sources (id, status, attribution, can_redistribute) values ($1,$2,$3,$4)',
-        [JOBICY_SOURCE.id, JOBICY_SOURCE.status, JOBICY_SOURCE.attribution, true /* models the PUBLISHED state; the real row is born false */]);
+      expect((await db.query('select attribution from public.job_sources')).rows).toEqual([{ attribution: JOBICY_SOURCE.attribution }]);
+      await expect(db.query("insert into public.job_sources (id, status, can_redistribute) values ('evil', 'READY', true)")).rejects.toThrow(/permission denied/);
+      await expect(db.query("update public.job_sources set can_redistribute = false where id = 'jobicy'")).rejects.toThrow(/permission denied/);
+      await expect(db.query("update public.job_sources set attribution = 'x' where id = 'jobicy'")).rejects.toThrow(/permission denied/);
     });
-    expect((await db.query('select attribution from public.job_sources')).rows).toEqual([{ attribution: JOBICY_SOURCE.attribution }]);
   });
 
   it('every normalized real listing satisfies the table constraints and upserts twice into the same rows', async () => {
@@ -97,10 +102,36 @@ describe('Jobicy rows against the real schema', () => {
     expect((await db.query("select status from public.jobs where external_id = '154956'")).rows).toEqual([{ status: 'open' }]);
   });
 
+  it('the exact statements of a revalidation-only run work under the FINAL grants (migrations 6 and 7)', async () => {
+    await as('service_role', async () => {
+      // preflight/lease: read the source, the open jobs, and the ledger
+      expect((await db.query('select id, status, can_redistribute from public.job_sources where id = $1', ['jobicy'])).rows).toHaveLength(1);
+      expect((await db.query("select external_id from public.jobs where source_id = 'jobicy' and status = 'open' order by external_id limit 1000")).rows.length).toBeGreaterThan(0);
+      const id = '11111111-2222-5333-8444-555555555555'; // the lease's deterministic run id
+      await db.query("insert into public.sync_runs (id, source_id, scope, started_at, status) values ($1, 'jobicy', 'revalidate', now(), 'running')", [id]);
+      // the pass: confirm a job still open (stamp only), close a confirmed-closed one
+      await db.query("update public.jobs set last_checked_at = now() where source_id = 'jobicy' and external_id in ('154950') and status = 'open'");
+      await db.query("update public.jobs set status = 'closed', last_checked_at = now() where source_id = 'jobicy' and external_id in ('154943')");
+      // the run record
+      await db.query("update public.sync_runs set status = 'ok', finished_at = now(), fetched = 0, upserted = 0, closed = 1 where id = $1", [id]);
+      expect((await db.query("select status, scope from public.sync_runs where id = $1", [id])).rows).toEqual([{ status: 'ok', scope: 'revalidate' }]);
+    });
+  });
+
+  it('service_role can never DELETE a job (it would cascade into favourites) nor truncate the table', async () => {
+    await as('service_role', async () => {
+      await expect(db.query("delete from public.jobs where external_id = '154956'")).rejects.toThrow(/permission denied/);
+      await expect(db.query('delete from public.job_clusters')).rejects.toThrow(/permission denied/);
+      await expect(db.query('truncate public.jobs')).rejects.toThrow(/permission denied/);
+    });
+    expect((await db.query<{ n: number }>('select count(*)::int as n from public.jobs')).rows[0]!.n).toBe(rows.length);
+  });
+
   it('service_role still cannot touch user data', async () => {
     await as('service_role', async () => {
       await expect(db.query('select * from public.saved_jobs')).rejects.toThrow(/permission denied/);
       await expect(db.query('delete from public.job_sources')).rejects.toThrow(/permission denied/);
+      await expect(db.query('select * from public.resumes')).rejects.toThrow(/permission denied/);
     });
   });
 
@@ -109,7 +140,7 @@ describe('Jobicy rows against the real schema', () => {
       expect((await db.query<{ n: number }>('select count(*)::int as n from public.jobs')).rows[0]!.n).toBe(rows.length);
       await expect(db.query("update public.jobs set title = 'x'")).rejects.toThrow(/permission denied/); // read-only for clients
     });
-    await as('service_role', async () => { await db.query("update public.job_sources set can_redistribute = false where id = 'jobicy'"); });
+    await db.query("update public.job_sources set can_redistribute = false where id = 'jobicy'"); // the emergency switch is the OWNER's
     await as('anon', async () => {
       expect((await db.query<{ n: number }>('select count(*)::int as n from public.jobs')).rows[0]!.n).toBe(0);
     });

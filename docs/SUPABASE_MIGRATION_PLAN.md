@@ -21,6 +21,7 @@ Consequência: tabelas, migrations aplicadas, extensões, buckets e configuraç�
 | 4 | `20261011000000_quotas.sql` | cotas por usuário via trigger (currículos 10, favoritos 1000, pesquisas 100, candidaturas 2000) | não |
 | 5 | `20261012000000_quota_upsert_fix.sql` | **corretiva** da 4: upsert de favorito já existente no teto passa (chave natural `job_key`) e inserts concorrentes não ultrapassam a cota (lock advisory por usuário/tabela). A 4 não foi reescrita, pois pode já ter sido aplicada | `create or replace function` e recriação de 1 trigger |
 | 6 | `20261013000000_service_role_grants.sql` | **futura, ainda NÃO aplicada ao projeto real**: privilégios mínimos de tabela para o `service_role` (ver §13). Independente das demais | `revoke`/`grant` e `alter default privileges` (idempotente) |
+| 7 | `20261014000000_service_role_least_privilege.sql` | **futura, ainda NÃO aplicada**: segundo passo de privilégio mínimo do `service_role` (ver §14). Depende da 6 | `revoke` |
 
 Dependências: 2 usa objetos de 1; 3 usa `saved_jobs_visible_job`, `resumes` e a extensão de 1–2; 4 usa tabelas de 1. A ordem é a dos timestamps; a CLI aplica nessa ordem. Nenhuma migration usa `SECURITY DEFINER` nem cria trigger em `auth.users`; `anon` só recebe `SELECT` no catálogo.
 
@@ -228,3 +229,26 @@ Consulta somente leitura devolveu: `postgres` é membro de `supabase_privileged_
 | Exclusão de conta | **nenhum privilégio de tabela**: `auth.admin.deleteUser` cascateia pelas FKs e os arquivos saem pela Storage API |
 
 Não concede: `ALL`, escrita em tabelas de usuário, delete em `job_sources`/`sync_runs`, `EXECUTE` em funções, `TRUNCATE`/`REFERENCES`/`TRIGGER`. O app Flutter nunca usa esse papel. Testes: `08_service_role.sql` (matriz exata de privilégios em todas as tabelas, sem `EXECUTE`, tabela futura nasce sem privilégio, operações que funcionam e que falham, em PostgreSQL 16 e 17); três mutantes (sem a migration, `grant all`, sem delete em `job_clusters`) são detectados. O classificador passou a reconhecer a migration 6 pela assinatura do grant e a tratar o projeto real como `CONSISTENT_PARTIAL` com ela pendente. O `rollback_all.sql` restaura os defaults reais da plataforma, não `ALL`. **A aplicação depende de autorização expressa; o procedimento é o mesmo (`db push --dry-run`, depois `db push`).**
+
+## 14. Migration 7: menos privilégios para o `service_role` (`20261014000000_service_role_least_privilege.sql`, não aplicada, PR separado)
+
+**Por quê.** A chave `sb_secret_` de uma automação (Worker ou GitHub Actions) vive fora do banco e tem o papel `service_role`. Depois da migration 6 ela ainda podia:
+apagar vagas (e, por `saved_jobs.job_id ... on delete cascade`, **os favoritos de todos os usuários**), ler os metadados de todos os currículos (`resumes`) e **criar ou alterar fontes**
+(publicar ou esconder o catálogo inteiro mudando `can_redistribute`). Nenhuma dessas permissões é usada: fechar vaga é `UPDATE`, a varredura de arquivos órfãos nunca foi construída e as fontes
+são criadas e publicadas pelo dono (SQL Editor/CLI como `postgres`).
+
+| Tabela | Antes (migration 6) | Depois (migration 7) |
+|---|---|---|
+| `jobs` | select, insert, update, **delete** | select, insert, update |
+| `job_clusters` | select, insert, update, **delete** | select, insert, update |
+| `job_sources` | select, **insert, update** | select |
+| `sync_runs` | select, insert, update | igual |
+| `resumes` | **select** | nenhum |
+
+`insert` em `jobs` continua porque o mesmo papel executa a passada completa (`SYNC_MODE=full`); o modo só-revalidação é mantido em "nenhuma vaga nova" pelo código e pelos testes, não pelo banco.
+
+**A revalidação continua funcionando:** `worker/test/jobicy-schema.test.ts` roda os comandos exatos de uma revalidação (ler fonte e vagas, criar a linha de `sync_runs` com a chave da lease, carimbar `last_checked_at`, fechar, encerrar o registro) sob os grants finais; `supabase/tests/08_service_role.sql` fixa a matriz exata e prova as recusas; o CI com PostgREST real (v14.18 e v16.4) prova que `DELETE` de vaga, `DELETE` de cluster, `GET /resumes`, `POST /job_sources` e `PATCH /job_sources` são recusados e que a leitura da fonte e a escrita das vagas continuam.
+
+**Ordem de aplicação (só com autorização):** (1) `scripts/supabase/apply.sh read` deve mostrar `CONSISTENT_PARTIAL` com **só** `20261014000000_service_role_least_privilege` pendente; (2) backup; (3) `apply`; (4) `audit`; (5) conferir com a consulta de privilégios do passo 5.4 do runbook (esperado: `jobs` e `job_clusters` sem DELETE, `job_sources` só SELECT, `resumes` ausente). **Idempotente** (revogar o que não se tem não muda nada).
+
+**Rollback:** `supabase/rollback/20261014000000_service_role_least_privilege.down.sql` devolve exatamente os três grants e diz como remover a versão do histórico. Não apaga dados.

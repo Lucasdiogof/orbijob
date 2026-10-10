@@ -63,6 +63,8 @@ jobs:
           nohup ./postgrest > postgrest.log 2>&1 &
           for i in $(seq 1 40); do curl -sf "http://localhost:3000/jobs?limit=1" >/dev/null && exit 0; sleep 1; done
           echo "PostgREST did not start"; cat postgrest.log; exit 1
+      - name: Sources, created by the OWNER (service_role cannot create or change sources since migration 7)
+        run: psql "postgres://postgres:postgres@localhost:5432/worker_contract" -v ON_ERROR_STOP=1 -q -f worker/test/live/seed-sources.sql
       - run: npm ci
         working-directory: worker
       - name: Ingestion write path against PostgREST
