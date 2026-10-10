@@ -104,31 +104,3 @@ describe('jobicy-watchdog.yml', () => {
     expect(c).not.toMatch(/on:[\s\S]*pull_request/);
   });
 });
-
-describe('diagnostics-schedule.yml (temporary)', () => {
-  const c = code(read('diagnostics-schedule.yml'));
-  it('only records time, event, cron and sha: no secret, no variable, no checkout, no action, no network, no Supabase, empty permissions', () => {
-    expect(c).toMatch(/^permissions: \{\}$/m);
-    expect(c).not.toMatch(/secrets\.|vars\.|GITHUB_TOKEN|github\.token/);
-    expect(c).not.toMatch(/\buses:/); // not even checkout: nothing to fetch, nothing to run from the repository
-    expect(c).not.toMatch(/\b(curl|wget|npm|npx|node|supabase|psql|git )\b/);
-    expect(c).not.toMatch(/environment:|upload-artifact|actions\/cache/);
-    expect(c).toMatch(/timeout-minutes: [1-5]\b/);
-  });
-  it('fires every 15 minutes, away from minute 0, and can be run by hand; no other trigger', () => {
-    const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['11,26,41,56 * * * *']);
-    expect(c).toMatch(/workflow_dispatch:/);
-    const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
-    expect(on).not.toMatch(/push:|pull_request|workflow_run|issue|repository_dispatch/);
-  });
-  it('records what the diagnosis needs: UTC time, event, the cron that fired, the sha', () => {
-    for (const k of ['date -u', 'github.event_name', 'github.event.schedule', 'github.sha']) expect(c).toContain(k);
-  });
-  it('is documented as temporary, with the removal steps', () => {
-    const doc = readFileSync(new URL('../../docs/GITHUB_SCHEDULE_DIAGNOSTIC.md', import.meta.url), 'utf8');
-    expect(doc).toMatch(/Como remover o diagn/);
-    expect(doc).toMatch(/git rm \.github\/workflows\/diagnostics-schedule\.yml/);
-    expect(read('diagnostics-schedule.yml')).toMatch(/TEMPORARIO.*REMOVER DEPOIS/);
-  });
-});
