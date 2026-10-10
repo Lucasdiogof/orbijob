@@ -12,5 +12,6 @@ begin
   select count(*) into n from pg_policies where schemaname = 'storage' and policyname like 'resumes\_objects\_%';
   if n > 0 then raise exception 'ROLLBACK: % storage policy(ies) left', n; end if;
   if exists (select 1 from pg_extension where extname = 'pg_trgm') then raise exception 'ROLLBACK: pg_trgm left'; end if;
+  if exists (select 1 from pg_namespace where nspname = 'ops') then raise exception 'ROLLBACK: schema ops left'; end if;
 end $$;
 \echo 'rollback: clean'

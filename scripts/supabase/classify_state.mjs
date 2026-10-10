@@ -14,6 +14,7 @@ export const MIGRATIONS = [
   { version: '20261012000000', name: 'quota_upsert_fix' },
   { version: '20261013000000', name: 'service_role_grants' },
   { version: '20261014000000', name: 'service_role_least_privilege' },
+  { version: '20261015000000', name: 'supabase_cron_revalidation' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -46,6 +47,9 @@ function signatures(i) {
     (i.public_grants ?? []).some((g) => g.role === 'service_role' && g.table === 'jobs' && (g.privileges ?? []).includes('SELECT')),
     // migration 7 takes DELETE on jobs away again (the role still reads and writes the catalogue, but can no longer erase it)
     (i.public_grants ?? []).some((g) => g.role === 'service_role' && g.table === 'jobs' && (g.privileges ?? []).includes('SELECT') && !(g.privileges ?? []).includes('DELETE')),
+    // migration 8 creates the `ops` schema (the in-database revalidation). The extensions pg_cron/pg_net are NOT part of the signature:
+    // a plain PostgreSQL (the test databases) does not offer them.
+    (i.schemas ?? []).includes('ops'),
   ];
 }
 
