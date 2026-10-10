@@ -13,8 +13,11 @@ import '../domain/search_repository.dart';
 /// (`isco08` is empty for most sources) and salary ranges (amounts in different currencies and periods are not
 /// comparable).
 class SupabaseJobCatalogRepository implements SearchRepository {
-  SupabaseJobCatalogRepository(this._client, {DateTime Function()? now})
-    : _now = now ?? DateTime.now;
+  SupabaseJobCatalogRepository(
+    this._client, {
+    DateTime Function()? now,
+    this.maxVerificationAge = defaultMaxVerificationAge,
+  }) : _now = now ?? DateTime.now;
 
   final SupabaseClient _client;
   final DateTime Function() _now;
@@ -24,7 +27,11 @@ class SupabaseJobCatalogRepository implements SearchRepository {
   /// A job is shown as open only while the source has vouched for it recently (`jobs.last_checked_at` is moved by every feed pass
   /// and every "still active" answer of the sync). Past this age nobody can guarantee it is still open, so it is not offered; it
   /// returns by itself as soon as a check confirms it. Same value as EXPIRE_MS in worker/src/freshness.ts.
-  static const maxVerificationAge = Duration(hours: 72);
+  static const defaultMaxVerificationAge = Duration(hours: 72);
+
+  /// Null turns the age filter OFF. Only for the bootstrap window in which the revalidation of the stored jobs is not yet running
+  /// (see docs/JOBICY_SYNC_PLAN.md); the injector never passes null unless the build says so on purpose.
+  final Duration? maxVerificationAge;
 
   static const _columns =
       'id,source_id,external_id,company,title,description,country,city,language,work_mode,contract_type,'
@@ -50,11 +57,14 @@ class SupabaseJobCatalogRepository implements SearchRepository {
         .select(_columns)
         .eq('status', 'open')
         .eq('job_sources.can_redistribute', true)
-        .inFilter('job_sources.status', allowedSourceStatuses)
-        .gte(
-          'last_checked_at',
-          _now().toUtc().subtract(maxVerificationAge).toIso8601String(),
-        );
+        .inFilter('job_sources.status', allowedSourceStatuses);
+    final maxAge = maxVerificationAge;
+    if (maxAge != null) {
+      q = q.gte(
+        'last_checked_at',
+        _now().toUtc().subtract(maxAge).toIso8601String(),
+      );
+    }
 
     final term = sanitizeSearchTerm(query);
     if (term.isNotEmpty) {
@@ -243,3 +253,8 @@ double? _num(Object? v) =>
   }
   return (min, max, cur, period);
 }
+
+/// `--dart-define=JOB_MAX_VERIFICATION_HOURS=`: 72 (default) or 0 (filter OFF, temporary). Any other value is ignored and 72 is used:
+/// the window is not meant to be stretched to hide a sync that is not running.
+Duration? jobMaxVerificationAge(int hours) =>
+    hours == 0 ? null : SupabaseJobCatalogRepository.defaultMaxVerificationAge;

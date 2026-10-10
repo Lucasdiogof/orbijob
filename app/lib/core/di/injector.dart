@@ -98,7 +98,15 @@ void registerSupabaseRepositories(SupabaseClient client) {
   }
   if (!sl.isRegistered<SearchRepository>()) {
     sl.registerLazySingleton<SearchRepository>(
-      () => SupabaseJobCatalogRepository(client),
+      () => SupabaseJobCatalogRepository(
+        client,
+        maxVerificationAge: jobMaxVerificationAge(
+          const int.fromEnvironment(
+            'JOB_MAX_VERIFICATION_HOURS',
+            defaultValue: 72,
+          ),
+        ),
+      ),
     );
   }
   sl

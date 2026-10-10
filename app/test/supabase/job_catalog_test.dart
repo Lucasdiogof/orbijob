@@ -244,10 +244,12 @@ void main() {
       expect(v, startsWith('gte.'));
       expect(
         DateTime.parse(v.substring(4)),
-        fixedNow.subtract(SupabaseJobCatalogRepository.maxVerificationAge),
+        fixedNow.subtract(
+          SupabaseJobCatalogRepository.defaultMaxVerificationAge,
+        ),
       );
       expect(
-        SupabaseJobCatalogRepository.maxVerificationAge,
+        SupabaseJobCatalogRepository.defaultMaxVerificationAge,
         const Duration(hours: 72),
       );
     });

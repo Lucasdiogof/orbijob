@@ -66,14 +66,71 @@ Valores oficiais conferidos em `docs/JOBICY_WORKER.md` (leitura da documentaçã
   hora; secrets são removíveis com `wrangler secret delete`.
 
 ## 5. Plano de implantação (nada executado)
-1. Merge deste PR (a validade de 72 h vai junto com o app).
-2. Autorização do dono: assinar Workers Paid (custo) e criar a chave `sb_secret_` exclusiva do Worker.
-3. Antes do deploy, um ensaio local `wrangler dev --test-scheduled` com a mesma chave (ele grava no banco hospedado, importa as
-   ~690 vagas restantes do feed de 7 dias, que **ficam públicas na hora** porque a fonte está publicada, e exercita o status).
-4. Deploy com o cron `0 */6 * * *`; observar a primeira execução (`wrangler tail`) e conferir `sync_runs`.
-5. Critérios de sucesso: `sync_runs.status = 'ok'`, `confirmed + closed + unverified` coerentes, nenhuma vaga fechada sem `closed` da
-   fonte, vagas visíveis no app, sem erro 401/403.
+Sequência detalhada em "Compatibilidade com as 299 vagas e sequência segura" (seção 5b). Resumo:
+1. Merge do PR #57.
+2. Revalidação local única das 299 (`scripts/revalidate-local.mjs`), com autorização.
+3. Workers Paid + chave `sb_secret_` exclusiva do Worker (autorizações do dono) e deploy com o cron `0 */6 * * *` **em `revalidate`**
+   (fixado no `wrangler.toml`); observar a primeira execução (`wrangler tail`) e conferir `sync_runs`.
+4. Critérios de sucesso: `sync_runs.status = 'ok'`, `closed + confirmed + unverified` coerentes, nenhuma vaga fechada sem `closed` da
+   fonte, nenhuma vaga nova, sem erro 401/403.
+5. Expansão do catálogo (`SYNC_MODE=full`, `SYNC_MAX_NEW_JOBS` pequeno) só depois, em um commit revisado e com autorização.
 6. Rollback: `wrangler delete`/remover cron; `can_redistribute=false` se algo exposto estiver errado.
+
+## 5b. Dois modos explícitos (PR #57)
+
+| | **A. Revalidação** (`SYNC_MODE=revalidate`) | **B. Sincronização completa** (`SYNC_MODE=full`) |
+|---|---|---|
+| Lê o feed do Jobicy | **não** | sim (páginas, ritmo de 1 req/s) |
+| Grava vaga nova | **nunca** | sim (upsert), limitável por `SYNC_MAX_NEW_JOBS` |
+| Consulta o endpoint de status | sim, só das vagas abertas já gravadas | sim, só das que saíram do feed |
+| Fecha | só as que a fonte responde `closed` | idem |
+| Move `last_checked_at` | só das que a fonte responde `active` | das vistas no feed e das `active` |
+| Falha do status | run `failed` (nada alterado) ou `partial` (lotes anteriores ficam) | idem (`partial`) |
+| `job_sources`, `can_redistribute`, tabelas de usuário | nunca tocados | nunca tocados |
+
+* **O modo é explícito.** `wrangler.toml` fixa `SYNC_MODE = "revalidate"` em `[vars]`; um teste e um e2e no CI garantem que o que vai
+  para produção importa **nada**. Para ampliar o catálogo é preciso editar essa linha para `full` em um commit revisado. Valor
+  inválido é erro de configuração antes de qualquer requisição. Sem a variável (testes, ensaios locais) o padrão é `full`, por
+  compatibilidade; a configuração implantada nunca depende desse padrão.
+* **Expansão controlada.** `SYNC_MAX_NEW_JOBS=N` (só `full`) limita quantas vagas **ainda não gravadas** entram por passada; as
+  já gravadas continuam sendo atualizadas e as demais ficam para a passada seguinte (o log traz `skippedNew`). `0` não adiciona nada.
+  Se os ids gravados não puderem ser lidos, nada é adicionado. Além disso `SYNC_MAX_PAGES=1` limita a ~100 vagas mais novas.
+  Como a fonte está publicada, **toda vaga importada fica pública na hora**: por isso a expansão é uma decisão separada e gradual
+  (por exemplo `SYNC_MAX_NEW_JOBS=50` na primeira passada completa).
+* **Regras do Jobicy preservadas:** no máximo 1 passada por hora (a lease vale entre os dois modos: uma revalidação logo após
+  uma sincronização completa é adiada), páginas em sequência, status em lotes de 100, nenhum 4xx/5xx tratado como encerramento.
+
+### Como executar SOMENTE a revalidação
+* **Local, uma vez (antes de qualquer deploy):** `node worker/scripts/revalidate-local.mjs preflight` (só leitura) e depois
+  `node worker/scripts/revalidate-local.mjs run --yes`. Usa o mesmo código do Worker em modo `revalidate` (fixo no script), a chave
+  `sb_secret_` exclusiva lida da CLI logada só na memória, e **reprova** se o conjunto de vagas mudar, se aparecer transição
+  diferente de `open → closed`, se o número de fechadas divergir do informado ou se a fonte mudar. Ensaiado em processo real contra
+  um servidor local de mentira (`worker/test/revalidate-runner.test.ts`).
+* **Em produção:** o cron do Worker implantado já roda em `revalidate` (valor fixado no `wrangler.toml`).
+
+### Compatibilidade com as 299 vagas e sequência segura
+As 299 foram gravadas em 2026-10-10 ≈ 04:58 UTC; com a janela de 72 h elas **somem do app em 2026-10-13 ≈ 05:00 UTC** se nada as
+revalidar. A janela **não** foi ampliada. Sequência recomendada:
+1. Merge do PR #57 (nada muda no banco).
+2. **Revalidação local única** (acima), com sua autorização: confirma as 299 (estão `active`), move as datas e empurra o vencimento
+   72 h adiante. Pode ser repetida manualmente enquanto o Worker não existe.
+3. Plano Workers Paid + chave exclusiva do Worker (suas autorizações) → deploy com o cron em `revalidate`: a validade passa a ser
+   renovada a cada 6 h.
+4. Só então, e separadamente, ampliar o catálogo: commit alterando `SYNC_MODE` para `full` com `SYNC_MAX_NEW_JOBS` pequeno.
+5. **Adiar o filtro no app** (alternativa, se a ordem acima atrasar): o build aceita `--dart-define=JOB_MAX_VERIFICATION_HOURS=0`,
+   que **desliga** o filtro de 72 h; qualquer outro valor é ignorado e continua 72. É um interruptor temporário de build, não uma
+   janela maior: remova-o assim que a revalidação estiver operacional.
+
+### Revisão de segurança (resumo)
+* **Concorrência/lease:** igual à passada completa (chave primária atômica; TTL 20 min > orçamento 12 min > teto da plataforma 15 min).
+  Uma execução antiga que gravasse depois de uma nova só pode: mover `last_checked_at` (idempotente) ou fechar uma vaga que a fonte
+  ainda diga `closed` (se ela voltou ao feed, a próxima passada completa a reabre). Sem fencing token; não há risco de duplicata.
+* **Falhas parciais:** o que cada lote provou fica gravado; falha do status → `failed`/`partial`, nunca fechamento.
+* **Timeout/limites de API:** timeout vira classe `timeout`; 429 respeita `Retry-After`; 100 ids por consulta, ritmo de 1 req/s.
+* **Autenticação:** chave errada para na lease, antes de qualquer pedido ao Jobicy (testado); a chave JWT legada é recusada.
+* **Logs:** só contagens, classes de erro e o modo; nunca chave, URL de vaga ou texto.
+* **Rollback sem apagar nada:** `wrangler delete`/remover o cron; `can_redistribute=false` esconde o catálogo; o Worker nunca usa
+  `DELETE` (favoritos têm `on delete cascade` para `jobs`, então apagar vagas apagaria favoritos: testado).
 
 ## 6. Riscos restantes
 * CPU real no Cloudflare não medida; sem alerta de falha repetida (o único sinal é `sync_runs` e o prazo de 72 h do app).

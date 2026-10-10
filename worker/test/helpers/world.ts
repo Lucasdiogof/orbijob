@@ -136,7 +136,7 @@ export class World {
         return new Response(null, { status: 201 });
       }
       if (method === 'GET') {
-        const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && j.status === eq('status')).map((j) => ({ external_id: j.external_id }));
+        const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && (!q.get('status') || j.status === eq('status'))).map((j) => ({ external_id: j.external_id }));
         const off = Number(q.get('offset') ?? 0);
         return json(200, ids.slice(off, off + Number(q.get('limit') ?? 1000)));
       }
