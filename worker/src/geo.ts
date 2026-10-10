@@ -47,10 +47,19 @@ export function parseGeo(raw: unknown): ParsedGeo {
 
 /** `jobs.country` is set only when the posting is tied to exactly one country and nothing else. */
 export function singleCountry(g: ParsedGeo): string | null {
-  return g.countries.length === 1 && g.regions.length === 0 && g.unknown.length === 0 ? g.countries[0]! : null;
+  return !g.anywhere && g.countries.length === 1 && g.regions.length === 0 && g.unknown.length === 0 ? g.countries[0]! : null;
 }
 
-/** Value for `jobs.geo_restrictions`: ISO codes, region names and unknown tokens as written. Empty = unrestricted. */
+/** Marker stored in `jobs.geo_restrictions` when the source says, in so many words, that there is no geographic restriction. */
+export const GEO_ANYWHERE = 'Anywhere';
+
+/**
+ * Value for `jobs.geo_restrictions`: ISO codes, region names and unknown tokens as written.
+ *   ['Anywhere']  the source explicitly says "Anywhere" (no restriction);
+ *   []            the source said nothing usable (missing/empty): eligibility UNKNOWN, never read as global;
+ *   otherwise     the places the source names (the marker is kept in front when the source wrote both).
+ * The column is `text[] not null default '{}'`, so the distinction needs no schema change.
+ */
 export function geoRestrictions(g: ParsedGeo): string[] {
-  return [...g.countries, ...g.regions, ...g.unknown];
+  return [...(g.anywhere ? [GEO_ANYWHERE] : []), ...g.countries, ...g.regions, ...g.unknown];
 }

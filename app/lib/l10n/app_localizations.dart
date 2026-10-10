@@ -1701,6 +1701,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Description'**
   String get jobDescriptionTitle;
+
+  /// No description provided for @locationAnywhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere'**
+  String get locationAnywhere;
+
+  /// No description provided for @eligibleAnywhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Open to applicants anywhere, as stated by the source'**
+  String get eligibleAnywhere;
+
+  /// No description provided for @eligibilityUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Location eligibility not stated by the source'**
+  String get eligibilityUnknown;
+
+  /// No description provided for @eligibilityCheckOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Check eligibility on the original listing before applying.'**
+  String get eligibilityCheckOriginal;
+
+  /// No description provided for @salaryFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {amount}'**
+  String salaryFrom(String amount);
+
+  /// No description provided for @salaryUpTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {amount}'**
+  String salaryUpTo(String amount);
 }
 
 class _AppLocalizationsDelegate

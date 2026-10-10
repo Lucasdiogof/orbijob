@@ -5,8 +5,18 @@ const NAMED: Record<string, string> = {
   lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”', bull: '•', middot: '·', copy: '©', reg: '®', trade: '™',
 };
 
-/** Decodes numeric and the common named entities, exactly once (`&amp;lt;` becomes the text `&lt;`). */
+const DOUBLE_ENCODED = /&(amp|quot|apos|nbsp|ndash|mdash|hellip|lsquo|rsquo|ldquo|rdquo|#0*(?:38|39)|#x0*(?:26|27));/gi;
+
+/**
+ * Decodes numeric and the common named entities once (`&amp;lt;` becomes the text `&lt;`, never `<`). The one exception is
+ * double-encoded punctuation (`&amp;amp;`, `&amp;quot;`, `&amp;#39;`, `&amp;nbsp;`): sources that escape twice would otherwise show
+ * a literal `&amp;`. Markup characters (`<`, `>`) are never produced by that second pass, and the output is plain text anyway.
+ */
 export function decodeEntities(s: string): string {
+  return decodeOnce(s).replace(DOUBLE_ENCODED, (m) => decodeOnce(m));
+}
+
+function decodeOnce(s: string): string {
   return s.replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z][a-z0-9]*);/gi, (m, body: string) => {
     if (body[0] === '#') {
       const code = body[1]?.toLowerCase() === 'x' ? parseInt(body.slice(2), 16) : parseInt(body.slice(1), 10);
@@ -18,7 +28,8 @@ export function decodeEntities(s: string): string {
 
 /** Removes markup (including script/style bodies and comments), keeps line breaks of block elements, decodes entities. */
 export function htmlToText(html: string): string {
-  const noCtl = (s: string) => s.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '');
+  // CR/CRLF become LF; zero-width characters and the BOM are invisible noise; other control characters are dropped.
+  const noCtl = (s: string) => s.replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f​-‍⁠﻿]/g, '');
   const text = html
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(script|style|iframe|object|embed|noscript)\b[\s\S]*?<\/\1\s*>/gi, ' ')

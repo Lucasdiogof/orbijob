@@ -53,7 +53,8 @@ class JobPosting extends Equatable {
   final String? language;
 
   /// Where the applicant must be (ISO alpha-2 codes, region names such as `EMEA`, or names as the source wrote them).
-  /// Empty = the source states no restriction. Never expanded or guessed.
+  /// `['Anywhere']` = the source says there is no restriction; empty = the source said nothing usable (eligibility UNKNOWN, never read
+  /// as global). Never expanded or guessed.
   final List<String> geoRestrictions;
 
   /// Plain-text description when the catalogue provides one. NOT stored in favourites or applications (their

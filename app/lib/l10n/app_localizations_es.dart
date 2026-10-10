@@ -922,4 +922,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get jobDescriptionTitle => 'Descripción';
+
+  @override
+  String get locationAnywhere => 'Cualquier lugar';
+
+  @override
+  String get eligibleAnywhere =>
+      'Abierta a candidatos de cualquier lugar, según la fuente';
+
+  @override
+  String get eligibilityUnknown =>
+      'Elegibilidad geográfica no indicada por la fuente';
+
+  @override
+  String get eligibilityCheckOriginal =>
+      'Verifica la elegibilidad en el anuncio original antes de postularte.';
+
+  @override
+  String salaryFrom(String amount) {
+    return 'Desde $amount';
+  }
+
+  @override
+  String salaryUpTo(String amount) {
+    return 'Hasta $amount';
+  }
 }

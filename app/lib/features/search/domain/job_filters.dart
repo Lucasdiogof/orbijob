@@ -21,8 +21,9 @@ class JobFilters extends Equatable {
   /// Only jobs that carry a valid salary (amount, currency and period).
   final bool onlyWithSalary;
 
-  /// ISO 3166-1 alpha-2. Matches jobs in that country, jobs that list it as eligible, and remote jobs open to
-  /// anywhere. Region-only restrictions (EMEA, Europe) are not expanded into countries, so they do not match.
+  /// ISO 3166-1 alpha-2. Matches jobs in that country, jobs that list it as eligible, and remote jobs the source
+  /// explicitly marks `Anywhere`. A job with NO usable location (empty list) is unknown, not global, so it does not match.
+  /// Region-only restrictions (EMEA, Europe) are not expanded into countries, so they do not match.
   final String? countryCode;
 
   bool get isActive =>

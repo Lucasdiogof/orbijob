@@ -2,12 +2,17 @@ import 'package:intl/intl.dart';
 
 import '../../features/search/domain/entities/job_posting.dart';
 import '../../l10n/app_localizations.dart';
+import 'country_names.dart';
+import 'geo_eligibility.dart';
+import 'salary_check.dart';
 
-/// "R$ 9.000–12.000/mês". Returns null when the source gives no salary: nothing is invented.
+/// "R$ 9.000–12.000/mês", "A partir de US$ 90.000/ano", "Até US$ 110.000/ano". Returns null when the source gives no salary, or when
+/// the figure is implausible (held back until the source confirms it, see salary_check.dart): nothing is invented or "fixed".
 String? formatSalary(JobPosting j, AppLocalizations l) {
+  final kind = salaryKind(j);
+  if (kind == SalaryKind.unknown || kind == SalaryKind.suspicious) return null;
   final min = j.salaryMin;
   final max = j.salaryMax;
-  if (min == null && max == null) return null;
   final nf = NumberFormat.decimalPattern(l.localeName)
     ..maximumFractionDigits = 0;
   final cur = j.salaryCurrency;
@@ -17,9 +22,11 @@ String? formatSalary(JobPosting j, AppLocalizations l) {
           locale: l.localeName,
           name: cur,
         ).currencySymbol;
-  final value = (min != null && max != null && min != max)
-      ? '${nf.format(min)}–${nf.format(max)}'
-      : nf.format(min ?? max);
+  final value = switch (kind) {
+    SalaryKind.range => '${nf.format(min)}–${nf.format(max)}',
+    SalaryKind.from => nf.format(min),
+    _ => nf.format(max ?? min),
+  };
   final period = switch (j.salaryPeriod) {
     SalaryPeriod.hour => l.perHour,
     SalaryPeriod.day => l.perDay,
@@ -28,7 +35,12 @@ String? formatSalary(JobPosting j, AppLocalizations l) {
     SalaryPeriod.year => l.perYear,
     null => '',
   };
-  return '${symbol.isEmpty ? '' : '$symbol '}$value$period';
+  final amount = '${symbol.isEmpty ? '' : '$symbol '}$value$period';
+  return switch (kind) {
+    SalaryKind.from => l.salaryFrom(amount),
+    SalaryKind.upTo => l.salaryUpTo(amount),
+    _ => amount,
+  };
 }
 
 /// Relative publication date ("Posted 3 days ago"); null when the source gives no date.
@@ -53,16 +65,21 @@ String workModeLabel(WorkMode m, AppLocalizations l) => switch (m) {
   WorkMode.unspecified => '',
 };
 
-String? placeLabel(JobPosting j) {
+/// Where the job is, for the card and the detail header: "city · Country" with the country in the interface language.
+/// A remote job tied to places shows them (countries by name, regions as published); an explicit "Anywhere" says so; a job with
+/// no usable location shows nothing here (the detail screen then says the eligibility is not stated).
+String? placeLabel(JobPosting j, AppLocalizations l) {
+  final lang = l.localeName.split('_').first;
   final parts = <String>[
     if (j.city != null && j.city!.isNotEmpty) j.city!,
-    if (j.country != null && j.country!.isNotEmpty) j.country!,
+    if (j.country != null && j.country!.isNotEmpty)
+      countryName(j.country!, lang) ?? j.country!,
   ];
-  if (parts.isEmpty && j.geoRestrictions.isNotEmpty) {
-    // A remote job tied to no city/country still tells where applicants must be (codes and regions as published).
-    return j.geoRestrictions.join(', ');
-  }
-  return parts.isEmpty ? null : parts.join(' · ');
+  if (parts.isNotEmpty) return parts.join(' · ');
+  final g = geoEligibility(j, lang);
+  if (g.kind == GeoKind.anywhere) return l.locationAnywhere;
+  if (g.places.isNotEmpty) return g.places.join(', ');
+  return null;
 }
 
 /// Native name of a language (never translated, so a reader recognises it in any interface language).

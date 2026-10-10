@@ -78,7 +78,7 @@ void main() {
       for (final s in [
         'Beckenboden-Physiotherapeut:in',
         'Beispiel Klinik GmbH',
-        'Berlin · DE',
+        'Berlin · Germany',
         'Vollzeit',
         'Deutsch',
         'On-site',

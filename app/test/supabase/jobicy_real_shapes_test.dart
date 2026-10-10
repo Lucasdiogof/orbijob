@@ -88,7 +88,7 @@ void main() {
         final j = await load(row('2', geo: ['CA', 'US']));
         expect(j.country, isNull);
         expect(j.geoRestrictions, ['CA', 'US']);
-        expect(placeLabel(j), 'CA, US');
+        expect(placeLabel(j, l), 'Canada, United States');
       },
     );
 
@@ -107,11 +107,11 @@ void main() {
       expect(j.geoRestrictions, ['CA', 'US', 'APAC', 'EMEA', 'LATAM']);
     });
 
-    test('"Anywhere" (stored as an empty list, 5 of 299): the app claims no place and no eligibility', () async {
+    test('a missing or empty location (5 of 299 are stored as an empty list): the app claims no place and no eligibility', () async {
       final j = await load(row('5'));
       expect(j.geoRestrictions, isEmpty);
       expect(j.country, isNull);
-      expect(placeLabel(j), isNull);
+      expect(placeLabel(j, l), isNull);
     });
   });
 
@@ -155,16 +155,12 @@ void main() {
       expect(formatSalary(j, l), isNull);
     });
 
-    test(
-      'KNOWN GAP (5 of 299): a salary with only one side is shown like an exact amount',
-      () async {
-        final j = await load(
-          row('10', min: null, max: 110000, cur: 'USD', per: 'year'),
-        );
-        final s = formatSalary(j, l)!;
-        expect(s, anyOf(contains('up to'), contains('Up to')));
-      },
-      skip: 'Open finding of the real-data audit: the formatter prints "\$ 110,000/year" for max-only, which reads as an exact salary.',
-    );
+    test('a salary with only one side (5 of 299) is shown as "Up to", never like an exact amount', () async {
+      final j = await load(
+        row('10', min: null, max: 110000, cur: 'USD', per: 'year'),
+      );
+      final s = formatSalary(j, l)!;
+      expect(s, anyOf(contains('up to'), contains('Up to')));
+    });
   });
 }

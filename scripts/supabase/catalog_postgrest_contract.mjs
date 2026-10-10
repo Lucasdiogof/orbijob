@@ -15,24 +15,24 @@ const golden = JSON.parse(readFileSync(fileURLToPath(new URL('../../app/test/sup
 
 // What the seed must answer for each recorded search: external ids, in order. Page requests ask for limit + 1 rows
 // (the extra row tells the app there is a next page).
-const VISIBLE_NEWEST_FIRST = ['1', '4', '2', '8', '3', '5'];
+const VISIBLE_NEWEST_FIRST = ['1', '4', '2', '8', '3', '11', '5'];
 const EXPECT = {
   browse: VISIBLE_NEWEST_FIRST,
   text_flutter: ['1'],
   text_partial_title: ['3'], // only the title substring matches "engin" (the text-search column has no stemming)
   text_hostile: [], // sanitised to plain words: no extra filter, no error, nothing leaks
-  country_us: ['1', '2', '8'], // country US, listed as eligible, or remote with no restriction
+  country_us: ['1', '2', '8'], // country US, listed as eligible, or remote marked Anywhere (job 11 has an EMPTY list = unknown: never matches)
   country_pt: ['4', '2'],
   country_de: ['2', '5'],
   mode_onsite: ['4'],
-  mode_remote_hybrid: ['1', '2', '8', '3', '5'],
+  mode_remote_hybrid: ['1', '2', '8', '3', '11', '5'],
   published_7d: ['1', '4', '2', '8'], // 3 is 20 days old; 5 has no date
   only_with_salary: ['1', '4', '3'],
   text_and_country_two_or_groups: [], // text matches only 1; country PT matches 4 and 2: two `or` params must be ANDed
   text_and_country_overlap: ['2'],
   all_filters: ['1'],
   page_1: ['1', '4', '2', '8'], // limit 3 + 1
-  page_2: ['8', '3', '5'], // offset 3
+  page_2: ['8', '3', '11', '5'], // offset 3
 };
 const HIDDEN = new Set(['6', '7', '9', '10']);
 const SOURCES_OK = new Set(['jobicy', 'lever']);

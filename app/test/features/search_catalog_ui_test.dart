@@ -183,7 +183,7 @@ void main() {
       ]);
       await pumpApp(t, repo: repo);
       await searchFor(t, 'account');
-      expect(find.text('CA, US'), findsOneWidget);
+      expect(find.text('Canada, United States'), findsOneWidget);
     },
   );
 
@@ -364,7 +364,10 @@ void main() {
       await t.pumpAndSettle();
       expect(find.text('Description'), findsOneWidget);
       expect(find.text('Plain text description of the role.'), findsOneWidget);
-      expect(find.text('Open to applicants in: CA, US'), findsOneWidget);
+      expect(
+        find.text('Open to applicants in: Canada, United States'),
+        findsOneWidget,
+      );
       expect(find.text('Source: Jobicy'), findsOneWidget);
       await t.ensureVisible(find.text('Open original listing'));
       await t.pumpAndSettle();

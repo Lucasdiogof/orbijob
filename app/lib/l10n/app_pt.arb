@@ -266,5 +266,11 @@
   "emptyFiltersBody": "Nenhuma vaga com esses filtros. Tente remover algum.",
   "openOriginalListing": "Abrir anúncio original",
   "eligibleIn": "Aberta a candidatos em: {places}",
-  "jobDescriptionTitle": "Descrição"
+  "jobDescriptionTitle": "Descrição",
+  "locationAnywhere": "Qualquer lugar",
+  "eligibleAnywhere": "Aberta a candidatos de qualquer lugar, segundo a fonte",
+  "eligibilityUnknown": "Elegibilidade geográfica não informada pela fonte",
+  "eligibilityCheckOriginal": "Confira a elegibilidade no anúncio original antes de se candidatar.",
+  "salaryFrom": "A partir de {amount}",
+  "salaryUpTo": "Até {amount}"
 }

@@ -1,6 +1,8 @@
 import { geoRestrictions, parseGeo, singleCountry } from '../geo';
 import { getJson } from '../http';
-import { htmlToText, inlineText } from '../text';
+import { cleanDescription } from '../description';
+import { inlineText } from '../text';
+import { assessSalary } from '../salary';
 import type { Connector, FetchPage, JobStatus, NormalizedJob, SalaryPeriod } from '../types';
 
 /**
@@ -67,7 +69,8 @@ function salary(r: JobicyRaw): Pick<NormalizedJob, 'salaryMin' | 'salaryMax' | '
   const period = PERIOD[str(r.salaryPeriod).trim().toLowerCase()];
   // A figure without currency or period would be guessed ("121000 what, per what?"), so it is not shown at all.
   if ((min === null && max === null) || !/^[A-Z]{3}$/.test(currency) || !period) return none;
-  if (min !== null && max !== null && min > max) return none;
+  // Inconsistent or implausible figures (min > max, "168-220 per year") are held back, never "fixed" (168 is not 168,000).
+  if (assessSalary(min, max, period) !== 'plausible') return none;
   return { salaryMin: min, salaryMax: max, salaryCurrency: currency, salaryPeriod: period };
 }
 
@@ -84,7 +87,7 @@ export function normalizeJobicy(raw: unknown, nowIso: string): NormalizeResult {
   const geo = parseGeo(r.jobGeo);
   const types = Array.isArray(r.jobType) ? r.jobType.map((t) => inlineText(str(t))).filter(Boolean) : [];
   const published = Date.parse(str(r.pubDate));
-  const description = htmlToText(str(r.jobDescription)) || htmlToText(str(r.jobExcerpt));
+  const description = cleanDescription(str(r.jobDescription)) || cleanDescription(str(r.jobExcerpt));
 
   return {
     ok: true,

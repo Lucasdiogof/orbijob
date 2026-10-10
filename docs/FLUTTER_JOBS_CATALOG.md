@@ -27,7 +27,7 @@ SearchPage (Explorar) ─ SearchCubit ─ SearchRepository (interface, domain)
 | Modalidade | `work_mode in (remote, hybrid, onsite)` |
 | Data | `published_at >= agora − N dias` (1, 7 ou 30) |
 | Salário | "só com salário": exige valor, moeda e período |
-| País | `country = X` **ou** `X` em `geo_restrictions` **ou** vaga remota sem país e sem restrição ("de qualquer lugar"). Regiões (EMEA, Europe) **não** são expandidas em países, logo não casam |
+| País | `country = X` **ou** `X` em `geo_restrictions` **ou** vaga remota que a fonte marca explicitamente `Anywhere` (`geo_restrictions` contém `Anywhere`). Lista **vazia** = localização desconhecida, não global: não casa. Regiões (EMEA, Europe) **não** são expandidas em países, logo não casam |
 | Ordem | `published_at desc nulls last, id desc` (o `id` desempata, então páginas não se sobrepõem) |
 | Paginação | `range(offset, offset + limite)`: pede uma linha a mais para saber se existe próxima página. `consumed` conta as linhas do servidor (inclusive as descartadas por inválidas) e é o que avança o `offset` |
 | Catálogo vazio | se a primeira página vem vazia, consulta `job_sources`: sem fonte autorizada → "sem fonte integrada"; com fonte → "nenhuma vaga" |
