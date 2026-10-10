@@ -57,6 +57,13 @@ export interface LeaseOptions {
   ttlMs?: number;
   /** Minimum time between two runs. The Jobicy rule is one pass per hour. Default 60 min. */
   minIntervalMs?: number;
+  /**
+   * Pause between the first and the second verification (default 1 s). A freshly inserted row is not instantly visible to a
+   * concurrent reader, so one check can miss an older rival; after the pause both rivals see the same rows and exactly one
+   * of them is the oldest. 0 disables the second check.
+   */
+  settleMs?: number;
+  sleep?: (ms: number) => Promise<void>;
 }
 
 /** Rows closed by the lease itself say nothing about the source and must not throttle the next real run. */
@@ -85,10 +92,16 @@ export async function acquireLease(ledger: RunLedger, o: LeaseOptions): Promise<
 
   const id = await ledger.beginRun({ source_id: o.sourceId, scope: o.scope, started_at: nowIso });
 
-  // Verify: did anyone older start in the meantime?
-  const after = (await ledger.runningRuns(o.sourceId)).filter((r) => now - t(r.started_at) < ttl);
-  const mine = after.find((r) => r.id === id);
-  if (!mine || after.some((r) => r.id !== id && before(r, mine))) {
+  // Verify, twice: did anyone older start in the meantime? The second look comes after a pause because a row inserted a
+  // moment ago by a rival may not be visible yet; with a clock tie (or a few ms of skew) both could otherwise pass.
+  const stillFirst = async () => {
+    const after = (await ledger.runningRuns(o.sourceId)).filter((r) => now - t(r.started_at) < ttl);
+    const mine = after.find((r) => r.id === id);
+    return !!mine && !after.some((r) => r.id !== id && before(r, mine));
+  };
+  const settle = o.settleMs ?? 1000;
+  const wait = o.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  if (!(await stillFirst()) || (settle > 0 && (await wait(settle), !(await stillFirst())))) {
     await ledger.finishRun(id, { status: 'failed', finished_at: nowIso, error_class: 'lost_lease' }).catch(() => {});
     return { kind: 'skipped', reason: 'lost_race' };
   }

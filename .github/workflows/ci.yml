@@ -67,7 +67,7 @@ jobs:
         env:
           POSTGREST_URL: http://localhost:3000
           POSTGREST_JWT_SECRET: ${{ env.PGRST_JWT_SECRET }}
-        run: npx vitest run test/live/postgrest.contract.test.ts
+        run: npx vitest run test/live/postgrest.contract.test.ts --reporter=default --reporter=json --outputFile.json=vitest-contract.json
       - name: The Worker in workerd writing to the real database through PostgREST
         working-directory: worker
         env:
@@ -79,6 +79,10 @@ jobs:
           # the contract test above leaves its own rows (fixed clocks); this run starts from an empty catalogue and ledger
           psql "postgres://postgres:postgres@localhost:5432/worker_contract" -v ON_ERROR_STOP=1 -q -c "delete from public.sync_runs; delete from public.jobs;"
           node scripts/e2e-workerd.mjs
+      - name: Failed contract tests as annotations (readable without opening the log)
+        if: failure()
+        working-directory: worker
+        run: node scripts/ci-annotate-vitest.mjs vitest-contract.json
       - name: PostgREST log
         if: failure()
         run: cat postgrest.log

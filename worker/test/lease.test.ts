@@ -19,7 +19,8 @@ class MemoryLedger implements RunLedger {
 
 const T0 = new Date('2026-10-10T12:00:00.000Z');
 const at = (min: number) => new Date(T0.getTime() + min * 60_000);
-const opts = (now: Date) => ({ sourceId: 'jobicy', scope: '', now });
+const noSleep = async () => {};
+const opts = (now: Date) => ({ sourceId: 'jobicy', scope: '', now, sleep: noSleep });
 
 describe('acquireLease', () => {
   it('the first run gets the lease and leaves a running row', async () => {
@@ -80,8 +81,8 @@ describe('acquireLease', () => {
 
   it('other sources are independent', async () => {
     const l = new MemoryLedger();
-    await acquireLease(l, { sourceId: 'jobicy', scope: '', now: T0 });
-    expect((await acquireLease(l, { sourceId: 'lever', scope: '', now: T0 })).kind).toBe('acquired');
+    await acquireLease(l, opts(T0));
+    expect((await acquireLease(l, { ...opts(T0), sourceId: 'lever' })).kind).toBe('acquired');
   });
 
   it('if the ledger cannot be read the error reaches the caller (no run without a lease)', async () => {
@@ -98,5 +99,37 @@ describe('acquireLease', () => {
       await l.finishRun((r as { id: string }).id, { status: 'ok' });
     }
     expect(l.rows).toHaveLength(3);
+  });
+
+  it('the second look after the pause catches a rival whose row was not yet visible at the first look', async () => {
+    // Real databases do not show a fresh insert to every reader at once. Here the older rival "appears" only during the pause.
+    const l = new MemoryLedger();
+    const hidden = { id: 'a-older', source_id: 'jobicy', status: 'running', started_at: at(-0.001).toISOString(), error_class: null as string | null };
+    let revealed = false;
+    const read = l.runningRuns.bind(l);
+    l.runningRuns = async (src: string) => [...(await read(src)), ...(revealed ? [hidden] : [])];
+    const r = await acquireLease(l, { ...opts(T0), settleMs: 500, sleep: async () => { revealed = true; } });
+    expect(r).toEqual({ kind: 'skipped', reason: 'lost_race' });
+    expect(l.rows.find((x) => x.status === 'failed')).toMatchObject({ error_class: 'lost_lease' });
+  });
+
+  it('without the pause the same rival goes unnoticed (this is the weakness the pause closes)', async () => {
+    const l = new MemoryLedger();
+    const hidden = { id: 'a-older', source_id: 'jobicy', status: 'running', started_at: at(-0.001).toISOString(), error_class: null as string | null };
+    let revealed = false;
+    const read = l.runningRuns.bind(l);
+    l.runningRuns = async (src: string) => [...(await read(src)), ...(revealed ? [hidden] : [])];
+    const r = await acquireLease(l, { ...opts(T0), settleMs: 0, sleep: async () => { revealed = true; } });
+    expect(r.kind).toBe('acquired');
+  });
+
+  it('three simultaneous runs with the pause, random-looking ids and a clock tie: still exactly one winner', async () => {
+    const l = new MemoryLedger();
+    let n = 0;
+    const ids = ['f3', 'a1', 'c9']; // arrival order differs from id order
+    l.beginRun = async (row) => { await new Promise((r) => setTimeout(r, 0)); const id = ids[n++]!; l.rows.push({ id, source_id: row.source_id, status: 'running', started_at: row.started_at, error_class: null }); return id; };
+    const res = await Promise.all([1, 2, 3].map(() => acquireLease(l, { ...opts(T0), settleMs: 5, sleep: (ms) => new Promise((r) => setTimeout(r, ms)) })));
+    expect(res.filter((r) => r.kind === 'acquired')).toHaveLength(1);
+    expect((res.find((r) => r.kind === 'acquired') as { id: string }).id).toBe('a1'); // the smallest id of the tie
   });
 });

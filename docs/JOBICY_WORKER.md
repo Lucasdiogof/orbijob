@@ -34,10 +34,10 @@ Um Worker roda em muitos isolados, em muitos lugares. A [documentação de Cron 
 
 1. Existe execução `running` com menos de 20 min? → **pula**.
 2. Existe execução terminada há menos de 60 min? → **pula** (regra da fonte: no máximo uma passada por hora; também absorve entrega duplicada do cron).
-3. Insere a própria linha `running`, relê, e se existir uma **mais antiga** (desempate por id) → **cede** e fecha a própria linha como `lost_lease`.
+3. Insere a própria linha `running`, relê, e se existir uma **mais antiga** (desempate por id) → **cede** e fecha a própria linha como `lost_lease`. **A releitura é feita duas vezes, com 1 s de pausa entre elas:** uma linha recém-inserida não aparece instantaneamente para outro leitor, então uma única conferência pode não ver um rival mais antigo. Teste que prova isso: `lease.test.ts` ("a segunda conferência pega um rival invisível na primeira" e o controle sem pausa, que o deixa passar).
 4. Linha `running` mais velha que 20 min = execução que caiu → fechada como `stale_lock`.
 
-**É uma lease otimista, não um mutex.** Provado: 3 invocações simultâneas contra um PostgREST real resultam em exatamente 1 sincronizando e 2 cedendo (`worker/test/live/postgrest.contract.test.ts`). Limite honesto: duas instâncias inserindo no mesmo instante com relógios defasados poderiam ambas prosseguir. Isso **não corrompe nada** (toda gravação é `upsert` por chave única; fechar exige a evidência da fonte; uma vaga reaberta por engano é refechada na passada seguinte) e o custo é uma passada a mais no Jobicy. Para uma garantia estrita existem duas saídas, **ambas fora desta fase**:
+**É uma lease otimista, não um mutex.** Testes: 3 invocações simultâneas resultam em exatamente 1 sincronizando e 2 cedendo, em memória (`lease.test.ts`, `scheduled.test.ts`) e contra um PostgREST real no CI (`worker/test/live/postgrest.contract.test.ts`, job `worker-postgrest`). Limite honesto: duas instâncias inserindo no mesmo instante com relógios defasados poderiam ambas prosseguir. Isso **não corrompe nada** (toda gravação é `upsert` por chave única; fechar exige a evidência da fonte; uma vaga reaberta por engano é refechada na passada seguinte) e o custo é uma passada a mais no Jobicy. Para uma garantia estrita existem duas saídas, **ambas fora desta fase**:
 
 | Opção | Custo | Quando |
 |---|---|---|

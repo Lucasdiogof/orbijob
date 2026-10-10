@@ -196,7 +196,8 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     }) as unknown as typeof fetch;
     const logs: string[] = [];
     const sink = { log: (l: string) => logs.push(l), warn: (l: string) => logs.push(l), error: (l: string) => logs.push(l) };
-    const deps = () => ({ fetch: f, now: () => clock.now, sink, sleep: async () => {}, retry: { retries: 0, baseMs: 1, maxMs: 1 } });
+    // a short REAL pause (the lease's settle time is what makes concurrent runs converge on real latency)
+    const deps = () => ({ fetch: f, now: () => clock.now, sink, sleep: (ms: number) => new Promise<void>((r) => setTimeout(r, Math.min(ms, 80))), retry: { retries: 0, baseMs: 1, maxMs: 1 } });
     return { counts, logs, deps };
   }
   const env = (key = svc) => ({ SUPABASE_URL: URL_ ?? 'http://localhost:3000', SUPABASE_SERVICE_ROLE_KEY: key });
@@ -234,7 +235,7 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     clock.now = day(3, 13, 5);
     expect((await runScheduledSync(env(), w.deps())).status).toBe('ok');
     const n = (await rest('GET', '/jobs?select=external_id&source_id=eq.jobicy', { token: svc })).json as unknown[];
-    expect(n).toHaveLength(11); // 10 listings + the stale "unknown" one planted above; nothing duplicated
+    expect(n).toHaveLength(12); // 10 listings + the two stale rows planted above (one closed, one "unknown"); nothing duplicated
   });
 
   it('a crashed run left "running" in the database does not block the source: it is closed as stale', async () => {
