@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/design/design.dart';
+import '../../../../core/format/description_text.dart';
+import '../../../../core/format/geo_eligibility.dart';
 import '../../../../core/format/job_format.dart';
 import '../../../../core/open_link.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -26,6 +28,43 @@ class JobDetailView extends StatelessWidget {
   final VoidCallback? onOpenApplication;
   final DateTime? now;
 
+  /// Who may apply, in words. An empty list is NOT read as "worldwide": the source said nothing, so the screen says that.
+  /// Whenever the answer is ambiguous (unknown, regions, mixed, names it does not recognise) it asks to check the original listing.
+  List<Widget> _eligibility(
+    BuildContext context,
+    JobPosting j,
+    AppLocalizations l,
+  ) {
+    final c = context.colors;
+    final t = context.text;
+    final g = geoEligibility(j, Localizations.localeOf(context).languageCode);
+    final line = switch (g.kind) {
+      GeoKind.unknown => l.eligibilityUnknown,
+      GeoKind.anywhere => l.eligibleAnywhere,
+      _ => l.eligibleIn(g.places.join(', ')),
+    };
+    return [
+      const SizedBox(height: AppSpace.s2),
+      Text(line, style: t.bodyMedium!.copyWith(color: c.muted)),
+      if (g.needsCheck) ...[
+        const SizedBox(height: AppSpace.s1),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.info_outline, size: AppSize.iconSm, color: c.muted),
+            const SizedBox(width: AppSpace.s1),
+            Expanded(
+              child: Text(
+                l.eligibilityCheckOriginal,
+                style: t.bodySmall!.copyWith(color: c.muted),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
@@ -33,7 +72,7 @@ class JobDetailView extends StatelessWidget {
     final t = context.text;
     final j = scored.job;
     final m = scored.match;
-    final place = placeLabel(j);
+    final place = placeLabel(j, l);
     final salary = formatSalary(j, l);
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);
@@ -73,13 +112,7 @@ class JobDetailView extends StatelessWidget {
             ],
           ),
         ],
-        if (j.geoRestrictions.isNotEmpty) ...[
-          const SizedBox(height: AppSpace.s2),
-          Text(
-            l.eligibleIn(j.geoRestrictions.join(', ')),
-            style: t.bodyMedium!.copyWith(color: c.muted),
-          ),
-        ],
+        ..._eligibility(context, j, l),
         if (mode.isNotEmpty ||
             (j.contractType ?? '').isNotEmpty ||
             langName != null) ...[
@@ -128,7 +161,10 @@ class JobDetailView extends StatelessWidget {
           Semantics(
             localeForSubtree: j.language == null ? null : Locale(j.language!),
             // Plain text only: the catalogue strips markup before storing.
-            child: Text(j.description!, style: t.bodyMedium),
+            child: Text(
+              cleanDescriptionText(j.description!),
+              style: t.bodyMedium,
+            ),
           ),
         ],
         if (m != null) ...[

@@ -39,7 +39,7 @@ class JobCard extends StatelessWidget {
     final t = context.text;
     final j = scored.job;
     final m = scored.match;
-    final place = placeLabel(j);
+    final place = placeLabel(j, l);
     final salary = formatSalary(j, l);
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);

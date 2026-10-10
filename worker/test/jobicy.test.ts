@@ -81,8 +81,8 @@ describe('normalizeJobicy (real payloads)', () => {
     it('two countries (UK, Sweden): ambiguous, so no single country', () => {
       expect(ok(byId(154910))).toMatchObject({ country: null, geoRestrictions: ['SE', 'GB'] });
     });
-    it('"Anywhere" means no restriction; unknown names are preserved as written; non-string is empty', () => {
-      expect(ok({ ...byId(154956), jobGeo: 'Anywhere' })).toMatchObject({ country: null, geoRestrictions: [] });
+    it('"Anywhere" is kept as an explicit marker; unknown names are preserved as written; a missing location stays EMPTY (unknown, not global)', () => {
+      expect(ok({ ...byId(154956), jobGeo: 'Anywhere' })).toMatchObject({ country: null, geoRestrictions: ['Anywhere'] });
       expect(ok({ ...byId(154956), jobGeo: 'Atlantis, USA' })).toMatchObject({ country: null, geoRestrictions: ['US', 'Atlantis'] });
       expect(ok({ ...byId(154956), jobGeo: undefined })).toMatchObject({ country: null, geoRestrictions: [] });
     });

@@ -399,5 +399,25 @@
       }
     }
   },
-  "jobDescriptionTitle": "Description"
+  "jobDescriptionTitle": "Description",
+  "locationAnywhere": "Anywhere",
+  "eligibleAnywhere": "Open to applicants anywhere, as stated by the source",
+  "eligibilityUnknown": "Location eligibility not stated by the source",
+  "eligibilityCheckOriginal": "Check eligibility on the original listing before applying.",
+  "salaryFrom": "From {amount}",
+  "@salaryFrom": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "salaryUpTo": "Up to {amount}",
+  "@salaryUpTo": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
