@@ -223,7 +223,7 @@ describe('credential from the Supabase CLI (a fake CLI that returns canary keys)
     { name: 'service_role', type: 'legacy', api_key: LEGACY },
     { name: 'default', type: 'publishable', api_key: PUBLISHABLE },
     { name: 'default', type: 'secret', api_key: 'sb_secret_' + 'DEFAULTKEY'.repeat(4) },
-    { name: 'orbijob-ingest-local', type: 'secret', api_key: SECRET },
+    { name: 'orbijob_ingest_local', type: 'secret', api_key: SECRET },
     ...extra,
   ];
 
@@ -240,8 +240,8 @@ describe('credential from the Supabase CLI (a fake CLI that returns canary keys)
   });
 
   it.each([
-    ['key not created yet', () => keys().filter((k) => (k as { name: string }).name !== 'orbijob-ingest-local')],
-    ['two keys with the same name (ambiguous)', () => keys([{ name: 'orbijob-ingest-local', type: 'secret', api_key: 'sb_secret_OTHER' }])],
+    ['key not created yet', () => keys().filter((k) => (k as { name: string }).name !== 'orbijob_ingest_local')],
+    ['two keys with the same name (ambiguous)', () => keys([{ name: 'orbijob_ingest_local', type: 'secret', api_key: 'sb_secret_OTHER' }])],
     ['only the legacy key is present', () => [{ name: 'service_role', type: 'legacy', api_key: LEGACY }]],
   ])('refuses before any request when: %s', async (_n, make) => {
     const r = await runner(['preflight'], fakeCli(make()));

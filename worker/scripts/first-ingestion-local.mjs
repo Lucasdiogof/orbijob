@@ -33,7 +33,7 @@ const localOnly = (name) => {
 };
 const PROJECT_URL = localOnly('ORBIJOB_REHEARSAL_BASE') ?? `https://${REF}.supabase.co`;
 const JOBICY_ORIGIN = localOnly('ORBIJOB_REHEARSAL_JOBICY');
-const KEY_NAME = 'orbijob-ingest-local';
+const KEY_NAME = 'orbijob_ingest_local';
 const BUDGET_MS = 3 * 60_000;
 const HARD_LIMIT_MS = 4 * 60_000;
 const [, , mode = '', ...flags] = process.argv;
