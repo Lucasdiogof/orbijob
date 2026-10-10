@@ -1,0 +1,111 @@
+# Revalidacao automatica das vagas do Jobicy, 100% gratuita (repositorio publico + runner padrao do GitHub: sem custo, sem plano).
+#
+# O QUE FAZ: pergunta ao endpoint oficial de status do Jobicy sobre as vagas JA GRAVADAS, renova last_checked_at das confirmadas
+# ativas e fecha SO as que a fonte confirma encerradas. NAO le o feed, NAO importa vaga, NAO apaga, NAO toca em can_redistribute
+# nem em dados de usuario. O modo e fixo no script (worker/scripts/revalidate-local.mjs usa SYNC_MODE=revalidate); este arquivo nao
+# tem como pedir o modo "full".
+#
+# ESTA DESLIGADO POR PADRAO: o agendamento so executa quando a variavel de repositorio JOBICY_REVALIDATION_ENABLED vale 'true'.
+# Fazer o merge deste arquivo NAO liga nada. Como ligar/desligar e os segredos: docs/JOBICY_ACTIONS_AUTOMATION.md.
+#
+# Credencial: UM segredo, ORBIJOB_SYNC_WORKER_KEY (chave sb_secret_ exclusiva, nunca a legada service_role nem a de ingestao local),
+# guardado no ENVIRONMENT "jobicy-revalidation" (restrito a branch main) e entregue so aos passos que o usam.
+name: Jobicy revalidate
+
+on:
+  schedule:
+    # a cada 6 horas, fora do minuto zero (o GitHub atrasa/descarta agendamentos no topo da hora). A lease do banco ainda impoe 1 passada/hora.
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'check = somente leitura (valida a chave e a pre-checagem); revalidate = UMA revalidacao real'
+        type: choice
+        options: [check, revalidate]
+        default: check
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jobicy-revalidate
+  cancel-in-progress: false
+
+jobs:
+  revalidate:
+    name: revalidate stored jobs only
+    # agendado: so com a chave de liga/desliga; manual: sempre permitido (o padrao dele e somente leitura)
+    if: github.event_name == 'workflow_dispatch' || vars.JOBICY_REVALIDATION_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: jobicy-revalidation
+    defaults:
+      run:
+        working-directory: worker
+        shell: bash
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      # sem o segredo e sem scripts de instalacao de pacotes
+      - name: Install dependencies (reproducible, no install scripts)
+        run: npm ci --ignore-scripts
+
+      - name: Check that the secret exists
+        id: sec
+        env:
+          KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "missing=1" >> "$GITHUB_OUTPUT"
+            echo "::error title=Segredo ausente::ORBIJOB_SYNC_WORKER_KEY nao esta definido no environment jobicy-revalidation"
+            exit 4
+          fi
+          echo "::add-mask::$KEY"
+
+      - name: Check the key (read-only)
+        id: kc
+        env:
+          ORBIJOB_WORKER_KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          code=0
+          node scripts/worker-key-check.mjs || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit "$code"
+
+      - name: Pre-flight (read-only)
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: node scripts/revalidate-local.mjs preflight
+
+      - name: Revalidate (stored jobs only; no import, no delete)
+        id: rv
+        if: github.event_name == 'schedule' || inputs.action == 'revalidate'
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          code=0
+          node scripts/revalidate-local.mjs run --yes > run.log 2>&1 || code=$?
+          cat run.log
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Jobicy revalidate"
+            grep -E '^(preflight|resultado|verificacao|codigo de saida)' run.log | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$code"
+
+      # Marcadores lidos pelo monitor (jobicy-watchdog): o passo roda so no caso indicado e termina com sucesso.
+      - name: 'ALERT auth: Supabase refused the credential'
+        if: always() && (steps.sec.outputs.missing == '1' || (steps.kc.outputs.code != '' && steps.kc.outputs.code != '0') || steps.rv.outputs.code == '4')
+        run: echo "::error title=jobicy-auth::O Supabase recusou a credencial da automacao"
+      - name: 'ALERT unreachable: database did not answer'
+        if: always() && steps.rv.outputs.code == '5'
+        run: echo "::error title=jobicy-unreachable::O banco nao respondeu"
+      - name: 'ALERT api: Jobicy status API errors (nothing was closed because of them)'
+        if: always() && steps.rv.outputs.code == '6'
+        run: echo "::error title=jobicy-api::A API de status do Jobicy falhou em parte da passada"

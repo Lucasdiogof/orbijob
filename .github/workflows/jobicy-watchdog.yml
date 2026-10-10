@@ -1,0 +1,38 @@
+# Monitor gratuito da revalidacao do Jobicy: abre/atualiza/fecha UMA issue de alerta e falha o job em caso critico (o GitHub envia o
+# e-mail de falha). Nao usa nenhum segredo: le o catalogo publico com a chave PUBLISHABLE (publica, a mesma do app) e as execucoes do
+# workflow pela API do GitHub com o token do proprio job. Nao escreve no banco. Guia: docs/JOBICY_ACTIONS_AUTOMATION.md.
+name: Jobicy watchdog
+
+on:
+  schedule:
+    - cron: '43 5,17 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: jobicy-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    # so roda depois que a variavel publica SUPABASE_PUBLISHABLE_KEY for definida (docs/JOBICY_ACTIONS_AUTOMATION.md)
+    if: vars.SUPABASE_PUBLISHABLE_KEY != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Evaluate and keep the alert issue up to date
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+          JOBICY_REVALIDATION_ENABLED: ${{ vars.JOBICY_REVALIDATION_ENABLED }}
+        run: node worker/scripts/jobicy-watchdog.mjs

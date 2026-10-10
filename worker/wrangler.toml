@@ -1,4 +1,6 @@
-# OrbiJob: Jobicy catalogue sync. NOT deployed. Deploying and every `wrangler secret put` need the owner's separate authorisation
+# OrbiJob: Jobicy catalogue sync. NOT deployed, and the project decided NOT to buy Workers Paid: the scheduled revalidation runs on
+# GitHub Actions instead (.github/workflows/jobicy-revalidate.yml, docs/JOBICY_ACTIONS_AUTOMATION.md). This file stays as the optional,
+# unused Cloudflare alternative. Deploying and every `wrangler secret put` need the owner's separate authorisation
 # (docs/FIRST_INGESTION_RUNBOOK.md). Nothing secret belongs in this file.
 
 name = "orbijob-jobicy-sync"

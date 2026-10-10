@@ -1,5 +1,8 @@
 # Implantar o Worker do Jobicy em modo `revalidate` (procedimento; NADA aqui foi executado)
 
+> **Decisão posterior:** o projeto não contratará o Workers Paid. A revalidação automática passa a rodar no **GitHub Actions** (gratuito):
+> `docs/JOBICY_ACTIONS_AUTOMATION.md`. Este documento fica como alternativa Cloudflare, não implantada.
+
 Conferido em 2026-10-10. Tudo marcado **[verificado]** foi lido da conta/da documentação nesta data; tudo marcado
 **[não verificável]** não foi confirmado e não deve ser tratado como fato.
 

@@ -20,6 +20,8 @@ interface World {
   statuses: Record<string, string>;
   calls: { feed: number; status: number; requests: number; jobPosts: number; deletes: number };
   seq: number;
+  /** Status calls after this many answer HTTP 500. */
+  failStatusAfter?: number;
 }
 let server: Server; let base = ''; let w: World;
 const json = (res: ServerResponse, code: number, body?: unknown) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(body === undefined ? '' : JSON.stringify(body)); };
@@ -29,6 +31,7 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
   const url = new URL(req.url!, base);
   if (url.pathname.endsWith('/status')) {
     w.calls.status++;
+    if (w.failStatusAfter !== undefined && w.calls.status > w.failStatusAfter) return json(res, 500, {});
     const ids = url.searchParams.get('ids')!.split(',');
     return json(res, 200, { success: true, jobs: ids.filter((id) => w.statuses[id] !== 'silent').map((id) => ({ id: Number(id), status: w.statuses[id] ?? 'active' })) });
   }
@@ -163,4 +166,26 @@ describe('scripts/revalidate-local.mjs (rehearsal against a local stand-in)', ()
     expect(r.code).toBe(1);
     expect([...w.jobs.values()].every((j) => j.status === 'open' && j.last_checked_at === OLD)).toBe(true);
   }, 40_000); // the real retry back-off runs in the child process
+
+  it('exit codes the workflow relies on: 4 credential refused, 5 database unreachable, 6 partial pass, 1 pass failed', async () => {
+    const refused = await runner(['run', '--yes'], { ORBIJOB_SUPABASE_SECRET: 'sb_secret_' + 'ANOTHERKEY'.repeat(5) });
+    expect(refused.code).toBe(4);
+    expect(refused.out).toMatch(/credencial foi recusada/);
+    expect(refused.out).not.toContain('ANOTHERKEY');
+    expect(w.calls.status).toBe(0);
+
+    const closed = await new Promise<number>((resolve) => { const s2 = createServer(); s2.listen(0, '127.0.0.1', () => { const port = (s2.address() as { port: number }).port; s2.close(() => resolve(port)); }); });
+    const unreachable = await runner(['run', '--yes'], { ORBIJOB_REHEARSAL_BASE: `http://127.0.0.1:${closed}` });
+    expect(unreachable.code).toBe(5);
+
+    w.jobs.clear();
+    for (let i = 0; i < 150; i++) w.jobs.set(String(5000 + i), { external_id: String(5000 + i), status: 'open', last_checked_at: OLD });
+    w.statuses = {}; // everything active
+    w.failStatusAfter = 1; // the second batch fails
+    const partial = await runner(['run', '--yes']);
+    expect(partial.code).toBe(6);
+    expect(partial.out).toMatch(/codigo de saida: 6/);
+    expect([...w.jobs.values()].filter((j) => j.last_checked_at !== OLD)).toHaveLength(100); // the first batch stays proven
+    expect([...w.jobs.values()].every((j) => j.status === 'open')).toBe(true); // nothing closed because of the failure
+  }, 60_000);
 });
