@@ -221,8 +221,14 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     expect(w.counts.feed).toBe(2); // the two pages of ONE pass
     const rows = await runsAt(day(2));
     expect(rows.filter((r) => r.status === 'ok')).toHaveLength(1);
-    expect(rows.filter((r) => r.status === 'failed' && r.error_class === 'lost_lease')).toHaveLength(2);
+    // How the two losers lost depends on timing (a PostgREST version may answer a little faster or slower): they either saw the
+    // winner already running and left without writing, or inserted their own row, lost the check and closed it as lost_lease.
+    // What must hold on every timing: nobody else synced, every row a loser wrote is closed, and nothing is left "running".
+    const lostRace = out.filter((o) => o.status === 'skipped' && o.reason === 'lost_race').length;
+    expect(out.filter((o) => o.status === 'skipped').every((o) => o.status === 'skipped' && ['running', 'lost_race', 'too_soon'].includes(o.reason))).toBe(true);
+    expect(rows.filter((r) => r.status === 'failed' && r.error_class === 'lost_lease')).toHaveLength(lostRace);
     expect(rows.filter((r) => r.status === 'running')).toHaveLength(0);
+    expect(rows).toHaveLength(1 + lostRace);
   });
 
   it('a repeat delivery within the hour is skipped; after the hour it runs again and the catalogue is unchanged', async () => {
