@@ -15,6 +15,7 @@ export const MIGRATIONS = [
   { version: '20261013000000', name: 'service_role_grants' },
   { version: '20261014000000', name: 'service_role_least_privilege' },
   { version: '20261015000000', name: 'supabase_cron_revalidation' },
+  { version: '20261016000000', name: 'jobicy_retention' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -50,6 +51,8 @@ function signatures(i) {
     // migration 8 creates the `ops` schema (the in-database revalidation). The extensions pg_cron/pg_net are NOT part of the signature:
     // a plain PostgreSQL (the test databases) does not offer them.
     (i.schemas ?? []).includes('ops'),
+    // migration 9 adds the tombstone table to `ops` (the retention of closed jobs)
+    (i.ops_tables ?? []).includes('job_tombstones'),
   ];
 }
 

@@ -1,7 +1,8 @@
-# Retenção do catálogo: proposta (nada de exclusão está implementado)
+# Retenção do catálogo
 
-> **Estado: PROPOSTA.** Nenhuma remoção ou compactação automática existe nem foi executada. Este documento só mede, propõe e define critérios.
-> Pré-requisito para ligar a descoberta contínua (`docs/JOBICY_DISCOVERY.md`, seção 7).
+> **Estado (2026-10-11):** política **decidida** (o proprietário delegou a decisão: compactar após 14 dias, remover após 90) e **migration escrita e testada**
+> (`supabase/migrations/20261016000000_jobicy_retention.sql`). **NÃO foi aplicada no Supabase e NADA está agendado.** Aplicar a migration e ligar o agendamento
+> são etapas separadas, que exigem autorização explícita (seção 5). Pré-requisito para ligar a descoberta contínua (`docs/JOBICY_DISCOVERY.md`, seção 7).
 
 ## 1. Medições (produção, 2026-10-10, 299 vagas, somente leitura)
 | Componente de `public.jobs` | Tamanho | Por vaga | Parcela |
@@ -39,7 +40,7 @@ Conclusão: **apagar só é seguro para vaga que nenhuma dessas tabelas referenc
 | **D. Removida** | `closed` há > 90 dias **e** sem referência em `saved_jobs`, `viewed_jobs`, `applications`, `job_clusters` | `DELETE` + gravar lápide (`source_id`, `external_id`, `deleted_at`, ≈ 100 B) | ≈ 0,1 KB |
 
 * **Vaga referenciada** (favorito, histórico, candidatura) nunca passa da camada C: continua existindo, compacta, para sempre. Favoritos e candidaturas já vivem do próprio snapshot (sem descrição), então nada muda para eles; o link do anúncio original permanece.
-* **Lápide:** impede que a descoberta reimporte uma vaga removida (defesa extra: a vaga encerrada já é barrada pelo endpoint de status). Custo ≈ 3,6 MB por ano a 100 vagas/dia.
+* **Lápide:** registro mínimo (fonte, id, data) de cada vaga removida, em `ops.job_tombstones` (≈ 3,6 MB por ano a 100 vagas/dia), para auditoria e recuperação. A barreira contra reimportar uma vaga removida é o endpoint de status: a descoberta só insere vaga que o Jobicy confirma `active`.
 * **Por que compactar em vez de só apagar:** preserva identidade, histórico de candidaturas e favoritos com custo ~11 vezes menor, e a descrição de uma vaga encerrada não tem valor de produto (o Jobicy não a lista mais).
 * **Vaga aberta nunca é tocada.** Vaga `open` sem revalidação (> 72 h) é *escondida pelo app*, não encerrada: a retenção não olha para ela.
 
@@ -61,11 +62,11 @@ Leitura: com a retenção, o regime estável cabe no plano gratuito para L até 
 **Observação PostgreSQL:** `DELETE`/`UPDATE` liberam espaço para reuso, mas o tamanho do arquivo só encolhe com `VACUUM FULL` (trava a tabela; viável nesta escala, fora do horário) — o que importa para o limite é o pico, e o autovacuum reaproveita o espaço. O GIN limpa na rotina de vacuum.
 
 ## 5. Execução proposta (quando autorizada)
-* **Migration 9 (futura):** schema `ops` já existe; adicionar `ops.jobicy_retention_plan()` (somente leitura: devolve contagens por camada e as vagas candidatas), `ops.jobicy_retention_apply()` (aplica C e D em lotes de 200, com `lock` consultivo e lease própria) e a tabela de lápides. Todas revogadas de `anon`, `authenticated` e `service_role`, como o resto de `ops`.
-* **Ativação em duas etapas** (igual à revalidação): a migration só cria funções; um SQL separado com frase de autorização agenda o job semanal (`pg_cron`, madrugada de domingo) e outro o desfaz.
-* **Dry-run obrigatório** antes da primeira execução: `select * from ops.jobicy_retention_plan();` e conferência manual da amostra.
-* **Teto de segurança por execução:** no máximo 500 linhas por rodada e recusa se mais de 20 % das encerradas forem candidatas de uma vez (sinal de dado errado).
-* **Testes:** PGlite com os grants reais e CI em PostgreSQL 16/17: vaga referenciada nunca é apagada, vaga aberta nunca é tocada, compactação preserva identidade, lápide impede reimportação, idempotência, lotes.
+* **Migration 9 (`20261016000000_jobicy_retention.sql`, escrita, não aplicada):** cria `ops.job_tombstones`, `ops.retention_runs` (log; de propósito **não** usa `sync_runs`, para não fazer a revalidação recuar por `too_soon`), `ops.jobicy_retention_plan()` (somente leitura: contagens por camada) e `ops.jobicy_retention_apply(frase, compact_after, delete_after, batch, allow_large)`. Tudo revogado de `anon`, `authenticated` e `service_role`. A idade de uma vaga encerrada é `last_checked_at` (a revalidação o grava no fechamento e nada mexe depois).
+* **Ativação em duas etapas** (igual à revalidação): a migration só cria funções; `scripts/supabase/ops/enable_retention_cron.sql` (frase `EU-AUTORIZO-A-RETENCAO-AUTOMATICA`) agenda um job semanal (domingo 04:37 UTC, longe da revalidação e da descoberta) e `disable_retention_cron.sql` o remove.
+* **Dry-run obrigatório** antes da primeira execução: `select * from ops.jobicy_retention_plan();` e conferência manual de uma amostra.
+* **Travas:** a função recusa sem a frase do proprietário (`EU-AUTORIZO-A-RETENCAO`), com política absurda (compactar < 7 dias; remover < 30 dias ou < 14 dias depois de compactar), com outra chamada em andamento, e quando mexeria em mais de 20 % das encerradas (e mais de 50) de uma vez, salvo `allow_large`. No máximo `batch` (padrão 200, máx. 500) vagas de cada tipo por chamada; vagas bloqueadas por outra transação são puladas.
+* **Testes:** 18 testes em PGlite (`worker/test/retention.test.ts`: vaga aberta nunca é tocada, referenciada nunca é apagada, só a fonte `jobicy`, lotes, guardas, privilégios, enable/disable/rollback; mutação removendo a checagem de referência reprova 2) e `supabase/tests/12_retention.sql` em PostgreSQL real 16 e 17 no CI.
 
 ## 6. Recuperação e rollback
 * **Antes da primeira execução real:** exportar as linhas candidatas (JSONL) para a pasta de backups local (`orbijob-backups`), com SHA-256.
@@ -73,10 +74,9 @@ Leitura: com a retenção, o regime estável cabe no plano gratuito para L até 
 * **Desligar:** apagar o job do `pg_cron` (script de disable); nada mais precisa ser desfeito.
 * **Rollback da migration:** remove as funções e a tabela de lápides; não mexe em vagas.
 
-## 7. Decisões que dependem do proprietário
-1. Carência de 14 dias para compactar e 90 dias para remover (ou outros valores).
-2. Aceitar que a descrição de vaga encerrada antiga seja descartada (a alternativa é manter e aceitar menos vagas).
-3. Autorizar a migration 9 e, depois, o agendamento semanal.
+## 7. Decisões e pendências
+1. ~~Carência de 14 dias para compactar e 90 dias para remover~~ **decidido** (2026-10-11, delegado ao assistente).
+2. ~~Aceitar descartar a descrição de vaga encerrada antiga~~ **decidido**: sim (favoritos e candidaturas não dependem dela).
+3. **Pendente:** autorizar a aplicação da migration 9 (`supabase db push`, com backup e dry-run) e, depois, o agendamento semanal. Nada disso foi feito.
 4. Confirmar no painel o limite vigente do plano gratuito (500 MB assumidos).
 
-**Por que a migration de retenção ainda não foi escrita:** ela depende das decisões 1 a 3 (carências e aceitar descartar a descrição). Registrá-la exige também estender a inspeção (`inspect_readonly.sql`), as fixtures e os testes do aplicador, trabalho que não vale fazer antes de o critério ser definido.
