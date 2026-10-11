@@ -63,20 +63,34 @@ Leitura: com a retenção, o regime estável cabe no plano gratuito para L até 
 
 ## 5. Execução proposta (quando autorizada)
 * **Migration 9 (`20261016000000_jobicy_retention.sql`, escrita, não aplicada):** cria `ops.job_tombstones`, `ops.retention_runs` (log; de propósito **não** usa `sync_runs`, para não fazer a revalidação recuar por `too_soon`), `ops.jobicy_retention_plan()` (somente leitura: contagens por camada) e `ops.jobicy_retention_apply(frase, compact_after, delete_after, batch, allow_large)`. Tudo revogado de `anon`, `authenticated` e `service_role`. A idade de uma vaga encerrada é `last_checked_at` (a revalidação o grava no fechamento e nada mexe depois).
-* **Ativação em duas etapas** (igual à revalidação): a migration só cria funções; `scripts/supabase/ops/enable_retention_cron.sql` (frase `EU-AUTORIZO-A-RETENCAO-AUTOMATICA`) agenda um job semanal (domingo 04:37 UTC, longe da revalidação e da descoberta) e `disable_retention_cron.sql` o remove.
+* **Ativação em duas etapas** (igual à revalidação): a migration só cria funções; `scripts/supabase/ops/enable_retention_cron.sql` (frase `EU-AUTORIZO-A-RETENCAO-AUTOMATICA`) agenda um job **diário** às 04:37 UTC (≈ 100 vagas encerram por dia no volume atual do feed; um job semanal com lote de 200 não acompanharia) e `disable_retention_cron.sql` o remove.
 * **Dry-run obrigatório** antes da primeira execução: `select * from ops.jobicy_retention_plan();` e conferência manual de uma amostra.
 * **Travas:** a função recusa sem a frase do proprietário (`EU-AUTORIZO-A-RETENCAO`), com política absurda (compactar < 7 dias; remover < 30 dias ou < 14 dias depois de compactar), com outra chamada em andamento, e quando mexeria em mais de 20 % das encerradas (e mais de 50) de uma vez, salvo `allow_large`. No máximo `batch` (padrão 200, máx. 500) vagas de cada tipo por chamada; vagas bloqueadas por outra transação são puladas.
 * **Testes:** 18 testes em PGlite (`worker/test/retention.test.ts`: vaga aberta nunca é tocada, referenciada nunca é apagada, só a fonte `jobicy`, lotes, guardas, privilégios, enable/disable/rollback; mutação removendo a checagem de referência reprova 2) e `supabase/tests/12_retention.sql` em PostgreSQL real 16 e 17 no CI.
 
 ## 6. Recuperação e rollback
-* **Antes da primeira execução real:** exportar as linhas candidatas (JSONL) para a pasta de backups local (`orbijob-backups`), com SHA-256.
+* **Antes da primeira execução real:** `select ops.jobicy_retention_export();` devolve as linhas completas que a próxima execução compactaria ou removeria (somente leitura, até 1000 por chamada). Salve o resultado em arquivo na pasta de backups local (`orbijob-backups`) com o SHA-256. **Restaurar:** `select ops.jobicy_retention_restore('EU-AUTORIZO-A-RESTAURACAO', '<json do export>'::jsonb);` reinsere as vagas removidas com o mesmo id (e apaga a lápide) e devolve descrição, requisitos e skills das compactadas; **nunca sobrescreve** uma vaga que tem conteúdo. Round trip testado: o banco volta idêntico, ids incluídos (`retention.test.ts` e `12_retention.sql` no CI).
 * A **compactação é irreversível dentro do banco**; o backup é o caminho de volta (reimportar a descrição). A **remoção** é recuperável a partir do mesmo backup; a lápide registra o que foi removido e quando.
 * **Desligar:** apagar o job do `pg_cron` (script de disable); nada mais precisa ser desfeito.
 * **Rollback da migration:** remove as funções e a tabela de lápides; não mexe em vagas.
 
+## 6b. Auditoria da migration (2026-10-11)
+| Ponto | Resultado |
+|---|---|
+| Vaga aberta pode ser apagada ou compactada? | **Não.** Todos os caminhos filtram `status = 'closed'` (o `UPDATE` e o `DELETE` repetem o filtro). Teste com vaga aberta de 400 dias |
+| Integridade referencial e cascata | `saved_jobs`/`viewed_jobs` (cascade), `applications` (set null) e `job_clusters` (sem ação) são checados na seleção **e de novo no próprio `DELETE`** (uma referência gravada depois da lista ainda barra a exclusão). Seleção com `FOR UPDATE SKIP LOCKED`: um `INSERT` concorrente em favoritos segura o lock da vaga e a vaga é pulada. Mutação removendo a checagem reprova 2 testes |
+| Vínculos de usuário | Vaga referenciada só é compactada, nunca apagada. O app hoje não grava `job_id`; favoritos e candidaturas guardam snapshot próprio |
+| Trava de 20 % | `maior(50, 20 % das encerradas)`. Sem encerradas ou com poucas, o piso de 50 permite limpeza pequena (testado com 0, 1, 50 e 51 candidatas); acima, recusa, não altera nada e registra em `ops.retention_runs`. **Risco conhecido:** uma recusa não é alertada além do log e, se o acúmulo continuar, o job diário continua recusando até alguém rodar uma vez `ops.jobicy_retention_apply(frase, …, allow_large => true)`. Em regime estável (≈ 2 % das encerradas por dia) a trava não dispara |
+| Ritmo | Lote de 200 por tipo por chamada, diário = 1400 por semana de capacidade, acima do ≈ 700 por semana de fechamentos esperados |
+| Idempotência e concorrência | Segunda chamada não faz nada (testado). `pg_try_advisory_xact_lock`: chamada concorrente devolve `skipped:locked`. Não usa `sync_runs`, então não interfere nas leases da revalidação e da descoberta |
+| Permissões e RLS | Funções e tabelas de `ops` fechadas a `anon`, `authenticated` e `service_role` (testado nos três papéis, inclusive export e restore); RLS ligado sem política; `search_path` fixado nas funções. Quem executa é o `pg_cron` (papel do banco) |
+| Armazenamento | Compactar libera ≈ 34 KB por vaga para reuso; o arquivo só encolhe com `VACUUM FULL` (o limite do plano conta o tamanho do arquivo: o que importa é o pico). Tabelas `ops` novas: ≈ 100 B por vaga removida |
+| PostgreSQL 16/17 | CI (`supabase-sql`) e PGlite |
+| Privacidade publicada | Coerente: a política diz que vagas encerradas antigas podem ser resumidas ou removidas e que favoritos e candidaturas guardam cópia própria |
+
 ## 7. Decisões e pendências
 1. ~~Carência de 14 dias para compactar e 90 dias para remover~~ **decidido** (2026-10-11, delegado ao assistente).
 2. ~~Aceitar descartar a descrição de vaga encerrada antiga~~ **decidido**: sim (favoritos e candidaturas não dependem dela).
-3. **Pendente:** autorizar a aplicação da migration 9 (`supabase db push`, com backup e dry-run) e, depois, o agendamento semanal. Nada disso foi feito.
+3. **Pendente:** autorizar a aplicação da migration 9 (`supabase db push`, com backup e dry-run) e, depois, o agendamento diário. Nada disso foi feito.
 4. Confirmar no painel o limite vigente do plano gratuito (500 MB assumidos).
 

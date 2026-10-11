@@ -9,6 +9,8 @@ begin
     perform cron.unschedule(jobname) from cron.job where jobname = 'jobicy-retention';
   end if;
 end $$;
+drop function if exists ops.jobicy_retention_restore(text, jsonb);
+drop function if exists ops.jobicy_retention_export(interval, interval, int);
 drop function if exists ops.jobicy_retention_apply(text, interval, interval, int, boolean);
 drop function if exists ops.jobicy_retention_plan(interval, interval);
 drop table if exists ops.retention_runs;

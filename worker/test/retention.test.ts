@@ -194,14 +194,14 @@ describe('retention: access, scheduling, rollback', () => {
     }
   });
 
-  it('the migration schedules nothing; the enable script refuses without the phrase, schedules one weekly job with it, and the disable script removes it', async () => {
+  it('the migration schedules nothing; the enable script refuses without the phrase, schedules one daily job with it, and the disable script removes it', async () => {
     expect(await count('select 1 from cron.job')).toBe(0);
     await expect(db.exec(ENABLE)).rejects.toThrow(/autorizacao explicita/);
     await expect(db.exec("set orbijob.enable_retention_cron = 'sim'; " + ENABLE)).rejects.toThrow(/autorizacao explicita/);
     expect(await count('select 1 from cron.job')).toBe(0);
     await db.exec(SWITCH + ENABLE);
     expect((await db.query<{ jobname: string; schedule: string; command: string }>('select jobname, schedule, command from cron.job')).rows).toEqual([
-      { jobname: 'jobicy-retention', schedule: '37 4 * * 0', command: "select ops.jobicy_retention_apply('EU-AUTORIZO-A-RETENCAO')" },
+      { jobname: 'jobicy-retention', schedule: '37 4 * * *', command: "select ops.jobicy_retention_apply('EU-AUTORIZO-A-RETENCAO')" },
     ]);
     await db.exec(SWITCH + ENABLE); // idempotent
     expect(await count('select 1 from cron.job')).toBe(1);
@@ -229,5 +229,70 @@ describe('retention: access, scheduling, rollback', () => {
     expect(await count("select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'ops' and c.relname in ('job_tombstones', 'retention_runs')")).toBe(0);
     expect(JSON.stringify(await row(id))).toBe(keep);
     await db.exec(DOWN); // idempotent
+  });
+});
+
+describe('retention: recovery from the export', () => {
+  const RESTORE = "EU-AUTORIZO-A-RESTAURACAO";
+  const clean = async () => (await db.query<{ j: unknown }>("select to_jsonb(j) - 'search' as j from public.jobs j order by external_id")).rows.map((r) => r.j);
+
+  it('export is read-only and lists exactly what the next run would change; restore brings compacted and deleted jobs back identical', async () => {
+    await job({ status: 'open', ageDays: 400 }); await job({ ageDays: 2 });
+    await job({ ageDays: 30 }); await job({ ageDays: 120 });
+    const original = await clean();
+    const exported = (await db.query<{ e: unknown[] }>('select ops.jobicy_retention_export() e')).rows[0]!.e;
+    expect(exported).toHaveLength(2); // the compact candidate and the delete candidate; never the open or the recent one
+    expect(await clean()).toEqual(original); // nothing changed
+    expect(await apply()).toBe('ok:compacted=1,deleted=1');
+    expect(await clean()).not.toEqual(original);
+    const r = (await db.query<{ r: string }>('select ops.jobicy_retention_restore($1, $2::jsonb) r', [RESTORE, JSON.stringify(exported)])).rows[0]!.r;
+    expect(r).toBe('ok:reinserted=1,restored=1');
+    expect(await clean()).toEqual(original); // byte-for-byte, ids included
+    expect(await count('select 1 from ops.job_tombstones')).toBe(0);
+    expect((await db.query<{ r: string }>('select ops.jobicy_retention_restore($1, $2::jsonb) r', [RESTORE, JSON.stringify(exported)])).rows[0]!.r).toBe('ok:reinserted=0,restored=0'); // idempotent
+  });
+
+  it('restore never overwrites a job that has content, and refuses without the phrase or with a non-array', async () => {
+    const id = await job({ ageDays: 30 });
+    const exported = (await db.query<{ e: unknown[] }>('select ops.jobicy_retention_export() e')).rows[0]!.e;
+    await db.exec(`update public.jobs set description = 'edited later' where external_id = '${id}'`);
+    expect((await db.query<{ r: string }>('select ops.jobicy_retention_restore($1, $2::jsonb) r', [RESTORE, JSON.stringify(exported)])).rows[0]!.r).toBe('ok:reinserted=0,restored=0');
+    expect((await row(id))!.description).toBe('edited later');
+    await expect(db.query("select ops.jobicy_retention_restore('x', '[]'::jsonb)")).rejects.toThrow(/frase de autorizacao/);
+    await expect(db.query(`select ops.jobicy_retention_restore('${RESTORE}', '{}'::jsonb)`)).rejects.toThrow(/array JSON/);
+  });
+
+  it('export and restore are closed to the API roles, and the export is capped', async () => {
+    for (let i = 0; i < 5; i++) await job({ ageDays: 30 });
+    expect((await db.query<{ n: number }>("select jsonb_array_length(ops.jobicy_retention_export(interval '14 days', interval '90 days', 3)) n")).rows[0]!.n).toBe(3);
+    for (const role of ['anon', 'authenticated', 'service_role']) {
+      await db.exec(`set role ${role}`);
+      await expect(db.query('select ops.jobicy_retention_export()')).rejects.toThrow(/permission denied/);
+      await expect(db.query(`select ops.jobicy_retention_restore('${RESTORE}', '[]'::jsonb)`)).rejects.toThrow(/permission denied/);
+      await db.exec('reset role');
+    }
+  });
+});
+
+describe('retention: the 20 % brake at the extremes', () => {
+  it('with an empty catalogue or very few closed jobs the floor of 50 applies (a small cleanup is never blocked), with exactly 50 it runs, with 51 of 60 it refuses', async () => {
+    expect(await apply()).toBe('ok:compacted=0,deleted=0'); // nothing at all
+    const only = await job({ ageDays: 30 });
+    expect(await apply()).toBe('ok:compacted=1,deleted=0'); // 1 closed, 100 % candidate, still allowed (<= 50)
+    expect((await row(only))!.description).toBe('');
+    for (let i = 0; i < 49; i++) await job({ ageDays: 30 });
+    expect((await apply(", interval '14 days', interval '90 days', 500")).startsWith('ok:compacted=49')).toBe(true); // 49 candidates + the compacted one: 49 <= 50
+    for (let i = 0; i < 51; i++) await job({ ageDays: 30 });
+    for (let i = 0; i < 9; i++) await job({ ageDays: 1 }); // 110 closed, 51 candidates: > 50 and > 20 % -> refused
+    expect(await apply()).toBe('refused:too_many_candidates(51 of 110 closed)');
+  });
+
+  it('a refusal changes nothing and is recorded, so the owner can see it', async () => {
+    for (let i = 0; i < 60; i++) await job({ ageDays: 40 });
+    await job({ ageDays: 1 });
+    const before = JSON.stringify((await db.query('select * from public.jobs order by external_id')).rows);
+    expect(await apply()).toMatch(/^refused:/);
+    expect(JSON.stringify((await db.query('select * from public.jobs order by external_id')).rows)).toBe(before);
+    expect((await db.query<{ outcome: string }>("select outcome from ops.retention_runs where outcome like 'refused%'")).rows).toHaveLength(1);
   });
 });

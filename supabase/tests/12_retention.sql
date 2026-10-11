@@ -32,12 +32,31 @@ begin
   perform tests.count($q$select 1 from public.sync_runs where source_id = 'jobicy'$q$, 0);
 end $$;
 
+-- recovery: the export lists what the next run changes; restore brings it back
+insert into public.jobs (source_id, external_id, company, title, description, requirements, skills, work_mode, last_checked_at, original_url, canonical_url, fingerprint, status)
+values ('jobicy', 'r6', 'Acme', 'Role r6', 'to be restored', '{x}', '{y}', 'remote', now() - interval '30 days', 'https://jobicy.com/jobs/r6', 'https://jobicy.com/jobs/r6', 'fp-ret-r6', 'closed'),
+       ('jobicy', 'r7', 'Acme', 'Role r7', 'deleted then restored', '{x}', '{y}', 'remote', now() - interval '150 days', 'https://jobicy.com/jobs/r7', 'https://jobicy.com/jobs/r7', 'fp-ret-r7', 'closed');
+create temp table ret_export as select ops.jobicy_retention_export() as e;
+do $$
+begin
+  if jsonb_array_length((select e from ret_export)) <> 2 then raise exception 'export should list r6 and r7'; end if;
+  if ops.jobicy_retention_apply('EU-AUTORIZO-A-RETENCAO') <> 'ok:compacted=1,deleted=1' then raise exception 'unexpected apply'; end if;
+  perform tests.count($q$select 1 from public.jobs where external_id = 'r7'$q$, 0);
+  if ops.jobicy_retention_restore('EU-AUTORIZO-A-RESTAURACAO', (select e from ret_export)) <> 'ok:reinserted=1,restored=1' then raise exception 'unexpected restore'; end if;
+  perform tests.count($q$select 1 from public.jobs where external_id = 'r6' and description = 'to be restored'$q$, 1);
+  perform tests.count($q$select 1 from public.jobs where external_id = 'r7' and description = 'deleted then restored' and requirements = '{x}'$q$, 1);
+  perform tests.count($q$select 1 from ops.job_tombstones where external_id = 'r7'$q$, 0);
+end $$;
+drop table ret_export;
+
 -- the API roles cannot reach it
 set role service_role;
 do $$ begin
   perform tests.fails($q$select ops.jobicy_retention_apply('EU-AUTORIZO-A-RETENCAO')$q$, 'permission denied');
   perform tests.fails($q$select * from ops.jobicy_retention_plan()$q$, 'permission denied');
   perform tests.fails($q$select * from ops.job_tombstones$q$, 'permission denied');
+  perform tests.fails($q$select ops.jobicy_retention_export()$q$, 'permission denied');
+  perform tests.fails($q$select ops.jobicy_retention_restore('EU-AUTORIZO-A-RESTAURACAO', '[]'::jsonb)$q$, 'permission denied');
 end $$;
 reset role;
 set role anon;
