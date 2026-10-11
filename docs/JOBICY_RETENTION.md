@@ -26,6 +26,8 @@
 | `applications.job_id` | `on delete set null` | mantém a candidatura, **perde o vínculo** com a vaga |
 | `job_clusters.canonical_job_id` | sem ação | **bloqueia** a exclusão (hoje sem uso) |
 
+**Achado no código do app (verificado em `app/lib`):** o app **nunca grava `job_id`**. Favoritos (`saved_jobs`) e candidaturas guardam a vaga num `snapshot` JSON próprio (identidade, empresa, título, URL, salário, datas; **sem descrição**) e são lidos só dele, com chave `job_key = fonte:id`. Logo, hoje nenhuma tabela de usuário aponta para `jobs` e compactar ou apagar uma vaga encerrada **não afeta favoritos nem candidaturas**. A checagem de referências na limpeza continua obrigatória como defesa, caso uma versão futura do app passe a gravar `job_id`.
+
 Conclusão: **apagar só é seguro para vaga que nenhuma dessas tabelas referencia**. Qualquer vaga referenciada deve ser *compactada*, nunca apagada. É também por isso que o `service_role` não tem `DELETE` (migration 7): a limpeza roda com o papel do dono do banco (`pg_cron`), fora do alcance de qualquer chave.
 
 ## 3. Estratégia proposta: três camadas
@@ -36,7 +38,7 @@ Conclusão: **apagar só é seguro para vaga que nenhuma dessas tabelas referenc
 | **C. Compactada** | `closed` há > 14 dias | `description = ''`, `requirements = '{}'`, `skills = '{}'`; mantém título, empresa, país, salário, datas, URL do Jobicy, fingerprint | ≈ 3,4 KB |
 | **D. Removida** | `closed` há > 90 dias **e** sem referência em `saved_jobs`, `viewed_jobs`, `applications`, `job_clusters` | `DELETE` + gravar lápide (`source_id`, `external_id`, `deleted_at`, ≈ 100 B) | ≈ 0,1 KB |
 
-* **Vaga referenciada** (favorito, histórico, candidatura) nunca passa da camada C: continua existindo, compacta, para sempre. Esta proposta não verifica como o app exibe uma vaga encerrada; é preciso conferir o detalhe de favorito encerrado antes de ativar. A descrição some, o link do anúncio original permanece.
+* **Vaga referenciada** (favorito, histórico, candidatura) nunca passa da camada C: continua existindo, compacta, para sempre. Favoritos e candidaturas já vivem do próprio snapshot (sem descrição), então nada muda para eles; o link do anúncio original permanece.
 * **Lápide:** impede que a descoberta reimporte uma vaga removida (defesa extra: a vaga encerrada já é barrada pelo endpoint de status). Custo ≈ 3,6 MB por ano a 100 vagas/dia.
 * **Por que compactar em vez de só apagar:** preserva identidade, histórico de candidaturas e favoritos com custo ~11 vezes menor, e a descrição de uma vaga encerrada não tem valor de produto (o Jobicy não a lista mais).
 * **Vaga aberta nunca é tocada.** Vaga `open` sem revalidação (> 72 h) é *escondida pelo app*, não encerrada: a retenção não olha para ela.
@@ -76,3 +78,5 @@ Leitura: com a retenção, o regime estável cabe no plano gratuito para L até 
 2. Aceitar que a descrição de vaga encerrada antiga seja descartada (a alternativa é manter e aceitar menos vagas).
 3. Autorizar a migration 9 e, depois, o agendamento semanal.
 4. Confirmar no painel o limite vigente do plano gratuito (500 MB assumidos).
+
+**Por que a migration de retenção ainda não foi escrita:** ela depende das decisões 1 a 3 (carências e aceitar descartar a descrição). Registrá-la exige também estender a inspeção (`inspect_readonly.sql`), as fixtures e os testes do aplicador, trabalho que não vale fazer antes de o critério ser definido.
