@@ -30,6 +30,14 @@ export interface JobRow {
   canonical_url: string;
 }
 
+/** What identifies an already stored job: `discover` must not add it again. */
+export interface KnownKey {
+  external_id: string;
+  fingerprint: string | null;
+  canonical_url: string | null;
+  status: 'open' | 'closed' | 'unknown';
+}
+
 /** One row of `public.sync_runs`: counts and status only, never payloads or personal data. */
 export interface SyncRunRow {
   source_id: string;
@@ -87,6 +95,13 @@ export interface JobStore {
   confirmOpen?(sourceId: string, externalIds: string[]): Promise<void>;
   /** Every stored external id of the source, whatever its status (used to count jobs that would be NEW; see `maxNewJobs`). */
   listKnownExternalIds?(sourceId: string): Promise<string[]>;
+  /** `discover` mode: every stored job of the source with what identifies a duplicate (any status). */
+  listKnownKeys?(sourceId: string): Promise<KnownKey[]>;
+  /**
+   * `discover` mode: INSERT only. A row whose (source_id, external_id) is already stored is left exactly as it is (it is never updated,
+   * re-opened or blanked). Returns how many rows were really inserted.
+   */
+  insertNewJobs?(rows: JobRow[]): Promise<number>;
   recordRun(run: SyncRunRow): Promise<void>;
 }
 
@@ -117,10 +132,18 @@ export interface SyncOptions {
   /**
    * `full` (default): the normal pass. `revalidate`: no feed request, no upsert; only the status check of stored open jobs
    * (close the confirmed closed, stamp the confirmed open, leave everything else). Requires a connector with `checkStatuses`.
+   * `discover`: reads the feed and INSERTS only listings that are not stored yet and that the status endpoint confirms active. It never
+   * updates, closes or re-opens a stored job and never asks about the stored ones (that is `revalidate`'s job). Needs
+   * `connector.checkStatuses`, `store.listKnownKeys` and `store.insertNewJobs`.
    */
-  mode?: 'full' | 'revalidate';
-  /** `full` only: at most this many jobs not already stored are added in this pass; the rest wait for a later pass. Needs `store.listKnownExternalIds`. */
+  mode?: 'full' | 'revalidate' | 'discover';
+  /** `full`: at most this many jobs not already stored are added in this pass; `discover`: at most this many candidates are verified and inserted. The rest wait for a later pass. */
   maxNewJobs?: number;
+  /**
+   * `discover` only: no listing is added once this many jobs of the source are stored (any status). Protects the free database quota
+   * (a stored job weighs ~38 KB with its indexes). The pass then ends `partial` with error class `catalogue_full` so somebody notices.
+   */
+  maxTotalJobs?: number;
   /** Structured log sink. Receives counts and error classes only: never job content, URLs of users, keys or tokens. */
   log?: (event: string, data: Record<string, unknown>) => void;
 }
@@ -138,6 +161,10 @@ export interface SyncSummary extends Omit<SyncRunRow, 'source_id' | 'scope' | 's
   confirmed: number;
   /** Stored jobs the source could not confirm either way (answered 'unknown', or not answered): left as they are, never closed. */
   unverified: number;
+  /** `discover`: feed listings whose id is already stored (any status) or that another writer inserted meanwhile. Left untouched. */
+  alreadyKnown: number;
+  /** `discover`: new listings the status endpoint did NOT confirm active (closed or unknown): not imported, asked again next pass. */
+  inactive: number;
 }
 
 function errorClass(e: unknown): string {
@@ -166,7 +193,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   const startedAt = now().toISOString();
   const s: SyncSummary = {
     status: 'ok', fetched: 0, upserted: 0, duplicates: 0, closed: 0, http_errors: 0, error_class: null,
-    pages: 0, rejected: 0, restarted: false, runRecorded: false, confirmed: 0, unverified: 0, skippedNew: 0,
+    pages: 0, rejected: 0, restarted: false, runRecorded: false, confirmed: 0, unverified: 0, skippedNew: 0, alreadyKnown: 0, inactive: 0,
   };
 
   let cursor: string | null = null;
@@ -182,16 +209,32 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   const pastDeadline = () => o.deadlineAt !== undefined && now().getTime() >= o.deadlineAt;
   const revalidateOnly = o.mode === 'revalidate';
   if (revalidateOnly && !o.connector.checkStatuses) { s.status = 'failed'; s.error_class = 'no_status_check'; }
+  const discoverOnly = o.mode === 'discover';
+  if (discoverOnly && !(o.connector.checkStatuses && o.store.listKnownKeys && o.store.insertNewJobs)) { s.status = 'failed'; s.error_class = 'discover_unsupported'; }
 
   // `maxNewJobs`: the ids already stored (any status) tell which listings would be NEW; only that many are added.
   let known: Set<string> | null = null;
   let newCount = 0;
-  if (!revalidateOnly && o.maxNewJobs !== undefined) {
+  let catalogueFull = false;
+  if (!revalidateOnly && !discoverOnly && o.maxNewJobs !== undefined) {
     try {
       if (!o.store.listKnownExternalIds) throw new Error('store cannot list known ids');
       known = new Set(await withRetry(() => o.store.listKnownExternalIds!(sourceId), retry));
     } catch (e) {
       fail(e); // without knowing what is stored the cap cannot be honoured: add nothing
+    }
+  }
+
+  if (discoverOnly && s.status === 'ok') {
+    // Everything already stored (any status) is "known"; only the live ones also hide a duplicate listing (see Deduper.rememberStored).
+    known = new Set();
+    try {
+      for (const k of await withRetry(() => o.store.listKnownKeys!(sourceId), retry)) {
+        known.add(k.external_id);
+        deduper.rememberStored(sourceId, k, k.status !== 'closed');
+      }
+    } catch (e) {
+      fail(e); // without knowing what is stored nothing can be added
     }
   }
 
@@ -219,6 +262,15 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     const fresh: NormalizedJob[] = [];
     for (const j of page.jobs) {
       seen.add(j.externalId);
+      if (discoverOnly) {
+        if (known!.has(j.externalId)) { s.alreadyKnown++; continue; }
+        if (!deduper.accept(j)) { s.duplicates++; continue; }
+        if (o.maxTotalJobs !== undefined && known!.size >= o.maxTotalJobs) { s.skippedNew++; catalogueFull = true; continue; }
+        if (newCount >= (o.maxNewJobs ?? Infinity)) { s.skippedNew++; continue; }
+        newCount++; known!.add(j.externalId);
+        fresh.push(j);
+        continue;
+      }
       if (!deduper.accept(j)) { s.duplicates++; continue; }
       if (known && !known.has(j.externalId)) {
         if (newCount >= o.maxNewJobs!) { s.skippedNew++; continue; }
@@ -227,8 +279,25 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
       fresh.push(j);
     }
     try {
-      if (fresh.length) await withRetry(() => o.store.upsertJobs(fresh.map(toJobRow)), retry);
-      s.upserted += fresh.length;
+      if (discoverOnly) {
+        // Never import a listing the source does not confirm active: ask first (one request per 100), insert only the confirmed.
+        let toInsert = fresh;
+        if (fresh.length) {
+          const waitStatus = limiter.reserve();
+          if (waitStatus > 0) await sleep(waitStatus);
+          const answers = await withRetry(() => o.connector.checkStatuses!(fresh.map((j) => j.externalId)), retry);
+          toInsert = fresh.filter((j) => answers[j.externalId] === 'open');
+          s.inactive += fresh.length - toInsert.length;
+        }
+        if (toInsert.length) {
+          const inserted = await withRetry(() => o.store.insertNewJobs!(toInsert.map(toJobRow)), retry);
+          s.upserted += inserted;
+          s.alreadyKnown += toInsert.length - inserted;
+        }
+      } else {
+        if (fresh.length) await withRetry(() => o.store.upsertJobs(fresh.map(toJobRow)), retry);
+        s.upserted += fresh.length;
+      }
     } catch (e) {
       fail(e);
       break;
@@ -237,6 +306,8 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     if (page.nextCursor === null) { completed = true; break; }
     cursor = page.nextCursor;
   }
+
+  if (catalogueFull && s.status === 'ok') { s.status = 'partial'; s.error_class = 'catalogue_full'; log('sync.catalogue_full', { source: sourceId, limit: o.maxTotalJobs }); }
 
   const acc = { closed: 0, confirmed: 0, unverified: 0 };
   if (revalidateOnly && s.status === 'ok') {
@@ -247,7 +318,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
       fail(e);
       s.status = acc.closed + acc.confirmed > 0 ? 'partial' : 'failed'; // what earlier batches proved is already stored
     }
-  } else if (completed && s.status === 'ok') {
+  } else if (completed && s.status === 'ok' && !discoverOnly) {
     try {
       await closeStale(o, sourceId, seen, lastPageFull && o.snapshotCoversSource === true, retry, limiter, sleep, pastDeadline, acc);
     } catch (e) {
@@ -259,7 +330,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
 
   const run: SyncRunRow = {
     source_id: sourceId, scope, started_at: startedAt, finished_at: now().toISOString(),
-    status: s.status, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates, closed: s.closed,
+    status: s.status, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates + s.alreadyKnown, closed: s.closed,
     http_errors: s.http_errors, error_class: s.error_class,
   };
   try {
@@ -268,7 +339,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   } catch (e) {
     log('sync.run_not_recorded', { source: sourceId, errorClass: errorClass(e) });
   }
-  log('sync.done', { source: sourceId, status: s.status, pages: s.pages, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates, rejected: s.rejected, closed: s.closed, confirmed: s.confirmed, unverified: s.unverified, skippedNew: s.skippedNew });
+  log('sync.done', { source: sourceId, status: s.status, pages: s.pages, fetched: s.fetched, upserted: s.upserted, duplicates: s.duplicates, rejected: s.rejected, closed: s.closed, confirmed: s.confirmed, unverified: s.unverified, skippedNew: s.skippedNew, alreadyKnown: s.alreadyKnown, inactive: s.inactive });
   return s;
 }
 

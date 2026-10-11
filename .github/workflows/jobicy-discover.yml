@@ -1,0 +1,133 @@
+# Descoberta incremental de vagas NOVAS do Jobicy, 100% gratuita (repositorio publico + runner padrao do GitHub: sem custo, sem plano).
+#
+# O QUE FAZ: le o feed oficial do Jobicy (7 dias) e INSERE somente as vagas que ainda nao estao no banco e que o endpoint oficial de status
+# confirma ativas. NAO atualiza, NAO fecha, NAO reabre e NAO apaga nenhuma vaga existente, NAO toca em can_redistribute nem em dados de usuario.
+# Revalidar as vagas ja gravadas e outro trabalho (Supabase Cron; contingencia: jobicy-revalidate.yml). O modo e fixo no script
+# (worker/scripts/discover-local.mjs usa SYNC_MODE=discover); este arquivo nao tem como pedir o modo "full".
+#
+# ESTA DESLIGADO POR PADRAO, e assim fica ate o proprietario autorizar:
+#   * o agendamento so executa quando a variavel de repositorio JOBICY_DISCOVERY_ENABLED vale 'true' (hoje ela NAO existe);
+#   * a execucao manual so importa com action=discover E confirm=IMPORTAR-NOVAS-VAGAS; os padroes (check, preview) nao gravam nada.
+# Fazer o merge deste arquivo NAO liga nada. Como ligar/desligar e o que esperar: docs/JOBICY_DISCOVERY.md.
+#
+# Horarios: 03:47, 09:47, 15:47, 21:47 UTC, tres horas depois da revalidacao (00:17, 06:17, 12:17, 18:17). A lease do banco e a mesma
+# da revalidacao (uma passada por hora por fonte, qualquer tipo): se o GitHub atrasar e as duas coincidirem, uma recua e a proxima janela refaz.
+# Perder uma execucao e inofensivo: o feed cobre 7 dias.
+#
+# Credencial: UM segredo, ORBIJOB_SYNC_WORKER_KEY (chave sb_secret_ exclusiva, nunca a legada service_role nem a de ingestao local), guardado no
+# ENVIRONMENT "jobicy-revalidation" (restrito a branch main; o mesmo da revalidacao, para nao exigir passo manual novo) e entregue so aos passos que o usam.
+name: Jobicy discover
+
+on:
+  schedule:
+    - cron: '47 3,9,15,21 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
+        type: choice
+        options: [check, preview, discover]
+        default: check
+      confirm:
+        description: 'Para action=discover digite exatamente: IMPORTAR-NOVAS-VAGAS'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jobicy-discover
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    name: discover new jobs only
+    # agendado: so com a chave de liga/desliga; manual: sempre permitido (o padrao dele e somente leitura)
+    if: github.event_name == 'workflow_dispatch' || vars.JOBICY_DISCOVERY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: jobicy-revalidation
+    defaults:
+      run:
+        working-directory: worker
+        shell: bash
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      # sem o segredo e sem scripts de instalacao de pacotes
+      - name: Install dependencies (reproducible, no install scripts)
+        run: npm ci --ignore-scripts
+
+      - name: Check that the secret exists
+        id: sec
+        env:
+          KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "missing=1" >> "$GITHUB_OUTPUT"
+            echo "::error title=Segredo ausente::ORBIJOB_SYNC_WORKER_KEY nao esta definido no environment jobicy-revalidation"
+            exit 4
+          fi
+          echo "::add-mask::$KEY"
+
+      - name: Check the key (read-only)
+        id: kc
+        env:
+          ORBIJOB_WORKER_KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          code=0
+          node scripts/worker-key-check.mjs || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit "$code"
+
+      - name: Pre-flight (read-only)
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: node scripts/discover-local.mjs preflight
+
+      - name: Preview (simulation: reads the feed, writes nothing)
+        if: github.event_name == 'workflow_dispatch' && inputs.action == 'preview'
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          node scripts/discover-local.mjs preview | tee preview.log
+          {
+            echo "### Jobicy discover (simulacao)"
+            grep -E '^(preflight|simulacao|metricas)' preview.log | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Discover (new jobs only; no update, no close, no delete)
+        id: rv
+        if: github.event_name == 'schedule' || (inputs.action == 'discover' && inputs.confirm == 'IMPORTAR-NOVAS-VAGAS')
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          code=0
+          node scripts/discover-local.mjs run --yes > run.log 2>&1 || code=$?
+          cat run.log
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Jobicy discover"
+            grep -E '^(preflight|resultado|metricas|verificacao|codigo de saida)' run.log | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$code"
+
+      - name: 'ALERT auth: Supabase refused the credential'
+        if: always() && (steps.sec.outputs.missing == '1' || (steps.kc.outputs.code != '' && steps.kc.outputs.code != '0') || steps.rv.outputs.code == '4')
+        run: echo "::error title=jobicy-auth::O Supabase recusou a credencial da automacao"
+      - name: 'ALERT unreachable: database did not answer'
+        if: always() && steps.rv.outputs.code == '5'
+        run: echo "::error title=jobicy-unreachable::O banco nao respondeu"
+      - name: 'ALERT storage: catalogue ceiling reached (free database quota guard)'
+        if: always() && steps.rv.outputs.code == '7'
+        run: echo "::error title=jobicy-catalogue-full::O teto do catalogo foi atingido; nenhuma vaga nova sera importada ate haver limpeza ou aumento consciente do teto"
+      - name: 'ALERT api: Jobicy API errors (nothing existing was changed)'
+        if: always() && steps.rv.outputs.code == '6'
+        run: echo "::error title=jobicy-api::A API do Jobicy falhou em parte da passada"

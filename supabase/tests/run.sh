@@ -26,6 +26,7 @@ run 02_behaviour.sql
 run 03_quotas.sql
 run 08_service_role.sql
 run 10_revalidation_cron.sql
+run 11_discovery_insert_only.sql
 ./05_concurrency.sh "$URL"
 # the storage section must be re-runnable without error (idempotence of the bucket/policy statements)
 awk '/-- ───────── private storage: resumes/{f=1} f' ../migrations/20261010000000_app_integration.sql > /tmp/storage_section_$$.sql

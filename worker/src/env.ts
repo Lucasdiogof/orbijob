@@ -18,9 +18,13 @@ export interface Env {
    * `full` (default): read the feed, store new and changed jobs, then revalidate stored jobs that left the feed.
    * `revalidate`: touch NO feed and import NOTHING; only ask the source about the jobs already stored (closes the confirmed closed,
    * stamps the confirmed open). The deployed wrangler.toml pins `revalidate`, so widening the catalogue is always an explicit edit.
+   * `discover`: read the feed and INSERT only listings that are not stored yet (and that the status endpoint confirms active). Never
+   * updates, closes or re-opens a stored job (docs/JOBICY_DISCOVERY.md).
    */
   SYNC_MODE?: string;
-  /** Optional, `full` mode only: at most this many jobs NOT already stored are added per pass (0-10000; unset = no cap). */
+  /** Optional, `discover` mode: no new listing is added once this many jobs of the source are stored (1-100000; default 4000). */
+  SYNC_MAX_CATALOGUE?: string;
+  /** Optional, `full` and `discover` modes: at most this many jobs NOT already stored are added per pass (0-10000; unset = no cap in `full`, 200 in `discover`). */
   SYNC_MAX_NEW_JOBS?: string;
 }
 
@@ -64,10 +68,17 @@ export interface Config {
   /** Origin override for the Jobicy API; undefined in production. */
   jobicyOrigin?: string;
   maxPages: number;
-  mode: 'full' | 'revalidate';
-  /** Cap on jobs added per pass in `full` mode; undefined = uncapped. */
+  mode: 'full' | 'revalidate' | 'discover';
+  /** Cap on jobs added per pass in `full` and `discover` modes; undefined = uncapped (`discover` defaults to DISCOVER_DEFAULT_CAP). */
   maxNewJobs?: number;
+  /** `discover` only: ceiling on the stored jobs of the source (default {@link DISCOVER_DEFAULT_CATALOGUE}). */
+  maxCatalogue?: number;
 }
+
+/** New listings a `discover` pass may add when SYNC_MAX_NEW_JOBS is unset: a full week of the feed is ~300, so this bounds a surprise. */
+export const DISCOVER_DEFAULT_CAP = 200;
+/** ~38 KB per stored job (measured in production: rows + full-text and trigram indexes): 4000 jobs ~ 150 MB of the 500 MB free database. */
+export const DISCOVER_DEFAULT_CATALOGUE = 4000;
 
 const LOCAL_HOSTS = ['localhost', '127.0.0.1', '[::1]'];
 
@@ -123,8 +134,8 @@ export function loadConfig(env: Env): Config {
   let mode: Config['mode'] = 'full';
   if (env.SYNC_MODE !== undefined && env.SYNC_MODE.trim() !== '') {
     const m = env.SYNC_MODE.trim();
-    if (m === 'full' || m === 'revalidate') mode = m;
-    else problems.push('SYNC_MODE must be "full" or "revalidate"');
+    if (m === 'full' || m === 'revalidate' || m === 'discover') mode = m;
+    else problems.push('SYNC_MODE must be "full", "revalidate" or "discover"');
   }
 
   let maxNewJobs: number | undefined;
@@ -134,6 +145,14 @@ export function loadConfig(env: Env): Config {
     else problems.push('SYNC_MAX_NEW_JOBS must be an integer from 0 to 10000');
   }
 
+  if (maxNewJobs === undefined && mode === 'discover') maxNewJobs = DISCOVER_DEFAULT_CAP;
+
+  let maxCatalogue: number | undefined = mode === 'discover' ? DISCOVER_DEFAULT_CATALOGUE : undefined;
+  if (env.SYNC_MAX_CATALOGUE !== undefined && env.SYNC_MAX_CATALOGUE.trim() !== '') {
+    const n = Number(env.SYNC_MAX_CATALOGUE);
+    if (Number.isInteger(n) && n >= 1 && n <= 100_000) maxCatalogue = n;
+    else problems.push('SYNC_MAX_CATALOGUE must be an integer from 1 to 100000');
+  }
   if (problems.length) throw new ConfigError(problems);
-  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, maxPages, mode, maxNewJobs };
+  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, maxPages, mode, maxNewJobs, maxCatalogue };
 }

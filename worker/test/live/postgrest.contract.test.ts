@@ -1,7 +1,7 @@
 import { createHmac } from 'node:crypto';
 import { env } from 'node:process';
 import { describe, expect, it } from 'vitest';
-import { JOBICY_SOURCE, jobicyConnector } from '../../src/connectors/jobicy';
+import { JOBICY_SOURCE, jobicyConnector, normalizeJobicy } from '../../src/connectors/jobicy';
 import { HttpError } from '../../src/http';
 import { SupabaseJobStore } from '../../src/store/supabase';
 import { runSync, toJobRow } from '../../src/sync';
@@ -368,3 +368,61 @@ describe.skipIf(!URL_ || !SECRET)('scheduled handler on a real PostgREST', () =>
     expect(await jobStatus(stale)).toBe('closed');
   });
 });
+
+describe.skipIf(!URL_ || !SECRET)('incremental discovery against a real PostgREST', () => {
+  const service = sign('service_role');
+  const store = new SupabaseJobStore(URL_ ?? 'http://localhost:3000', service, direct);
+  const listing = (id: number, over: Record<string, unknown> = {}) => ({ ...jobs[0], id, url: `https://jobicy.com/jobs/${id}-discovery`, jobTitle: `Discovery ${id}`, companyName: `Discovery Co ${id}`, ...over });
+  const api = (list: Record<string, unknown>[]) => (async (u: string) => {
+    const url = new URL(u);
+    if (url.pathname.endsWith('/status')) return Response.json({ success: true, jobs: url.searchParams.get('ids')!.split(',').map((id) => ({ id: Number(id), status: 'active' })) });
+    return Response.json({ success: true, jobs: list, nextCursor: null });
+  }) as unknown as typeof fetch;
+  const discover = (list: Record<string, unknown>[]) => runSync({
+    connector: jobicyConnector(api(list), () => NOW), store, mode: 'discover', maxNewJobs: 50,
+    now: () => NOW, sleep: async () => {}, retry: { retries: 0, baseMs: 1, maxMs: 1 }, recordRun: async () => {},
+  });
+  const row = async (id: number) => ((await rest('GET', `/jobs?select=*&source_id=eq.jobicy&external_id=eq.${id}`, { token: service })).json as Record<string, unknown>[])[0];
+
+  it('inserts the new listings; PostgREST returns only the rows really inserted (ignore-duplicates + return=representation)', async () => {
+    const s = await discover([listing(880001), listing(880002)]);
+    expect(s).toMatchObject({ status: 'ok', fetched: 2, upserted: 2, alreadyKnown: 0, closed: 0 });
+    expect(await row(880001)).toMatchObject({ source_id: 'jobicy', status: 'open', title: 'Discovery 880001', original_url: 'https://jobicy.com/jobs/880001-discovery' });
+  });
+
+  it('an id that is already stored is left exactly as it was, even when the feed brings other data for it, and the pass counts it as known', async () => {
+    const patched = await rest('PATCH', '/jobs?source_id=eq.jobicy&external_id=eq.880001', { token: service, body: { description: 'reviewed text', status: 'closed' }, prefer: 'return=minimal' });
+    expect(patched.status).toBe(204);
+    const before = JSON.stringify(await row(880001));
+    const s = await discover([listing(880001, { jobTitle: 'Changed title', jobDescription: '' }), listing(880003)]);
+    expect(s).toMatchObject({ status: 'ok', upserted: 1, alreadyKnown: 1 });
+    expect(JSON.stringify(await row(880001))).toBe(before); // still closed, still the reviewed description
+    expect(await row(880003)).toBeTruthy();
+  });
+
+  it('insertNewJobs on a batch mixing stored and new ids counts only the new ones, and a second identical batch inserts nothing', async () => {
+    const mk = (id: string) => toJobRow({ ...(jobicyConnectorRow(id)) });
+    const inserted = await store.insertNewJobs([mk('880003'), mk('880004')]);
+    expect(inserted).toBe(1);
+    expect(await store.insertNewJobs([mk('880003'), mk('880004')])).toBe(0);
+  });
+
+  it('known keys expose id, fingerprint, canonical URL and status for every stored job', async () => {
+    const keys = await store.listKnownKeys('jobicy');
+    const k = keys.find((x) => x.external_id === '880001');
+    expect(k).toMatchObject({ status: 'closed' });
+    expect(typeof k?.fingerprint).toBe('string');
+    expect(k?.canonical_url).toContain('jobicy.com');
+  });
+
+  it('the app cannot insert through PostgREST (no write policy for anon)', async () => {
+    const r = await rest('POST', '/jobs', { token: sign('anon'), body: [{ source_id: 'jobicy', external_id: '880099' }], prefer: 'resolution=ignore-duplicates,return=minimal' });
+    expect([401, 403]).toContain(r.status);
+  });
+});
+
+function jobicyConnectorRow(id: string) {
+  const r = normalizeJobicy({ ...jobs[0], id: Number(id), url: `https://jobicy.com/jobs/${id}-discovery`, jobTitle: `Discovery ${id}`, companyName: `Discovery Co ${id}` }, NOW.toISOString());
+  if (!r.ok) throw new Error('fixture must normalize');
+  return r.job;
+}

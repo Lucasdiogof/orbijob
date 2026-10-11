@@ -1,6 +1,6 @@
 import { HttpError, parseRetryAfter } from '../http';
 import { RunConflict, type RunLedger, type RunPatch, type RunRef } from '../lease';
-import type { JobRow, JobStore, SyncRunRow } from '../sync';
+import type { JobRow, JobStore, KnownKey, SyncRunRow } from '../sync';
 
 /**
  * JobStore over Supabase PostgREST with the SERVICE ROLE key. Server-side only (Cloudflare Worker): the key must never
@@ -89,6 +89,40 @@ export class SupabaseJobStore implements JobStore, RunLedger {
       ids.push(...page.map((r) => r.external_id));
       if (page.length < pageSize) return ids;
     }
+  }
+
+  async listKnownKeys(sourceId: string): Promise<KnownKey[]> {
+    const keys: KnownKey[] = [];
+    const pageSize = 1000;
+    for (let offset = 0; ; offset += pageSize) {
+      const res = await this.call(
+        `jobs?select=external_id,fingerprint,canonical_url,status&source_id=eq.${encodeURIComponent(sourceId)}&order=external_id&limit=${pageSize}&offset=${offset}`,
+        { method: 'GET' },
+      );
+      const page = (await res.json()) as KnownKey[];
+      keys.push(...page);
+      if (page.length < pageSize) return keys;
+    }
+  }
+
+  /**
+   * INSERT ... ON CONFLICT (source_id, external_id) DO NOTHING (PostgREST `resolution=ignore-duplicates`): a stored row is never touched, so
+   * running the same page twice, or two writers at once, cannot overwrite a good row with a worse one. `return=representation` returns
+   * only the rows really inserted, which is how the caller counts them. Needs INSERT (and SELECT) on jobs: both kept by migration 7.
+   */
+  async insertNewJobs(rows: JobRow[]): Promise<number> {
+    let inserted = 0;
+    for (const chunk of chunkRows(rows)) {
+      const res = await this.call('jobs?on_conflict=source_id,external_id&select=external_id', {
+        method: 'POST',
+        body: chunk,
+        prefer: 'resolution=ignore-duplicates,return=representation',
+      });
+      const back = (await res.json()) as unknown;
+      if (!Array.isArray(back)) throw new Error('SupabaseJobStore: unexpected insert answer');
+      inserted += back.length;
+    }
+    return inserted;
   }
 
   async markClosed(sourceId: string, externalIds: string[]): Promise<void> {
