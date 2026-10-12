@@ -1,5 +1,7 @@
 # Descoberta incremental de vagas novas do Jobicy
 
+> **Estado (2026-10-12):** duas importações reais controladas feitas (200 + 200 vagas; catálogo em 699, 242 empresas), ambas `ok`, com as vagas anteriores idênticas. A recorrência (`JOBICY_DISCOVERY_ENABLED`) **continua desligada**. Checklist de ativação na seção 9.
+
 > **Estado: implementada e testada, DESLIGADA em produção.** Nada é importado até o proprietário autorizar (seção 7). O merge deste PR não liga nada:
 > o agendamento depende da variável `JOBICY_DISCOVERY_ENABLED = true`, que não existe, e a execução manual exige uma frase de confirmação.
 
@@ -30,7 +32,7 @@ O custo da escolha é uma credencial: a chave `sb_secret_` do environment `jobic
 * **Não sobrescreve nada:** não há `UPDATE` nem `merge-duplicates` neste modo (testes: nenhum PATCH, toda escrita pede `ignore-duplicates`; mutação trocando para `merge-duplicates` reprova vários testes). Vaga existente com dados melhores que o feed não é tocada.
 * **Não importa encerradas:** antes do insert, cada lote de candidatas passa pelo endpoint de status; só entra quem responde `active`. `closed`, `unknown` e sem resposta ficam de fora (`inativas`) e são perguntadas de novo na passada seguinte. Falha do endpoint de status → nenhuma vaga daquela página entra.
 * **Falhas:** HTTP 4xx/5xx, timeout e JSON malformado encerram a passada como `failed`/`partial` (páginas já inseridas ficam; nada é fechado nem alterado); cursor expirado (HTTP 400) reinicia a travessia uma vez; registros inválidos são rejeitados e contados sem parar a passada; sem conseguir listar o que já existe, **não insere nada**.
-* **Limites:** `SYNC_MAX_NEW_JOBS` (padrão **200** por passada, o resto fica para a próxima) e `SYNC_MAX_CATALOGUE` (padrão **4000** vagas gravadas; ao atingir, a passada termina `partial` com `error_class = catalogue_full`, código de saída 7 e um alerta próprio). Orçamento de 3 min por passada; corte duro de 4 min.
+* **Limites:** `SYNC_MAX_NEW_JOBS` (padrão **200** por passada, o resto fica para a próxima) e `SYNC_MAX_CATALOGUE` (padrão **4000** vagas **cheias**: abertas, desconhecidas ou encerradas que ainda têm descrição; as encerradas já compactadas pela retenção, ~1/10 do peso, **não contam**, para o teto não estourar só porque a retenção está funcionando; ao atingir, a passada termina `partial` com `error_class = catalogue_full`, código de saída 7 e um alerta próprio). Orçamento de 3 min por passada; corte duro de 4 min.
 * **Privilégios:** `INSERT` em `jobs` e escrita em `sync_runs` com a chave da migration 7. A fonte não é publicada nem escondida pela descoberta; uma vaga nova fica visível no app assim que entra, porque a fonte já está publicada (`can_redistribute = true`): por isso o modo é opt-in.
 
 ## 4. Execução e concorrência
@@ -76,6 +78,21 @@ Os logs têm só contagens e classes de erro, nunca descrição de vaga, URL de 
 5. **Uma** importação controlada: *Run workflow* → `discover` + `confirm = IMPORTAR-NOVAS-VAGAS`. Conferir a linha `verificacao: OK`, `sync_runs`, contagem de vagas e uma amostra de títulos/URLs; as 299 existentes devem permanecer idênticas.
 6. Só então definir a variável de repositório `JOBICY_DISCOVERY_ENABLED = true` (liga o agendamento) e acompanhar as duas primeiras execuções agendadas.
 7. Opcional: estender o monitor (`jobicy-watchdog`) para alertar se a descoberta estiver ligada e sem execução bem-sucedida há mais de 36 h; hoje o alerta é o erro do próprio workflow (e-mail do GitHub).
+
+## 9. Ativação da recorrência: o que falta e como
+Já está pronto: workflow validado pelo GitHub, preview oficial e duas importações reais, retenção diária aplicada, **monitor da descoberta** (`jobicy-watchdog`: alerta `discover_schedule_missed` após 14 h sem execução agendada, `discover_no_success` após 30 h, duas falhas seguidas, teto de catálogo, credencial, banco e API; só avalia quando a variável está ligada; com zero execuções só avisa, sem falso alarme crítico).
+
+Para ligar (uma ação, só com autorização do proprietário): definir a variável de repositório `JOBICY_DISCOVERY_ENABLED = true` (Settings → Secrets and variables → Actions → Variables). Para desligar: apagar a variável. Nada mais precisa mudar (sem migration, sem secret novo).
+
+Condições de segurança verificadas na auditoria de 2026-10-12:
+* **Horários** (03:47, 09:47, 15:47, 21:47 UTC) ficam ≥ 2,5 h longe das revalidações (00:17, 06:17, 12:17, 18:17 + coleta até +27 min). O GitHub já atrasou agendamentos em até ~5,5 h: uma descoberta atrasada para perto de uma revalidação faz **uma das duas** recuar pela lease (`skipped (too_soon)`, exit 0, sem alterar nada); o custo é uma janela perdida (o feed cobre 7 dias; a revalidação tolera 72 h).
+* **Capacidade:** 4 passadas/dia × 200 = 800 vagas/dia contra ≈ 110 novas/dia no feed (773 vagas em 7 dias): um dia inteiro de falhas ainda é recuperado. Só se perde vaga se a descoberta ficar parada **mais de ~7 dias**, e o monitor alerta em 30 h.
+* **Retenção acompanha o crescimento:** diária, lote de 200 por tipo (capacidade 1400/semana contra ≈ 700/semana de encerramentos esperados). O ritmo real de encerramento ainda não foi medido (nenhuma vaga encerrou até agora): conferir `ops.retention_runs` e `sync_runs.closed` na primeira semana.
+* **Teto de 4.000 conta só vagas cheias** (corrigido em 2026-10-12: antes contava todas as linhas e travaria em ≈ 33 dias mesmo com a retenção funcionando).
+* **Banco:** 28 MB de 500 MB assumidos depois de 400 vagas novas (≈ 9,3 KB por vaga medido). Confirmar o limite vigente no painel do Supabase.
+* **Nunca reabre nem altera:** insert-only, provado em produção duas vezes (hash por linha de todas as vagas anteriores idêntico antes e depois).
+
+Primeira semana depois de ligar: conferir diariamente `sync_runs` (linhas `discover`), o tamanho do banco e a issue de alerta do monitor.
 
 ## 8. Desligar e desfazer
 * Desligar o agendamento: apagar a variável `JOBICY_DISCOVERY_ENABLED` (ou valor ≠ `true`). Nada precisa ser desfeito no banco.

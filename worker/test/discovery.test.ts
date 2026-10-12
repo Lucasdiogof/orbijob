@@ -278,3 +278,34 @@ describe('SYNC_MODE=discover: the free-database guard (catalogue ceiling)', () =
     expect(() => loadConfig({ SUPABASE_URL: 'https://x.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 'sb_secret_' + 'A'.repeat(30), SYNC_MODE: 'discover', SYNC_MAX_CATALOGUE: '0' })).toThrow(/SYNC_MAX_CATALOGUE/);
   });
 });
+
+describe('SYNC_MODE=discover: the ceiling counts FULL jobs only (compacted closed jobs cost ~1/10 and do not count)', () => {
+  const compacted = (id: string) => ({ ...storedJob(id, 'closed'), description: '' });
+  const full = (id: string) => ({ ...storedJob(id, 'closed'), description: 'still has a body' });
+
+  it('many compacted closed jobs do not block the import: only the open and still-heavy ones count', async () => {
+    const w = new World();
+    for (let i = 0; i < 20; i++) w.jobs.set(`jobicy:c${i}`, compacted(`c${i}`));
+    w.jobs.set('jobicy:o1', storedJob('o1')); w.jobs.set('jobicy:f1', full('f1'));
+    const o = await discover(w, { SYNC_MAX_CATALOGUE: '5' }); // 2 full stored (open + heavy closed) -> room for 3, whatever the 20 compacted ones are
+    expect(o).toMatchObject({ status: 'partial', summary: { upserted: 3, error_class: 'catalogue_full' } });
+    expect(w.jobs.size).toBe(22 + 3);
+  });
+
+  it('closed jobs that still carry a description DO count, so the ceiling cannot be dodged before compaction', async () => {
+    const w = new World();
+    for (let i = 0; i < 5; i++) w.jobs.set(`jobicy:f${i}`, full(`f${i}`));
+    const o = await discover(w, { SYNC_MAX_CATALOGUE: '5' });
+    expect(o).toMatchObject({ status: 'partial', summary: { upserted: 0, error_class: 'catalogue_full' } });
+  });
+
+  it('a store that cannot count falls back to counting every stored job (the safe side)', async () => {
+    const w = new World();
+    for (let i = 0; i < 6; i++) w.jobs.set(`jobicy:c${i}`, compacted(`c${i}`));
+    const real = w.fetch;
+    w.fetch = async (input, init) => (String(input).includes('count') ? new Response('{}', { status: 400 }) : real(input, init));
+    const o = await runScheduledSync(w.env({ SYNC_MODE: 'discover', SYNC_MAX_CATALOGUE: '5' }), { ...w.deps(), fetch: w.fetch });
+    expect(o.status === 'failed' || o.status === 'partial').toBe(true); // a failing count stops the pass instead of guessing
+    expect(w.jobs.size).toBe(6);
+  });
+});

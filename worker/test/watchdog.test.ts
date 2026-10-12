@@ -3,7 +3,7 @@ import { createServer, type Server } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 // @ts-expect-error plain JavaScript module without type declarations
-import { HOUR, evaluate, renderIssueBody } from '../scripts/watchdog-core.mjs';
+import { HOUR, evaluate, evaluateDiscovery, renderIssueBody } from '../scripts/watchdog-core.mjs';
 
 const NOW = Date.parse('2026-10-11T12:00:00Z');
 const ago = (h: number) => new Date(NOW - h * HOUR).toISOString();
@@ -89,10 +89,11 @@ let workflowRuns: unknown[] = [];
 let oldest: string | null = null; let visible = 0;
 let calls: { method: string; path: string; body?: string }[] = [];
 let runJobs: unknown[] = [];
+let discoverWorkflowRuns: unknown[] = [];
 
 const listen = (srv: Server) => new Promise<string>((r) => srv.listen(0, '127.0.0.1', () => r(`http://127.0.0.1:${(srv.address() as { port: number }).port}`)));
 beforeEach(async () => {
-  issues = []; workflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = [];
+  issues = []; workflowRuns = []; discoverWorkflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = [];
   gh = createServer(async (req, res) => {
     const chunks: Buffer[] = []; for await (const c of req) chunks.push(c as Buffer);
     const body = Buffer.concat(chunks).toString('utf8');
@@ -100,6 +101,7 @@ beforeEach(async () => {
     calls.push({ method: req.method!, path: url.pathname, body });
     const send = (code: number, o: unknown) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(o)); };
     if (url.pathname.endsWith('/workflows/jobicy-revalidate.yml/runs')) return send(200, { workflow_runs: workflowRuns });
+    if (url.pathname.endsWith('/workflows/jobicy-discover.yml/runs')) return send(200, { workflow_runs: discoverWorkflowRuns });
     if (/\/actions\/runs\/\d+\/jobs$/.test(url.pathname)) return send(200, { jobs: runJobs });
     if (url.pathname.endsWith('/issues') && req.method === 'GET') return send(200, issues.filter((i) => i.state === 'open'));
     if (url.pathname.endsWith('/issues') && req.method === 'POST') { const b = JSON.parse(body); const i = { number: issues.length + 1, state: 'open', ...b }; issues.push(i); return send(201, i); }
@@ -196,5 +198,69 @@ describe('jobicy-watchdog.mjs (real process, local stand-ins)', () => {
     expect(a.out).not.toContain('XXXX');
     const b = await watchdog({ WATCHDOG_GITHUB_API: 'https://evil.example' });
     expect(b.code).toBe(1);
+  });
+});
+
+describe('discovery rules (pure)', () => {
+  const d = (runs: ReturnType<typeof run>[], enabled = true) => ids({ alerts: evaluateDiscovery({ nowMs: NOW, enabled, runs }) });
+  it('off by default: nothing is judged while JOBICY_DISCOVERY_ENABLED is not true', () => {
+    expect(d([], false)).toEqual([]);
+    expect(d([run(100, 'failure'), run(106, 'failure')], false)).toEqual([]);
+  });
+  it('healthy: recent successful scheduled runs, no alert (a pass that stood down by the lease is a success)', () => {
+    expect(d([run(2), run(8), run(14)])).toEqual([]);
+  });
+  it('right after switching on, with no scheduled run yet, only a WARNING (no critical false alarm)', () => {
+    const a = evaluateDiscovery({ nowMs: NOW, enabled: true, runs: [] });
+    expect(ids({ alerts: a })).toEqual(['discover_schedule_missed']);
+    expect(a.every((x: { severity: string }) => x.severity === 'warning')).toBe(true);
+  });
+  it('schedule missed after 14 h (GitHub delays of ~5.5 h are tolerated), no success after 30 h is critical', () => {
+    expect(d([run(13.9)])).toEqual([]);
+    expect(d([run(14)])).toEqual(['discover_schedule_missed']);
+    expect(d([run(7, 'failure'), run(31, 'success')]).includes('discover_no_success')).toBe(true);
+    expect(d([run(7), run(29, 'success')])).toEqual([]);
+  });
+  it('one failure is tolerated, two in a row are not; a run in progress is not a failure', () => {
+    expect(d([run(2, 'failure'), run(8)])).toEqual([]);
+    expect(d([run(2, 'failure'), run(8, 'failure')])).toContain('discover_consecutive_failures');
+    expect(d([run(1, null), run(7), run(13)])).toEqual([]);
+  });
+  it('the markers of the last failed run name the cause: catalogue ceiling, credential, database, Jobicy API', () => {
+    expect(d([run(2, 'failure', ['storage']), run(8)])).toEqual(['discover_catalogue_full']);
+    expect(d([run(2, 'failure', ['auth']), run(8)])).toEqual(['discover_auth_failed']);
+    expect(d([run(2, 'failure', ['unreachable']), run(8)])).toEqual(['discover_database_unreachable']);
+    expect(d([run(2, 'failure', ['api']), run(8)])).toEqual(['discover_jobicy_api_errors']);
+    expect(evaluateDiscovery({ nowMs: NOW, enabled: true, runs: [run(2, 'failure', ['storage']), run(8)] })[0]!.severity).toBe('critical');
+  });
+});
+
+describe('jobicy-watchdog.mjs watching the discovery (real process)', () => {
+  it('with the discovery OFF it never asks GitHub about it', async () => {
+    oldest = realAgo(5); visible = 299;
+    workflowRuns = [{ ...ghRun(1, 'success'), created_at: realAgo(1) }];
+    const r = await watchdog({ JOBICY_DISCOVERY_ENABLED: '' });
+    expect(r.out).toContain('descoberta desligada');
+    expect(calls.some((c) => c.path.includes('jobicy-discover.yml'))).toBe(false);
+  });
+  it('with the discovery ON and a failed run that hit the catalogue ceiling: opens one issue, fails the job, reports the cause', async () => {
+    oldest = realAgo(5); visible = 299;
+    workflowRuns = [{ ...ghRun(1, 'success'), created_at: realAgo(1) }];
+    discoverWorkflowRuns = [{ ...ghRun(2, 'failure'), id: 77, created_at: realAgo(2) }, { ...ghRun(8, 'success'), created_at: realAgo(8) }];
+    runJobs = [{ steps: [{ name: 'ALERT storage: catalogue ceiling reached (free database quota guard)', conclusion: 'success' }, { name: 'ALERT auth: Supabase refused the credential', conclusion: 'skipped' }] }];
+    const r = await watchdog({ JOBICY_DISCOVERY_ENABLED: 'true' });
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('discover_catalogue_full');
+    expect(issues).toHaveLength(1);
+    expect(issues[0]!.body).toContain('discover_catalogue_full');
+  });
+  it('with the discovery ON and healthy runs: no issue, exit 0', async () => {
+    oldest = realAgo(5); visible = 299;
+    workflowRuns = [{ ...ghRun(1, 'success'), created_at: realAgo(1) }];
+    discoverWorkflowRuns = [{ ...ghRun(2, 'success'), created_at: realAgo(2) }, { ...ghRun(8, 'success'), created_at: realAgo(8) }];
+    const r = await watchdog({ JOBICY_DISCOVERY_ENABLED: 'true' });
+    expect(r.code).toBe(0);
+    expect(r.out).toContain('tudo normal');
+    expect(issues).toEqual([]);
   });
 });

@@ -80,6 +80,11 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       for (const r of payload as Row[]) { if (w.jobs.has(String(r.external_id))) continue; w.jobs.set(String(r.external_id), { ...r }); inserted.push({ external_id: r.external_id }); }
       return json(res, 201, inserted);
     }
+    if (req.method === 'GET' && String(req.headers.prefer ?? '').includes('count=exact')) {
+      const n = [...w.jobs.values()].filter((r) => r.status !== 'closed' || String(r.description ?? '') !== '').length;
+      res.writeHead(206, { 'content-type': 'application/json', 'content-range': `0-0/${n}` });
+      return res.end('[]');
+    }
     if (req.method === 'GET') {
       const cols = (q.get('select') ?? 'external_id').split(',');
       const rows = [...w.jobs.values()].sort((a, b) => String(a.external_id).localeCompare(String(b.external_id)));
