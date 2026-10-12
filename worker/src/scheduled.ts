@@ -82,6 +82,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
       sleep: deps.sleep,
       retry: deps.retry,
       maxPages: cfg.maxPages,
+      pageWindow: SOURCES[cfg.source]!.pageWindow,
       mode: cfg.mode,
       maxNewJobs: cfg.maxNewJobs,
       maxTotalJobs: cfg.maxCatalogue,

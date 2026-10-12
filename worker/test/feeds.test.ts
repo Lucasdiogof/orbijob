@@ -205,6 +205,15 @@ describe('discover without a status endpoint (feed presence is the evidence)', (
     expect(JSON.stringify([...s.rows.entries()])).toBe(before);
   });
 
+  it('reaching the reading window of a newest-first feed ends ok (pageWindow); without it the page cap is partial', async () => {
+    const endless = arbeitnowConnector(async (u) => json({ data: arbeitnow.data.map((r) => ({ ...r, slug: `${r.slug}-${new URL(String(u)).searchParams.get('page')}` })), links: { next: 'more' } }), nowFn);
+    expect(await run(new MemoryStore(), { connector: endless, maxPages: 2, pageWindow: true })).toMatchObject({ status: 'ok', pages: 2, upserted: 16 });
+    expect((await run(new MemoryStore(), { connector: endless, maxPages: 2, pageWindow: true })).error_class).not.toBe('max_pages');
+    expect(await run(new MemoryStore(), { connector: endless, maxPages: 2 })).toMatchObject({ status: 'partial', pages: 2, error_class: 'max_pages' });
+    expect(SOURCES.arbeitnow!.pageWindow).toBe(true);
+    expect(SOURCES.jobicy!.pageWindow).toBeUndefined();
+  });
+
   it('a stored job that is closed is not stamped and not re-opened even if the feed still lists it', async () => {
     const s = new MemoryStore();
     await run(s);

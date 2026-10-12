@@ -107,7 +107,7 @@ if (mode === 'preview') {
   const maxNewJobs = process.env.SYNC_MAX_NEW_JOBS ? Number(process.env.SYNC_MAX_NEW_JOBS) : PROFILE.newCap;
   const s = await W.runSync({
     connector: PROFILE.make((i, o) => fetch(i, o), () => new Date(), JOBICY_ORIGIN),
-    store: dry, scope: '', mode: 'discover', maxNewJobs, maxTotalJobs: process.env.SYNC_MAX_CATALOGUE ? Number(process.env.SYNC_MAX_CATALOGUE) : PROFILE.catalogue, maxPages: PROFILE.maxPages,
+    store: dry, scope: '', mode: 'discover', maxNewJobs, maxTotalJobs: process.env.SYNC_MAX_CATALOGUE ? Number(process.env.SYNC_MAX_CATALOGUE) : PROFILE.catalogue, maxPages: PROFILE.maxPages, pageWindow: PROFILE.pageWindow,
     deadlineAt: Date.now() + BUDGET_MS, recordRun: async () => {},
     log: (event, data) => console.log(JSON.stringify({ level: 'info', event, ...data })),
   });

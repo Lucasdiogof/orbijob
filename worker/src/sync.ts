@@ -121,6 +121,11 @@ export interface SyncOptions {
   /** Safety cap on pages per pass. */
   maxPages?: number;
   /**
+   * The feed is newest-first and `maxPages` is the reading window this source is meant to have (not a safety stop):
+   * reaching it ends the pass `ok` instead of `partial`.
+   */
+  pageWindow?: boolean;
+  /**
    * Epoch milliseconds after which no new request is started. The pass then ends as `partial` (error class `deadline`)
    * and nothing is closed: a Worker invocation has a wall-clock limit and must stop on its own terms.
    */
@@ -250,7 +255,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   }
 
   for (let guard = 0; !revalidateOnly && s.status === 'ok' && guard < (o.maxPages ?? 50) + 1; guard++) {
-    if (s.pages >= (o.maxPages ?? 50)) { s.status = 'partial'; s.error_class = 'max_pages'; break; }
+    if (s.pages >= (o.maxPages ?? 50)) { if (!o.pageWindow) { s.status = 'partial'; s.error_class = 'max_pages'; } break; }
     if (pastDeadline()) { s.status = s.upserted > 0 ? 'partial' : 'failed'; s.error_class = 'deadline'; break; }
     const wait = limiter.reserve();
     if (wait > 0) await sleep(wait);

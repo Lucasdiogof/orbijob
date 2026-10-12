@@ -19,6 +19,8 @@ export interface SourceProfile {
   hosts?: readonly string[];
   /** Feed pages a `discover` pass may read. */
   maxPages: number;
+  /** `maxPages` is the intended reading window of a newest-first feed: reaching it is a normal end (see `SyncOptions.pageWindow`). */
+  pageWindow?: boolean;
   /** New jobs one pass may add. */
   newCap: number;
   /** Ceiling on FULL jobs of this source (open, or still carrying a description). */
@@ -34,7 +36,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   arbeitnow: {
     id: 'arbeitnow', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', host: 'arbeitnow.com', hosts: ARBEITNOW_HOSTS,
-    maxPages: 5, newCap: 300, catalogue: 1500,
+    maxPages: 5, pageWindow: true, newCap: 300, catalogue: 1500,
     make: (f, n, origin) => arbeitnowConnector(f, n, { origin }),
   },
   remoteok: {
