@@ -132,6 +132,35 @@ void main() {
     });
   });
 
+  group(
+    'the Health area lists clinical jobs, not every job of a health company',
+    () {
+      for (final t in [
+        'Working Student - Healthcare Sales',
+        'Senior Software Engineer - Digital Patient Model',
+        'Medical Billing Specialist',
+        'Hospital Receptionist',
+        'Pharmaceutical Sales Representative',
+        'Clinical Data Manager',
+      ]) {
+        test('"$t" is not Health', () {
+          expect(JobArea.of(t), isNot(contains(JobArea.health)));
+        });
+      }
+      for (final t in [
+        'Fisioterapeuta Pélvica',
+        'Registered Nurse',
+        'Medical Assistant',
+        'Pharmacist',
+        'Fonoaudióloga',
+      ]) {
+        test('"$t" is Health', () {
+          expect(JobArea.of(t), contains(JobArea.health));
+        });
+      }
+    },
+  );
+
   group('filters', () {
     test('leaving the Health area drops the specialty; a specialty makes the filters active', () {
       const f = JobFilters(
