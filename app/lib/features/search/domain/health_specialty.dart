@@ -33,6 +33,7 @@ enum HealthSpecialty {
     'womens health physio',
     'saúde da mulher',
     'bäckenbotten',
+    'kvinnohälsa',
   ]),
   nursing([
     'nurse',
@@ -169,6 +170,8 @@ enum HealthSpecialty {
   /// The same rule locally (previews and tests).
   bool matches(String title) {
     final t = title.toLowerCase();
+    // "tandläkare" (dentist) contains "läkare" (doctor): a dentist is filed under dentistry, not medicine.
+    if (this == medicine && _dentistWords.any(t.contains)) return false;
     final own = keywords.any(t.contains);
     final p = parent;
     return own && (p == null || p.matches(title));
@@ -179,3 +182,5 @@ enum HealthSpecialty {
       if (s.matches(title)) s,
   ];
 }
+
+const _dentistWords = ['tandläkare'];
