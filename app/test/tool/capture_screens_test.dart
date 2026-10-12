@@ -61,6 +61,7 @@ Future<void> _search(WidgetTester t, String term) async {
 
 void main() {
   setUpAll(() async {
+    if (!_capture) return;
     TestWidgetsFlutterBinding.ensureInitialized();
     await loadBrandFonts();
     await _loadIcons();
