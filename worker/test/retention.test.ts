@@ -122,11 +122,14 @@ describe('retention: what it changes', () => {
     expect(await count('select 1 from public.saved_jobs')).toBe(1);
   });
 
-  it('touches only the jobicy source', async () => {
-    const other = await job({ ageDays: 500, source: 'other' });
-    const before = await row(other, 'other');
+  it('acts on every source since migration 10 (the policy is per job): an old closed job of another source is deleted, an open one is not', async () => {
+    const closed = await job({ ageDays: 500, source: 'other' });
+    const open = await job({ ageDays: 500, source: 'other', status: 'open' });
+    for (let i = 0; i < 20; i++) await job({ ageDays: 1, source: 'other', status: 'open' });
+    const keep = await row(open, 'other');
     await apply();
-    expect(await row(other, 'other')).toEqual(before);
+    expect(await row(closed, 'other')).toBeUndefined();
+    expect(await row(open, 'other')).toEqual(keep);
   });
 
   it('acts on at most p_batch jobs of each kind per call and finishes over several calls', async () => {

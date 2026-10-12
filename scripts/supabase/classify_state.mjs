@@ -16,6 +16,7 @@ export const MIGRATIONS = [
   { version: '20261014000000', name: 'service_role_least_privilege' },
   { version: '20261015000000', name: 'supabase_cron_revalidation' },
   { version: '20261016000000', name: 'jobicy_retention' },
+  { version: '20261017000000', name: 'sources_maintenance' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -53,6 +54,8 @@ function signatures(i) {
     (i.schemas ?? []).includes('ops'),
     // migration 9 adds the tombstone table to `ops` (the retention of closed jobs)
     (i.ops_tables ?? []).includes('job_tombstones'),
+    // migration 10 adds the expiry of unseen jobs (a function in `ops`; the retention functions it replaces keep their names)
+    (i.ops_functions ?? []).includes('expire_unseen_jobs'),
   ];
 }
 

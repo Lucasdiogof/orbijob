@@ -642,5 +642,10 @@
   ],
   "ops_tables": [
     "revalidation_batches"
+  ],
+  "ops_functions": [
+    "jobicy_revalidate_collect",
+    "jobicy_revalidate_start",
+    "slot_run_id"
   ]
 }

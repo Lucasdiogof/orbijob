@@ -645,5 +645,14 @@
     "job_tombstones",
     "retention_runs",
     "revalidation_batches"
+  ],
+  "ops_functions": [
+    "jobicy_retention_apply",
+    "jobicy_retention_export",
+    "jobicy_retention_plan",
+    "jobicy_retention_restore",
+    "jobicy_revalidate_collect",
+    "jobicy_revalidate_start",
+    "slot_run_id"
   ]
 }
