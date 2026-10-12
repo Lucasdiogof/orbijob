@@ -153,12 +153,15 @@ class PreviewSearchRepository implements SearchRepository, AreaCountSource {
           '${j.title} ${j.company} ${j.city}'.toLowerCase().contains(q);
     }).toList();
     final area = filters.area;
-    final listed = area == null ? hits : hits.where((s) => area.matches(s.job.title)).toList();
+    final listed = area == null
+        ? hits
+        : hits.where((s) => area.matches(s.job.title)).toList();
     return SearchResult(jobs: listed, hasIntegratedSource: true);
   }
 
   @override
   Future<Map<JobArea, int>> areaCounts() async => {
-    for (final a in JobArea.values) a: _jobs.where((s) => a.matches(s.job.title)).length,
+    for (final a in JobArea.values)
+      a: _jobs.where((s) => a.matches(s.job.title)).length,
   };
 }

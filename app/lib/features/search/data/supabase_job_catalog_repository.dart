@@ -13,7 +13,8 @@ import '../domain/search_repository.dart';
 /// Only columns that exist are used. Not offered, because the schema cannot answer them: profession filter
 /// (`isco08` is empty for most sources) and salary ranges (amounts in different currencies and periods are not
 /// comparable).
-class SupabaseJobCatalogRepository implements SearchRepository, AreaCountSource {
+class SupabaseJobCatalogRepository
+    implements SearchRepository, AreaCountSource {
   SupabaseJobCatalogRepository(
     this._client, {
     DateTime Function()? now,
@@ -134,8 +135,13 @@ class SupabaseJobCatalogRepository implements SearchRepository, AreaCountSource 
   /// Open, visible jobs per area (the same visibility rules as the list: open, authorised source, verified recently).
   @override
   Future<Map<JobArea, int>> areaCounts() async {
-    final counts = await Future.wait([for (final a in JobArea.values) _countArea(a)]);
-    return {for (var i = 0; i < JobArea.values.length; i++) JobArea.values[i]: counts[i]};
+    final counts = await Future.wait([
+      for (final a in JobArea.values) _countArea(a),
+    ]);
+    return {
+      for (var i = 0; i < JobArea.values.length; i++)
+        JobArea.values[i]: counts[i],
+    };
   }
 
   Future<int> _countArea(JobArea area) async {
@@ -147,7 +153,10 @@ class SupabaseJobCatalogRepository implements SearchRepository, AreaCountSource 
         .inFilter('job_sources.status', allowedSourceStatuses);
     final maxAge = maxVerificationAge;
     if (maxAge != null) {
-      q = q.gte('last_checked_at', _now().toUtc().subtract(maxAge).toIso8601String());
+      q = q.gte(
+        'last_checked_at',
+        _now().toUtc().subtract(maxAge).toIso8601String(),
+      );
     }
     final res = await q.or(area.orFilter).limit(1).count(CountOption.exact);
     return res.count;

@@ -67,7 +67,8 @@ void main() {
   group('professional areas', () {
     test('an area filter adds ONE or=(title.ilike...) clause on top of the visibility rules', () async {
       final b = FakeBackend(respond: answer([row()]));
-      await repoFor(b).search('', filters: const JobFilters(area: JobArea.health));
+      await repoFor(b)
+          .search('', filters: const JobFilters(area: JobArea.health));
       final r = b.requests.first;
       expect(r.query['status'], 'eq.open');
       expect(r.query['job_sources.can_redistribute'], 'eq.true');
@@ -77,19 +78,30 @@ void main() {
       expect(or, endsWith(')'));
     });
 
-    test('an area and a term are two separate or-clauses (both must hold)', () async {
-      final b = FakeBackend(respond: answer([row()]));
-      await repoFor(b).search('flutter', filters: const JobFilters(area: JobArea.technology));
-      final ors = b.requests.first.request.url.query.split('&').where((p) => p.startsWith('or=')).toList();
-      expect(ors, hasLength(2));
-    });
+    test(
+      'an area and a term are two separate or-clauses (both must hold)',
+      () async {
+        final b = FakeBackend(respond: answer([row()]));
+        await repoFor(b).search(
+          'flutter',
+          filters: const JobFilters(area: JobArea.technology),
+        );
+        final ors = b.requests.first.request.url.query
+            .split('&')
+            .where((p) => p.startsWith('or='))
+            .toList();
+        expect(ors, hasLength(2));
+      },
+    );
 
     test('areaCounts asks one count per area with the same visibility rules, selecting only ids and one row', () async {
       final b = FakeBackend(
         respond: (m, url, _) => (200, <Object?>[]),
         headersFor: (url) {
           final or = url.queryParameters['or'] ?? '';
-          final n = or.contains('nurse') ? 3 : (or.contains('software') ? 41 : 0);
+          final n = or.contains('nurse')
+              ? 3
+              : (or.contains('software') ? 41 : 0);
           return {'content-range': '0-0/$n'};
         },
       );
@@ -101,7 +113,10 @@ void main() {
       expect(b.requests, hasLength(JobArea.values.length));
       for (final r in b.requests) {
         expect(r.method, 'GET');
-        expect(r.query['select'], 'id,job_sources!inner(id)'); // no description, no content: ids only
+        expect(
+          r.query['select'],
+          'id,job_sources!inner(id)',
+        ); // no description, no content: ids only
         expect(r.query['limit'], '1');
         expect(r.request.headers['Prefer'], contains('count=exact'));
         expect(r.query['status'], 'eq.open');
@@ -455,8 +470,23 @@ void main() {
       ]) {
         final j = jobFromCatalogRow(
           row(
-            source: {'id': id, 'attribution': 'Jobs via $name', 'can_redistribute': true, 'status': 'CONDITIONAL'},
-            extra: {'source_id': id, 'original_url': 'https://$host/jobs/1', 'apply_url': 'https://$host/jobs/1', 'country': null, 'salary_min': null, 'salary_max': null, 'salary_currency': null, 'salary_period': null, 'geo_restrictions': <String>[]},
+            source: {
+              'id': id,
+              'attribution': 'Jobs via $name',
+              'can_redistribute': true,
+              'status': 'CONDITIONAL',
+            },
+            extra: {
+              'source_id': id,
+              'original_url': 'https://$host/jobs/1',
+              'apply_url': 'https://$host/jobs/1',
+              'country': null,
+              'salary_min': null,
+              'salary_max': null,
+              'salary_currency': null,
+              'salary_period': null,
+              'geo_restrictions': <String>[],
+            },
           ),
         )!;
         expect(j.source, id);

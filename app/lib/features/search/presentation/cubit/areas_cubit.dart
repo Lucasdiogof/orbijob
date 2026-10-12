@@ -34,7 +34,9 @@ class AreasCubit extends Cubit<AreasState> {
       final counts = await (repo as AreaCountSource).areaCounts();
       emit(AreasState(loaded: true, counts: counts));
     } catch (_) {
-      emit(const AreasState(loaded: true)); // no chips rather than wrong ones; the search itself still works
+      emit(
+        const AreasState(loaded: true),
+      ); // no chips rather than wrong ones; the search itself still works
     }
   }
 }

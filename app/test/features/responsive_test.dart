@@ -170,7 +170,13 @@ void main() {
     for (final r in repos.entries) {
       for (final size in [const Size(320, 568), const Size(1280, 800)]) {
         testWidgets('${r.key} ${size.width.toInt()}', (t) async {
-          await pumpApp(t, size: size, textScale: 2, repo: r.value, settle: r.key != 'loading');
+          await pumpApp(
+            t,
+            size: size,
+            textScale: 2,
+            repo: r.value,
+            settle: r.key != 'loading',
+          );
           await t.tap(
             find.bySemanticsLabel('Explore').first,
             warnIfMissed: false,

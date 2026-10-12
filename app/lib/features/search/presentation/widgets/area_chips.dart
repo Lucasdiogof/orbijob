@@ -87,11 +87,16 @@ class AreaChips extends StatelessWidget {
               label: '${areaLabel(a, l)} (${s.counts[a]})',
               icon: areaIcon(a),
               selected: selected == a,
-              onSelected: (_) => onSelected(selected == a && showAll ? null : a),
+              onSelected: (_) =>
+                  onSelected(selected == a && showAll ? null : a),
             ),
         ];
         if (!scrollable) {
-          return Wrap(spacing: AppSpace.s2, runSpacing: AppSpace.s1, children: chips);
+          return Wrap(
+            spacing: AppSpace.s2,
+            runSpacing: AppSpace.s1,
+            children: chips,
+          );
         }
         return SizedBox(
           height: 48,

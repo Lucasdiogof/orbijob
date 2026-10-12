@@ -119,7 +119,9 @@ class _SearchPageState extends State<SearchPage> {
                   onSelected: (area) {
                     setState(() => _selected = null);
                     final c = context.read<SearchCubit>();
-                    c.setFilters(c.filters.copyWith(area: area, clearArea: area == null));
+                    c.setFilters(
+                      c.filters.copyWith(area: area, clearArea: area == null),
+                    );
                   },
                 ),
               ),

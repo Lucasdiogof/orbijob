@@ -55,7 +55,11 @@ class UnconfiguredSearchRepository implements SearchRepository {
     JobFilters filters = const JobFilters(),
     int offset = 0,
     int limit = 20,
-  }) async => const SearchResult(jobs: [], hasIntegratedSource: false, notConfigured: true);
+  }) async => const SearchResult(
+    jobs: [],
+    hasIntegratedSource: false,
+    notConfigured: true,
+  );
 }
 
 /// No connector is wired yet, so the honest answer is "no integrated source".

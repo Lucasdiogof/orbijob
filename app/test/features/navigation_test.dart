@@ -64,22 +64,28 @@ void main() {
     },
   );
 
-  testWidgets('without a backend there are no area chips and no list: the build says it is not connected', (t) async {
-    await pumpApp(t);
-    expect(find.textContaining('Health ('), findsNothing);
-    expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
-  });
+  testWidgets(
+    'without a backend there are no area chips and no list: the build says it is not connected',
+    (t) async {
+      await pumpApp(t);
+      expect(find.textContaining('Health ('), findsNothing);
+      expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
+    },
+  );
 
-  testWidgets('Home lists the newest jobs on opening; tapping one opens its detail', (t) async {
-    await pumpApp(t, repo: PreviewSearchRepository());
-    expect(find.text('Latest jobs'), findsOneWidget);
-    expect(find.text('Registered Nurse'), findsWidgets);
-    await t.ensureVisible(find.text('Registered Nurse').first);
-    await t.pumpAndSettle();
-    await t.tap(find.text('Registered Nurse').first);
-    await t.pumpAndSettle();
-    expect(find.text('Job details'), findsWidgets);
-  });
+  testWidgets(
+    'Home lists the newest jobs on opening; tapping one opens its detail',
+    (t) async {
+      await pumpApp(t, repo: PreviewSearchRepository());
+      expect(find.text('Latest jobs'), findsOneWidget);
+      expect(find.text('Registered Nurse'), findsWidgets);
+      await t.ensureVisible(find.text('Registered Nurse').first);
+      await t.pumpAndSettle();
+      await t.tap(find.text('Registered Nurse').first);
+      await t.pumpAndSettle();
+      expect(find.text('Job details'), findsWidgets);
+    },
+  );
 
   testWidgets(
     'searching with a connected (preview) source shows cards with separate compatibility and confidence',

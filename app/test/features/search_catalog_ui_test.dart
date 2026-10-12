@@ -342,7 +342,9 @@ void main() {
   testWidgets('a server error shows retry; retrying shows the jobs', (t) async {
     final repo = CatalogRepo([job('1')]);
     await pumpApp(t, repo: repo);
-    final before = repo.calls.length; // Home and Explore list the newest jobs when the app opens
+    final before = repo
+        .calls
+        .length; // Home and Explore list the newest jobs when the app opens
     repo.failNext = Exception('boom');
     await searchFor(t, 'account');
     expect(find.text('Something went wrong'), findsOneWidget);

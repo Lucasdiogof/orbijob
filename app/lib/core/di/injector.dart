@@ -69,7 +69,9 @@ void configureDependencies({
     )
     ..registerFactory<AreasCubit>(() => AreasCubit(maybe<SearchRepository>()))
     ..registerFactory<LatestJobsCubit>(
-      () => LatestJobsCubit(maybe<SearchRepository>() ?? UnconfiguredSearchRepository()),
+      () => LatestJobsCubit(
+        maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
+      ),
     )
     ..registerFactory<ThemeCubit>(ThemeCubit.new)
     ..registerFactory<LocaleCubit>(LocaleCubit.new)

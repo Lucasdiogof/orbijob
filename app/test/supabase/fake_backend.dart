@@ -33,7 +33,10 @@ class FakeBackend {
           r == null || r.$2 == null ? '[]' : jsonEncode(r.$2),
           r?.$1 ?? 200,
           request: req,
-          headers: {'content-type': 'application/json', ...?headersFor?.call(req.url)},
+          headers: {
+            'content-type': 'application/json',
+            ...?headersFor?.call(req.url),
+          },
         );
       }),
     );

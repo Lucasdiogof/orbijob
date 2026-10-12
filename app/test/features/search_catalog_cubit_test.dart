@@ -249,7 +249,9 @@ void main() {
     test('server failure -> failure state; retry repeats the same search and filters', () async {
       final repo = PagedRepo(catalogue(3))..failOnCall = 2;
       final c = SearchCubit(repo);
-      await c.setFilters(const JobFilters(publishedWithinDays: 1)); // call 1: lists the newest jobs
+      await c.setFilters(
+        const JobFilters(publishedWithinDays: 1),
+      ); // call 1: lists the newest jobs
       await c.search('x', countryCode: 'DE');
       expect(
         c.state,

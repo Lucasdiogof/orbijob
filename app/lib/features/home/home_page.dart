@@ -167,8 +167,15 @@ class HomePage extends StatelessWidget {
                           AreaChips(
                             onSelected: (area) {
                               final search = context.read<SearchCubit>();
-                              search.setFilters(search.filters.copyWith(area: area, clearArea: area == null));
-                              context.read<ShellCubit>().goTo(ShellCubit.explore);
+                              search.setFilters(
+                                search.filters.copyWith(
+                                  area: area,
+                                  clearArea: area == null,
+                                ),
+                              );
+                              context.read<ShellCubit>().goTo(
+                                ShellCubit.explore,
+                              );
                             },
                           ),
                         ],
@@ -272,14 +279,20 @@ class _LatestJobs extends StatelessWidget {
               : null,
         );
         final body = switch (s.status) {
-          LatestStatus.loading => const SizedBox(height: 280, child: SkeletonList()),
+          LatestStatus.loading => const SizedBox(
+            height: 280,
+            child: SkeletonList(),
+          ),
           LatestStatus.notConfigured => StateView(
             icon: Icons.cloud_off_outlined,
             title: l.notConfiguredTitle,
             body: l.notConfiguredBody,
             kind: StateKind.info,
           ),
-          LatestStatus.empty => StateView(icon: Icons.work_off_outlined, title: l.homeLatestEmpty),
+          LatestStatus.empty => StateView(
+            icon: Icons.work_off_outlined,
+            title: l.homeLatestEmpty,
+          ),
           LatestStatus.failure => StateView(
             icon: Icons.error_outline,
             title: l.errorTitle,
@@ -297,10 +310,15 @@ class _LatestJobs extends StatelessWidget {
                 for (final j in s.jobs) ...[
                   JobCard(
                     scored: j,
-                    isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(j.job)),
-                    onFavoriteChanged: (_) => context.read<FavoritesCubit>().toggle(j),
+                    isFavorite: favs.items.containsKey(
+                      FavoritesCubit.keyOf(j.job),
+                    ),
+                    onFavoriteChanged: (_) =>
+                        context.read<FavoritesCubit>().toggle(j),
                     onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(builder: (_) => JobDetailPage(scored: j)),
+                      MaterialPageRoute<void>(
+                        builder: (_) => JobDetailPage(scored: j),
+                      ),
                     ),
                   ),
                   const SizedBox(height: AppSpace.s3),
@@ -311,7 +329,11 @@ class _LatestJobs extends StatelessWidget {
         };
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [header, const SizedBox(height: AppSpace.s3), body],
+          children: [
+            header,
+            const SizedBox(height: AppSpace.s3),
+            body,
+          ],
         );
       },
     );
