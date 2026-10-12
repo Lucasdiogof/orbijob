@@ -108,7 +108,7 @@ export class SupabaseJobStore implements JobStore, RunLedger {
   /** Jobs that still weigh a full job: open or unknown, or closed but still carrying a description (a count only; no row is read). */
   async countFullJobs(sourceId: string): Promise<number> {
     const res = await this.call(
-      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(status.eq.open,status.eq.unknown,description.neq.)&limit=1`,
+      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(status.eq.open,description.neq.)&limit=1`,
       { method: 'GET', prefer: 'count=exact' },
     );
     const n = Number((res.headers.get('content-range') ?? '').split('/')[1]);

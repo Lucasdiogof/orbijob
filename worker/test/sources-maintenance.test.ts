@@ -106,8 +106,8 @@ describe('ops.expire_unseen_jobs', () => {
     await okRun('arbeitnow', 1, 'ok', 5); // the window reached jobs published 5 days ago
     const beyond = await job({ source: 'arbeitnow', ageDays: 9, publishedDaysAgo: 12 }); // older than the window: not seen, not judged
     const gone = await job({ source: 'arbeitnow', ageDays: 9, publishedDaysAgo: 3 }); // inside the window and not listed: gone from the feed
-    expect(await expire()).toBe('ok:expired=1,skipped=remoteok/remotive');
-    expect((await row(beyond))!.status).toBe('open');
+    expect(await expire()).toBe('ok:expired=1,unknown=1,skipped=remoteok/remotive');
+    expect((await row(beyond))!.status).toBe('unknown'); // not closed: nothing proves it is gone (migration 12); the app shows only 'open'
     expect((await row(gone))!.status).toBe('closed');
   });
 
@@ -235,5 +235,62 @@ describe('scheduling and rollback', () => {
     expect(await retention()).toBe('ok:compacted=0,deleted=0'); // the policy is Jobicy-only again
     expect(await row(other)).toBeDefined();
     await db.exec(DOWN); // idempotent
+  });
+});
+
+describe('freshness policy (migration 20261019000000)', () => {
+  it('Platsbanken (verified one by one through /ad/{id}) is never closed by absence: stale open ads become unknown, with no feed condition', async () => {
+    await db.query(`insert into public.job_sources (id, status, attribution, can_redistribute) values ('jobtech','CONDITIONAL','Jobs via Platsbanken (https://arbetsformedlingen.se)',true)`);
+    const stale = await job({ source: 'jobtech', ageDays: 9 });
+    const fresh = await job({ source: 'jobtech', ageDays: 2 });
+    const closedBefore = await job({ source: 'jobtech', status: 'closed', ageDays: 20 });
+    const out = (await db.query<{ r: string }>(`select ops.expire_unseen_jobs('${PHRASE}', interval '7 days', array['jobtech']) r`)).rows[0]!.r;
+    expect(out).toBe('ok:expired=0,unknown=1');
+    expect((await row(stale))!.status).toBe('unknown');
+    expect(Date.now() - new Date(String((await row(stale))!.last_checked_at)).getTime()).toBeGreaterThan(8 * 86_400_000); // the date of the last REAL check is kept
+    expect((await row(fresh))!.status).toBe('open');
+    expect((await row(closedBefore))!.status).toBe('closed');
+    expect((await db.query<{ r: string }>(`select ops.expire_unseen_jobs('${PHRASE}', interval '7 days', array['jobtech']) r`)).rows[0]!.r).toBe('ok:expired=0'); // idempotent
+  });
+
+  it('a feed read whole still closes by absence; only the window source and the verified source use unknown', async () => {
+    await okRunOnly('remoteok');
+    const old = await job({ source: 'remoteok', ageDays: 9 });
+    expect(await expire()).toBe('ok:expired=1,skipped=arbeitnow/remotive');
+    expect((await row(old))!.status).toBe('closed');
+  });
+
+  it('the retention treats unknown like closed: compacts after 14 days, deletes after 90 if nobody references it, never touches open', async () => {
+    const open = await job({ source: 'arbeitnow', ageDays: 200 });
+    const unk14 = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 20 });
+    const unk90 = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 120 });
+    const recent = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 3 });
+    const r = (await db.query<{ r: string }>(`select ops.jobicy_retention_apply('${RET}', interval '14 days', interval '90 days', 200, true) r`)).rows[0]!.r;
+    expect(r).toBe('ok:compacted=1,deleted=1');
+    expect(await row(unk14)).toMatchObject({ status: 'unknown', description: '' });
+    expect(await row(unk90)).toBeUndefined();
+    expect((await row(open))!.description).toBe('a long description');
+    expect((await row(recent))!.description).toBe('a long description');
+  });
+
+  it('ops.freshness_report counts verified, stale, unknown and closed per source and changes nothing', async () => {
+    await job({ source: 'arbeitnow', ageDays: 1 });
+    await job({ source: 'arbeitnow', ageDays: 1 });
+    await job({ source: 'arbeitnow', ageDays: 5 });
+    await job({ source: 'arbeitnow', status: 'unknown', ageDays: 9 });
+    await job({ source: 'arbeitnow', status: 'closed', ageDays: 9 });
+    const rows = (await db.query<Record<string, string>>(`select source_id, open_visible::int ov, open_stale::int os, unknown::int u, closed::int c from ops.freshness_report()`)).rows;
+    expect(rows.find((x) => x.source_id === 'arbeitnow')).toMatchObject({ ov: 2, os: 1, u: 1, c: 1 });
+    await expect(db.query('set role anon; select * from ops.freshness_report()')).rejects.toThrow();
+  });
+
+  it('the rollback restores the previous expiry (closed only, no unknown) and leaves every job as it is', async () => {
+    const beyondId = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 20 });
+    await db.exec(readFileSync(new URL('../../supabase/rollback/20261019000000_freshness_policy.down.sql', import.meta.url), 'utf8'));
+    expect((await row(beyondId))!.status).toBe('unknown');
+    await okRun('arbeitnow', 1, 'ok', 5);
+    await job({ source: 'arbeitnow', ageDays: 9, publishedDaysAgo: 12 });
+    expect(await expire()).toBe('ok:expired=0,skipped=remoteok/remotive'); // migration 11's rule: older than the window is left alone, not marked
+    await expect(db.query('select * from ops.freshness_report()')).rejects.toThrow();
   });
 });

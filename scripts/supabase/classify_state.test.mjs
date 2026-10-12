@@ -6,49 +6,55 @@ import { classify, parseInspection, MIGRATIONS } from './classify_state.mjs';
 const load = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}.json`, import.meta.url), 'utf8'));
 const V = MIGRATIONS.map((m) => m.version);
 
-test('fresh project is EMPTY and all eleven migrations are pending', () => {
+test('fresh project is EMPTY and all twelve migrations are pending', () => {
   const r = classify(load('empty'));
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 11);
+  assert.equal(r.pending.length, 12);
   assert.equal(r.safeToPlan, true);
 });
 
 test('database that stops at migration 4 needs the corrective fifth and the service_role grants', () => {
   const r = classify(load('after-1-to-4'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix', '20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261012000000_quota_upsert_fix', '20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
 });
 
 test('a database that stops at migration 6 needs the least-privilege migration and the in-database revalidation', () => {
   const r = classify(load('after-1-to-6'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
   assert.deepEqual(r.problems, []);
 });
 
 test('a database that stops at migration 7 needs the in-database revalidation and the retention', () => {
   const r = classify(load('after-1-to-7'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
   assert.deepEqual(r.problems, []);
 });
 
 test('a database that stops at migration 8 needs the retention and the sources maintenance', () => {
   const r = classify(load('after-1-to-8'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
   assert.deepEqual(r.problems, []);
 });
 
 test('a database that stops at migration 9 (the real project today) needs only the sources maintenance', () => {
   const r = classify(load('after-1-to-9'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
   assert.deepEqual(r.problems, []);
 });
 
-test('fully migrated database has nothing pending (eleven migrations)', () => {
+test('a database at migration 11 has only the freshness policy (12) pending', () => {
   const r = classify(load('after-1-to-11'));
+  assert.equal(r.state, 'CONSISTENT_PARTIAL');
+  assert.deepEqual(r.pending, ['20261019000000_freshness_policy']);
+});
+
+test('fully migrated database has nothing pending (twelve migrations)', () => {
+  const r = classify(load('after-1-to-12'));
   assert.equal(r.state, 'CONSISTENT_UP_TO_DATE');
   assert.deepEqual(r.pending, []);
 });
@@ -140,7 +146,7 @@ const real = () => JSON.parse(readFileSync(new URL('./fixtures/owner-reported-20
 test('real project (PostgreSQL 17.11, no OrbiJob objects, null history) is EMPTY with its justification', () => {
   const r = classify(real());
   assert.equal(r.state, 'EMPTY');
-  assert.equal(r.pending.length, 11);
+  assert.equal(r.pending.length, 12);
   assert.match(r.evidence.join('\n'), /history table .* does not exist/);
   assert.match(r.evidence.join('\n'), /public tables: 0, policies: 0, triggers: 0, buckets: 0/);
 });
@@ -190,7 +196,7 @@ test('an old PostgreSQL major version only warns, PostgreSQL 17 does not', () =>
 test('real project after migrations 1-5: consistent, only the service_role migrations are pending', () => {
   const r = classify(JSON.parse(readFileSync(new URL('./fixtures/real-after-1-to-5-2026-10-09.json', import.meta.url), 'utf8')));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261013000000_service_role_grants', '20261014000000_service_role_least_privilege', '20261015000000_supabase_cron_revalidation', '20261016000000_jobicy_retention', '20261017000000_sources_maintenance', '20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
   assert.deepEqual(r.problems, []);
 });
 
@@ -246,5 +252,5 @@ test('the expiry function existing while the history lacks migration 10 is DRIFT
 test('a database at migration 10 has only the window floor (11) pending', () => {
   const r = classify(load('after-1-to-10'));
   assert.equal(r.state, 'CONSISTENT_PARTIAL');
-  assert.deepEqual(r.pending, ['20261018000000_expire_window_floor']);
+  assert.deepEqual(r.pending, ['20261018000000_expire_window_floor', '20261019000000_freshness_policy']);
 });

@@ -157,9 +157,9 @@ export class World {
         return new Response(null, { status: 201 });
       }
       if (method === 'GET' && (headers.Prefer ?? '').includes('count=exact')) {
-        // a count only: `or=(status.eq.open,status.eq.unknown,description.neq.)` = "full" jobs (open/unknown or still carrying a description)
+        // a count only: `or=(status.eq.open,description.neq.)` = "full" jobs (open or still carrying a description)
         const all = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id'));
-        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status !== 'closed' || String(j.description ?? '') !== '').length : all.length;
+        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status === 'open' || String(j.description ?? '') !== '').length : all.length;
         return new Response('[]', { status: 206, headers: { 'content-type': 'application/json', 'content-range': `0-0/${n}` } });
       }
       if (method === 'GET') {

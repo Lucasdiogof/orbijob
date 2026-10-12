@@ -20,12 +20,12 @@ begin
   -- an ok pass that saw nothing gives no window floor: Arbeitnow is still not judged (migration 20261018000000)
   r := ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['arbeitnow']);
   if r <> 'ok:expired=0,skipped=arbeitnow' then raise exception 'unexpected (no floor): %', r; end if;
-  -- the pass saw one job published 20 days ago: s1 (10 days) is inside the window and gone; s5 (40 days) is beyond it and never judged
+  -- the pass saw one job published 20 days ago: s1 (10 days) is inside the window and gone; s5 (40 days) is beyond it: not closed, marked unknown (migration 20261019000000)
   insert into public.jobs (source_id, external_id, company, title, description, work_mode, last_checked_at, original_url, canonical_url, fingerprint, status, published_at)
     values ('arbeitnow', 's6', 'Acme', 'Role s6', 'a long description', 'unspecified', now(), 'https://www.arbeitnow.com/jobs/s6', 'https://www.arbeitnow.com/jobs/s6', 'fp-sm-s6', 'open', now() - interval '20 days');
   r := ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['arbeitnow']);
-  perform tests.count($q$select 1 from public.jobs where external_id = 's5' and status = 'open'$q$, 1);
-  if r <> 'ok:expired=1' then raise exception 'unexpected expire: %', r; end if;
+  perform tests.count($q$select 1 from public.jobs where external_id = 's5' and status = 'unknown'$q$, 1);
+  if r <> 'ok:expired=1,unknown=1' then raise exception 'unexpected expire: %', r; end if;
   perform tests.count($q$select 1 from public.jobs where external_id = 's1' and status = 'closed' and description = 'a long description'$q$, 1);
   perform tests.count($q$select 1 from public.jobs where external_id = 's2' and status = 'open'$q$, 1);
   if ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['arbeitnow']) <> 'ok:expired=0' then raise exception 'not idempotent'; end if;
