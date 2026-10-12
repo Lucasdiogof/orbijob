@@ -23,6 +23,8 @@ Sem coluna nova: "tipo da última verificação" é o próprio `sync_runs` (`sco
 | Jobicy | 4x/dia (Actions) | **status endpoint** (100 ids/chamada), Supabase Cron 4x/dia + Actions de contingência | `closed` só por resposta "closed" | nunca (não expira por ausência) |
 | Platsbanken (`jobtech`) | 4x/dia: faixas prioritárias + 1.200 mais novas | **`/ad/{id}`** (200 publicada, 404/410 encerrada, `removed`, janela de publicação vencida há > 36 h), do menos recentemente verificado para o mais recente. **Principal: Supabase Cron** (`ops.jobtech_revalidate_start/collect`, 02/08/14/20 :07 UTC, 600 por passada, inclui as `unknown`, que voltam a `open` se ainda publicadas). Contingência: `sources-revalidate.yml` (GitHub, 04/10/16/22 :47, até 3.000 por passada; só `open`) | 404/410/`removed`/janela vencida | `unseen > 7 d` (a revalidação não alcançou): **nunca fecha por ausência** |
 | Arbeitnow | 4x/dia, **8 páginas** (≈ 1.250 anúncios, ≈ 9 dias) a 1 req/4 s | só a **presença** na janela; **não há endpoint por id** nem por slug na API (a página HTML está atrás do Cloudflare e os termos só cobrem a API: não é consultada) | sumiço **dentro** da janela lida (> 7 d) → `closed` | fora da janela (publicada antes da vaga mais antiga que a última passada `ok` viu) e > 7 d sem ver → `unknown` |
+| Taiwan Jobs (`twjobs`) | 2 gatilhos/dia (extract diário às 01:00 de Taiwan) | presença no extract (1.000 registros) e o prazo `STOP_DATE` (vencido = não importa) | — | ausência do extract > 7 d → `unknown`, **nunca `closed`** (é um extract, não o cadastro completo) |
+| Jobs.co.nz (`jobsconz`) | 4 gatilhos/dia (GitHub) | **`/api/v1/jobs/{id}`**: 200 vale até o `expires_at` do próprio anúncio; **404 "No live listing" = encerrada**. **Supabase Cron** (`ops.jobsconz_revalidate_*`, migration 15) a cada 3 h, 100 por passada (limite 120/min sem chave) | 404/410 ou `expires_at` vencido | `unseen > 7 d` (revalidação não alcançou) |
 | Remote OK | 2x/dia | presença no feed (ele lista **tudo** que está aberto) | sumiço do feed > 7 d | nunca |
 | Remotive | 1x/dia | presença no feed (lista tudo) | sumiço do feed > 7 d | nunca |
 
@@ -42,11 +44,12 @@ Das execuções agendadas esperadas entre 05:00 e 16:30 UTC, o GitHub **iniciou*
 | `jobicy-revalidate-start/collect` (Supabase Cron) | Jobicy | 00/06/12/18 :17 (+ coleta :19–:44) | status endpoint, sem chave | sim: Jobicy |
 | `jobicy-revalidate.yml` (Actions) | Jobicy | 00/06/12/18 :17 | contingência da anterior; lease 1/h | Jobicy |
 | `jobicy-discover.yml` | Jobicy | 03/09/15/21 :47 | 200 novas/passada, teto 4.000 | — |
-| `sources-discover.yml` (8 cron) | Arbeitnow 02/08/14/20 :23 e 05/11/17/23 :37 · Remote OK 05/17 :41 e 08/20 :27 · Remotive 06 :53 e 10/22 :51 · Platsbanken 03/09/15/21 :31 e 00/06/12/18 :13 | por fonte | Arbeitnow 300 novas/passada, teto 1.500; Platsbanken 600, teto 3.500; lease 1/h por fonte | — |
+| `sources-discover.yml` (11 cron) | Taiwan Jobs 01/19 :43 e 07 :16 · Jobs.co.nz 03/09/15/21 :05 · Arbeitnow 02/08/14/20 :23 e 05/11/17/23 :37 · Remote OK 05/17 :41 e 08/20 :27 · Remotive 06 :53 e 10/22 :51 · Platsbanken 03/09/15/21 :31 e 00/06/12/18 :13 | por fonte | Arbeitnow 300 novas/passada, teto 1.500; Platsbanken 600, teto 3.500; lease 1/h por fonte | — |
+| `jobsconz-revalidate-start/collect` (Supabase Cron, migration 15) | Jobs.co.nz | 01/04/07/10/13/16/19/22 :37 (+ coleta :41/:45/:52) | 100 `/api/v1/jobs/{id}` por passada | **Jobs.co.nz** |
 | `jobtech-revalidate-start/collect` (Supabase Cron, migration 13) | Platsbanken | 02/08/14/20 :07 (+ coleta :10/:14/:20/:35) | 600 `/ad/{id}` por passada, a menos verificada primeiro; pg_net; lease por (fonte, hora) | **Platsbanken (principal)** |
 | `sources-revalidate.yml` | Platsbanken | 04/10/16/22 :47 | contingência: até 3.000 `/ad/{id}`/passada (4 conexões, ~12 req/s medido); mesma lease | Platsbanken (reserva) |
 | `sources-expire-unseen` (Supabase Cron) | Arbeitnow, Remote OK, Remotive | 04:12 | 500/lote | — |
-| `jobtech-expire-unseen` (Supabase Cron) | Platsbanken | 04:22 | 500/lote | — (rede de segurança: só gera `unknown`) |
+| `jobtech-expire-unseen` (Supabase Cron) | Platsbanken e Jobs.co.nz | 04:22 | 500/lote | — (rede de segurança: só gera `unknown`) |
 | `jobicy-retention` (Supabase Cron) | todas | 04:37 | compacta `closed`/`unknown` > 14 d, apaga > 90 d sem vínculo; **nunca toca `open`** | — |
 | `ops-cron-history-purge` | — | 03:07 | histórico do cron | — |
 | `jobicy-watchdog.yml` | todas | 05:43 e 17:43 | issue de alerta; falha o job se crítico | — |

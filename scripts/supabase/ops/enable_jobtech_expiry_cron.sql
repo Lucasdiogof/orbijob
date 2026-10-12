@@ -1,4 +1,4 @@
--- LIGA a expiracao diaria das vagas da Platsbanken (fonte jobtech) que a busca deles nao lista ha mais de 7 dias. Complementa
+﻿-- LIGA a expiracao diaria das vagas da Platsbanken (jobtech) e do Jobs.co.nz (jobsconz) que a busca deles nao lista ha mais de 7 dias. Complementa
 -- enable_sources_maintenance_cron.sql (que cobre arbeitnow, remoteok e remotive com o padrao da funcao); a funcao ops.expire_unseen_jobs ja aceita
 -- qualquer fonte sem endpoint de status, entao nao ha migration. Fonte sem passada de descoberta 'ok' nas ultimas 36 h nao e julgada.
 --
@@ -15,6 +15,7 @@ begin
   if to_regprocedure('ops.expire_unseen_jobs(text, interval, text[], integer)') is null then
     raise exception 'ativacao bloqueada: a migration 20261017000000 nao foi aplicada';
   end if;
-  perform cron.schedule('jobtech-expire-unseen', '22 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['jobtech'])$cmd$);
+  perform cron.schedule('jobtech-expire-unseen', '22 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['jobtech', 'jobsconz'])$cmd$);
 end
 $enable$;
+
