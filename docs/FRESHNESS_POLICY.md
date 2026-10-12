@@ -9,9 +9,9 @@ Uma vaga só aparece no app se `status = 'open'` **e** `last_checked_at` tem men
 |---|---|---|
 | Comprovadamente aberta | `open` + `last_checked_at` < 72 h | a fonte (status endpoint ou presença no feed completo/janela) |
 | Ainda não revalidada | `open` + `last_checked_at` ≥ 72 h (**oculta** no app) | derivado; `ops.freshness_report()` conta |
-| Desconhecida | `unknown` | `ops.expire_unseen_jobs`, quando nada prova que sumiu (ver abaixo); oculta |
+| Desconhecida | `unknown` | `ops.expire_unseen_jobs`, quando nada prova que sumiu (ver abaixo); oculta; **recupera-se**: 200 do `/ad/{id}` (Supabase) ou nova listagem no feed (descoberta) a devolvem a `open`, com o texto |
 | Comprovadamente encerrada | `closed` | a fonte: 404/410, `removed`, status "closed", ou sumiço de um feed **completo** |
-| Removida da fonte | `closed` (mesmo caso; a retenção compacta em 14 d e apaga em 90 d se ninguém a referencia) | idem |
+| Removida da fonte | `closed` (mesmo caso; a retenção compacta em 14 d e apaga em 90 d se ninguém a referencia). `unknown`: compacta só aos **30 d** (antes, 14 d) e apaga aos 90 d se ninguém a referencia | idem |
 | Verificação falhou | nada muda (`open` segue com a data antiga e a passada termina `partial`/`failed`) | 403, 429, 5xx, timeout, resposta ilegível, feed parcial |
 
 Sem coluna nova: "tipo da última verificação" é o próprio `sync_runs` (`scope` = `discover` | `revalidate`) e "próxima tentativa" é a ordem da revalidação (a menos verificada primeiro).
@@ -21,7 +21,7 @@ Sem coluna nova: "tipo da última verificação" é o próprio `sync_runs` (`sco
 | Fonte | Descoberta | Como a vaga é reconfirmada | Como encerra | Quando vira `unknown` |
 |---|---|---|---|---|
 | Jobicy | 4x/dia (Actions) | **status endpoint** (100 ids/chamada), Supabase Cron 4x/dia + Actions de contingência | `closed` só por resposta "closed" | nunca (não expira por ausência) |
-| Platsbanken (`jobtech`) | 4x/dia: faixas prioritárias + 1.200 mais novas | **`/ad/{id}`** (200 publicada, 404/410 encerrada, `removed`, janela de publicação vencida há > 36 h), do menos recentemente verificado para o mais recente, até 3.000 por passada, 4x/dia (`sources-revalidate.yml`) | 404/410/`removed`/janela vencida | `unseen > 7 d` (a revalidação não alcançou): **nunca fecha por ausência** |
+| Platsbanken (`jobtech`) | 4x/dia: faixas prioritárias + 1.200 mais novas | **`/ad/{id}`** (200 publicada, 404/410 encerrada, `removed`, janela de publicação vencida há > 36 h), do menos recentemente verificado para o mais recente. **Principal: Supabase Cron** (`ops.jobtech_revalidate_start/collect`, 02/08/14/20 :07 UTC, 600 por passada, inclui as `unknown`, que voltam a `open` se ainda publicadas). Contingência: `sources-revalidate.yml` (GitHub, 04/10/16/22 :47, até 3.000 por passada; só `open`) | 404/410/`removed`/janela vencida | `unseen > 7 d` (a revalidação não alcançou): **nunca fecha por ausência** |
 | Arbeitnow | 4x/dia, **8 páginas** (≈ 1.250 anúncios, ≈ 9 dias) a 1 req/4 s | só a **presença** na janela; **não há endpoint por id** nem por slug na API (a página HTML está atrás do Cloudflare e os termos só cobrem a API: não é consultada) | sumiço **dentro** da janela lida (> 7 d) → `closed` | fora da janela (publicada antes da vaga mais antiga que a última passada `ok` viu) e > 7 d sem ver → `unknown` |
 | Remote OK | 2x/dia | presença no feed (ele lista **tudo** que está aberto) | sumiço do feed > 7 d | nunca |
 | Remotive | 1x/dia | presença no feed (lista tudo) | sumiço do feed > 7 d | nunca |
@@ -32,6 +32,9 @@ Sem coluna nova: "tipo da última verificação" é o próprio `sync_runs` (`sco
 * **Remote OK / Remotive:** a ausência de um feed *completo* é a evidência; se a leitura falhar, nada é julgado (a expiração exige uma passada `ok` nas últimas 36 h).
 * **Duplicatas entre fontes** (mesma empresa/cargo/local em fontes distintas): hoje 2 pares em 1.788; a descoberta só deduplica dentro da fonte. Não se elimina nada só por título + empresa.
 
+## Agendador do GitHub: o que se mediu em 12/10/2026
+Das execuções agendadas esperadas entre 05:00 e 16:30 UTC, o GitHub **iniciou** apenas Jobicy discover 11:19 (previsto 09:47), Remote OK 13:30 (previsto 08:xx/05:41), Remotive 16:10 e Platsbanken revalidate 16:10 (previsto 12:47); **não iniciou** Arbeitnow 08:23 e 14:23, Platsbanken 09:31 e 15:31. Por isso: (a) a revalidação da Platsbanken passou para o Supabase Cron (que não descarta); (b) a descoberta ganhou uma segunda série de gatilhos deslocados (a lease torna a repetição inofensiva e uma passada < 1 h depois da anterior recua verde com `skipped (too_soon)`); (c) o watchdog alerta `*_schedule_missed` quando nada agendado roda em 14 h.
+
 ## Automações (estado conferido no banco e no GitHub em 12/10/2026)
 
 | Automação | Fonte | Frequência (UTC) | Limites | Responsável por revalidar |
@@ -39,8 +42,9 @@ Sem coluna nova: "tipo da última verificação" é o próprio `sync_runs` (`sco
 | `jobicy-revalidate-start/collect` (Supabase Cron) | Jobicy | 00/06/12/18 :17 (+ coleta :19–:44) | status endpoint, sem chave | sim: Jobicy |
 | `jobicy-revalidate.yml` (Actions) | Jobicy | 00/06/12/18 :17 | contingência da anterior; lease 1/h | Jobicy |
 | `jobicy-discover.yml` | Jobicy | 03/09/15/21 :47 | 200 novas/passada, teto 4.000 | — |
-| `sources-discover.yml` (4 cron) | Arbeitnow 02/08/14/20 :23 · Remote OK 05/17 :41 · Remotive 06 :53 · Platsbanken 03/09/15/21 :31 | por fonte | Arbeitnow 300 novas/passada, teto 1.500; Platsbanken 600, teto 3.500; lease 1/h por fonte | — |
-| `sources-revalidate.yml` | Platsbanken | 00/06/12/18 :47 | até 3.000 `/ad/{id}`/passada (4 conexões, ~7 req/s, 9 min); lease compartilhada com a descoberta da mesma fonte | Platsbanken |
+| `sources-discover.yml` (8 cron) | Arbeitnow 02/08/14/20 :23 e 05/11/17/23 :37 · Remote OK 05/17 :41 e 08/20 :27 · Remotive 06 :53 e 10/22 :51 · Platsbanken 03/09/15/21 :31 e 00/06/12/18 :13 | por fonte | Arbeitnow 300 novas/passada, teto 1.500; Platsbanken 600, teto 3.500; lease 1/h por fonte | — |
+| `jobtech-revalidate-start/collect` (Supabase Cron, migration 13) | Platsbanken | 02/08/14/20 :07 (+ coleta :10/:14/:20/:35) | 600 `/ad/{id}` por passada, a menos verificada primeiro; pg_net; lease por (fonte, hora) | **Platsbanken (principal)** |
+| `sources-revalidate.yml` | Platsbanken | 04/10/16/22 :47 | contingência: até 3.000 `/ad/{id}`/passada (4 conexões, ~12 req/s medido); mesma lease | Platsbanken (reserva) |
 | `sources-expire-unseen` (Supabase Cron) | Arbeitnow, Remote OK, Remotive | 04:12 | 500/lote | — |
 | `jobtech-expire-unseen` (Supabase Cron) | Platsbanken | 04:22 | 500/lote | — (rede de segurança: só gera `unknown`) |
 | `jobicy-retention` (Supabase Cron) | todas | 04:37 | compacta `closed`/`unknown` > 14 d, apaga > 90 d sem vínculo; **nunca toca `open`** | — |
