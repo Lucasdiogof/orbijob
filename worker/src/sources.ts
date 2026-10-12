@@ -1,5 +1,6 @@
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
 import { jobicyConnector } from './connectors/jobicy';
+import { jobsCoNzConnector } from './connectors/jobsconz';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
@@ -62,6 +63,11 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'taiwanjobs.gov.tw',
     maxPages: 3, newCap: 1000, catalogue: 1500,
     make: (f, n, origin) => taiwanJobsConnector(f, n, { origin }),
+  },
+  jobsconz: {
+    id: 'jobsconz', attribution: 'Jobs via Jobs.co.nz (https://jobs.co.nz), New Zealand', host: 'jobs.co.nz',
+    maxPages: 6, newCap: 400, catalogue: 800,
+    make: (f, n, origin) => jobsCoNzConnector(f, n, { origin }),
   },
 };
 

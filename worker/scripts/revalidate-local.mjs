@@ -31,7 +31,7 @@ const PROJECT_URL = localOnly('ORBIJOB_REHEARSAL_BASE') ?? `https://${REF}.supab
 const JOBICY_ORIGIN = localOnly('ORBIJOB_REHEARSAL_JOBICY');
 const KEY_NAME = 'orbijob_ingest_local';
 const SRC = (process.env.ORBIJOB_SOURCE ?? 'jobicy').trim();
-if (!['jobicy', 'jobtech'].includes(SRC)) { console.error('PARE: ORBIJOB_SOURCE precisa ser jobicy ou jobtech'); process.exit(1); }
+if (!['jobicy', 'jobtech', 'jobsconz'].includes(SRC)) { console.error('PARE: ORBIJOB_SOURCE precisa ser jobicy, jobtech ou jobsconz'); process.exit(1); }
 // Jobicy: 3 min (um lote de 100 ids por requisicao). Jobtech: 1 requisicao por id, entao o orcamento e maior (ORBIJOB_BUDGET_MIN, 1 a 10).
 const BUDGET_MIN = Number(process.env.ORBIJOB_BUDGET_MIN ?? 3);
 if (!(BUDGET_MIN >= 1 && BUDGET_MIN <= 10)) { console.error('PARE: ORBIJOB_BUDGET_MIN precisa estar entre 1 e 10'); process.exit(1); }

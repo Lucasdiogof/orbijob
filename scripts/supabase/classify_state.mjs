@@ -21,6 +21,7 @@ export const MIGRATIONS = [
   { version: '20261019000000', name: 'freshness_policy' },
   { version: '20261020000000', name: 'jobtech_revalidation' },
   { version: '20261021000000', name: 'expire_by_evidence' },
+  { version: '20261022000000', name: 'jobsconz_revalidation' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -68,6 +69,8 @@ function signatures(i) {
     (i.ops_functions ?? []).includes('jobtech_revalidate_start') && (i.ops_functions ?? []).includes('jobtech_revalidate_collect'),
     // migration 14 adds the single rule that says how a source is judged when its jobs stop being listed
     (i.ops_functions ?? []).includes('expiry_rule'),
+    // migration 15 adds the in-database revalidation of Jobs.co.nz (start + collect)
+    (i.ops_functions ?? []).includes('jobsconz_revalidate_start') && (i.ops_functions ?? []).includes('jobsconz_revalidate_collect'),
   ];
 }
 
