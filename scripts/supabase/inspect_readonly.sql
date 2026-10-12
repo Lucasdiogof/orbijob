@@ -12,6 +12,8 @@ select jsonb_pretty(jsonb_build_object(
   'connected_as', current_user,
   'schemas', (select coalesce(jsonb_agg(nspname order by nspname), '[]') from pg_namespace
               where nspname !~ '^pg_' and nspname <> 'information_schema'),
+  'ops_tables', (select coalesce(jsonb_agg(c.relname order by c.relname), '[]') from pg_class c
+                 where c.relnamespace = to_regnamespace('ops') and c.relkind in ('r', 'p')),
   'extensions', (select coalesce(jsonb_agg(jsonb_build_object('name', e.extname, 'schema', n.nspname, 'version', e.extversion)
                                            order by e.extname), '[]')
                  from pg_extension e join pg_namespace n on n.oid = e.extnamespace),

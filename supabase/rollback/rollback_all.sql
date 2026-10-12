@@ -30,7 +30,7 @@ drop policy if exists resumes_objects_delete on storage.objects;
 do $$
 begin
   if to_regnamespace('cron') is not null then
-    perform cron.unschedule(jobname) from cron.job where jobname in ('jobicy-revalidate-start', 'jobicy-revalidate-collect', 'ops-cron-history-purge');
+    perform cron.unschedule(jobname) from cron.job where jobname in ('jobicy-revalidate-start', 'jobicy-revalidate-collect', 'ops-cron-history-purge', 'jobicy-retention');
   end if;
 end $$;
 drop schema if exists ops cascade;

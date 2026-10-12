@@ -639,5 +639,8 @@
       "owner": "postgres",
       "object_type": "r"
     }
+  ],
+  "ops_tables": [
+    "revalidation_batches"
   ]
 }
