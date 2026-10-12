@@ -188,17 +188,18 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_DISCOVERY_ENABLED == 'true'/);
     expect(c).toMatch(/default: check/);
     expect(c).toMatch(/options: \[check, preview, discover\]/);
-    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive\]/);
+    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech\]/);
     const step = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
     expect(step).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'\)/);
   });
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *']);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *']);
     expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
     expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
     expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
+    expect(c).toMatch(/'31 3,9,15,21 \* \* \*'\)\s+s=jobtech/);
     const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
     expect(on).not.toMatch(/push:|pull_request|pull_request_target|workflow_run|issue_comment|repository_dispatch/);
     for (const cron of crons) expect(Number(cron.split(' ')[0])).toBeGreaterThan(0); // never minute 0
@@ -238,7 +239,7 @@ describe('sources-discover.yml', () => {
     const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
     expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
     expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_|wrangler|supabase db|--prompt-key|revalidate-local/);
-    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\) ;; \*\) .*exit 1/);
+    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\) ;; \*\) .*exit 1/);
   });
 
   it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {

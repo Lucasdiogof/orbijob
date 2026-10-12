@@ -1,0 +1,1325 @@
+{
+ "total": {
+  "value": 39458
+ },
+ "hits": [
+  {
+   "relevance": 1,
+   "id": "31578788",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31578788",
+   "logo_url": null,
+   "headline": "Fysioterapeut till Kommunal primärvård, Lysekils kommun",
+   "application_deadline": "2026-10-31T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "I Lysekils kommun arbetar vi för att vara en hållbar och attraktiv kommun året runt, som kännetecknas av kreativitet och framtidstro. Du som arbetar här gör en viktig skillnad i människors vardag och bygger ett samhälle för alla. Vi är idag ca 1400 kollegor som utvecklar våra verksamheter och ger 13 900 invånare, 1 600 företag och 100 föreningar bästa möjliga service och förutsättningar att bo, le",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "http://www.lysekil.se/",
+    "organization_number": "2120001389",
+    "name": "Lysekils kommun",
+    "workplace": "Vård och Omsorg"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://lysekil.varbi.com/se/what:job/jobID:978252/type:job/where:125/apply:1",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": true,
+   "driving_license": [
+    {
+     "concept_id": "VTK8_WRx_GcM",
+     "label": "B",
+     "legacy_ams_taxonomy_id": "3"
+    }
+   ],
+   "occupation": {
+    "concept_id": "raVz_oTw_N3e",
+    "label": "Fysioterapeut/Sjukgymnast",
+    "legacy_ams_taxonomy_id": "5727"
+   },
+   "occupation_group": {
+    "concept_id": "s7vU_FhY_L5Z",
+    "label": "Fysioterapeuter och sjukgymnaster",
+    "legacy_ams_taxonomy_id": "2272"
+   },
+   "occupation_field": {
+    "concept_id": "NYW6_mP6_vwf",
+    "label": "Hälso- och sjukvård",
+    "legacy_ams_taxonomy_id": "8"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Lysekil",
+    "municipality_code": "1484",
+    "municipality_concept_id": "z2cX_rjC_zFo",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Lysekil",
+    "coordinates": [
+     11.8850876,
+     58.348458
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [
+     {
+      "weight": 5,
+      "concept_id": "raVz_oTw_N3e",
+      "label": "Fysioterapeut/Sjukgymnast",
+      "legacy_ams_taxonomy_id": "5727"
+     }
+    ],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-09T15:29:37",
+   "last_publication_date": "2026-10-31T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791552577588
+  },
+  {
+   "relevance": 1,
+   "id": "31578524",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31578524",
+   "logo_url": null,
+   "headline": "Fysioterapeut sökes till Västerås, Norlandia Care",
+   "application_deadline": "2026-11-30T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Vill du vara med och utveckla framtidens äldreomsorg tillsammans med oss? Är du fysioterapeut och har ett stort engagemang och en vilja att bidra till att våra boende får en kvalitativ vård och omsorg? Då är du vår nya kollega!\nVad innebär jobbet som fysioterapeut på Norlandia Äldreomsorg?\nSom fysioterapeut ansvarar du för fysioterapeutiska bedömningar i syfte att återställa eller upprätthålla den",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "https://jobb.norlandia.se",
+    "organization_number": "5565762266",
+    "name": "Norlandia Care AB",
+    "workplace": "Norlandia Äldreomsorg"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://jobb.norlandia.se/jobs/8525868-fysioterapeut-sokes-till-vasteras-norlandia-care?promotion=2239246-arbetsformedlingen",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "raVz_oTw_N3e",
+    "label": "Fysioterapeut/Sjukgymnast",
+    "legacy_ams_taxonomy_id": "5727"
+   },
+   "occupation_group": {
+    "concept_id": "s7vU_FhY_L5Z",
+    "label": "Fysioterapeuter och sjukgymnaster",
+    "legacy_ams_taxonomy_id": "2272"
+   },
+   "occupation_field": {
+    "concept_id": "NYW6_mP6_vwf",
+    "label": "Hälso- och sjukvård",
+    "legacy_ams_taxonomy_id": "8"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Västerås",
+    "municipality_code": "1980",
+    "municipality_concept_id": "8deT_FRF_2SP",
+    "region": "Västmanlands län",
+    "region_code": "19",
+    "region_concept_id": "G6DV_fKE_Viz",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Västerås",
+    "coordinates": [
+     16.5390751197992,
+     59.6493043302271
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-09T15:06:45",
+   "last_publication_date": "2026-11-30T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791551205390
+  },
+  {
+   "relevance": 1,
+   "id": "31577867",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31577867",
+   "logo_url": null,
+   "headline": "Fysioterapeut, deltid 50%",
+   "application_deadline": "2026-10-30T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Om oss\nCapio Läkargruppen är ett specialistsjukhus centralt beläget i Örebro. Vi är en varm och inkluderande arbetsplats med nära samarbete mellan de olika specialistkompetenserna som vi har samlat på vårt sjukhus. Arbetsplatsen präglas av en hög serviceanda gentemot våra patienter, våra kunder och varandra.\nVår vision är att vara den bästa servicegivaren i Sverige, så för oss är kvalitet och serv",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "947z_JGS_Uk2",
+    "label": "Deltid",
+    "legacy_ams_taxonomy_id": "2"
+   },
+   "scope_of_work": {
+    "min": 0,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "https://jobba.capio.se",
+    "organization_number": "5560625237",
+    "name": "Capio Sverige AB",
+    "workplace": "Capio"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://jobba.capio.se/jobs/8520022-fysioterapeut-deltid-50/applications/new?promotion=2238986-arbetsformedlingen",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "raVz_oTw_N3e",
+    "label": "Fysioterapeut/Sjukgymnast",
+    "legacy_ams_taxonomy_id": "5727"
+   },
+   "occupation_group": {
+    "concept_id": "s7vU_FhY_L5Z",
+    "label": "Fysioterapeuter och sjukgymnaster",
+    "legacy_ams_taxonomy_id": "2272"
+   },
+   "occupation_field": {
+    "concept_id": "NYW6_mP6_vwf",
+    "label": "Hälso- och sjukvård",
+    "legacy_ams_taxonomy_id": "8"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Örebro",
+    "municipality_code": "1880",
+    "municipality_concept_id": "kuMn_feU_hXx",
+    "region": "Örebro län",
+    "region_code": "18",
+    "region_concept_id": "xTCk_nT5_Zjm",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Örebro",
+    "coordinates": [
+     15.2216362902311,
+     59.2722509634124
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [
+     {
+      "weight": null,
+      "concept_id": "seSm_rEC_9fU",
+      "label": "Fysioterapeutexamen",
+      "legacy_ams_taxonomy_id": "609127"
+     }
+    ],
+    "languages": [],
+    "work_experiences": [],
+    "education": [
+     {
+      "weight": 5,
+      "concept_id": "4Yyd_cXY_81C",
+      "label": "Socialt arbete och omsorg",
+      "legacy_ams_taxonomy_id": "21"
+     }
+    ],
+    "education_level": [
+     {
+      "weight": 5,
+      "concept_id": "asZm_TEQ_Srk",
+      "label": "Eftergymnasial utbildning två år eller längre",
+      "legacy_ams_taxonomy_id": "6"
+     }
+    ]
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-09T14:06:16",
+   "last_publication_date": "2026-10-30T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791547576074
+  },
+  {
+   "relevance": 0,
+   "id": "31581776",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31581776",
+   "logo_url": null,
+   "headline": "Skolkurator",
+   "application_deadline": "2026-11-08T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Ibland räcker det med en person som lyssnar – kan det vara du?Hos oss får du möjlighet att göra just det, varje dag.\nArbetsplatsen\nKarlsborgs kommun har en central barn- och elevhälsa vars övergripande mål är att bidra till en positiv uppväxt och lärandesituation för alla barn och elever i kommunen. Målsättningen är att alla barn och elever ska få det stöd eller utmaning som de behöver i sitt lära",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "https://www.karlsborg.se/naringsliv--arbete/jobba-hos-oss/lediga-jobb/",
+    "organization_number": "2120001629",
+    "name": "Karlsborgs kommun",
+    "workplace": "Barn- och utbildningsförvaltningen, Barn- och elevhälsan"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://karlsborg.varbi.com/se/what:job/jobID:977714/type:job/where:125/apply:1",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": true,
+   "driving_license": [
+    {
+     "concept_id": "VTK8_WRx_GcM",
+     "label": "B",
+     "legacy_ams_taxonomy_id": "3"
+    }
+   ],
+   "occupation": {
+    "concept_id": "31sh_tuy_pwG",
+    "label": "Skolkurator",
+    "legacy_ams_taxonomy_id": "1969"
+   },
+   "occupation_group": {
+    "concept_id": "dJXy_Rpq_a2u",
+    "label": "Kuratorer",
+    "legacy_ams_taxonomy_id": "2662"
+   },
+   "occupation_field": {
+    "concept_id": "GazW_2TU_kJw",
+    "label": "Yrken med social inriktning",
+    "legacy_ams_taxonomy_id": "16"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Karlsborg",
+    "municipality_code": "1446",
+    "municipality_concept_id": "e413_94L_hdh",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Karlsborg",
+    "coordinates": [
+     14.1437835,
+     58.4288024
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [
+     {
+      "weight": 5,
+      "concept_id": "31sh_tuy_pwG",
+      "label": "Skolkurator",
+      "legacy_ams_taxonomy_id": "1969"
+     }
+    ],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-12T08:07:04",
+   "last_publication_date": "2026-11-08T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791785224416
+  },
+  {
+   "relevance": 0,
+   "id": "31581774",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31581774",
+   "logo_url": null,
+   "headline": "Neonatalavdelningen söker Sjuksköterska/Barnsjuksköterska",
+   "application_deadline": "2026-10-23T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Skaraborgs Sjukhus – där engagemang, omtanke och kompetens möts.\nMed över 4 000 medarbetare inom ett trettiotal specialistområden arbetar vi tillsammans för att bedriva trauma- och specialistsjukvård i framkant. Vår verksamhet finns i hela Skaraborg – och vi gör skillnad för våra invånare varje dag.\nHos oss möter du kollegor som stöttar varandra i en miljö där det finns utrymme att utvecklas och t",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "http://www.vgregion.se/sokjobb",
+    "organization_number": "2321000131",
+    "name": "VÄSTRA GÖTALANDSREGIONEN",
+    "workplace": "Skaraborgs Sjukhus, * Verksamhetsområde 1, Neonatalavdelningen"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://vgregion.varbi.com/se/what:job/jobID:977961/type:job/where:125/apply:1",
+    "other": null
+   },
+   "experience_required": false,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "CQBS_ZSZ_ViP",
+    "label": "Barnsjuksköterska",
+    "legacy_ams_taxonomy_id": "5759"
+   },
+   "occupation_group": {
+    "concept_id": "NFUg_y9y_1TY",
+    "label": "Barnsjuksköterskor",
+    "legacy_ams_taxonomy_id": "2232"
+   },
+   "occupation_field": {
+    "concept_id": "NYW6_mP6_vwf",
+    "label": "Hälso- och sjukvård",
+    "legacy_ams_taxonomy_id": "8"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Skövde",
+    "municipality_code": "1496",
+    "municipality_concept_id": "fqAy_4ji_Lz2",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Skövde",
+    "coordinates": [
+     13.8317211,
+     58.3875497
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [
+     {
+      "weight": 5,
+      "concept_id": "CQBS_ZSZ_ViP",
+      "label": "Barnsjuksköterska",
+      "legacy_ams_taxonomy_id": "5759"
+     }
+    ],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-12T08:06:43",
+   "last_publication_date": "2026-10-23T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791785203088
+  },
+  {
+   "relevance": 0,
+   "id": "31581772",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31581772",
+   "logo_url": null,
+   "headline": "Svetsare till MVUSAB",
+   "application_deadline": "2026-11-06T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Om tjänsten\nÄr du en erfaren svetsare som letar efter nästa steg i karriären? Nu söker vi dig som vill bli en del av MVUSAB, där kvalitet och laganda står i fokus.\nRollen som svetsare innefattar varierande uppdrag både i verkstaden och ute hos MVUSAB:s kunder. Arbetsuppgifterna innefattar svetsning i svart och rostfritt material (MIG/MAG, TIG), från små till mycket stora detaljer. Du ansvarar för ",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "qQUd_4qe_NDT",
+    "label": "6 månader eller längre",
+    "legacy_ams_taxonomy_id": "2"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "https://jobb.dalaindustrisupport.se",
+    "organization_number": "5591612709",
+    "name": "Dala Industrisupport AB",
+    "workplace": "Dala Industrisupport"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://jobb.dalaindustrisupport.se/jobs/8209127-svetsare-till-mvusab/applications/new?promotion=2240325-arbetsformedlingen",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "wf1E_nWA_EJp",
+    "label": "Svetsare, manuell",
+    "legacy_ams_taxonomy_id": "5945"
+   },
+   "occupation_group": {
+    "concept_id": "wQ1E_Bzk_ZyA",
+    "label": "Svetsare och gasskärare",
+    "legacy_ams_taxonomy_id": "7212"
+   },
+   "occupation_field": {
+    "concept_id": "wTEr_CBC_bqh",
+    "label": "Industriell tillverkning",
+    "legacy_ams_taxonomy_id": "9"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Smedjebacken",
+    "municipality_code": "2061",
+    "municipality_concept_id": "5zZX_8FH_Sbq",
+    "region": "Dalarnas län",
+    "region_code": "20",
+    "region_concept_id": "oDpK_oZ2_WYt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Smedjebacken",
+    "coordinates": [
+     15.3930400114215,
+     60.1354029968275
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-10-12T08:06:38",
+   "last_publication_date": "2026-11-06T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1791785198794
+  },
+  {
+   "relevance": 1,
+   "id": "31513326",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31513326",
+   "logo_url": null,
+   "headline": "Android Developer",
+   "application_deadline": "2026-10-23T23:59:59",
+   "number_of_vacancies": 2,
+   "description": {
+    "text": "For our client, we're looking for an Experienced Android developer: \nWhat we're looking for: An experienced Android developer who is passionate about creating customer-facing experiences in automotive infotainment systems. In this role, you will primarily develop and maintain Android applications and features used by our customers every day, focused on profile management and multi-user functionali",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "sTu5_NBQ_udq",
+    "label": "Tidsbegränsad anställning",
+    "legacy_ams_taxonomy_id": null
+   },
+   "salary_type": {
+    "concept_id": "asrX_9Df_ukn",
+    "label": "Fast och rörlig lön",
+    "legacy_ams_taxonomy_id": "7"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "9RGe_UxD_FZw",
+    "label": "12 månader – upp till 2 år",
+    "legacy_ams_taxonomy_id": "9"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": null,
+    "organization_number": "5590024880",
+    "name": "Netonyx AB",
+    "workplace": "Netonyx AB"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": null,
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "n2kJ_qFK_x2K",
+    "label": "Mobilutvecklare/Apputvecklare",
+    "legacy_ams_taxonomy_id": "7754"
+   },
+   "occupation_group": {
+    "concept_id": "DJh5_yyF_hEM",
+    "label": "Mjukvaru- och systemutvecklare m.fl.",
+    "legacy_ams_taxonomy_id": "2512"
+   },
+   "occupation_field": {
+    "concept_id": "apaJ_2ja_LuF",
+    "label": "Data/IT",
+    "legacy_ams_taxonomy_id": "3"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Stockholm",
+    "municipality_code": "0180",
+    "municipality_concept_id": "AvNB_uwa_6n6",
+    "region": "Stockholms län",
+    "region_code": "01",
+    "region_concept_id": "CifL_Rzy_Mku",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": null,
+    "coordinates": [
+     null,
+     null
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [
+     {
+      "weight": 10,
+      "concept_id": "NVxJ_hLg_TYS",
+      "label": "Engelska",
+      "legacy_ams_taxonomy_id": "283"
+     }
+    ],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [
+     {
+      "weight": 5,
+      "concept_id": "n2kJ_qFK_x2K",
+      "label": "Mobilutvecklare/Apputvecklare",
+      "legacy_ams_taxonomy_id": "7754"
+     }
+    ],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-09-23T19:57:50",
+   "last_publication_date": "2026-10-23T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_ANNONSERA",
+   "timestamp": 1790186270664
+  },
+  {
+   "relevance": 1,
+   "id": "31364026",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31364026",
+   "logo_url": null,
+   "headline": "Android Developer",
+   "application_deadline": "2027-02-14T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "About Us\nMullvad VPN is a Swedish VPN company dedicated to fighting mass surveillance and censorship. We do this primarily through our VPN service and our privacy-focused web browser. Over the years, we have been pioneers when it comes to VPN technology and we intend to remain trailblazers. Everything we do is built with our users’ security and privacy first — with the ambition of making mass surv",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": "https://www.mullvad.careers",
+    "organization_number": "5592384001",
+    "name": "Mullvad VPN AB",
+    "workplace": "Mullvad VPN"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://www.mullvad.careers/jobs/8217913-android-developer/applications/new?promotion=2149408-arbetsformedlingen",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "n2kJ_qFK_x2K",
+    "label": "Mobilutvecklare/Apputvecklare",
+    "legacy_ams_taxonomy_id": "7754"
+   },
+   "occupation_group": {
+    "concept_id": "DJh5_yyF_hEM",
+    "label": "Mjukvaru- och systemutvecklare m.fl.",
+    "legacy_ams_taxonomy_id": "2512"
+   },
+   "occupation_field": {
+    "concept_id": "apaJ_2ja_LuF",
+    "label": "Data/IT",
+    "legacy_ams_taxonomy_id": "3"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Göteborg",
+    "municipality_code": "1480",
+    "municipality_concept_id": "PVZL_BQT_XtL",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Göteborg",
+    "coordinates": [
+     11.9759941466062,
+     57.6983193452787
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-08-18T10:19:56",
+   "last_publication_date": "2027-02-14T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1787041196158
+  },
+  {
+   "relevance": 0.9781049385800245,
+   "id": "31478389",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31478389",
+   "logo_url": null,
+   "headline": "Android Software Engineer",
+   "application_deadline": "2026-10-15T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Utveckla Android-applikationer och plattformsnära funktioner för profilhantering och fleranvändarupplevelser i nästa generations fordonsinfotainment.\nVill du utveckla kundnära digitala upplevelser i moderna infotainmentsystem? Här får du arbeta med Android-applikationer och plattformsfunktioner för profilhantering och fleranvändarstöd. Du blir en viktig del av ett tvärfunktionellt team inom fordon",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": null,
+    "organization_number": "5593595258",
+    "name": "Agile Resources AB",
+    "workplace": "Agile Resources AB"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://recruit.agile.nu/apply/jp-8c0d121036768b85?source=platsbanken",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "rQds_YGd_quU",
+    "label": "Mjukvaruutvecklare",
+    "legacy_ams_taxonomy_id": "80"
+   },
+   "occupation_group": {
+    "concept_id": "DJh5_yyF_hEM",
+    "label": "Mjukvaru- och systemutvecklare m.fl.",
+    "legacy_ams_taxonomy_id": "2512"
+   },
+   "occupation_field": {
+    "concept_id": "apaJ_2ja_LuF",
+    "label": "Data/IT",
+    "legacy_ams_taxonomy_id": "3"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Göteborg",
+    "municipality_code": "1480",
+    "municipality_concept_id": "PVZL_BQT_XtL",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Göteborg",
+    "coordinates": [
+     11.937006084431701,
+     57.70834641547789
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-09-15T11:15:39",
+   "last_publication_date": "2026-10-15T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1789463739015
+  },
+  {
+   "relevance": 0.9781049385800245,
+   "id": "31478379",
+   "external_id": null,
+   "original_id": null,
+   "label": [],
+   "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31478379",
+   "logo_url": null,
+   "headline": "Android Software Engineer",
+   "application_deadline": "2026-10-15T23:59:59",
+   "number_of_vacancies": 1,
+   "description": {
+    "text": "Utveckla Android-applikationer och plattformsnära funktioner för profilhantering och fleranvändarupplevelser i nästa generations fordonsinfotainment.\nVill du utveckla kundnära digitala upplevelser i moderna infotainmentsystem? Här får du arbeta med Android-applikationer och plattformsfunktioner för profilhantering och fleranvändarstöd. Du blir en viktig del av ett tvärfunktionellt team inom fordon",
+    "text_formatted": null,
+    "company_information": null,
+    "needs": null,
+    "requirements": null,
+    "conditions": null
+   },
+   "employment_type": {
+    "concept_id": "PFZr_Syz_cUq",
+    "label": "Vanlig anställning",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_type": {
+    "concept_id": "oG8G_9cW_nRf",
+    "label": "Fast månads- vecko- eller timlön",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "salary_description": null,
+   "duration": {
+    "concept_id": "a7uU_j21_mkL",
+    "label": "Tills vidare",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "working_hours_type": {
+    "concept_id": "6YE1_gAC_R2G",
+    "label": "Heltid",
+    "legacy_ams_taxonomy_id": "1"
+   },
+   "scope_of_work": {
+    "min": 100,
+    "max": 100
+   },
+   "access": null,
+   "employer": {
+    "phone_number": null,
+    "email": null,
+    "url": null,
+    "organization_number": "5593595258",
+    "name": "Agile Resources AB",
+    "workplace": "Agile Resources AB"
+   },
+   "application_details": {
+    "information": null,
+    "reference": null,
+    "email": null,
+    "via_af": false,
+    "url": "https://recruit.agile.nu/apply/jp-8c0d121036768b85?source=platsbanken",
+    "other": null
+   },
+   "experience_required": true,
+   "access_to_own_car": false,
+   "driving_license_required": false,
+   "driving_license": null,
+   "occupation": {
+    "concept_id": "rQds_YGd_quU",
+    "label": "Mjukvaruutvecklare",
+    "legacy_ams_taxonomy_id": "80"
+   },
+   "occupation_group": {
+    "concept_id": "DJh5_yyF_hEM",
+    "label": "Mjukvaru- och systemutvecklare m.fl.",
+    "legacy_ams_taxonomy_id": "2512"
+   },
+   "occupation_field": {
+    "concept_id": "apaJ_2ja_LuF",
+    "label": "Data/IT",
+    "legacy_ams_taxonomy_id": "3"
+   },
+   "workplace_model": {
+    "concept_id": null,
+    "label": null
+   },
+   "workplace_address": {
+    "municipality": "Göteborg",
+    "municipality_code": "1480",
+    "municipality_concept_id": "PVZL_BQT_XtL",
+    "region": "Västra Götalands län",
+    "region_code": "14",
+    "region_concept_id": "zdoY_6u5_Krt",
+    "country": "Sverige",
+    "country_code": "199",
+    "country_concept_id": "i46j_HmG_v64",
+    "street_address": null,
+    "postcode": null,
+    "city": "Göteborg",
+    "coordinates": [
+     11.937006084431701,
+     57.70834641547789
+    ]
+   },
+   "workplace_addresses": [],
+   "must_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "nice_to_have": {
+    "skills": [],
+    "languages": [],
+    "work_experiences": [],
+    "education": [],
+    "education_level": []
+   },
+   "application_contacts": [],
+   "publication_date": "2026-09-15T11:15:18",
+   "last_publication_date": "2026-10-15T23:59:59",
+   "removed": false,
+   "removed_date": null,
+   "source_type": "VIA_JOBPOSTING",
+   "timestamp": 1789463718859
+  }
+ ]
+}

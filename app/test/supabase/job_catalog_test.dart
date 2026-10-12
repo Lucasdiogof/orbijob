@@ -202,7 +202,7 @@ void main() {
         expect(
           or,
           '(search.wfts(simple).Flutter Developer,title.ilike.*Flutter Developer*,city.ilike.*Flutter Developer*,'
-          'title.ilike.*desenvolvedor*,title.ilike.*desarrollador*,title.ilike.*entwickler*)',
+          'title.ilike.*desenvolvedor*,title.ilike.*desarrollador*,title.ilike.*entwickler*,title.ilike.*utvecklare*)',
         );
       },
     );

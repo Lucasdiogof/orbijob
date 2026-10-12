@@ -249,6 +249,7 @@ const _sourceNames = {
   'arbeitnow': 'Arbeitnow',
   'remoteok': 'Remote OK',
   'remotive': 'Remotive',
+  'jobtech': 'Arbetsförmedlingen',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

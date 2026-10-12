@@ -4,5 +4,6 @@
 insert into public.job_sources (id, status, attribution, can_redistribute) values
   ('arbeitnow', 'CONDITIONAL', 'Jobs via Arbeitnow (https://www.arbeitnow.com)', false),
   ('remoteok',  'CONDITIONAL', 'Remote jobs via Remote OK (https://remoteok.com)', false),
-  ('remotive',  'CONDITIONAL', 'Remote jobs via Remotive (https://remotive.com)', false)
+  ('remotive',  'CONDITIONAL', 'Remote jobs via Remotive (https://remotive.com)', false),
+  ('jobtech',   'CONDITIONAL', 'Jobs via Arbetsförmedlingen / Platsbanken (https://arbetsformedlingen.se), open data CC0 from JobTech Dev', false)
 on conflict (id) do nothing;

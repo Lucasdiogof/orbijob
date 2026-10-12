@@ -1,5 +1,6 @@
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
 import { jobicyConnector } from './connectors/jobicy';
+import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
 
 /**
@@ -48,6 +49,11 @@ export const SOURCES: Record<string, SourceProfile> = {
     id: 'remotive', attribution: 'Remote jobs via Remotive (https://remotive.com)', host: 'remotive.com',
     maxPages: 1, newCap: 100, catalogue: 200,
     make: (f, n, origin) => remotiveConnector(f, n, { origin }),
+  },
+  jobtech: {
+    id: 'jobtech', attribution: 'Jobs via Arbetsförmedlingen / Platsbanken (https://arbetsformedlingen.se), open data CC0 from JobTech Dev', host: 'arbetsformedlingen.se',
+    maxPages: JOBTECH_PASS_PAGES, pageWindow: true, newCap: 600, catalogue: 3500,
+    make: (f, n, origin) => jobtechConnector(f, n, { origin }),
   },
 };
 

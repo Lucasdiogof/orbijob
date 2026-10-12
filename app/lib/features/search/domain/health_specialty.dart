@@ -16,6 +16,8 @@ enum HealthSpecialty {
     'kinesiolog',
     'cinesiolog',
     'krankengymnast',
+    'fysioterapeut',
+    'sjukgymnast',
   ]),
   pelvicPhysio([
     'pelvic',
@@ -30,6 +32,7 @@ enum HealthSpecialty {
     "women's health physio",
     'womens health physio',
     'saúde da mulher',
+    'bäckenbotten',
   ]),
   nursing([
     'nurse',
@@ -42,6 +45,7 @@ enum HealthSpecialty {
     'pflegefachkraft',
     'gesundheits- und krankenpfleg',
     'krankenschwester',
+    'sjuksköterska',
   ]),
   medicine([
     'physician',
@@ -68,6 +72,7 @@ enum HealthSpecialty {
     'oberarzt',
     'ärztin',
     'facharzt',
+    'läkare',
   ]),
   psychology([
     'psycholog',
@@ -77,12 +82,14 @@ enum HealthSpecialty {
     'psicoterap',
     'counselor',
     'counsellor',
+    'psykolog',
   ]),
   occupationalTherapy([
     'occupational therap',
     'terapeuta ocupacional',
     'terapia ocupacional',
     'ergotherap',
+    'arbetsterapeut',
   ]),
   nutrition([
     'dietitian',
@@ -90,6 +97,7 @@ enum HealthSpecialty {
     'nutritionist',
     'nutricionista',
     'ernährungsberat',
+    'dietist',
   ]),
   dentistry([
     'dentist',
@@ -99,6 +107,9 @@ enum HealthSpecialty {
     'cirurgião-dentista',
     'zahnarzt',
     'zahnärzt',
+    'tandläkare',
+    'tandsköterska',
+    'tandhygienist',
   ]),
   pharmacy([
     'pharmacist',
@@ -106,6 +117,8 @@ enum HealthSpecialty {
     'farmacêutic',
     'farmacéutic',
     'apotheker',
+    'apotekare',
+    'receptarie',
   ]),
   speechTherapy([
     'speech therap',
@@ -115,6 +128,7 @@ enum HealthSpecialty {
     'fonoaudiolog',
     'logopäd',
     'logopeda',
+    'logoped',
   ]),
   radiology([
     'radiolog',
@@ -124,6 +138,7 @@ enum HealthSpecialty {
     'técnico em radiologia',
     'tecnólogo em radiologia',
     'mri tech',
+    'röntgen',
   ]),
   hospitalManagement([
     'hospital administrator',

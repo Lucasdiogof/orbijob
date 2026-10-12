@@ -1,4 +1,4 @@
-# Descoberta incremental das fontes de vagas alem do Jobicy (Arbeitnow, Remote OK, Remotive), 100% gratuita (repositorio publico + runner padrao).
+# Descoberta incremental das fontes de vagas alem do Jobicy (Arbeitnow, Remote OK, Remotive, Platsbanken), 100% gratuita (repositorio publico + runner padrao).
 #
 # O QUE FAZ: le o feed oficial da fonte e INSERE somente as vagas que ainda nao estao no banco; as que o feed ainda lista e ja estao gravadas (abertas)
 # so tem a data de verificacao renovada (essas fontes nao tem endpoint de status: estar no feed e a prova de que a vaga segue aberta). NAO atualiza
@@ -11,7 +11,8 @@
 # Cada fonte tem a SUA lease (uma passada por hora por fonte), independente da do Jobicy e da revalidacao.
 #
 # Ritmos (respeitam o que cada fonte diz): Arbeitnow 4x/dia (paginas lentas: o Cloudflare deles desafia rajadas; no primeiro desafio a passada para);
-# Remote OK 2x/dia; Remotive 1x/dia (README: no maximo 4 consultas por dia, vagas atrasadas 24 h).
+# Remote OK 2x/dia; Remotive 1x/dia (README: no maximo 4 consultas por dia, vagas atrasadas 24 h);
+# Platsbanken (jobtech, Arbetsformedlingen, CC0, sem chave) 4x/dia, 1 requisicao por segundo, ~25 paginas por passada.
 # Credencial: UM segredo, ORBIJOB_SYNC_WORKER_KEY, no ENVIRONMENT "jobicy-revalidation" (restrito a main), entregue so aos passos que o usam.
 name: Sources discover
 
@@ -20,12 +21,13 @@ on:
     - cron: '23 2,8,14,20 * * *'
     - cron: '41 5,17 * * *'
     - cron: '53 6 * * *'
+    - cron: '31 3,9,15,21 * * *'
   workflow_dispatch:
     inputs:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive]
+        options: [arbeitnow, remoteok, remotive, jobtech]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -78,9 +80,10 @@ jobs:
             '23 2,8,14,20 * * *') s=arbeitnow ;;
             '41 5,17 * * *')      s=remoteok ;;
             '53 6 * * *')         s=remotive ;;
+            '31 3,9,15,21 * * *') s=jobtech ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

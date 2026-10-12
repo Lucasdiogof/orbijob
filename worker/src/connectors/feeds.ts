@@ -22,7 +22,7 @@ import type { Connector, FetchPage, NormalizedJob, WorkMode } from '../types';
 const USER_AGENT = 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)';
 
 /** GET JSON; an HTML answer (a challenge page, an error page) is a non-retryable 403 so the retry layer never hammers a gate. */
-async function getFeed<T>(fetchImpl: typeof fetch, url: string, timeoutMs = 20_000): Promise<T> {
+export async function getFeed<T>(fetchImpl: typeof fetch, url: string, timeoutMs = 20_000): Promise<T> {
   const res = await fetchImpl(url, { headers: { Accept: 'application/json', 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(timeoutMs) });
   if (!res.ok) throw new HttpError(res.status, parseRetryAfter(res.headers.get('retry-after')));
   const text = await res.text();
@@ -57,7 +57,7 @@ const fixed = (v: unknown): string => repairMojibake(str(v));
 const arr = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
 
 /** An https URL on the source's own host (or subdomain): the only kind of link the catalogue keeps. */
-function ownUrl(v: unknown, host: string): string | null {
+export function ownUrl(v: unknown, host: string): string | null {
   try {
     const u = new URL(str(v).trim());
     const h = u.hostname.toLowerCase();
