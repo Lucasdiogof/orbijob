@@ -1654,6 +1654,48 @@ abstract class AppLocalizations {
   /// **'Country (from your profile)'**
   String get filterCountry;
 
+  /// No description provided for @filterContinent.
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get filterContinent;
+
+  /// No description provided for @continentEurope.
+  ///
+  /// In en, this message translates to:
+  /// **'Europe'**
+  String get continentEurope;
+
+  /// No description provided for @continentOceania.
+  ///
+  /// In en, this message translates to:
+  /// **'Oceania'**
+  String get continentOceania;
+
+  /// No description provided for @continentAsia.
+  ///
+  /// In en, this message translates to:
+  /// **'Asia'**
+  String get continentAsia;
+
+  /// No description provided for @continentAfrica.
+  ///
+  /// In en, this message translates to:
+  /// **'Africa'**
+  String get continentAfrica;
+
+  /// No description provided for @continentNorthAmerica.
+  ///
+  /// In en, this message translates to:
+  /// **'North America'**
+  String get continentNorthAmerica;
+
+  /// No description provided for @continentSouthAmerica.
+  ///
+  /// In en, this message translates to:
+  /// **'South America'**
+  String get continentSouthAmerica;
+
   /// No description provided for @browseLatest.
   ///
   /// In en, this message translates to:

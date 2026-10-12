@@ -92,6 +92,8 @@ class SupabaseJobCatalogRepository
         'and(work_mode.eq.remote,geo_restrictions.cs.{Anywhere})',
       );
     }
+    final continent = f.continent;
+    if (country == null && continent != null) q = q.or(continent.orFilter);
     if (f.workModes.isNotEmpty) {
       q = q.inFilter('work_mode', [
         for (final m in f.workModes)

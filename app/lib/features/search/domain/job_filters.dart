@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'continent.dart';
 import 'entities/job_posting.dart';
 import 'health_specialty.dart';
 import 'job_area.dart';
@@ -12,6 +13,7 @@ class JobFilters extends Equatable {
     this.publishedWithinDays,
     this.onlyWithSalary = false,
     this.countryCode,
+    this.continent,
     this.area,
     this.specialty,
   });
@@ -30,6 +32,9 @@ class JobFilters extends Equatable {
   /// Region-only restrictions (EMEA, Europe) are not expanded into countries, so they do not match.
   final String? countryCode;
 
+  /// Continent (countries listed in [Continent]); ignored while a single [countryCode] is chosen.
+  final Continent? continent;
+
   /// Professional area (a rule on the title, see [JobArea]); null = any area.
   final JobArea? area;
 
@@ -41,6 +46,7 @@ class JobFilters extends Equatable {
       publishedWithinDays != null ||
       onlyWithSalary ||
       countryCode != null ||
+      continent != null ||
       area != null ||
       specialty != null;
 
@@ -51,6 +57,8 @@ class JobFilters extends Equatable {
     bool? onlyWithSalary,
     String? countryCode,
     bool clearCountry = false,
+    Continent? continent,
+    bool clearContinent = false,
     JobArea? area,
     bool clearArea = false,
     HealthSpecialty? specialty,
@@ -62,6 +70,7 @@ class JobFilters extends Equatable {
         : (publishedWithinDays ?? this.publishedWithinDays),
     onlyWithSalary: onlyWithSalary ?? this.onlyWithSalary,
     countryCode: clearCountry ? null : (countryCode ?? this.countryCode),
+    continent: clearContinent ? null : (continent ?? this.continent),
     area: clearArea ? null : (area ?? this.area),
     // leaving the Health area drops the specialty with it
     specialty: clearSpecialty || clearArea
@@ -75,6 +84,7 @@ class JobFilters extends Equatable {
     publishedWithinDays,
     onlyWithSalary,
     countryCode,
+    continent,
     area,
     specialty,
   ];

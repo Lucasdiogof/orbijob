@@ -5,6 +5,7 @@ import '../../../../core/format/job_format.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_filter_chip.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../domain/continent.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 
@@ -13,7 +14,8 @@ int activeFilterCount(JobFilters f) =>
     f.workModes.length +
     (f.publishedWithinDays != null ? 1 : 0) +
     (f.onlyWithSalary ? 1 : 0) +
-    (f.countryCode != null ? 1 : 0);
+    (f.countryCode != null ? 1 : 0) +
+    (f.continent != null ? 1 : 0);
 
 /// Filters the catalogue can answer: work mode, publication date, "has a salary" and, when the profile lists
 /// countries of interest, one of those countries. Nothing here changes by itself: every chip reports through [onChanged].
@@ -112,6 +114,19 @@ class SearchFiltersPanel extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: AppSpace.s3),
+            group(l.filterContinent, [
+              for (final k in Continent.values)
+                AppFilterChip(
+                  label: _continentLabel(k, l),
+                  selected: filters.continent == k,
+                  onSelected: (on) => onChanged(
+                    on
+                        ? filters.copyWith(continent: k)
+                        : filters.copyWith(clearContinent: true),
+                  ),
+                ),
+            ]),
             if (shownCountries.isNotEmpty) ...[
               const SizedBox(height: AppSpace.s3),
               group(l.filterCountry, [
@@ -145,3 +160,12 @@ class SearchFiltersPanel extends StatelessWidget {
     );
   }
 }
+
+String _continentLabel(Continent k, AppLocalizations l) => switch (k) {
+  Continent.europe => l.continentEurope,
+  Continent.oceania => l.continentOceania,
+  Continent.asia => l.continentAsia,
+  Continent.africa => l.continentAfrica,
+  Continent.northAmerica => l.continentNorthAmerica,
+  Continent.southAmerica => l.continentSouthAmerica,
+};

@@ -887,6 +887,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filterCountry => 'País (do seu perfil)';
 
   @override
+  String get filterContinent => 'Região';
+
+  @override
+  String get continentEurope => 'Europa';
+
+  @override
+  String get continentOceania => 'Oceania';
+
+  @override
+  String get continentAsia => 'Ásia';
+
+  @override
+  String get continentAfrica => 'África';
+
+  @override
+  String get continentNorthAmerica => 'América do Norte';
+
+  @override
+  String get continentSouthAmerica => 'América do Sul';
+
+  @override
   String get browseLatest => 'Ver vagas recentes';
 
   @override

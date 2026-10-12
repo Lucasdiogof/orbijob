@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/search/data/supabase_job_catalog_repository.dart';
+import 'package:orbijob/features/search/domain/continent.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
 import 'package:orbijob/features/search/domain/job_area.dart';
 import 'package:orbijob/features/search/domain/job_filters.dart';
@@ -63,6 +64,39 @@ void main() {
   final fixedNow = DateTime.utc(2026, 10, 10, 12);
   SupabaseJobCatalogRepository repoFor(FakeBackend b) =>
       SupabaseJobCatalogRepository(b.client, now: () => fixedNow);
+
+  group('continents', () {
+    test('a continent adds ONE or-clause: job country in it, or an eligible country/region of it', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b)
+          .search('', filters: const JobFilters(continent: Continent.europe));
+      final or = b.requests.first.query['or']!;
+      expect(or, startsWith('(country.in.(AD,AL,'));
+      expect(or, contains('geo_restrictions.ov.{AD,'));
+      expect(or, contains(',Europe}'));
+      expect(or, endsWith(')'));
+    });
+
+    test(
+      'a chosen country wins over the continent (no second clause)',
+      () async {
+        final b = FakeBackend(respond: answer([row()]));
+        await repoFor(b).search(
+          '',
+          filters: const JobFilters(
+            continent: Continent.europe,
+            countryCode: 'SE',
+          ),
+        );
+        final ors = b.requests.first.request.url.query
+            .split('&')
+            .where((p) => p.startsWith('or='))
+            .toList();
+        expect(ors, hasLength(1));
+        expect(ors.single, contains('country.eq.SE'));
+      },
+    );
+  });
 
   group('professional areas', () {
     test('an area filter adds ONE or=(title.ilike...) clause on top of the visibility rules', () async {
