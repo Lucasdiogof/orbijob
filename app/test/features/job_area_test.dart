@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/search/domain/job_area.dart';
 
 void main() {
+  germanTitles();
   group('JobArea keywords', () {
     test('every area has keywords, and each is a safe PostgREST filter value (no comma, paren, quote, wildcard or dot-separator)', () {
       for (final a in JobArea.values) {
@@ -97,6 +98,39 @@ void main() {
 
     test('an unknown profession belongs to no area (nothing is invented)', () {
       expect(JobArea.of('Interpreter of Georgian'), isEmpty);
+    });
+  });
+}
+
+void germanTitles() {
+  group('German titles (Arbeitnow)', () {
+    test('the common ones land in the right area', () {
+      expect(JobArea.of('Pflegefachkraft (m/w/d)'), contains(JobArea.health));
+      expect(
+        JobArea.of('Softwareentwickler Java (m/w/d)'),
+        contains(JobArea.technology),
+      );
+      expect(
+        JobArea.of('Elektriker für Gebäudetechnik'),
+        contains(JobArea.construction),
+      );
+      expect(
+        JobArea.of('Koch (m/w/d) in Vollzeit'),
+        contains(JobArea.hospitality),
+      );
+      expect(
+        JobArea.of('Lagerlogistik Mitarbeiter'),
+        contains(JobArea.logistics),
+      );
+      expect(
+        JobArea.of('Werkstudent im Bereich Legal / Compliance (d/m/w)'),
+        containsAll([JobArea.education, JobArea.finance]),
+      );
+      expect(JobArea.of('Buchhalter (m/w/d)'), contains(JobArea.finance));
+      expect(
+        JobArea.of('Vertriebsmitarbeiter Außendienst'),
+        contains(JobArea.sales),
+      );
     });
   });
 }
