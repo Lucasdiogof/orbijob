@@ -108,7 +108,7 @@ export class SupabaseJobStore implements JobStore, RunLedger {
   /** Jobs that still weigh a full job: open or unknown, or closed but still carrying a description (a count only; no row is read). */
   async countFullJobs(sourceId: string): Promise<number> {
     const res = await this.call(
-      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(status.eq.open,description.neq.)&limit=1`,
+      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(status.eq.open,and(status.eq.closed,description.neq.))&limit=1`,
       { method: 'GET', prefer: 'count=exact' },
     );
     const n = Number((res.headers.get('content-range') ?? '').split('/')[1]);
@@ -134,6 +134,28 @@ export class SupabaseJobStore implements JobStore, RunLedger {
       inserted += back.length;
     }
     return inserted;
+  }
+
+  async reviveUnknown(rows: JobRow[]): Promise<number> {
+    let back = 0;
+    for (const r of rows) {
+      const res = await this.call(
+        `jobs?source_id=eq.${encodeURIComponent(r.source_id)}&external_id=eq.${encodeURIComponent(r.external_id)}&status=eq.unknown&select=external_id`,
+        {
+          method: 'PATCH',
+          // the listing's own content (a compacted row has none); identity, fingerprint and URLs stay as stored
+          body: {
+            status: 'open', last_checked_at: new Date().toISOString(), company: r.company, title: r.title, description: r.description,
+            country: r.country, city: r.city, work_mode: r.work_mode, contract_type: r.contract_type, published_at: r.published_at,
+            requirements: r.requirements, skills: r.skills, geo_restrictions: r.geo_restrictions,
+          },
+          prefer: 'return=representation',
+        },
+      );
+      const got = (await res.json()) as unknown;
+      if (Array.isArray(got)) back += got.length;
+    }
+    return back;
   }
 
   async markClosed(sourceId: string, externalIds: string[]): Promise<void> {

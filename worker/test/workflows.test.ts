@@ -195,7 +195,7 @@ describe('sources-discover.yml', () => {
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *']);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *']);
     expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
     expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
     expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
@@ -257,9 +257,9 @@ describe('sources-revalidate.yml (Platsbanken freshness)', () => {
     expect(c).toMatch(/if: github\.event_name == 'schedule' \|\| inputs\.action == 'revalidate'/);
   });
 
-  it('runs 4 times a day at minute 47, hours that never meet the Platsbanken discovery (03/09/15/21:31) nor the Jobicy cron (minute 17)', () => {
+  it('runs 4 times a day at minute 47 (hours 4/10/16/22), hours that never meet the Platsbanken discovery (03/09/15/21:31) nor the Jobicy cron (minute 17)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['47 0,6,12,18 * * *']);
+    expect(crons).toEqual(['47 4,10,16,22 * * *']);
     const d = code(read('sources-discover.yml'));
     expect(d).toMatch(/'31 3,9,15,21 \* \* \*'\)\s+s=jobtech/);
   });

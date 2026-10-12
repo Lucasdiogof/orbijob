@@ -22,6 +22,12 @@ on:
     - cron: '41 5,17 * * *'
     - cron: '53 6 * * *'
     - cron: '31 3,9,15,21 * * *'
+    # segunda serie, deslocada: o GitHub descarta agendamentos (12/10: Arbeitnow 08:23 e 14:23 e Platsbanken 09:31 e 15:31 nunca iniciaram). A lease do banco
+    # faz a repeticao ser inofensiva (uma passada por hora por fonte; se a passada anterior foi ha menos de 1 h, a nova recua com too_soon).
+    - cron: '37 5,11,17,23 * * *'
+    - cron: '13 0,6,12,18 * * *'
+    - cron: '27 8,20 * * *'
+    - cron: '51 10,22 * * *'
   workflow_dispatch:
     inputs:
       source:
@@ -81,6 +87,10 @@ jobs:
             '41 5,17 * * *')      s=remoteok ;;
             '53 6 * * *')         s=remotive ;;
             '31 3,9,15,21 * * *') s=jobtech ;;
+            '37 5,11,17,23 * * *') s=arbeitnow ;;
+            '13 0,6,12,18 * * *') s=jobtech ;;
+            '27 8,20 * * *')      s=remoteok ;;
+            '51 10,22 * * *')     s=remotive ;;
             *)                    s="$CHOSEN" ;;
           esac
           case "$s" in arbeitnow|remoteok|remotive|jobtech) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac

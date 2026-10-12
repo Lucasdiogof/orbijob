@@ -107,6 +107,12 @@ export interface JobStore {
    * re-opened or blanked). Returns how many rows were really inserted.
    */
   insertNewJobs?(rows: JobRow[]): Promise<number>;
+  /**
+   * `discover` mode, sources whose listing IS the evidence of an open job: a stored job that was left 'unknown' (nothing proved it gone) and is
+   * listed again comes back to 'open' with the listing's own content (a compacted row has no text). Only rows still 'unknown' are touched, so a
+   * closed job is never reopened. Returns how many rows came back.
+   */
+  reviveUnknown?(rows: JobRow[]): Promise<number>;
   recordRun(run: SyncRunRow): Promise<void>;
 }
 
@@ -225,6 +231,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   // A source with neither a status endpoint nor feed-presence evidence cannot be verified: nothing would justify importing from it.
   if (discoverOnly && !o.connector.checkStatuses && !o.connector.presenceConfirmsOpen) { s.status = 'failed'; s.error_class = 'discover_unverifiable'; }
   const knownOpen = new Set<string>();
+  const knownUnknown = new Set<string>();
 
   // `maxNewJobs`: the ids already stored (any status) tell which listings would be NEW; only that many are added.
   let known: Set<string> | null = null;
@@ -247,6 +254,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
       for (const k of await withRetry(() => o.store.listKnownKeys!(sourceId), retry)) {
         known.add(k.external_id);
         if (k.status === 'open') knownOpen.add(k.external_id);
+        if (k.status === 'unknown') knownUnknown.add(k.external_id);
         deduper.rememberStored(sourceId, k, k.status !== 'closed');
       }
       fullStored = o.store.countFullJobs ? await withRetry(() => o.store.countFullJobs!(sourceId), retry) : known.size;
@@ -278,12 +286,14 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     s.rejected += page.rejected?.length ?? 0;
     const fresh: NormalizedJob[] = [];
     const stillListed: string[] = [];
+    const revive: NormalizedJob[] = [];
     for (const j of page.jobs) {
       seen.add(j.externalId);
       if (discoverOnly) {
         if (known!.has(j.externalId)) {
           s.alreadyKnown++;
           if (o.connector.presenceConfirmsOpen && knownOpen.has(j.externalId)) stillListed.push(j.externalId);
+          else if (o.connector.presenceConfirmsOpen && knownUnknown.has(j.externalId) && o.store.reviveUnknown) revive.push(j);
           continue;
         }
         if (!deduper.accept(j)) { s.duplicates++; continue; }
@@ -307,6 +317,11 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
         if (stillListed.length && o.store.confirmOpen) {
           await withRetry(() => o.store.confirmOpen!(sourceId, stillListed), retry);
           s.confirmed += stillListed.length;
+        }
+        if (revive.length && o.store.reviveUnknown) {
+          const back = await withRetry(() => o.store.reviveUnknown!(revive.map(toJobRow)), retry);
+          s.confirmed += back;
+          for (const j of revive) knownUnknown.delete(j.externalId);
         }
         let toInsert = fresh;
         if (fresh.length && o.connector.checkStatuses && !o.connector.presenceConfirmsOpen) {

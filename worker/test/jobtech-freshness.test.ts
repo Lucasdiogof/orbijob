@@ -262,3 +262,20 @@ describe('discover no longer asks the status endpoint about ads the listing just
     expect(asked.some((p) => p.startsWith('/ad/'))).toBe(false);
   });
 });
+
+describe('an unknown ad that is listed again comes back (presence is the evidence); a closed one never does', () => {
+  it('discover revives status unknown with the listing\'s own content, leaves closed alone, and counts it as confirmed', async () => {
+    const w = new World();
+    const hit = (id: string, title: string) => ({ id, headline: title, employer: { name: 'Acme' }, webpage_url: `https://arbetsformedlingen.se/platsbanken/annonser/${id}`, workplace_address: { country: 'Sverige', municipality: 'Lund' }, description: { text: 'Full text again' }, publication_date: '2026-10-11T08:00:00' });
+    w.hosts[HOST] = () => json({ total: { value: 3 }, hits: [hit('11', 'Fysioterapeut A'), hit('12', 'Fysioterapeut B'), hit('13', 'Fysioterapeut C')] });
+    w.jobs.set('jobtech:11', { ...stored('11', '2026-09-20T00:00:00.000Z'), status: 'unknown', description: '' });       // compacted + unknown: returns with text
+    w.jobs.set('jobtech:12', { ...stored('12', '2026-09-20T00:00:00.000Z'), status: 'closed', description: '' });        // closed: stays closed
+    w.jobs.set('jobtech:13', { ...stored('13', '2026-10-12T00:00:00.000Z'), status: 'open' });                          // open: only stamped
+    const out = await runScheduledSync(w.env({ SYNC_MODE: 'discover', SYNC_SOURCE: 'jobtech' }), w.deps());
+    expect(out).toMatchObject({ status: 'ok', summary: { upserted: 0 } });
+    expect(w.jobs.get('jobtech:11')).toMatchObject({ status: 'open', description: 'Full text again', title: 'Fysioterapeut A' });
+    expect(w.jobs.get('jobtech:12')).toMatchObject({ status: 'closed', description: '' });
+    expect(w.jobs.get('jobtech:13')!.status).toBe('open');
+    expect((out as { summary: { confirmed: number } }).summary.confirmed).toBeGreaterThanOrEqual(2); // the revived one and the stamped one (the stubbed host repeats the same page for every stream)
+  });
+});

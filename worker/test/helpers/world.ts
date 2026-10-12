@@ -159,7 +159,7 @@ export class World {
       if (method === 'GET' && (headers.Prefer ?? '').includes('count=exact')) {
         // a count only: `or=(status.eq.open,description.neq.)` = "full" jobs (open or still carrying a description)
         const all = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id'));
-        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status === 'open' || String(j.description ?? '') !== '').length : all.length;
+        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status === 'open' || (j.status === 'closed' && String(j.description ?? '') !== '')).length : all.length;
         return new Response('[]', { status: 206, headers: { 'content-type': 'application/json', 'content-range': `0-0/${n}` } });
       }
       if (method === 'GET') {
@@ -172,6 +172,12 @@ export class World {
         }
         const off = Number(q.get('offset') ?? 0);
         return json(200, ids.slice(off, off + Number(q.get('limit') ?? 1000)));
+      }
+      if (method === 'PATCH' && (q.get('external_id') ?? '').startsWith('eq.')) {
+        // reviveUnknown: one job, only while it is still 'unknown'
+        const j = this.jobs.get(`${eq('source_id')}:${eq('external_id')}`);
+        if (j && (!q.get('status') || j.status === eq('status'))) { Object.assign(j, body); return json(200, [{ external_id: eq('external_id') }]); }
+        return json(200, []);
       }
       if (method === 'PATCH') {
         const wanted = [...(q.get('external_id') ?? '').matchAll(/"([^"]+)"/g)].map((m) => m[1]);

@@ -1,5 +1,8 @@
 # Revalidacao automatica das vagas ja gravadas da Platsbanken (fonte jobtech), 100% gratuita (repositorio publico + runner padrao do GitHub).
 #
+# CONTINGENCIA: o mecanismo principal e o Supabase Cron (ops.jobtech_revalidate_start/collect, 02/08/14/20 :07 UTC, migration 13), porque o GitHub descarta
+# agendamentos. Este workflow usa a mesma lease e a mesma regra de decisao; se o Supabase rodou ha menos de 1 h, ele recua com too_soon.
+#
 # POR QUE EXISTE: a busca da Platsbanken so alcanca os anuncios mais novos (~1.200). Um anuncio gravado que saiu dessa janela mas segue publicado
 # deixaria de receber data de verificacao e sumiria do app depois de 72 h. Aqui cada anuncio GRAVADO e perguntado ao endpoint oficial
 # `/ad/{id}` (200 = publicado, 404 = encerrado), do menos recentemente verificado para o mais recente, ate ~3.000 por passada.
@@ -9,8 +12,8 @@
 # importa vaga, NAO apaga, NAO toca em can_redistribute nem em dados de usuario. O modo e fixo no script (worker/scripts/revalidate-local.mjs
 # usa SYNC_MODE=revalidate).
 #
-# Lease: a do banco vale por (fonte, hora). A descoberta da Platsbanken roda as 03:31/09:31/15:31/21:31 UTC; esta revalidacao as 00:47/06:47/12:47/18:47
-# (mais de 2 h de folga); se por atraso do GitHub duas coincidirem na mesma hora, a segunda e adiada pela lease (nunca roda junto).
+# Lease: a do banco vale por (fonte, hora). A descoberta da Platsbanken roda as 03:31/09:31/15:31/21:31 UTC; esta revalidacao as 04:47/10:47/16:47/22:47
+# (mais de 1 h de folga); se por atraso do GitHub duas coincidirem na mesma hora, a segunda e adiada pela lease (nunca roda junto).
 #
 # ESTA DESLIGADO POR PADRAO: o agendamento so executa quando a variavel de repositorio SOURCES_REVALIDATION_ENABLED vale 'true'.
 # Credencial: UM segredo, ORBIJOB_SYNC_WORKER_KEY, no ENVIRONMENT "jobicy-revalidation" (restrito a main), entregue so aos passos que o usam.
@@ -18,7 +21,7 @@ name: Sources revalidate
 
 on:
   schedule:
-    - cron: '47 0,6,12,18 * * *'
+    - cron: '47 4,10,16,22 * * *'
   workflow_dispatch:
     inputs:
       action:

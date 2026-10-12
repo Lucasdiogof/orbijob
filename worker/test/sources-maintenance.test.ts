@@ -260,11 +260,11 @@ describe('freshness policy (migration 20261019000000)', () => {
     expect((await row(old))!.status).toBe('closed');
   });
 
-  it('the retention treats unknown like closed: compacts after 14 days, deletes after 90 if nobody references it, never touches open', async () => {
+  it('the retention treats unknown like closed but with 30 days (not 14) before compaction (migration 13); deletes after 90 if nobody references it; never touches open', async () => {
     const open = await job({ source: 'arbeitnow', ageDays: 200 });
-    const unk14 = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 20 });
+    const unk14 = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 35 });
     const unk90 = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 120 });
-    const recent = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 3 });
+    const recent = await job({ source: 'arbeitnow', status: 'unknown', ageDays: 20 });
     const r = (await db.query<{ r: string }>(`select ops.jobicy_retention_apply('${RET}', interval '14 days', interval '90 days', 200, true) r`)).rows[0]!.r;
     expect(r).toBe('ok:compacted=1,deleted=1');
     expect(await row(unk14)).toMatchObject({ status: 'unknown', description: '' });
