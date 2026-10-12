@@ -150,6 +150,12 @@ export class World {
         for (const r of body as Record<string, unknown>[]) this.jobs.set(`${r.source_id}:${r.external_id}`, { ...(this.jobs.get(`${r.source_id}:${r.external_id}`) ?? {}), ...r });
         return new Response(null, { status: 201 });
       }
+      if (method === 'GET' && (headers.Prefer ?? '').includes('count=exact')) {
+        // a count only: `or=(status.eq.open,status.eq.unknown,description.neq.)` = "full" jobs (open/unknown or still carrying a description)
+        const all = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id'));
+        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status !== 'closed' || String(j.description ?? '') !== '').length : all.length;
+        return new Response('[]', { status: 206, headers: { 'content-type': 'application/json', 'content-range': `0-0/${n}` } });
+      }
       if (method === 'GET') {
         const cols = (q.get('select') ?? 'external_id').split(',');
         const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && (!q.get('status') || j.status === eq('status')))

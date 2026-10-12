@@ -426,3 +426,24 @@ function jobicyConnectorRow(id: string) {
   if (!r.ok) throw new Error('fixture must normalize');
   return r.job;
 }
+
+describe.skipIf(!URL_ || !SECRET)('catalogue ceiling count against a real PostgREST', () => {
+  const service = sign('service_role');
+  const store = new SupabaseJobStore(URL_ ?? 'http://localhost:3000', service, direct);
+  it('countFullJobs counts open/unknown jobs and closed ones that still carry a description, exactly as a full read would', async () => {
+    const all = (await rest('GET', '/jobs?select=status,description&source_id=eq.jobicy', { token: service })).json as { status: string; description: string }[];
+    const expected = all.filter((j) => j.status !== 'closed' || j.description !== '').length;
+    expect(all.length).toBeGreaterThan(0);
+    expect(await store.countFullJobs('jobicy')).toBe(expected);
+  });
+  it('a closed job whose description was emptied stops counting (compaction), and counts again if the description comes back', async () => {
+    const before = await store.countFullJobs('jobicy');
+    const closed = (await rest('GET', '/jobs?select=external_id,description&source_id=eq.jobicy&status=eq.closed&description=neq.&limit=1', { token: service })).json as { external_id: string; description: string }[];
+    if (!closed.length) return; // nothing closed with a body in this database
+    const id = closed[0]!.external_id;
+    await rest('PATCH', `/jobs?source_id=eq.jobicy&external_id=eq.${id}`, { token: service, body: { description: '' }, prefer: 'return=minimal' });
+    expect(await store.countFullJobs('jobicy')).toBe(before - 1);
+    await rest('PATCH', `/jobs?source_id=eq.jobicy&external_id=eq.${id}`, { token: service, body: { description: closed[0]!.description }, prefer: 'return=minimal' });
+    expect(await store.countFullJobs('jobicy')).toBe(before);
+  });
+});

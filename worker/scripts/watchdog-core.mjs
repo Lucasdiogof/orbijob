@@ -67,6 +67,44 @@ export function evaluate({ nowMs, enabled, runs, oldestCheckedAt, visibleJobs })
   return { alerts, healthy: alerts.length === 0 };
 }
 
+/**
+ * The recurring discovery (workflow "Jobicy discover", only once JOBICY_DISCOVERY_ENABLED is 'true'). Same shape as the revalidation rules, with the
+ * thresholds of a 6-hour cron plus GitHub's observed delay (up to ~5.5 h). A pass that stood down by the lease ("too_soon") still ends green, so it
+ * counts as success. With NO scheduled run at all only a warning is raised: right after the switch is turned on the first run has not happened yet.
+ * @param {object} o
+ * @param {number} o.nowMs
+ * @param {boolean} o.enabled
+ * @param {{createdAt:string, conclusion:string|null, status:string, alerts?:string[]}[]} o.runs  scheduled runs of the discovery workflow, newest first
+ */
+export const DISCOVERY_THRESHOLDS = { noRunHours: 14, noSuccessHours: 30, consecutiveFailures: 2 };
+export function evaluateDiscovery({ nowMs, enabled, runs }) {
+  const alerts = [];
+  if (!enabled) return alerts;
+  const add = (id, severity, message) => alerts.push({ id, severity, message });
+  const T = DISCOVERY_THRESHOLDS;
+  const done = runs.filter((r) => r.status === 'completed');
+  const newest = runs[0];
+  if (!newest || (nowMs - Date.parse(newest.createdAt)) / HOUR >= T.noRunHours) {
+    add('discover_schedule_missed', 'warning', `Nenhuma execucao agendada da descoberta nas ultimas ${T.noRunHours} h (o GitHub pode atrasar, descartar ou desativar agendamentos).`);
+  }
+  if (runs.length > 0) {
+    const lastOk = done.find((r) => r.conclusion === 'success');
+    if (!lastOk || (nowMs - Date.parse(lastOk.createdAt)) / HOUR >= T.noSuccessHours) {
+      add('discover_no_success', 'critical', `Nenhuma descoberta concluida com sucesso nas ultimas ${T.noSuccessHours} h.`);
+    }
+    const lastN = done.slice(0, T.consecutiveFailures);
+    if (lastN.length === T.consecutiveFailures && lastN.every((r) => r.conclusion === 'failure')) {
+      add('discover_consecutive_failures', 'critical', `As ${T.consecutiveFailures} ultimas execucoes agendadas da descoberta falharam.`);
+    }
+  }
+  const tags = new Set((done[0]?.alerts) ?? []);
+  if (tags.has('storage')) add('discover_catalogue_full', 'critical', 'O teto do catalogo foi atingido: nenhuma vaga nova entra ate haver limpeza (retencao) ou aumento consciente do teto (SYNC_MAX_CATALOGUE).');
+  if (tags.has('auth')) add('discover_auth_failed', 'critical', 'O Supabase recusou a credencial da descoberta (segredo ORBIJOB_SYNC_WORKER_KEY ausente, errado ou revogado).');
+  if (tags.has('unreachable')) add('discover_database_unreachable', 'warning', 'O banco nao respondeu na ultima execucao da descoberta.');
+  if (tags.has('api')) add('discover_jobicy_api_errors', 'warning', 'A API do Jobicy falhou na ultima execucao da descoberta (nenhuma vaga existente foi alterada).');
+  return alerts;
+}
+
 export const ISSUE_TITLE = 'Alerta: revalidacao automatica do Jobicy';
 export const ISSUE_LABEL = 'jobicy-alert';
 

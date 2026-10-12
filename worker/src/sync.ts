@@ -98,6 +98,11 @@ export interface JobStore {
   /** `discover` mode: every stored job of the source with what identifies a duplicate (any status). */
   listKnownKeys?(sourceId: string): Promise<KnownKey[]>;
   /**
+   * `discover` mode: how many stored jobs of the source still weigh what a job weighs: open (or unknown) ones and any that still carry a description.
+   * Compacted closed jobs (docs/JOBICY_RETENTION.md) cost ~1/10 and do not count against the catalogue ceiling.
+   */
+  countFullJobs?(sourceId: string): Promise<number>;
+  /**
    * `discover` mode: INSERT only. A row whose (source_id, external_id) is already stored is left exactly as it is (it is never updated,
    * re-opened or blanked). Returns how many rows were really inserted.
    */
@@ -140,8 +145,8 @@ export interface SyncOptions {
   /** `full`: at most this many jobs not already stored are added in this pass; `discover`: at most this many candidates are verified and inserted. The rest wait for a later pass. */
   maxNewJobs?: number;
   /**
-   * `discover` only: no listing is added once this many jobs of the source are stored (any status). Protects the free database quota
-   * (a stored job weighs ~38 KB with its indexes). The pass then ends `partial` with error class `catalogue_full` so somebody notices.
+   * `discover` only: no listing is added once this many FULL jobs of the source are stored (`store.countFullJobs`: open or still carrying a
+   * description; without it, every stored job counts). Protects the free database quota (a full job weighs 10-38 KB with its indexes). The pass then ends `partial` with error class `catalogue_full` so somebody notices.
    */
   maxTotalJobs?: number;
   /** Structured log sink. Receives counts and error classes only: never job content, URLs of users, keys or tokens. */
@@ -216,6 +221,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   let known: Set<string> | null = null;
   let newCount = 0;
   let catalogueFull = false;
+  let fullStored = 0;
   if (!revalidateOnly && !discoverOnly && o.maxNewJobs !== undefined) {
     try {
       if (!o.store.listKnownExternalIds) throw new Error('store cannot list known ids');
@@ -233,6 +239,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
         known.add(k.external_id);
         deduper.rememberStored(sourceId, k, k.status !== 'closed');
       }
+      fullStored = o.store.countFullJobs ? await withRetry(() => o.store.countFullJobs!(sourceId), retry) : known.size;
     } catch (e) {
       fail(e); // without knowing what is stored nothing can be added
     }
@@ -265,7 +272,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
       if (discoverOnly) {
         if (known!.has(j.externalId)) { s.alreadyKnown++; continue; }
         if (!deduper.accept(j)) { s.duplicates++; continue; }
-        if (o.maxTotalJobs !== undefined && known!.size >= o.maxTotalJobs) { s.skippedNew++; catalogueFull = true; continue; }
+        if (o.maxTotalJobs !== undefined && fullStored + newCount >= o.maxTotalJobs) { s.skippedNew++; catalogueFull = true; continue; }
         if (newCount >= (o.maxNewJobs ?? Infinity)) { s.skippedNew++; continue; }
         newCount++; known!.add(j.externalId);
         fresh.push(j);
