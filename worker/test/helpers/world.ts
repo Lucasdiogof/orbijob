@@ -64,8 +64,14 @@ export class World {
   private nextId = () => `00000000-0000-4000-8000-${String(++this.seq).padStart(12, '0')}`;
   private yieldTick = () => new Promise<void>((r) => setTimeout(r, 0));
 
+  /** Stand-ins for the other sources' hosts (www.arbeitnow.com, remoteok.com, remotive.com): hostname -> handler. */
+  hosts: Record<string, (url: URL) => Response | Promise<Response>> = {};
+  hostCalls: Record<string, number> = {};
+
   fetch: typeof fetch = async (input, init) => {
     const url = new URL(String(input));
+    const extra = this.hosts[url.hostname];
+    if (extra) { this.hostCalls[url.hostname] = (this.hostCalls[url.hostname] ?? 0) + 1; return extra(url); }
     if (url.hostname === 'jobicy.com' || url.hostname === 'localhost') return this.jobicy(url);
     if (url.hostname === 'example.supabase.co') return this.supabase(url, init ?? {});
     throw new Error(`unexpected host ${url.hostname}`);

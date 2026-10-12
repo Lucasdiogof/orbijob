@@ -90,10 +90,11 @@ let oldest: string | null = null; let visible = 0;
 let calls: { method: string; path: string; body?: string }[] = [];
 let runJobs: unknown[] = [];
 let discoverWorkflowRuns: unknown[] = [];
+let sourcesWorkflowRuns: unknown[] = [];
 
 const listen = (srv: Server) => new Promise<string>((r) => srv.listen(0, '127.0.0.1', () => r(`http://127.0.0.1:${(srv.address() as { port: number }).port}`)));
 beforeEach(async () => {
-  issues = []; workflowRuns = []; discoverWorkflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = [];
+  issues = []; workflowRuns = []; discoverWorkflowRuns = []; sourcesWorkflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = [];
   gh = createServer(async (req, res) => {
     const chunks: Buffer[] = []; for await (const c of req) chunks.push(c as Buffer);
     const body = Buffer.concat(chunks).toString('utf8');
@@ -102,6 +103,7 @@ beforeEach(async () => {
     const send = (code: number, o: unknown) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(o)); };
     if (url.pathname.endsWith('/workflows/jobicy-revalidate.yml/runs')) return send(200, { workflow_runs: workflowRuns });
     if (url.pathname.endsWith('/workflows/jobicy-discover.yml/runs')) return send(200, { workflow_runs: discoverWorkflowRuns });
+    if (url.pathname.endsWith('/workflows/sources-discover.yml/runs')) return send(200, { workflow_runs: sourcesWorkflowRuns });
     if (/\/actions\/runs\/\d+\/jobs$/.test(url.pathname)) return send(200, { jobs: runJobs });
     if (url.pathname.endsWith('/issues') && req.method === 'GET') return send(200, issues.filter((i) => i.state === 'open'));
     if (url.pathname.endsWith('/issues') && req.method === 'POST') { const b = JSON.parse(body); const i = { number: issues.length + 1, state: 'open', ...b }; issues.push(i); return send(201, i); }
@@ -230,7 +232,7 @@ describe('discovery rules (pure)', () => {
     expect(d([run(2, 'failure', ['storage']), run(8)])).toEqual(['discover_catalogue_full']);
     expect(d([run(2, 'failure', ['auth']), run(8)])).toEqual(['discover_auth_failed']);
     expect(d([run(2, 'failure', ['unreachable']), run(8)])).toEqual(['discover_database_unreachable']);
-    expect(d([run(2, 'failure', ['api']), run(8)])).toEqual(['discover_jobicy_api_errors']);
+    expect(d([run(2, 'failure', ['api']), run(8)])).toEqual(['discover_feed_errors']);
     expect(evaluateDiscovery({ nowMs: NOW, enabled: true, runs: [run(2, 'failure', ['storage']), run(8)] })[0]!.severity).toBe('critical');
   });
 });
@@ -262,5 +264,28 @@ describe('jobicy-watchdog.mjs watching the discovery (real process)', () => {
     expect(r.code).toBe(0);
     expect(r.out).toContain('tudo normal');
     expect(issues).toEqual([]);
+  });
+});
+
+describe('additional sources (sources-discover.yml)', () => {
+  const s = (runs: ReturnType<typeof run>[], enabled = true) => ids({ alerts: evaluateDiscovery({ nowMs: NOW, enabled, runs, prefix: 'sources', label: 'das fontes adicionais' }) });
+  it('off by default; healthy runs are quiet; ids carry the sources_ prefix so they never clash with the Jobicy alerts', () => {
+    expect(s([], false)).toEqual([]);
+    expect(s([run(2), run(8), run(14)])).toEqual([]);
+    expect(s([run(2, 'failure'), run(8, 'failure')])).toEqual(['sources_consecutive_failures', 'sources_no_success']);
+    expect(s([run(2, 'failure', ['storage']), run(8)])).toEqual(['sources_catalogue_full']);
+    expect(s([run(2, 'failure', ['api']), run(8)])).toEqual(['sources_feed_errors']);
+  });
+
+  it('with the sources ON and a failed run (an anti-bot challenge answered as an API failure), the process opens ONE issue and fails the job', async () => {
+    oldest = realAgo(5); visible = 299;
+    workflowRuns = [{ ...ghRun(1, 'success'), created_at: realAgo(1) }];
+    sourcesWorkflowRuns = [{ ...ghRun(2, 'failure'), id: 88, created_at: realAgo(2) }, { ...ghRun(8, 'failure'), created_at: realAgo(8) }];
+    runJobs = [{ steps: [{ name: 'ALERT api: source feed errors (nothing existing was changed)', conclusion: 'success' }] }];
+    const r = await watchdog({ SOURCES_DISCOVERY_ENABLED: 'true' });
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('fontes adicionais LIGADAS');
+    expect(r.out).toContain('sources_consecutive_failures');
+    expect(issues).toHaveLength(1);
   });
 });

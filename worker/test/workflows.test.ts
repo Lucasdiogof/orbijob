@@ -179,3 +179,70 @@ describe('every workflow file is valid YAML in the places a plain scalar breaks 
     });
   }
 });
+
+describe('sources-discover.yml', () => {
+  const d = read('sources-discover.yml');
+  const c = code(d);
+
+  it('is OFF by default: the schedule needs SOURCES_DISCOVERY_ENABLED == \'true\', and a manual import needs the typed confirmation', () => {
+    expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_DISCOVERY_ENABLED == 'true'/);
+    expect(c).toMatch(/default: check/);
+    expect(c).toMatch(/options: \[check, preview, discover\]/);
+    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive\]/);
+    const step = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
+    expect(step).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'\)/);
+  });
+
+  it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
+    const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *']);
+    expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
+    expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
+    expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
+    const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
+    expect(on).not.toMatch(/push:|pull_request|pull_request_target|workflow_run|issue_comment|repository_dispatch/);
+    for (const cron of crons) expect(Number(cron.split(' ')[0])).toBeGreaterThan(0); // never minute 0
+  });
+
+  it('keeps away from the Jobicy minutes (03:47 ... 21:47) and from the revalidation (xx:17 + collect)', () => {
+    for (const m of c.matchAll(/- cron: '(\d+) ([\d,]+) /g)) {
+      const minute = Number(m[1]);
+      expect([17, 19, 21, 24, 29, 44, 47]).not.toContain(minute);
+    }
+  });
+
+  it('has minimal permissions, no overlap, a timeout, pinned actions, Node 22 and a lockfile install without scripts', () => {
+    expect(c).toMatch(/^permissions:\n  contents: read\n/m);
+    expect(c).not.toMatch(/(write|admin)\b/);
+    expect(c).toMatch(/concurrency:\n  group: sources-discover\n  cancel-in-progress: false/);
+    expect(Number(/timeout-minutes: (\d+)/.exec(c)![1])).toBeLessThanOrEqual(15);
+    for (const m of c.matchAll(/uses: ([^\s]+)/g)) expect(m[1]).toMatch(/^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/);
+    expect(c).toMatch(/node-version: 22/);
+    expect(c).toMatch(/npm ci --ignore-scripts/);
+    expect(c).toMatch(/persist-credentials: false/);
+  });
+
+  it('uses ONE secret, from the dedicated environment, never in install/checkout/source-choice steps; no legacy or local-ingestion key', () => {
+    expect(new Set([...c.matchAll(/secrets\.([A-Z0-9_]+)/g)].map((m) => m[1]))).toEqual(new Set(['ORBIJOB_SYNC_WORKER_KEY']));
+    expect(c).toMatch(/environment: jobicy-revalidation/);
+    for (const s of steps(d)) {
+      const name = /name: (.+)/.exec(s)?.[1] ?? '';
+      if (/Install dependencies|checkout|setup-node|Choose the source/i.test(name + s.split('\n')[0])) expect(s.includes('secrets.'), name).toBe(false);
+    }
+    expect(c).not.toMatch(/GITHUB_TOKEN|github\.token|SERVICE_ROLE|service_role|orbijob_ingest_local|ORBIJOB_REHEARSAL/);
+    expect(c).toMatch(/::add-mask::\$KEY/);
+    expect(c).not.toMatch(/upload-artifact|actions\/cache|set -x|\bsh -x|--debug|ACTIONS_STEP_DEBUG/);
+  });
+
+  it('can only discover: the discovery script and the read-only key check; the source name is validated against a closed list', () => {
+    const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
+    expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
+    expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_|wrangler|supabase db|--prompt-key|revalidate-local/);
+    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\) ;; \*\) .*exit 1/);
+  });
+
+  it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {
+    for (const k of ['auth', 'unreachable', 'storage', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
+    for (const n of ['4', '5', '6', '7']) expect(c).toMatch(new RegExp(`steps\.rv\.outputs\.code == '${n}'`));
+  });
+});

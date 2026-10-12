@@ -181,7 +181,12 @@ String? normalizeCountry(String? code) {
   return c != null && RegExp(r'^[A-Z]{2}$').hasMatch(c) ? c : null;
 }
 
-const _sourceNames = {'jobicy': 'Jobicy'};
+const _sourceNames = {
+  'jobicy': 'Jobicy',
+  'arbeitnow': 'Arbeitnow',
+  'remoteok': 'Remote OK',
+  'remotive': 'Remotive',
+};
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
 /// no usable link, or missing identity. Optional values that are inconsistent are dropped, never repaired.

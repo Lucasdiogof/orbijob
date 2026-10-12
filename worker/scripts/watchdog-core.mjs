@@ -77,7 +77,7 @@ export function evaluate({ nowMs, enabled, runs, oldestCheckedAt, visibleJobs })
  * @param {{createdAt:string, conclusion:string|null, status:string, alerts?:string[]}[]} o.runs  scheduled runs of the discovery workflow, newest first
  */
 export const DISCOVERY_THRESHOLDS = { noRunHours: 14, noSuccessHours: 30, consecutiveFailures: 2 };
-export function evaluateDiscovery({ nowMs, enabled, runs }) {
+export function evaluateDiscovery({ nowMs, enabled, runs, prefix = 'discover', label = 'da descoberta' }) {
   const alerts = [];
   if (!enabled) return alerts;
   const add = (id, severity, message) => alerts.push({ id, severity, message });
@@ -85,23 +85,23 @@ export function evaluateDiscovery({ nowMs, enabled, runs }) {
   const done = runs.filter((r) => r.status === 'completed');
   const newest = runs[0];
   if (!newest || (nowMs - Date.parse(newest.createdAt)) / HOUR >= T.noRunHours) {
-    add('discover_schedule_missed', 'warning', `Nenhuma execucao agendada da descoberta nas ultimas ${T.noRunHours} h (o GitHub pode atrasar, descartar ou desativar agendamentos).`);
+    add(`${prefix}_schedule_missed`, 'warning', `Nenhuma execucao agendada ${label} nas ultimas ${T.noRunHours} h (o GitHub pode atrasar, descartar ou desativar agendamentos).`);
   }
   if (runs.length > 0) {
     const lastOk = done.find((r) => r.conclusion === 'success');
     if (!lastOk || (nowMs - Date.parse(lastOk.createdAt)) / HOUR >= T.noSuccessHours) {
-      add('discover_no_success', 'critical', `Nenhuma descoberta concluida com sucesso nas ultimas ${T.noSuccessHours} h.`);
+      add(`${prefix}_no_success`, 'critical', `Nenhuma execucao ${label} concluida com sucesso nas ultimas ${T.noSuccessHours} h.`);
     }
     const lastN = done.slice(0, T.consecutiveFailures);
     if (lastN.length === T.consecutiveFailures && lastN.every((r) => r.conclusion === 'failure')) {
-      add('discover_consecutive_failures', 'critical', `As ${T.consecutiveFailures} ultimas execucoes agendadas da descoberta falharam.`);
+      add(`${prefix}_consecutive_failures`, 'critical', `As ${T.consecutiveFailures} ultimas execucoes agendadas ${label} falharam.`);
     }
   }
   const tags = new Set((done[0]?.alerts) ?? []);
-  if (tags.has('storage')) add('discover_catalogue_full', 'critical', 'O teto do catalogo foi atingido: nenhuma vaga nova entra ate haver limpeza (retencao) ou aumento consciente do teto (SYNC_MAX_CATALOGUE).');
-  if (tags.has('auth')) add('discover_auth_failed', 'critical', 'O Supabase recusou a credencial da descoberta (segredo ORBIJOB_SYNC_WORKER_KEY ausente, errado ou revogado).');
-  if (tags.has('unreachable')) add('discover_database_unreachable', 'warning', 'O banco nao respondeu na ultima execucao da descoberta.');
-  if (tags.has('api')) add('discover_jobicy_api_errors', 'warning', 'A API do Jobicy falhou na ultima execucao da descoberta (nenhuma vaga existente foi alterada).');
+  if (tags.has('storage')) add(`${prefix}_catalogue_full`, 'critical', `O teto do catalogo foi atingido (${label}): nenhuma vaga nova entra ate haver limpeza (retencao) ou aumento consciente do teto (SYNC_MAX_CATALOGUE).`);
+  if (tags.has('auth')) add(`${prefix}_auth_failed`, 'critical', `O Supabase recusou a credencial ${label} (segredo ORBIJOB_SYNC_WORKER_KEY ausente, errado ou revogado).`);
+  if (tags.has('unreachable')) add(`${prefix}_database_unreachable`, 'warning', `O banco nao respondeu na ultima execucao ${label}.`);
+  if (tags.has('api')) add(`${prefix}_feed_errors`, 'warning', `O feed da fonte falhou (ou bloqueou com desafio anti-bot, nunca contornado) na ultima execucao ${label}; nenhuma vaga existente foi alterada.`);
   return alerts;
 }
 

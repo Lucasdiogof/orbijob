@@ -215,7 +215,10 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
   const revalidateOnly = o.mode === 'revalidate';
   if (revalidateOnly && !o.connector.checkStatuses) { s.status = 'failed'; s.error_class = 'no_status_check'; }
   const discoverOnly = o.mode === 'discover';
-  if (discoverOnly && !(o.connector.checkStatuses && o.store.listKnownKeys && o.store.insertNewJobs)) { s.status = 'failed'; s.error_class = 'discover_unsupported'; }
+  if (discoverOnly && !(o.store.listKnownKeys && o.store.insertNewJobs)) { s.status = 'failed'; s.error_class = 'discover_unsupported'; }
+  // A source with neither a status endpoint nor feed-presence evidence cannot be verified: nothing would justify importing from it.
+  if (discoverOnly && !o.connector.checkStatuses && !o.connector.presenceConfirmsOpen) { s.status = 'failed'; s.error_class = 'discover_unverifiable'; }
+  const knownOpen = new Set<string>();
 
   // `maxNewJobs`: the ids already stored (any status) tell which listings would be NEW; only that many are added.
   let known: Set<string> | null = null;
@@ -237,6 +240,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     try {
       for (const k of await withRetry(() => o.store.listKnownKeys!(sourceId), retry)) {
         known.add(k.external_id);
+        if (k.status === 'open') knownOpen.add(k.external_id);
         deduper.rememberStored(sourceId, k, k.status !== 'closed');
       }
       fullStored = o.store.countFullJobs ? await withRetry(() => o.store.countFullJobs!(sourceId), retry) : known.size;
@@ -267,10 +271,15 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     s.fetched += page.jobs.length + (page.rejected?.length ?? 0);
     s.rejected += page.rejected?.length ?? 0;
     const fresh: NormalizedJob[] = [];
+    const stillListed: string[] = [];
     for (const j of page.jobs) {
       seen.add(j.externalId);
       if (discoverOnly) {
-        if (known!.has(j.externalId)) { s.alreadyKnown++; continue; }
+        if (known!.has(j.externalId)) {
+          s.alreadyKnown++;
+          if (o.connector.presenceConfirmsOpen && knownOpen.has(j.externalId)) stillListed.push(j.externalId);
+          continue;
+        }
         if (!deduper.accept(j)) { s.duplicates++; continue; }
         if (o.maxTotalJobs !== undefined && fullStored + newCount >= o.maxTotalJobs) { s.skippedNew++; catalogueFull = true; continue; }
         if (newCount >= (o.maxNewJobs ?? Infinity)) { s.skippedNew++; continue; }
@@ -288,8 +297,13 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
     try {
       if (discoverOnly) {
         // Never import a listing the source does not confirm active: ask first (one request per 100), insert only the confirmed.
+        // The feed itself proves a stored job is still open when the source has no status endpoint: only its verification date moves.
+        if (stillListed.length && o.store.confirmOpen) {
+          await withRetry(() => o.store.confirmOpen!(sourceId, stillListed), retry);
+          s.confirmed += stillListed.length;
+        }
         let toInsert = fresh;
-        if (fresh.length) {
+        if (fresh.length && o.connector.checkStatuses) {
           const waitStatus = limiter.reserve();
           if (waitStatus > 0) await sleep(waitStatus);
           const answers = await withRetry(() => o.connector.checkStatuses!(fresh.map((j) => j.externalId)), retry);
@@ -333,7 +347,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
       s.status = 'partial';
     }
   }
-  s.closed = acc.closed; s.confirmed = acc.confirmed; s.unverified = acc.unverified;
+  s.closed = acc.closed; s.confirmed += acc.confirmed; s.unverified = acc.unverified;
 
   const run: SyncRunRow = {
     source_id: sourceId, scope, started_at: startedAt, finished_at: now().toISOString(),

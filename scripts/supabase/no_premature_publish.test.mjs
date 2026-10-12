@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 const GUARDED = 'scripts/supabase/ops/publish_jobicy.sql';
+const GUARDED_SOURCE = 'scripts/supabase/ops/publish_source.sql'; // the same guard for the other sources (docs/SOURCES_MATRIX.md)
 // Fixtures de teste que modelam o estado JÁ publicado de bancos descartáveis (PGlite / PostgREST de CI) ou semeiam dados locais.
 const TEST_FIXTURE = /^(supabase\/tests\/|worker\/test\/|app\/test\/)/;
 const TEXT = /\.(md|sql|sh|ps1|mjs|ts|json|toml|yml|yaml)$/i;
@@ -32,17 +33,25 @@ function offenders(text) {
 test('nenhum arquivo, exceto o guardado, liga can_redistribute', () => {
   const bad = [];
   for (const f of files) {
-    if (f === GUARDED) continue;
+    if (f === GUARDED || f === GUARDED_SOURCE) continue;
     const o = offenders(readFileSync(resolve(ROOT, f), 'utf8'));
     if (o.length) bad.push(`${f}: ${o.join(' | ')}`);
   }
-  assert.deepEqual(bad, [], 'publicacao prematura: use somente ' + GUARDED);
+  assert.deepEqual(bad, [], 'publicacao prematura: use somente ' + GUARDED + ' ou ' + GUARDED_SOURCE);
 });
 
 test('o arquivo de publicação mantém suas travas', () => {
   const t = readFileSync(resolve(ROOT, GUARDED), 'utf8');
   for (const needle of ["current_setting('orbijob.publish_jobicy'", 'EU-REVISEI-OS-REGISTROS-E-AUTORIZO', "status = 'ok'", 'raise exception', "status <> 'CONDITIONAL'"]) {
     assert.ok(t.includes(needle), `trava ausente: ${needle}`);
+  }
+  assert.equal((t.match(/set can_redistribute = true/g) ?? []).length, 1);
+});
+
+test('o arquivo de publicação das outras fontes mantém suas travas', () => {
+  const t = readFileSync(resolve(ROOT, GUARDED_SOURCE), 'utf8');
+  for (const needle of ["current_setting('orbijob.publish_source'", 'EU-REVISEI-OS-REGISTROS-E-AUTORIZO', "status = 'ok'", 'raise exception', "status <> 'CONDITIONAL'", "scope = 'discover'"]) {
+    assert.ok(t.includes(needle), 'trava ausente: ' + needle);
   }
   assert.equal((t.match(/set can_redistribute = true/g) ?? []).length, 1);
 });

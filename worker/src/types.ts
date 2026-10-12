@@ -41,6 +41,11 @@ export interface Connector {
   readonly id: string;
   /** Minimum ms between requests, derived from the source's documented limits. */
   readonly minIntervalMs: number;
+  /**
+   * The source has no status endpoint and its feed lists only open jobs: a listing that is in the feed proves the stored job is still open
+   * (its `last_checked_at` is stamped), and one that disappears simply stops being stamped. Never used to close or re-open anything.
+   */
+  readonly presenceConfirmsOpen?: boolean;
   fetchPage(cursor: string | null, scope: string): Promise<FetchPage>;
   /**
    * For sources whose feed is a recent-jobs window (absence means nothing): asks the source whether stored jobs are

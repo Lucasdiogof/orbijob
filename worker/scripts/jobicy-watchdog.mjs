@@ -28,6 +28,7 @@ const REPO = process.env.GITHUB_REPOSITORY ?? 'Lucasdiogof/orbijob';
 const TOKEN = process.env.GITHUB_TOKEN ?? '';
 const enabled = (process.env.JOBICY_REVALIDATION_ENABLED ?? '') === 'true';
 const discoveryEnabled = (process.env.JOBICY_DISCOVERY_ENABLED ?? '') === 'true';
+const sourcesEnabled = (process.env.SOURCES_DISCOVERY_ENABLED ?? '') === 'true';
 
 const gh = async (path, init = {}) => {
   const r = await fetch(`${GH}${path}`, { ...init, headers: { Accept: 'application/vnd.github+json', ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}), 'X-GitHub-Api-Version': '2022-11-28', ...(init.headers ?? {}) }, signal: AbortSignal.timeout(20_000) });
@@ -57,11 +58,11 @@ if (enabled && lastDone && lastDone === runs.find((r) => r.status === 'completed
 }
 
 // 2b. the recurring discovery, only once it is switched on (JOBICY_DISCOVERY_ENABLED); same reading of the ALERT markers of the last failed run
-let discoverRuns = [];
-if (discoveryEnabled) {
-  const dl = await gh(`/repos/${REPO}/actions/workflows/jobicy-discover.yml/runs?event=schedule&per_page=10`);
-  discoverRuns = (dl.workflow_runs ?? []).map((r) => ({ id: r.id, createdAt: r.created_at, conclusion: r.conclusion, status: r.status, url: r.html_url, alerts: [] }));
-  const lastFailed = discoverRuns.find((r) => r.status === 'completed');
+// reads the scheduled runs of one discovery workflow and the ALERT markers of the last failed one
+async function readDiscoveryRuns(workflow) {
+  const dl = await gh(`/repos/${REPO}/actions/workflows/${workflow}/runs?event=schedule&per_page=10`);
+  const out = (dl.workflow_runs ?? []).map((r) => ({ id: r.id, createdAt: r.created_at, conclusion: r.conclusion, status: r.status, url: r.html_url, alerts: [] }));
+  const lastFailed = out.find((r) => r.status === 'completed');
   if (lastFailed && lastFailed.conclusion === 'failure') {
     const jobs = await gh(`/repos/${REPO}/actions/runs/${lastFailed.id}/jobs`).catch(() => ({ jobs: [] }));
     for (const j of jobs.jobs ?? []) for (const s of j.steps ?? []) {
@@ -70,12 +71,19 @@ if (discoveryEnabled) {
       if (m) lastFailed.alerts.push(m[1]);
     }
   }
+  return out;
 }
+const discoverRuns = discoveryEnabled ? await readDiscoveryRuns('jobicy-discover.yml') : [];
+const sourcesRuns = sourcesEnabled ? await readDiscoveryRuns('sources-discover.yml') : [];
 
 const base = evaluate({ nowMs: Date.now(), enabled, runs, oldestCheckedAt, visibleJobs });
-const alerts = [...base.alerts, ...evaluateDiscovery({ nowMs: Date.now(), enabled: discoveryEnabled, runs: discoverRuns })];
+const alerts = [
+  ...base.alerts,
+  ...evaluateDiscovery({ nowMs: Date.now(), enabled: discoveryEnabled, runs: discoverRuns }),
+  ...evaluateDiscovery({ nowMs: Date.now(), enabled: sourcesEnabled, runs: sourcesRuns, prefix: 'sources', label: 'das fontes adicionais (Arbeitnow, Remote OK, Remotive)' }),
+];
 const healthy = alerts.length === 0;
-console.log(`catalogo publico: ${visibleJobs} vagas; verificacao mais antiga: ${oldestCheckedAt ?? '-'}; automacao ${enabled ? 'LIGADA' : 'desligada'}; execucoes agendadas lidas: ${runs.length}; descoberta ${discoveryEnabled ? `LIGADA (${discoverRuns.length} execucoes lidas)` : 'desligada'}`);
+console.log(`catalogo publico: ${visibleJobs} vagas; verificacao mais antiga: ${oldestCheckedAt ?? '-'}; automacao ${enabled ? 'LIGADA' : 'desligada'}; execucoes agendadas lidas: ${runs.length}; descoberta ${discoveryEnabled ? `LIGADA (${discoverRuns.length} execucoes lidas)` : 'desligada'}; fontes adicionais ${sourcesEnabled ? `LIGADAS (${sourcesRuns.length} execucoes lidas)` : 'desligadas'}`);
 for (const a of alerts) console.log(`${a.severity.toUpperCase()} ${a.id}: ${a.message}`);
 console.log(healthy ? 'tudo normal' : `${alerts.length} alerta(s)`);
 if (dry) process.exit(0);

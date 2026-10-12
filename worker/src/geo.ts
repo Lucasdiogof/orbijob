@@ -16,6 +16,13 @@ const COUNTRIES: Record<string, string> = {
   romania: 'RO', serbia: 'RS', singapore: 'SG', slovakia: 'SK', slovenia: 'SI', 'south korea': 'KR', spain: 'ES',
   sweden: 'SE', switzerland: 'CH', thailand: 'TH', turkiye: 'TR', uae: 'AE', uk: 'GB', ukraine: 'UA', usa: 'US',
   vietnam: 'VN',
+  // ISO 3166-1 English short names that the other feeds (Remotive, Remote OK) write; the same rule: only names, never guesses
+  india: 'IN', pakistan: 'PK', nigeria: 'NG', kenya: 'KE', 'south africa': 'ZA', egypt: 'EG', colombia: 'CO', chile: 'CL', peru: 'PE',
+  uruguay: 'UY', indonesia: 'ID', taiwan: 'TW', iceland: 'IS', luxembourg: 'LU', malta: 'MT', bangladesh: 'BD', 'sri lanka': 'LK',
+  ghana: 'GH', morocco: 'MA', tunisia: 'TN', jordan: 'JO', qatar: 'QA', 'saudi arabia': 'SA', kazakhstan: 'KZ', georgia: 'GE',
+  armenia: 'AM', belarus: 'BY', moldova: 'MD', 'dominican republic': 'DO', 'puerto rico': 'PR', ecuador: 'EC', bolivia: 'BO',
+  paraguay: 'PY', venezuela: 'VE', guatemala: 'GT', panama: 'PA', 'el salvador': 'SV', honduras: 'HN', jamaica: 'JM', nepal: 'NP',
+  cambodia: 'KH',
 };
 
 /** Multi-country regions: kept as a region name, never expanded into countries. */

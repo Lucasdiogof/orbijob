@@ -447,6 +447,26 @@ void main() {
   });
 
   group('row mapping', () {
+    test('rows of the other sources show their own name and keep their own link (the link back their terms ask for)', () {
+      for (final (id, name, host) in [
+        ('arbeitnow', 'Arbeitnow', 'www.arbeitnow.com'),
+        ('remoteok', 'Remote OK', 'remoteok.com'),
+        ('remotive', 'Remotive', 'remotive.com'),
+      ]) {
+        final j = jobFromCatalogRow(
+          row(
+            source: {'id': id, 'attribution': 'Jobs via $name', 'can_redistribute': true, 'status': 'CONDITIONAL'},
+            extra: {'source_id': id, 'original_url': 'https://$host/jobs/1', 'apply_url': 'https://$host/jobs/1', 'country': null, 'salary_min': null, 'salary_max': null, 'salary_currency': null, 'salary_period': null, 'geo_restrictions': <String>[]},
+          ),
+        )!;
+        expect(j.source, id);
+        expect(j.sourceName, name);
+        expect(Uri.parse(j.originalUrl).host, host);
+        expect(j.salaryMin, isNull);
+        expect(j.country, isNull);
+      }
+    });
+
     test('a complete Jobicy row keeps source, attribution name, links, eligibility and salary', () {
       final j = jobFromCatalogRow(row())!;
       expect(j.source, 'jobicy');

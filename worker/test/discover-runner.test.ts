@@ -21,6 +21,8 @@ interface World {
   /** Rewrites an existing job when the first insert arrives (a misbehaving server): the post-run verification must catch it. */
   tamper?: boolean;
   failFeedAfter?: number; failStatus?: boolean;
+  /** Arbeitnow stand-in: the listings its feed returns (ORBIJOB_SOURCE=arbeitnow). */
+  arbFeed?: Row[];
 }
 let server: Server; let base = ''; let w: World;
 const json = (res: ServerResponse, code: number, body?: unknown) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(body === undefined ? '' : JSON.stringify(body)); };
@@ -33,6 +35,10 @@ const stored = (id: string, over: Row = {}): Row => ({
 
 async function handle(req: IncomingMessage, res: ServerResponse) {
   const url = new URL(req.url!, base);
+  if (url.pathname.startsWith('/api/job-board-api')) {
+    w.calls.feed++;
+    return json(res, 200, { data: w.arbFeed ?? [], links: { next: null } });
+  }
   if (url.pathname.endsWith('/status')) {
     w.calls.status++;
     if (w.failStatus) return json(res, 500, {});
@@ -52,7 +58,7 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
   const raw = await readBody(req);
   const payload = raw ? JSON.parse(raw) : undefined;
   if (req.method === 'DELETE') { w.calls.deletes++; return json(res, 204); }
-  if (table === 'job_sources') return json(res, 200, q.get('id') === 'eq.jobicy' ? [w.source] : []);
+  if (table === 'job_sources') return json(res, 200, q.get('id') === `eq.${w.source.id}` ? [w.source] : []);
   if (table === 'sync_runs') {
     if (req.method === 'GET') {
       const status = q.get('status') ?? '';
@@ -75,6 +81,7 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
     if (req.method === 'POST') {
       w.calls.jobPosts++;
       if (!String(req.headers.prefer).includes('ignore-duplicates')) return json(res, 400, { message: 'discovery must insert-only' });
+      if (req.method === 'POST' && w.source.id !== 'jobicy' && payload.some((r: Row) => r.source_id !== w.source.id)) return json(res, 400, { message: 'wrong source' });
       if (w.tamper) { const first = [...w.jobs.values()][0]; if (first) first.description = 'OVERWRITTEN'; }
       const inserted: Row[] = [];
       for (const r of payload as Row[]) { if (w.jobs.has(String(r.external_id))) continue; w.jobs.set(String(r.external_id), { ...r }); inserted.push({ external_id: r.external_id }); }
@@ -91,7 +98,12 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       const off = Number(q.get('offset') ?? 0);
       return json(res, 200, rows.slice(off, off + Number(q.get('limit') ?? 1000)).map((r) => Object.fromEntries(cols.map((c) => [c, r[c] ?? null]))));
     }
-    if (req.method === 'PATCH') { w.calls.patches++; return json(res, 204); }
+    if (req.method === 'PATCH') {
+      w.calls.patches++;
+      // confirmOpen: only last_checked_at of OPEN rows moves (a source without a status endpoint stamps what its feed still lists)
+      for (const m of (q.get('external_id') ?? '').matchAll(/"([^"]+)"/g)) { const j = w.jobs.get(m[1]!); if (j && j.status === 'open' && 'last_checked_at' in (payload ?? {})) Object.assign(j, payload); }
+      return json(res, 204);
+    }
   }
   w.calls.other++;
   return json(res, 404, { message: `unhandled ${req.method} ${table}` });
@@ -212,4 +224,33 @@ describe('scripts/discover-local.mjs (rehearsal against a local stand-in)', () =
     expect((await runner(['run', '--yes'])).code).toBe(1);
     expect(w.jobs.size).toBe(2);
   }, 120_000);
+});
+
+describe('scripts/discover-local.mjs with ORBIJOB_SOURCE=arbeitnow (a source without a status endpoint)', () => {
+  const listing = (slug: string, title: string) => ({ slug, company_name: 'Muster GmbH', title, description: '<p>Beschreibung</p>', remote: false, url: `https://www.arbeitnow.com/jobs/companies/muster/${slug}`, tags: [], job_types: ['Full time'], location: 'Berlin', created_at: 1791700000 });
+
+  it('inserts the new listings under their own source, stamps the open known one, never touches content, and the verification passes', async () => {
+    w.source = { id: 'arbeitnow', status: 'CONDITIONAL', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', can_redistribute: false };
+    w.jobs = new Map([['old-1', stored('old-1', { source_id: 'arbeitnow', original_url: 'https://www.arbeitnow.com/jobs/companies/muster/old-1', canonical_url: 'https://www.arbeitnow.com/jobs/companies/muster/old-1' })]]);
+    w.arbFeed = [listing('old-1', 'Changed title in the feed'), listing('new-1', 'Pflegefachkraft'), listing('new-2', 'Elektriker')];
+    const before = JSON.stringify(w.jobs.get('old-1'));
+    const r = await runner(['run', '--yes'], { ORBIJOB_SOURCE: 'arbeitnow' });
+    expect(r.out).toContain('verificacao: OK');
+    expect(r.code).toBe(0);
+    expect([...w.jobs.keys()].sort()).toEqual(['new-1', 'new-2', 'old-1']);
+    expect(w.jobs.get('new-1')).toMatchObject({ source_id: 'arbeitnow', status: 'open', title: 'Pflegefachkraft' });
+    const old = { ...w.jobs.get('old-1') } as Row;
+    expect(old.title).toBe('Role old-1'); // the feed's different title did not overwrite anything
+    expect(JSON.stringify({ ...old, last_checked_at: undefined })).toBe(JSON.stringify({ ...JSON.parse(before), last_checked_at: undefined }));
+    expect(old.last_checked_at).not.toBe(OLD); // stamped: the feed still lists it
+    expect(r.out).toMatch(/metricas: lidas=3 importadas=2 ja_conhecidas=1/);
+    expect(w.runs[0]).toMatchObject({ scope: 'discover', status: 'ok', upserted: 2 });
+    expect(w.calls.deletes).toBe(0);
+  });
+
+  it('refuses an unknown source before touching anything', async () => {
+    const r = await runner(['preflight'], { ORBIJOB_SOURCE: 'indeed' });
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('ORBIJOB_SOURCE desconhecida');
+  });
 });

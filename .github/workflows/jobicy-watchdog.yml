@@ -36,4 +36,5 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           JOBICY_REVALIDATION_ENABLED: ${{ vars.JOBICY_REVALIDATION_ENABLED }}
           JOBICY_DISCOVERY_ENABLED: ${{ vars.JOBICY_DISCOVERY_ENABLED }}
+          SOURCES_DISCOVERY_ENABLED: ${{ vars.SOURCES_DISCOVERY_ENABLED }}
         run: node worker/scripts/jobicy-watchdog.mjs

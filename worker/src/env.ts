@@ -5,6 +5,8 @@
  * Secrets are set with `wrangler secret put` (never in wrangler.toml, never in Git). Error messages built from this file
  * name the variable and the problem, never the value.
  */
+import { SOURCES } from './sources';
+
 export interface Env {
   /** https://<project-ref>.supabase.co */
   SUPABASE_URL?: string;
@@ -12,6 +14,10 @@ export interface Env {
   SUPABASE_SERVICE_ROLE_KEY?: string;
   /** Optional, tests only: origin of a stand-in Jobicy API (`https://jobicy.com` or a localhost URL). Unset in production. */
   JOBICY_API_URL?: string;
+  /** Which source this pass reads: `jobicy` (default), `arbeitnow`, `remoteok` or `remotive` (src/sources.ts). */
+  SYNC_SOURCE?: string;
+  /** Optional, tests only: origin of a stand-in API of the chosen source (a localhost URL). Unset in production. */
+  SOURCE_API_URL?: string;
   /** Optional: cap on feed pages per pass (1-100, default 40). */
   SYNC_MAX_PAGES?: string;
   /**
@@ -67,6 +73,10 @@ export interface Config {
   keyKind: 'secret' | 'service_role_jwt';
   /** Origin override for the Jobicy API; undefined in production. */
   jobicyOrigin?: string;
+  /** `job_sources.id` of the source this pass reads. */
+  source: string;
+  /** Origin override for the chosen source (tests only; undefined in production). */
+  sourceOrigin?: string;
   maxPages: number;
   mode: 'full' | 'revalidate' | 'discover';
   /** Cap on jobs added per pass in `full` and `discover` modes; undefined = uncapped (`discover` defaults to DISCOVER_DEFAULT_CAP). */
@@ -124,7 +134,25 @@ export function loadConfig(env: Env): Config {
     }
   }
 
-  let maxPages = 40;
+  let source = 'jobicy';
+  if (env.SYNC_SOURCE !== undefined && env.SYNC_SOURCE.trim() !== '') {
+    const v = env.SYNC_SOURCE.trim();
+    if (SOURCES[v]) source = v;
+    else problems.push(`SYNC_SOURCE must be one of: ${Object.keys(SOURCES).join(', ')}`);
+  }
+  const profile = SOURCES[source]!;
+  let sourceOrigin: string | undefined = jobicyOrigin;
+  if (env.SOURCE_API_URL !== undefined && env.SOURCE_API_URL.trim() !== '') {
+    try {
+      const u = new URL(env.SOURCE_API_URL.trim());
+      if (u.protocol === 'http:' && LOCAL_HOSTS.includes(u.hostname) && !u.username && !u.password) sourceOrigin = u.origin;
+      else problems.push('SOURCE_API_URL must be a localhost URL (it exists for tests only)');
+    } catch {
+      problems.push('SOURCE_API_URL is not a valid URL');
+    }
+  }
+
+  let maxPages = profile.maxPages;
   if (env.SYNC_MAX_PAGES !== undefined && env.SYNC_MAX_PAGES.trim() !== '') {
     const n = Number(env.SYNC_MAX_PAGES);
     if (Number.isInteger(n) && n >= 1 && n <= 100) maxPages = n;
@@ -145,14 +173,14 @@ export function loadConfig(env: Env): Config {
     else problems.push('SYNC_MAX_NEW_JOBS must be an integer from 0 to 10000');
   }
 
-  if (maxNewJobs === undefined && mode === 'discover') maxNewJobs = DISCOVER_DEFAULT_CAP;
+  if (maxNewJobs === undefined && mode === 'discover') maxNewJobs = profile.newCap;
 
-  let maxCatalogue: number | undefined = mode === 'discover' ? DISCOVER_DEFAULT_CATALOGUE : undefined;
+  let maxCatalogue: number | undefined = mode === 'discover' ? profile.catalogue : undefined;
   if (env.SYNC_MAX_CATALOGUE !== undefined && env.SYNC_MAX_CATALOGUE.trim() !== '') {
     const n = Number(env.SYNC_MAX_CATALOGUE);
     if (Number.isInteger(n) && n >= 1 && n <= 100_000) maxCatalogue = n;
     else problems.push('SYNC_MAX_CATALOGUE must be an integer from 1 to 100000');
   }
   if (problems.length) throw new ConfigError(problems);
-  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, maxPages, mode, maxNewJobs, maxCatalogue };
+  return { supabaseUrl, serviceKey: key, keyKind, jobicyOrigin, source, sourceOrigin, maxPages, mode, maxNewJobs, maxCatalogue };
 }

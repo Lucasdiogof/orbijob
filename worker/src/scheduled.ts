@@ -1,8 +1,8 @@
-import { jobicyConnector, JOBICY_SOURCE } from './connectors/jobicy';
 import { ConfigError, loadConfig, type Env } from './env';
 import { HttpError, withRetry, type RetryOptions } from './http';
 import { acquireLease } from './lease';
 import { createLogger, type LogSink } from './log';
+import { SOURCES } from './sources';
 import { SupabaseJobStore } from './store/supabase';
 import { runSync, type SyncRunRow, type SyncSummary } from './sync';
 
@@ -57,7 +57,7 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   let lease;
   try {
     lease = await withRetry(
-      () => acquireLease(store, { sourceId: JOBICY_SOURCE.id, scope: cfg.mode === 'full' ? '' : cfg.mode, now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS }),
+      () => acquireLease(store, { sourceId: cfg.source, scope: cfg.mode === 'full' ? '' : cfg.mode, now: startedAt, ttlMs: LEASE_TTL_MS, minIntervalMs: MIN_INTERVAL_MS }),
       retry,
     );
   } catch (e) {
@@ -71,11 +71,11 @@ export async function runScheduledSync(env: Env, deps: Deps): Promise<Outcome> {
   }
 
   // 2. The pass. Its final record goes to the row opened by the lease, so the table shows one row per run.
-  log('info', 'sync_start', { runId: lease.id, mode: cfg.mode, maxPages: cfg.maxPages, maxNewJobs: cfg.maxNewJobs, budgetMs });
+  log('info', 'sync_start', { runId: lease.id, source: cfg.source, mode: cfg.mode, maxPages: cfg.maxPages, maxNewJobs: cfg.maxNewJobs, budgetMs });
   let summary: SyncSummary;
   try {
     summary = await runSync({
-      connector: jobicyConnector(deps.fetch, deps.now, { origin: cfg.jobicyOrigin }),
+      connector: SOURCES[cfg.source]!.make(deps.fetch, deps.now, cfg.sourceOrigin),
       store,
       scope: '',
       now: deps.now,

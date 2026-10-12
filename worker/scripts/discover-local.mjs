@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// DESCOBERTA INCREMENTAL de vagas novas do Jobicy. Só INSERE vagas que ainda não estão no banco. Não usa Cloudflare, não deixa cron, não faz deploy.
+// DESCOBERTA INCREMENTAL de vagas novas de UMA fonte (ORBIJOB_SOURCE: jobicy, arbeitnow, remoteok ou remotive; padrão jobicy). Só INSERE vagas que ainda não estão no banco. Não usa Cloudflare, não deixa cron, não faz deploy.
 //
 //   node scripts/discover-local.mjs preflight      somente leitura: confere chave, fonte, passada em andamento e quantas vagas já existem
 //   node scripts/discover-local.mjs preview        SIMULAÇÃO: lê o feed e pergunta o status, calcula o que seria importado e NÃO grava nada
 //   node scripts/discover-local.mjs run --yes      UMA passada real (SYNC_MODE=discover) + verificação do que mudou
 //
-// O que a passada faz: lê o feed oficial do Jobicy (somente a API v2 sem chave, 1 requisição/s, uma passada por hora pela lease); separa o
+// O que a passada faz: lê o feed oficial da fonte (Jobicy: API v2 sem chave; as outras: docs/SOURCES_MATRIX.md; ritmo e páginas por fonte em src/sources.ts; uma passada por hora por fonte pela lease); separa o
 // que já está gravado (qualquer status) e os duplicados; pergunta ao endpoint oficial de status se as vagas novas estão ATIVAS e só insere
 // as confirmadas (INSERT ... ON CONFLICT DO NOTHING). NÃO atualiza, NÃO fecha, NÃO reabre e NÃO apaga vaga existente, NÃO toca em job_sources
 // (can_redistribute) nem em tabela de usuário. Revalidar as já gravadas é outro trabalho (Supabase Cron / revalidate-local.mjs).
@@ -35,6 +35,7 @@ const JOBICY_ORIGIN = localOnly('ORBIJOB_REHEARSAL_JOBICY');
 const BUDGET_MS = 3 * 60_000;
 const HARD_LIMIT_MS = 4 * 60_000;
 const HOUR = 3_600_000;
+const SRC = (process.env.ORBIJOB_SOURCE ?? 'jobicy').trim();
 const [, , mode = '', ...flags] = process.argv;
 if (!['preflight', 'preview', 'run'].includes(mode)) { console.error('uso: node scripts/discover-local.mjs preflight | preview | run --yes'); process.exit(2); }
 const fail = (m) => { console.error(`PARE: ${m}`); process.exit(1); };
@@ -45,12 +46,14 @@ if (!KEY) fail('defina ORBIJOB_SUPABASE_SECRET (chave sb_secret_ exclusiva); nen
 const srcDir = fileURLToPath(new URL('../src/', import.meta.url));
 const out = await build({
   stdin: {
-    contents: "export { runScheduledSync } from './scheduled'; export { runSync } from './sync'; export { jobicyConnector } from './connectors/jobicy'; export { SupabaseJobStore } from './store/supabase'; export { classifyKey, DISCOVER_DEFAULT_CAP, DISCOVER_DEFAULT_CATALOGUE } from './env'; export { consoleSink } from './log';",
+    contents: "export { runScheduledSync } from './scheduled'; export { runSync } from './sync'; export { SOURCES } from './sources'; export { SupabaseJobStore } from './store/supabase'; export { classifyKey, DISCOVER_DEFAULT_CAP, DISCOVER_DEFAULT_CATALOGUE } from './env'; export { consoleSink } from './log';",
     resolveDir: srcDir, loader: 'ts',
   },
   bundle: true, format: 'esm', platform: 'node', target: 'node22', write: false, logLevel: 'silent',
 });
 const W = await import('data:text/javascript;base64,' + Buffer.from(out.outputFiles[0].text).toString('base64'));
+const PROFILE = W.SOURCES[SRC];
+if (!PROFILE) fail(`ORBIJOB_SOURCE desconhecida: ${SRC} (use ${Object.keys(W.SOURCES).join(', ')})`);
 if (W.classifyKey(KEY) !== 'secret') fail('credencial recusada: so uma chave sb_secret_ exclusiva e aceita (nunca a chave JWT legada)');
 
 const rest = async (path) => {
@@ -68,21 +71,21 @@ const hash = (row) => createHash('sha256').update(JSON.stringify(CONTENT.map((c)
 async function snapshot() {
   const jobs = new Map();
   for (let off = 0; ; off += 1000) {
-    const page = await rest(`jobs?select=external_id,source_id,status,last_checked_at,${CONTENT.join(',')}&source_id=eq.jobicy&order=external_id&limit=1000&offset=${off}`);
+    const page = await rest(`jobs?select=external_id,source_id,status,last_checked_at,${CONTENT.join(',')}&source_id=eq.${SRC}&order=external_id&limit=1000&offset=${off}`);
     for (const j of page) jobs.set(j.external_id, { status: j.status, last_checked_at: j.last_checked_at, source_id: j.source_id, url: j.original_url, hash: hash(j) });
     if (page.length < 1000) break;
   }
-  const source = (await rest('job_sources?select=id,status,attribution,can_redistribute&id=eq.jobicy'))[0] ?? null;
-  const runs = await rest('sync_runs?select=id,status,started_at&source_id=eq.jobicy&order=started_at.desc&limit=200');
+  const source = (await rest(`job_sources?select=id,status,attribution,can_redistribute&id=eq.${SRC}`))[0] ?? null;
+  const runs = await rest(`sync_runs?select=id,status,started_at&source_id=eq.${SRC}&order=started_at.desc&limit=200`);
   return { jobs, source, running: runs.filter((r) => r.status === 'running').length, runs: runs.length, lastStart: runs[0]?.started_at ?? null };
 }
 
 const before = await snapshot();
 const pre = [];
-if (!before.source) pre.push('a fonte jobicy nao existe');
+if (!before.source) pre.push(`a fonte ${SRC} nao existe`);
 if (before.running > 0) pre.push('ha uma passada em andamento (running) em sync_runs');
-if (before.lastStart && Date.now() - Date.parse(before.lastStart) < HOUR && mode !== 'preflight') pre.push('houve uma passada na ultima hora (regra do Jobicy: no maximo uma por hora); tente mais tarde');
-console.log(`preflight: ${pre.length ? 'REPROVADO' : 'OK'}  vagas_gravadas=${before.jobs.size} fonte=${before.source?.status}/${before.source?.can_redistribute} limite_por_passada=${process.env.SYNC_MAX_NEW_JOBS || W.DISCOVER_DEFAULT_CAP} teto_do_catalogo=${process.env.SYNC_MAX_CATALOGUE || W.DISCOVER_DEFAULT_CATALOGUE}`);
+if (before.lastStart && Date.now() - Date.parse(before.lastStart) < HOUR && mode !== 'preflight') pre.push('houve uma passada na ultima hora (no maximo uma passada por hora por fonte); tente mais tarde');
+console.log(`preflight: ${pre.length ? 'REPROVADO' : 'OK'}  vagas_gravadas=${before.jobs.size} fonte=${before.source?.status}/${before.source?.can_redistribute} fonte=${SRC} limite_por_passada=${process.env.SYNC_MAX_NEW_JOBS || PROFILE.newCap} teto_do_catalogo=${process.env.SYNC_MAX_CATALOGUE || PROFILE.catalogue}`);
 for (const p of pre) console.log(`  FALHA  ${p}`);
 if (mode === 'preflight') process.exit(pre.length ? 1 : 0);
 if (pre.length) fail('preflight reprovado: nada foi gravado');
@@ -101,10 +104,10 @@ if (mode === 'preview') {
     listOpenExternalIds: async () => [], markClosed: async () => { throw new Error('preview must never write'); },
     recordRun: async () => {},
   };
-  const maxNewJobs = process.env.SYNC_MAX_NEW_JOBS ? Number(process.env.SYNC_MAX_NEW_JOBS) : W.DISCOVER_DEFAULT_CAP;
+  const maxNewJobs = process.env.SYNC_MAX_NEW_JOBS ? Number(process.env.SYNC_MAX_NEW_JOBS) : PROFILE.newCap;
   const s = await W.runSync({
-    connector: W.jobicyConnector((i, o) => fetch(i, o), () => new Date(), { origin: JOBICY_ORIGIN }),
-    store: dry, scope: '', mode: 'discover', maxNewJobs, maxTotalJobs: process.env.SYNC_MAX_CATALOGUE ? Number(process.env.SYNC_MAX_CATALOGUE) : W.DISCOVER_DEFAULT_CATALOGUE, maxPages: 40,
+    connector: PROFILE.make((i, o) => fetch(i, o), () => new Date(), JOBICY_ORIGIN),
+    store: dry, scope: '', mode: 'discover', maxNewJobs, maxTotalJobs: process.env.SYNC_MAX_CATALOGUE ? Number(process.env.SYNC_MAX_CATALOGUE) : PROFILE.catalogue, maxPages: PROFILE.maxPages,
     deadlineAt: Date.now() + BUDGET_MS, recordRun: async () => {},
     log: (event, data) => console.log(JSON.stringify({ level: 'info', event, ...data })),
   });
@@ -120,7 +123,7 @@ let outcome;
 let crash = null; // SyncFailure kind ('auth' | 'unreachable' | 'unexpected') or the error name, for the exit code
 try {
   outcome = await W.runScheduledSync(
-    { SUPABASE_URL: PROJECT_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, SYNC_MODE: 'discover', ...(process.env.SYNC_MAX_NEW_JOBS ? { SYNC_MAX_NEW_JOBS: process.env.SYNC_MAX_NEW_JOBS } : {}), ...(process.env.SYNC_MAX_CATALOGUE ? { SYNC_MAX_CATALOGUE: process.env.SYNC_MAX_CATALOGUE } : {}), ...(JOBICY_ORIGIN ? { JOBICY_API_URL: JOBICY_ORIGIN } : {}) },
+    { SUPABASE_URL: PROJECT_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, SYNC_MODE: 'discover', SYNC_SOURCE: SRC, ...(process.env.SYNC_MAX_NEW_JOBS ? { SYNC_MAX_NEW_JOBS: process.env.SYNC_MAX_NEW_JOBS } : {}), ...(process.env.SYNC_MAX_CATALOGUE ? { SYNC_MAX_CATALOGUE: process.env.SYNC_MAX_CATALOGUE } : {}), ...(JOBICY_ORIGIN ? (SRC === 'jobicy' ? { JOBICY_API_URL: JOBICY_ORIGIN } : { SOURCE_API_URL: JOBICY_ORIGIN }) : {}) },
     { fetch: (i, o) => fetch(i, o), now: () => new Date(), sink: W.consoleSink, budgetMs: BUDGET_MS },
   );
 } catch (e) {
@@ -146,9 +149,9 @@ for (const [id, j] of after.jobs) {
   if (before.jobs.has(id)) continue;
   added++;
   if (j.status !== 'open') problems.push('uma vaga nova entrou fechada');
-  if (j.source_id !== 'jobicy') problems.push('uma vaga nova entrou com fonte diferente');
+  if (j.source_id !== SRC) problems.push('uma vaga nova entrou com fonte diferente');
   let host = ''; try { host = new URL(j.url).hostname; } catch { /* below */ }
-  if (host !== 'jobicy.com' && !host.endsWith('.jobicy.com')) problems.push('uma vaga nova nao tem a URL original do Jobicy');
+  if (host !== PROFILE.host && !host.endsWith(`.${PROFILE.host}`)) problems.push(`uma vaga nova nao tem a URL original de ${PROFILE.host}`);
 }
 const expected = outcome?.summary ? outcome.summary.upserted : 0;
 if (outcome && outcome.status !== 'skipped' && added !== expected) problems.push(`vagas novas (${added}) diferem do informado pela passada (${expected})`);
