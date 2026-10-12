@@ -90,6 +90,9 @@ function geoOf(raw: unknown): { country: string | null; restrictions: string[] }
 
 // ───────────────────────────── Arbeitnow ─────────────────────────────
 
+/** Arbeitnow's own regional sites: the feed links UK, French and Swiss jobs to them. */
+export const ARBEITNOW_HOSTS = ['arbeitnow.com', 'arbeitnow.co.uk', 'arbeitnow.fr', 'arbeitnow.ch'] as const;
+
 export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
   const r = raw as Record<string, unknown>;
@@ -99,7 +102,7 @@ export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
   if (!title) return { ok: false, reason: 'missing_title', externalId: slug };
   const company = inlineText(str(r.company_name));
   if (!company) return { ok: false, reason: 'missing_company', externalId: slug };
-  const url = ownUrl(r.url, 'arbeitnow.com') ?? ownUrl(r.url, 'arbeitnow.co.uk');
+  const url = ARBEITNOW_HOSTS.map((h) => ownUrl(r.url, h)).find((u) => u !== null) ?? null;
   if (!url) return { ok: false, reason: 'invalid_url', externalId: slug };
   const types = arr(r.job_types).map((t) => inlineText(str(t))).filter(Boolean);
   const remote = r.remote === true;

@@ -1,4 +1,4 @@
-import { arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
+import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
 import { jobicyConnector } from './connectors/jobicy';
 import type { Connector } from './types';
 
@@ -13,8 +13,10 @@ export interface SourceProfile {
   id: string;
   /** `job_sources.attribution`: shown with every job of the source. Must name the source and link to it (their terms ask for a link back). */
   attribution: string;
-  /** Host that every stored `original_url` must be on. */
+  /** Main host of the source. */
   host: string;
+  /** Every host a stored `original_url` may be on (defaults to `host`). */
+  hosts?: readonly string[];
   /** Feed pages a `discover` pass may read. */
   maxPages: number;
   /** New jobs one pass may add. */
@@ -31,7 +33,7 @@ export const SOURCES: Record<string, SourceProfile> = {
     make: (f, n, origin) => jobicyConnector(f, n, { origin }),
   },
   arbeitnow: {
-    id: 'arbeitnow', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', host: 'arbeitnow.com',
+    id: 'arbeitnow', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', host: 'arbeitnow.com', hosts: ARBEITNOW_HOSTS,
     maxPages: 5, newCap: 300, catalogue: 1500,
     make: (f, n, origin) => arbeitnowConnector(f, n, { origin }),
   },

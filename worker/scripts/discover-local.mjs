@@ -151,7 +151,7 @@ for (const [id, j] of after.jobs) {
   if (j.status !== 'open') problems.push('uma vaga nova entrou fechada');
   if (j.source_id !== SRC) problems.push('uma vaga nova entrou com fonte diferente');
   let host = ''; try { host = new URL(j.url).hostname; } catch { /* below */ }
-  if (host !== PROFILE.host && !host.endsWith(`.${PROFILE.host}`)) problems.push(`uma vaga nova nao tem a URL original de ${PROFILE.host}`);
+  if (!(PROFILE.hosts ?? [PROFILE.host]).some((h) => host === h || host.endsWith(`.${h}`))) problems.push(`uma vaga nova nao tem a URL original de ${PROFILE.host}`);
 }
 const expected = outcome?.summary ? outcome.summary.upserted : 0;
 if (outcome && outcome.status !== 'skipped' && added !== expected) problems.push(`vagas novas (${added}) diferem do informado pela passada (${expected})`);
