@@ -84,10 +84,18 @@ const before = await snapshot();
 const pre = [];
 if (!before.source) pre.push(`a fonte ${SRC} nao existe`);
 if (before.running > 0) pre.push('ha uma passada em andamento (running) em sync_runs');
-if (before.lastStart && Date.now() - Date.parse(before.lastStart) < HOUR && mode !== 'preflight') pre.push('houve uma passada na ultima hora (no maximo uma passada por hora por fonte); tente mais tarde');
+// A pass of this source (any scope: discovery or revalidation, here or in the database) less than an hour ago is not a failure: the lease makes this one stand down.
+const tooSoon = Boolean(before.lastStart && Date.now() - Date.parse(before.lastStart) < HOUR && mode !== 'preflight');
+if (tooSoon) pre.push('houve uma passada na ultima hora (no maximo uma passada por hora por fonte); tente mais tarde');
 console.log(`preflight: ${pre.length ? 'REPROVADO' : 'OK'}  vagas_gravadas=${before.jobs.size} fonte=${before.source?.status}/${before.source?.can_redistribute} fonte=${SRC} limite_por_passada=${process.env.SYNC_MAX_NEW_JOBS || PROFILE.newCap} teto_do_catalogo=${process.env.SYNC_MAX_CATALOGUE || PROFILE.catalogue}`);
 for (const p of pre) console.log(`  FALHA  ${p}`);
 if (mode === 'preflight') process.exit(pre.length ? 1 : 0);
+if (pre.length === 1 && tooSoon && mode === 'run') {
+  // stands down exactly like the Worker's lease (`skipped (too_soon)`): green, nothing written, and said so
+  console.log('resultado: skipped (too_soon)');
+  console.log('codigo de saida: 0');
+  process.exit(0);
+}
 if (pre.length) fail('preflight reprovado: nada foi gravado');
 
 const metrics = (s) => `metricas: lidas=${s.fetched} importadas=${s.upserted} ja_conhecidas=${s.alreadyKnown} duplicadas=${s.duplicates} inativas=${s.inactive} rejeitadas=${s.rejected} adiadas_pelo_limite=${s.skippedNew} atualizadas=0 fechadas=0 paginas=${s.pages}`;

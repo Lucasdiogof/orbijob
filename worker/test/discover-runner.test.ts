@@ -197,13 +197,23 @@ describe('scripts/discover-local.mjs (rehearsal against a local stand-in)', () =
     expect(w.runs[0]).toMatchObject({ status: 'partial', error_class: 'catalogue_full' });
   });
 
-  it('a second pass within the hour is refused before reading the feed (one pass per hour)', async () => {
+  it('a second pass within the hour stands down before reading the feed, green and saying so (one pass per hour, like the Worker lease)', async () => {
     expect((await runner(['run', '--yes'])).code).toBe(0);
     const feedCalls = w.calls.feed;
     const again = await runner(['run', '--yes']);
-    expect(again.code).toBe(1);
+    expect(again.code).toBe(0);
+    expect(again.out).toContain('skipped (too_soon)');
     expect(again.out).toContain('ultima hora');
     expect(w.calls.feed).toBe(feedCalls);
+    const stored = w.jobs.size;
+    expect(stored).toBeGreaterThan(0);
+  });
+
+  it('a preview within the hour is still refused (it is a manual check, not a schedule)', async () => {
+    expect((await runner(['run', '--yes'])).code).toBe(0);
+    const again = await runner(['preview']);
+    expect(again.code).toBe(1);
+    expect(again.out).toContain('ultima hora');
   });
 
   it('a stand-in that rewrites a stored job is caught by the verification (exit 1)', async () => {
