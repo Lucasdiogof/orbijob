@@ -92,7 +92,7 @@ jobs:
           ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
         run: node scripts/discover-local.mjs preflight
 
-      - name: Preview (simulation: reads the feed, writes nothing)
+      - name: 'Preview (simulation - reads the feed, writes nothing)'
         if: github.event_name == 'workflow_dispatch' && inputs.action == 'preview'
         env:
           ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
