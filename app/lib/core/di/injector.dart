@@ -23,9 +23,11 @@ import '../../features/profile/presentation/profile_cubit.dart';
 import '../../features/profile/presentation/resumes_cubit.dart';
 
 import '../../features/favorites/favorites_cubit.dart';
+import '../../features/home/latest_jobs_cubit.dart';
 import '../../features/home/recent_searches_cubit.dart';
 import '../../features/search/data/supabase_job_catalog_repository.dart';
 import '../../features/search/domain/search_repository.dart';
+import '../../features/search/presentation/cubit/areas_cubit.dart';
 import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
 import '../locale_cubit.dart';
@@ -34,8 +36,8 @@ import '../theme_cubit.dart';
 final sl = GetIt.instance;
 
 /// Registers the app graph. [searchRepository] lets previews and tests plug another source; without one, a build with a
-/// Supabase configuration reads the job catalogue ([registerSupabaseRepositories]) and a build without it honestly
-/// reports "no integrated source".
+/// Supabase configuration reads the job catalogue ([registerSupabaseRepositories]) and a build without it reports
+/// "not connected" (never "no integrated source", which means the backend answered that no source covers a search).
 /// A registered dependency, or null when this build does not have it (no Supabase configuration). Cubits receive
 /// null and report "not configured" instead of pretending to store data.
 T? maybe<T extends Object>() => sl.isRegistered<T>() ? sl<T>() : null;
@@ -61,9 +63,13 @@ void configureDependencies({
     ..registerLazySingleton<RecentSearchesCubit>(RecentSearchesCubit.new)
     ..registerFactory<SearchCubit>(
       () => SearchCubit(
-        maybe<SearchRepository>() ?? NoSourceSearchRepository(),
+        maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
         onQuery: sl<RecentSearchesCubit>().record,
       ),
+    )
+    ..registerFactory<AreasCubit>(() => AreasCubit(maybe<SearchRepository>()))
+    ..registerFactory<LatestJobsCubit>(
+      () => LatestJobsCubit(maybe<SearchRepository>() ?? UnconfiguredSearchRepository()),
     )
     ..registerFactory<ThemeCubit>(ThemeCubit.new)
     ..registerFactory<LocaleCubit>(LocaleCubit.new)

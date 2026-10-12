@@ -1,4 +1,5 @@
 import 'entities/job_posting.dart';
+import 'job_area.dart';
 import 'job_filters.dart';
 
 class SearchResult {
@@ -6,6 +7,7 @@ class SearchResult {
     required this.jobs,
     required this.hasIntegratedSource,
     this.hasMore = false,
+    this.notConfigured = false,
     int? consumed,
   }) : _consumed = consumed; // ignore: prefer_initializing_formals
   final List<ScoredJob> jobs;
@@ -16,6 +18,10 @@ class SearchResult {
 
   /// Another page exists after this one.
   final bool hasMore;
+
+  /// The build has no backend configuration at all (no SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY). Different from
+  /// [hasIntegratedSource] = false (the backend answered that no source covers the query) and from an empty list.
+  final bool notConfigured;
 
   /// Server rows this page used up. Differs from `jobs.length` when invalid rows were skipped, and is what the next
   /// request's `offset` must advance by.
@@ -32,6 +38,24 @@ abstract class SearchRepository {
     int offset = 0,
     int limit = 20,
   });
+}
+
+/// Repositories that can say how many open jobs each [JobArea] has (one count request per area).
+abstract interface class AreaCountSource {
+  Future<Map<JobArea, int>> areaCounts();
+}
+
+/// A build started without the backend configuration. It must not claim "no source covers this search": it says the build
+/// is not connected, so a developer who forgot `--dart-define-from-file` sees the real cause.
+class UnconfiguredSearchRepository implements SearchRepository {
+  @override
+  Future<SearchResult> search(
+    String query, {
+    String? countryCode,
+    JobFilters filters = const JobFilters(),
+    int offset = 0,
+    int limit = 20,
+  }) async => const SearchResult(jobs: [], hasIntegratedSource: false, notConfigured: true);
 }
 
 /// No connector is wired yet, so the honest answer is "no integrated source".

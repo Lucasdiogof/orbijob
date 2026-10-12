@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/search/data/supabase_job_catalog_repository.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
+import 'package:orbijob/features/search/domain/job_area.dart';
 import 'package:orbijob/features/search/domain/job_filters.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -62,6 +63,54 @@ void main() {
   final fixedNow = DateTime.utc(2026, 10, 10, 12);
   SupabaseJobCatalogRepository repoFor(FakeBackend b) =>
       SupabaseJobCatalogRepository(b.client, now: () => fixedNow);
+
+  group('professional areas', () {
+    test('an area filter adds ONE or=(title.ilike...) clause on top of the visibility rules', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('', filters: const JobFilters(area: JobArea.health));
+      final r = b.requests.first;
+      expect(r.query['status'], 'eq.open');
+      expect(r.query['job_sources.can_redistribute'], 'eq.true');
+      final or = r.query['or']!;
+      expect(or, startsWith('(title.ilike.*nurse*'));
+      expect(or, contains('title.ilike.*physio*'));
+      expect(or, endsWith(')'));
+    });
+
+    test('an area and a term are two separate or-clauses (both must hold)', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('flutter', filters: const JobFilters(area: JobArea.technology));
+      final ors = b.requests.first.request.url.query.split('&').where((p) => p.startsWith('or=')).toList();
+      expect(ors, hasLength(2));
+    });
+
+    test('areaCounts asks one count per area with the same visibility rules, selecting only ids and one row', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) {
+          final or = url.queryParameters['or'] ?? '';
+          final n = or.contains('nurse') ? 3 : (or.contains('software') ? 41 : 0);
+          return {'content-range': '0-0/$n'};
+        },
+      );
+      final counts = await repoFor(b).areaCounts();
+      expect(counts.keys, JobArea.values);
+      expect(counts[JobArea.health], 3);
+      expect(counts[JobArea.technology], 41);
+      expect(counts[JobArea.hospitality], 0);
+      expect(b.requests, hasLength(JobArea.values.length));
+      for (final r in b.requests) {
+        expect(r.method, 'GET');
+        expect(r.query['select'], 'id,job_sources!inner(id)'); // no description, no content: ids only
+        expect(r.query['limit'], '1');
+        expect(r.request.headers['Prefer'], contains('count=exact'));
+        expect(r.query['status'], 'eq.open');
+        expect(r.query['job_sources.can_redistribute'], 'eq.true');
+        expect(r.query['last_checked_at'], startsWith('gte.2026-10-07'));
+        expect(r.query['or'], startsWith('(title.ilike.'));
+      }
+    });
+  });
 
   group('request shape', () {
     test('reads public.jobs with the publishable key, only open jobs of authorised sources', () async {

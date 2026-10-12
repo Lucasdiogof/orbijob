@@ -419,5 +419,21 @@
         "type": "String"
       }
     }
-  }
+  },
+  "areaData": "Data & AI",
+  "areaDesign": "Design",
+  "areaProduct": "Product & projects",
+  "areaSales": "Sales",
+  "areaMarketing": "Marketing & content",
+  "areaSupport": "Customer support",
+  "areaFinance": "Finance & legal",
+  "areaPeople": "People & operations",
+  "areaHospitality": "Hospitality & tourism",
+  "areaPublic": "Public sector & nonprofit",
+  "areaAll": "All areas",
+  "notConfiguredTitle": "This build is not connected to OrbiJob",
+  "notConfiguredBody": "The app was started without the backend configuration (SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY). Developers: run it with --dart-define-from-file.",
+  "homeLatestTitle": "Latest jobs",
+  "homeLatestSeeAll": "See all",
+  "homeLatestEmpty": "There are no jobs to show right now. Try again later."
 }

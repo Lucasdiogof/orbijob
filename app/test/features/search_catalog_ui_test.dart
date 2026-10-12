@@ -188,14 +188,13 @@ void main() {
   );
 
   testWidgets(
-    'idle Explore offers the newest jobs; the real catalogue answers with no search term',
+    'Explore opens on the newest jobs by itself: the catalogue answers with no search term and no tap',
     (t) async {
       final repo = CatalogRepo([job('1'), job('2')]);
       await pumpApp(t, repo: repo);
       await openExplore(t);
-      await t.tap(find.text('Show latest jobs'));
-      await t.pumpAndSettle();
-      expect(repo.calls.single.$1, '');
+      expect(repo.calls.every((c) => c.$1 == ''), isTrue);
+      expect(repo.calls, isNotEmpty);
       expect(find.text('Account Executive 1'), findsOneWidget);
       expect(
         find.text('2 results'),
@@ -341,14 +340,16 @@ void main() {
   );
 
   testWidgets('a server error shows retry; retrying shows the jobs', (t) async {
-    final repo = CatalogRepo([job('1')])..failNext = Exception('boom');
+    final repo = CatalogRepo([job('1')]);
     await pumpApp(t, repo: repo);
+    final before = repo.calls.length; // Home and Explore list the newest jobs when the app opens
+    repo.failNext = Exception('boom');
     await searchFor(t, 'account');
     expect(find.text('Something went wrong'), findsOneWidget);
     await t.tap(find.text('Try again'));
     await t.pumpAndSettle();
     expect(find.text('Account Executive 1'), findsOneWidget);
-    expect(repo.calls, hasLength(2));
+    expect(repo.calls.length - before, 2);
   });
 
   testWidgets(
@@ -496,11 +497,6 @@ void main() {
       await pumpApp(t, repo: repo, locale: const Locale('pt'));
       await t.tap(find.text('Explorar'));
       await t.pumpAndSettle();
-      expect(find.text('Ver vagas recentes'), findsOneWidget);
-      await t.ensureVisible(find.text('Ver vagas recentes'));
-      await t.pumpAndSettle();
-      await t.tap(find.text('Ver vagas recentes'));
-      await t.pumpAndSettle();
       expect(find.text('Mostrando 20 vagas'), findsOneWidget);
       expect(find.textContaining('Fonte: Jobicy'), findsWidgets);
       expect(find.text('Filtros'), findsOneWidget);
@@ -517,12 +513,7 @@ void main() {
     await pumpApp(t, repo: CatalogRepo([job('1')]), locale: const Locale('es'));
     await t.tap(find.text('Explorar'));
     await t.pumpAndSettle();
-    await t.scrollUntilVisible(
-      find.text('Ver empleos recientes'),
-      200,
-      scrollable: resultsScrollable,
-    );
-    expect(find.text('Ver empleos recientes'), findsOneWidget);
+    expect(find.text('Account Executive 1'), findsOneWidget);
     expect(find.text('Filtros'), findsOneWidget);
   });
 

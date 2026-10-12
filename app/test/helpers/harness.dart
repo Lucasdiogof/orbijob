@@ -48,6 +48,9 @@ Future<void> pumpApp(
   PdfPicker? pdfPicker,
   Locale? locale,
   double devicePixelRatio = 1,
+
+  /// False when the repository never answers (a loading state): its skeleton animates forever, so nothing can "settle".
+  bool settle = true,
 }) async {
   t.view.physicalSize = size * devicePixelRatio;
   t.view.devicePixelRatio = devicePixelRatio;
@@ -67,7 +70,11 @@ Future<void> pumpApp(
   );
   (fakes ?? Fakes()).register();
   await t.pumpWidget(const OrbiJobApp());
-  await t.pumpAndSettle();
+  if (settle) {
+    await t.pumpAndSettle();
+  } else {
+    await t.pump(const Duration(milliseconds: 100));
+  }
 }
 
 /// Path of a repository file relative to the app directory (tests run from app/).

@@ -1,0 +1,121 @@
+/// Professional areas offered as browse filters.
+///
+/// The catalogue has no profession column (`jobs.isco08` is empty), so an area is a deterministic, auditable rule on the
+/// job TITLE: a job belongs to an area when its title contains one of the area's keywords (case-insensitive, any
+/// language listed). Nothing is guessed from the description, nothing is translated, no external service is involved,
+/// and a job can belong to more than one area (a "Data Engineer" is both technology and data). Keywords are chosen to
+/// avoid short fragments that sit inside unrelated words ("tax" in "taxonomy", "seo" in "Seoul", "ngo" in "MongoDB").
+///
+/// The same list drives the server filter (`title.ilike`) and the chips: an area whose count is zero is not shown.
+enum JobArea {
+  technology([
+    'software', 'developer', 'desenvolvedor', 'desarrollador', 'programmer', 'programador', 'devops', 'backend', 'back-end',
+    'frontend', 'front-end', 'full stack', 'full-stack', 'fullstack', 'site reliability', 'sysadmin', 'systems administrator',
+    'cloud', 'cybersecurity', 'information security', 'security engineer', 'quality assurance', 'qa engineer', 'engineer',
+    'engenheiro de software', 'ingeniero de software', 'it support', 'network administrator', 'firmware', 'embedded', 'automation',
+  ]),
+  data([
+    'data', 'machine learning', 'analytics', 'analista de dados', 'cientista de dados', 'analista de datos', 'científico de datos',
+    'business intelligence', 'artificial intelligence', 'inteligência artificial', 'inteligencia artificial', 'statistic',
+    'estatístic', 'research scientist', 'ai engineer', 'ml engineer',
+  ]),
+  design([
+    'design', 'ux/ui', 'ui/ux', 'ux research', 'graphic', 'illustrat', 'motion', 'creative director', 'art director',
+    'diseñador', 'visual',
+  ]),
+  product([
+    'product manager', 'product owner', 'program manager', 'project manager', 'scrum master', 'agile coach', 'delivery manager',
+    'gerente de produto', 'gerente de projeto', 'jefe de producto', 'gerente de proyecto', 'product operations',
+    'technical program', 'chief of staff',
+  ]),
+  sales([
+    'sales', 'account executive', 'business development', 'sdr', 'account manager', 'vendas', 'vendedor', 'comercial', 'ventas',
+    'revenue', 'partnerships', 'solutions consultant', 'inside sales', 'customer executive', 'partner manager', 'closer', 'account director', 'account development', 'territory manager', 'country manager', 'alliances', 'channels',
+  ]),
+  marketing([
+    'marketing', 'content', 'copywrit', 'social media', 'communications', 'editor', 'writer', 'redator', 'redação', 'conteúdo',
+    'comunicação', 'publicidade', 'advertis', 'brand', 'public relations', 'community manager', 'influencer', 'mercadeo',
+    'search engine optimization', 'seo specialist', 'seo manager', 'growth',
+  ]),
+  support([
+    'support', 'customer success', 'customer service', 'customer experience', 'customer care', 'client success', 'help desk',
+    'service desk', 'atendimento', 'suporte', 'atención al cliente', 'servicio al cliente', 'call center', 'contact center', 'cx specialist',
+  ]),
+  finance([
+    'finance', 'financial', 'accountant', 'accounting', 'contador', 'contabil', 'financeiro', 'finanzas', 'contabilidad',
+    'controller', 'payroll', 'tax specialist', 'tax manager', 'tax accountant', 'tax analyst', 'imposto', 'impuesto', 'audit',
+    'treasury', 'bookkeep', 'billing', 'accounts payable', 'accounts receivable', 'legal', 'lawyer', 'attorney', 'counsel',
+    'advogado', 'jurídico', 'abogado', 'compliance', 'paralegal', 'insurance', 'seguros', 'underwriter', 'actuar', 'bank',
+    'credit', 'risk',
+  ]),
+  people([
+    'recruiter', 'recruiting', 'talent acquisition', 'sourcer', 'human resources', 'hr manager', 'hr business', 'people operations',
+    'people partner', 'people & culture', 'recrutador', 'recursos humanos', 'talent', 'gente e cultura', 'reclutador', 'administrative',
+    'office manager', 'executive assistant', 'virtual assistant', 'assistente administrativo', 'secretar', 'receptionist',
+    'operations manager', 'business operations',
+  ]),
+  health([
+    'nurse', 'nursing', 'physician', 'doctor', 'dentist', 'dental', 'physio', 'physical therapist', 'therapist', 'psycholog',
+    'psicólog', 'psicolog', 'counselor', 'counsellor', 'clinical', 'clinician', 'medical', 'healthcare', 'health care', 'pharmac',
+    'farmac', 'enfermeir', 'enfermagem', 'enfermero', 'médico', 'fisioterap', 'nutri', 'veterin', 'paramedic', 'radiolog',
+    'sonograph', 'caregiver', 'cuidador', 'mental health', 'surgeon', 'surgical', 'hospital', 'patient', 'biomedical', 'neurolog', 'psychiatr', 'cardiolog', 'oncolog', 'optometr',
+  ]),
+  education([
+    'teacher', 'teaching', 'tutor', 'professor', 'lecturer', 'instructor', 'educator', 'education', 'school', 'university',
+    'curriculum', 'academic', 'researcher', 'research assistant', 'docente', 'ensino', 'educação', 'profesor', 'enseñanza',
+    'escuela', 'learning & development', 'learning experience', 'e-learning', 'training', 'trainer', 'coach', 'instructional',
+  ]),
+  hospitality([
+    'hotel', 'hospitality', 'restaurant', 'chef', 'cook', 'kitchen', 'barista', 'bartender', 'waiter', 'waitress', 'front desk',
+    'housekeep', 'concierge', 'tourism', 'tour guide', 'cabin crew', 'flight attendant', 'garçom', 'cozinheiro', 'turismo',
+    'hotelaria', 'recepcionista', 'camarero', 'cocinero', 'mesero', 'event coordinator', 'event manager', 'catering', 'food service',
+  ]),
+  logistics([
+    'logistics', 'logística', 'logistica', 'driver', 'motorista', 'conductor', 'trucker', 'truck', 'courier', 'warehouse', 'armazém',
+    'almacén', 'supply chain', 'cadeia de suprimentos', 'forklift', 'dispatcher', 'freight', 'shipping', 'fleet', 'transport',
+    'last mile', 'procurement', 'purchasing', 'inventory',
+  ]),
+  construction([
+    'construction', 'construção', 'construcción', 'carpenter', 'carpinteiro', 'mason', 'pedreiro', 'albañil', 'electrician',
+    'eletricista', 'electricista', 'plumber', 'encanador', 'fontanero', 'welder', 'soldador', 'painter', 'pintor', 'civil engineer',
+    'site manager', 'foreman', 'surveyor', 'estimator', 'hvac', 'roofing', 'carpentry', 'engenheiro civil', 'ingeniero civil',
+  ]),
+  industry([
+    'manufactur', 'factory', 'industrial', 'mechanical', 'mechanic', 'mecânico', 'maintenance', 'manutenção', 'mantenimiento',
+    'machine operator', 'plant operator', 'production operator', 'production supervisor', 'produção', 'assembly', 'quality control',
+    'technician', 'energy', 'solar', 'wind turbine', 'wind energy', 'eólic', 'oil and gas', 'oil & gas', 'petroleum', 'mining',
+    'chemical', 'agri', 'farm', 'fazenda', 'agronom', 'electrical engineer', 'electronics', 'plant manager', 'process engineer',
+  ]),
+  services([
+    'cleaning', 'cleaner', 'janitor', 'limpeza', 'limpieza', 'security guard', 'vigilante', 'segurança patrimonial', 'handyman',
+    'repair', 'barber', 'hairdress', 'cabeleireir', 'peluquer', 'beauty', 'esthetic', 'estética', 'manicure', 'nanny', 'babá',
+    'niñera', 'dog walker', 'gardener', 'jardiner', 'laundry', 'lavanderia', 'installer', 'instalador', 'locksmith', 'tailor',
+    'costur', 'seamstress',
+  ]),
+  public([
+    'government', 'public sector', 'municipal', 'civil servant', 'nonprofit', 'non-profit', 'fundraising', 'program officer',
+    'policy analyst', 'humanitarian', 'social worker', 'assistente social', 'trabajador social', 'charity',
+    'international development', 'servidor público', 'prefeitura', 'governo', 'gobierno',
+  ]);
+
+  const JobArea(this.keywords);
+
+  /// Lower-case fragments searched in the title.
+  final List<String> keywords;
+
+  /// PostgREST `or=(...)` body for this area: `title.ilike.*kw*` for every keyword. Keywords never contain commas,
+  /// parentheses, quotes or wildcards (checked by the tests), so the structure of the filter cannot be altered.
+  String get orFilter => [for (final k in keywords) 'title.ilike.*$k*'].join(',');
+
+  /// The same rule applied locally (used by previews and tests; the server uses [orFilter]).
+  bool matches(String title) {
+    final t = title.toLowerCase();
+    return keywords.any(t.contains);
+  }
+
+  /// Every area a title belongs to (possibly none).
+  static List<JobArea> of(String title) => [
+    for (final a in JobArea.values)
+      if (a.matches(title)) a,
+  ];
+}

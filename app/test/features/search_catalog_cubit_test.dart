@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
+import 'package:orbijob/features/search/domain/job_area.dart';
 import 'package:orbijob/features/search/domain/job_filters.dart';
 import 'package:orbijob/features/search/domain/search_repository.dart';
 import 'package:orbijob/features/search/presentation/cubit/search_cubit.dart';
@@ -167,17 +168,25 @@ void main() {
       },
     );
 
-    test('filters set before any search are remembered and sent with the first one', () async {
+    test('filters set with nothing on screen list the newest jobs that match them, and stay for the next search', () async {
       final repo = PagedRepo(catalogue(3));
       final c = SearchCubit(repo);
       await c.setFilters(const JobFilters(onlyWithSalary: true));
-      expect(
-        c.state,
-        const SearchIdle(filters: JobFilters(onlyWithSalary: true)),
-      );
-      expect(repo.calls, isEmpty);
-      await c.search('x');
+      expect(c.state, isA<SearchSuccess>());
+      expect(repo.calls.single.query, '');
       expect(repo.calls.single.filters.onlyWithSalary, isTrue);
+      await c.search('x');
+      expect(repo.calls.last.filters.onlyWithSalary, isTrue);
+    });
+
+    test('an area chosen with nothing on screen is sent with the newest-jobs request', () async {
+      final repo = PagedRepo(catalogue(3));
+      final c = SearchCubit(repo);
+      await c.setFilters(const JobFilters(area: JobArea.health));
+      expect(repo.calls.single.filters.area, JobArea.health);
+      expect(c.state.filters.area, JobArea.health);
+      await c.clearFilters();
+      expect(repo.calls.last.filters.area, isNull);
     });
 
     test(
@@ -203,8 +212,10 @@ void main() {
       expect(repo.calls.single.query, '');
       expect((c.state as SearchSuccess).jobs, hasLength(3));
       expect(recorded, isEmpty);
-      await c.search('   ');
-      expect(c.state, isA<SearchIdle>());
+      await c.search('   '); // an empty submission is the same as browsing: it lists, it never blanks the page
+      expect(c.state, isA<SearchSuccess>());
+      expect(repo.calls, hasLength(2));
+      expect(recorded, isEmpty);
     });
 
     test('an old response never overwrites a newer search', () async {
@@ -236,9 +247,9 @@ void main() {
     });
 
     test('server failure -> failure state; retry repeats the same search and filters', () async {
-      final repo = PagedRepo(catalogue(3))..failOnCall = 1;
+      final repo = PagedRepo(catalogue(3))..failOnCall = 2;
       final c = SearchCubit(repo);
-      await c.setFilters(const JobFilters(publishedWithinDays: 1));
+      await c.setFilters(const JobFilters(publishedWithinDays: 1)); // call 1: lists the newest jobs
       await c.search('x', countryCode: 'DE');
       expect(
         c.state,

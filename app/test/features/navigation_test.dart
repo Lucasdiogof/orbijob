@@ -32,7 +32,9 @@ void main() {
       expect(find.text('No applications tracked'), findsWidgets);
       await t.tap(find.text('Explore'));
       await t.pumpAndSettle();
-      expect(find.text('Search for any profession'), findsOneWidget);
+      // Explore lists the newest jobs on its own; this build has no backend configuration, and it says so (not "no source")
+      expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
+      expect(find.text('No integrated source for this search'), findsNothing);
     },
   );
 
@@ -42,22 +44,42 @@ void main() {
       await pumpApp(t);
       await t.tap(find.byType(TextField));
       await t.pumpAndSettle();
-      expect(find.text('Search for any profession'), findsOneWidget);
       final field = t.widget<EditableText>(find.byType(EditableText).last);
       expect(field.focusNode.hasFocus, isTrue);
     },
   );
 
   testWidgets(
-    'area chip runs the search and goes to Explore; no source -> explicit state',
+    'an area chip (only areas that have jobs are offered) filters Explore to that area',
     (t) async {
-      await pumpApp(t);
-      await t.tap(find.text('Health'));
+      await pumpApp(t, repo: PreviewSearchRepository());
+      // every chip carries its count; none is drawn for an area without jobs
+      expect(find.textContaining('Health ('), findsOneWidget);
+      expect(find.textContaining('Hospitality'), findsNothing);
+      await t.tap(find.textContaining('Health ('));
       await t.pumpAndSettle();
-      expect(find.text('No integrated source for this search'), findsOneWidget);
-      expect(find.text('Health'), findsWidgets);
+      expect(find.text('Registered Nurse'), findsWidgets);
+      expect(find.text('Residential Painter'), findsNothing);
+      expect(find.text('Senior Flutter Developer'), findsNothing);
     },
   );
+
+  testWidgets('without a backend there are no area chips and no list: the build says it is not connected', (t) async {
+    await pumpApp(t);
+    expect(find.textContaining('Health ('), findsNothing);
+    expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
+  });
+
+  testWidgets('Home lists the newest jobs on opening; tapping one opens its detail', (t) async {
+    await pumpApp(t, repo: PreviewSearchRepository());
+    expect(find.text('Latest jobs'), findsOneWidget);
+    expect(find.text('Registered Nurse'), findsWidgets);
+    await t.ensureVisible(find.text('Registered Nurse').first);
+    await t.pumpAndSettle();
+    await t.tap(find.text('Registered Nurse').first);
+    await t.pumpAndSettle();
+    expect(find.text('Job details'), findsWidgets);
+  });
 
   testWidgets(
     'searching with a connected (preview) source shows cards with separate compatibility and confidence',

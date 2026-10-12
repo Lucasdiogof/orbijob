@@ -1737,6 +1737,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Up to {amount}'**
   String salaryUpTo(String amount);
+
+  /// No description provided for @areaData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & AI'**
+  String get areaData;
+
+  /// No description provided for @areaDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Design'**
+  String get areaDesign;
+
+  /// No description provided for @areaProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product & projects'**
+  String get areaProduct;
+
+  /// No description provided for @areaSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get areaSales;
+
+  /// No description provided for @areaMarketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing & content'**
+  String get areaMarketing;
+
+  /// No description provided for @areaSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer support'**
+  String get areaSupport;
+
+  /// No description provided for @areaFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance & legal'**
+  String get areaFinance;
+
+  /// No description provided for @areaPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People & operations'**
+  String get areaPeople;
+
+  /// No description provided for @areaHospitality.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospitality & tourism'**
+  String get areaHospitality;
+
+  /// No description provided for @areaPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Public sector & nonprofit'**
+  String get areaPublic;
+
+  /// No description provided for @areaAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All areas'**
+  String get areaAll;
+
+  /// No description provided for @notConfiguredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This build is not connected to OrbiJob'**
+  String get notConfiguredTitle;
+
+  /// No description provided for @notConfiguredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app was started without the backend configuration (SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY). Developers: run it with --dart-define-from-file.'**
+  String get notConfiguredBody;
+
+  /// No description provided for @homeLatestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest jobs'**
+  String get homeLatestTitle;
+
+  /// No description provided for @homeLatestSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get homeLatestSeeAll;
+
+  /// No description provided for @homeLatestEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no jobs to show right now. Try again later.'**
+  String get homeLatestEmpty;
 }
 
 class _AppLocalizationsDelegate

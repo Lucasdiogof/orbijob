@@ -18,6 +18,14 @@ class SearchIdle extends SearchState {
   const SearchIdle({super.filters});
 }
 
+/// The build has no backend configuration (not the same as "no source covers this search").
+class SearchNotConfigured extends SearchState {
+  const SearchNotConfigured(this.query, {super.filters});
+  final String query;
+  @override
+  List<Object?> get props => [query, filters];
+}
+
 class SearchLoading extends SearchState {
   const SearchLoading(this.query, {super.filters});
   final String query;
@@ -115,7 +123,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   Future<void> search(String query, {String? countryCode}) async {
     final q = query.trim();
-    if (q.isEmpty) return clear();
+    if (q.isEmpty) return browse();
     onQuery?.call(q);
     await _start(q, countryCode);
   }
@@ -138,6 +146,9 @@ class SearchCubit extends Cubit<SearchState> {
       );
       if (gen != _generation) return;
       _offset = r.consumed;
+      if (r.notConfigured) {
+        return emit(SearchNotConfigured(q, filters: _filters));
+      }
       if (!r.hasIntegratedSource) {
         return emit(SearchNoSource(q, filters: _filters));
       }
@@ -170,8 +181,8 @@ class SearchCubit extends Cubit<SearchState> {
     if (f == _filters) return;
     _filters = f;
     final q = _active;
-    if (q == null) return emit(SearchIdle(filters: f));
-    await _start(q, _country);
+    // With nothing on screen a filter (an area chip) lists the newest jobs that match it, instead of an empty page.
+    await _start(q ?? '', q == null ? null : _country);
   }
 
   Future<void> clearFilters() => setFilters(const JobFilters());

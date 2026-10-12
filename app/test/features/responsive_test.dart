@@ -170,12 +170,17 @@ void main() {
     for (final r in repos.entries) {
       for (final size in [const Size(320, 568), const Size(1280, 800)]) {
         testWidgets('${r.key} ${size.width.toInt()}', (t) async {
-          await pumpApp(t, size: size, textScale: 2, repo: r.value);
+          await pumpApp(t, size: size, textScale: 2, repo: r.value, settle: r.key != 'loading');
           await t.tap(
             find.bySemanticsLabel('Explore').first,
             warnIfMissed: false,
           );
-          await t.pumpAndSettle();
+          // a repository that never answers keeps the skeleton animating: settle only when something can settle
+          if (r.key == 'loading') {
+            await t.pump(const Duration(milliseconds: 300));
+          } else {
+            await t.pumpAndSettle();
+          }
           await search(t, 'x');
           if (r.key == 'loading') {
             await t.pump(const Duration(milliseconds: 300));

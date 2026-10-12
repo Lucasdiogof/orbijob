@@ -9,7 +9,17 @@ import '../../core/widgets/section_header.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/applications_cubit.dart';
 import '../preferences/presentation/preferences_cubit.dart';
+import '../favorites/favorites_cubit.dart';
 import '../preferences/presentation/saved_searches_cubit.dart';
+
+import '../search/presentation/pages/job_detail_page.dart';
+import '../search/presentation/widgets/area_chips.dart';
+import '../search/presentation/widgets/job_card.dart';
+import 'latest_jobs_cubit.dart';
+import '../../core/widgets/app_button.dart';
+import '../../core/widgets/skeleton.dart';
+import '../../core/widgets/state_view.dart';
+import '../search/presentation/cubit/areas_cubit.dart';
 import '../search/presentation/cubit/search_cubit.dart';
 import '../shell/shell_cubit.dart';
 import 'recent_searches_cubit.dart';
@@ -17,16 +27,6 @@ import 'recent_searches_cubit.dart';
 /// Home: a way into search plus honest empty panels for what needs a profile and connected sources.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  static List<(String, IconData)> areas(AppLocalizations l) => [
-    (l.areaTechnology, Icons.code),
-    (l.areaHealth, Icons.health_and_safety_outlined),
-    (l.areaConstruction, Icons.construction),
-    (l.areaEducation, Icons.school_outlined),
-    (l.areaServices, Icons.handyman_outlined),
-    (l.areaIndustry, Icons.precision_manufacturing_outlined),
-    (l.areaTransport, Icons.local_shipping_outlined),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -154,24 +154,28 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
             ),
-            SectionHeader(title: l.homeAreasTitle),
-            const SizedBox(height: AppSpace.s3),
-            Wrap(
-              spacing: AppSpace.s2,
-              runSpacing: AppSpace.s1,
-              children: [
-                for (final (label, icon) in areas(l))
-                  AppFilterChip(
-                    label: label,
-                    icon: icon,
-                    selected: false,
-                    onSelected: (_) {
-                      context.read<SearchCubit>().search(label);
-                      context.read<ShellCubit>().goTo(ShellCubit.explore);
-                    },
-                  ),
-              ],
+            BlocBuilder<AreasCubit, AreasState>(
+              builder: (context, a) => a.available.isEmpty
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpace.s6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SectionHeader(title: l.homeAreasTitle),
+                          const SizedBox(height: AppSpace.s3),
+                          AreaChips(
+                            onSelected: (area) {
+                              final search = context.read<SearchCubit>();
+                              search.setFilters(search.filters.copyWith(area: area, clearArea: area == null));
+                              context.read<ShellCubit>().goTo(ShellCubit.explore);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
             ),
+            const _LatestJobs(),
             const SizedBox(height: AppSpace.s6),
             SectionHeader(title: l.homeForYouTitle),
             const SizedBox(height: AppSpace.s3),
@@ -242,6 +246,74 @@ class _InfoPanel extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The newest jobs of the catalogue, straight on Home: the app opens on real jobs, not on an empty screen.
+class _LatestJobs extends StatelessWidget {
+  const _LatestJobs();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return BlocBuilder<LatestJobsCubit, LatestJobsState>(
+      builder: (context, s) {
+        final header = SectionHeader(
+          title: l.homeLatestTitle,
+          action: s.status == LatestStatus.ready
+              ? TextButton(
+                  onPressed: () {
+                    context.read<SearchCubit>().browse();
+                    context.read<ShellCubit>().goTo(ShellCubit.explore);
+                  },
+                  child: Text(l.homeLatestSeeAll),
+                )
+              : null,
+        );
+        final body = switch (s.status) {
+          LatestStatus.loading => const SizedBox(height: 280, child: SkeletonList()),
+          LatestStatus.notConfigured => StateView(
+            icon: Icons.cloud_off_outlined,
+            title: l.notConfiguredTitle,
+            body: l.notConfiguredBody,
+            kind: StateKind.info,
+          ),
+          LatestStatus.empty => StateView(icon: Icons.work_off_outlined, title: l.homeLatestEmpty),
+          LatestStatus.failure => StateView(
+            icon: Icons.error_outline,
+            title: l.errorTitle,
+            body: l.errorBody,
+            kind: StateKind.error,
+            action: AppButton(
+              label: l.retry,
+              icon: Icons.refresh,
+              onPressed: () => context.read<LatestJobsCubit>().load(),
+            ),
+          ),
+          LatestStatus.ready => BlocBuilder<FavoritesCubit, FavoritesState>(
+            builder: (context, favs) => Column(
+              children: [
+                for (final j in s.jobs) ...[
+                  JobCard(
+                    scored: j,
+                    isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(j.job)),
+                    onFavoriteChanged: (_) => context.read<FavoritesCubit>().toggle(j),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(builder: (_) => JobDetailPage(scored: j)),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpace.s3),
+                ],
+              ],
+            ),
+          ),
+        };
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [header, const SizedBox(height: AppSpace.s3), body],
+        );
+      },
     );
   }
 }

@@ -945,4 +945,54 @@ class AppLocalizationsPt extends AppLocalizations {
   String salaryUpTo(String amount) {
     return 'Até $amount';
   }
+
+  @override
+  String get areaData => 'Dados e IA';
+
+  @override
+  String get areaDesign => 'Design';
+
+  @override
+  String get areaProduct => 'Produto e projetos';
+
+  @override
+  String get areaSales => 'Vendas';
+
+  @override
+  String get areaMarketing => 'Marketing e conteúdo';
+
+  @override
+  String get areaSupport => 'Atendimento e suporte';
+
+  @override
+  String get areaFinance => 'Finanças e jurídico';
+
+  @override
+  String get areaPeople => 'Pessoas e operações';
+
+  @override
+  String get areaHospitality => 'Hotelaria e turismo';
+
+  @override
+  String get areaPublic => 'Setor público e terceiro setor';
+
+  @override
+  String get areaAll => 'Todas as áreas';
+
+  @override
+  String get notConfiguredTitle => 'Esta versão não está conectada ao OrbiJob';
+
+  @override
+  String get notConfiguredBody =>
+      'O app foi iniciado sem a configuração do servidor (SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY). Desenvolvedores: execute com --dart-define-from-file.';
+
+  @override
+  String get homeLatestTitle => 'Vagas recentes';
+
+  @override
+  String get homeLatestSeeAll => 'Ver todas';
+
+  @override
+  String get homeLatestEmpty =>
+      'Não há vagas para mostrar agora. Tente novamente mais tarde.';
 }

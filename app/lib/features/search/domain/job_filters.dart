@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'entities/job_posting.dart';
+import 'job_area.dart';
 
 /// Filters the `jobs` table can answer with the columns it has. Anything the schema cannot express (profession
 /// before `isco08` is filled, salary ranges across currencies and periods) is deliberately not offered.
@@ -10,6 +11,7 @@ class JobFilters extends Equatable {
     this.publishedWithinDays,
     this.onlyWithSalary = false,
     this.countryCode,
+    this.area,
   });
 
   /// Empty = any mode.
@@ -26,11 +28,15 @@ class JobFilters extends Equatable {
   /// Region-only restrictions (EMEA, Europe) are not expanded into countries, so they do not match.
   final String? countryCode;
 
+  /// Professional area (a rule on the title, see [JobArea]); null = any area.
+  final JobArea? area;
+
   bool get isActive =>
       workModes.isNotEmpty ||
       publishedWithinDays != null ||
       onlyWithSalary ||
-      countryCode != null;
+      countryCode != null ||
+      area != null;
 
   JobFilters copyWith({
     Set<WorkMode>? workModes,
@@ -39,6 +45,8 @@ class JobFilters extends Equatable {
     bool? onlyWithSalary,
     String? countryCode,
     bool clearCountry = false,
+    JobArea? area,
+    bool clearArea = false,
   }) => JobFilters(
     workModes: workModes ?? this.workModes,
     publishedWithinDays: clearPublished
@@ -46,6 +54,7 @@ class JobFilters extends Equatable {
         : (publishedWithinDays ?? this.publishedWithinDays),
     onlyWithSalary: onlyWithSalary ?? this.onlyWithSalary,
     countryCode: clearCountry ? null : (countryCode ?? this.countryCode),
+    area: clearArea ? null : (area ?? this.area),
   );
 
   @override
@@ -54,5 +63,6 @@ class JobFilters extends Equatable {
     publishedWithinDays,
     onlyWithSalary,
     countryCode,
+    area,
   ];
 }

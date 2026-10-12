@@ -1,5 +1,6 @@
 import '../features/search/domain/entities/job_posting.dart';
 import '../features/search/domain/job_filters.dart';
+import '../features/search/domain/job_area.dart';
 import '../features/search/domain/search_repository.dart';
 
 /// ILLUSTRATIVE fixtures: fictional jobs, companies, salaries and scores used ONLY by the preview entrypoint
@@ -117,7 +118,7 @@ List<ScoredJob> previewJobsAt(DateTime now) => [
 ];
 
 /// Answers every query with the illustrative jobs whose text matches it (an empty query never reaches here).
-class PreviewSearchRepository implements SearchRepository {
+class PreviewSearchRepository implements SearchRepository, AreaCountSource {
   PreviewSearchRepository({this.delay = Duration.zero, DateTime? now})
     : _jobs = previewJobsAt(now ?? previewNow);
   final Duration delay;
@@ -151,6 +152,13 @@ class PreviewSearchRepository implements SearchRepository {
       return ids.contains(j.externalId) ||
           '${j.title} ${j.company} ${j.city}'.toLowerCase().contains(q);
     }).toList();
-    return SearchResult(jobs: hits, hasIntegratedSource: true);
+    final area = filters.area;
+    final listed = area == null ? hits : hits.where((s) => area.matches(s.job.title)).toList();
+    return SearchResult(jobs: listed, hasIntegratedSource: true);
   }
+
+  @override
+  Future<Map<JobArea, int>> areaCounts() async => {
+    for (final a in JobArea.values) a: _jobs.where((s) => a.matches(s.job.title)).length,
+  };
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_filter_chip.dart';
 import '../../../../core/widgets/app_search_field.dart';
 import '../../../../core/widgets/data_state_view.dart';
 import '../../../../core/widgets/skeleton.dart';
@@ -12,11 +11,11 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
 import '../../../preferences/presentation/saved_searches_cubit.dart';
-import '../../../home/home_page.dart';
 import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../cubit/search_cubit.dart';
+import '../widgets/area_chips.dart';
 import '../widgets/job_card.dart';
 import '../widgets/job_detail_view.dart';
 import '../widgets/search_filters_panel.dart';
@@ -38,6 +37,17 @@ class _SearchPageState extends State<SearchPage> {
   final _focus = FocusNode();
   ScoredJob? _selected;
   bool _showFilters = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Explore opens on the newest jobs: nobody should have to type a term (or find a button) to see the catalogue.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final c = context.read<SearchCubit>();
+      if (c.state is SearchIdle) c.browse();
+    });
+  }
 
   @override
   void dispose() {
@@ -63,6 +73,7 @@ class _SearchPageState extends State<SearchPage> {
               SearchSuccess(:final query) => query,
               SearchEmpty(:final query) => query,
               SearchNoSource(:final query) => query,
+              SearchNotConfigured(:final query) => query,
               SearchFailure(:final query) => query,
               SearchIdle() => null,
             };
@@ -92,13 +103,26 @@ class _SearchPageState extends State<SearchPage> {
               controller: _controller,
               focus: _focus,
               onSubmit: _submit,
-              onClear: () => context.read<SearchCubit>().clear(),
+              onClear: () => context.read<SearchCubit>().browse(),
             ),
           );
           final header = Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               field,
+              BlocBuilder<SearchCubit, SearchState>(
+                buildWhen: (a, b) => a.filters.area != b.filters.area,
+                builder: (context, s) => AreaChips(
+                  scrollable: true,
+                  showAll: true,
+                  selected: s.filters.area,
+                  onSelected: (area) {
+                    setState(() => _selected = null);
+                    final c = context.read<SearchCubit>();
+                    c.setFilters(c.filters.copyWith(area: area, clearArea: area == null));
+                  },
+                ),
+              ),
               BlocBuilder<SearchCubit, SearchState>(
                 buildWhen: (a, b) => a.filters != b.filters,
                 builder: (context, s) => _FiltersArea(
@@ -241,20 +265,6 @@ class _Results extends StatelessWidget {
             body: l.exploreIdleBody,
             kind: StateKind.info,
           ),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: AppSpace.s2,
-            runSpacing: AppSpace.s1,
-            children: [
-              for (final (label, icon) in HomePage.areas(l))
-                AppFilterChip(
-                  label: label,
-                  icon: icon,
-                  selected: false,
-                  onSelected: (_) => onSearch(label),
-                ),
-            ],
-          ),
           const SizedBox(height: AppSpace.s4),
           Center(
             child: AppButton(
@@ -269,6 +279,12 @@ class _Results extends StatelessWidget {
       SearchLoading() => const Padding(
         padding: EdgeInsets.all(AppSpace.s4),
         child: SkeletonList(),
+      ),
+      SearchNotConfigured() => StateView(
+        icon: Icons.cloud_off_outlined,
+        title: l.notConfiguredTitle,
+        body: l.notConfiguredBody,
+        kind: StateKind.info,
       ),
       SearchNoSource() => StateView(
         icon: Icons.public_off,

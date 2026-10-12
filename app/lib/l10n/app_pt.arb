@@ -272,5 +272,21 @@
   "eligibilityUnknown": "Elegibilidade geográfica não informada pela fonte",
   "eligibilityCheckOriginal": "Confira a elegibilidade no anúncio original antes de se candidatar.",
   "salaryFrom": "A partir de {amount}",
-  "salaryUpTo": "Até {amount}"
+  "salaryUpTo": "Até {amount}",
+  "areaData": "Dados e IA",
+  "areaDesign": "Design",
+  "areaProduct": "Produto e projetos",
+  "areaSales": "Vendas",
+  "areaMarketing": "Marketing e conteúdo",
+  "areaSupport": "Atendimento e suporte",
+  "areaFinance": "Finanças e jurídico",
+  "areaPeople": "Pessoas e operações",
+  "areaHospitality": "Hotelaria e turismo",
+  "areaPublic": "Setor público e terceiro setor",
+  "areaAll": "Todas as áreas",
+  "notConfiguredTitle": "Esta versão não está conectada ao OrbiJob",
+  "notConfiguredBody": "O app foi iniciado sem a configuração do servidor (SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY). Desenvolvedores: execute com --dart-define-from-file.",
+  "homeLatestTitle": "Vagas recentes",
+  "homeLatestSeeAll": "Ver todas",
+  "homeLatestEmpty": "Não há vagas para mostrar agora. Tente novamente mais tarde."
 }

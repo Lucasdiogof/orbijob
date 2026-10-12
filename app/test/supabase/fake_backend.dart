@@ -20,7 +20,7 @@ class Recorded {
 /// A Supabase client wired to an in-memory HTTP handler: nothing leaves the process. Every request is recorded
 /// so tests can assert paths, filters, headers and bodies.
 class FakeBackend {
-  FakeBackend({this.signedIn = true, this.respond}) {
+  FakeBackend({this.signedIn = true, this.respond, this.headersFor}) {
     client = SupabaseClient(
       'https://example-project.supabase.co',
       testPublishableKey,
@@ -33,7 +33,7 @@ class FakeBackend {
           r == null || r.$2 == null ? '[]' : jsonEncode(r.$2),
           r?.$1 ?? 200,
           request: req,
-          headers: {'content-type': 'application/json'},
+          headers: {'content-type': 'application/json', ...?headersFor?.call(req.url)},
         );
       }),
     );
@@ -67,6 +67,9 @@ class FakeBackend {
 
   /// (method, url, body) -> (status, json body)
   final (int, Object?) Function(String method, Uri url, String body)? respond;
+
+  /// Extra response headers for a request (e.g. content-range for count queries).
+  final Map<String, String>? Function(Uri url)? headersFor;
 
   Recorded get last => requests.last;
 }
