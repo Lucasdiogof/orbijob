@@ -1,4 +1,4 @@
-# Descoberta incremental das fontes de vagas alem do Jobicy (Arbeitnow, Remote OK, Remotive, Platsbanken), 100% gratuita (repositorio publico + runner padrao).
+# Descoberta incremental das fontes de vagas alem do Jobicy (Arbeitnow, Remote OK, Remotive, Platsbanken, Taiwan Jobs), 100% gratuita (repositorio publico + runner padrao).
 #
 # O QUE FAZ: le o feed oficial da fonte e INSERE somente as vagas que ainda nao estao no banco; as que o feed ainda lista e ja estao gravadas (abertas)
 # so tem a data de verificacao renovada (essas fontes nao tem endpoint de status: estar no feed e a prova de que a vaga segue aberta). NAO atualiza
@@ -28,12 +28,14 @@ on:
     - cron: '13 0,6,12,18 * * *'
     - cron: '27 8,20 * * *'
     - cron: '51 10,22 * * *'
+    - cron: '43 1,19 * * *'
+    - cron: '16 7 * * *'
   workflow_dispatch:
     inputs:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive, jobtech]
+        options: [arbeitnow, remoteok, remotive, jobtech, twjobs]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -91,9 +93,11 @@ jobs:
             '13 0,6,12,18 * * *') s=jobtech ;;
             '27 8,20 * * *')      s=remoteok ;;
             '51 10,22 * * *')     s=remotive ;;
+            '43 1,19 * * *')      s=twjobs ;;
+            '16 7 * * *')         s=twjobs ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive|jobtech) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

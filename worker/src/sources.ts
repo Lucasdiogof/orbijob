@@ -1,5 +1,6 @@
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
 import { jobicyConnector } from './connectors/jobicy';
+import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
 
@@ -54,6 +55,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     id: 'jobtech', attribution: 'Jobs via Arbetsförmedlingen / Platsbanken (https://arbetsformedlingen.se), open data CC0 from JobTech Dev', host: 'arbetsformedlingen.se',
     maxPages: JOBTECH_PASS_PAGES, pageWindow: true, newCap: 600, catalogue: 3500,
     make: (f, n, origin) => jobtechConnector(f, n, { origin }),
+  },
+  twjobs: {
+    id: 'twjobs',
+    attribution: 'Jobs via Taiwan Jobs (臺灣就業通), Workforce Development Agency, Ministry of Labor, Taiwan (https://job.taiwanjobs.gov.tw), Open Government Data License v1.0 (https://data.gov.tw/en/datasets/44062)',
+    host: 'taiwanjobs.gov.tw',
+    maxPages: 3, newCap: 1000, catalogue: 1500,
+    make: (f, n, origin) => taiwanJobsConnector(f, n, { origin }),
   },
 };
 

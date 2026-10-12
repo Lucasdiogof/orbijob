@@ -20,6 +20,7 @@ export const MIGRATIONS = [
   { version: '20261018000000', name: 'expire_window_floor' },
   { version: '20261019000000', name: 'freshness_policy' },
   { version: '20261020000000', name: 'jobtech_revalidation' },
+  { version: '20261021000000', name: 'expire_by_evidence' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -65,6 +66,8 @@ function signatures(i) {
     (i.ops_functions ?? []).includes('freshness_report'),
     // migration 13 adds the in-database revalidation of the Platsbanken (start + collect) and the 30-day text retention of unknown jobs
     (i.ops_functions ?? []).includes('jobtech_revalidate_start') && (i.ops_functions ?? []).includes('jobtech_revalidate_collect'),
+    // migration 14 adds the single rule that says how a source is judged when its jobs stop being listed
+    (i.ops_functions ?? []).includes('expiry_rule'),
   ];
 }
 

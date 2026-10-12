@@ -294,3 +294,43 @@ describe('freshness policy (migration 20261019000000)', () => {
     await expect(db.query('select * from ops.freshness_report()')).rejects.toThrow();
   });
 });
+
+describe('expiry by evidence (migration 20261021000000)', () => {
+  it('ops.expiry_rule: only a source that lists every open job at once is judged by absence; a new source is safe by default', async () => {
+    const rule = async (s: string) => (await db.query<{ r: string }>('select ops.expiry_rule($1) r', [s])).rows[0]!.r;
+    expect(await rule('remoteok')).toBe('feed');
+    expect(await rule('remotive')).toBe('feed');
+    expect(await rule('arbeitnow')).toBe('window');
+    expect(await rule('jobtech')).toBe('verified');
+    expect(await rule('twjobs')).toBe('verified');
+    expect(await rule('some-future-source')).toBe('verified');
+  });
+
+  it('a daily-extract source (twjobs) that stops listing a job turns it unknown, never closed; and it needs no recent feed pass to be marked', async () => {
+    await db.query(`insert into public.job_sources (id, status, attribution, can_redistribute) values ('twjobs','CONDITIONAL','Jobs via Taiwan Jobs (https://job.taiwanjobs.gov.tw)',true)`);
+    const stale = await job({ source: 'twjobs', ageDays: 9 });
+    const fresh = await job({ source: 'twjobs', ageDays: 2 });
+    expect(await expire()).toMatch(/^ok:expired=0,unknown=1/);
+    expect((await row(stale))!.status).toBe('unknown');
+    expect((await row(fresh))!.status).toBe('open');
+  });
+
+  it('a source that does not exist yet is also safe: unknown, not closed', async () => {
+    await db.query(`insert into public.job_sources (id, status, attribution, can_redistribute) values ('newsrc','CONDITIONAL','x (https://example.org)',true)`);
+    const stale = await job({ source: 'newsrc', ageDays: 12 });
+    const out = (await db.query<{ r: string }>(`select ops.expire_unseen_jobs('${PHRASE}', interval '7 days', array['newsrc']) r`)).rows[0]!.r;
+    expect(out).toBe('ok:expired=0,unknown=1');
+    expect((await row(stale))!.status).toBe('unknown');
+  });
+
+  it('the rollback puts migration 12\'s expiry back (an unlisted source is closed by absence again) and drops the rule', async () => {
+    await db.exec(readFileSync(new URL('../../supabase/rollback/20261021000000_expire_by_evidence.down.sql', import.meta.url), 'utf8'));
+    await expect(db.query("select ops.expiry_rule('x')")).rejects.toThrow();
+    await db.query(`insert into public.job_sources (id, status, attribution, can_redistribute) values ('newsrc','CONDITIONAL','x (https://example.org)',true)`);
+    await okRunOnly('newsrc');
+    const stale = await job({ source: 'newsrc', ageDays: 12 });
+    const out = (await db.query<{ r: string }>(`select ops.expire_unseen_jobs('${PHRASE}', interval '7 days', array['newsrc']) r`)).rows[0]!.r;
+    expect(out).toBe('ok:expired=1');
+    expect((await row(stale))!.status).toBe('closed');
+  });
+});
