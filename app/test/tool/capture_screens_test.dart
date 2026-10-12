@@ -2,7 +2,6 @@
 // It only runs when CAPTURE=1:   CAPTURE=1 flutter test test/tool/capture_screens_test.dart
 // Without it every test here is skipped, so the normal suite never writes files.
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
