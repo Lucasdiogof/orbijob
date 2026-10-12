@@ -44,3 +44,20 @@
 
 ## Evidências lidas em 2026-10-12
 README do Remotive (`github.com/remotive-com/remote-jobs-api`); termos da Arbeitnow (`arbeitnow.com/terms`, §11) e `meta.terms` da própria API; aviso legal do `remoteok.com/api`; documentação (`himalayas.app/docs/remote-jobs-api`) e termos (`himalayas.app/terms`) do Himalayas; `themuse.com/developers/api/v2` e `/terms`; busca sobre os dados abertos do Job Bank Canada e sobre APIs de vagas no Brasil. Medições: uma requisição a cada feed (Remotive 18, Remote OK 99, Arbeitnow 325 na página 1 e 18 páginas lidas antes do desafio do Cloudflare; The Muse página 0).
+
+## Saúde e fisioterapia pélvica (pesquisado em 2026-10-12)
+
+Nenhum portal especializado oferece API ou feed, e os termos lidos proíbem copiar as vagas para outro catálogo. Por isso **nada deles é armazenado**: o app só oferece um **link externo** para o próprio portal (Explorar → Saúde → "Portais especializados"; `app/lib/features/search/domain/specialty_portals.dart`), separado das vagas do catálogo.
+
+| Portal | Vagas reais (12/10) | API/feed | Termos lidos | Decisão |
+|---|---|---|---|---|
+| Herman & Wallace Job Board | 10 vagas (17/09 a 08/10), posts de 30 dias | não | só "All Rights Reserved"; sem licença de reuso | **LINK** |
+| APTA Pelvic Health Career Center (Momentive/YM Careers) | 441 vagas | não (só alerta por e-mail) | `/terms/`: "No party may aggregate, package, spider, collect, or display any of the content" sem consentimento escrito | **LINK** |
+| Chartered Society of Physiotherapy (`csp.org.uk/jobs`) | sim (NHS, privado) | não | termos 3.2(4), 4.3, 4.4: proíbem copiar, extrair sistematicamente ou montar base com o conteúdo | **LINK** |
+| CREFITO-5 (RS) | 68 oportunidades (jun–out/2026) | não | "todos os direitos reservados"; sem licença | **LINK** |
+| CREFITO-11 (GO/DF) | mural de vagas não encontrado no site | não | — | nada a integrar |
+| PCI Concursos (`/vagas/fisioterapeuta`) | sim (concursos) | não | página de termos não encontrada (404); sem licença | **LINK** |
+| Indeed Brasil | sim | API só para parceiros | termos: uso pessoal; scraping e cópia permanente proibidos | **LINK** (busca pronta "fisioterapeuta em Goiânia") |
+| Solutudo, demais CREFITOs, hospitais/ATS | — | — | ATS por empresa: direito é de cada empregador (ver Greenhouse/Lever acima) | não integrado |
+
+**No catálogo armazenado (12/10):** 0 vagas de fisioterapia, 0 de fisioterapia pélvica, 0 em Goiás/Goiânia; 11 vagas com país Brasil e 18 elegíveis para candidatos do Brasil (todas remotas). O app mostra essas contagens com o valor real, inclusive zero.
