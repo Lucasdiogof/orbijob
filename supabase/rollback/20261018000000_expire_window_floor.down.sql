@@ -43,3 +43,4 @@ begin
   return v_out;
 end $$;
 revoke all on function ops.expire_unseen_jobs(text, interval, text[], int) from public, anon, authenticated, service_role;
+drop function if exists ops.source_window_floor(text, timestamptz);

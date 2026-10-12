@@ -17,6 +17,7 @@ export const MIGRATIONS = [
   { version: '20261015000000', name: 'supabase_cron_revalidation' },
   { version: '20261016000000', name: 'jobicy_retention' },
   { version: '20261017000000', name: 'sources_maintenance' },
+  { version: '20261018000000', name: 'expire_window_floor' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
@@ -56,6 +57,8 @@ function signatures(i) {
     (i.ops_tables ?? []).includes('job_tombstones'),
     // migration 10 adds the expiry of unseen jobs (a function in `ops`; the retention functions it replaces keep their names)
     (i.ops_functions ?? []).includes('expire_unseen_jobs'),
+    // migration 11 adds the window floor the expiry uses for a source read as a window (Arbeitnow)
+    (i.ops_functions ?? []).includes('source_window_floor'),
   ];
 }
 

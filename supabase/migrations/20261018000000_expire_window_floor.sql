@@ -6,7 +6,14 @@
 -- the oldest job the latest 'ok' pass of that source saw (its "floor"). Older jobs are left alone (the app already hides them after 72 h); a
 -- source whose floor cannot be computed is skipped, exactly like a source without a recent successful pass.
 --
+-- ops.source_window_floor(source, since) returns that floor (read-only; also handy to inspect a source by hand).
 -- Same signature, same guards, same scheduled command. Rollback: supabase/rollback/20261018000000_expire_window_floor.down.sql.
+create or replace function ops.source_window_floor(p_source text, p_since timestamptz)
+returns timestamptz language sql stable set search_path = pg_catalog as $$
+  select min(k.published_at) from public.jobs k where k.source_id = p_source and k.status = 'open' and k.last_checked_at >= p_since
+$$;
+revoke all on function ops.source_window_floor(text, timestamptz) from public, anon, authenticated, service_role;
+
 create or replace function ops.expire_unseen_jobs(
   p_confirm text,
   p_after interval default interval '7 days',
@@ -40,8 +47,7 @@ begin
     end if;
     v_floor := null;
     if v_src = 'arbeitnow' then -- read as a window of its newest pages: judge only what that window covers
-      select min(k.published_at) into v_floor from public.jobs k
-       where k.source_id = v_src and k.status = 'open' and k.last_checked_at >= v_last_ok;
+      v_floor := ops.source_window_floor(v_src, v_last_ok);
       if v_floor is null then
         v_skipped := v_skipped || v_src;
         continue;
