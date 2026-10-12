@@ -52,17 +52,22 @@ beforeEach(async () => {
 
 let seq = 0;
 /** A job whose last verification was `ageDays` days ago. */
-async function job(o: { source: string; status?: string; ageDays: number; body?: string }) {
+async function job(o: { source: string; status?: string; ageDays: number; body?: string; publishedDaysAgo?: number }) {
   const ext = String(++seq + 5000);
   await db.query(
-    `insert into public.jobs (source_id, external_id, company, title, description, requirements, skills, work_mode, last_checked_at, original_url, canonical_url, fingerprint, status)
-     values ($1,$2,'Acme','Role '||$2,$3,'{"x"}','{"y"}','remote', now() - ($4 || ' days')::interval,'https://example.com/jobs/'||$2,'https://example.com/jobs/'||$2,'fp-'||$1||$2,$5)`,
-    [o.source, ext, o.body ?? 'a long description', String(o.ageDays), o.status ?? 'open']);
+    `insert into public.jobs (source_id, external_id, company, title, description, requirements, skills, work_mode, last_checked_at, original_url, canonical_url, fingerprint, status, published_at)
+     values ($1,$2,'Acme','Role '||$2,$3,'{"x"}','{"y"}','remote', now() - ($4 || ' days')::interval,'https://example.com/jobs/'||$2,'https://example.com/jobs/'||$2,'fp-'||$1||$2,$5, now() - ($6 || ' days')::interval)`,
+    [o.source, ext, o.body ?? 'a long description', String(o.ageDays), o.status ?? 'open', String(o.publishedDaysAgo ?? o.ageDays + 1)]);
   return ext;
 }
 const row = async (ext: string) => (await db.query<Record<string, unknown>>('select * from public.jobs where external_id = $1', [ext])).rows[0];
 const count = async (sql: string) => Number((await db.query<{ n: string }>(`select count(*) n from (${sql}) t`)).rows[0]!.n);
-const okRun = (source: string, hoursAgo = 1, status = 'ok') => db.query(
+/** An ok pass of `source`; for Arbeitnow (read as a window) it also saw one job published `floorDays` ago: the oldest point its window reached. */
+const okRun = async (source: string, hoursAgo = 1, status = 'ok', floorDays = 60) => {
+  if (source === 'arbeitnow' && status === 'ok') await job({ source, ageDays: 0, publishedDaysAgo: floorDays });
+  return okRunOnly(source, hoursAgo, status);
+};
+const okRunOnly = (source: string, hoursAgo = 1, status = 'ok') => db.query(
   "insert into public.sync_runs (source_id, scope, status, started_at, finished_at) values ($1,'discover',$2, now() - ($3 || ' hours')::interval, now() - ($3 || ' hours')::interval)", [source, status, String(hoursAgo)]);
 const expire = async (extra = '') => (await db.query<{ r: string }>(`select ops.expire_unseen_jobs('${PHRASE}'${extra}) r`)).rows[0]!.r;
 const retention = async (extra = '') => (await db.query<{ r: string }>(`select ops.jobicy_retention_apply('${RET}'${extra}) r`)).rows[0]!.r;
@@ -97,6 +102,29 @@ describe('retention now covers every source (same policy, same guards)', () => {
 });
 
 describe('ops.expire_unseen_jobs', () => {
+  it('Arbeitnow (a window of the newest pages): a job older than what the last ok pass reached is never closed, a newer unseen one is', async () => {
+    await okRun('arbeitnow', 1, 'ok', 5); // the window reached jobs published 5 days ago
+    const beyond = await job({ source: 'arbeitnow', ageDays: 9, publishedDaysAgo: 12 }); // older than the window: not seen, not judged
+    const gone = await job({ source: 'arbeitnow', ageDays: 9, publishedDaysAgo: 3 }); // inside the window and not listed: gone from the feed
+    expect(await expire()).toBe('ok:expired=1,skipped=remoteok/remotive');
+    expect((await row(beyond))!.status).toBe('open');
+    expect((await row(gone))!.status).toBe('closed');
+  });
+
+  it('Arbeitnow with an ok pass that saw nothing (no floor) is skipped, never judged', async () => {
+    await okRunOnly('arbeitnow');
+    const old = await job({ source: 'arbeitnow', ageDays: 30 });
+    expect(await expire()).toBe('ok:expired=0,skipped=arbeitnow/remoteok/remotive');
+    expect((await row(old))!.status).toBe('open');
+  });
+
+  it('a source read whole (Remote OK) has no floor: an old unseen job is closed', async () => {
+    await okRunOnly('remoteok');
+    const old = await job({ source: 'remoteok', ageDays: 9, publishedDaysAgo: 80 });
+    expect(await expire()).toBe('ok:expired=1,skipped=arbeitnow/remotive');
+    expect((await row(old))!.status).toBe('closed');
+  });
+
   it('closes the open jobs a feed-based source has not listed for more than 7 days, and only those', async () => {
     await okRun('arbeitnow');
     const stale = await job({ source: 'arbeitnow', ageDays: 9 });
@@ -150,7 +178,7 @@ describe('ops.expire_unseen_jobs', () => {
     expect(await expire(", interval '7 days', array['arbeitnow'], 2")).toBe('ok:expired=2');
     expect(await expire(", interval '7 days', array['arbeitnow'], 2")).toBe('ok:expired=2');
     expect(await expire(", interval '7 days', array['arbeitnow'], 2")).toBe('ok:expired=1');
-    expect(await count("select 1 from public.jobs where status = 'open'")).toBe(0);
+    expect(await count("select 1 from public.jobs where status = 'open'")).toBe(1); // only the job the pass just saw
   });
 
   it('logs in ops.retention_runs, never in sync_runs (so no lease is affected), and leaves user data alone', async () => {
