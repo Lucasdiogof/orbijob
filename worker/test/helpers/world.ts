@@ -166,6 +166,10 @@ export class World {
         const cols = (q.get('select') ?? 'external_id').split(',');
         const ids = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id') && (!q.get('status') || j.status === eq('status')))
           .map((j) => Object.fromEntries(cols.map((c) => [c, j[c] ?? null])));
+        if ((q.get('order') ?? '').startsWith('last_checked_at.asc')) {
+          // PostgREST order=last_checked_at.asc,external_id: the least recently verified first
+          ids.sort((a, b) => String(a.last_checked_at ?? '').localeCompare(String(b.last_checked_at ?? '')) || String(a.external_id).localeCompare(String(b.external_id)));
+        }
         const off = Number(q.get('offset') ?? 0);
         return json(200, ids.slice(off, off + Number(q.get('limit') ?? 1000)));
       }

@@ -179,6 +179,7 @@ export interface SyncSummary extends Omit<SyncRunRow, 'source_id' | 'scope' | 's
 
 function errorClass(e: unknown): string {
   if (e instanceof HttpError) return `http_${e.status}`;
+  if (e instanceof Error && e.message === 'deadline') return 'deadline'; // the time budget ended between status batches
   const name = (e as { name?: string } | null)?.name;
   if (name === 'TimeoutError' || name === 'AbortError') return 'timeout';
   return 'network_or_parse';
@@ -308,7 +309,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
           s.confirmed += stillListed.length;
         }
         let toInsert = fresh;
-        if (fresh.length && o.connector.checkStatuses) {
+        if (fresh.length && o.connector.checkStatuses && !o.connector.presenceConfirmsOpen) {
           const waitStatus = limiter.reserve();
           if (waitStatus > 0) await sleep(waitStatus);
           const answers = await withRetry(() => o.connector.checkStatuses!(fresh.map((j) => j.externalId)), retry);

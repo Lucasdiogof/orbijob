@@ -1,6 +1,8 @@
 import { cleanDescription } from '../description';
 import { inlineText } from '../text';
 import type { Connector, FetchPage, NormalizedJob, WorkMode } from '../types';
+import { HttpError, parseRetryAfter } from '../http';
+import type { JobStatus } from '../types';
 import { getFeed, ownUrl, type Normalized } from './feeds';
 
 /**
@@ -14,14 +16,19 @@ import { getFeed, ownUrl, type Normalized } from './feeds';
  *   1. PRIORITY streams first, each a small, exact slice the owner cares about: physiotherapists (the taxonomy's occupation group, not a
  *      text match), and mobile-development ads (text query, kept only when the TITLE itself names the technology);
  *   2. then the newest ads of every profession.
- * An ad that is listed is open (`presenceConfirmsOpen`); one that is no longer listed stops being stamped and is expired by
- * `ops.expire_unseen_jobs`. Nothing is translated, guessed or filled in: language, salary and eligibility stay empty when the ad does not state them.
+ * An ad that is listed is open (`presenceConfirmsOpen`). The search only reaches the newest ads, so STORED ads are re-verified one by one
+ * through `/ad/{id}` (`checkStatuses`, revalidate mode): 200 = still published, 404 = gone. `ops.expire_unseen_jobs` stays as the backstop. Nothing is translated, guessed or filled in: language, salary and eligibility stay empty when the ad does not state them.
  */
 
 export const JOBTECH_HOST = 'arbetsformedlingen.se';
 const PAGE = 100;
 const MAX_OFFSET = 2000;
 const MAX_DESCRIPTION = 6000;
+/** Status checks: `/ad/{id}` answers one ad per request (~10 KB, ~0.3 s). Four workers with a pause each stay near 7 requests a second. */
+const STATUS_WORKERS = 4;
+const STATUS_PAUSE_MS = 150;
+/** An ad whose own `last_publication_date` ended more than this long ago is no longer published, even if the endpoint still answers. */
+const PUBLICATION_GRACE_MS = 36 * 3_600_000;
 
 /** Taxonomy concept id of "Fysioterapeuter och sjukgymnaster" (SSYK 2264) in JobTech's taxonomy. */
 export const PHYSIO_GROUP = 's7vU_FhY_L5Z';
@@ -121,12 +128,53 @@ function parseCursor(cursor: string | null): { stream: number; offset: number } 
   return { stream, offset };
 }
 
-export function jobtechConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date(), opts: { origin?: string } = {}): Connector {
-  const BASE = `${(opts.origin ?? 'https://jobsearch.api.jobtechdev.se').replace(/\/+$/, '')}/search`;
+/**
+ * What `/ad/{id}` says about one stored ad. Only evidence from the source counts:
+ *   404/410                                  -> closed (the ad is not published any more);
+ *   200 with removed=true                    -> closed;
+ *   200 whose last_publication_date ended > 36 h ago -> closed (the platform stopped publishing it);
+ *   200 otherwise                            -> open;
+ *   anything else (403, an unreadable answer) -> unknown, left exactly as it is.
+ * 429 and 5xx are THROWN so the retry layer backs off (and honours Retry-After); they are never read as "open" or "closed".
+ */
+export function adStatus(status: number, body: unknown, nowMs: number): JobStatus {
+  if (status === 404 || status === 410) return 'closed';
+  if (status !== 200) return 'unknown';
+  const ad = obj(body);
+  if (ad.removed === true) return 'closed';
+  const end = Date.parse(str(ad.last_publication_date));
+  if (Number.isFinite(end) && nowMs - end > PUBLICATION_GRACE_MS) return 'closed';
+  return typeof ad.id === 'string' || typeof ad.id === 'number' ? 'open' : 'unknown';
+}
+
+export function jobtechConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date(), opts: { origin?: string; statusPauseMs?: number } = {}): Connector {
+  const ORIGIN = (opts.origin ?? 'https://jobsearch.api.jobtechdev.se').replace(/\/+$/, '');
+  const BASE = `${ORIGIN}/search`;
   return {
     id: 'jobtech',
     minIntervalMs: 1000, // no documented limit: one request a second is this adapter's own polite pace
     presenceConfirmsOpen: true,
+    async checkStatuses(externalIds: string[]): Promise<Record<string, JobStatus>> {
+      const out: Record<string, JobStatus> = {};
+      const queue = externalIds.filter((id) => /^[1-9][0-9]{0,15}$/.test(id));
+      const worker = async () => {
+        for (let id = queue.shift(); id !== undefined; id = queue.shift()) {
+          const res = await fetchImpl(`${ORIGIN}/ad/${id}`, { headers: { Accept: 'application/json', 'User-Agent': 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)' }, signal: AbortSignal.timeout(20_000) });
+          if (res.status === 429 || res.status >= 500) throw new HttpError(res.status, parseRetryAfter(res.headers.get('retry-after')));
+          let body: unknown = null;
+          if (res.status === 200) {
+            try { body = JSON.parse(await res.text()); } catch { body = null; }
+          } else {
+            await res.arrayBuffer().catch(() => {});
+          }
+          out[id] = adStatus(res.status, body, now().getTime());
+          const pause = opts.statusPauseMs ?? STATUS_PAUSE_MS;
+          if (pause > 0) await new Promise((r) => setTimeout(r, pause));
+        }
+      };
+      await Promise.all(Array.from({ length: Math.min(STATUS_WORKERS, queue.length) }, worker));
+      return out;
+    },
     async fetchPage(cursor): Promise<FetchPage> {
       const { stream: si, offset } = parseCursor(cursor);
       const stream = JOBTECH_STREAMS[si]!;

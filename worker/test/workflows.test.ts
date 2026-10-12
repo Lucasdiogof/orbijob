@@ -170,7 +170,7 @@ describe('jobicy-discover.yml', () => {
 describe('every workflow file is valid YAML in the places a plain scalar breaks it', () => {
   // GitHub rejects the whole file ("workflow file issue": no trigger, no run) when a plain scalar contains ": " or " #".
   // This caught nothing before because the other tests read the files as text. No YAML parser is installed, so the known failure class is checked directly.
-  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'windows-bootstrap.yml']) {
+  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'sources-discover.yml', 'sources-revalidate.yml', 'windows-bootstrap.yml']) {
     it(`${f}: unquoted name/description/if values contain no ': ' and no ' #'`, () => {
       const bad = read(f).split(/\r?\n/).filter((l) => /^\s*(- )?(name|description|if):\s+/.test(l))
         .map((l) => /^\s*(?:- )?(?:name|description|if):\s+(.*)$/.exec(l)![1]!)
@@ -245,5 +245,45 @@ describe('sources-discover.yml', () => {
   it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {
     for (const k of ['auth', 'unreachable', 'storage', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
     for (const n of ['4', '5', '6', '7']) expect(c).toMatch(new RegExp(`steps\.rv\.outputs\.code == '${n}'`));
+  });
+});
+
+describe('sources-revalidate.yml (Platsbanken freshness)', () => {
+  const c = code(read('sources-revalidate.yml'));
+
+  it('is OFF by default: the schedule needs SOURCES_REVALIDATION_ENABLED is true; a manual run is read-only unless asked', () => {
+    expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_REVALIDATION_ENABLED == 'true'/);
+    expect(c).toMatch(/default: check/);
+    expect(c).toMatch(/if: github\.event_name == 'schedule' \|\| inputs\.action == 'revalidate'/);
+  });
+
+  it('runs 4 times a day at minute 47, hours that never meet the Platsbanken discovery (03/09/15/21:31) nor the Jobicy cron (minute 17)', () => {
+    const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
+    expect(crons).toEqual(['47 0,6,12,18 * * *']);
+    const d = code(read('sources-discover.yml'));
+    expect(d).toMatch(/'31 3,9,15,21 \* \* \*'\)\s+s=jobtech/);
+  });
+
+  it('can only revalidate the Platsbanken: a fixed source, the revalidation script and the read-only key check, in its own concurrency group', () => {
+    expect(c).toMatch(/ORBIJOB_SOURCE: jobtech/);
+    const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
+    expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/revalidate-local.mjs']));
+    expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|discover-local|worker-secrets|publish_|wrangler|supabase db|--prompt-key/);
+    expect(c).toMatch(/concurrency:\n  group: sources-revalidate\n  cancel-in-progress: false/);
+    expect(c).toMatch(/environment: jobicy-revalidation/);
+    expect(c).toMatch(/permissions:\n  contents: read/);
+  });
+
+  it('the secret reaches only the steps that use it, and every action is pinned to a commit', () => {
+    for (const st of steps(read('sources-revalidate.yml'))) {
+      const gets = /secrets\.ORBIJOB_SYNC_WORKER_KEY/.test(st);
+      const uses = /node scripts\/(worker-key-check|revalidate-local)\.mjs/.test(st) || /KEY: \$\{\{/.test(st);
+      if (gets) expect(uses).toBe(true);
+    }
+    for (const m of c.matchAll(/uses: ([^\s]+)/g)) expect(m[1]).toMatch(/@[0-9a-f]{40}$/);
+  });
+
+  it('labels the failure kinds with ALERT steps (exit codes 4, 5, 6)', () => {
+    for (const k of ['auth', 'unreachable', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
   });
 });

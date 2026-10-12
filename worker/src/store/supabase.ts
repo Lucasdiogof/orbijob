@@ -68,7 +68,7 @@ export class SupabaseJobStore implements JobStore, RunLedger {
     const pageSize = 1000;
     for (let offset = 0; ; offset += pageSize) {
       const res = await this.call(
-        `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&status=eq.open&order=external_id&limit=${pageSize}&offset=${offset}`,
+        `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&status=eq.open&order=last_checked_at.asc,external_id&limit=${pageSize}&offset=${offset}`,
         { method: 'GET' },
       );
       const page = (await res.json()) as { external_id: string }[];

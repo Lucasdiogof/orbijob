@@ -1,0 +1,116 @@
+# Revalidacao automatica das vagas ja gravadas da Platsbanken (fonte jobtech), 100% gratuita (repositorio publico + runner padrao do GitHub).
+#
+# POR QUE EXISTE: a busca da Platsbanken so alcanca os anuncios mais novos (~1.200). Um anuncio gravado que saiu dessa janela mas segue publicado
+# deixaria de receber data de verificacao e sumiria do app depois de 72 h. Aqui cada anuncio GRAVADO e perguntado ao endpoint oficial
+# `/ad/{id}` (200 = publicado, 404 = encerrado), do menos recentemente verificado para o mais recente, ate ~3.000 por passada.
+#
+# O QUE FAZ: renova last_checked_at SO das que a fonte confirma publicadas e fecha SO as que a fonte confirma encerradas (404/410, removed=true ou
+# janela de publicacao encerrada ha mais de 36 h). 403, 429, 5xx, timeout e resposta ilegivel NAO fecham nem confirmam nada. NAO le a busca, NAO
+# importa vaga, NAO apaga, NAO toca em can_redistribute nem em dados de usuario. O modo e fixo no script (worker/scripts/revalidate-local.mjs
+# usa SYNC_MODE=revalidate).
+#
+# Lease: a do banco vale por (fonte, hora). A descoberta da Platsbanken roda as 03:31/09:31/15:31/21:31 UTC; esta revalidacao as 00:47/06:47/12:47/18:47
+# (mais de 2 h de folga); se por atraso do GitHub duas coincidirem na mesma hora, a segunda e adiada pela lease (nunca roda junto).
+#
+# ESTA DESLIGADO POR PADRAO: o agendamento so executa quando a variavel de repositorio SOURCES_REVALIDATION_ENABLED vale 'true'.
+# Credencial: UM segredo, ORBIJOB_SYNC_WORKER_KEY, no ENVIRONMENT "jobicy-revalidation" (restrito a main), entregue so aos passos que o usam.
+name: Sources revalidate
+
+on:
+  schedule:
+    - cron: '47 0,6,12,18 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'check = somente leitura (valida a chave e a pre-checagem); revalidate = UMA revalidacao real da Platsbanken'
+        type: choice
+        options: [check, revalidate]
+        default: check
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sources-revalidate
+  cancel-in-progress: false
+
+jobs:
+  revalidate:
+    name: revalidate stored Platsbanken ads only
+    # agendado: so com a chave de liga/desliga; manual: sempre permitido (o padrao dele e somente leitura)
+    if: github.event_name == 'workflow_dispatch' || vars.SOURCES_REVALIDATION_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    environment: jobicy-revalidation
+    env:
+      ORBIJOB_SOURCE: jobtech
+    defaults:
+      run:
+        working-directory: worker
+        shell: bash
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      - name: Install dependencies (reproducible, no install scripts)
+        run: npm ci --ignore-scripts
+
+      - name: Check that the secret exists
+        id: sec
+        env:
+          KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "missing=1" >> "$GITHUB_OUTPUT"
+            echo "::error title=Segredo ausente::ORBIJOB_SYNC_WORKER_KEY nao esta definido no environment jobicy-revalidation"
+            exit 4
+          fi
+          echo "::add-mask::$KEY"
+
+      - name: Check the key (read-only)
+        id: kc
+        env:
+          ORBIJOB_WORKER_KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: |
+          code=0
+          node scripts/worker-key-check.mjs || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit "$code"
+
+      - name: Pre-flight (read-only)
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: node scripts/revalidate-local.mjs preflight
+
+      - name: Revalidate (stored jobs only; no import, no delete)
+        id: rv
+        if: github.event_name == 'schedule' || inputs.action == 'revalidate'
+        env:
+          ORBIJOB_SUPABASE_SECRET: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+          ORBIJOB_BUDGET_MIN: '9'
+        run: |
+          code=0
+          node scripts/revalidate-local.mjs run --yes > run.log 2>&1 || code=$?
+          cat run.log
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Sources revalidate (jobtech)"
+            grep -E '^(preflight|resultado|verificacao|codigo de saida)' run.log | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$code"
+
+      # Marcadores lidos pelo monitor: o passo roda so no caso indicado e termina com sucesso.
+      - name: 'ALERT auth: Supabase refused the credential'
+        if: always() && (steps.sec.outputs.missing == '1' || (steps.kc.outputs.code != '' && steps.kc.outputs.code != '0') || steps.rv.outputs.code == '4')
+        run: echo "::error title=sources-auth::O Supabase recusou a credencial da automacao"
+      - name: 'ALERT unreachable: database did not answer'
+        if: always() && steps.rv.outputs.code == '5'
+        run: echo "::error title=sources-unreachable::O banco nao respondeu"
+      - name: 'ALERT api: Platsbanken status errors (nothing was closed because of them)'
+        if: always() && steps.rv.outputs.code == '6'
+        run: echo "::error title=sources-api::O endpoint /ad da Platsbanken falhou em parte da passada (ou o tempo acabou); nada foi fechado por causa disso"

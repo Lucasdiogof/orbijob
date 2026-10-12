@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// REVALIDAÇÃO LOCAL das vagas do Jobicy que já estão no banco. Não importa nada, não usa Cloudflare, não deixa cron, não faz deploy.
+// REVALIDAÇÃO LOCAL das vagas de UMA fonte (ORBIJOB_SOURCE: jobicy, o padrão, ou jobtech) que já estão no banco. Não importa nada, não usa Cloudflare, não deixa cron, não faz deploy.
 //
 //   node scripts/revalidate-local.mjs preflight   somente leitura: confere chave, fonte e se há o que revalidar
 //   node scripts/revalidate-local.mjs run --yes   UMA passada em modo "revalidate" + verificação do que mudou
@@ -30,8 +30,13 @@ const localOnly = (name) => {
 const PROJECT_URL = localOnly('ORBIJOB_REHEARSAL_BASE') ?? `https://${REF}.supabase.co`;
 const JOBICY_ORIGIN = localOnly('ORBIJOB_REHEARSAL_JOBICY');
 const KEY_NAME = 'orbijob_ingest_local';
-const BUDGET_MS = 3 * 60_000;
-const HARD_LIMIT_MS = 4 * 60_000;
+const SRC = (process.env.ORBIJOB_SOURCE ?? 'jobicy').trim();
+if (!['jobicy', 'jobtech'].includes(SRC)) { console.error('PARE: ORBIJOB_SOURCE precisa ser jobicy ou jobtech'); process.exit(1); }
+// Jobicy: 3 min (um lote de 100 ids por requisicao). Jobtech: 1 requisicao por id, entao o orcamento e maior (ORBIJOB_BUDGET_MIN, 1 a 10).
+const BUDGET_MIN = Number(process.env.ORBIJOB_BUDGET_MIN ?? 3);
+if (!(BUDGET_MIN >= 1 && BUDGET_MIN <= 10)) { console.error('PARE: ORBIJOB_BUDGET_MIN precisa estar entre 1 e 10'); process.exit(1); }
+const BUDGET_MS = BUDGET_MIN * 60_000;
+const HARD_LIMIT_MS = (BUDGET_MIN + 1) * 60_000;
 const [, , mode = '', ...flags] = process.argv;
 if (!['preflight', 'run'].includes(mode)) { console.error('uso: node scripts/revalidate-local.mjs preflight | run --yes'); process.exit(2); }
 const fail = (m) => { console.error(`PARE: ${m}`); process.exit(1); };
@@ -72,24 +77,24 @@ const rest = async (path) => {
 async function snapshot() {
   const jobs = [];
   for (let off = 0; ; off += 1000) {
-    const page = await rest(`jobs?select=external_id,status,last_checked_at&source_id=eq.jobicy&order=external_id&limit=1000&offset=${off}`);
+    const page = await rest(`jobs?select=external_id,status,last_checked_at&source_id=eq.${SRC}&order=external_id&limit=1000&offset=${off}`);
     jobs.push(...page);
     if (page.length < 1000) break;
   }
-  const source = (await rest('job_sources?select=id,status,attribution,can_redistribute&id=eq.jobicy'))[0] ?? null;
-  const running = await rest('sync_runs?select=id&source_id=eq.jobicy&status=eq.running');
-  const runs = await rest('sync_runs?select=id&source_id=eq.jobicy');
+  const source = (await rest(`job_sources?select=id,status,attribution,can_redistribute&id=eq.${SRC}`))[0] ?? null;
+  const running = await rest(`sync_runs?select=id&source_id=eq.${SRC}&status=eq.running`);
+  const runs = await rest(`sync_runs?select=id&source_id=eq.${SRC}`);
   return { jobs, source, running: running.length, runs: runs.length };
 }
 
 const before = await snapshot();
 const open = before.jobs.filter((j) => j.status === 'open').length;
 const pre = [];
-if (!before.source) pre.push('a fonte jobicy nao existe');
+if (!before.source) pre.push(`a fonte ${SRC} nao existe`);
 if (before.jobs.length === 0) pre.push('nao ha vagas gravadas para revalidar');
 if (open === 0) pre.push('nao ha vaga aberta para revalidar');
 if (before.running > 0) pre.push('ha uma passada em andamento (running) em sync_runs');
-console.log(`preflight: ${pre.length ? 'REPROVADO' : 'OK'}  vagas=${before.jobs.length} abertas=${open} fonte=${before.source?.status}/${before.source?.can_redistribute}`);
+console.log(`preflight: ${pre.length ? 'REPROVADO' : 'OK'}  fonte=${SRC} vagas=${before.jobs.length} abertas=${open} fonte=${before.source?.status}/${before.source?.can_redistribute}`);
 for (const p of pre) console.log(`  FALHA  ${p}`);
 if (mode === 'preflight') process.exit(pre.length ? 1 : 0);
 if (pre.length) fail('preflight reprovado: nada foi gravado');
@@ -101,7 +106,7 @@ let outcome;
 let crash = null; // SyncFailure kind ('auth' | 'unreachable' | 'unexpected') or the error name, for the exit code
 try {
   outcome = await W.runScheduledSync(
-    { SUPABASE_URL: PROJECT_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, SYNC_MODE: 'revalidate', ...(JOBICY_ORIGIN ? { JOBICY_API_URL: JOBICY_ORIGIN } : {}) },
+    { SUPABASE_URL: PROJECT_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, SYNC_MODE: 'revalidate', SYNC_SOURCE: SRC, ...(JOBICY_ORIGIN ? (SRC === 'jobicy' ? { JOBICY_API_URL: JOBICY_ORIGIN } : { SOURCE_API_URL: JOBICY_ORIGIN }) : {}) },
     { fetch: (i, o) => fetch(i, o), now: () => new Date(), sink: W.consoleSink, budgetMs: BUDGET_MS },
   );
 } catch (e) {
