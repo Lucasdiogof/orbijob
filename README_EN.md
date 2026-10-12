@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Actual status (2026-10-10):** backend is live (Supabase, 8 migrations applied, RLS) with **299 real Jobicy jobs** (133 companies), **revalidated automatically every 6 h** by Supabase Cron. **Importing new jobs is still switched off** (proposed in a separate PR). The Cloudflare Worker is **not** deployed. Ranking, assisted form filling and the other sources remain **planned**; the app has not been validated end to end on a device.
+> **Actual status (2026-10-12):** backend is live (Supabase, RLS) with **hundreds of real jobs** (Jobicy: 699 at the last count, across 242 companies), **revalidated automatically** by Supabase Cron and **discovered incrementally** (insert-only, capped, with retention). Three more sources are implemented — Arbeitnow, Remote OK and Remotive — and only show in the app once reviewed and published ([source and licence matrix](docs/SOURCES_MATRIX.md)). Home and Explore list the newest jobs and filter by professional area; the app has not been validated end to end on a device. The Cloudflare Worker is **not** deployed.
 
 🇧🇷 [README em português](README.md) · Previous provisional name: *JobRadar* (dropped — [why](docs/BRAND_NAME_CHECK.md)).
 
@@ -38,7 +38,7 @@ Deployed today: Flutter → Supabase (catalogue reads under RLS); revalidation r
 Android, iOS and Web/PWA. Verified: production and preview web builds (real screenshots in [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md)), widget tests and Android resource validation with `aapt2`. **Not verified here:** APK (no Android SDK) and iOS (no macOS/Xcode). Nothing was published to stores.
 
 ## Job integrations
-The only source with real data is **Jobicy** (`CONDITIONAL`; official keyless API, attribution and original link kept). The others are `CONDITIONAL`, `RESEARCH` or `EXTERNAL_ONLY` — none is `READY`. No prohibited scraping, no CAPTCHA bypass, no automatic applications. See [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) and [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
+Sources with real data: **Jobicy** and, once published, **Arbeitnow**, **Remote OK** and **Remotive** (all `CONDITIONAL`, official keyless APIs, attribution and original link kept). The rest are `RESEARCH`, `EXTERNAL_ONLY` or blocked by a key or licence — see [docs/SOURCES_MATRIX.md](docs/SOURCES_MATRIX.md). No scraping, no CAPTCHA or anti-bot bypass. No prohibited scraping, no CAPTCHA bypass, no automatic applications. See [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) and [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
 
 ## Local setup
 Requires stable Flutter (tested with 3.47.6) and Node 22.

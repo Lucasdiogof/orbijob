@@ -2,7 +2,7 @@
 
 # OrbiJob
 
-> **Status real (2026-10-10):** backend no ar (Supabase, 8 migrations aplicadas, RLS) com **299 vagas reais do Jobicy** (133 empresas), **revalidadas automaticamente a cada 6 h** pelo Supabase Cron. **A importação de vagas novas ainda está desligada** (proposta em PR separado). Cloudflare Worker **não** implantado. Ranking, preenchimento assistido e as demais fontes continuam **planejados**; o app não foi validado ponta a ponta no aparelho.
+> **Status real (2026-10-12):** backend no ar (Supabase, RLS) com **centenas de vagas reais** (Jobicy: 699 na última contagem, em 242 empresas), **revalidadas automaticamente** pelo Supabase Cron e **descobertas de forma incremental** (insert-only, com teto e retenção). Há três fontes adicionais implementadas — Arbeitnow, Remote OK e Remotive — que só aparecem no app depois de revisadas e publicadas ([matriz de fontes e licenças](docs/SOURCES_MATRIX.md)). Home e Explore listam as vagas mais recentes e filtram por área profissional; o app não foi validado ponta a ponta em aparelho. Cloudflare Worker **não** implantado.
 
 🇬🇧 [English README](README_EN.md) · Antigo nome provisório: *JobRadar* (descontinuado — [ver motivo](docs/BRAND_NAME_CHECK.md)).
 
@@ -39,7 +39,7 @@ Implantado hoje: Flutter → Supabase (leitura do catálogo com RLS); revalidaç
 Android, iOS e Web/PWA. Verificado: build web de produção e prévia (capturas reais em [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md)), testes de widget e validação dos recursos Android com `aapt2`. **Não verificado aqui:** APK (sem Android SDK) e iOS (sem macOS/Xcode). Nada foi publicado em lojas.
 
 ## Integrações de vagas
-Única fonte com dados reais: **Jobicy** (`CONDITIONAL`; API oficial sem chave, atribuição e link original preservados). As demais estão `CONDITIONAL`, `RESEARCH` ou `EXTERNAL_ONLY` — nenhuma `READY`. Sem scraping proibido, sem burlar CAPTCHA, sem candidatura automática. Veja [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) e [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
+Fontes com dados reais: **Jobicy** e, quando publicadas, **Arbeitnow**, **Remote OK** e **Remotive** (todas `CONDITIONAL`, APIs oficiais sem chave, atribuição e link original preservados). As demais estão `RESEARCH`, `EXTERNAL_ONLY` ou bloqueadas por chave/licença — veja [docs/SOURCES_MATRIX.md](docs/SOURCES_MATRIX.md). Sem scraping, sem burlar CAPTCHA ou desafio anti-bot. Sem scraping proibido, sem burlar CAPTCHA, sem candidatura automática. Veja [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) e [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
 
 ## Configuração local
 Requisitos: Flutter estável (testado com 3.47.6), Node 22.
