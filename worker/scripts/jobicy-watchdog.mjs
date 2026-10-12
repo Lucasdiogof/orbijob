@@ -29,6 +29,7 @@ const TOKEN = process.env.GITHUB_TOKEN ?? '';
 const enabled = (process.env.JOBICY_REVALIDATION_ENABLED ?? '') === 'true';
 const discoveryEnabled = (process.env.JOBICY_DISCOVERY_ENABLED ?? '') === 'true';
 const sourcesEnabled = (process.env.SOURCES_DISCOVERY_ENABLED ?? '') === 'true';
+const sourcesRevalEnabled = (process.env.SOURCES_REVALIDATION_ENABLED ?? '') === 'true';
 
 const gh = async (path, init = {}) => {
   const r = await fetch(`${GH}${path}`, { ...init, headers: { Accept: 'application/vnd.github+json', ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}), 'X-GitHub-Api-Version': '2022-11-28', ...(init.headers ?? {}) }, signal: AbortSignal.timeout(20_000) });
@@ -41,7 +42,16 @@ const pub = await fetch(`${SUPABASE}/rest/v1/jobs?select=last_checked_at&order=l
 if (!pub.ok) { console.error(`PARE: leitura publica do catalogo falhou (HTTP ${pub.status})`); process.exit(1); }
 const first = await pub.json();
 const visibleJobs = Number((pub.headers.get('content-range') ?? '*/0').split('/')[1]);
-const oldestCheckedAt = first[0]?.last_checked_at ?? null;
+// The validity deadline (72 h) is judged on the sources that are verified one by one: Jobicy (status endpoint) and the Platsbanken (/ad/{id}).
+// A source read as a window of its newest pages (Arbeitnow) or as a whole feed (Remote OK, Remotive) legitimately holds older rows that the app
+// already hides; they are reported in the log line below, not alarmed on.
+const oldestOf = async (source) => {
+  const r = await fetch(`${SUPABASE}/rest/v1/jobs?select=last_checked_at&source_id=eq.${source}&status=eq.open&order=last_checked_at.asc&limit=1`, { headers: { apikey: PUBLISHABLE }, signal: AbortSignal.timeout(20_000) });
+  if (!r.ok) throw new Error(`leitura publica (${source}) falhou (HTTP ${r.status})`);
+  return (await r.json())[0]?.last_checked_at ?? null;
+};
+const verified = (await Promise.all(['jobicy', 'jobtech'].map(oldestOf))).filter(Boolean).sort();
+const oldestCheckedAt = verified[0] ?? first[0]?.last_checked_at ?? null;
 
 // 2. the scheduled runs of the revalidation workflow (newest first), and what the last finished one reported about itself
 const wf = 'jobicy-revalidate.yml';
@@ -75,15 +85,17 @@ async function readDiscoveryRuns(workflow) {
 }
 const discoverRuns = discoveryEnabled ? await readDiscoveryRuns('jobicy-discover.yml') : [];
 const sourcesRuns = sourcesEnabled ? await readDiscoveryRuns('sources-discover.yml') : [];
+const platsRevalRuns = sourcesRevalEnabled ? await readDiscoveryRuns('sources-revalidate.yml') : [];
 
 const base = evaluate({ nowMs: Date.now(), enabled, runs, oldestCheckedAt, visibleJobs });
 const alerts = [
   ...base.alerts,
   ...evaluateDiscovery({ nowMs: Date.now(), enabled: discoveryEnabled, runs: discoverRuns }),
-  ...evaluateDiscovery({ nowMs: Date.now(), enabled: sourcesEnabled, runs: sourcesRuns, prefix: 'sources', label: 'das fontes adicionais (Arbeitnow, Remote OK, Remotive)' }),
+  ...evaluateDiscovery({ nowMs: Date.now(), enabled: sourcesEnabled, runs: sourcesRuns, prefix: 'sources', label: 'das fontes adicionais (Arbeitnow, Remote OK, Remotive, Platsbanken)' }),
+  ...evaluateDiscovery({ nowMs: Date.now(), enabled: sourcesRevalEnabled, runs: platsRevalRuns, prefix: 'platsbanken_revalidation', label: 'da revalidacao da Platsbanken' }),
 ];
 const healthy = alerts.length === 0;
-console.log(`catalogo publico: ${visibleJobs} vagas; verificacao mais antiga: ${oldestCheckedAt ?? '-'}; automacao ${enabled ? 'LIGADA' : 'desligada'}; execucoes agendadas lidas: ${runs.length}; descoberta ${discoveryEnabled ? `LIGADA (${discoverRuns.length} execucoes lidas)` : 'desligada'}; fontes adicionais ${sourcesEnabled ? `LIGADAS (${sourcesRuns.length} execucoes lidas)` : 'desligadas'}`);
+console.log(`catalogo publico: ${visibleJobs} vagas; verificacao mais antiga: ${oldestCheckedAt ?? '-'}; automacao ${enabled ? 'LIGADA' : 'desligada'}; execucoes agendadas lidas: ${runs.length}; descoberta ${discoveryEnabled ? `LIGADA (${discoverRuns.length} execucoes lidas)` : 'desligada'}; fontes adicionais ${sourcesEnabled ? `LIGADAS (${sourcesRuns.length} execucoes lidas)` : 'desligadas'}; revalidacao da Platsbanken ${sourcesRevalEnabled ? `LIGADA (${platsRevalRuns.length} execucoes lidas)` : 'desligada'}`);
 for (const a of alerts) console.log(`${a.severity.toUpperCase()} ${a.id}: ${a.message}`);
 console.log(healthy ? 'tudo normal' : `${alerts.length} alerta(s)`);
 if (dry) process.exit(0);
