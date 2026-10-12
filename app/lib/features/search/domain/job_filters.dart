@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'entities/job_posting.dart';
+import 'health_specialty.dart';
 import 'job_area.dart';
 
 /// Filters the `jobs` table can answer with the columns it has. Anything the schema cannot express (profession
@@ -12,6 +13,7 @@ class JobFilters extends Equatable {
     this.onlyWithSalary = false,
     this.countryCode,
     this.area,
+    this.specialty,
   });
 
   /// Empty = any mode.
@@ -31,12 +33,16 @@ class JobFilters extends Equatable {
   /// Professional area (a rule on the title, see [JobArea]); null = any area.
   final JobArea? area;
 
+  /// Health specialty (a narrower title rule, see [HealthSpecialty]); only meaningful with [JobArea.health].
+  final HealthSpecialty? specialty;
+
   bool get isActive =>
       workModes.isNotEmpty ||
       publishedWithinDays != null ||
       onlyWithSalary ||
       countryCode != null ||
-      area != null;
+      area != null ||
+      specialty != null;
 
   JobFilters copyWith({
     Set<WorkMode>? workModes,
@@ -47,6 +53,8 @@ class JobFilters extends Equatable {
     bool clearCountry = false,
     JobArea? area,
     bool clearArea = false,
+    HealthSpecialty? specialty,
+    bool clearSpecialty = false,
   }) => JobFilters(
     workModes: workModes ?? this.workModes,
     publishedWithinDays: clearPublished
@@ -55,6 +63,10 @@ class JobFilters extends Equatable {
     onlyWithSalary: onlyWithSalary ?? this.onlyWithSalary,
     countryCode: clearCountry ? null : (countryCode ?? this.countryCode),
     area: clearArea ? null : (area ?? this.area),
+    // leaving the Health area drops the specialty with it
+    specialty: clearSpecialty || clearArea
+        ? null
+        : (specialty ?? this.specialty),
   );
 
   @override
@@ -64,5 +76,6 @@ class JobFilters extends Equatable {
     onlyWithSalary,
     countryCode,
     area,
+    specialty,
   ];
 }

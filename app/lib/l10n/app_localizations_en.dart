@@ -991,4 +991,57 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeLatestEmpty =>
       'There are no jobs to show right now. Try again later.';
+
+  @override
+  String get specPhysiotherapy => 'Physiotherapy';
+
+  @override
+  String get specPelvicPhysio => 'Pelvic physiotherapy';
+
+  @override
+  String get specNursing => 'Nursing';
+
+  @override
+  String get specMedicine => 'Medicine';
+
+  @override
+  String get specPsychology => 'Psychology';
+
+  @override
+  String get specOccupationalTherapy => 'Occupational therapy';
+
+  @override
+  String get specNutrition => 'Nutrition';
+
+  @override
+  String get specDentistry => 'Dentistry';
+
+  @override
+  String get specPharmacy => 'Pharmacy';
+
+  @override
+  String get specSpeechTherapy => 'Speech therapy';
+
+  @override
+  String get specRadiology => 'Radiology';
+
+  @override
+  String get specHospitalManagement => 'Hospital management';
+
+  @override
+  String get specAll => 'All health';
+
+  @override
+  String get portalsButton => 'Specialised job boards';
+
+  @override
+  String get portalsTitle => 'Search on specialised boards';
+
+  @override
+  String get portalsNote =>
+      'External links. These boards do not allow their listings to be copied, so they are not part of the OrbiJob catalogue: the link opens the board itself.';
+
+  @override
+  String get specialtyEmpty =>
+      'No open job in this specialty in the catalogue right now. Try the specialised boards below.';
 }

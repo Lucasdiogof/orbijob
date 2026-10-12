@@ -315,9 +315,9 @@ enum JobArea {
     'zahnmedizin',
     'physiotherap',
     'altenpfleg',
-    'erzieher',
   ]),
   education([
+    'erzieher',
     'teacher',
     'teaching',
     'tutor',

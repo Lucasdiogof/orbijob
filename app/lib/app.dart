@@ -11,6 +11,7 @@ import 'features/home/latest_jobs_cubit.dart';
 import 'features/home/recent_searches_cubit.dart';
 import 'features/session/user_scope.dart';
 import 'features/search/presentation/cubit/areas_cubit.dart';
+import 'features/search/presentation/cubit/specialties_cubit.dart';
 import 'features/search/presentation/cubit/search_cubit.dart';
 import 'features/shell/shell_cubit.dart';
 import 'features/shell/shell_page.dart';
@@ -37,6 +38,7 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
       BlocProvider(create: (_) => sl<ShellCubit>()),
       BlocProvider(create: (_) => sl<SearchCubit>()),
       BlocProvider(create: (_) => sl<AreasCubit>()..load()),
+      BlocProvider(create: (_) => sl<SpecialtiesCubit>()),
       BlocProvider(create: (_) => sl<LatestJobsCubit>()..load()),
       BlocProvider(create: (_) => sl<LocaleCubit>()),
       BlocProvider.value(value: sl<RecentSearchesCubit>()),

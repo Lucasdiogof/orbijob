@@ -15,7 +15,9 @@ import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../cubit/search_cubit.dart';
+import '../../domain/job_area.dart';
 import '../widgets/area_chips.dart';
+import '../widgets/health_specialty_chips.dart';
 import '../widgets/job_card.dart';
 import '../widgets/job_detail_view.dart';
 import '../widgets/search_filters_panel.dart';
@@ -124,6 +126,26 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   },
                 ),
+              ),
+              BlocBuilder<SearchCubit, SearchState>(
+                buildWhen: (a, b) =>
+                    a.filters.area != b.filters.area ||
+                    a.filters.specialty != b.filters.specialty,
+                builder: (context, s) => s.filters.area != JobArea.health
+                    ? const SizedBox.shrink()
+                    : HealthSpecialtyChips(
+                        selected: s.filters.specialty,
+                        onSelected: (sp) {
+                          setState(() => _selected = null);
+                          final c = context.read<SearchCubit>();
+                          c.setFilters(
+                            c.filters.copyWith(
+                              specialty: sp,
+                              clearSpecialty: sp == null,
+                            ),
+                          );
+                        },
+                      ),
               ),
               BlocBuilder<SearchCubit, SearchState>(
                 buildWhen: (a, b) => a.filters != b.filters,
@@ -297,8 +319,20 @@ class _Results extends StatelessWidget {
       SearchEmpty(:final filters) => StateView(
         icon: Icons.search_off,
         title: l.emptyTitle,
-        body: filters.isActive ? l.emptyFiltersBody : l.emptyBody,
-        action: filters.isActive
+        body: filters.specialty != null
+            ? l.specialtyEmpty
+            : filters.isActive
+            ? l.emptyFiltersBody
+            : l.emptyBody,
+        action: filters.specialty != null
+            ? AppButton(
+                label: l.portalsButton,
+                icon: Icons.open_in_new,
+                variant: AppButtonVariant.secondary,
+                onPressed: () =>
+                    showSpecialtyPortals(context, filters.specialty),
+              )
+            : filters.isActive
             ? AppButton(
                 label: l.filtersClear,
                 icon: Icons.filter_alt_off_outlined,

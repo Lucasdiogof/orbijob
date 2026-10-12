@@ -1833,6 +1833,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no jobs to show right now. Try again later.'**
   String get homeLatestEmpty;
+
+  /// No description provided for @specPhysiotherapy.
+  ///
+  /// In en, this message translates to:
+  /// **'Physiotherapy'**
+  String get specPhysiotherapy;
+
+  /// No description provided for @specPelvicPhysio.
+  ///
+  /// In en, this message translates to:
+  /// **'Pelvic physiotherapy'**
+  String get specPelvicPhysio;
+
+  /// No description provided for @specNursing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing'**
+  String get specNursing;
+
+  /// No description provided for @specMedicine.
+  ///
+  /// In en, this message translates to:
+  /// **'Medicine'**
+  String get specMedicine;
+
+  /// No description provided for @specPsychology.
+  ///
+  /// In en, this message translates to:
+  /// **'Psychology'**
+  String get specPsychology;
+
+  /// No description provided for @specOccupationalTherapy.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupational therapy'**
+  String get specOccupationalTherapy;
+
+  /// No description provided for @specNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get specNutrition;
+
+  /// No description provided for @specDentistry.
+  ///
+  /// In en, this message translates to:
+  /// **'Dentistry'**
+  String get specDentistry;
+
+  /// No description provided for @specPharmacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Pharmacy'**
+  String get specPharmacy;
+
+  /// No description provided for @specSpeechTherapy.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech therapy'**
+  String get specSpeechTherapy;
+
+  /// No description provided for @specRadiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology'**
+  String get specRadiology;
+
+  /// No description provided for @specHospitalManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital management'**
+  String get specHospitalManagement;
+
+  /// No description provided for @specAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All health'**
+  String get specAll;
+
+  /// No description provided for @portalsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialised job boards'**
+  String get portalsButton;
+
+  /// No description provided for @portalsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search on specialised boards'**
+  String get portalsTitle;
+
+  /// No description provided for @portalsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'External links. These boards do not allow their listings to be copied, so they are not part of the OrbiJob catalogue: the link opens the board itself.'**
+  String get portalsNote;
+
+  /// No description provided for @specialtyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No open job in this specialty in the catalogue right now. Try the specialised boards below.'**
+  String get specialtyEmpty;
 }
 
 class _AppLocalizationsDelegate

@@ -995,4 +995,57 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get homeLatestEmpty =>
       'Não há vagas para mostrar agora. Tente novamente mais tarde.';
+
+  @override
+  String get specPhysiotherapy => 'Fisioterapia';
+
+  @override
+  String get specPelvicPhysio => 'Fisioterapia pélvica';
+
+  @override
+  String get specNursing => 'Enfermagem';
+
+  @override
+  String get specMedicine => 'Medicina';
+
+  @override
+  String get specPsychology => 'Psicologia';
+
+  @override
+  String get specOccupationalTherapy => 'Terapia ocupacional';
+
+  @override
+  String get specNutrition => 'Nutrição';
+
+  @override
+  String get specDentistry => 'Odontologia';
+
+  @override
+  String get specPharmacy => 'Farmácia';
+
+  @override
+  String get specSpeechTherapy => 'Fonoaudiologia';
+
+  @override
+  String get specRadiology => 'Radiologia';
+
+  @override
+  String get specHospitalManagement => 'Gestão hospitalar';
+
+  @override
+  String get specAll => 'Toda a saúde';
+
+  @override
+  String get portalsButton => 'Portais especializados';
+
+  @override
+  String get portalsTitle => 'Procure em portais especializados';
+
+  @override
+  String get portalsNote =>
+      'Links externos. Esses portais não permitem copiar as vagas, por isso elas não fazem parte do catálogo do OrbiJob: o link abre o próprio portal.';
+
+  @override
+  String get specialtyEmpty =>
+      'Nenhuma vaga aberta desta especialidade no catálogo agora. Veja os portais especializados abaixo.';
 }

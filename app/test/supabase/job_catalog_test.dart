@@ -201,7 +201,8 @@ void main() {
             b.requests.first.request.url.queryParametersAll['or']!.single;
         expect(
           or,
-          '(search.wfts(simple).Flutter Developer,title.ilike.*Flutter Developer*)',
+          '(search.wfts(simple).Flutter Developer,title.ilike.*Flutter Developer*,city.ilike.*Flutter Developer*,'
+          'title.ilike.*desenvolvedor*,title.ilike.*desarrollador*,title.ilike.*entwickler*)',
         );
       },
     );
@@ -224,8 +225,8 @@ void main() {
       final or = b.requests.first.request.url.queryParametersAll['or']!.single;
       expect(or, startsWith('(search.wfts(simple).'));
       expect(or, endsWith('*)'));
-      // exactly two top-level terms: one comma between them, none from the user
-      expect(','.allMatches(or).length, 1);
+      // exactly three top-level terms (search, title, city): two commas between them, none from the user
+      expect(','.allMatches(or).length, 2);
       expect('('.allMatches(or).length, 2); // the group and wfts(simple)
       expect(')'.allMatches(or).length, 2);
       expect(or, isNot(contains('"')));

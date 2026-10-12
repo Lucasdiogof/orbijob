@@ -1,4 +1,5 @@
 import 'entities/job_posting.dart';
+import 'health_specialty.dart';
 import 'job_area.dart';
 import 'job_filters.dart';
 
@@ -43,6 +44,11 @@ abstract class SearchRepository {
 /// Repositories that can say how many open jobs each [JobArea] has (one count request per area).
 abstract interface class AreaCountSource {
   Future<Map<JobArea, int>> areaCounts();
+}
+
+/// Repositories that can count open jobs per [HealthSpecialty] (asked only when the Health area is opened).
+abstract interface class SpecialtyCountSource {
+  Future<Map<HealthSpecialty, int>> specialtyCounts();
 }
 
 /// A build started without the backend configuration. It must not claim "no source covers this search": it says the build

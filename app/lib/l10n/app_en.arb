@@ -435,5 +435,22 @@
   "notConfiguredBody": "The app was started without the backend configuration (SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY). Developers: run it with --dart-define-from-file.",
   "homeLatestTitle": "Latest jobs",
   "homeLatestSeeAll": "See all",
-  "homeLatestEmpty": "There are no jobs to show right now. Try again later."
+  "homeLatestEmpty": "There are no jobs to show right now. Try again later.",
+  "specPhysiotherapy": "Physiotherapy",
+  "specPelvicPhysio": "Pelvic physiotherapy",
+  "specNursing": "Nursing",
+  "specMedicine": "Medicine",
+  "specPsychology": "Psychology",
+  "specOccupationalTherapy": "Occupational therapy",
+  "specNutrition": "Nutrition",
+  "specDentistry": "Dentistry",
+  "specPharmacy": "Pharmacy",
+  "specSpeechTherapy": "Speech therapy",
+  "specRadiology": "Radiology",
+  "specHospitalManagement": "Hospital management",
+  "specAll": "All health",
+  "portalsButton": "Specialised job boards",
+  "portalsTitle": "Search on specialised boards",
+  "portalsNote": "External links. These boards do not allow their listings to be copied, so they are not part of the OrbiJob catalogue: the link opens the board itself.",
+  "specialtyEmpty": "No open job in this specialty in the catalogue right now. Try the specialised boards below."
 }

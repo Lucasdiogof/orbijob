@@ -1,9 +1,11 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../domain/entities/job_posting.dart';
+import '../domain/health_specialty.dart';
 import '../domain/job_area.dart';
 import '../domain/job_filters.dart';
 import '../domain/search_repository.dart';
+import '../domain/search_synonyms.dart';
 
 /// Reads the public job catalogue (`public.jobs`) with the publishable key and the signed-in user's session, if any.
 /// Row Level Security is the real gate: it only exposes jobs of sources marked `can_redistribute` with status
@@ -14,7 +16,7 @@ import '../domain/search_repository.dart';
 /// (`isco08` is empty for most sources) and salary ranges (amounts in different currencies and periods are not
 /// comparable).
 class SupabaseJobCatalogRepository
-    implements SearchRepository, AreaCountSource {
+    implements SearchRepository, AreaCountSource, SpecialtyCountSource {
   SupabaseJobCatalogRepository(
     this._client, {
     DateTime Function()? now,
@@ -72,7 +74,16 @@ class SupabaseJobCatalogRepository
     if (term.isNotEmpty) {
       // websearch over the generated `search` column (title, company, description) OR a substring of the title
       // (served by the trigram index), so a partial word such as "engin" still finds "Engineer".
-      q = q.or('search.wfts(simple).$term,title.ilike.*$term*');
+      // ... OR the city ("Goiânia", "Berlin"), OR the same profession under its other names ("fisioterapeuta" also finds
+      // "Physiotherapist"; nothing is translated, see search_synonyms.dart).
+      q = q.or(
+        [
+          'search.wfts(simple).$term',
+          'title.ilike.*$term*',
+          'city.ilike.*$term*',
+          for (final s in titleSynonyms(term)) 'title.ilike.*$s*',
+        ].join(','),
+      );
     }
     final country = normalizeCountry(f.countryCode);
     if (country != null) {
@@ -89,6 +100,8 @@ class SupabaseJobCatalogRepository
     }
     final area = f.area;
     if (area != null) q = q.or(area.orFilter);
+    final specialty = f.specialty;
+    if (specialty != null) q = _withSpecialty(q, specialty);
     final days = f.publishedWithinDays;
     if (days != null && days > 0) {
       q = q.gte(
@@ -159,6 +172,47 @@ class SupabaseJobCatalogRepository
       );
     }
     final res = await q.or(area.orFilter).limit(1).count(CountOption.exact);
+    return res.count;
+  }
+
+  /// A refinement (pelvic) must ALSO be a title of its parent (physiotherapy): two `or` groups, both required.
+  static T _withSpecialty<T extends PostgrestFilterBuilder<dynamic>>(
+    T q,
+    HealthSpecialty s,
+  ) {
+    final p = s.parent;
+    var out = q.or(s.orFilter) as T;
+    if (p != null) out = out.or(p.orFilter) as T;
+    return out;
+  }
+
+  /// Open, visible jobs per health specialty (same visibility rules as the list).
+  @override
+  Future<Map<HealthSpecialty, int>> specialtyCounts() async {
+    final counts = await Future.wait([
+      for (final s in HealthSpecialty.values) _countSpecialty(s),
+    ]);
+    return {
+      for (var i = 0; i < HealthSpecialty.values.length; i++)
+        HealthSpecialty.values[i]: counts[i],
+    };
+  }
+
+  Future<int> _countSpecialty(HealthSpecialty s) async {
+    var q = _client
+        .from('jobs')
+        .select('id,job_sources!inner(id)')
+        .eq('status', 'open')
+        .eq('job_sources.can_redistribute', true)
+        .inFilter('job_sources.status', allowedSourceStatuses);
+    final maxAge = maxVerificationAge;
+    if (maxAge != null) {
+      q = q.gte(
+        'last_checked_at',
+        _now().toUtc().subtract(maxAge).toIso8601String(),
+      );
+    }
+    final res = await _withSpecialty(q, s).limit(1).count(CountOption.exact);
     return res.count;
   }
 

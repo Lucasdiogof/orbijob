@@ -28,6 +28,7 @@ import '../../features/home/recent_searches_cubit.dart';
 import '../../features/search/data/supabase_job_catalog_repository.dart';
 import '../../features/search/domain/search_repository.dart';
 import '../../features/search/presentation/cubit/areas_cubit.dart';
+import '../../features/search/presentation/cubit/specialties_cubit.dart';
 import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
 import '../locale_cubit.dart';
@@ -68,6 +69,9 @@ void configureDependencies({
       ),
     )
     ..registerFactory<AreasCubit>(() => AreasCubit(maybe<SearchRepository>()))
+    ..registerFactory<SpecialtiesCubit>(
+      () => SpecialtiesCubit(maybe<SearchRepository>()),
+    )
     ..registerFactory<LatestJobsCubit>(
       () => LatestJobsCubit(
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),

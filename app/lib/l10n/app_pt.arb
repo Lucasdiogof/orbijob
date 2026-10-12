@@ -288,5 +288,22 @@
   "notConfiguredBody": "O app foi iniciado sem a configuração do servidor (SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY). Desenvolvedores: execute com --dart-define-from-file.",
   "homeLatestTitle": "Vagas recentes",
   "homeLatestSeeAll": "Ver todas",
-  "homeLatestEmpty": "Não há vagas para mostrar agora. Tente novamente mais tarde."
+  "homeLatestEmpty": "Não há vagas para mostrar agora. Tente novamente mais tarde.",
+  "specPhysiotherapy": "Fisioterapia",
+  "specPelvicPhysio": "Fisioterapia pélvica",
+  "specNursing": "Enfermagem",
+  "specMedicine": "Medicina",
+  "specPsychology": "Psicologia",
+  "specOccupationalTherapy": "Terapia ocupacional",
+  "specNutrition": "Nutrição",
+  "specDentistry": "Odontologia",
+  "specPharmacy": "Farmácia",
+  "specSpeechTherapy": "Fonoaudiologia",
+  "specRadiology": "Radiologia",
+  "specHospitalManagement": "Gestão hospitalar",
+  "specAll": "Toda a saúde",
+  "portalsButton": "Portais especializados",
+  "portalsTitle": "Procure em portais especializados",
+  "portalsNote": "Links externos. Esses portais não permitem copiar as vagas, por isso elas não fazem parte do catálogo do OrbiJob: o link abre o próprio portal.",
+  "specialtyEmpty": "Nenhuma vaga aberta desta especialidade no catálogo agora. Veja os portais especializados abaixo."
 }
