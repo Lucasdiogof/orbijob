@@ -130,7 +130,8 @@ for (const [id, j] of a) {
 if (outcome?.summary && newlyClosed !== outcome.summary.closed) problems.push(`vagas fechadas (${newlyClosed}) diferem do informado pela passada (${outcome.summary.closed})`);
 if (JSON.stringify(after.source) !== JSON.stringify(before.source)) problems.push('a linha da fonte mudou');
 if (outcome && outcome.status !== 'skipped' && after.runs !== before.runs + 1) problems.push('esperava exatamente 1 linha nova em sync_runs');
-console.log(`verificacao: ${problems.length ? 'REPROVADO' : 'OK'}  vagas=${after.jobs.length} (antes ${before.jobs.length}) fechadas_agora=${newlyClosed} com_nova_data=${stamped} fonte=${after.source?.status}/${after.source?.can_redistribute}`);
+const hiddenByAge = after.jobs.filter((j) => j.status === 'open' && Date.now() - Date.parse(j.last_checked_at) > 72 * 3_600_000).length; // open but not verified for 72 h: the app hides them
+console.log(`verificacao: ${problems.length ? 'REPROVADO' : 'OK'}  vagas=${after.jobs.length} (antes ${before.jobs.length}) fechadas_agora=${newlyClosed} com_nova_data=${stamped} abertas_sem_verificar_ha_72h=${hiddenByAge} fonte=${after.source?.status}/${after.source?.can_redistribute}`);
 for (const p of problems) console.log(`  FALHA  ${p}`);
 // Exit codes (the GitHub Actions workflow maps them to alerts): 0 ok or skipped by the lease; 1 verification failed / pass failed;
 // 4 Supabase refused the credential; 5 Supabase unreachable; 6 partial pass (API errors or timeout on some batch).
