@@ -94,6 +94,14 @@ describe('3. descriptions: readable text, no Markdown/entity residue, safe e-mai
     expect(decodeEntities('&amp;lt;b&amp;gt; stays text')).toBe('&lt;b&gt; stays text'); // markup is never produced
     expect(cleanDescription('<p>Fish &amp;amp; chips</p>')).toBe('Fish & chips');
   });
+  it('entity-escaped HTML (Arbeitnow, Remote OK) becomes plain text, images included', () => {
+    const out = cleanDescription('&lt;p&gt;&lt;strong&gt;Mission&amp;nbsp;Brief&lt;/strong&gt;&lt;/p&gt;&lt;div&gt;Own the &lt;img src=&quot;data:image/png;base64,iVBOR&quot;&gt;close.&lt;/div&gt;');
+    expect(out).not.toMatch(/<|&lt;|base64/);
+    expect(out).toContain('Mission');
+    expect(out).toContain('Own the');
+    expect(cleanDescription("Use a &lt;b&gt; tag")).toBe("Use a tag"); // escaped markup is markup: it is dropped, never shown
+    expect(cleanDescription("Intro &lt;img src=&quot;data:image/png;base64,iVBOR...")).toBe("Intro"); // truncated inline image
+  });
   it('role-based application and accommodation addresses stay', () => {
     for (const a of ['careers@example.com', 'accommodations@example.com', 'candidate_accommodations@example.com', 'hr.support@example.com',
       'recruiting@example.com', 'talent@example.com', 'jobs@example.com', 'askpeople@example.com', 'reasonable-accommodations@example.com'])

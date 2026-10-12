@@ -62,7 +62,13 @@ export function maskPersonalEmails(text: string): string {
   return text.replace(EMAIL, (a) => (isRoleAddress(a) ? a : MASKED_EMAIL));
 }
 
+/** Inline images (data: URIs) are never text, and a huge or truncated one can leave its own tag unterminated at the end. */
+const dropInlineImages = (s: string): string => s.replace(/data:[a-z]+\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]*/gi, '').replace(/<[a-z][^>]*$/i, '');
+
 /** Pipeline used for `jobs.description`. */
 export function cleanDescription(html: string): string {
-  return maskPersonalEmails(tidyMarkdown(htmlToText(html)));
+  let text = htmlToText(dropInlineImages(html));
+  // Some feeds (Arbeitnow, Remote OK) send the HTML entity-escaped (&lt;p&gt;): one decode leaves real tags, so decode once more.
+  if (/<\/?[a-z][a-z0-9]*(\s[^>]*)?>|<[a-z][^>]*$/i.test(text)) text = htmlToText(dropInlineImages(text));
+  return maskPersonalEmails(tidyMarkdown(text));
 }
