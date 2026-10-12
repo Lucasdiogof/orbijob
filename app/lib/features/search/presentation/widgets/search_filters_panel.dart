@@ -118,7 +118,7 @@ class SearchFiltersPanel extends StatelessWidget {
             group(l.filterContinent, [
               for (final k in Continent.values)
                 AppFilterChip(
-                  label: _continentLabel(k, l),
+                  label: continentLabel(k, l),
                   selected: filters.continent == k,
                   onSelected: (on) => onChanged(
                     on
@@ -161,7 +161,7 @@ class SearchFiltersPanel extends StatelessWidget {
   }
 }
 
-String _continentLabel(Continent k, AppLocalizations l) => switch (k) {
+String continentLabel(Continent k, AppLocalizations l) => switch (k) {
   Continent.europe => l.continentEurope,
   Continent.oceania => l.continentOceania,
   Continent.asia => l.continentAsia,

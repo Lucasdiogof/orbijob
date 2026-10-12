@@ -1660,6 +1660,12 @@ abstract class AppLocalizations {
   /// **'Region'**
   String get filterContinent;
 
+  /// No description provided for @homeRegionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse by region'**
+  String get homeRegionsTitle;
+
   /// No description provided for @continentEurope.
   ///
   /// In en, this message translates to:

@@ -890,6 +890,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filterContinent => 'Região';
 
   @override
+  String get homeRegionsTitle => 'Explorar por região';
+
+  @override
   String get continentEurope => 'Europa';
 
   @override

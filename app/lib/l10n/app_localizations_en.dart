@@ -886,6 +886,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterContinent => 'Region';
 
   @override
+  String get homeRegionsTitle => 'Browse by region';
+
+  @override
   String get continentEurope => 'Europe';
 
   @override

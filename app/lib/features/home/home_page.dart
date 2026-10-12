@@ -12,7 +12,10 @@ import '../preferences/presentation/preferences_cubit.dart';
 import '../favorites/favorites_cubit.dart';
 import '../preferences/presentation/saved_searches_cubit.dart';
 
+import '../search/domain/continent.dart';
 import '../search/presentation/pages/job_detail_page.dart';
+import '../search/presentation/widgets/search_filters_panel.dart'
+    show continentLabel;
 import '../search/presentation/widgets/area_chips.dart';
 import '../search/presentation/widgets/job_card.dart';
 import 'latest_jobs_cubit.dart';
@@ -181,6 +184,35 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpace.s6),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SectionHeader(title: l.homeRegionsTitle),
+                  const SizedBox(height: AppSpace.s3),
+                  Wrap(
+                    spacing: AppSpace.s2,
+                    runSpacing: AppSpace.s1,
+                    children: [
+                      for (final k in Continent.values)
+                        AppFilterChip(
+                          label: continentLabel(k, l),
+                          icon: Icons.public,
+                          selected: false,
+                          onSelected: (_) {
+                            final search = context.read<SearchCubit>();
+                            search.setFilters(
+                              search.filters.copyWith(continent: k),
+                            );
+                            context.read<ShellCubit>().goTo(ShellCubit.explore);
+                          },
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             const _LatestJobs(),
             const SizedBox(height: AppSpace.s6),
