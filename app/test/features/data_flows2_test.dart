@@ -95,10 +95,15 @@ void main() {
     await pumpApp(t, auth: auth, fakes: fakes, size: const Size(390, 1600));
     await t.tap(find.byTooltip('Profile'));
     await t.pumpAndSettle();
-    await t.tap(find.text('Português').last);
+    await t.tap(find.text('Settings'));
+    await t.pumpAndSettle();
+    // the language is chosen from a list in a sheet, never a squeezed segmented control
+    await t.tap(find.text('Device language'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Português'));
     await t.pumpAndSettle();
     expect(fakes.preferences.stored.locale, 'pt');
-    expect(find.text('Perfil'), findsWidgets);
+    expect(find.text('Configurações'), findsWidgets);
   });
 
   testWidgets(
@@ -109,10 +114,10 @@ void main() {
       await pumpApp(t, auth: auth, fakes: fakes, size: const Size(390, 2000));
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
-      final field = find.widgetWithText(
-        TextField,
-        'Add a country (2-letter code)',
-      );
+      await t.tap(find.text('Preferences'));
+      await t.pumpAndSettle();
+      expect(find.text('Add a country (2-letter code)'), findsOneWidget);
+      final field = find.byType(TextField);
       await t.ensureVisible(field);
       await t.enterText(field, 'de');
       await t.tap(find.byTooltip('Add').last);
@@ -139,12 +144,18 @@ void main() {
       );
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
+      await t.tap(find.text('Résumés'));
+      await t.pumpAndSettle();
       expect(find.text('No résumé uploaded yet.'), findsOneWidget);
       await t.tap(find.text('Upload PDF'));
       await t.pumpAndSettle();
       expect(fakes.resumes.rows, hasLength(1));
       expect(find.text('Résumé uploaded'), findsOneWidget);
-      await t.tap(find.byTooltip('Delete').last);
+      // the first résumé becomes the main one on its own
+      expect(find.text('Main'), findsOneWidget);
+      await t.tap(find.byTooltip('More actions'));
+      await t.pumpAndSettle();
+      await t.tap(find.text('Delete').last);
       await t.pumpAndSettle();
       await t.tap(find.text('Delete').last);
       await t.pumpAndSettle();
@@ -164,6 +175,8 @@ void main() {
       size: const Size(390, 2400),
     );
     await t.tap(find.byTooltip('Profile'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Résumés'));
     await t.pumpAndSettle();
     expect(find.text('Upload PDF'), findsNothing);
   });

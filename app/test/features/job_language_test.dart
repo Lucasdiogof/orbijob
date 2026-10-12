@@ -32,9 +32,13 @@ void main() {
         await t.pumpAndSettle();
         // Original German title is never translated, whatever the interface language.
         expect(find.text('Beckenboden-Physiotherapeut:in'), findsOneWidget);
-        expect(find.text('Vollzeit'), findsOneWidget);
-        expect(find.text('Deutsch'), findsOneWidget, reason: 'language badge');
-        expect(find.text(searched), findsWidgets);
+        expect(find.textContaining('Vollzeit'), findsOneWidget);
+        expect(
+          find.textContaining('Deutsch'),
+          findsOneWidget,
+          reason: 'language of the listing',
+        );
+        expect(find.textContaining(searched), findsWidgets);
       },
     );
   }

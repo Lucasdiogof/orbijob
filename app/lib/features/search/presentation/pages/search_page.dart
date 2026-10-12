@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_search_field.dart';
+import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/data_state_view.dart';
-import '../../../../core/widgets/skeleton.dart';
-import '../../../../core/widgets/state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
@@ -15,15 +12,16 @@ import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../cubit/search_cubit.dart';
-import '../../domain/job_area.dart';
 import '../widgets/area_chips.dart';
+import '../widgets/area_picker.dart';
 import '../widgets/health_specialty_chips.dart';
-import '../widgets/job_card.dart';
 import '../widgets/job_detail_view.dart';
 import '../widgets/search_filters_panel.dart';
 import 'job_detail_page.dart';
 
-/// Explore: search field + results. Expanded windows (>= 1024) show list and detail side by side.
+/// Explore: a search bar with its filters, a row of quick filters and the results.
+/// Compact windows show the results full width and open a job on its own page; from 1024 dp the list and the open job sit side by side;
+/// from 1280 dp the filters become a persistent side panel as well.
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, this.onOpenApplication});
 
@@ -38,7 +36,6 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
   ScoredJob? _selected;
-  bool _showFilters = false;
 
   @override
   void initState() {
@@ -62,6 +59,26 @@ class _SearchPageState extends State<SearchPage> {
     setState(() => _selected = null);
     context.read<SearchCubit>().search(q);
   }
+
+  void _apply(JobFilters f) {
+    setState(() => _selected = null);
+    context.read<SearchCubit>().setFilters(f);
+  }
+
+  List<String> _countries() {
+    try {
+      return context.read<PreferencesCubit>().state.prefs.countriesOfInterest;
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  void _openFilters() => showExploreFilters(
+    context,
+    current: context.read<SearchCubit>().filters,
+    countries: _countries(),
+    onApply: _apply,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -90,73 +107,32 @@ class _SearchPageState extends State<SearchPage> {
                 (_) => mounted ? _focus.requestFocus() : null,
               ),
         ),
+        BlocListener<ShellCubit, ShellState>(
+          listenWhen: (a, b) => a.filtersTick != b.filtersTick,
+          listener: (context, s) =>
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) => mounted && MediaQuery.sizeOf(context).width < 1280
+                    ? _openFilters()
+                    : null,
+              ),
+        ),
       ],
       child: LayoutBuilder(
         builder: (context, box) {
           final split = WindowClass.of(box.maxWidth) == WindowClass.expanded;
-          final field = Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpace.s4,
-              AppSpace.s4,
-              AppSpace.s4,
-              AppSpace.s2,
-            ),
-            child: _SearchField(
+          final sidebar = box.maxWidth >= 1280;
+          final header = BlocBuilder<SearchCubit, SearchState>(
+            buildWhen: (a, b) => a.filters != b.filters,
+            builder: (context, s) => _Header(
               controller: _controller,
               focus: _focus,
+              filters: s.filters,
+              showFiltersButton: !sidebar,
               onSubmit: _submit,
               onClear: () => context.read<SearchCubit>().browse(),
+              onFilters: _openFilters,
+              onChanged: _apply,
             ),
-          );
-          final header = Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              field,
-              BlocBuilder<SearchCubit, SearchState>(
-                buildWhen: (a, b) => a.filters.area != b.filters.area,
-                builder: (context, s) => AreaChips(
-                  scrollable: true,
-                  showAll: true,
-                  selected: s.filters.area,
-                  onSelected: (area) {
-                    setState(() => _selected = null);
-                    final c = context.read<SearchCubit>();
-                    c.setFilters(
-                      c.filters.copyWith(area: area, clearArea: area == null),
-                    );
-                  },
-                ),
-              ),
-              BlocBuilder<SearchCubit, SearchState>(
-                buildWhen: (a, b) =>
-                    a.filters.area != b.filters.area ||
-                    a.filters.specialty != b.filters.specialty,
-                builder: (context, s) => s.filters.area != JobArea.health
-                    ? const SizedBox.shrink()
-                    : HealthSpecialtyChips(
-                        selected: s.filters.specialty,
-                        onSelected: (sp) {
-                          setState(() => _selected = null);
-                          final c = context.read<SearchCubit>();
-                          c.setFilters(
-                            c.filters.copyWith(
-                              specialty: sp,
-                              clearSpecialty: sp == null,
-                            ),
-                          );
-                        },
-                      ),
-              ),
-              BlocBuilder<SearchCubit, SearchState>(
-                buildWhen: (a, b) => a.filters != b.filters,
-                builder: (context, s) => _FiltersArea(
-                  filters: s.filters,
-                  open: _showFilters,
-                  maxHeight: box.maxHeight * 0.45,
-                  onToggle: () => setState(() => _showFilters = !_showFilters),
-                ),
-              ),
-            ],
           );
           final results = BlocBuilder<SearchCubit, SearchState>(
             builder: (context, s) => _Results(
@@ -168,35 +144,37 @@ class _SearchPageState extends State<SearchPage> {
               onOpenApplication: widget.onOpenApplication,
             ),
           );
+          final list = Column(
+            children: [
+              header,
+              Expanded(child: results),
+            ],
+          );
           if (!split) {
             return Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 760),
-                child: Column(
-                  children: [
-                    header,
-                    Expanded(child: results),
-                  ],
-                ),
+                child: list,
               ),
             );
           }
           return Row(
             children: [
-              SizedBox(
-                width: AppSize.listPaneWidth,
-                child: Column(
-                  children: [
-                    header,
-                    Expanded(child: results),
-                  ],
+              if (sidebar)
+                BlocBuilder<SearchCubit, SearchState>(
+                  buildWhen: (a, b) => a.filters != b.filters,
+                  builder: (context, s) => FilterSidebar(
+                    filters: s.filters,
+                    countries: _countries(),
+                    onChanged: _apply,
+                  ),
                 ),
-              ),
-              VerticalDivider(width: 1, color: context.colors.divider),
+              SizedBox(width: AppSize.listPaneWidth, child: list),
+              VerticalDivider(width: 1, color: context.colors.hairline),
               Expanded(
                 child: _selected == null
-                    ? StateView(
+                    ? OrbiEmptyState(
                         icon: Icons.ads_click,
                         title: l.jobDetailTitle,
                         body: l.selectJobHint,
@@ -233,27 +211,135 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-class _SearchField extends StatelessWidget {
-  const _SearchField({
+/// The search bar (with the filters button and its badge) and the row of quick filters.
+class _Header extends StatelessWidget {
+  const _Header({
     required this.controller,
     required this.focus,
+    required this.filters,
+    required this.showFiltersButton,
     required this.onSubmit,
     required this.onClear,
+    required this.onFilters,
+    required this.onChanged,
   });
+
   final TextEditingController controller;
   final FocusNode focus;
+  final JobFilters filters;
+  final bool showFiltersButton;
   final ValueChanged<String> onSubmit;
   final VoidCallback onClear;
+  final VoidCallback onFilters;
+  final ValueChanged<JobFilters> onChanged;
+
+  String _areaChipLabel(AppLocalizations l) {
+    final a = filters.area;
+    if (a == null) return l.filterAreaChip;
+    final sp = filters.specialty;
+    return sp == null
+        ? areaLabel(a, l)
+        : '${areaLabel(a, l)} · ${specialtyLabel(sp, l)}';
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AppSearchField(
-      controller: controller,
-      focusNode: focus,
-      onSubmitted: onSubmit,
-      onChanged: (v) {
-        if (v.isEmpty) onClear();
-      },
+    final l = AppLocalizations.of(context);
+    void toggleMode(WorkMode m, bool on) => onChanged(
+      filters.copyWith(
+        workModes: on
+            ? {...filters.workModes, m}
+            : ({...filters.workModes}..remove(m)),
+      ),
+    );
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpace.s4,
+            AppSpace.s3,
+            AppSpace.s4,
+            AppSpace.s1,
+          ),
+          child: OrbiSearchField(
+            controller: controller,
+            focusNode: focus,
+            onSubmitted: onSubmit,
+            onChanged: (v) {
+              if (v.isEmpty) onClear();
+            },
+            trailing: showFiltersButton
+                ? FiltersButton(
+                    count: activeFilterCount(filters),
+                    onPressed: onFilters,
+                  )
+                : null,
+          ),
+        ),
+        OrbiChipRow(
+          children: [
+            OrbiFilterChip(
+              label: _areaChipLabel(l),
+              icon: filters.area == null ? Icons.category_outlined : null,
+              selected: filters.area != null,
+              trailing: Icon(
+                Icons.expand_more_rounded,
+                size: 18,
+                color: filters.area != null
+                    ? context.colors.chipSelectedFg
+                    : context.colors.muted,
+              ),
+              onSelected: (_) async {
+                final picked = await showAreaPicker(
+                  context,
+                  area: filters.area,
+                  specialty: filters.specialty,
+                );
+                if (picked == null) return;
+                onChanged(
+                  filters.copyWith(
+                    area: picked.area,
+                    clearArea: picked.area == null,
+                    specialty: picked.specialty,
+                    clearSpecialty: picked.specialty == null,
+                  ),
+                );
+              },
+            ),
+            OrbiFilterChip(
+              label: l.workModeRemote,
+              selected: filters.workModes.contains(WorkMode.remote),
+              onSelected: (on) => toggleMode(WorkMode.remote, on),
+            ),
+            OrbiFilterChip(
+              label: l.workModeHybrid,
+              selected: filters.workModes.contains(WorkMode.hybrid),
+              onSelected: (on) => toggleMode(WorkMode.hybrid, on),
+            ),
+            OrbiFilterChip(
+              label: l.workModeOnsite,
+              selected: filters.workModes.contains(WorkMode.onsite),
+              onSelected: (on) => toggleMode(WorkMode.onsite, on),
+            ),
+            OrbiFilterChip(
+              label: l.filterPublished7,
+              selected: filters.publishedWithinDays == 7,
+              onSelected: (on) => onChanged(
+                on
+                    ? filters.copyWith(publishedWithinDays: 7)
+                    : filters.copyWith(clearPublished: true),
+              ),
+            ),
+            OrbiFilterChip(
+              label: l.filterWithSalary,
+              selected: filters.onlyWithSalary,
+              onSelected: (on) =>
+                  onChanged(filters.copyWith(onlyWithSalary: on)),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -283,18 +369,17 @@ class _Results extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpace.s4),
         children: [
           const SizedBox(height: AppSpace.s6),
-          StateView(
+          OrbiEmptyState(
             icon: Icons.travel_explore,
             title: l.exploreIdleTitle,
             body: l.exploreIdleBody,
-            kind: StateKind.info,
+            kind: OrbiStateKind.info,
           ),
           const SizedBox(height: AppSpace.s4),
           Center(
-            child: AppButton(
+            child: OrbiSecondaryButton(
               label: l.browseLatest,
               icon: Icons.list_alt,
-              variant: AppButtonVariant.secondary,
               onPressed: () => context.read<SearchCubit>().browse(),
             ),
           ),
@@ -302,21 +387,21 @@ class _Results extends StatelessWidget {
       ),
       SearchLoading() => const Padding(
         padding: EdgeInsets.all(AppSpace.s4),
-        child: SkeletonList(),
+        child: OrbiSkeletonList(),
       ),
-      SearchNotConfigured() => StateView(
+      SearchNotConfigured() => OrbiEmptyState(
         icon: Icons.cloud_off_outlined,
         title: l.notConfiguredTitle,
         body: l.notConfiguredBody,
-        kind: StateKind.info,
+        kind: OrbiStateKind.info,
       ),
-      SearchNoSource() => StateView(
+      SearchNoSource() => OrbiEmptyState(
         icon: Icons.public_off,
         title: l.noSourceTitle,
         body: l.noSourceBody,
-        kind: StateKind.info,
+        kind: OrbiStateKind.info,
       ),
-      SearchEmpty(:final filters) => StateView(
+      SearchEmpty(:final filters) => OrbiEmptyState(
         icon: Icons.search_off,
         title: l.emptyTitle,
         body: filters.specialty != null
@@ -325,28 +410,26 @@ class _Results extends StatelessWidget {
             ? l.emptyFiltersBody
             : l.emptyBody,
         action: filters.specialty != null
-            ? AppButton(
+            ? OrbiSecondaryButton(
                 label: l.portalsButton,
                 icon: Icons.open_in_new,
-                variant: AppButtonVariant.secondary,
                 onPressed: () =>
                     showSpecialtyPortals(context, filters.specialty),
               )
             : filters.isActive
-            ? AppButton(
+            ? OrbiSecondaryButton(
                 label: l.filtersClear,
                 icon: Icons.filter_alt_off_outlined,
-                variant: AppButtonVariant.secondary,
                 onPressed: () => context.read<SearchCubit>().clearFilters(),
               )
             : null,
       ),
-      SearchFailure() => StateView(
+      SearchFailure() => OrbiEmptyState(
         icon: Icons.error_outline,
         title: l.errorTitle,
         body: l.errorBody,
-        kind: StateKind.error,
-        action: AppButton(
+        kind: OrbiStateKind.error,
+        action: OrbiSecondaryButton(
           label: l.retry,
           icon: Icons.refresh,
           onPressed: () => context.read<SearchCubit>().retry(),
@@ -379,12 +462,8 @@ class _Results extends StatelessWidget {
                         liveRegion: true,
                         child: Text(
                           // With more pages behind it the count is "shown so far", never a catalogue total.
-                          hasMore
-                              ? l.resultsShown(jobs.length)
-                              : l.resultsCount(jobs.length),
-                          style: context.text.labelMedium!.copyWith(
-                            color: context.colors.muted,
-                          ),
+                          '${hasMore ? l.resultsShown(jobs.length) : l.resultsCount(jobs.length)} · ${l.sortNewest}',
+                          style: context.metadataStyle,
                         ),
                       ),
                     ),
@@ -400,7 +479,7 @@ class _Results extends StatelessWidget {
                 );
               }
               final s = jobs[i - 1];
-              return JobCard(
+              return OrbiJobCard(
                 scored: s,
                 selected: split && selected?.job == s.job,
                 isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(s.job)),
@@ -439,79 +518,19 @@ class _SaveSearchButton extends StatelessWidget {
                     query,
                   );
                   if (ok && context.mounted) {
-                    ScaffoldMessenger.of(
+                    showOrbiSnackBar(
                       context,
-                    ).showSnackBar(SnackBar(content: Text(l.savedSearchSaved)));
+                      l.savedSearchSaved,
+                      kind: OrbiSnackKind.success,
+                    );
                   }
                 },
-          icon: Icon(saved ? Icons.bookmark : Icons.bookmark_border),
+          icon: Icon(
+            saved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+          ),
         );
       },
     );
-  }
-}
-
-/// Button that opens/closes the filter panel (with the number of active filters) and the panel itself.
-class _FiltersArea extends StatelessWidget {
-  const _FiltersArea({
-    required this.filters,
-    required this.open,
-    required this.maxHeight,
-    required this.onToggle,
-  });
-  final JobFilters filters;
-  final bool open;
-  final double maxHeight;
-  final VoidCallback onToggle;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final countries = _countriesOfInterest(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpace.s4),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: AppButton(
-              label: activeFilterCount(filters) == 0
-                  ? l.filtersButton
-                  : l.filtersButtonCount(activeFilterCount(filters)),
-              icon: open ? Icons.expand_less : Icons.tune,
-              variant: AppButtonVariant.secondary,
-              onPressed: onToggle,
-            ),
-          ),
-        ),
-        if (open)
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: maxHeight < 160 ? 160 : maxHeight,
-            ),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(top: AppSpace.s2),
-                child: SearchFiltersPanel(
-                  filters: filters,
-                  countries: countries,
-                  onChanged: (f) => context.read<SearchCubit>().setFilters(f),
-                ),
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-/// Countries of interest from the user's profile; empty when preferences are not available (signed out, preview).
-List<String> _countriesOfInterest(BuildContext context) {
-  try {
-    return context.watch<PreferencesCubit>().state.prefs.countriesOfInterest;
-  } catch (_) {
-    return const [];
   }
 }
 
@@ -542,10 +561,9 @@ class _LoadMoreFooter extends StatelessWidget {
                 ),
               ),
             ),
-          AppButton(
+          OrbiSecondaryButton(
             label: failed ? l.retry : l.loadMore,
             icon: failed ? Icons.refresh : Icons.expand_more,
-            variant: AppButtonVariant.secondary,
             loading: loading,
             onPressed: loading ? null : onLoadMore,
           ),

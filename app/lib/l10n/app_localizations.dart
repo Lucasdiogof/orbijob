@@ -1983,6 +1983,582 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No open job in this specialty in the catalogue right now. Try the specialised boards below.'**
   String get specialtyEmpty;
+
+  /// No description provided for @gateCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get gateCreateAccount;
+
+  /// No description provided for @gateKeepExploring.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep exploring jobs'**
+  String get gateKeepExploring;
+
+  /// No description provided for @gateFavoritesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your best opportunities, in one place.'**
+  String get gateFavoritesTitle;
+
+  /// No description provided for @gateFavoritesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the jobs that catch your eye and come back to them whenever you want.'**
+  String get gateFavoritesBody;
+
+  /// No description provided for @gateFavorites1.
+  ///
+  /// In en, this message translates to:
+  /// **'Save jobs from any country and profession'**
+  String get gateFavorites1;
+
+  /// No description provided for @gateFavorites2.
+  ///
+  /// In en, this message translates to:
+  /// **'Find them again on any device'**
+  String get gateFavorites2;
+
+  /// No description provided for @gateFavorites3.
+  ///
+  /// In en, this message translates to:
+  /// **'See at a glance whether a job is still open'**
+  String get gateFavorites3;
+
+  /// No description provided for @gateApplicationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow every step of your next opportunity.'**
+  String get gateApplicationsTitle;
+
+  /// No description provided for @gateApplicationsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A simple board for the processes you are in, from interest to offer.'**
+  String get gateApplicationsBody;
+
+  /// No description provided for @gateApplications1.
+  ///
+  /// In en, this message translates to:
+  /// **'Record where you applied and when'**
+  String get gateApplications1;
+
+  /// No description provided for @gateApplications2.
+  ///
+  /// In en, this message translates to:
+  /// **'Move each process through its stages'**
+  String get gateApplications2;
+
+  /// No description provided for @gateApplications3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep notes and important dates'**
+  String get gateApplications3;
+
+  /// No description provided for @gateResumesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Have your résumé ready when the right job shows up.'**
+  String get gateResumesTitle;
+
+  /// No description provided for @gateResumesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your files stay private in your account and are never shared without you.'**
+  String get gateResumesBody;
+
+  /// No description provided for @gateResumes1.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload PDF résumés and keep several versions'**
+  String get gateResumes1;
+
+  /// No description provided for @gateResumes2.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which one is your main résumé'**
+  String get gateResumes2;
+
+  /// No description provided for @gateResumes3.
+  ///
+  /// In en, this message translates to:
+  /// **'Open or replace a file whenever you need'**
+  String get gateResumes3;
+
+  /// No description provided for @gateProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your professional profile, always at hand.'**
+  String get gateProfileTitle;
+
+  /// No description provided for @gateProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell who you are professionally, in any profession and any country.'**
+  String get gateProfileBody;
+
+  /// No description provided for @gateProfile1.
+  ///
+  /// In en, this message translates to:
+  /// **'Present your experience, education and skills'**
+  String get gateProfile1;
+
+  /// No description provided for @gateProfile2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reuse your data when you apply'**
+  String get gateProfile2;
+
+  /// No description provided for @gateProfile3.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the work modes and countries you prefer'**
+  String get gateProfile3;
+
+  /// No description provided for @gateSavedSearchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the searches that matter.'**
+  String get gateSavedSearchesTitle;
+
+  /// No description provided for @gateSavedSearchesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a search once and run it again with a single tap.'**
+  String get gateSavedSearchesBody;
+
+  /// No description provided for @gateSavedSearches1.
+  ///
+  /// In en, this message translates to:
+  /// **'Searches live in your account'**
+  String get gateSavedSearches1;
+
+  /// No description provided for @gateSavedSearches2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen them from Home'**
+  String get gateSavedSearches2;
+
+  /// No description provided for @gateSavedSearches3.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove them whenever you want'**
+  String get gateSavedSearches3;
+
+  /// No description provided for @homeHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your next opportunity'**
+  String get homeHeadline;
+
+  /// No description provided for @homeGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// No description provided for @homeGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// No description provided for @homeGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// No description provided for @homeRemoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote jobs'**
+  String get homeRemoteTitle;
+
+  /// No description provided for @homeContinueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up where you left off'**
+  String get homeContinueTitle;
+
+  /// No description provided for @homeQuickLast7.
+  ///
+  /// In en, this message translates to:
+  /// **'New this week'**
+  String get homeQuickLast7;
+
+  /// No description provided for @areasPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional areas'**
+  String get areasPageTitle;
+
+  /// No description provided for @areasPageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick an area to see its open jobs. Only areas with jobs right now are listed.'**
+  String get areasPageBody;
+
+  /// No description provided for @areaJobsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 job} other{{count} jobs}}'**
+  String areaJobsCount(int count);
+
+  /// No description provided for @filtersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filtersTitle;
+
+  /// No description provided for @filtersApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Show results'**
+  String get filtersApply;
+
+  /// No description provided for @filtersReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get filtersReset;
+
+  /// No description provided for @filterArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional area'**
+  String get filterArea;
+
+  /// No description provided for @filterAreaChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get filterAreaChip;
+
+  /// No description provided for @filterSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get filterSalary;
+
+  /// No description provided for @filterRegionAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere in the world'**
+  String get filterRegionAny;
+
+  /// No description provided for @filterCountryAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any country'**
+  String get filterCountryAny;
+
+  /// No description provided for @filterAreaAny.
+  ///
+  /// In en, this message translates to:
+  /// **'All areas'**
+  String get filterAreaAny;
+
+  /// No description provided for @areaPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an area'**
+  String get areaPickerTitle;
+
+  /// No description provided for @areaPickerSpecialties.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialties'**
+  String get areaPickerSpecialties;
+
+  /// No description provided for @sortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get sortNewest;
+
+  /// No description provided for @exploreOpenFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Open filters'**
+  String get exploreOpenFilters;
+
+  /// No description provided for @exploreFiltersActive.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 filter active} other{{count} filters active}}'**
+  String exploreFiltersActive(int count);
+
+  /// No description provided for @authSignInHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get authSignInHeadline;
+
+  /// No description provided for @authSignInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see your favorites, applications and résumés.'**
+  String get authSignInSubtitle;
+
+  /// No description provided for @authSignUpHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your OrbiJob account'**
+  String get authSignUpHeadline;
+
+  /// No description provided for @authSignUpSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Free. Save jobs, track applications and keep your résumés in one place.'**
+  String get authSignUpSubtitle;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
+  /// No description provided for @authBrowseWithoutAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep browsing without an account'**
+  String get authBrowseWithoutAccount;
+
+  /// No description provided for @authNewPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password with at least 8 characters.'**
+  String get authNewPasswordSubtitle;
+
+  /// No description provided for @profileHubProfessionalSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Role, skills, experience and education'**
+  String get profileHubProfessionalSub;
+
+  /// No description provided for @profileHubResumesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Your PDFs, with a main résumé'**
+  String get profileHubResumesSub;
+
+  /// No description provided for @profileHubPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get profileHubPreferences;
+
+  /// No description provided for @profileHubPreferencesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Countries of interest and saved searches'**
+  String get profileHubPreferencesSub;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @profileHubSettingsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Language and appearance'**
+  String get profileHubSettingsSub;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacyTitle;
+
+  /// No description provided for @profileHubPrivacySub.
+  ///
+  /// In en, this message translates to:
+  /// **'How your data is handled'**
+  String get profileHubPrivacySub;
+
+  /// No description provided for @privacyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'What OrbiJob keeps, and what it never does.'**
+  String get privacyIntro;
+
+  /// No description provided for @privacyKeepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is stored'**
+  String get privacyKeepsTitle;
+
+  /// No description provided for @privacyKeeps1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your e-mail and sign-in session.'**
+  String get privacyKeeps1;
+
+  /// No description provided for @privacyKeeps2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your professional profile, favorites, applications and preferences, only readable by you.'**
+  String get privacyKeeps2;
+
+  /// No description provided for @privacyKeeps3.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumés in a private area of your account, opened only through short-lived links.'**
+  String get privacyKeeps3;
+
+  /// No description provided for @privacyNeverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What OrbiJob never does'**
+  String get privacyNeverTitle;
+
+  /// No description provided for @privacyNever1.
+  ///
+  /// In en, this message translates to:
+  /// **'It never applies to a job for you: every application happens on the original listing.'**
+  String get privacyNever1;
+
+  /// No description provided for @privacyNever2.
+  ///
+  /// In en, this message translates to:
+  /// **'It never shares your résumé or profile with companies or other users.'**
+  String get privacyNever2;
+
+  /// No description provided for @privacyNever3.
+  ///
+  /// In en, this message translates to:
+  /// **'It never sells your data.'**
+  String get privacyNever3;
+
+  /// No description provided for @profileCompletenessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile {percent}% complete'**
+  String profileCompletenessTitle(int percent);
+
+  /// No description provided for @profileCompletenessHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A complete profile helps estimate how well you fit each job. Missing:'**
+  String get profileCompletenessHint;
+
+  /// No description provided for @profileCompletenessDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything the app uses is filled in.'**
+  String get profileCompletenessDone;
+
+  /// No description provided for @profileMissingHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get profileMissingHeadline;
+
+  /// No description provided for @profileMissingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get profileMissingLocation;
+
+  /// No description provided for @profileMissingSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get profileMissingSkills;
+
+  /// No description provided for @profileMissingSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get profileMissingSummary;
+
+  /// No description provided for @profileMissingExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get profileMissingExperience;
+
+  /// No description provided for @profileMissingEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get profileMissingEducation;
+
+  /// No description provided for @profileMissingResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumé'**
+  String get profileMissingResume;
+
+  /// No description provided for @resumePrimary.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get resumePrimary;
+
+  /// No description provided for @resumeSetPrimary.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as main'**
+  String get resumeSetPrimary;
+
+  /// No description provided for @resumePrimarySet.
+  ///
+  /// In en, this message translates to:
+  /// **'Main résumé updated'**
+  String get resumePrimarySet;
+
+  /// No description provided for @resumeReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace file'**
+  String get resumeReplace;
+
+  /// No description provided for @resumeReplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace this résumé?'**
+  String get resumeReplaceTitle;
+
+  /// No description provided for @resumeReplaceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the new PDF. It is uploaded first; only then is the old file removed from your account.'**
+  String get resumeReplaceBody;
+
+  /// No description provided for @resumeReplaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Résumé replaced'**
+  String get resumeReplaced;
+
+  /// No description provided for @resumeMoreActions.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get resumeMoreActions;
+
+  /// No description provided for @resumeChooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose PDF'**
+  String get resumeChooseFile;
+
+  /// No description provided for @languageChooseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app switches right away.'**
+  String get languageChooseHint;
 }
 
 class _AppLocalizationsDelegate

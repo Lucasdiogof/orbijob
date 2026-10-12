@@ -51,6 +51,10 @@ abstract final class AppTheme {
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),
     );
+    final cardShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      side: BorderSide(color: c.hairline),
+    );
     final layers = WidgetStateProperty.resolveWith<Color?>((s) {
       if (s.contains(WidgetState.pressed)) {
         return c.pressedLayer;
@@ -101,18 +105,75 @@ abstract final class AppTheme {
       iconTheme: IconThemeData(color: c.ink, size: AppSize.icon),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: c.inputFill,
+        fillColor: c.container,
         hintStyle: text.bodyLarge!.copyWith(color: c.inputPlaceholder),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpace.s4,
-          vertical: AppSpace.s4,
+          vertical: AppSpace.s3 + 2,
         ),
-        border: border(c.inputBorder),
-        enabledBorder: border(c.inputBorder),
+        border: border(c.container),
+        enabledBorder: border(c.container),
         focusedBorder: border(c.inputBorderFocused, 2),
         errorBorder: border(c.error),
         focusedErrorBorder: border(c.error, 2),
         disabledBorder: border(c.divider),
+      ),
+      cardTheme: CardThemeData(
+        color: c.surface,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        surfaceTintColor: const Color(0x00000000),
+        shape: cardShape,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: c.surface,
+        surfaceTintColor: const Color(0x00000000),
+        showDragHandle: true,
+        dragHandleColor: c.outline,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.xl),
+          ),
+        ),
+        constraints: const BoxConstraints(maxWidth: AppSize.sheetMaxWidth),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: c.surface,
+        surfaceTintColor: const Color(0x00000000),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+        ),
+        titleTextStyle: text.titleLarge,
+        contentTextStyle: text.bodyMedium!.copyWith(color: c.muted),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: c.muted,
+        textColor: c.ink,
+        shape: shape,
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.onPrimary : c.surface,
+        ),
+        trackColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.primary : c.outline,
+        ),
+        trackOutlineColor: const WidgetStatePropertyAll(Color(0x00000000)),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.xs),
+        ),
+        side: BorderSide(color: c.outline, width: 1.5),
+        fillColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.primary : null,
+        ),
+        checkColor: WidgetStatePropertyAll(c.onPrimary),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.primary : c.outline,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
@@ -161,8 +222,8 @@ abstract final class AppTheme {
           ),
           side: WidgetStateProperty.resolveWith(
             (s) => BorderSide(
-              color: s.contains(WidgetState.disabled) ? c.divider : c.outline,
-              width: 1.5,
+              color: s.contains(WidgetState.disabled) ? c.divider : c.line,
+              width: 1,
             ),
           ),
           overlayColor: layers,

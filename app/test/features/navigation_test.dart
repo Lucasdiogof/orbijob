@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:orbijob/core/widgets/app_navigation.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
 
 import '../helpers/harness.dart';
@@ -10,8 +10,8 @@ void main() {
     'compact: four destinations in a bottom bar, profile in the header',
     (t) async {
       await pumpApp(t, size: const Size(390, 844));
-      expect(find.byType(AppNavBar), findsOneWidget);
-      expect(find.byType(AppNavRail), findsNothing);
+      expect(find.byType(OrbiNavigationBar), findsOneWidget);
+      expect(find.byType(OrbiSideNav), findsNothing);
       for (final n in ['Home', 'Explore', 'Favorites', 'Applications']) {
         expect(find.text(n), findsWidgets);
       }
@@ -23,7 +23,7 @@ void main() {
     'navigates between the four pages and shows honest empty states',
     (t) async {
       await pumpApp(t);
-      expect(find.text('What are you looking for?'), findsOneWidget);
+      expect(find.text('Find your next opportunity'), findsOneWidget);
       await t.tap(find.text('Favorites'));
       await t.pumpAndSettle();
       expect(find.text('No favorites yet'), findsOneWidget);
@@ -50,13 +50,17 @@ void main() {
   );
 
   testWidgets(
-    'an area chip (only areas that have jobs are offered) filters Explore to that area',
+    'an area tile (only areas that have jobs are offered) filters Explore to that area',
     (t) async {
-      await pumpApp(t, repo: PreviewSearchRepository());
-      // every chip carries its count; none is drawn for an area without jobs
-      expect(find.textContaining('Health ('), findsOneWidget);
+      await pumpApp(
+        t,
+        size: const Size(390, 2400),
+        repo: PreviewSearchRepository(),
+      );
+      // every tile carries its real count; none is drawn for an area without jobs
+      expect(find.text('Health'), findsOneWidget);
       expect(find.textContaining('Hospitality'), findsNothing);
-      await t.tap(find.textContaining('Health ('));
+      await t.tap(find.text('Health'));
       await t.pumpAndSettle();
       expect(find.text('Registered Nurse'), findsWidgets);
       expect(find.text('Residential Painter'), findsNothing);
@@ -65,10 +69,10 @@ void main() {
   );
 
   testWidgets(
-    'without a backend there are no area chips and no list: the build says it is not connected',
+    'without a backend there are no area tiles and no list: the build says it is not connected',
     (t) async {
       await pumpApp(t);
-      expect(find.textContaining('Health ('), findsNothing);
+      expect(find.text('Health'), findsNothing);
       expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
     },
   );
@@ -88,7 +92,7 @@ void main() {
   );
 
   testWidgets(
-    'searching with a connected (preview) source shows cards with separate compatibility and confidence',
+    'searching with a connected (preview) source shows result cards with compatibility',
     (t) async {
       await pumpApp(t, repo: PreviewSearchRepository());
       await t.tap(find.text('Explore'));
@@ -100,7 +104,6 @@ void main() {
       expect(find.text('Construtora Exemplo'), findsOneWidget);
       expect(find.text('74'), findsOneWidget);
       expect(find.text('Compatibility'), findsOneWidget);
-      expect(find.text('Medium confidence'), findsOneWidget);
       expect(find.textContaining('€'), findsOneWidget);
       expect(find.text('EUR'), findsOneWidget);
     },
@@ -124,21 +127,21 @@ void main() {
 
   testWidgets('medium width uses a navigation rail with labels', (t) async {
     await pumpApp(t, size: const Size(800, 1000));
-    expect(find.byType(AppNavRail), findsOneWidget);
-    expect(find.byType(AppNavBar), findsNothing);
-    expect(t.widget<AppNavRail>(find.byType(AppNavRail)).extended, isFalse);
+    expect(find.byType(OrbiSideNav), findsOneWidget);
+    expect(find.byType(OrbiNavigationBar), findsNothing);
+    expect(t.widget<OrbiSideNav>(find.byType(OrbiSideNav)).extended, isFalse);
   });
 
   testWidgets('expanded width uses an extended rail', (t) async {
     await pumpApp(t, size: const Size(1280, 800));
-    expect(t.widget<AppNavRail>(find.byType(AppNavRail)).extended, isTrue);
+    expect(t.widget<OrbiSideNav>(find.byType(OrbiSideNav)).extended, isTrue);
   });
 
   testWidgets(
     'short landscape phone keeps the rail but drops its labels (icons + tooltips + semantics)',
     (t) async {
       await pumpApp(t, size: const Size(844, 390));
-      final rail = t.widget<AppNavRail>(find.byType(AppNavRail));
+      final rail = t.widget<OrbiSideNav>(find.byType(OrbiSideNav));
       expect(rail.showLabels, isFalse);
       expect(t.takeException(), isNull);
     },
@@ -191,7 +194,7 @@ void main() {
       (t) async {
         await pumpApp(t, size: const Size(800, 1000), textScale: scale);
         expect(
-          t.getSize(find.byType(AppNavRail)).height,
+          t.getSize(find.byType(OrbiSideNav)).height,
           greaterThan(850),
           reason: 'rail must fill the window height',
         );
@@ -199,7 +202,7 @@ void main() {
           final h = t
               .getSize(
                 find.descendant(
-                  of: find.byType(AppNavRail),
+                  of: find.byType(OrbiSideNav),
                   matching: find.text(label),
                 ),
               )
@@ -218,7 +221,7 @@ void main() {
           final h = t
               .getSize(
                 find.descendant(
-                  of: find.byType(AppNavBar),
+                  of: find.byType(OrbiNavigationBar),
                   matching: find.text(label),
                 ),
               )

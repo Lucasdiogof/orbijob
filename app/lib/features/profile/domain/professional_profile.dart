@@ -46,6 +46,9 @@ class ProfessionalProfile extends Equatable {
     return workModePreferences.contains(v) ? v : null;
   }
 
+  /// Id of the résumé the person marked as the main one. Kept inside `preferences` (no column, no migration).
+  String? get primaryResumeId => _text(preferences['primaryResume']);
+
   static String? _text(Object? v) {
     final t = v is String ? v.trim() : '';
     return t.isEmpty ? null : t;
@@ -61,6 +64,8 @@ class ProfessionalProfile extends Equatable {
     String? city,
     String? workMode,
     bool clearWorkMode = false,
+    String? primaryResumeId,
+    bool clearPrimaryResume = false,
   }) {
     Map<String, dynamic> put(Map<String, dynamic> m, String k, String? v) {
       final next = Map<String, dynamic>.of(m);
@@ -78,6 +83,10 @@ class ProfessionalProfile extends Equatable {
     var nextPrefs = preferences;
     if (clearWorkMode) nextPrefs = put(nextPrefs, 'workMode', null);
     if (workMode != null) nextPrefs = put(nextPrefs, 'workMode', workMode);
+    if (clearPrimaryResume) nextPrefs = put(nextPrefs, 'primaryResume', null);
+    if (primaryResumeId != null) {
+      nextPrefs = put(nextPrefs, 'primaryResume', primaryResumeId);
+    }
     return ProfessionalProfile(
       id: id,
       name: name ?? this.name,

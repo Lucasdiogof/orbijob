@@ -77,6 +77,11 @@ void configureDependencies({
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
       ),
     )
+    ..registerFactory<RemoteJobsCubit>(
+      () => RemoteJobsCubit(
+        maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
+      ),
+    )
     ..registerFactory<ThemeCubit>(ThemeCubit.new)
     ..registerFactory<LocaleCubit>(LocaleCubit.new)
     ..registerFactory<ShellCubit>(ShellCubit.new)

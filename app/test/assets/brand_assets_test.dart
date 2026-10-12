@@ -210,10 +210,10 @@ void main() {
     });
 
     test('splash: simple static symbol on the token background (light, night, Android 12+)', () {
-      expect(read('$res/values/ic_launcher_colors.xml'), contains('#FFFFFF'));
+      expect(read('$res/values/ic_launcher_colors.xml'), contains('#F7F8FC'));
       expect(
         read('$res/values-night/ic_launcher_colors.xml'),
-        contains('#0C0C0E'),
+        contains('#0D111B'),
       );
       expect(
         read('$res/drawable/launch_background.xml'),
@@ -318,7 +318,7 @@ void main() {
       );
       expect(
         colorset,
-        allOf(contains('luminosity'), contains('0x0C'), contains('0xFF')),
+        allOf(contains('luminosity'), contains('0x0D'), contains('0xF7')),
       );
       final sb = read('ios/Runner/Base.lproj/LaunchScreen.storyboard');
       expect(wellFormed(sb), isTrue);
@@ -363,7 +363,7 @@ void main() {
         expect(m['short_name'], 'OrbiJob');
         expect(m['description'], isNot(contains('A new Flutter project')));
         expect(m['theme_color'], '#111113');
-        expect(m['background_color'], '#FFFFFF');
+        expect(m['background_color'], '#F7F8FC');
         expect(m['display'], 'standalone');
         expect(m['orientation'], 'any');
         final icons = (m['icons'] as List).cast<Map<String, dynamic>>();
@@ -443,9 +443,9 @@ void main() {
     });
     test('splash colours equal the identity tokens', () {
       final h = read('web/index.html');
-      expect(h, contains('#0C0C0E'));
-      expect(AppColors.dark.bg, const Color(0xFF0C0C0E));
-      expect(h.toUpperCase(), contains('#FFFFFF'));
+      expect(h, contains('#0D111B'));
+      expect(AppColors.dark.bg, const Color(0xFF0D111B));
+      expect(h.toUpperCase(), contains('#F7F8FC'));
     });
   });
 

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/data/load_status.dart';
 import '../../core/design/design.dart';
+import '../../core/orbi/orbi.dart';
 import '../../core/widgets/data_state_view.dart';
-import '../../core/widgets/state_view.dart';
 import '../../l10n/app_localizations.dart';
 import '../search/presentation/pages/job_detail_page.dart';
-import '../search/presentation/widgets/job_card.dart';
+import '../shell/shell_cubit.dart';
 import 'favorites_cubit.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -27,13 +27,22 @@ class FavoritesPage extends StatelessWidget {
           return DataFailureView(
             kind: s.failure!,
             onRetry: () => context.read<FavoritesCubit>().load(),
+            gate: OrbiGateKind.favorites,
+            onContinue: () =>
+                context.read<ShellCubit>().goTo(ShellCubit.explore),
           );
         }
         if (s.items.isEmpty) {
-          return StateView(
-            icon: Icons.favorite_border,
+          return OrbiEmptyState(
+            icon: Icons.bookmark_border_rounded,
             title: l.favoritesTitle,
             body: l.favoritesBody,
+            action: OrbiPrimaryButton(
+              label: l.gateKeepExploring,
+              icon: Icons.explore_outlined,
+              onPressed: () =>
+                  context.read<ShellCubit>().goTo(ShellCubit.explore),
+            ),
           );
         }
         final jobs = s.items.values.toList();
@@ -45,7 +54,7 @@ class FavoritesPage extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpace.s4),
               itemCount: jobs.length,
               separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
-              itemBuilder: (context, i) => JobCard(
+              itemBuilder: (context, i) => OrbiJobCard(
                 scored: jobs[i],
                 isFavorite: true,
                 onFavoriteChanged: (_) =>

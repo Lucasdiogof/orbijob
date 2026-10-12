@@ -67,21 +67,21 @@ void main() {
       'Explore',
       'Favorites',
       'Applications',
-      'What are you looking for?',
+      'Find your next opportunity',
     ],
     'pt': [
       'Início',
       'Explorar',
       'Favoritos',
       'Candidaturas',
-      'O que você procura?',
+      'Encontre sua próxima oportunidade',
     ],
     'es': [
       'Inicio',
       'Explorar',
       'Favoritos',
       'Postulaciones',
-      '¿Qué estás buscando?',
+      'Encuentra tu próxima oportunidad',
     ],
   };
   for (final e in expectations.entries) {

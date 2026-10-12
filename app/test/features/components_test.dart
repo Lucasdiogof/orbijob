@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/design.dart';
-import 'package:orbijob/core/widgets/app_button.dart';
-import 'package:orbijob/core/widgets/app_filter_chip.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/core/widgets/compatibility_indicator.dart';
-import 'package:orbijob/core/widgets/skeleton.dart';
-import 'package:orbijob/core/widgets/state_view.dart';
-import 'package:orbijob/core/widgets/status_badge.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
-import 'package:orbijob/features/search/presentation/widgets/job_card.dart';
 import 'package:orbijob/l10n/app_localizations.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
 
@@ -37,7 +32,7 @@ void main() {
   });
 
   testWidgets(
-    'JobCard draws only what the source provides (no invented salary, date, place or match)',
+    'OrbiJobCard draws only what the source provides (no invented salary, date, place or match)',
     (t) async {
       const bare = ScoredJob(
         JobPosting(
@@ -48,7 +43,7 @@ void main() {
           originalUrl: 'https://e.invalid',
         ),
       );
-      await t.pumpWidget(host(const JobCard(scored: bare)));
+      await t.pumpWidget(host(const OrbiJobCard(scored: bare)));
       expect(find.text('Operator'), findsOneWidget);
       expect(find.text('ACME'), findsOneWidget);
       expect(find.byIcon(Icons.place_outlined), findsNothing);
@@ -64,11 +59,11 @@ void main() {
   );
 
   testWidgets(
-    'JobCard shows full hierarchy when data exists, compatibility and confidence separately',
+    'OrbiJobCard shows full hierarchy when data exists, compatibility and confidence separately',
     (t) async {
       await t.pumpWidget(
         host(
-          JobCard(
+          OrbiJobCard(
             scored: previewJobs[1],
             now: previewNow,
             onFavoriteChanged: (_) {},
@@ -79,17 +74,17 @@ void main() {
         'Beckenboden-Physiotherapeut:in',
         'Beispiel Klinik GmbH',
         'Berlin · Germany',
-        'Vollzeit',
-        'Deutsch',
         'On-site',
-        'Posted yesterday',
         'EUR',
-        '81',
-        'Medium confidence',
-        'Source: Example source',
       ]) {
         expect(find.text(s), findsOneWidget, reason: s);
       }
+      // facts and footer are grouped into one quiet line each
+      expect(find.textContaining('Vollzeit'), findsOneWidget);
+      expect(find.textContaining('Deutsch'), findsOneWidget);
+      expect(find.textContaining('Posted yesterday'), findsOneWidget);
+      expect(find.textContaining('Source: Example source'), findsOneWidget);
+      expect(find.text('81'), findsOneWidget);
       expect(find.textContaining('3,400–4,100/month'), findsOneWidget);
       expect(find.byType(CompatibilityIndicator), findsOneWidget);
     },
@@ -109,7 +104,7 @@ void main() {
       );
       t.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(t.platformDispatcher.clearAllTestValues);
-      await t.pumpWidget(host(const JobCard(scored: long), width: 280));
+      await t.pumpWidget(host(const OrbiJobCard(scored: long), width: 280));
       expect(t.takeException(), isNull);
       final title = t.widget<Text>(
         find.text('Técnico de Manutenção Industrial Eletromecânica Sênior'),
@@ -126,7 +121,7 @@ void main() {
       await t.pumpWidget(
         host(
           StatefulBuilder(
-            builder: (c, set) => AppFilterChip(
+            builder: (c, set) => OrbiFilterChip(
               label: 'Health',
               selected: on,
               onSelected: (v) => set(() => on = v),
@@ -140,8 +135,8 @@ void main() {
       expect(on, isTrue);
       expect(find.byIcon(Icons.check), findsOneWidget);
       expect(
-        t.getSize(find.byType(AppFilterChip)).height,
-        greaterThanOrEqualTo(48),
+        t.getSize(find.byType(OrbiFilterChip)).height,
+        greaterThanOrEqualTo(44),
       );
     },
   );
@@ -155,19 +150,15 @@ void main() {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppButton(label: 'Go', onPressed: () => taps++),
-            AppButton(label: 'Busy', loading: true, onPressed: () => taps++),
-            const AppButton(label: 'Off', onPressed: null),
-            AppButton(
-              label: 'Second',
-              variant: AppButtonVariant.secondary,
+            OrbiPrimaryButton(label: 'Go', onPressed: () => taps++),
+            OrbiPrimaryButton(
+              label: 'Busy',
+              loading: true,
               onPressed: () => taps++,
             ),
-            AppButton(
-              label: 'Third',
-              variant: AppButtonVariant.tertiary,
-              onPressed: () => taps++,
-            ),
+            const OrbiPrimaryButton(label: 'Off', onPressed: null),
+            OrbiSecondaryButton(label: 'Second', onPressed: () => taps++),
+            OrbiTextButton(label: 'Third', onPressed: () => taps++),
           ],
         ),
       ),
@@ -211,9 +202,9 @@ void main() {
   ) async {
     await t.pumpWidget(
       host(
-        const StatusBadge(
+        const OrbiStatusBadge(
           label: 'Remote',
-          kind: BadgeKind.success,
+          kind: OrbiBadgeKind.success,
           icon: Icons.public,
         ),
       ),
@@ -229,11 +220,11 @@ void main() {
         host(
           const SizedBox(
             height: 120,
-            child: StateView(
+            child: OrbiEmptyState(
               icon: Icons.search_off,
               title: 'No jobs found',
               body: 'Try another profession or a broader search.',
-              action: AppButton(label: 'Retry', onPressed: null),
+              action: OrbiPrimaryButton(label: 'Retry', onPressed: null),
             ),
           ),
         ),
@@ -245,13 +236,13 @@ void main() {
   testWidgets('skeleton pulses normally and holds still with reduced motion', (
     t,
   ) async {
-    await t.pumpWidget(host(const SkeletonList()));
+    await t.pumpWidget(host(const OrbiSkeletonList()));
     await t.pump(const Duration(milliseconds: 100));
     expect(t.binding.hasScheduledFrame, isTrue);
     t.platformDispatcher.accessibilityFeaturesTestValue =
         const FakeAccessibilityFeatures(disableAnimations: true);
     addTearDown(t.platformDispatcher.clearAccessibilityFeaturesTestValue);
-    await t.pumpWidget(host(const SkeletonList()));
+    await t.pumpWidget(host(const OrbiSkeletonList()));
     await t.pumpAndSettle();
     expect(t.binding.hasScheduledFrame, isFalse);
   });

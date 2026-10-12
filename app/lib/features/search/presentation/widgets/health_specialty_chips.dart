@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
 import '../../../../core/open_link.dart';
-import '../../../../core/widgets/app_filter_chip.dart';
+import '../../../../core/orbi/orbi.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/health_specialty.dart';
 import '../../domain/specialty_portals.dart';
@@ -44,21 +44,21 @@ class HealthSpecialtyChips extends StatelessWidget {
     return BlocBuilder<SpecialtiesCubit, SpecialtiesState>(
       builder: (context, s) {
         final chips = [
-          AppFilterChip(
+          OrbiFilterChip(
             label: l.specAll,
             icon: Icons.health_and_safety_outlined,
             selected: selected == null,
             onSelected: (_) => onSelected(null),
           ),
           for (final sp in HealthSpecialty.values)
-            AppFilterChip(
+            OrbiFilterChip(
               label: s.loaded
                   ? '${specialtyLabel(sp, l)} (${s.countOf(sp)})'
                   : specialtyLabel(sp, l),
               selected: selected == sp,
               onSelected: (_) => onSelected(selected == sp ? null : sp),
             ),
-          AppFilterChip(
+          OrbiFilterChip(
             label: l.portalsButton,
             icon: Icons.open_in_new,
             selected: false,

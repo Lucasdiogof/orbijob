@@ -1068,4 +1068,329 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get specialtyEmpty =>
       'No open job in this specialty in the catalogue right now. Try the specialised boards below.';
+
+  @override
+  String get gateCreateAccount => 'Create account';
+
+  @override
+  String get gateKeepExploring => 'Keep exploring jobs';
+
+  @override
+  String get gateFavoritesTitle => 'Your best opportunities, in one place.';
+
+  @override
+  String get gateFavoritesBody =>
+      'Save the jobs that catch your eye and come back to them whenever you want.';
+
+  @override
+  String get gateFavorites1 => 'Save jobs from any country and profession';
+
+  @override
+  String get gateFavorites2 => 'Find them again on any device';
+
+  @override
+  String get gateFavorites3 => 'See at a glance whether a job is still open';
+
+  @override
+  String get gateApplicationsTitle =>
+      'Follow every step of your next opportunity.';
+
+  @override
+  String get gateApplicationsBody =>
+      'A simple board for the processes you are in, from interest to offer.';
+
+  @override
+  String get gateApplications1 => 'Record where you applied and when';
+
+  @override
+  String get gateApplications2 => 'Move each process through its stages';
+
+  @override
+  String get gateApplications3 => 'Keep notes and important dates';
+
+  @override
+  String get gateResumesTitle =>
+      'Have your résumé ready when the right job shows up.';
+
+  @override
+  String get gateResumesBody =>
+      'Your files stay private in your account and are never shared without you.';
+
+  @override
+  String get gateResumes1 => 'Upload PDF résumés and keep several versions';
+
+  @override
+  String get gateResumes2 => 'Choose which one is your main résumé';
+
+  @override
+  String get gateResumes3 => 'Open or replace a file whenever you need';
+
+  @override
+  String get gateProfileTitle => 'Your professional profile, always at hand.';
+
+  @override
+  String get gateProfileBody =>
+      'Tell who you are professionally, in any profession and any country.';
+
+  @override
+  String get gateProfile1 => 'Present your experience, education and skills';
+
+  @override
+  String get gateProfile2 => 'Reuse your data when you apply';
+
+  @override
+  String get gateProfile3 => 'Set the work modes and countries you prefer';
+
+  @override
+  String get gateSavedSearchesTitle => 'Keep the searches that matter.';
+
+  @override
+  String get gateSavedSearchesBody =>
+      'Save a search once and run it again with a single tap.';
+
+  @override
+  String get gateSavedSearches1 => 'Searches live in your account';
+
+  @override
+  String get gateSavedSearches2 => 'Reopen them from Home';
+
+  @override
+  String get gateSavedSearches3 => 'Remove them whenever you want';
+
+  @override
+  String get homeHeadline => 'Find your next opportunity';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String get homeRemoteTitle => 'Remote jobs';
+
+  @override
+  String get homeContinueTitle => 'Pick up where you left off';
+
+  @override
+  String get homeQuickLast7 => 'New this week';
+
+  @override
+  String get areasPageTitle => 'Professional areas';
+
+  @override
+  String get areasPageBody =>
+      'Pick an area to see its open jobs. Only areas with jobs right now are listed.';
+
+  @override
+  String areaJobsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jobs',
+      one: '1 job',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filtersTitle => 'Filters';
+
+  @override
+  String get filtersApply => 'Show results';
+
+  @override
+  String get filtersReset => 'Clear all';
+
+  @override
+  String get filterArea => 'Professional area';
+
+  @override
+  String get filterAreaChip => 'Area';
+
+  @override
+  String get filterSalary => 'Salary';
+
+  @override
+  String get filterRegionAny => 'Anywhere in the world';
+
+  @override
+  String get filterCountryAny => 'Any country';
+
+  @override
+  String get filterAreaAny => 'All areas';
+
+  @override
+  String get areaPickerTitle => 'Choose an area';
+
+  @override
+  String get areaPickerSpecialties => 'Specialties';
+
+  @override
+  String get sortNewest => 'Newest first';
+
+  @override
+  String get exploreOpenFilters => 'Open filters';
+
+  @override
+  String exploreFiltersActive(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filters active',
+      one: '1 filter active',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSignInHeadline => 'Welcome back';
+
+  @override
+  String get authSignInSubtitle =>
+      'Sign in to see your favorites, applications and résumés.';
+
+  @override
+  String get authSignUpHeadline => 'Create your OrbiJob account';
+
+  @override
+  String get authSignUpSubtitle =>
+      'Free. Save jobs, track applications and keep your résumés in one place.';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
+  String get authBrowseWithoutAccount => 'Keep browsing without an account';
+
+  @override
+  String get authNewPasswordSubtitle =>
+      'Choose a new password with at least 8 characters.';
+
+  @override
+  String get profileHubProfessionalSub =>
+      'Role, skills, experience and education';
+
+  @override
+  String get profileHubResumesSub => 'Your PDFs, with a main résumé';
+
+  @override
+  String get profileHubPreferences => 'Preferences';
+
+  @override
+  String get profileHubPreferencesSub =>
+      'Countries of interest and saved searches';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get profileHubSettingsSub => 'Language and appearance';
+
+  @override
+  String get privacyTitle => 'Privacy';
+
+  @override
+  String get profileHubPrivacySub => 'How your data is handled';
+
+  @override
+  String get privacyIntro => 'What OrbiJob keeps, and what it never does.';
+
+  @override
+  String get privacyKeepsTitle => 'What is stored';
+
+  @override
+  String get privacyKeeps1 => 'Your e-mail and sign-in session.';
+
+  @override
+  String get privacyKeeps2 =>
+      'Your professional profile, favorites, applications and preferences, only readable by you.';
+
+  @override
+  String get privacyKeeps3 =>
+      'Résumés in a private area of your account, opened only through short-lived links.';
+
+  @override
+  String get privacyNeverTitle => 'What OrbiJob never does';
+
+  @override
+  String get privacyNever1 =>
+      'It never applies to a job for you: every application happens on the original listing.';
+
+  @override
+  String get privacyNever2 =>
+      'It never shares your résumé or profile with companies or other users.';
+
+  @override
+  String get privacyNever3 => 'It never sells your data.';
+
+  @override
+  String profileCompletenessTitle(int percent) {
+    return 'Profile $percent% complete';
+  }
+
+  @override
+  String get profileCompletenessHint =>
+      'A complete profile helps estimate how well you fit each job. Missing:';
+
+  @override
+  String get profileCompletenessDone => 'Everything the app uses is filled in.';
+
+  @override
+  String get profileMissingHeadline => 'Role';
+
+  @override
+  String get profileMissingLocation => 'Location';
+
+  @override
+  String get profileMissingSkills => 'Skills';
+
+  @override
+  String get profileMissingSummary => 'Summary';
+
+  @override
+  String get profileMissingExperience => 'Experience';
+
+  @override
+  String get profileMissingEducation => 'Education';
+
+  @override
+  String get profileMissingResume => 'Résumé';
+
+  @override
+  String get resumePrimary => 'Main';
+
+  @override
+  String get resumeSetPrimary => 'Set as main';
+
+  @override
+  String get resumePrimarySet => 'Main résumé updated';
+
+  @override
+  String get resumeReplace => 'Replace file';
+
+  @override
+  String get resumeReplaceTitle => 'Replace this résumé?';
+
+  @override
+  String get resumeReplaceBody =>
+      'Pick the new PDF. It is uploaded first; only then is the old file removed from your account.';
+
+  @override
+  String get resumeReplaced => 'Résumé replaced';
+
+  @override
+  String get resumeMoreActions => 'More actions';
+
+  @override
+  String get resumeChooseFile => 'Choose PDF';
+
+  @override
+  String get languageChooseHint => 'The app switches right away.';
 }

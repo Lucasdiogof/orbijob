@@ -45,12 +45,13 @@ void main() {
     },
   );
 
-  test('official anchors: white / #111113 / #5B3DF5 (light), #0C0C0E / #A593FF (dark)', () {
-    expect(_hex(AppColors.light.bg), '#FFFFFF');
-    expect(_hex(AppColors.light.ink), '#111113');
-    expect(_hex(AppColors.light.primary), '#5B3DF5');
-    expect(_hex(AppColors.dark.bg), '#0C0C0E');
-    expect(_hex(AppColors.dark.primary), '#A593FF');
+  test('OrbiJob 2.0 anchors: #F7F8FC / #111827 / #5B4CF6 (light), #0D111B / #A298FF (dark)', () {
+    expect(_hex(AppColors.light.bg), '#F7F8FC');
+    expect(_hex(AppColors.light.surface), '#FFFFFF');
+    expect(_hex(AppColors.light.ink), '#111827');
+    expect(_hex(AppColors.light.primary), '#5B4CF6');
+    expect(_hex(AppColors.dark.bg), '#0D111B');
+    expect(_hex(AppColors.dark.primary), '#A298FF');
   });
 
   final textPairs = <(String, String)>[
@@ -107,7 +108,8 @@ void main() {
       }
       // component aliases
       expect(contrast(c.inputBorder, c.inputFill), greaterThanOrEqualTo(3.0));
-      expect(contrast(c.chipBorder, c.chipBg), greaterThanOrEqualTo(3.0));
+      // chips are filled, not outlined: their label must read on the fill
+      expect(contrast(c.ink, c.chipBg), greaterThanOrEqualTo(4.5));
       expect(contrast(c.navSelected, c.navBg), greaterThanOrEqualTo(4.5));
       expect(contrast(c.navUnselected, c.navBg), greaterThanOrEqualTo(4.5));
       expect(

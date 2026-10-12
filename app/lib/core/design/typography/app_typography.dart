@@ -42,23 +42,33 @@ abstract final class AppTypography {
     const d = AppFonts.display;
     const t = AppFonts.text;
     return TextTheme(
-      displayLarge: _style(d, 32, 40, FontWeight.w700, spacing: -0.2),
-      displayMedium: _style(d, 28, 36, FontWeight.w700, spacing: -0.2),
-      displaySmall: _style(d, 24, 32, FontWeight.w700, spacing: -0.1),
-      headlineLarge: _style(d, 28, 36, FontWeight.w700, spacing: -0.2),
-      headlineMedium: _style(d, 24, 32, FontWeight.w700, spacing: -0.1),
-      headlineSmall: _style(d, 20, 28, FontWeight.w600),
-      titleLarge: _style(d, 20, 28, FontWeight.w600),
-      titleMedium: _style(d, 17, 24, FontWeight.w600),
-      titleSmall: _style(d, 15, 22, FontWeight.w600),
+      // Display / Heading large / Heading medium / Heading small
+      displayLarge: _style(d, 28, 34, FontWeight.w700, spacing: -0.3),
+      displayMedium: _style(d, 24, 30, FontWeight.w700, spacing: -0.2),
+      displaySmall: _style(d, 22, 28, FontWeight.w700, spacing: -0.2),
+      headlineLarge: _style(d, 22, 28, FontWeight.w700, spacing: -0.2),
+      headlineMedium: _style(d, 18, 24, FontWeight.w600, spacing: -0.1),
+      headlineSmall: _style(d, 16, 22, FontWeight.w600),
+      titleLarge: _style(d, 18, 24, FontWeight.w600, spacing: -0.1),
+      titleMedium: _style(d, 16, 22, FontWeight.w600),
+      titleSmall: _style(d, 15, 20, FontWeight.w600),
+      // Body / Body emphasis (labelLarge) / Label / Caption / Metadata
       bodyLarge: _style(t, 16, 24, FontWeight.w400),
       bodyMedium: _style(t, 15, 22, FontWeight.w400),
       bodySmall: _style(t, 13, 18, FontWeight.w400),
-      labelLarge: _style(t, 15, 20, FontWeight.w600),
+      labelLarge: _style(t, 15, 22, FontWeight.w600),
       labelMedium: _style(t, 13, 16, FontWeight.w600),
-      labelSmall: _style(t, 12, 16, FontWeight.w600, spacing: 0.2),
+      labelSmall: _style(t, 12, 16, FontWeight.w500),
     ).apply(bodyColor: c.ink, displayColor: c.ink);
   }
+
+  /// Metadata (dates, sources, counts): 12/16, medium weight, in the muted colour.
+  static TextStyle metadata(Color color) =>
+      _style(AppFonts.text, 12, 16, FontWeight.w500).copyWith(color: color);
+
+  /// Caption: 12/16 regular.
+  static TextStyle caption(Color color) =>
+      _style(AppFonts.text, 12, 16, FontWeight.w400).copyWith(color: color);
 
   /// JetBrains Mono, reserved for technical identifiers (ISO currency and country codes, source ids).
   static TextStyle technical(Color color) => _style(

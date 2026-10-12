@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
+import 'package:orbijob/features/search/presentation/widgets/search_filters_panel.dart';
 import 'package:orbijob/core/data/user_scope.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
@@ -128,9 +130,28 @@ Future<void> searchFor(WidgetTester t, String q) async {
   await t.pumpAndSettle();
 }
 
+Future<void> openFilters(WidgetTester t) async {
+  await t.tap(find.byTooltip('Filters'));
+  await t.pumpAndSettle();
+}
+
+Future<void> applyFilters(WidgetTester t) async {
+  await t.tap(find.text('Show results'));
+  await t.pumpAndSettle();
+}
+
+/// The number on the filters button (the badge), or null when no filter is active.
+Finder filterBadge(String n) =>
+    find.descendant(of: find.byType(FiltersButton), matching: find.text(n));
+
 /// Brings a filter chip into view inside the (scrollable) panel and taps it.
 Future<void> tapChip(WidgetTester t, String label) async {
-  final f = find.widgetWithText(InkWell, label).first;
+  final f = find
+      .descendant(
+        of: find.byType(OrbiSheetScaffold),
+        matching: find.widgetWithText(InkWell, label),
+      )
+      .first;
   await t.ensureVisible(f);
   await t.pumpAndSettle();
   await t.tap(f);
@@ -138,10 +159,7 @@ Future<void> tapChip(WidgetTester t, String label) async {
 }
 
 Finder get resultsScrollable => find
-    .descendant(
-      of: find.byType(ListView).first,
-      matching: find.byType(Scrollable),
-    )
+    .byWidgetPredicate((w) => w is Scrollable && w.axis == Axis.vertical)
     .first;
 
 void main() {
@@ -166,7 +184,13 @@ void main() {
         findsNWidgets(2),
         reason: 'attribution on every card',
       );
-      expect(find.text('Remote'), findsNWidgets(2));
+      expect(
+        find.descendant(
+          of: find.byType(OrbiJobCard),
+          matching: find.text('Remote'),
+        ),
+        findsNWidgets(2),
+      );
       // the job without salary draws no figure at all (only the first one has "120,000")
       expect(find.textContaining('120,000'), findsOneWidget);
       // the job without a company draws no empty company line, and still renders its title
@@ -197,7 +221,7 @@ void main() {
       expect(repo.calls, isNotEmpty);
       expect(find.text('Account Executive 1'), findsOneWidget);
       expect(
-        find.text('2 results'),
+        find.textContaining('2 results'),
         findsOneWidget,
         reason: 'no more pages: the count is exact',
       );
@@ -210,7 +234,7 @@ void main() {
       final repo = CatalogRepo([for (var i = 1; i <= 25; i++) job('$i')]);
       await pumpApp(t, repo: repo);
       await searchFor(t, 'account');
-      expect(find.text('Showing 20 jobs'), findsOneWidget);
+      expect(find.textContaining('Showing 20 jobs'), findsOneWidget);
       expect(find.textContaining('results'), findsNothing);
       await t.scrollUntilVisible(
         find.text('Show more'),
@@ -231,12 +255,12 @@ void main() {
         reason: 'last page: no button',
       );
       await t.scrollUntilVisible(
-        find.text('25 results'),
+        find.textContaining('25 results'),
         -600,
         scrollable: resultsScrollable,
       );
       expect(
-        find.text('25 results'),
+        find.textContaining('25 results'),
         findsOneWidget,
         reason: 'all pages loaded: the count is exact',
       );
@@ -288,20 +312,25 @@ void main() {
       final repo = CatalogRepo([job('1'), job('2')]);
       await pumpApp(t, repo: repo);
       await searchFor(t, 'account');
-      await t.tap(find.text('Filters'));
-      await t.pumpAndSettle();
+      await openFilters(t);
       await tapChip(t, 'Remote');
+      await applyFilters(t);
       expect(repo.calls.last.$2.workModes, {WorkMode.remote});
       expect(repo.calls.last.$3, 0);
-      expect(find.text('Filters (1)'), findsOneWidget);
+      expect(filterBadge('1'), findsOneWidget);
+      await openFilters(t);
       await tapChip(t, 'Last 7 days');
-      expect(repo.calls.last.$2.publishedWithinDays, 7);
       await tapChip(t, 'Only with salary');
+      await applyFilters(t);
+      expect(repo.calls.last.$2.publishedWithinDays, 7);
       expect(repo.calls.last.$2.onlyWithSalary, isTrue);
-      expect(find.text('Filters (3)'), findsOneWidget);
-      await tapChip(t, 'Clear filters');
+      expect(filterBadge('3'), findsOneWidget);
+      await openFilters(t);
+      await t.tap(find.text('Clear all'));
+      await t.pumpAndSettle();
+      await applyFilters(t);
       expect(repo.calls.last.$2.isActive, isFalse);
-      expect(find.text('Filters'), findsOneWidget);
+      expect(filterBadge('3'), findsNothing);
     },
   );
 
@@ -311,9 +340,9 @@ void main() {
       final repo = CatalogRepo([job('1')], emptyWhenFiltered: true);
       await pumpApp(t, repo: repo);
       await searchFor(t, 'account');
-      await t.tap(find.text('Filters'));
-      await t.pumpAndSettle();
+      await openFilters(t);
       await tapChip(t, 'Only with salary');
+      await applyFilters(t);
       expect(find.text('No jobs found'), findsOneWidget);
       expect(
         find.text('No jobs match these filters. Try removing some.'),
@@ -483,12 +512,12 @@ void main() {
         const JobFilters(countryCode: 'PT'),
       );
       await t.pumpAndSettle();
-      expect(find.text('Filters (1)'), findsOneWidget);
-      await t.tap(find.text('Filters (1)'));
-      await t.pumpAndSettle();
+      expect(filterBadge('1'), findsOneWidget);
+      await openFilters(t);
       await tapChip(t, 'PT');
+      await applyFilters(t);
       expect(repo.calls.last.$2.countryCode, isNull);
-      expect(find.text('Filters'), findsOneWidget);
+      expect(filterBadge('1'), findsNothing);
     },
   );
 
@@ -499,9 +528,9 @@ void main() {
       await pumpApp(t, repo: repo, locale: const Locale('pt'));
       await t.tap(find.text('Explorar'));
       await t.pumpAndSettle();
-      expect(find.text('Mostrando 20 vagas'), findsOneWidget);
+      expect(find.textContaining('Mostrando 20 vagas'), findsOneWidget);
       expect(find.textContaining('Fonte: Jobicy'), findsWidgets);
-      expect(find.text('Filtros'), findsOneWidget);
+      expect(find.byTooltip('Filtros'), findsOneWidget);
       await t.scrollUntilVisible(
         find.text('Mostrar mais'),
         400,
@@ -516,15 +545,14 @@ void main() {
     await t.tap(find.text('Explorar'));
     await t.pumpAndSettle();
     expect(find.text('Account Executive 1'), findsOneWidget);
-    expect(find.text('Filtros'), findsOneWidget);
+    expect(find.byTooltip('Filtros'), findsOneWidget);
   });
 
   testWidgets('narrow, large text, filters open: nothing overflows', (t) async {
     final repo = CatalogRepo([for (var i = 1; i <= 25; i++) job('$i')]);
     await pumpApp(t, repo: repo, size: const Size(320, 568), textScale: 2);
     await searchFor(t, 'account');
-    await t.tap(find.text('Filters'));
-    await t.pumpAndSettle();
+    await openFilters(t);
     expect(t.takeException(), isNull);
   });
 }

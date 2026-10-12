@@ -1,0 +1,37 @@
+{
+  "homeHeadline": {"en": "Find your next opportunity", "pt": "Encontre sua próxima oportunidade", "es": "Encuentra tu próxima oportunidad"},
+  "homeGreetingMorning": {"en": "Good morning", "pt": "Bom dia", "es": "Buenos días"},
+  "homeGreetingAfternoon": {"en": "Good afternoon", "pt": "Boa tarde", "es": "Buenas tardes"},
+  "homeGreetingEvening": {"en": "Good evening", "pt": "Boa noite", "es": "Buenas noches"},
+  "homeRemoteTitle": {"en": "Remote jobs", "pt": "Vagas remotas", "es": "Empleos remotos"},
+  "homeContinueTitle": {"en": "Pick up where you left off", "pt": "Continue de onde parou", "es": "Continúa donde lo dejaste"},
+  "homeQuickLast7": {"en": "New this week", "pt": "Novas da semana", "es": "Nuevos de la semana"},
+  "areasPageTitle": {"en": "Professional areas", "pt": "Áreas profissionais", "es": "Áreas profesionales"},
+  "areasPageBody": {"en": "Pick an area to see its open jobs. Only areas with jobs right now are listed.", "pt": "Escolha uma área para ver as vagas abertas. Só aparecem áreas com vagas agora.", "es": "Elige un área para ver sus empleos abiertos. Solo aparecen áreas con empleos ahora."},
+  "areaJobsCount": {
+    "en": "{count, plural, =1{1 job} other{{count} jobs}}",
+    "pt": "{count, plural, =1{1 vaga} other{{count} vagas}}",
+    "es": "{count, plural, =1{1 empleo} other{{count} empleos}}",
+    "_meta": {"placeholders": {"count": {"type": "int"}}}
+  },
+
+  "filtersTitle": {"en": "Filters", "pt": "Filtros", "es": "Filtros"},
+  "filtersApply": {"en": "Show results", "pt": "Ver resultados", "es": "Ver resultados"},
+  "filtersReset": {"en": "Clear all", "pt": "Limpar tudo", "es": "Borrar todo"},
+  "filterArea": {"en": "Professional area", "pt": "Área profissional", "es": "Área profesional"},
+  "filterAreaChip": {"en": "Area", "pt": "Área", "es": "Área"},
+  "filterSalary": {"en": "Salary", "pt": "Salário", "es": "Salario"},
+  "filterRegionAny": {"en": "Anywhere in the world", "pt": "Qualquer lugar do mundo", "es": "Cualquier lugar del mundo"},
+  "filterCountryAny": {"en": "Any country", "pt": "Qualquer país", "es": "Cualquier país"},
+  "filterAreaAny": {"en": "All areas", "pt": "Todas as áreas", "es": "Todas las áreas"},
+  "areaPickerTitle": {"en": "Choose an area", "pt": "Escolha uma área", "es": "Elige un área"},
+  "areaPickerSpecialties": {"en": "Specialties", "pt": "Especialidades", "es": "Especialidades"},
+  "sortNewest": {"en": "Newest first", "pt": "Mais recentes primeiro", "es": "Más recientes primero"},
+  "exploreOpenFilters": {"en": "Open filters", "pt": "Abrir filtros", "es": "Abrir filtros"},
+  "exploreFiltersActive": {
+    "en": "{count, plural, =1{1 filter active} other{{count} filters active}}",
+    "pt": "{count, plural, =1{1 filtro ativo} other{{count} filtros ativos}}",
+    "es": "{count, plural, =1{1 filtro activo} other{{count} filtros activos}}",
+    "_meta": {"placeholders": {"count": {"type": "int"}}}
+  }
+}

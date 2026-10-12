@@ -27,7 +27,10 @@ void main() {
         fakes: Fakes(auth: auth),
       );
       await goTo(t, 'Applications');
-      expect(find.text('Sign in to continue'), findsOneWidget);
+      expect(
+        find.text('Follow every step of your next opportunity.'),
+        findsOneWidget,
+      );
       expect(find.text('Add application'), findsNothing);
     },
   );
@@ -137,7 +140,10 @@ void main() {
       expect(find.text('Secret role of A'), findsNothing);
       await goTo(t, 'Applications');
       expect(find.text('Secret role of A'), findsNothing);
-      expect(find.text('Sign in to continue'), findsOneWidget);
+      expect(
+        find.text('Follow every step of your next opportunity.'),
+        findsOneWidget,
+      );
 
       // B signs in on the same device.
       auth.emit(userB);
@@ -177,7 +183,7 @@ void main() {
     );
     auth.recoveryLink(userA);
     await t.pumpAndSettle();
-    expect(find.text('Choose a new password'), findsOneWidget);
+    expect(find.text('Choose a new password'), findsWidgets);
 
     await t.enterText(find.byType(TextFormField), 'short');
     await t.tap(find.text('Save new password'));
@@ -214,6 +220,8 @@ void main() {
     final fakes = Fakes(auth: auth);
     await pumpApp(t, auth: auth, fakes: fakes, size: const Size(390, 1400));
     await t.tap(find.byTooltip('Profile'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Professional profile'));
     await t.pumpAndSettle();
     expect(find.text('Create your professional profile'), findsOneWidget);
     await t.tap(find.text('Create profile'));
@@ -277,6 +285,8 @@ void main() {
       ..profiles.error = sb.AuthRetryableFetchException(message: 'offline');
     await pumpApp(t, auth: auth, fakes: fakes, size: const Size(390, 1400));
     await t.tap(find.byTooltip('Profile'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Professional profile'));
     await t.pumpAndSettle();
     expect(
       find.text('No connection. Check your internet and try again.'),

@@ -4,15 +4,142 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/data/load_status.dart';
 import '../../../core/design/design.dart';
 import '../../../core/locale_cubit.dart';
+import '../../../core/orbi/orbi.dart';
 import '../../../core/theme_cubit.dart';
 import '../../../core/widgets/data_state_view.dart';
-import '../../../core/widgets/section_header.dart';
 import '../../../l10n/app_localizations.dart';
 import 'preferences_cubit.dart';
 import 'saved_searches_cubit.dart';
 
-/// Appearance, language, countries of interest and saved searches. Theme and language apply at once on this
-/// device; they are also kept in the account when the preferences were loaded from it.
+/// Language and appearance. Both apply at once on this device and are also kept in the account when the preferences
+/// were loaded from it. The language is a list in a sheet (radio), never a segmented control: "Português" and the
+/// other names must never be squeezed or wrapped.
+class SettingsSection extends StatelessWidget {
+  const SettingsSection({super.key});
+
+  static String languageName(AppLocalizations l, String? code) =>
+      switch (code) {
+        'pt' => l.languagePt,
+        'en' => l.languageEn,
+        'es' => l.languageEs,
+        _ => l.languageSystem,
+      };
+
+  Future<void> _chooseLanguage(BuildContext context, String? current) async {
+    final l = AppLocalizations.of(context);
+    final locales = context.read<LocaleCubit>();
+    final prefs = context.read<PreferencesCubit>();
+    await showOrbiSheet<void>(
+      context,
+      builder: (ctx) => OrbiSheetScaffold(
+        title: l.languageTitle,
+        body: RadioGroup<String>(
+          groupValue: current ?? '',
+          onChanged: (v) {
+            final code = (v == null || v.isEmpty) ? null : v;
+            locales.select(code);
+            prefs.setLocale(code);
+            Navigator.of(ctx).pop();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpace.s2),
+                child: Text(
+                  l.languageChooseHint,
+                  style: ctx.text.bodySmall!.copyWith(color: ctx.colors.muted),
+                ),
+              ),
+              for (final (code, name) in [
+                ('', l.languageSystem),
+                ('pt', l.languagePt),
+                ('en', l.languageEn),
+                ('es', l.languageEs),
+              ])
+                RadioListTile<String>(
+                  value: code,
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(name, style: ctx.text.bodyLarge),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final c = context.colors;
+    final theme = context.watch<ThemeCubit>().state;
+    final locale = context.watch<LocaleCubit>().state?.languageCode;
+    final synced = context.select<PreferencesCubit, bool>(
+      (p) => p.state.synced,
+    );
+    return ListView(
+      padding: const EdgeInsets.all(AppSpace.s4),
+      children: [
+        OrbiSectionHeader(title: l.languageTitle),
+        const SizedBox(height: AppSpace.s3),
+        OrbiCard(
+          onTap: () => _chooseLanguage(context, locale),
+          child: Row(
+            children: [
+              Icon(Icons.language_rounded, color: c.muted),
+              const SizedBox(width: AppSpace.s3),
+              Expanded(
+                child: Text(
+                  languageName(l, locale),
+                  style: context.text.bodyLarge,
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded, color: c.muted),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpace.s6),
+        OrbiSectionHeader(title: l.appearanceTitle),
+        const SizedBox(height: AppSpace.s3),
+        SegmentedButton<ThemeMode>(
+          showSelectedIcon: false,
+          segments: [
+            ButtonSegment(
+              value: ThemeMode.system,
+              icon: const Icon(Icons.brightness_auto_outlined),
+              label: Text(l.themeSystem),
+            ),
+            ButtonSegment(
+              value: ThemeMode.light,
+              icon: const Icon(Icons.light_mode_outlined),
+              label: Text(l.themeLight),
+            ),
+            ButtonSegment(
+              value: ThemeMode.dark,
+              icon: const Icon(Icons.dark_mode_outlined),
+              label: Text(l.themeDark),
+            ),
+          ],
+          selected: {theme},
+          onSelectionChanged: (v) {
+            context.read<ThemeCubit>().select(v.first);
+            context.read<PreferencesCubit>().setTheme(v.first.name);
+          },
+        ),
+        if (!synced) ...[
+          const SizedBox(height: AppSpace.s3),
+          Text(
+            l.preferencesLocalOnly,
+            style: context.text.bodySmall!.copyWith(color: c.muted),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// Countries of interest and saved searches (account only).
 class PreferencesSection extends StatefulWidget {
   const PreferencesSection({super.key});
   @override
@@ -42,108 +169,56 @@ class _PreferencesSectionState extends State<PreferencesSection> {
       listener: (context, s) {
         if (s.actionFailure != null) showDataFailure(context, s.actionFailure!);
       },
-      builder: (context, s) {
-        final theme = context.watch<ThemeCubit>().state;
-        final locale = context.watch<LocaleCubit>().state?.languageCode;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SectionHeader(title: l.appearanceTitle),
+      builder: (context, s) => ListView(
+        padding: const EdgeInsets.all(AppSpace.s4),
+        children: [
+          if (s.synced) ...[
+            OrbiSectionHeader(title: l.countriesTitle),
             const SizedBox(height: AppSpace.s3),
-            SegmentedButton<ThemeMode>(
-              showSelectedIcon: true,
-              segments: [
-                ButtonSegment(
-                  value: ThemeMode.system,
-                  icon: const Icon(Icons.brightness_auto_outlined),
-                  label: Text(l.themeSystem),
+            if (s.prefs.countriesOfInterest.isEmpty)
+              Text(l.countriesEmpty, style: muted),
+            Wrap(
+              spacing: AppSpace.s2,
+              runSpacing: AppSpace.s2,
+              children: [
+                for (final c in s.prefs.countriesOfInterest)
+                  InputChip(
+                    label: Text(c),
+                    deleteButtonTooltipMessage: l.countriesRemove(c),
+                    onDeleted: () =>
+                        context.read<PreferencesCubit>().removeCountry(c),
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppSpace.s3),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: OrbiTextField(
+                    label: l.countriesHint,
+                    controller: _country,
+                    helper: l.countriesInvalid,
+                    maxLength: 2,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _add(),
+                  ),
                 ),
-                ButtonSegment(
-                  value: ThemeMode.light,
-                  icon: const Icon(Icons.light_mode_outlined),
-                  label: Text(l.themeLight),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.dark,
-                  icon: const Icon(Icons.dark_mode_outlined),
-                  label: Text(l.themeDark),
+                IconButton(
+                  tooltip: l.commonAdd,
+                  icon: const Icon(Icons.add_rounded),
+                  onPressed: s.saving ? null : _add,
                 ),
               ],
-              selected: {theme},
-              onSelectionChanged: (v) {
-                context.read<ThemeCubit>().select(v.first);
-                context.read<PreferencesCubit>().setTheme(v.first.name);
-              },
             ),
-            const SizedBox(height: AppSpace.s4),
-            Text(l.languageTitle, style: context.text.titleSmall),
-            const SizedBox(height: AppSpace.s2),
-            SegmentedButton<String>(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(value: '', label: Text(l.languageSystem)),
-                ButtonSegment(value: 'pt', label: Text(l.languagePt)),
-                ButtonSegment(value: 'en', label: Text(l.languageEn)),
-                ButtonSegment(value: 'es', label: Text(l.languageEs)),
-              ],
-              selected: {locale ?? ''},
-              onSelectionChanged: (v) {
-                final code = v.first.isEmpty ? null : v.first;
-                context.read<LocaleCubit>().select(code);
-                context.read<PreferencesCubit>().setLocale(code);
-              },
-            ),
-            if (!s.synced) ...[
-              const SizedBox(height: AppSpace.s2),
-              Text(l.preferencesLocalOnly, style: muted),
-            ],
-            if (s.synced) ...[
-              const SizedBox(height: AppSpace.s6),
-              SectionHeader(title: l.countriesTitle),
-              const SizedBox(height: AppSpace.s3),
-              if (s.prefs.countriesOfInterest.isEmpty)
-                Text(l.countriesEmpty, style: muted),
-              Wrap(
-                spacing: AppSpace.s2,
-                runSpacing: AppSpace.s2,
-                children: [
-                  for (final c in s.prefs.countriesOfInterest)
-                    InputChip(
-                      label: Text(c),
-                      deleteButtonTooltipMessage: l.countriesRemove(c),
-                      onDeleted: () =>
-                          context.read<PreferencesCubit>().removeCountry(c),
-                    ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _country,
-                      textCapitalization: TextCapitalization.characters,
-                      maxLength: 2,
-                      decoration: InputDecoration(
-                        labelText: l.countriesHint,
-                        helperText: l.countriesInvalid,
-                        counterText: '',
-                      ),
-                      onSubmitted: (_) => _add(),
-                    ),
-                  ),
-                  IconButton(
-                    tooltip: l.commonAdd,
-                    icon: const Icon(Icons.add),
-                    onPressed: s.saving ? null : _add,
-                  ),
-                ],
-              ),
-            ],
             const SizedBox(height: AppSpace.s6),
-            const SavedSearchesSection(),
+          ] else ...[
+            Text(l.preferencesLocalOnly, style: muted),
+            const SizedBox(height: AppSpace.s6),
           ],
-        );
-      },
+          const SavedSearchesSection(),
+        ],
+      ),
     );
   }
 }
@@ -163,7 +238,7 @@ class SavedSearchesSection extends StatelessWidget {
       builder: (context, s) {
         Widget body;
         if (s.status == LoadStatus.loading) {
-          body = const LinearProgressIndicator();
+          body = const OrbiSkeletonList(count: 2, shrinkWrap: true);
         } else if (s.status == LoadStatus.failure) {
           body = Text(dataFailureText(l, s.failure!), style: muted);
         } else if (s.items.isEmpty) {
@@ -174,14 +249,14 @@ class SavedSearchesSection extends StatelessWidget {
               for (final q in s.items)
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.bookmark_border),
+                  leading: const Icon(Icons.bookmark_border_rounded),
                   title: Text(SavedSearchesCubit.termOf(q)),
                   subtitle: SavedSearchesCubit.countryOf(q) == null
                       ? null
                       : Text(SavedSearchesCubit.countryOf(q)!),
                   trailing: IconButton(
                     tooltip: l.savedSearchRemove(SavedSearchesCubit.termOf(q)),
-                    icon: const Icon(Icons.close),
+                    icon: const Icon(Icons.close_rounded),
                     onPressed: () =>
                         context.read<SavedSearchesCubit>().remove(q.id),
                   ),
@@ -192,7 +267,7 @@ class SavedSearchesSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionHeader(title: l.savedSearchesTitle),
+            OrbiSectionHeader(title: l.savedSearchesTitle),
             const SizedBox(height: AppSpace.s3),
             body,
           ],

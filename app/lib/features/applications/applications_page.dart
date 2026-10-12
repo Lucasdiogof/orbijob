@@ -3,13 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/data/load_status.dart';
 import '../../core/design/design.dart';
+import '../../core/orbi/orbi.dart';
 import '../../core/open_link.dart';
-import '../../core/widgets/app_button.dart';
 import '../../core/widgets/data_state_view.dart';
-import '../../core/widgets/section_header.dart';
-import '../../core/widgets/state_view.dart';
-import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
+import '../shell/shell_cubit.dart';
 import 'applications_cubit.dart';
 import 'domain/application_record.dart';
 
@@ -24,11 +22,12 @@ String applicationStageLabel(AppLocalizations l, ApplicationStage s) =>
       ApplicationStage.closed => l.applicationStageClosed,
     };
 
-BadgeKind _stageKind(ApplicationStage s) => switch (s) {
-  ApplicationStage.offer => BadgeKind.success,
-  ApplicationStage.interview || ApplicationStage.screening => BadgeKind.info,
-  ApplicationStage.rejected => BadgeKind.error,
-  _ => BadgeKind.neutral,
+OrbiBadgeKind _stageKind(ApplicationStage s) => switch (s) {
+  ApplicationStage.offer => OrbiBadgeKind.success,
+  ApplicationStage.interview ||
+  ApplicationStage.screening => OrbiBadgeKind.info,
+  ApplicationStage.rejected => OrbiBadgeKind.error,
+  _ => OrbiBadgeKind.neutral,
 };
 
 /// Applications the user tracks. OrbiJob never sends an application: everything here was registered by hand.
@@ -49,15 +48,18 @@ class ApplicationsPage extends StatelessWidget {
           return DataFailureView(
             kind: s.failure!,
             onRetry: () => context.read<ApplicationsCubit>().load(),
+            gate: OrbiGateKind.applications,
+            onContinue: () =>
+                context.read<ShellCubit>().goTo(ShellCubit.explore),
           );
         }
-        final add = AppButton(
+        final add = OrbiPrimaryButton(
           label: l.applicationsAdd,
-          icon: Icons.add,
+          icon: Icons.add_rounded,
           onPressed: () => openApplicationForm(context),
         );
         if (s.items.isEmpty) {
-          return StateView(
+          return OrbiEmptyState(
             icon: Icons.assignment_outlined,
             title: l.applicationsTitle,
             body: '${l.applicationsBody}\n\n${l.applicationsDisclaimer}',
@@ -105,50 +107,38 @@ class _ApplicationTile extends StatelessWidget {
     final date = a.appliedAt == null
         ? l.applicationNoDate
         : MaterialLocalizations.of(context).formatMediumDate(a.appliedAt!);
-    return Semantics(
-      button: true,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => BlocProvider.value(
-              value: context.read<ApplicationsCubit>(),
-              child: ApplicationDetailPage(id: a.id),
+    return OrbiCard(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => BlocProvider.value(
+            value: context.read<ApplicationsCubit>(),
+            child: ApplicationDetailPage(id: a.id),
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(a.job.title, style: t.titleSmall),
+                const SizedBox(height: AppSpace.s1),
+                Text(
+                  a.job.company,
+                  style: t.bodyMedium!.copyWith(color: c.muted),
+                ),
+                const SizedBox(height: AppSpace.s1),
+                Text(date, style: context.metadataStyle),
+              ],
             ),
           ),
-        ),
-        child: Ink(
-          decoration: BoxDecoration(
-            color: c.cardBg,
-            border: Border.all(color: c.cardBorder),
-            borderRadius: BorderRadius.circular(AppRadius.md),
+          const SizedBox(width: AppSpace.s3),
+          OrbiStatusBadge(
+            label: applicationStageLabel(l, a.stage),
+            kind: _stageKind(a.stage),
           ),
-          padding: const EdgeInsets.all(AppSpace.s4),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(a.job.title, style: t.titleSmall),
-                    const SizedBox(height: AppSpace.s1),
-                    Text(
-                      a.job.company,
-                      style: t.bodyMedium!.copyWith(color: c.muted),
-                    ),
-                    const SizedBox(height: AppSpace.s1),
-                    Text(date, style: t.labelMedium!.copyWith(color: c.muted)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppSpace.s3),
-              StatusBadge(
-                label: applicationStageLabel(l, a.stage),
-                kind: _stageKind(a.stage),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
@@ -319,8 +309,9 @@ class _ApplicationFormPageState extends State<_ApplicationFormPage> {
                   maxLength: 5000,
                 ),
                 const SizedBox(height: AppSpace.s4),
-                AppButton(
+                OrbiPrimaryButton(
                   label: l.commonSave,
+                  expand: true,
                   loading: _saving,
                   onPressed: _saving ? null : _save,
                 ),
@@ -360,24 +351,15 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
     final l = AppLocalizations.of(context);
     final cubit = context.read<ApplicationsCubit>();
     final nav = Navigator.of(context);
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l.applicationDeleteTitle),
-        content: Text(l.commonDeleteConfirmBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l.commonCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l.commonDelete),
-          ),
-        ],
-      ),
+    final ok = await showOrbiConfirm(
+      context,
+      title: l.applicationDeleteTitle,
+      message: l.commonDeleteConfirmBody,
+      confirmLabel: l.commonDelete,
+      cancelLabel: l.commonCancel,
+      destructive: true,
     );
-    if (ok == true) {
+    if (ok) {
       await cubit.delete(widget.id);
       nav.pop();
     }
@@ -394,8 +376,8 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
         if (a == null) {
           return Scaffold(
             appBar: AppBar(title: Text(l.applicationDetailTitle)),
-            body: StateView(
-              icon: Icons.search_off,
+            body: OrbiEmptyState(
+              icon: Icons.search_off_rounded,
               title: l.dataFailureNotFound,
             ),
           );
@@ -449,17 +431,16 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                     const SizedBox(height: AppSpace.s3),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: AppButton(
+                      child: OrbiSecondaryButton(
                         label: l.applicationOpenLink,
-                        icon: Icons.open_in_new,
-                        variant: AppButtonVariant.secondary,
+                        icon: Icons.open_in_new_rounded,
                         onPressed: () async {
                           final ok = await openExternalLink(a.job.originalUrl);
                           if (!ok && context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(l.applicationLinkCannotOpen),
-                              ),
+                            showOrbiSnackBar(
+                              context,
+                              l.applicationLinkCannotOpen,
+                              kind: OrbiSnackKind.error,
                             );
                           }
                         },
@@ -499,9 +480,8 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: AppButton(
+                    child: OrbiSecondaryButton(
                       label: l.applicationSaveNote,
-                      variant: AppButtonVariant.secondary,
                       loading: s.busy,
                       onPressed: s.busy
                           ? null
@@ -512,7 +492,7 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                     ),
                   ),
                   const SizedBox(height: AppSpace.s6),
-                  SectionHeader(title: l.applicationHistory),
+                  OrbiSectionHeader(title: l.applicationHistory),
                   const SizedBox(height: AppSpace.s3),
                   if (events == null)
                     const SizedBox(height: 48, child: DataLoadingView())

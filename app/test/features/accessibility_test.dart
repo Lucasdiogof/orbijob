@@ -55,7 +55,7 @@ void main() {
         await pumpApp(t, platformBrightness: b);
         await t.tap(find.bySemanticsLabel('Explore').first);
         await t.pumpAndSettle();
-        await t.enterText(find.byType(TextField).last, 'x');
+        await t.enterText(find.byType(TextField).last, 'Nurse');
         await t.testTextInput.receiveAction(TextInputAction.search);
         await t.pumpAndSettle();
         await expectLater(t, meetsGuideline(textContrastGuideline));
@@ -91,6 +91,11 @@ void main() {
         find.bySemanticsLabel('Compatibility 74 out of 100'),
         findsOneWidget,
       );
+      // confidence is explained on the detail page, next to the compatibility
+      await t.tap(find.text('Construtora Exemplo'));
+      await t.pumpAndSettle();
+      await t.drag(find.byType(ListView).last, const Offset(0, -700));
+      await t.pumpAndSettle();
       expect(
         find.bySemanticsLabel('Analysis confidence: Medium confidence'),
         findsOneWidget,

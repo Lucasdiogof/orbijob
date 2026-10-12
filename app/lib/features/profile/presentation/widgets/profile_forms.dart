@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
-import '../../../../core/widgets/app_button.dart';
+import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/date_field_tile.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
@@ -217,7 +217,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
               ],
             ),
             const SizedBox(height: AppSpace.s4),
-            AppButton(
+            OrbiPrimaryButton(
               label: l.commonSave,
               loading: _saving,
               onPressed: _saving ? null : _save,
@@ -356,7 +356,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                   (v ?? '').length > 4000 ? l.tooLongError(4000) : null,
             ),
             const SizedBox(height: AppSpace.s4),
-            AppButton(
+            OrbiPrimaryButton(
               label: l.commonSave,
               loading: _saving,
               onPressed: _saving ? null : _save,
@@ -465,7 +465,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
                 ),
               ),
             const SizedBox(height: AppSpace.s4),
-            AppButton(
+            OrbiPrimaryButton(
               label: l.commonSave,
               loading: _saving,
               onPressed: _saving ? null : _save,

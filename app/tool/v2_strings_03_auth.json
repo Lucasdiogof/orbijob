@@ -1,0 +1,10 @@
+{
+  "authSignInHeadline": {"en": "Welcome back", "pt": "Que bom ter você de volta", "es": "Qué bueno verte de nuevo"},
+  "authSignInSubtitle": {"en": "Sign in to see your favorites, applications and résumés.", "pt": "Entre para ver seus favoritos, candidaturas e currículos.", "es": "Inicia sesión para ver tus favoritos, postulaciones y currículums."},
+  "authSignUpHeadline": {"en": "Create your OrbiJob account", "pt": "Crie sua conta no OrbiJob", "es": "Crea tu cuenta de OrbiJob"},
+  "authSignUpSubtitle": {"en": "Free. Save jobs, track applications and keep your résumés in one place.", "pt": "Grátis. Salve vagas, acompanhe candidaturas e guarde seus currículos em um só lugar.", "es": "Gratis. Guarda empleos, sigue tus postulaciones y reúne tus currículums en un solo lugar."},
+  "authShowPassword": {"en": "Show password", "pt": "Mostrar senha", "es": "Mostrar contraseña"},
+  "authHidePassword": {"en": "Hide password", "pt": "Ocultar senha", "es": "Ocultar contraseña"},
+  "authBrowseWithoutAccount": {"en": "Keep browsing without an account", "pt": "Continuar sem conta", "es": "Seguir sin cuenta"},
+  "authNewPasswordSubtitle": {"en": "Choose a new password with at least 8 characters.", "pt": "Escolha uma nova senha com pelo menos 8 caracteres.", "es": "Elige una nueva contraseña de al menos 8 caracteres."}
+}

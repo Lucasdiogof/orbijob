@@ -11,21 +11,23 @@ extension AppComponentColors on AppColors {
   Color get inputPlaceholder => muted;
 
   Color get cardBg => surface;
-  Color get cardBorder => divider;
+  Color get cardBorder => hairline;
   Color get cardBorderSelected => primary;
 
-  Color get chipBg => surface;
-  Color get chipBorder => outline;
+  Color get chipBg => container;
+  Color get chipBorder => container; // chips are filled, not outlined
   Color get chipSelectedBg => primaryContainer;
   Color get chipSelectedFg => onPrimaryContainer;
-  Color get chipSelectedBorder => primary;
+  Color get chipSelectedBorder => primaryContainer;
 
   Color get navBg => surface;
-  Color get navSelected => primary;
+  Color get navSelected => onPrimaryContainer;
   Color get navUnselected => muted;
-  Color get navIndicator => primary;
+  Color get navIndicator =>
+      primaryContainer; // the capsule behind the selected icon
 
   Color get loading => primary;
+  Color get clear => const Color(0x00000000);
   Color get selectedBg => primaryContainer;
 
   Color get hoverLayer => primary.withValues(alpha: 0.08);

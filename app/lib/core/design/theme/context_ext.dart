@@ -7,4 +7,6 @@ extension AppThemeContext on BuildContext {
   AppColors get colors => Theme.of(this).extension<AppColors>()!;
   TextTheme get text => Theme.of(this).textTheme;
   TextStyle get technicalStyle => AppTypography.technical(colors.muted);
+  TextStyle get metadataStyle => AppTypography.metadata(colors.muted);
+  TextStyle get captionStyle => AppTypography.caption(colors.muted);
 }

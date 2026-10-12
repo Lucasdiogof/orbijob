@@ -11,23 +11,32 @@ abstract final class AppSpace {
   static const double s7 = 32;
   static const double s8 = 40;
   static const double s9 = 56;
+  static const double s10 = 64;
 }
 
 abstract final class AppRadius {
-  static const double xs = 4;
-  static const double sm = 6;
-  static const double md = 8;
-  static const double lg = 12;
+  static const double xs = 6;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+  static const double pill = 999;
 }
 
 abstract final class AppSize {
   /// Minimum interactive target (dp).
   static const double touch = 48;
   static const double iconSm = 18;
+  static const double iconLg = 32;
   static const double icon = 24;
   static const double railWidth = 88;
+  static const double navBarHeight = 68;
+  static const double navPillWidth = 56;
+  static const double navPillHeight = 32;
+  static const double sheetMaxWidth = 560;
+  static const double filterSidebarWidth = 320;
   static const double railExtendedWidth = 232;
-  static const double listPaneWidth = 420;
+  static const double listPaneWidth = 440;
   static const double contentMaxWidth = 1120;
   static const double focusRingWidth = 2;
 }

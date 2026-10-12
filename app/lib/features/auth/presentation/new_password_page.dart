@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/design/design.dart';
-import '../../../core/widgets/app_button.dart';
+import '../../../core/orbi/orbi.dart';
 import '../../../l10n/app_localizations.dart';
 import 'auth_cubit.dart';
 import 'auth_page.dart';
@@ -44,44 +44,39 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
               child: Form(
                 key: _form,
                 child: ListView(
-                  padding: const EdgeInsets.all(AppSpace.s4),
+                  padding: const EdgeInsets.all(AppSpace.s5),
                   children: [
-                    TextFormField(
+                    AuthHeader(
+                      headline: l.authNewPasswordTitle,
+                      subtitle: l.authNewPasswordSubtitle,
+                    ),
+                    const SizedBox(height: AppSpace.s6),
+                    PasswordField(
+                      label: l.authNewPasswordLabel,
                       controller: _password,
                       enabled: !s.busy,
-                      obscureText: true,
-                      autofillHints: const [AutofillHints.newPassword],
-                      onFieldSubmitted: (_) => _submit(context),
-                      decoration: InputDecoration(
-                        labelText: l.authNewPasswordLabel,
-                      ),
+                      newPassword: true,
+                      onSubmitted: (_) => _submit(context),
                       validator: (v) =>
                           (v ?? '').length >= 8 ? null : l.authPasswordShort,
                     ),
                     if (s.failure != null) ...[
                       const SizedBox(height: AppSpace.s3),
-                      Semantics(
-                        liveRegion: true,
-                        child: Text(
-                          authFailureText(l, s.failure!),
-                          style: context.text.bodyMedium!.copyWith(
-                            color: context.colors.error,
-                          ),
-                        ),
+                      AuthMessage(
+                        error: true,
+                        text: authFailureText(l, s.failure!),
                       ),
                     ],
-                    const SizedBox(height: AppSpace.s4),
-                    AppButton(
+                    const SizedBox(height: AppSpace.s5),
+                    OrbiPrimaryButton(
                       label: l.authNewPasswordAction,
                       loading: s.busy,
                       expand: true,
                       onPressed: () => _submit(context),
                     ),
                     const SizedBox(height: AppSpace.s2),
-                    AppButton(
+                    OrbiTextButton(
                       label: l.authCancelRecovery,
-                      variant: AppButtonVariant.tertiary,
-                      expand: true,
                       onPressed: s.busy
                           ? null
                           : () => context.read<AuthCubit>().cancelRecovery(),

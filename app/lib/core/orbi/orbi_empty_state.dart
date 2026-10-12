@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import 'orbi_art.dart';
 
-enum StateKind { empty, info, error }
+enum OrbiStateKind { empty, info, error }
 
-/// Empty / info / error state: icon + title + optional body + optional action. Scrolls when space is short
-/// (landscape, keyboard open, large text) instead of overflowing.
-class StateView extends StatelessWidget {
-  const StateView({
+/// Empty / info / error state: a small brand composition, title, optional body and optional actions. Scrolls when the
+/// space is short (landscape, open keyboard, large text) instead of overflowing.
+class OrbiEmptyState extends StatelessWidget {
+  const OrbiEmptyState({
     super.key,
     required this.icon,
     required this.title,
     this.body,
     this.action,
-    this.kind = StateKind.empty,
+    this.secondaryAction,
+    this.kind = OrbiStateKind.empty,
   });
 
   final IconData icon;
   final String title;
   final String? body;
   final Widget? action;
-  final StateKind kind;
+  final Widget? secondaryAction;
+  final OrbiStateKind kind;
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final isError = kind == StateKind.error;
+    final isError = kind == OrbiStateKind.error;
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
         child: ConstrainedBox(
@@ -43,25 +45,8 @@ class StateView extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: isError
-                              ? c.errorContainer
-                              : c.primaryContainer,
-                          borderRadius: BorderRadius.circular(AppRadius.lg),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpace.s4),
-                          child: Icon(
-                            icon,
-                            size: 32,
-                            color: isError
-                                ? c.onErrorContainer
-                                : c.onPrimaryContainer,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: AppSpace.s4),
+                      OrbiArt(icon: icon, error: isError),
+                      const SizedBox(height: AppSpace.s5),
                       Text(
                         title,
                         style: context.text.titleLarge,
@@ -72,7 +57,7 @@ class StateView extends StatelessWidget {
                         Text(
                           body!,
                           style: context.text.bodyMedium!.copyWith(
-                            color: c.muted,
+                            color: context.colors.muted,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -80,6 +65,10 @@ class StateView extends StatelessWidget {
                       if (action != null) ...[
                         const SizedBox(height: AppSpace.s5),
                         action!,
+                      ],
+                      if (secondaryAction != null) ...[
+                        const SizedBox(height: AppSpace.s2),
+                        secondaryAction!,
                       ],
                     ],
                   ),

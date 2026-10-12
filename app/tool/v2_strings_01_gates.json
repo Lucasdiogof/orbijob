@@ -1,0 +1,34 @@
+{
+  "gateCreateAccount": {"en": "Create account", "pt": "Criar conta", "es": "Crear cuenta"},
+  "gateKeepExploring": {"en": "Keep exploring jobs", "pt": "Continuar explorando vagas", "es": "Seguir explorando empleos"},
+
+  "gateFavoritesTitle": {"en": "Your best opportunities, in one place.", "pt": "Suas melhores oportunidades, em um só lugar.", "es": "Tus mejores oportunidades, en un solo lugar."},
+  "gateFavoritesBody": {"en": "Save the jobs that catch your eye and come back to them whenever you want.", "pt": "Salve as vagas que chamam sua atenção e volte a elas quando quiser.", "es": "Guarda los empleos que te interesan y vuelve a ellos cuando quieras."},
+  "gateFavorites1": {"en": "Save jobs from any country and profession", "pt": "Salve vagas de qualquer país e profissão", "es": "Guarda empleos de cualquier país y profesión"},
+  "gateFavorites2": {"en": "Find them again on any device", "pt": "Encontre-as de novo em qualquer dispositivo", "es": "Encuéntralos de nuevo en cualquier dispositivo"},
+  "gateFavorites3": {"en": "See at a glance whether a job is still open", "pt": "Veja de relance se a vaga continua aberta", "es": "Mira de un vistazo si el empleo sigue abierto"},
+
+  "gateApplicationsTitle": {"en": "Follow every step of your next opportunity.", "pt": "Acompanhe cada etapa da sua próxima oportunidade.", "es": "Sigue cada etapa de tu próxima oportunidad."},
+  "gateApplicationsBody": {"en": "A simple board for the processes you are in, from interest to offer.", "pt": "Um painel simples dos processos em que você está, do interesse à oferta.", "es": "Un panel sencillo de los procesos en los que participas, del interés a la oferta."},
+  "gateApplications1": {"en": "Record where you applied and when", "pt": "Registre onde e quando se candidatou", "es": "Registra dónde y cuándo te postulaste"},
+  "gateApplications2": {"en": "Move each process through its stages", "pt": "Mova cada processo pelas suas etapas", "es": "Mueve cada proceso por sus etapas"},
+  "gateApplications3": {"en": "Keep notes and important dates", "pt": "Guarde notas e datas importantes", "es": "Guarda notas y fechas importantes"},
+
+  "gateResumesTitle": {"en": "Have your résumé ready when the right job shows up.", "pt": "Tenha seu currículo pronto quando encontrar a vaga certa.", "es": "Ten tu currículum listo cuando aparezca el empleo adecuado."},
+  "gateResumesBody": {"en": "Your files stay private in your account and are never shared without you.", "pt": "Seus arquivos ficam privados na sua conta e nunca são compartilhados sem você.", "es": "Tus archivos quedan privados en tu cuenta y nunca se comparten sin ti."},
+  "gateResumes1": {"en": "Upload PDF résumés and keep several versions", "pt": "Envie currículos em PDF e guarde várias versões", "es": "Sube currículos en PDF y guarda varias versiones"},
+  "gateResumes2": {"en": "Choose which one is your main résumé", "pt": "Escolha qual é o seu currículo principal", "es": "Elige cuál es tu currículum principal"},
+  "gateResumes3": {"en": "Open or replace a file whenever you need", "pt": "Abra ou substitua um arquivo quando precisar", "es": "Abre o reemplaza un archivo cuando lo necesites"},
+
+  "gateProfileTitle": {"en": "Your professional profile, always at hand.", "pt": "Seu perfil profissional, sempre à mão.", "es": "Tu perfil profesional, siempre a mano."},
+  "gateProfileBody": {"en": "Tell who you are professionally, in any profession and any country.", "pt": "Diga quem você é profissionalmente, em qualquer profissão e país.", "es": "Cuenta quién eres profesionalmente, en cualquier profesión y país."},
+  "gateProfile1": {"en": "Present your experience, education and skills", "pt": "Apresente sua experiência, formação e habilidades", "es": "Presenta tu experiencia, formación y habilidades"},
+  "gateProfile2": {"en": "Reuse your data when you apply", "pt": "Reaproveite seus dados ao se candidatar", "es": "Reutiliza tus datos al postularte"},
+  "gateProfile3": {"en": "Set the work modes and countries you prefer", "pt": "Defina as modalidades e os países que prefere", "es": "Define las modalidades y los países que prefieres"},
+
+  "gateSavedSearchesTitle": {"en": "Keep the searches that matter.", "pt": "Guarde as buscas que importam.", "es": "Guarda las búsquedas que importan."},
+  "gateSavedSearchesBody": {"en": "Save a search once and run it again with a single tap.", "pt": "Salve uma busca uma vez e repita com um toque.", "es": "Guarda una búsqueda una vez y repítela con un toque."},
+  "gateSavedSearches1": {"en": "Searches live in your account", "pt": "As buscas ficam na sua conta", "es": "Las búsquedas quedan en tu cuenta"},
+  "gateSavedSearches2": {"en": "Reopen them from Home", "pt": "Reabra-as a partir do Início", "es": "Reábrelas desde Inicio"},
+  "gateSavedSearches3": {"en": "Remove them whenever you want", "pt": "Remova quando quiser", "es": "Quítalas cuando quieras"}
+}

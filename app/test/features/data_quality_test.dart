@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/format/country_names.dart';
 import 'package:orbijob/core/format/description_text.dart';
@@ -7,7 +8,6 @@ import 'package:orbijob/core/format/geo_eligibility.dart';
 import 'package:orbijob/core/format/job_format.dart';
 import 'package:orbijob/core/format/salary_check.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
-import 'package:orbijob/features/search/presentation/widgets/job_card.dart';
 import 'package:orbijob/features/search/presentation/widgets/job_detail_view.dart';
 import 'package:orbijob/l10n/app_localizations.dart';
 
@@ -385,7 +385,7 @@ void main() {
         addTearDown(t.platformDispatcher.clearAllTestValues);
         await t.pumpWidget(
           host(
-            JobCard(
+            OrbiJobCard(
               scored: ScoredJob(job(geo: ['AE', 'DO', 'CZ'], max: 110000)),
             ),
             'pt',

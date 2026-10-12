@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/data/load_status.dart';
 import '../../../../core/design/design.dart';
-import '../../../../core/widgets/app_button.dart';
+import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/data_state_view.dart';
-import '../../../../core/widgets/section_header.dart';
-import '../../../../core/widgets/skeleton.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/professional_profile.dart';
 import '../profile_cubit.dart';
@@ -16,17 +14,10 @@ class _Card extends StatelessWidget {
   const _Card({required this.child});
   final Widget child;
   @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: c.cardBg,
-        border: Border.all(color: c.cardBorder),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Padding(padding: const EdgeInsets.all(AppSpace.s4), child: child),
-    );
-  }
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: AppSpace.s3),
+    child: OrbiCard(child: child),
+  );
 }
 
 /// Professional profile + experience + education, driven by [ProfileCubit].
@@ -44,16 +35,10 @@ class ProfileSections extends StatelessWidget {
       builder: (context, s) {
         Widget body;
         if (s.status == LoadStatus.loading) {
-          body = const Column(
-            children: [
-              SkeletonBox(height: 72),
-              SizedBox(height: AppSpace.s3),
-              SkeletonBox(height: 72),
-            ],
-          );
+          body = const OrbiSkeletonList(count: 2, shrinkWrap: true);
         } else if (s.status == LoadStatus.failure) {
           body = SizedBox(
-            height: 280,
+            height: 380,
             child: DataFailureView(
               kind: s.failure!,
               onRetry: () => context.read<ProfileCubit>().load(),
@@ -73,7 +58,7 @@ class ProfileSections extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpace.s3),
-                AppButton(
+                OrbiPrimaryButton(
                   label: l.profileCreateAction,
                   onPressed: () =>
                       openProfileForm(context, const ProfileFormPage()),
@@ -96,11 +81,7 @@ class ProfileSections extends StatelessWidget {
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SectionHeader(title: l.profileSectionProfessional),
-            const SizedBox(height: AppSpace.s3),
-            body,
-          ],
+          children: [body],
         );
       },
     );
@@ -142,10 +123,9 @@ class _ProfileCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: AppSpace.s3),
-          AppButton(
+          OrbiSecondaryButton(
             label: l.profileEditAction,
             icon: Icons.edit_outlined,
-            variant: AppButtonVariant.secondary,
             onPressed: () =>
                 openProfileForm(context, ProfileFormPage(profile: p)),
           ),
@@ -171,24 +151,15 @@ Future<void> _confirmDelete(
   required VoidCallback onConfirm,
 }) async {
   final l = AppLocalizations.of(context);
-  final ok = await showDialog<bool>(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      title: Text(title),
-      content: Text(l.commonDeleteConfirmBody),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(ctx, false),
-          child: Text(l.commonCancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(ctx, true),
-          child: Text(l.commonDelete),
-        ),
-      ],
-    ),
+  final ok = await showOrbiConfirm(
+    context,
+    title: title,
+    message: l.commonDeleteConfirmBody,
+    confirmLabel: l.commonDelete,
+    cancelLabel: l.commonCancel,
+    destructive: true,
   );
-  if (ok == true) onConfirm();
+  if (ok) onConfirm();
 }
 
 class _ExperienceList extends StatelessWidget {
@@ -249,10 +220,9 @@ class _ExperienceList extends StatelessWidget {
             ),
           ),
         const SizedBox(height: AppSpace.s2),
-        AppButton(
+        OrbiSecondaryButton(
           label: l.experienceAdd,
-          icon: Icons.add,
-          variant: AppButtonVariant.secondary,
+          icon: Icons.add_rounded,
           onPressed: () => openProfileForm(
             context,
             ExperienceFormPage(profileId: profile.id!),
@@ -321,10 +291,9 @@ class _EducationList extends StatelessWidget {
             ),
           ),
         const SizedBox(height: AppSpace.s2),
-        AppButton(
+        OrbiSecondaryButton(
           label: l.educationAdd,
-          icon: Icons.add,
-          variant: AppButtonVariant.secondary,
+          icon: Icons.add_rounded,
           onPressed: () => openProfileForm(
             context,
             EducationFormPage(profileId: profile.id!),

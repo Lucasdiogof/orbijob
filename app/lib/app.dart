@@ -40,6 +40,7 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
       BlocProvider(create: (_) => sl<AreasCubit>()..load()),
       BlocProvider(create: (_) => sl<SpecialtiesCubit>()),
       BlocProvider(create: (_) => sl<LatestJobsCubit>()..load()),
+      BlocProvider(create: (_) => sl<RemoteJobsCubit>()..load()),
       BlocProvider(create: (_) => sl<LocaleCubit>()),
       BlocProvider.value(value: sl<RecentSearchesCubit>()),
     ],

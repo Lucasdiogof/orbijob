@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
-import '../../../../core/widgets/app_filter_chip.dart';
+import '../../../../core/orbi/orbi.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/job_area.dart';
 import '../cubit/areas_cubit.dart';
@@ -76,14 +76,14 @@ class AreaChips extends StatelessWidget {
         if (available.isEmpty) return const SizedBox.shrink();
         final chips = [
           if (showAll)
-            AppFilterChip(
+            OrbiFilterChip(
               label: l.areaAll,
               icon: Icons.apps,
               selected: selected == null,
               onSelected: (_) => onSelected(null),
             ),
           for (final a in available)
-            AppFilterChip(
+            OrbiFilterChip(
               label: '${areaLabel(a, l)} (${s.counts[a]})',
               icon: areaIcon(a),
               selected: selected == a,
