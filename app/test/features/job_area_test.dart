@@ -17,7 +17,9 @@ void main() {
           expect(k.trim(), k, reason: '$k has edge spaces');
           expect(
             k.length,
-            greaterThanOrEqualTo(3),
+            greaterThanOrEqualTo(
+              RegExp(r'[㐀-鿿]').hasMatch(k) ? 2 : 3,
+            ), // a Chinese word is 2+ characters; Latin fragments need 3+
             reason: '$k is too short and would match inside unrelated words',
           );
         }

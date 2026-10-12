@@ -16,7 +16,11 @@ void main() {
           expect(k, k.toLowerCase(), reason: k);
           expect(k, isNot(matches(unsafe)), reason: k);
           expect(k.trim(), k, reason: k);
-          expect(k.length, greaterThanOrEqualTo(4), reason: k);
+          expect(
+            k.length,
+            greaterThanOrEqualTo(RegExp(r'[㐀-鿿]').hasMatch(k) ? 2 : 4),
+            reason: k,
+          );
         }
       }
     });
@@ -183,7 +187,13 @@ void main() {
         for (final w in g) {
           expect(w, w.toLowerCase());
           expect(w, isNot(matches(unsafe)), reason: w);
-          expect(w.length, greaterThanOrEqualTo(4), reason: w);
+          expect(
+            w.length,
+            greaterThanOrEqualTo(
+              RegExp(r'[\u3400-\u9fff]').hasMatch(w) ? 2 : 4,
+            ),
+            reason: w,
+          );
         }
       }
     });

@@ -252,6 +252,7 @@ const _sourceNames = {
   'remoteok': 'Remote OK',
   'remotive': 'Remotive',
   'jobtech': 'Arbetsförmedlingen',
+  'twjobs': 'Taiwan Jobs',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
