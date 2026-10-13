@@ -251,6 +251,7 @@ void main() {
       // switch the app language to Portuguese in the settings
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
+      await t.scrollUntilVisible(find.text('Settings'), 200);
       await t.tap(find.text('Settings'));
       await t.pumpAndSettle();
       await t.tap(find.text('Device language'));
@@ -374,6 +375,7 @@ void main() {
       await pumpApp(t, repo: ListRepo([german]), translationEngine: e);
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
+      await t.scrollUntilVisible(find.text('Settings'), 200);
       await t.tap(find.text('Settings'));
       await t.pumpAndSettle();
       await t.ensureVisible(find.text('Translate listings into my language'));

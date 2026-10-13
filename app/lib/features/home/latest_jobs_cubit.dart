@@ -27,7 +27,7 @@ class LatestJobsCubit extends Cubit<LatestJobsState> {
   /// What the list is restricted to (the remote-jobs section of Home uses the remote work mode).
   final JobFilters filters;
 
-  static const count = 6;
+  static const count = 12;
 
   Future<void> load() async {
     emit(const LatestJobsState());

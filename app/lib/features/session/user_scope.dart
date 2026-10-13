@@ -9,10 +9,12 @@ import '../auth/presentation/auth_cubit.dart';
 import '../favorites/favorites_cubit.dart';
 import '../home/recent_searches_cubit.dart';
 import '../preferences/presentation/preferences_cubit.dart';
+import '../hidden/presentation/hidden_jobs_cubit.dart';
 import '../notifications/presentation/notifications_cubit.dart';
 import '../searches/presentation/saved_searches_cubit.dart';
 import '../profile/presentation/profile_cubit.dart';
 import '../../core/data/load_status.dart';
+import '../../core/widgets/data_state_view.dart';
 
 /// Owns everything that belongs to ONE account: favourites, profile, applications, preferences and saved searches.
 /// It is rebuilt (new Cubits, new requests, nothing carried over) whenever the signed-in user changes, so after a
@@ -44,8 +46,9 @@ class UserScope extends StatelessWidget {
             BlocProvider(create: (_) => sl<PreferencesCubit>()..load()),
             BlocProvider(create: (_) => sl<SavedSearchesCubit>()..load()),
             BlocProvider(create: (_) => sl<NotificationsCubit>()..load()),
+            BlocProvider(create: (_) => sl<HiddenJobsCubit>()..load()),
           ],
-          child: _ScopeEffects(child: child),
+          child: _ScopeEffects(userId: auth.user?.id, child: child),
         ),
       ),
     ),
@@ -53,8 +56,9 @@ class UserScope extends StatelessWidget {
 }
 
 class _ScopeEffects extends StatefulWidget {
-  const _ScopeEffects({required this.child});
+  const _ScopeEffects({required this.child, this.userId});
   final Widget child;
+  final String? userId;
   @override
   State<_ScopeEffects> createState() => _ScopeEffectsState();
 }
@@ -63,8 +67,8 @@ class _ScopeEffectsState extends State<_ScopeEffects> {
   @override
   void initState() {
     super.initState();
-    // Recent searches are a device-level convenience; they must not follow a person to the next account.
-    context.read<RecentSearchesCubit>().clear();
+    // Recent searches are a device-level convenience kept per account: each person sees only their own.
+    context.read<RecentSearchesCubit>().useScope(widget.userId);
   }
 
   static ThemeMode _mode(String t) => switch (t) {
@@ -74,15 +78,27 @@ class _ScopeEffectsState extends State<_ScopeEffects> {
   };
 
   @override
-  Widget build(BuildContext context) =>
-      BlocListener<PreferencesCubit, PreferencesState>(
-        // Once, when the account's preferences arrive: apply theme and language on this device.
-        listenWhen: (a, b) =>
-            a.status != LoadStatus.ready && b.status == LoadStatus.ready,
+  Widget build(BuildContext context) => MultiBlocListener(
+    listeners: [
+      BlocListener<HiddenJobsCubit, HiddenJobsState>(
+        listenWhen: (a, b) => a.actionTick != b.actionTick,
+        // The card that asked may be gone by now (a hidden job leaves the list), so the refusal is reported from the scope.
         listener: (context, s) {
-          context.read<ThemeCubit>().select(_mode(s.prefs.theme));
-          context.read<LocaleCubit>().select(s.prefs.locale);
+          if (s.actionFailure != null) {
+            showDataFailure(context, s.actionFailure!);
+          }
         },
-        child: widget.child,
-      );
+      ),
+    ],
+    child: BlocListener<PreferencesCubit, PreferencesState>(
+      // Once, when the account's preferences arrive: apply theme and language on this device.
+      listenWhen: (a, b) =>
+          a.status != LoadStatus.ready && b.status == LoadStatus.ready,
+      listener: (context, s) {
+        context.read<ThemeCubit>().select(_mode(s.prefs.theme));
+        context.read<LocaleCubit>().select(s.prefs.locale);
+      },
+      child: widget.child,
+    ),
+  );
 }

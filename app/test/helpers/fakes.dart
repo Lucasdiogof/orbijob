@@ -8,6 +8,7 @@ import 'package:orbijob/features/auth/domain/auth_repository.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
+import 'package:orbijob/features/hidden/domain/hidden_jobs_repository.dart';
 import 'package:orbijob/features/notifications/domain/notifications_repository.dart';
 import 'package:orbijob/features/preferences/domain/user_preferences.dart';
 import 'package:orbijob/features/searches/domain/saved_search.dart';
@@ -365,6 +366,41 @@ class FakeNotifications extends Failing implements NotificationsRepository {
   }
 }
 
+class FakeHiddenJobs extends Failing implements HiddenJobsRepository {
+  FakeHiddenJobs({this.auth});
+  final FakeAuth? auth;
+  final rows = <String, HiddenJob>{};
+
+  void _guard() {
+    check();
+    if (auth != null && auth!.currentUser == null) {
+      throw NotSignedInException();
+    }
+  }
+
+  @override
+  Future<List<HiddenJob>> list() async {
+    _guard();
+    return rows.values.toList()
+      ..sort((a, b) => b.hiddenAt.compareTo(a.hiddenAt));
+  }
+
+  @override
+  Future<void> hide(JobPosting job) async {
+    _guard();
+    rows.putIfAbsent(
+      hiddenKey(job),
+      () => HiddenJob.of(job, DateTime.now().toUtc()),
+    );
+  }
+
+  @override
+  Future<void> restore(String key) async {
+    _guard();
+    rows.remove(key);
+  }
+}
+
 class FakeAccountSettings extends Failing implements AccountSettingsRepository {
   final Map<String, dynamic> data = {};
   @override
@@ -449,12 +485,14 @@ class Fakes {
   Fakes({FakeAuth? auth})
     : applications = FakeApplications(auth: auth),
       savedSearches = FakeSavedSearches(auth: auth),
-      notifications = FakeNotifications(auth: auth);
+      notifications = FakeNotifications(auth: auth),
+      hidden = FakeHiddenJobs(auth: auth);
   final FakeApplications applications;
   final profiles = FakeProfiles();
   final preferences = FakePreferences();
   final FakeSavedSearches savedSearches;
   final FakeNotifications notifications;
+  final FakeHiddenJobs hidden;
   final accountSettings = FakeAccountSettings();
   final resumes = FakeResumes();
 
@@ -465,6 +503,7 @@ class Fakes {
       ..registerLazySingleton<PreferencesRepository>(() => preferences)
       ..registerLazySingleton<SavedSearchesRepository>(() => savedSearches)
       ..registerLazySingleton<NotificationsRepository>(() => notifications)
+      ..registerLazySingleton<HiddenJobsRepository>(() => hidden)
       ..registerLazySingleton<AccountSettingsRepository>(() => accountSettings)
       ..registerLazySingleton<ResumeRepository>(() => resumes);
   }

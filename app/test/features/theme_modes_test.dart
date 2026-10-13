@@ -34,6 +34,7 @@ void main() {
     await pumpApp(t, platformBrightness: Brightness.dark);
     await t.tap(find.byTooltip('Profile'));
     await t.pumpAndSettle();
+    await t.scrollUntilVisible(find.text('Settings'), 200);
     await t.tap(find.text('Settings'));
     await t.pumpAndSettle();
     expect(find.text('Appearance'), findsOneWidget);

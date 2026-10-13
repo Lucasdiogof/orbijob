@@ -3585,6 +3585,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} days ago'**
   String agoDays(int count);
+
+  /// No description provided for @jobMoreActions.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions for {title}'**
+  String jobMoreActions(String title);
+
+  /// No description provided for @hdHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide this job'**
+  String get hdHide;
+
+  /// No description provided for @hdHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Job hidden'**
+  String get hdHidden;
+
+  /// No description provided for @hdUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get hdUndo;
+
+  /// No description provided for @hdRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get hdRestore;
+
+  /// No description provided for @hdRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Job restored'**
+  String get hdRestored;
+
+  /// No description provided for @hdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden jobs'**
+  String get hdTitle;
+
+  /// No description provided for @hdSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden jobs do not appear in search, recommendations or alerts. Restore one to see it again.'**
+  String get hdSubtitle;
+
+  /// No description provided for @hdEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No hidden jobs'**
+  String get hdEmptyTitle;
+
+  /// No description provided for @hdEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the menu on a job and choose “Hide this job” to stop seeing it.'**
+  String get hdEmptyBody;
+
+  /// No description provided for @hdCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hidden job} other{{count} hidden jobs}}'**
+  String hdCount(int count);
+
+  /// No description provided for @hdProfileSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Jobs you chose not to see again'**
+  String get hdProfileSub;
+
+  /// No description provided for @hdOpenListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Open listing'**
+  String get hdOpenListing;
+
+  /// No description provided for @hdSeeHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'See hidden jobs'**
+  String get hdSeeHidden;
+
+  /// No description provided for @hdFilteredNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Some jobs on this page are hidden.'**
+  String get hdFilteredNote;
+
+  /// No description provided for @profileHubSavedSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved searches and alerts'**
+  String get profileHubSavedSearches;
+
+  /// No description provided for @profileHubSavedSearchesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Searches you keep and the ones that alert you'**
+  String get profileHubSavedSearchesSub;
+
+  /// No description provided for @rsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search history'**
+  String get rsTitle;
+
+  /// No description provided for @rsSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember my recent searches'**
+  String get rsSwitch;
+
+  /// No description provided for @rsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the words you search for, kept on this device and never sent to the server. Turning this off also forgets the ones already kept.'**
+  String get rsBody;
+
+  /// No description provided for @rsClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search history'**
+  String get rsClear;
+
+  /// No description provided for @rsCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Search history cleared'**
+  String get rsCleared;
+
+  /// No description provided for @rsRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get rsRecent;
 }
 
 class _AppLocalizationsDelegate

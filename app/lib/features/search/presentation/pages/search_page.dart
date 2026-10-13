@@ -8,6 +8,8 @@ import '../../../../core/data/data_failure.dart';
 import '../../../../core/widgets/data_state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
+import '../../../hidden/presentation/hidden_jobs_cubit.dart';
+import '../../../jobs/job_actions_menu.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
 import '../../../searches/domain/search_spec.dart';
 import '../../../searches/presentation/save_search_sheet.dart';
@@ -468,44 +470,68 @@ class _Results extends StatelessWidget {
               showDataFailure(context, f.actionFailure!);
             }
           },
-          builder: (context, favs) => ListView.separated(
-            padding: const EdgeInsets.all(AppSpace.s4),
-            itemCount: jobs.length + 1 + (hasMore || loadMoreFailed ? 1 : 0),
-            separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
-            itemBuilder: (context, i) {
-              if (i == 0) {
-                // A Wrap, not a Row: with large text the save button drops under the count instead of overflowing.
-                return Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Semantics(
-                      liveRegion: true,
-                      child: Text(
-                        // With more pages behind it the count is "shown so far", never a catalogue total.
-                        '${hasMore ? l.resultsShown(jobs.length) : l.resultsCount(jobs.length)} · ${l.sortNewest}',
-                        style: context.metadataStyle,
-                      ),
+          builder: (context, favs) => BlocBuilder<HiddenJobsCubit, HiddenJobsState>(
+            builder: (context, hiddenState) {
+              final shownJobs = [
+                for (final j in jobs)
+                  if (!hiddenState.isHidden(j.job)) j,
+              ];
+              final hiddenHere = jobs.length - shownJobs.length;
+              if (shownJobs.isEmpty &&
+                  hasMore &&
+                  !loadingMore &&
+                  !loadMoreFailed) {
+                // a whole page was hidden: fetch the next one instead of showing an empty list
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => context.mounted
+                      ? context.read<SearchCubit>().loadMore()
+                      : null,
+                );
+              }
+              return ListView.separated(
+                padding: const EdgeInsets.all(AppSpace.s4),
+                itemCount:
+                    shownJobs.length + 1 + (hasMore || loadMoreFailed ? 1 : 0),
+                separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
+                itemBuilder: (context, i) {
+                  if (i == 0) {
+                    // A Wrap, not a Row: with large text the save button drops under the count instead of overflowing.
+                    return Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Semantics(
+                          liveRegion: true,
+                          child: Text(
+                            // With more pages behind it the count is "shown so far", never a catalogue total.
+                            '${hasMore ? l.resultsShown(shownJobs.length) : l.resultsCount(shownJobs.length)} · ${l.sortNewest}${hiddenHere > 0 ? ' · ${l.hdCount(hiddenHere)}' : ''}',
+                            style: context.metadataStyle,
+                          ),
+                        ),
+                        _SaveSearchButton(spec: spec),
+                      ],
+                    );
+                  }
+                  if (i == shownJobs.length + 1) {
+                    return _LoadMoreFooter(
+                      loading: loadingMore,
+                      failed: loadMoreFailed,
+                      onLoadMore: () => context.read<SearchCubit>().loadMore(),
+                    );
+                  }
+                  final s = shownJobs[i - 1];
+                  return OrbiJobCard(
+                    scored: s,
+                    menu: JobActionsMenu(job: s.job),
+                    selected: split && selected?.job == s.job,
+                    isFavorite: favs.items.containsKey(
+                      FavoritesCubit.keyOf(s.job),
                     ),
-                    _SaveSearchButton(spec: spec),
-                  ],
-                );
-              }
-              if (i == jobs.length + 1) {
-                return _LoadMoreFooter(
-                  loading: loadingMore,
-                  failed: loadMoreFailed,
-                  onLoadMore: () => context.read<SearchCubit>().loadMore(),
-                );
-              }
-              final s = jobs[i - 1];
-              return OrbiJobCard(
-                scored: s,
-                selected: split && selected?.job == s.job,
-                isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(s.job)),
-                onFavoriteChanged: (_) =>
-                    context.read<FavoritesCubit>().toggle(s),
-                onTap: () => onSelect(s, split),
+                    onFavoriteChanged: (_) =>
+                        context.read<FavoritesCubit>().toggle(s),
+                    onTap: () => onSelect(s, split),
+                  );
+                },
               );
             },
           ),

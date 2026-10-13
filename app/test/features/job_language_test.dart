@@ -66,7 +66,7 @@ void main() {
     for (final q in ['a', 'b', 'c', 'd', 'e', 'f', 'B ', '  ']) {
       c.record(q);
     }
-    expect(c.state, ['B', 'f', 'e', 'd', 'c']);
+    expect(c.state, ['B', 'f', 'e', 'd', 'c', 'a']);
     c.clear();
     expect(c.state, isEmpty);
   });

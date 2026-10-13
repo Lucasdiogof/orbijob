@@ -5,6 +5,7 @@ import '../../../../core/design/design.dart';
 import '../../../../core/widgets/favorite_button.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
+import '../../../jobs/job_actions_menu.dart';
 import '../../domain/entities/job_posting.dart';
 import '../widgets/job_detail_view.dart';
 
@@ -39,6 +40,10 @@ class JobDetailPage extends StatelessWidget {
               ),
               onChanged: (_) => context.read<FavoritesCubit>().toggle(scored),
             ),
+          ),
+          JobActionsMenu(
+            job: scored.job,
+            onHidden: () => Navigator.of(context).maybePop(),
           ),
         ],
       ),

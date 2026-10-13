@@ -908,5 +908,42 @@
         "type": "int"
       }
     }
-  }
+  },
+  "jobMoreActions": "More actions for {title}",
+  "@jobMoreActions": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "hdHide": "Hide this job",
+  "hdHidden": "Job hidden",
+  "hdUndo": "Undo",
+  "hdRestore": "Restore",
+  "hdRestored": "Job restored",
+  "hdTitle": "Hidden jobs",
+  "hdSubtitle": "Hidden jobs do not appear in search, recommendations or alerts. Restore one to see it again.",
+  "hdEmptyTitle": "No hidden jobs",
+  "hdEmptyBody": "Open the menu on a job and choose “Hide this job” to stop seeing it.",
+  "hdCount": "{count, plural, =1{1 hidden job} other{{count} hidden jobs}}",
+  "@hdCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hdProfileSub": "Jobs you chose not to see again",
+  "hdOpenListing": "Open listing",
+  "hdSeeHidden": "See hidden jobs",
+  "hdFilteredNote": "Some jobs on this page are hidden.",
+  "profileHubSavedSearches": "Saved searches and alerts",
+  "profileHubSavedSearchesSub": "Searches you keep and the ones that alert you",
+  "rsTitle": "Search history",
+  "rsSwitch": "Remember my recent searches",
+  "rsBody": "Only the words you search for, kept on this device and never sent to the server. Turning this off also forgets the ones already kept.",
+  "rsClear": "Clear search history",
+  "rsCleared": "Search history cleared",
+  "rsRecent": "Recent searches"
 }

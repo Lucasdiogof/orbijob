@@ -9,6 +9,7 @@ import '../../../core/widgets/data_state_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../translation/translation_cubit.dart';
 import 'preferences_cubit.dart';
+import '../../home/recent_searches_cubit.dart';
 import '../../searches/presentation/saved_searches_page.dart';
 
 /// Language and appearance. Both apply at once on this device and are also kept in the account when the preferences
@@ -164,6 +165,10 @@ class SettingsSection extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: AppSpace.s6),
+        OrbiSectionHeader(title: l.rsTitle),
+        const SizedBox(height: AppSpace.s3),
+        const _SearchHistoryCard(),
         if (!synced) ...[
           const SizedBox(height: AppSpace.s3),
           Text(
@@ -172,6 +177,51 @@ class SettingsSection extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// The switch and the clear button of the recent searches (kept on this device only).
+class _SearchHistoryCard extends StatelessWidget {
+  const _SearchHistoryCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final cubit = context.read<RecentSearchesCubit>();
+    return OrbiCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ValueListenableBuilder<bool>(
+            valueListenable: cubit.enabled,
+            builder: (context, on, _) => SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.rsSwitch),
+              value: on,
+              onChanged: cubit.setEnabled,
+            ),
+          ),
+          Text(
+            l.rsBody,
+            style: context.text.bodySmall!.copyWith(
+              color: context.colors.muted,
+            ),
+          ),
+          const SizedBox(height: AppSpace.s3),
+          OrbiTextButton(
+            label: l.rsClear,
+            onPressed: () {
+              cubit.clear();
+              showOrbiSnackBar(
+                context,
+                l.rsCleared,
+                kind: OrbiSnackKind.success,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

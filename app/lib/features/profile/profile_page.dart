@@ -6,7 +6,9 @@ import '../../core/orbi/orbi.dart';
 import '../../l10n/app_localizations.dart';
 import '../auth/presentation/auth_cubit.dart';
 import '../auth/presentation/auth_page.dart';
+import '../hidden/presentation/hidden_jobs_page.dart';
 import '../preferences/presentation/preferences_section.dart';
+import '../searches/presentation/saved_searches_page.dart';
 import 'presentation/profile_cubit.dart';
 import 'presentation/widgets/profile_completeness.dart';
 import 'presentation/widgets/profile_sections.dart';
@@ -64,6 +66,26 @@ class ProfilePage extends StatelessWidget {
                   const _Needs(
                     gate: OrbiGateKind.resumes,
                     child: ResumesSection(),
+                  ),
+                ),
+              ),
+              _HubRow(
+                icon: Icons.bookmarks_outlined,
+                title: l.profileHubSavedSearches,
+                subtitle: l.profileHubSavedSearchesSub,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const SavedSearchesPage(),
+                  ),
+                ),
+              ),
+              _HubRow(
+                icon: Icons.visibility_off_outlined,
+                title: l.hdTitle,
+                subtitle: l.hdProfileSub,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const HiddenJobsPage(),
                   ),
                 ),
               ),

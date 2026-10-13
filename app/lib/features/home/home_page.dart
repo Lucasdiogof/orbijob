@@ -7,6 +7,8 @@ import '../../core/orbi/orbi.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/applications_cubit.dart';
 import '../favorites/favorites_cubit.dart';
+import '../hidden/presentation/hidden_jobs_cubit.dart';
+import '../jobs/job_actions_menu.dart';
 import '../searches/presentation/saved_searches_cubit.dart';
 import '../searches/presentation/saved_searches_page.dart';
 import '../searches/presentation/search_labels.dart';
@@ -381,24 +383,33 @@ class _JobsSection extends StatelessWidget {
           onPressed: onRetry,
         ),
       ),
-      LatestStatus.ready => BlocBuilder<FavoritesCubit, FavoritesState>(
-        builder: (context, favs) => OrbiAdaptiveGrid(
-          children: [
-            for (final j in state.jobs.take(maxItems))
-              OrbiJobCard(
-                scored: j,
-                compact: true,
-                isFavorite: favs.items.containsKey(FavoritesCubit.keyOf(j.job)),
-                onFavoriteChanged: (_) =>
-                    context.read<FavoritesCubit>().toggle(j),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => JobDetailPage(scored: j),
-                  ),
-                ),
+      LatestStatus.ready => BlocBuilder<HiddenJobsCubit, HiddenJobsState>(
+        builder: (context, hidden) =>
+            BlocBuilder<FavoritesCubit, FavoritesState>(
+              builder: (context, favs) => OrbiAdaptiveGrid(
+                children: [
+                  for (final j
+                      in state.jobs
+                          .where((j) => !hidden.isHidden(j.job))
+                          .take(maxItems))
+                    OrbiJobCard(
+                      scored: j,
+                      compact: true,
+                      menu: JobActionsMenu(job: j.job),
+                      isFavorite: favs.items.containsKey(
+                        FavoritesCubit.keyOf(j.job),
+                      ),
+                      onFavoriteChanged: (_) =>
+                          context.read<FavoritesCubit>().toggle(j),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => JobDetailPage(scored: j),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
-        ),
+            ),
       ),
     };
     return Column(

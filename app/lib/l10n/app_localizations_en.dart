@@ -1997,4 +1997,87 @@ class AppLocalizationsEn extends AppLocalizations {
   String agoDays(int count) {
     return '$count days ago';
   }
+
+  @override
+  String jobMoreActions(String title) {
+    return 'More actions for $title';
+  }
+
+  @override
+  String get hdHide => 'Hide this job';
+
+  @override
+  String get hdHidden => 'Job hidden';
+
+  @override
+  String get hdUndo => 'Undo';
+
+  @override
+  String get hdRestore => 'Restore';
+
+  @override
+  String get hdRestored => 'Job restored';
+
+  @override
+  String get hdTitle => 'Hidden jobs';
+
+  @override
+  String get hdSubtitle =>
+      'Hidden jobs do not appear in search, recommendations or alerts. Restore one to see it again.';
+
+  @override
+  String get hdEmptyTitle => 'No hidden jobs';
+
+  @override
+  String get hdEmptyBody =>
+      'Open the menu on a job and choose “Hide this job” to stop seeing it.';
+
+  @override
+  String hdCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hidden jobs',
+      one: '1 hidden job',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hdProfileSub => 'Jobs you chose not to see again';
+
+  @override
+  String get hdOpenListing => 'Open listing';
+
+  @override
+  String get hdSeeHidden => 'See hidden jobs';
+
+  @override
+  String get hdFilteredNote => 'Some jobs on this page are hidden.';
+
+  @override
+  String get profileHubSavedSearches => 'Saved searches and alerts';
+
+  @override
+  String get profileHubSavedSearchesSub =>
+      'Searches you keep and the ones that alert you';
+
+  @override
+  String get rsTitle => 'Search history';
+
+  @override
+  String get rsSwitch => 'Remember my recent searches';
+
+  @override
+  String get rsBody =>
+      'Only the words you search for, kept on this device and never sent to the server. Turning this off also forgets the ones already kept.';
+
+  @override
+  String get rsClear => 'Clear search history';
+
+  @override
+  String get rsCleared => 'Search history cleared';
+
+  @override
+  String get rsRecent => 'Recent searches';
 }

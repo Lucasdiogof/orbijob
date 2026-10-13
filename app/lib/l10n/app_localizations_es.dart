@@ -2009,4 +2009,87 @@ class AppLocalizationsEs extends AppLocalizations {
   String agoDays(int count) {
     return 'hace $count días';
   }
+
+  @override
+  String jobMoreActions(String title) {
+    return 'Más acciones para $title';
+  }
+
+  @override
+  String get hdHide => 'Ocultar este empleo';
+
+  @override
+  String get hdHidden => 'Empleo oculto';
+
+  @override
+  String get hdUndo => 'Deshacer';
+
+  @override
+  String get hdRestore => 'Restaurar';
+
+  @override
+  String get hdRestored => 'Empleo restaurado';
+
+  @override
+  String get hdTitle => 'Empleos ocultos';
+
+  @override
+  String get hdSubtitle =>
+      'Los empleos ocultos no aparecen en la búsqueda, las recomendaciones ni las alertas. Restaura uno para verlo de nuevo.';
+
+  @override
+  String get hdEmptyTitle => 'Ningún empleo oculto';
+
+  @override
+  String get hdEmptyBody =>
+      'Abre el menú de un empleo y elige “Ocultar este empleo” para dejar de verlo.';
+
+  @override
+  String hdCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count empleos ocultos',
+      one: '1 empleo oculto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hdProfileSub => 'Empleos que elegiste no volver a ver';
+
+  @override
+  String get hdOpenListing => 'Abrir anuncio';
+
+  @override
+  String get hdSeeHidden => 'Ver empleos ocultos';
+
+  @override
+  String get hdFilteredNote => 'Algunos empleos de esta página están ocultos.';
+
+  @override
+  String get profileHubSavedSearches => 'Búsquedas guardadas y alertas';
+
+  @override
+  String get profileHubSavedSearchesSub =>
+      'Búsquedas que guardas y las que te avisan';
+
+  @override
+  String get rsTitle => 'Historial de búsquedas';
+
+  @override
+  String get rsSwitch => 'Recordar mis búsquedas recientes';
+
+  @override
+  String get rsBody =>
+      'Solo las palabras que buscas, guardadas en este dispositivo y nunca enviadas al servidor. Al desactivarlo también se borran las ya guardadas.';
+
+  @override
+  String get rsClear => 'Borrar historial de búsquedas';
+
+  @override
+  String get rsCleared => 'Historial de búsquedas borrado';
+
+  @override
+  String get rsRecent => 'Búsquedas recientes';
 }

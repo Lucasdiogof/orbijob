@@ -2004,4 +2004,87 @@ class AppLocalizationsPt extends AppLocalizations {
   String agoDays(int count) {
     return 'há $count dias';
   }
+
+  @override
+  String jobMoreActions(String title) {
+    return 'Mais ações para $title';
+  }
+
+  @override
+  String get hdHide => 'Ocultar esta vaga';
+
+  @override
+  String get hdHidden => 'Vaga ocultada';
+
+  @override
+  String get hdUndo => 'Desfazer';
+
+  @override
+  String get hdRestore => 'Restaurar';
+
+  @override
+  String get hdRestored => 'Vaga restaurada';
+
+  @override
+  String get hdTitle => 'Vagas ocultas';
+
+  @override
+  String get hdSubtitle =>
+      'Vagas ocultas não aparecem na busca, nas recomendações nem nos alertas. Restaure uma para vê-la de novo.';
+
+  @override
+  String get hdEmptyTitle => 'Nenhuma vaga oculta';
+
+  @override
+  String get hdEmptyBody =>
+      'Abra o menu de uma vaga e escolha “Ocultar esta vaga” para não vê-la mais.';
+
+  @override
+  String hdCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vagas ocultas',
+      one: '1 vaga oculta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hdProfileSub => 'Vagas que você escolheu não ver mais';
+
+  @override
+  String get hdOpenListing => 'Abrir anúncio';
+
+  @override
+  String get hdSeeHidden => 'Ver vagas ocultas';
+
+  @override
+  String get hdFilteredNote => 'Algumas vagas desta página estão ocultas.';
+
+  @override
+  String get profileHubSavedSearches => 'Pesquisas salvas e alertas';
+
+  @override
+  String get profileHubSavedSearchesSub =>
+      'Pesquisas que você guarda e as que avisam você';
+
+  @override
+  String get rsTitle => 'Histórico de pesquisas';
+
+  @override
+  String get rsSwitch => 'Lembrar minhas pesquisas recentes';
+
+  @override
+  String get rsBody =>
+      'Apenas as palavras que você pesquisa, guardadas neste dispositivo e nunca enviadas ao servidor. Desativar também apaga as que já estão guardadas.';
+
+  @override
+  String get rsClear => 'Limpar histórico de pesquisas';
+
+  @override
+  String get rsCleared => 'Histórico de pesquisas apagado';
+
+  @override
+  String get rsRecent => 'Pesquisas recentes';
 }

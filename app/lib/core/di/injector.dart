@@ -23,6 +23,9 @@ import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
 import '../../features/preferences/domain/user_preferences.dart';
 import '../../features/preferences/presentation/preferences_cubit.dart';
+import '../../features/hidden/data/supabase_hidden_jobs_repository.dart';
+import '../../features/hidden/domain/hidden_jobs_repository.dart';
+import '../../features/hidden/presentation/hidden_jobs_cubit.dart';
 import '../../features/notifications/data/supabase_notifications_repository.dart';
 import '../../features/notifications/domain/notifications_repository.dart';
 import '../../features/notifications/presentation/notifications_cubit.dart';
@@ -98,7 +101,14 @@ void configureDependencies({
       () => authRepository ?? UnconfiguredAuthRepository(),
     )
     ..registerFactory<AuthCubit>(() => AuthCubit(sl<AuthRepository>()))
-    ..registerLazySingleton<RecentSearchesCubit>(RecentSearchesCubit.new)
+    ..registerLazySingleton<RecentSearchesCubit>(
+      () => RecentSearchesCubit(
+        prefs: preferences,
+        debounce: notificationsRefresh == null
+            ? Duration.zero
+            : const Duration(milliseconds: 800),
+      ),
+    )
     ..registerFactory<SearchCubit>(
       () => SearchCubit(
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
@@ -133,6 +143,9 @@ void configureDependencies({
     )
     ..registerFactory<PreferencesCubit>(
       () => PreferencesCubit(maybe<PreferencesRepository>()),
+    )
+    ..registerFactory<HiddenJobsCubit>(
+      () => HiddenJobsCubit(maybe<HiddenJobsRepository>()),
     )
     ..registerFactory<NotificationsCubit>(
       () => NotificationsCubit(
@@ -185,6 +198,9 @@ void registerSupabaseRepositories(SupabaseClient client) {
     )
     ..registerLazySingleton<SavedSearchesRepository>(
       () => SupabaseSavedSearchesRepository(client),
+    )
+    ..registerLazySingleton<HiddenJobsRepository>(
+      () => SupabaseHiddenJobsRepository(client),
     )
     ..registerLazySingleton<NotificationsRepository>(
       () => SupabaseNotificationsRepository(client),

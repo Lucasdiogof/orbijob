@@ -21,6 +21,7 @@ class OrbiJobCard extends StatelessWidget {
     this.onTap,
     this.isFavorite = false,
     this.onFavoriteChanged,
+    this.menu,
     this.now,
     this.compact = false,
   });
@@ -30,6 +31,9 @@ class OrbiJobCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isFavorite;
   final ValueChanged<bool>? onFavoriteChanged;
+
+  /// The "more" menu next to the heart (hide, share, compare); null draws nothing.
+  final Widget? menu;
 
   /// Clock injection for tests and previews.
   final DateTime? now;
@@ -106,8 +110,9 @@ class OrbiJobCard extends StatelessWidget {
                     isFavorite: isFavorite,
                     onChanged: onFavoriteChanged,
                   )
-                else
+                else if (menu == null)
                   const SizedBox(width: AppSpace.s2),
+                ?menu,
               ],
             ),
             Padding(
