@@ -1598,4 +1598,76 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get kitNoListing =>
       'Este empleo no tiene un anuncio original que abrir.';
+
+  @override
+  String get browserClose => 'Cerrar';
+
+  @override
+  String get browserBack => 'Atrás';
+
+  @override
+  String get browserForward => 'Adelante';
+
+  @override
+  String get browserReload => 'Recargar';
+
+  @override
+  String get browserMore => 'Más opciones';
+
+  @override
+  String get browserShare => 'Compartir enlace';
+
+  @override
+  String get browserCopyLink => 'Copiar enlace';
+
+  @override
+  String get browserLinkCopied => 'Enlace copiado';
+
+  @override
+  String get browserOpenExternal => 'Abrir en el navegador';
+
+  @override
+  String get browserSecure => 'Conexión HTTPS';
+
+  @override
+  String get browserNotSecure => 'No segura (HTTP)';
+
+  @override
+  String get browserSecureHint =>
+      'HTTPS cifra la conexión. OrbiJob no comprueba quién gestiona el sitio ni lo que te pide.';
+
+  @override
+  String get browserErrorTitle => 'No se pudo cargar la página';
+
+  @override
+  String get browserErrorBody =>
+      'Revisa tu conexión e inténtalo de nuevo. Si el sitio no funciona aquí (inicio de sesión, bloqueos, captcha), ábrelo en el navegador.';
+
+  @override
+  String get browserErrorTls =>
+      'El certificado de seguridad del sitio no es de confianza, así que no se abrió la página.';
+
+  @override
+  String get browserBlockedLink => 'Se bloqueó un enlace por seguridad.';
+
+  @override
+  String get browserDownloadExternal =>
+      'Los archivos los descarga tu navegador: abriéndolo allí.';
+
+  @override
+  String get browserExternalOnly =>
+      'Este enlace solo se puede abrir en el navegador.';
+
+  @override
+  String get browserOpeningExternal => 'Abriendo en el navegador…';
+
+  @override
+  String get browserDidYouApply => '¿Postulaste?';
+
+  @override
+  String get browserCannotOpenExternal => 'No se pudo abrir el navegador.';
+
+  @override
+  String get browserLanguageNotice =>
+      'La página original puede estar en otro idioma. OrbiJob no traduce otros sitios.';
 }

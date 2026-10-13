@@ -4,12 +4,12 @@ import '../../../../core/design/design.dart';
 import '../../../../core/format/description_text.dart';
 import '../../../../core/format/geo_eligibility.dart';
 import '../../../../core/format/job_format.dart';
-import '../../../../core/open_link.dart';
 import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/compatibility_indicator.dart';
 import '../../../../core/widgets/confidence_indicator.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../applications/application_kit.dart';
+import '../../../browser/open_in_app.dart';
 import '../../data/job_snapshot.dart' show manualSource;
 import '../../domain/entities/job_posting.dart';
 
@@ -17,18 +17,9 @@ import '../../domain/entities/job_posting.dart';
 bool hasOriginalListing(JobPosting j) =>
     j.source != manualSource && j.originalUrl.isNotEmpty;
 
-/// Opens the original listing in the browser; says so in a snackbar when the device cannot.
-Future<void> openOriginalListing(BuildContext context, JobPosting j) async {
-  final l = AppLocalizations.of(context);
-  final ok = await openExternalLink(j.originalUrl);
-  if (!ok && context.mounted) {
-    showOrbiSnackBar(
-      context,
-      l.applicationLinkCannotOpen,
-      kind: OrbiSnackKind.error,
-    );
-  }
-}
+/// Opens the job's own site inside the app (the one behaviour shared by the detail page, the pane and the application kit).
+Future<void> openOriginalListing(BuildContext context, JobPosting j) =>
+    openInApp(context, j.originalUrl, job: j);
 
 /// Details of one job. Shown as a page on narrow screens and as the detail pane on wide ones.
 ///

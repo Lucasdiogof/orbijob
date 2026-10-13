@@ -1593,4 +1593,76 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get kitNoListing => 'Esta vaga não tem anúncio original para abrir.';
+
+  @override
+  String get browserClose => 'Fechar';
+
+  @override
+  String get browserBack => 'Voltar';
+
+  @override
+  String get browserForward => 'Avançar';
+
+  @override
+  String get browserReload => 'Recarregar';
+
+  @override
+  String get browserMore => 'Mais opções';
+
+  @override
+  String get browserShare => 'Compartilhar link';
+
+  @override
+  String get browserCopyLink => 'Copiar link';
+
+  @override
+  String get browserLinkCopied => 'Link copiado';
+
+  @override
+  String get browserOpenExternal => 'Abrir no navegador';
+
+  @override
+  String get browserSecure => 'Conexão HTTPS';
+
+  @override
+  String get browserNotSecure => 'Não segura (HTTP)';
+
+  @override
+  String get browserSecureHint =>
+      'HTTPS criptografa a conexão. O OrbiJob não verifica quem mantém o site nem o que ele pede de você.';
+
+  @override
+  String get browserErrorTitle => 'Não foi possível carregar a página';
+
+  @override
+  String get browserErrorBody =>
+      'Confira sua conexão e tente de novo. Se o site não funcionar aqui (login, bloqueios, captcha), abra no navegador.';
+
+  @override
+  String get browserErrorTls =>
+      'O certificado de segurança do site não é confiável, então a página não foi aberta.';
+
+  @override
+  String get browserBlockedLink => 'Um link foi bloqueado por segurança.';
+
+  @override
+  String get browserDownloadExternal =>
+      'Arquivos são baixados pelo navegador: abrindo lá.';
+
+  @override
+  String get browserExternalOnly =>
+      'Este link só pode ser aberto no navegador.';
+
+  @override
+  String get browserOpeningExternal => 'Abrindo no navegador…';
+
+  @override
+  String get browserDidYouApply => 'Você se candidatou?';
+
+  @override
+  String get browserCannotOpenExternal => 'Não foi possível abrir o navegador.';
+
+  @override
+  String get browserLanguageNotice =>
+      'A página original pode estar em outro idioma. O OrbiJob não traduz outros sites.';
 }

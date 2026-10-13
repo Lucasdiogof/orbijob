@@ -2,6 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/applications/applications_cubit.dart';
+import '../../features/browser/browser_engine.dart';
+import '../../features/browser/link_share.dart';
+import '../../features/browser/webview_engine.dart';
 import '../../features/applications/data/supabase_applications_repository.dart';
 import '../../features/applications/domain/application_record.dart';
 import '../../features/auth/data/unconfigured_auth_repository.dart';
@@ -48,6 +51,8 @@ void configureDependencies({
   AuthRepository? authRepository,
   FavoritesRepository? favoritesRepository,
   PdfPicker? pdfPicker,
+  BrowserEngine? browserEngine,
+  LinkShare? linkShare,
 }) {
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
@@ -56,6 +61,10 @@ void configureDependencies({
     sl.registerLazySingleton<SearchRepository>(() => searchRepository);
   }
   sl
+    ..registerLazySingleton<BrowserEngine>(
+      () => browserEngine ?? const WebViewBrowserEngine(),
+    )
+    ..registerLazySingleton<LinkShare>(() => linkShare ?? shareLinkWithSystem)
     ..registerLazySingleton<PdfPicker>(() => pdfPicker ?? FilePickerPdfPicker())
     ..registerLazySingleton<AuthRepository>(
       () => authRepository ?? UnconfiguredAuthRepository(),

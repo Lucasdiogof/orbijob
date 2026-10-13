@@ -2901,6 +2901,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This job has no original listing to open.'**
   String get kitNoListing;
+
+  /// No description provided for @browserClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get browserClose;
+
+  /// No description provided for @browserBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get browserBack;
+
+  /// No description provided for @browserForward.
+  ///
+  /// In en, this message translates to:
+  /// **'Forward'**
+  String get browserForward;
+
+  /// No description provided for @browserReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get browserReload;
+
+  /// No description provided for @browserMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get browserMore;
+
+  /// No description provided for @browserShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share link'**
+  String get browserShare;
+
+  /// No description provided for @browserCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get browserCopyLink;
+
+  /// No description provided for @browserLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get browserLinkCopied;
+
+  /// No description provided for @browserOpenExternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser'**
+  String get browserOpenExternal;
+
+  /// No description provided for @browserSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS connection'**
+  String get browserSecure;
+
+  /// No description provided for @browserNotSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Not secure (HTTP)'**
+  String get browserNotSecure;
+
+  /// No description provided for @browserSecureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS encrypts the connection. OrbiJob does not check who runs the site or what it asks of you.'**
+  String get browserSecureHint;
+
+  /// No description provided for @browserErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The page could not be loaded'**
+  String get browserErrorTitle;
+
+  /// No description provided for @browserErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again. If the site does not work here (sign-in, blocks, captcha), open it in your browser.'**
+  String get browserErrorBody;
+
+  /// No description provided for @browserErrorTls.
+  ///
+  /// In en, this message translates to:
+  /// **'The site\'s security certificate could not be trusted, so the page was not opened.'**
+  String get browserErrorTls;
+
+  /// No description provided for @browserBlockedLink.
+  ///
+  /// In en, this message translates to:
+  /// **'A link was blocked for your safety.'**
+  String get browserBlockedLink;
+
+  /// No description provided for @browserDownloadExternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Files are downloaded by your browser: opening it there.'**
+  String get browserDownloadExternal;
+
+  /// No description provided for @browserExternalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This link can only be opened in your browser.'**
+  String get browserExternalOnly;
+
+  /// No description provided for @browserOpeningExternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening in your browser…'**
+  String get browserOpeningExternal;
+
+  /// No description provided for @browserDidYouApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you apply?'**
+  String get browserDidYouApply;
+
+  /// No description provided for @browserCannotOpenExternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the browser.'**
+  String get browserCannotOpenExternal;
+
+  /// No description provided for @browserLanguageNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'The original page may be in another language. OrbiJob does not translate other sites.'**
+  String get browserLanguageNotice;
 }
 
 class _AppLocalizationsDelegate

@@ -1,0 +1,23 @@
+{
+  "browserClose": {"en": "Close", "pt": "Fechar", "es": "Cerrar"},
+  "browserBack": {"en": "Back", "pt": "Voltar", "es": "Atrás"},
+  "browserForward": {"en": "Forward", "pt": "Avançar", "es": "Adelante"},
+  "browserReload": {"en": "Reload", "pt": "Recarregar", "es": "Recargar"},
+  "browserMore": {"en": "More options", "pt": "Mais opções", "es": "Más opciones"},
+  "browserShare": {"en": "Share link", "pt": "Compartilhar link", "es": "Compartir enlace"},
+  "browserCopyLink": {"en": "Copy link", "pt": "Copiar link", "es": "Copiar enlace"},
+  "browserLinkCopied": {"en": "Link copied", "pt": "Link copiado", "es": "Enlace copiado"},
+  "browserOpenExternal": {"en": "Open in browser", "pt": "Abrir no navegador", "es": "Abrir en el navegador"},
+  "browserSecure": {"en": "HTTPS connection", "pt": "Conexão HTTPS", "es": "Conexión HTTPS"},
+  "browserNotSecure": {"en": "Not secure (HTTP)", "pt": "Não segura (HTTP)", "es": "No segura (HTTP)"},
+  "browserSecureHint": {"en": "HTTPS encrypts the connection. OrbiJob does not check who runs the site or what it asks of you.", "pt": "HTTPS criptografa a conexão. O OrbiJob não verifica quem mantém o site nem o que ele pede de você.", "es": "HTTPS cifra la conexión. OrbiJob no comprueba quién gestiona el sitio ni lo que te pide."},
+  "browserErrorTitle": {"en": "The page could not be loaded", "pt": "Não foi possível carregar a página", "es": "No se pudo cargar la página"},
+  "browserErrorBody": {"en": "Check your connection and try again. If the site does not work here (sign-in, blocks, captcha), open it in your browser.", "pt": "Confira sua conexão e tente de novo. Se o site não funcionar aqui (login, bloqueios, captcha), abra no navegador.", "es": "Revisa tu conexión e inténtalo de nuevo. Si el sitio no funciona aquí (inicio de sesión, bloqueos, captcha), ábrelo en el navegador."},
+  "browserErrorTls": {"en": "The site's security certificate could not be trusted, so the page was not opened.", "pt": "O certificado de segurança do site não é confiável, então a página não foi aberta.", "es": "El certificado de seguridad del sitio no es de confianza, así que no se abrió la página."},
+  "browserBlockedLink": {"en": "A link was blocked for your safety.", "pt": "Um link foi bloqueado por segurança.", "es": "Se bloqueó un enlace por seguridad."},
+  "browserDownloadExternal": {"en": "Files are downloaded by your browser: opening it there.", "pt": "Arquivos são baixados pelo navegador: abrindo lá.", "es": "Los archivos los descarga tu navegador: abriéndolo allí."},
+  "browserExternalOnly": {"en": "This link can only be opened in your browser.", "pt": "Este link só pode ser aberto no navegador.", "es": "Este enlace solo se puede abrir en el navegador."},
+  "browserOpeningExternal": {"en": "Opening in your browser…", "pt": "Abrindo no navegador…", "es": "Abriendo en el navegador…"},
+  "browserDidYouApply": {"en": "Did you apply?", "pt": "Você se candidatou?", "es": "¿Postulaste?"},
+  "browserCannotOpenExternal": {"en": "Could not open the browser.", "pt": "Não foi possível abrir o navegador.", "es": "No se pudo abrir el navegador."}
+}

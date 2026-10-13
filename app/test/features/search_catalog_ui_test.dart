@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
@@ -14,6 +13,7 @@ import 'package:orbijob/features/search/domain/search_repository.dart';
 import 'package:orbijob/features/search/presentation/cubit/search_cubit.dart';
 import 'package:orbijob/preview/in_memory_favorites.dart';
 
+import '../helpers/browser_fakes.dart';
 import '../helpers/fakes.dart';
 import '../helpers/harness.dart';
 
@@ -76,27 +76,6 @@ class CatalogRepo implements SearchRepository {
       hasMore: slice.length > limit,
     );
   }
-}
-
-/// Stands in for the url_launcher plugin (the test host has none): records the URLs and answers [opens].
-List<String> mockLauncher(WidgetTester t, {required bool opens}) {
-  final urls = <String>[];
-  const channel = MethodChannel('plugins.flutter.io/url_launcher');
-  t.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
-    call,
-  ) async {
-    if (call.method == 'launch') {
-      urls.add((call.arguments as Map)['url'] as String);
-    }
-    return opens;
-  });
-  addTearDown(
-    () => t.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      channel,
-      null,
-    ),
-  );
-  return urls;
 }
 
 /// Favourites kept per signed-in user, like the real table under Row Level Security.
@@ -384,13 +363,14 @@ void main() {
   });
 
   testWidgets(
-    'detail: description, eligibility, source and the link to the original listing; a link that cannot open says so',
+    'detail: description, eligibility, source; the original listing opens inside the app, with a way out to the browser',
     (t) async {
-      final launched = mockLauncher(t, opens: false);
       final repo = CatalogRepo([
         job('7', geo: ['CA', 'US']),
       ]);
       await pumpApp(t, repo: repo);
+      final fake = installFakeBrowser();
+      final launched = mockLauncher(t, opens: false);
       await searchFor(t, 'account');
       await t.tap(find.text('Account Executive 7'));
       await t.pumpAndSettle();
@@ -401,36 +381,24 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Source: Jobicy'), findsOneWidget);
-      await t.ensureVisible(find.text('Open original listing'));
-      await t.pumpAndSettle();
       await t.tap(find.text('Open original listing'));
-      await t.pumpAndSettle();
-      expect(launched, [
-        'https://jobicy.com/jobs/7',
-      ], reason: 'the canonical Jobicy URL, nothing else');
+      await t.pump();
+      await t.pump(const Duration(milliseconds: 500));
       expect(
-        find.text('Could not open the link.'),
-        findsOneWidget,
-        reason: 'the user is told instead of nothing happening',
+        fake.engine.initial,
+        Uri.parse('https://jobicy.com/jobs/7'),
+        reason: 'the canonical Jobicy URL, shown in the in-app browser',
       );
+      expect(launched, isEmpty);
+
+      // the way out: the system browser cannot be opened here, and the person is told instead of nothing happening
+      await t.tap(find.text('Open in browser').last);
+      await t.pump();
+      await t.pump(const Duration(milliseconds: 100));
+      expect(launched, ['https://jobicy.com/jobs/7']);
+      expect(find.text('Could not open the browser.'), findsWidgets);
     },
   );
-
-  testWidgets('detail: when the link opens there is no error message', (
-    t,
-  ) async {
-    final launched = mockLauncher(t, opens: true);
-    await pumpApp(t, repo: CatalogRepo([job('7')]));
-    await searchFor(t, 'account');
-    await t.tap(find.text('Account Executive 7'));
-    await t.pumpAndSettle();
-    await t.ensureVisible(find.text('Open original listing'));
-    await t.pumpAndSettle();
-    await t.tap(find.text('Open original listing'));
-    await t.pumpAndSettle();
-    expect(launched, hasLength(1));
-    expect(find.text('Could not open the link.'), findsNothing);
-  });
 
   testWidgets(
     'favourites: save a catalogue job, find it again after a restart, remove it',

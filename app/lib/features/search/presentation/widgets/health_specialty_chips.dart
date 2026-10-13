@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
-import '../../../../core/open_link.dart';
+import '../../../browser/open_in_app.dart';
 import '../../../../core/orbi/orbi.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/health_specialty.dart';
@@ -111,7 +111,7 @@ Future<void> showSpecialtyPortals(
               leading: const Icon(Icons.open_in_new),
               title: Text(p.name),
               subtitle: Text('${p.region} · ${Uri.parse(p.url).host}'),
-              onTap: () => openExternalLink(p.url),
+              onTap: () => openInApp(ctx, p.url),
             ),
         ],
       ),

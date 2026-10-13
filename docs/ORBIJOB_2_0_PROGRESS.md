@@ -24,3 +24,9 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
 
 ## Blockers / owner-side
 - none new. (Older: NAV token, USAJOBS key, Jooble/Adzuna keys.)
+
+## Round 3
+| # | Step | State | Commit |
+|---|---|---|---|
+| 10 | In-app browser for job listings (webview_flutter on Android/iOS; system browser on web and for files). Policy `url_policy.dart` (http/https only; downloads and mailto/tel/sms to the system; everything else blocked; no URL credentials); no JS injection, no channels, no form/cookie access; Android: file/content access off, permissions denied, TLS errors not bypassed, file chooser via system picker, third-party cookies on; progress bar + orbital loader, HTTPS/HTTP indicator with honest hint, back/forward/reload/share/copy/open externally, error + retry + way out, Android back walks history first; "Did you apply?" prompt only after returning, records only on confirmation; unified in job detail, kit, applications, portals | done (Android debug APK builds; widget tests with a fake engine; NOT run on a device/emulator, NOT run on iOS) | this batch |
+| 11 | Automatic translation of listings (pt/en/es) | in progress | |

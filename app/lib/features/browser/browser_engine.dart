@@ -1,0 +1,52 @@
+import 'package:flutter/widgets.dart';
+
+import 'url_policy.dart';
+
+/// What the page (and the engine under it) can do, kept apart from any plugin so the browser screen can be tested
+/// without a platform WebView.
+abstract class BrowserController {
+  Future<void> load(Uri uri);
+  Future<void> reload();
+  Future<void> goBack();
+  Future<void> goForward();
+  Future<bool> canGoBack();
+  Future<bool> canGoForward();
+}
+
+/// Why the main page failed to load. The text is never shown to the user as-is; the screen explains in its own words.
+class BrowserFailure {
+  const BrowserFailure({required this.description, this.isTls = false});
+  final String description;
+  final bool isTls;
+}
+
+/// Callbacks from the engine to the screen. Only navigation facts are reported: no page content, form data, cookies or
+/// headers ever leave the web view.
+class BrowserEvents {
+  const BrowserEvents({
+    required this.onProgress,
+    required this.onPageStarted,
+    required this.onPageFinished,
+    required this.onUrlChanged,
+    required this.onFailure,
+    required this.onVerdict,
+  });
+
+  final void Function(int percent) onProgress;
+  final void Function(Uri uri) onPageStarted;
+  final void Function(Uri uri) onPageFinished;
+  final void Function(Uri uri) onUrlChanged;
+  final void Function(BrowserFailure failure) onFailure;
+
+  /// Reported for every navigation request that is not simply allowed (blocked schemes, downloads, system links).
+  final void Function(Uri uri, UrlVerdict verdict) onVerdict;
+}
+
+/// Creates the platform web view. [onCreated] hands back the controller once the view exists.
+abstract class BrowserEngine {
+  Widget view({
+    required Uri initial,
+    required BrowserEvents events,
+    required ValueChanged<BrowserController> onCreated,
+  });
+}

@@ -8,6 +8,7 @@ import '../../core/open_link.dart';
 import '../../core/orbi/orbi.dart';
 import '../../l10n/app_localizations.dart';
 import '../auth/presentation/auth_cubit.dart';
+import '../browser/open_in_app.dart';
 import '../auth/presentation/auth_page.dart';
 import '../profile/domain/professional_profile.dart';
 import '../profile/domain/resume_repository.dart';
@@ -73,6 +74,35 @@ List<KitField> kitFields(
   ];
 }
 
+/// Asks first, then records an application for [job] as sent today. OrbiJob cannot know whether the person really applied, so
+/// this is only ever done on their explicit confirmation. Returns true when it was recorded.
+Future<bool> confirmAndTrackApplication(
+  BuildContext context,
+  JobPosting job,
+) async {
+  final l = AppLocalizations.of(context);
+  final cubit = context.read<ApplicationsCubit>();
+  final messenger = ScaffoldMessenger.maybeOf(context);
+  final ok = await showOrbiConfirm(
+    context,
+    title: l.kitTrackConfirmTitle,
+    message: l.kitTrackConfirmBody,
+    confirmLabel: l.kitTrack,
+  );
+  if (!ok) return false;
+  final hasListing = job.source != manualSource && job.originalUrl.isNotEmpty;
+  final created = await cubit.create(
+    company: job.company.isEmpty ? job.title : job.company,
+    title: job.title,
+    link: hasListing ? job.originalUrl : null,
+    channel: job.sourceName,
+    stage: ApplicationStage.applied,
+    appliedAt: DateTime.now(),
+  );
+  if (created) showSavedFeedback(messenger, l.kitTracked);
+  return created;
+}
+
 /// The "application kit" of a job: the honest alternative to auto-filling other sites' forms. It lets the person copy their
 /// own profile data piece by piece (or all at once), open their main résumé to download it, open the original listing, and
 /// record the application afterwards. Nothing is sent anywhere and no third-party page is touched.
@@ -120,29 +150,8 @@ class _KitSheet extends StatelessWidget {
   }
 
   Future<void> _track(BuildContext context) async {
-    final l = AppLocalizations.of(context);
-    final cubit = context.read<ApplicationsCubit>();
     final nav = Navigator.of(context);
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    final ok = await showOrbiConfirm(
-      context,
-      title: l.kitTrackConfirmTitle,
-      message: l.kitTrackConfirmBody,
-      confirmLabel: l.kitTrack,
-    );
-    if (!ok) return;
-    final created = await cubit.create(
-      company: job.company.isEmpty ? job.title : job.company,
-      title: job.title,
-      link: hasListing ? job.originalUrl : null,
-      channel: job.sourceName,
-      stage: ApplicationStage.applied,
-      appliedAt: DateTime.now(),
-    );
-    if (created) {
-      nav.pop();
-      showSavedFeedback(messenger, l.kitTracked);
-    }
+    if (await confirmAndTrackApplication(context, job)) nav.pop();
   }
 
   bool get hasListing =>
@@ -263,16 +272,7 @@ class _KitSheet extends StatelessWidget {
               label: l.openOriginalListing,
               icon: Icons.open_in_new_rounded,
               expand: true,
-              onPressed: () async {
-                final ok = await openExternalLink(job.originalUrl);
-                if (!ok && context.mounted) {
-                  showOrbiSnackBar(
-                    context,
-                    l.applicationLinkCannotOpen,
-                    kind: OrbiSnackKind.error,
-                  );
-                }
-              },
+              onPressed: () => openInApp(context, job.originalUrl, job: job),
             )
           else
             Text(

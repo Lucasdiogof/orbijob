@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/data/load_status.dart';
 import '../../core/design/design.dart';
 import '../../core/orbi/orbi.dart';
-import '../../core/open_link.dart';
+import '../browser/open_in_app.dart';
 import '../../core/widgets/data_state_view.dart';
 import '../../l10n/app_localizations.dart';
 import '../shell/shell_cubit.dart';
@@ -416,16 +416,7 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                       child: OrbiSecondaryButton(
                         label: l.applicationOpenLink,
                         icon: Icons.open_in_new_rounded,
-                        onPressed: () async {
-                          final ok = await openExternalLink(a.job.originalUrl);
-                          if (!ok && context.mounted) {
-                            showOrbiSnackBar(
-                              context,
-                              l.applicationLinkCannotOpen,
-                              kind: OrbiSnackKind.error,
-                            );
-                          }
-                        },
+                        onPressed: () => openInApp(context, a.job.originalUrl),
                       ),
                     ),
                   ],

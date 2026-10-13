@@ -1588,4 +1588,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kitNoListing => 'This job has no original listing to open.';
+
+  @override
+  String get browserClose => 'Close';
+
+  @override
+  String get browserBack => 'Back';
+
+  @override
+  String get browserForward => 'Forward';
+
+  @override
+  String get browserReload => 'Reload';
+
+  @override
+  String get browserMore => 'More options';
+
+  @override
+  String get browserShare => 'Share link';
+
+  @override
+  String get browserCopyLink => 'Copy link';
+
+  @override
+  String get browserLinkCopied => 'Link copied';
+
+  @override
+  String get browserOpenExternal => 'Open in browser';
+
+  @override
+  String get browserSecure => 'HTTPS connection';
+
+  @override
+  String get browserNotSecure => 'Not secure (HTTP)';
+
+  @override
+  String get browserSecureHint =>
+      'HTTPS encrypts the connection. OrbiJob does not check who runs the site or what it asks of you.';
+
+  @override
+  String get browserErrorTitle => 'The page could not be loaded';
+
+  @override
+  String get browserErrorBody =>
+      'Check your connection and try again. If the site does not work here (sign-in, blocks, captcha), open it in your browser.';
+
+  @override
+  String get browserErrorTls =>
+      'The site\'s security certificate could not be trusted, so the page was not opened.';
+
+  @override
+  String get browserBlockedLink => 'A link was blocked for your safety.';
+
+  @override
+  String get browserDownloadExternal =>
+      'Files are downloaded by your browser: opening it there.';
+
+  @override
+  String get browserExternalOnly =>
+      'This link can only be opened in your browser.';
+
+  @override
+  String get browserOpeningExternal => 'Opening in your browser…';
+
+  @override
+  String get browserDidYouApply => 'Did you apply?';
+
+  @override
+  String get browserCannotOpenExternal => 'Could not open the browser.';
+
+  @override
+  String get browserLanguageNotice =>
+      'The original page may be in another language. OrbiJob does not translate other sites.';
 }

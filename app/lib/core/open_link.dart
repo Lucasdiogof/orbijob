@@ -12,3 +12,15 @@ Future<bool> openExternalLink(String url) async {
     return false;
   }
 }
+
+/// Hands a `mailto:`, `tel:` or `sms:` link to the matching system app. Any other scheme is refused.
+Future<bool> openSystemLink(Uri uri) async {
+  if (!const {'mailto', 'tel', 'sms'}.contains(uri.scheme.toLowerCase())) {
+    return false;
+  }
+  try {
+    return await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } catch (_) {
+    return false;
+  }
+}
