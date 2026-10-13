@@ -25,6 +25,7 @@ export const MIGRATIONS = [
   { version: '20261023000000', name: 'v3_searches_alerts' },
   { version: '20261024000000', name: 'push_devices' },
   { version: '20261025000000', name: 'application_reminders' },
+  { version: '20261026000000', name: 'search_alternatives' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota', 'saved_search_alert_state'];
@@ -80,6 +81,8 @@ function signatures(i) {
     tables.has('push_devices') && (i.ops_functions ?? []).includes('push_claim'),
     // migration 18 adds the hourly reminders of the application pipeline
     (i.ops_functions ?? []).includes('reminders_run'),
+    // migration 19: search alternatives with several required parts
+    (i.ops_functions ?? []).includes('title_alt_matches'),
   ];
 }
 
