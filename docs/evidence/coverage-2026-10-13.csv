@@ -1,0 +1,98 @@
+section,key,value,note
+area,(none),3944,visible jobs matching no broad pattern
+area,construction/industry,182,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,education,139,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,finance/admin,350,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,health,221,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,hospitality,186,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,logistics,101,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,sales,485,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,services,215,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,technology,1053,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+country,(unknown),2009,visible jobs; unknown = the source states no single country
+country,AE,3,visible jobs; unknown = the source states no single country
+country,AR,7,visible jobs; unknown = the source states no single country
+country,AT,1,visible jobs; unknown = the source states no single country
+country,AU,30,visible jobs; unknown = the source states no single country
+country,BE,2,visible jobs; unknown = the source states no single country
+country,BG,3,visible jobs; unknown = the source states no single country
+country,BR,11,visible jobs; unknown = the source states no single country
+country,CA,31,visible jobs; unknown = the source states no single country
+country,CH,36,visible jobs; unknown = the source states no single country
+country,CN,1,visible jobs; unknown = the source states no single country
+country,CR,3,visible jobs; unknown = the source states no single country
+country,CY,1,visible jobs; unknown = the source states no single country
+country,CZ,1,visible jobs; unknown = the source states no single country
+country,DE,79,visible jobs; unknown = the source states no single country
+country,EE,1,visible jobs; unknown = the source states no single country
+country,ES,9,visible jobs; unknown = the source states no single country
+country,FR,65,visible jobs; unknown = the source states no single country
+country,GB,83,visible jobs; unknown = the source states no single country
+country,GR,2,visible jobs; unknown = the source states no single country
+country,HK,1,visible jobs; unknown = the source states no single country
+country,HU,1,visible jobs; unknown = the source states no single country
+country,IE,9,visible jobs; unknown = the source states no single country
+country,IN,1,visible jobs; unknown = the source states no single country
+country,IT,8,visible jobs; unknown = the source states no single country
+country,JP,7,visible jobs; unknown = the source states no single country
+country,KR,2,visible jobs; unknown = the source states no single country
+country,MX,13,visible jobs; unknown = the source states no single country
+country,MY,1,visible jobs; unknown = the source states no single country
+country,NL,8,visible jobs; unknown = the source states no single country
+country,NZ,335,visible jobs; unknown = the source states no single country
+country,PH,20,visible jobs; unknown = the source states no single country
+country,PL,3,visible jobs; unknown = the source states no single country
+country,PT,11,visible jobs; unknown = the source states no single country
+country,RO,2,visible jobs; unknown = the source states no single country
+country,RS,1,visible jobs; unknown = the source states no single country
+country,SE,2354,visible jobs; unknown = the source states no single country
+country,SG,8,visible jobs; unknown = the source states no single country
+country,SK,1,visible jobs; unknown = the source states no single country
+country,TH,2,visible jobs; unknown = the source states no single country
+country,TR,1,visible jobs; unknown = the source states no single country
+country,TW,1090,visible jobs; unknown = the source states no single country
+country,UA,2,visible jobs; unknown = the source states no single country
+country,US,434,visible jobs; unknown = the source states no single country
+country,VN,1,visible jobs; unknown = the source states no single country
+growth,2026-10-07,214,jobs first stored that day
+growth,2026-10-08,187,jobs first stored that day
+growth,2026-10-09,191,jobs first stored that day
+growth,2026-10-10,293,jobs first stored that day
+growth,2026-10-11,822,jobs first stored that day
+growth,2026-10-12,2029,jobs first stored that day
+growth,2026-10-13,1331,jobs first stored that day
+quality,cross_source_duplicates,4,fingerprints shared by open jobs of two or more sources
+quality,no_company,0,visible jobs without a company
+quality,no_place,118,"visible jobs without country, city or eligibility"
+quality,no_published_date,0,visible jobs without a publication date
+quality,short_description,609,visible jobs with a description under 200 characters
+source,arbeitnow,1800,visible jobs
+source,jobicy,988,visible jobs
+source,jobsconz,332,visible jobs
+source,jobtech,2364,visible jobs
+source,remoteok,102,visible jobs
+source,remotive,18,visible jobs
+source,twjobs,1090,visible jobs
+source_failures_7d,arbeitnow,2,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_failures_7d,jobicy,1,discovery/revalidation passes not ok in 7 days (max_pages)
+source_new_7d,arbeitnow,1794,first stored in the last 7 days
+source_new_7d,jobicy,766,first stored in the last 7 days
+source_new_7d,jobsconz,211,first stored in the last 7 days
+source_new_7d,jobtech,2181,first stored in the last 7 days
+source_new_7d,remoteok,11,first stored in the last 7 days
+source_new_7d,remotive,2,first stored in the last 7 days
+source_new_7d,twjobs,106,first stored in the last 7 days
+source_stale,arbeitnow,2026-10-13 20:17:47.573+00,last discovery pass that ended ok
+source_stale,jobicy,2026-10-13 20:49:25.864+00,last discovery pass that ended ok
+source_stale,jobsconz,2026-10-13 20:37:38.039+00,last discovery pass that ended ok
+source_stale,jobtech,2026-10-13 10:59:12.242+00,last discovery pass that ended ok
+source_stale,remoteok,2026-10-13 16:12:08.294+00,last discovery pass that ended ok
+source_stale,remotive,2026-10-13 17:49:44.489+00,last discovery pass that ended ok
+source_stale,twjobs,2026-10-13 14:59:58.702+00,last discovery pass that ended ok
+storage,database,118 MB,free plan limit 500 MB
+validity,open_not_verified_72h,0,open jobs the app hides because nothing confirmed them in 72 h
+validity,past_expiry_still_open,265,open jobs published over 60 days ago
+work_mode,hybrid,50,visible jobs
+work_mode,onsite,840,visible jobs
+work_mode,remote,1273,visible jobs
+work_mode,unspecified,4531,visible jobs

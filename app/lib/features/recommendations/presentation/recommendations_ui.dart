@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../translation/translation_widgets.dart';
 import '../../../core/design/design.dart';
 import '../../../core/orbi/orbi.dart';
 import '../../../l10n/app_localizations.dart';
@@ -89,7 +90,11 @@ Future<void> showWhySheet(BuildContext context, Recommendation r) {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(r.job.title, style: ctx.text.titleMedium),
+          TranslatedTitle(
+            job: r.job,
+            builder: (c, title, translated) =>
+                Text(title, style: ctx.text.titleMedium),
+          ),
           if (r.job.company.isNotEmpty)
             Text(r.job.company, style: ctx.text.bodyMedium),
           const SizedBox(height: AppSpace.s2),
@@ -187,40 +192,84 @@ class RecommendedJobTile extends StatelessWidget {
             ),
           ),
           Padding(
+            // aligned with the text inside the card, close to it: the explanation belongs to THIS job
             padding: const EdgeInsets.fromLTRB(
+              AppSpace.s4,
               AppSpace.s2,
+              AppSpace.s4,
               AppSpace.s2,
-              AppSpace.s2,
-              0,
             ),
-            child: Wrap(
-              spacing: AppSpace.s2,
-              runSpacing: AppSpace.s1,
-              crossAxisAlignment: WrapCrossAlignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                OrbiStatusBadge(
-                  label: fitLabel(rec.fit, l),
-                  kind: switch (rec.fit) {
-                    Fit.strong => OrbiBadgeKind.success,
-                    Fit.good => OrbiBadgeKind.info,
-                    Fit.possible => OrbiBadgeKind.neutral,
-                  },
+                Wrap(
+                  spacing: AppSpace.s2,
+                  runSpacing: AppSpace.s1,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    OrbiStatusBadge(
+                      label: fitLabel(rec.fit, l),
+                      kind: switch (rec.fit) {
+                        Fit.strong => OrbiBadgeKind.success,
+                        Fit.good => OrbiBadgeKind.info,
+                        Fit.possible => OrbiBadgeKind.neutral,
+                      },
+                    ),
+                    for (final r in rec.reasons.take(2))
+                      Text(
+                        reasonText(r, l, lang),
+                        style: context.metadataStyle,
+                      ),
+                  ],
                 ),
-                for (final r in rec.reasons.take(2))
-                  Text(reasonText(r, l, lang), style: context.metadataStyle),
-                // scaled down rather than overflowing when text is very large and the window very narrow
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: OrbiTextButton(
-                    label: l.rcWhy,
-                    icon: Icons.help_outline_rounded,
-                    onPressed: () => showWhySheet(context, rec),
+                _WhyLink(onTap: () => showWhySheet(context, rec)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// "Why this job?" as a compact link under the explanation (a full 48 px button left a wide gap): the tap area still reaches 44 px.
+class _WhyLink extends StatelessWidget {
+  const _WhyLink({required this.onTap});
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Semantics(
+        button: true,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 44),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.help_outline_rounded,
+                  size: 18,
+                  color: context.colors.primary,
+                ),
+                const SizedBox(width: AppSpace.s1),
+                Flexible(
+                  child: Text(
+                    l.rcWhy,
+                    style: context.text.labelLarge?.copyWith(
+                      color: context.colors.primary,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
