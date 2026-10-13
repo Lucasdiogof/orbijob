@@ -38,34 +38,34 @@ Más capturas reales de widgets Flutter (tema claro y oscuro, escritorio, tablet
 
 ```text
 Flutter (Android / iOS / Web)
-  ├─ Public job discovery, details and filters
-  └─ Supabase Auth → private profiles, résumés, saved jobs, applications
+  ├─ Búsqueda pública, detalles y filtros de empleo
+  └─ Supabase Auth → perfil, currículums, favoritos y candidaturas
           │
-          └─ PostgreSQL + RLS + private Storage
+          └─ PostgreSQL + RLS + Storage privado
 
-Public job providers → TypeScript connectors → validated job catalogue
-                                      ├─ incremental discovery
-                                      ├─ revalidation / freshness
-                                      └─ retention, deduplication and monitoring
+Fuentes de empleo → Conectores TypeScript → Catálogo validado
+                                        ├─ Descubrimiento incremental
+                                        ├─ Revalidación y vigencia
+                                        └─ Retención, duplicados y supervisión
 
-GitHub Actions + Supabase scheduled jobs
+GitHub Actions + tareas programadas en Supabase
 ```
 
-Source attribution and original URLs stay attached to listings. Visibility depends on publisher permission and freshness; a missing result does not imply there are no jobs in that country or profession. The project prioritizes free infrastructure and safe provider integration. [Architecture](docs/ARCHITECTURE.md) · [Source matrix](docs/SOURCES_MATRIX.md) · [Freshness policy](docs/FRESHNESS_POLICY.md) · [Privacy and security](docs/SECURITY.md).
+Los anuncios conservan su fuente y URL originales. La cobertura depende de la licencia de cada proveedor y de la vigencia de los datos; una búsqueda sin resultados no demuestra que no haya empleos en ese sector o país. Se prioriza la infraestructura gratuita. [Arquitectura](docs/ARCHITECTURE.md) · [Fuentes](docs/SOURCES_MATRIX.md) · [Actualización](docs/FRESHNESS_POLICY.md) · [Seguridad](docs/SECURITY.md).
 
 ## Tecnologías
 
-| Area | Technology |
+| Área | Tecnología |
 |---|---|
-| Application | Flutter / Dart, feature-first Clean Architecture, Cubit/BLoC, GetIt |
-| Design & localization | OrbiJob 2.0 design system, light/dark, Flutter ARB — EN / PT-BR / ES |
-| Backend | Supabase Auth, PostgreSQL, Row Level Security, Storage, scheduled SQL jobs |
-| Ingestion | TypeScript / Cloudflare Worker code, provider adapters, GitHub Actions |
-| Quality | Flutter widget/accessibility tests, TypeScript tests, PostgreSQL 16/17, GitHub Actions CI |
+| Aplicación | Flutter / Dart, Clean Architecture por funcionalidad, Cubit/BLoC, GetIt |
+| Diseño e idiomas | OrbiJob 2.0, temas claro/oscuro, Flutter ARB — ES / EN / PT-BR |
+| Backend | Supabase Auth, PostgreSQL, RLS, Storage, tareas SQL programadas |
+| Ingesta | TypeScript / componentes Cloudflare Worker, conectores, GitHub Actions |
+| Calidad | Tests Flutter de widgets/accesibilidad, TypeScript, PostgreSQL 16/17, GitHub Actions CI |
 
-## Ejecución local
+## Ejecutar localmente
 
-Prerequisites: compatible Flutter SDK (the current app requires Dart `^3.13.5`), Node.js and the project's Supabase public configuration. Never commit tokens or service-role credentials.
+Requisitos: Flutter compatible (la aplicación exige Dart `^3.13.5`), Node.js y configuración pública de Supabase. Nunca incluyas credenciales privadas en Git.
 
 ```bash
 cd app
@@ -76,9 +76,7 @@ flutter test
 flutter run -d chrome --dart-define-from-file=dart_defines.web.json
 ```
 
-For mobile, use the appropriate local, ignored `dart_defines.dev.json` configuration. Consult [Supabase setup](docs/SUPABASE_SETUP.md) and [Windows web run](docs/WINDOWS_WEB_RUN.md); local configuration files must contain only client-safe values. The web command assumes the local configuration file already exists.
-
-Worker checks:
+En móvil, utiliza el archivo de configuración local ignorado `dart_defines.dev.json`. Consulta [Supabase setup](docs/SUPABASE_SETUP.md) y [ejecución en Windows](docs/WINDOWS_WEB_RUN.md). El comando Web supone que el archivo local ya existe y contiene únicamente valores públicos para el cliente.
 
 ```bash
 cd worker
@@ -90,32 +88,32 @@ npm test
 ## Estructura del repositorio
 
 ```text
-app/        Flutter application and widget tests
-worker/     TypeScript ingestion/API components and tests
-supabase/   Database migrations, policies and SQL tests
-scripts/    Operational and validation scripts
-data/       Source and occupation metadata
-docs/       Architecture, sources, security, UX and screenshots
-.github/    CI and scheduled jobs
+app/        Aplicación Flutter y tests
+worker/     Componentes TypeScript de API/ingesta y tests
+supabase/   Migraciones, políticas y tests SQL
+scripts/    Scripts operativos y de validación
+data/       Metadatos de fuentes y ocupaciones
+docs/       Arquitectura, fuentes, seguridad, UX y capturas
+.github/    CI y tareas automáticas
 ```
 
 ## Limitaciones importantes
 
-- Job coverage varies by country, sector, provider terms and recency. Listing counts change continuously.
-- Job information originates from third parties; applications and eligibility requirements must be confirmed with the employer.
-- Résumé parsing works locally on text-based PDFs; scanned or encrypted PDFs are not automatically read. Extracted fields always require review.
-- The application kit helps prepare and track applications; OrbiJob does **not** submit applications or automatically fill third-party forms.
-- Mobile job links may open in an in-app browser, with an external-browser escape route; embedded third-party websites and authentication may have limitations.
-- Automatic listing translation is under development; its availability is not guaranteed on every platform or language pair.
+- La cobertura varía según el país, profesión, condiciones de cada fuente y actualidad de los anuncios. Los totales cambian continuamente.
+- Los anuncios proceden de terceros: verifica requisitos y elegibilidad con el empleador.
+- La lectura local de currículums funciona con PDF que contienen texto. Los documentos escaneados o protegidos pueden no leerse; las sugerencias siempre requieren revisión.
+- El Kit de candidatura permite preparar y registrar candidaturas; OrbiJob **no presenta solicitudes ni rellena formularios de terceros automáticamente**.
+- En móvil, algunos anuncios pueden abrirse en un navegador interno con opción de abrir externamente. Ciertos portales restringen su navegación o autenticación incrustada.
+- La traducción automática de anuncios está en desarrollo y no está garantizada para todas las plataformas e idiomas.
 
 ## Plataformas y estado
 
-Android, iOS and Web are supported by the Flutter codebase. The app has passed automated tests, an Android debug APK build and a Web release build; full on-device verification and store publication are **not claimed** here. See [OrbiJob 2.0 status](docs/ORBIJOB_2_0_STATUS.md) and [progress](docs/ORBIJOB_2_0_PROGRESS.md). No Play Store / App Store links are published until listings are live.
+El código Flutter admite Android, iOS y Web. Se han ejecutado tests automatizados, un build APK debug Android y un build Web release; **no se afirma que se haya validado completamente en dispositivos físicos ni que esté publicado en las tiendas**. Consulta [estado de OrbiJob 2.0](docs/ORBIJOB_2_0_STATUS.md) y [progreso](docs/ORBIJOB_2_0_PROGRESS.md). Se añadirán enlaces a las tiendas tras su publicación.
 
 ## Privacidad y licencias
 
-Private candidate information and résumé files are protected by account-scoped access controls. No credentials belong in source control. Public job feeds have their own licensing and attribution obligations; see the [source matrix](docs/SOURCES_MATRIX.md). No repository-wide open-source license is declared; all rights reserved.
+Los datos privados y los archivos de currículum tienen controles de acceso por cuenta. No deben versionarse secretos. Cada fuente de empleo conserva sus propias licencias y obligaciones de atribución: consulta la [matriz](docs/SOURCES_MATRIX.md). Este repositorio no declara una licencia general de código abierto; todos los derechos reservados.
 
 ## Créditos
 
-Built by **Lucksrei** · [lucksrei.com](https://lucksrei.com) · Lucas Diogo França.
+Un producto de **Lucksrei** · [lucksrei.com](https://lucksrei.com) · Lucas Diogo França.
