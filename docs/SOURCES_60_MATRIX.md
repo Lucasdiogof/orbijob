@@ -84,5 +84,9 @@ Detalhes, evidências e licenças em `docs/SOURCES_6_0.md`.
 | 67 | Torre | América Latina | BLOCKED | API comercial com créditos; `robots.txt` `Disallow: /api/` | 0 |
 | 68 | Latvia NVA "Vakances" (data.gov.lv, CC0) | Europa | PENDING (candidata) | sem nome do empregador nem descrição; só setor público | 0 |
 | 69 | City of Calgary Careers (dados abertos) | América do Norte | PENDING (candidata) | 61 vagas, só título/área/prazo/link | 0 |
+| 70 | Karriere.NRW (Open.NRW) | Europa (DE) | **PERSIST — integrada, aguardando publicação** | dl-by-de/2.0; lista completa em 1 requisição; contatos nunca lidos; inclui vagas de formação | 931 |
+| 71 | Groupe BPCE (dados abertos do empregador) | Europa (FR + exterior) | **PERSIST — integrada, aguardando publicação** | Licence Ouverte 2.0 e convite explícito do produtor; sem data de publicação (honesto) | 1.000 |
+| 72 | Le Forem (Valônia) | Europa (BE) | PENDING (decisão do dono) | CC BY-SA 4.0, sem descrição, quase só interinas | 0 |
+| 73 | Infrabel (CC0) | Europa (BE) | PENDING | só metadados, sem link da vaga | 0 |
 
 Reavaliadas em 13/10: Open Jobs CC0 (head ainda 05/10: segue PENDING por frescor), Bundesagentur (403 a toda requisição deste ambiente: PENDING).

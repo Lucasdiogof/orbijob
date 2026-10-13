@@ -29,6 +29,22 @@ const sources = [
     ],
   },
   {
+    id: 'karrierenrw',
+    note: [
+      'Karriere.NRW (Renania do Norte-Vestfalia, Alemanha): licenca Datenlizenz Deutschland - Namensnennung 2.0 (dl-by-de/2.0) declarada no dataset do GovData (Open.NRW).',
+      'Atribuicao gravada em job_sources.attribution. Contatos dos anuncios (ansprechpartner) nunca sao lidos; inclui vagas de formacao (Ausbildung / estudo dual).',
+      'Revisado em 13/10/2026: titulos, orgaos como empresa, cidade, pais DE, link para a pagina do proprio anuncio, descricao em texto limpo. Detalhes: docs/SOURCES_6_0.md.',
+    ],
+  },
+  {
+    id: 'bpce',
+    note: [
+      'Groupe BPCE (Franca e exterior): dados abertos publicados pelo PROPRIO empregador no data.gouv.fr sob Licence Ouverte v2.0 (Etalab), com o convite explicito',
+      '"Vous pouvez ainsi recuperer toutes ces donnees et les mettre en page sur vos differentes plateformes d\'offres d\'emploi". Nome e e-mail do recrutador nunca sao lidos.',
+      'Revisado em 13/10/2026: titulos, entidade como empresa, cidade, pais so quando a oferta o declara (sem data de publicacao: o dataset so tem a ultima edicao). Detalhes: docs/SOURCES_6_0.md.',
+    ],
+  },
+  {
     id: 'getonboard',
     note: [
       'Get on Board (tecnologia na America Latina): API PUBLICA documentada ("Public API: open to anyone ... no authentication required", /api-doc.html), robots.txt sem restricoes.',
@@ -63,7 +79,7 @@ const expiry = [
   "  if to_regprocedure('ops.expire_unseen_jobs(text, interval, text[], integer)') is null then",
   "    raise exception 'ativacao bloqueada: a migration 20261017000000 nao foi aplicada';",
   '  end if;',
-  "  perform cron.schedule('sources6-expire-unseen', '27 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['getonboard', 'teachingvacancies', 'nycjobs'])$cmd$);",
+  "  perform cron.schedule('sources6-expire-unseen', '27 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['getonboard', 'teachingvacancies', 'nycjobs', 'karrierenrw', 'bpce'])$cmd$);",
   'end',
   '$enable$;',
 ].join('\n');
@@ -72,14 +88,16 @@ writeFileSync(join(out, `${String(n++).padStart(2, '0')}_ligar_expiracao_fontes_
 writeFileSync(join(out, 'LEIA-ME.md'), [
   '# Pacote do dono: fontes novas do OrbiJob 6.0 (13/10/2026)',
   '',
-  'As tres fontes abaixo ja estao no banco **sem aparecer no app** (`can_redistribute = false`): o conector foi testado, a simulacao e a importacao rodaram e as',
+  'As cinco fontes abaixo ja estao no banco **sem aparecer no app** (`can_redistribute = false`): o conector foi testado, a simulacao e a importacao rodaram e as',
   'amostras foram revisadas (docs/SOURCES_6_0.md). Publicar e uma decisao sua: cada arquivo se recusa a rodar sem a frase de autorizacao, que ja vem na primeira linha.',
   '',
   'Ordem (SQL Editor do projeto `rpmlfxwebnlxnwadyvle`, um arquivo por vez):',
   '1. `01_publicar_teachingvacancies.sql`  (licenca OGL explicita; seguro)',
   '2. `02_publicar_nycjobs.sql`            (dados abertos da cidade; seguro)',
-  '3. `03_publicar_getonboard.sql`         (leia a observacao do cabecalho antes)',
-  '4. `04_ligar_expiracao_fontes_novas.sql` (expiracao diaria; opcional, so organiza o banco)',
+  '3. `03_publicar_karrierenrw.sql`        (licenca dl-by-de/2.0; seguro)',
+  '4. `04_publicar_bpce.sql`               (Licence Ouverte do proprio empregador; seguro)',
+  '5. `05_publicar_getonboard.sql`         (leia a observacao do cabecalho antes)',
+  '6. `06_ligar_expiracao_fontes_novas.sql` (expiracao diaria; opcional, so organiza o banco)',
   '',
   'Conferir depois: `select id, can_redistribute from public.job_sources order by id;` e abrir o app (as vagas aparecem em ate uma passada de descoberta).',
 ].join('\n'));

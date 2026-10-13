@@ -50,6 +50,32 @@ Draft e-mail to the platform (to be sent by the owner; nothing was sent): *"Hell
 API of Get on Board (categories/jobs) twice a day at one request every two seconds, store title, company, place and description, show them with 'Jobs via Get on Board' and a
 link to the listing's own page on getonbrd.com, and never apply on anyone's behalf. May we keep doing so? We will stop on request."*
 
+### 1.4 Karriere.NRW (North Rhine-Westphalia, Germany) — `karrierenrw` — PERSIST
+| Item | Evidence |
+|---|---|
+| Official URL / API | https://karriere.nrw · Open.NRW interface `GET https://api.karriere.nrw/v1.0/opennrw/stellenausschreibungen/` (the whole current list as one JSON array, ≈ 975 postings, 6.5 MB) |
+| Operator | State of North Rhine-Westphalia: employer portal for the state administration, municipalities, universities, police, justice, road authorities |
+| Countries / professions | Germany (NRW). Administration, engineering, teaching and research, social work, care, technical trades, police/justice, **and apprenticeships / dual studies** (`type: apprenticeship`, ≈ 40 %) |
+| Licence | GovData dataset "Stellenangebote des Arbeitgeberportals des Landes - Karriere.NRW" (publisher Open.NRW) lists the interface with the licence `dl-by-de/2.0`, **Datenlizenz Deutschland – Namensnennung – Version 2.0** (free reuse with source, licence and link). The attribution is stored in `job_sources.attribution` |
+| Permission to query and store | Yes (dl-by-de/2.0). Only the stated fields are read; **the contact persons of a posting (`ansprechpartner`) are never read** |
+| Link | the posting's own page `https://karriere.nrw/stellenausschreibung/{uuid}` |
+| Update / closing | one request per pass, 2 passes a day + twin; the list is complete, so a posting that leaves it stops being stamped (hidden at 72 h, `unknown` after 7 days); `bewerbungsfrist` (deadline) refuses an expired posting |
+| Normalisation | country DE (the portal is a German state's), city = `ort`, no salary (a pay grade such as "TVöD 10" is not an amount; it goes into the description with working time, career group, fixed-term and field), apprenticeships say so in the contract type |
+| First import | 931 stored (44 duplicates by fingerprint refused), 0 invalid links |
+
+### 1.5 Groupe BPCE (France and abroad, banking and insurance) — `bpce` — PERSIST
+| Item | Evidence |
+|---|---|
+| Official URL / API | Opendatasoft portal of the employer: `GET https://bpce.opendatasoft.com/api/explore/v2.1/catalog/datasets/groupe-bpce-offres-emploi/records?limit=100&offset=N`; published on data.gouv.fr as "Groupe BPCE - Offres emploi publiques" |
+| Operator | Groupe BPCE (Banque Populaire, Caisse d'Epargne, Natixis, BPCE Solutions Informatiques …) — **the employer itself** |
+| Countries / professions | France (≈ 96 %) and abroad (New York, London, Luxembourg, Hong Kong, Singapore …); commercial/retail banking, IT, risk, finance, HR/legal, digital, marketing, insurance, operations; permanent, fixed-term, internships, work-study, VIE |
+| Licence | **Licence Ouverte v2.0 (Etalab)** on data.gouv.fr; the dataset text: "Le Groupe BPCE partage quotidiennement toutes ses offres d'emploi en Open Data ... Vous pouvez ainsi récupérer toutes ces données et les mettre en page sur vos différentes plateformes d'offres d'emploi." (refreshed four times a day) |
+| Permission to query and store | Yes, explicit invitation by the producer |
+| Link | the offer's own page `https://recrutement.bpce.fr/job/{slug}` |
+| Update / closing | the list is read in full each pass (≈ 1,750 rows, 18 requests at 1.5 s), 2 passes a day + twin; an offer that leaves it is hidden at 72 h and `unknown` after 7 days. The same reference is published once per location, so the offer's address is the identifier |
+| Normalisation | country as stated (`France`, or the French country name in `state` for "International"; none stated → none); upper-case cities written in normal case; **no publication date** (`lastmodifieddate` is the last edit, not the publication); no salary (empty in every record); **the recruiter's name and e-mail are never read** |
+| First import | 1,000 stored (FR 945, US 15, GB 11, LU 6, ES 3, AE 2 …, 12 without a country), 1 short description; 750 more wait for the next passes |
+
 ## 2. Analysed and not integrated
 
 | Source | Region | Class | Why (evidence) |
@@ -67,6 +93,13 @@ link to the listing's own page on getonbrd.com, and never apply on anyone's beha
 | Finland Työmarkkinatori, Estonia Töötukassa | Europe | PENDING | no open read API found (404 / unreachable) |
 | Open-data portals of Mexico, Peru, Spain, Ireland, Brazil | Latin America / Europe | PENDING | refuse automated access (403 / 418 / 429 / 401); not circumvented. Colombia's `datos.gov.co` holds only registration statistics, no vacancy list |
 | Canada Job Bank open data | Canada | LINK_ONLY | monthly files of past postings: statistics, not the active catalogue |
+| Le Forem "Offres d'emploi" (digitalwallonia / odwb.be, 25,551 offers) | Belgium (Wallonia) | PENDING (owner decision) | licence **CC BY-SA 4.0** (ShareAlike: the records would have to stay under the same licence) and the records carry no description (title, employer, place, contract, sector, link) — mostly staffing-agency interim offers (Jobat, Accent, Adecco, Randstad ...). Implementable later with a 1,500 ceiling if the owner accepts the licence |
+| Infrabel open vacancies (CC0, 274 offers) | Belgium | PENDING | metadata only (title, department, place), **no link to the offer**: cannot be shown honestly |
+| ECYL "Ofertas de Empleo" (Junta de Castilla y León, CC BY 4.0, 1,002 rows) | Spain | PENDING | the published columns are garbled (field names are data values), no stable schema: parsing it would be guessing |
+| emploi.nc / Province Sud (Nouvelle-Calédonie, Licence Ouverte, 1,148 + 330 rows) | Oceania (New Caledonia) | PENDING | no employer name in the records (employer id only) and no link to the offer page |
+| France Travail slices published by départements/cities (Hautes-Pyrénées 229, Pau 52, Seine-Saint-Denis 150 ...) | France | PENDING | each publisher uses a different schema and a short window; France Travail's own API needs a registration (owner) |
+| Région Île-de-France (205), Ville/Métropole de Tours (15 + 16), Mayenne (24) | France | PENDING (small) | Licence Ouverte; per-publisher schemas, a few hundred rows in all |
+| Hello-style national portals of Spain/Mexico/Peru/Brazil/Ireland open-data | — | PENDING | refuse automated access (403 / 418 / 429 / 401); not circumvented |
 | NAV (NO), France Travail (FR), USAJOBS (US), Jooble, Adzuna, Reed, Careerjet | — | PENDING (owner) | need a key, a registration e-mail or are paid (see `docs/SOURCES_60_MATRIX.md`) |
 
 Everything not listed here keeps its class in `docs/SOURCES_60_MATRIX.md`.
