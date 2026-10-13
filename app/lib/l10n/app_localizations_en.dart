@@ -2321,4 +2321,105 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get apFilteredEmpty => 'No applications in this stage.';
+
+  @override
+  String get shShare => 'Share this job';
+
+  @override
+  String get shCopied => 'Link copied. Sharing is not available here.';
+
+  @override
+  String get shNoLink => 'This job has no link to share.';
+
+  @override
+  String get cpAdd => 'Add to comparison';
+
+  @override
+  String get cpRemove => 'Remove from comparison';
+
+  @override
+  String cpFull(int max) {
+    return 'You can compare up to $max jobs. Remove one first.';
+  }
+
+  @override
+  String get cpAdded => 'Added to the comparison';
+
+  @override
+  String cpBar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jobs picked',
+      one: '1 job picked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cpCompare => 'Compare';
+
+  @override
+  String get cpClear => 'Clear';
+
+  @override
+  String get cpTitle => 'Compare jobs';
+
+  @override
+  String get cpNeedTwo =>
+      'Pick at least two jobs to compare them. Use the menu on a job and choose “Add to comparison”.';
+
+  @override
+  String get cpHint =>
+      'Only what each listing states is shown. Nothing is estimated or filled in: “Not stated” means the listing does not say.';
+
+  @override
+  String get cpNotStated => 'Not stated';
+
+  @override
+  String get cpRowCompany => 'Company';
+
+  @override
+  String get cpRowPlace => 'Location';
+
+  @override
+  String get cpRowMode => 'Work mode';
+
+  @override
+  String get cpRowContract => 'Contract';
+
+  @override
+  String get cpRowSalary => 'Salary';
+
+  @override
+  String get cpRowPublished => 'Published';
+
+  @override
+  String get cpRowSource => 'Source';
+
+  @override
+  String get cpRowLanguage => 'Listing language';
+
+  @override
+  String get cpRowEligibility => 'Who can apply';
+
+  @override
+  String get cpEligibilityAnywhere => 'Anywhere (as the source states)';
+
+  @override
+  String cpEligibilityRestricted(String places) {
+    return 'Limited to: $places';
+  }
+
+  @override
+  String get cpSalaryNote =>
+      'The salaries use different currencies or periods and are shown as stated, without conversion.';
+
+  @override
+  String get cpOpenListing => 'Open the listing';
+
+  @override
+  String cpRemoveOne(String title) {
+    return 'Remove $title from the comparison';
+  }
 }

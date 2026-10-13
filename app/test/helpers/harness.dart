@@ -8,6 +8,7 @@ import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/core/di/injector.dart';
 import 'package:orbijob/features/auth/domain/auth_repository.dart';
 import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
+import 'package:orbijob/features/browser/link_share.dart';
 import 'package:orbijob/features/profile/domain/pdf_picker.dart';
 import 'package:orbijob/features/search/domain/search_repository.dart';
 import 'package:orbijob/features/translation/translation_cache.dart';
@@ -51,6 +52,7 @@ Future<void> pumpApp(
   PdfPicker? pdfPicker,
   Locale? locale,
   TranslationEngine? translationEngine,
+  TextShare? textShare,
   double devicePixelRatio = 1,
 
   /// False when the repository never answers (a loading state): its skeleton animates forever, so nothing can "settle".
@@ -73,6 +75,7 @@ Future<void> pumpApp(
     translationEngine: translationEngine,
     translationCache: MemoryTranslationCache(),
     notificationsRefresh: null,
+    textShare: textShare,
     favoritesRepository: favorites ?? InMemoryFavoritesRepository(),
   );
   (fakes ?? Fakes()).register();

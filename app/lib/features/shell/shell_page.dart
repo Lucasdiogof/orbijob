@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../applications/applications_page.dart';
 import '../auth/presentation/auth_cubit.dart';
 import '../auth/presentation/auth_effects.dart';
+import '../compare/compare_page.dart';
 import '../favorites/favorites_page.dart';
 import '../home/home_page.dart';
 import '../notifications/presentation/notifications_bell.dart';
@@ -79,11 +80,17 @@ class ShellPage extends StatelessWidget {
                 ],
               ),
               body: body,
-              bottomNavigationBar: OrbiNavigationBar(
-                destinations: destinations,
-                selectedIndex: shell.index,
-                onSelected: context.read<ShellCubit>().goTo,
-                semanticLabel: l.navMain,
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CompareBar(),
+                  OrbiNavigationBar(
+                    destinations: destinations,
+                    selectedIndex: shell.index,
+                    onSelected: context.read<ShellCubit>().goTo,
+                    semanticLabel: l.navMain,
+                  ),
+                ],
               ),
             );
           }
@@ -116,7 +123,14 @@ class ShellPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(child: SafeArea(left: false, child: body)),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(child: SafeArea(left: false, child: body)),
+                      const CompareBar(),
+                    ],
+                  ),
+                ),
               ],
             ),
           );

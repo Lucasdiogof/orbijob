@@ -1133,5 +1133,61 @@
       }
     }
   },
-  "apFilteredEmpty": "No applications in this stage."
+  "apFilteredEmpty": "No applications in this stage.",
+  "shShare": "Share this job",
+  "shCopied": "Link copied. Sharing is not available here.",
+  "shNoLink": "This job has no link to share.",
+  "cpAdd": "Add to comparison",
+  "cpRemove": "Remove from comparison",
+  "cpFull": "You can compare up to {max} jobs. Remove one first.",
+  "@cpFull": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "cpAdded": "Added to the comparison",
+  "cpBar": "{count, plural, =1{1 job picked} other{{count} jobs picked}}",
+  "@cpBar": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cpCompare": "Compare",
+  "cpClear": "Clear",
+  "cpTitle": "Compare jobs",
+  "cpNeedTwo": "Pick at least two jobs to compare them. Use the menu on a job and choose “Add to comparison”.",
+  "cpHint": "Only what each listing states is shown. Nothing is estimated or filled in: “Not stated” means the listing does not say.",
+  "cpNotStated": "Not stated",
+  "cpRowCompany": "Company",
+  "cpRowPlace": "Location",
+  "cpRowMode": "Work mode",
+  "cpRowContract": "Contract",
+  "cpRowSalary": "Salary",
+  "cpRowPublished": "Published",
+  "cpRowSource": "Source",
+  "cpRowLanguage": "Listing language",
+  "cpRowEligibility": "Who can apply",
+  "cpEligibilityAnywhere": "Anywhere (as the source states)",
+  "cpEligibilityRestricted": "Limited to: {places}",
+  "@cpEligibilityRestricted": {
+    "placeholders": {
+      "places": {
+        "type": "String"
+      }
+    }
+  },
+  "cpSalaryNote": "The salaries use different currencies or periods and are shown as stated, without conversion.",
+  "cpOpenListing": "Open the listing",
+  "cpRemoveOne": "Remove {title} from the comparison",
+  "@cpRemoveOne": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

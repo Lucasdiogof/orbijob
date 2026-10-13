@@ -10,6 +10,7 @@ import 'core/di/injector.dart';
 import 'core/locale_cubit.dart';
 import 'core/theme_cubit.dart';
 import 'features/auth/presentation/auth_cubit.dart';
+import 'features/compare/compare_cubit.dart';
 import 'features/home/latest_jobs_cubit.dart';
 import 'features/home/recent_searches_cubit.dart';
 import 'features/session/user_scope.dart';
@@ -46,6 +47,7 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
       BlocProvider(create: (_) => sl<RemoteJobsCubit>()..load()),
       BlocProvider(create: (_) => sl<LocaleCubit>()),
       BlocProvider.value(value: sl<RecentSearchesCubit>()),
+      BlocProvider(create: (_) => sl<CompareCubit>()),
       BlocProvider.value(value: sl<TranslationCubit>()),
     ],
     child: BlocBuilder<LocaleCubit, Locale?>(

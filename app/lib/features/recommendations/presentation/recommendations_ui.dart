@@ -208,10 +208,14 @@ class RecommendedJobTile extends StatelessWidget {
                 ),
                 for (final r in rec.reasons.take(2))
                   Text(reasonText(r, l, lang), style: context.metadataStyle),
-                OrbiTextButton(
-                  label: l.rcWhy,
-                  icon: Icons.help_outline_rounded,
-                  onPressed: () => showWhySheet(context, rec),
+                // scaled down rather than overflowing when text is very large and the window very narrow
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: OrbiTextButton(
+                    label: l.rcWhy,
+                    icon: Icons.help_outline_rounded,
+                    onPressed: () => showWhySheet(context, rec),
+                  ),
                 ),
               ],
             ),

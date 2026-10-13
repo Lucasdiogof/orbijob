@@ -23,6 +23,7 @@ import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
 import '../../features/preferences/domain/user_preferences.dart';
 import '../../features/preferences/presentation/preferences_cubit.dart';
+import '../../features/compare/compare_cubit.dart';
 import '../../features/hidden/data/supabase_hidden_jobs_repository.dart';
 import '../../features/hidden/domain/hidden_jobs_repository.dart';
 import '../../features/hidden/presentation/hidden_jobs_cubit.dart';
@@ -70,6 +71,7 @@ void configureDependencies({
   PdfPicker? pdfPicker,
   BrowserEngine? browserEngine,
   LinkShare? linkShare,
+  TextShare? textShare,
   TranslationEngine? translationEngine,
   TranslationCache? translationCache,
   SharedPreferences? preferences,
@@ -88,6 +90,7 @@ void configureDependencies({
       () => browserEngine ?? const WebViewBrowserEngine(),
     )
     ..registerLazySingleton<LinkShare>(() => linkShare ?? shareLinkWithSystem)
+    ..registerLazySingleton<TextShare>(() => textShare ?? shareTextWithSystem)
     ..registerLazySingleton<TranslationService>(
       () => TranslationService(
         engine: translationEngine ?? createPlatformEngine(),
@@ -148,6 +151,7 @@ void configureDependencies({
     ..registerFactory<RecommendationsCubit>(
       () => RecommendationsCubit(maybe<SearchRepository>()),
     )
+    ..registerFactory<CompareCubit>(CompareCubit.new)
     ..registerFactory<HiddenJobsCubit>(
       () => HiddenJobsCubit(maybe<HiddenJobsRepository>()),
     )

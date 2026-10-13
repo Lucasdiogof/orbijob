@@ -4101,6 +4101,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No applications in this stage.'**
   String get apFilteredEmpty;
+
+  /// No description provided for @shShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this job'**
+  String get shShare;
+
+  /// No description provided for @shCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Sharing is not available here.'**
+  String get shCopied;
+
+  /// No description provided for @shNoLink.
+  ///
+  /// In en, this message translates to:
+  /// **'This job has no link to share.'**
+  String get shNoLink;
+
+  /// No description provided for @cpAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comparison'**
+  String get cpAdd;
+
+  /// No description provided for @cpRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from comparison'**
+  String get cpRemove;
+
+  /// No description provided for @cpFull.
+  ///
+  /// In en, this message translates to:
+  /// **'You can compare up to {max} jobs. Remove one first.'**
+  String cpFull(int max);
+
+  /// No description provided for @cpAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to the comparison'**
+  String get cpAdded;
+
+  /// No description provided for @cpBar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 job picked} other{{count} jobs picked}}'**
+  String cpBar(int count);
+
+  /// No description provided for @cpCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get cpCompare;
+
+  /// No description provided for @cpClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get cpClear;
+
+  /// No description provided for @cpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare jobs'**
+  String get cpTitle;
+
+  /// No description provided for @cpNeedTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least two jobs to compare them. Use the menu on a job and choose “Add to comparison”.'**
+  String get cpNeedTwo;
+
+  /// No description provided for @cpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only what each listing states is shown. Nothing is estimated or filled in: “Not stated” means the listing does not say.'**
+  String get cpHint;
+
+  /// No description provided for @cpNotStated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not stated'**
+  String get cpNotStated;
+
+  /// No description provided for @cpRowCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get cpRowCompany;
+
+  /// No description provided for @cpRowPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get cpRowPlace;
+
+  /// No description provided for @cpRowMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Work mode'**
+  String get cpRowMode;
+
+  /// No description provided for @cpRowContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract'**
+  String get cpRowContract;
+
+  /// No description provided for @cpRowSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get cpRowSalary;
+
+  /// No description provided for @cpRowPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get cpRowPublished;
+
+  /// No description provided for @cpRowSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get cpRowSource;
+
+  /// No description provided for @cpRowLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing language'**
+  String get cpRowLanguage;
+
+  /// No description provided for @cpRowEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can apply'**
+  String get cpRowEligibility;
+
+  /// No description provided for @cpEligibilityAnywhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere (as the source states)'**
+  String get cpEligibilityAnywhere;
+
+  /// No description provided for @cpEligibilityRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Limited to: {places}'**
+  String cpEligibilityRestricted(String places);
+
+  /// No description provided for @cpSalaryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The salaries use different currencies or periods and are shown as stated, without conversion.'**
+  String get cpSalaryNote;
+
+  /// No description provided for @cpOpenListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the listing'**
+  String get cpOpenListing;
+
+  /// No description provided for @cpRemoveOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {title} from the comparison'**
+  String cpRemoveOne(String title);
 }
 
 class _AppLocalizationsDelegate

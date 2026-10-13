@@ -20,21 +20,22 @@ class OrbiSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.text;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    // A Wrap, not a Row: at very large text a single long word of the title can be wider than what the action leaves, and the action then
+    // drops to the next line instead of overflowing.
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Semantics(header: true, child: Text(title, style: t.titleLarge)),
-              if (subtitle != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Text(subtitle!, style: context.metadataStyle),
-                ),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(header: true, child: Text(title, style: t.titleLarge)),
+            if (subtitle != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(subtitle!, style: context.metadataStyle),
+              ),
+          ],
         ),
         if (actionLabel != null && onAction != null)
           TextButton(

@@ -9,6 +9,7 @@ import '../auth/presentation/auth_cubit.dart';
 import '../favorites/favorites_cubit.dart';
 import '../home/recent_searches_cubit.dart';
 import '../preferences/presentation/preferences_cubit.dart';
+import '../compare/compare_cubit.dart';
 import '../hidden/presentation/hidden_jobs_cubit.dart';
 import '../recommendations/presentation/recommendations_cubit.dart';
 import '../recommendations/presentation/recommendations_ui.dart';
@@ -72,6 +73,8 @@ class _ScopeEffectsState extends State<_ScopeEffects> {
     super.initState();
     // Recent searches are a device-level convenience kept per account: each person sees only their own.
     context.read<RecentSearchesCubit>().useScope(widget.userId);
+    // A comparison is a scratch pad of one sitting: it does not follow a person to the next account.
+    context.read<CompareCubit>().clear();
   }
 
   static ThemeMode _mode(String t) => switch (t) {

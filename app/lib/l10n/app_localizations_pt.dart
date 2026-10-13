@@ -2328,4 +2328,106 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get apFilteredEmpty => 'Nenhuma candidatura nesta etapa.';
+
+  @override
+  String get shShare => 'Compartilhar esta vaga';
+
+  @override
+  String get shCopied =>
+      'Link copiado. O compartilhamento não está disponível aqui.';
+
+  @override
+  String get shNoLink => 'Esta vaga não tem link para compartilhar.';
+
+  @override
+  String get cpAdd => 'Adicionar à comparação';
+
+  @override
+  String get cpRemove => 'Remover da comparação';
+
+  @override
+  String cpFull(int max) {
+    return 'Você pode comparar até $max vagas. Remova uma antes.';
+  }
+
+  @override
+  String get cpAdded => 'Adicionada à comparação';
+
+  @override
+  String cpBar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vagas escolhidas',
+      one: '1 vaga escolhida',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cpCompare => 'Comparar';
+
+  @override
+  String get cpClear => 'Limpar';
+
+  @override
+  String get cpTitle => 'Comparar vagas';
+
+  @override
+  String get cpNeedTwo =>
+      'Escolha ao menos duas vagas para compará-las. Use o menu de uma vaga e escolha “Adicionar à comparação”.';
+
+  @override
+  String get cpHint =>
+      'Só aparece o que cada anúncio informa. Nada é estimado nem preenchido: “Não informado” significa que o anúncio não diz.';
+
+  @override
+  String get cpNotStated => 'Não informado';
+
+  @override
+  String get cpRowCompany => 'Empresa';
+
+  @override
+  String get cpRowPlace => 'Local';
+
+  @override
+  String get cpRowMode => 'Modalidade';
+
+  @override
+  String get cpRowContract => 'Contrato';
+
+  @override
+  String get cpRowSalary => 'Salário';
+
+  @override
+  String get cpRowPublished => 'Publicada';
+
+  @override
+  String get cpRowSource => 'Fonte';
+
+  @override
+  String get cpRowLanguage => 'Idioma do anúncio';
+
+  @override
+  String get cpRowEligibility => 'Quem pode se candidatar';
+
+  @override
+  String get cpEligibilityAnywhere => 'De qualquer lugar (conforme a fonte)';
+
+  @override
+  String cpEligibilityRestricted(String places) {
+    return 'Restrito a: $places';
+  }
+
+  @override
+  String get cpSalaryNote =>
+      'Os salários usam moedas ou períodos diferentes e aparecem como informados, sem conversão.';
+
+  @override
+  String get cpOpenListing => 'Abrir o anúncio';
+
+  @override
+  String cpRemoveOne(String title) {
+    return 'Remover $title da comparação';
+  }
 }
