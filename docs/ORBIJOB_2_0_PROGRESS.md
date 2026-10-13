@@ -13,7 +13,7 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
 | 3 | Visual review pass 2 + fixed capture scenes (gates, login) | pending | |
 | 4 | Orbital loader = the real logo (two arcs on one ring + violet core), eased half-turn loop, reduced motion, tests; frames in gallery 40-* | done | (this batch) |
 | 5 | Splash: native static splashes already consistent (Android 12 anim duration 0, iOS LaunchBackground, web #splash) + Flutter hand-over `OrbiLaunchOverlay` (half turn + fade, non-blocking, skipped with reduced motion) | done | (this batch) |
-| 6 | PDF résumé: local text extraction + suggestions review | pending | |
+| 6 | PDF résumé: pure-Dart local text extraction (`pdf_text.dart`: classic + object streams, Flate/Hex/A85, simple + Type0 fonts with widths/ToUnicode, form XObjects; honest statuses for scans/encrypted/unreadable), parser pt/en/es (`resume_parser.dart`), review screen (nothing saved until applied; existing data replaced only when ticked; duplicates skipped), entry points: after upload, résumé menu, start-a-profile; real Chrome-made PDFs as fixtures | done | 43b06a8 + this batch |
 | 7 | Application prefill kit (copy profile data + open original) | pending | |
 | 8 | i18n audit (long text, pt/es), a11y tests | pending | |
 | 9 | Builds (web, Android if possible), final screenshots, final report | pending | |

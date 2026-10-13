@@ -143,6 +143,21 @@ class ResumesCubit extends Cubit<ResumesState> {
     }
   }
 
+  /// The file's bytes for reading on the device (null, with [ResumesState.actionFailure], when they cannot be fetched).
+  Future<Uint8List?> fetchBytes(ResumeFile file) async {
+    final repo = _repo;
+    if (repo == null || state.busyId != null) return null;
+    emit(state.copyWith(busyId: file.id));
+    try {
+      final bytes = await repo.download(file);
+      emit(state.copyWith(clearBusy: true));
+      return bytes;
+    } catch (e) {
+      emit(state.copyWith(clearBusy: true, actionFailure: mapDataError(e)));
+      return null;
+    }
+  }
+
   /// A signed link valid for one minute, or null (with [ResumesState.actionFailure]) when it cannot be created.
   Future<String?> openLink(ResumeFile file) async {
     final repo = _repo;

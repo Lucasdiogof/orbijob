@@ -98,6 +98,12 @@ class SupabaseResumeRepository implements ResumeRepository {
   }
 
   @override
+  Future<Uint8List> download(ResumeFile file) {
+    requireUserId(_client);
+    return _client.storage.from(resumesBucket).download(file.path);
+  }
+
+  @override
   Future<void> delete(ResumeFile file) async {
     requireUserId(_client);
     await _client.storage.from(resumesBucket).remove([file.path]);

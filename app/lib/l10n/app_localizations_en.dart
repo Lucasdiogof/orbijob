@@ -1411,4 +1411,113 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get formFixErrors => 'Check the highlighted fields.';
+
+  @override
+  String get profileFieldEmail => 'Contact e-mail';
+
+  @override
+  String get profileFieldPhone => 'Phone';
+
+  @override
+  String get profileEmailInvalid => 'Enter a valid e-mail address';
+
+  @override
+  String get resumeSuggestAction => 'Fill my profile from this résumé';
+
+  @override
+  String get resumeImportStart => 'Start from a PDF résumé';
+
+  @override
+  String get resumeImportTitle => 'Review suggestions';
+
+  @override
+  String get resumeImportIntro =>
+      'The text was read on this device; the file did not go anywhere. Check each item and fix what is wrong. Nothing is saved until you apply, and what you already have is only replaced where you tick it.';
+
+  @override
+  String get resumeImportReading => 'Reading the résumé…';
+
+  @override
+  String get resumeImportNoText =>
+      'This PDF has no selectable text (it looks like a scan or a photo). OrbiJob does not read images, so fill your profile by hand.';
+
+  @override
+  String get resumeImportEncrypted =>
+      'This PDF is password-protected, so its text cannot be read.';
+
+  @override
+  String get resumeImportUnreadable =>
+      'The text of this PDF could not be read (unusual fonts or a damaged file).';
+
+  @override
+  String get resumeImportNothing =>
+      'The text was read, but no profile data could be recognised in it.';
+
+  @override
+  String get resumeImportDownloadFailed =>
+      'Could not open the file to read it.';
+
+  @override
+  String get resumeImportSectionIdentity => 'Identity and contact';
+
+  @override
+  String get resumeImportSectionSkills => 'Skills';
+
+  @override
+  String get resumeImportSectionLanguages => 'Languages';
+
+  @override
+  String get resumeImportSectionExperience => 'Experience';
+
+  @override
+  String get resumeImportSectionEducation => 'Education';
+
+  @override
+  String resumeImportReplaces(String value) {
+    return 'Replaces: $value';
+  }
+
+  @override
+  String get resumeImportAlready => 'Already in your profile';
+
+  @override
+  String get resumeImportNeedsFields =>
+      'Fill in the role and the company to include this entry.';
+
+  @override
+  String get resumeImportNeedsInstitution =>
+      'Fill in the institution to include this entry.';
+
+  @override
+  String get resumeImportNeedsName =>
+      'A profile needs a name: tick and fill in the name.';
+
+  @override
+  String resumeImportApply(int count) {
+    return 'Apply $count selected';
+  }
+
+  @override
+  String get resumeImportApplied => 'Profile updated from your résumé';
+
+  @override
+  String get resumeImportOfferTitle => 'Fill your profile from this résumé?';
+
+  @override
+  String get resumeImportOfferBody =>
+      'OrbiJob can read the text on this device and suggest data. You review everything before anything is saved.';
+
+  @override
+  String get resumeImportOfferYes => 'Review suggestions';
+
+  @override
+  String get resumeImportOfferNo => 'Not now';
+
+  @override
+  String get resumeImportPresent => 'present';
+
+  @override
+  String resumeImportDates(String from, String to) {
+    return '$from – $to';
+  }
 }

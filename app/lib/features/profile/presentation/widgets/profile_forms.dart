@@ -41,6 +41,8 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   late final _summary = TextEditingController(text: _src?.summary);
   late final _country = TextEditingController(text: _src?.countryOfResidence);
   late final _city = TextEditingController(text: _src?.city);
+  late final _email = TextEditingController(text: _src?.contactEmail);
+  late final _phone = TextEditingController(text: _src?.phone);
   late List<String> _skills = [...?_src?.skills];
   late String _workMode = _src?.workMode ?? '';
   bool _saving = false;
@@ -48,7 +50,15 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
 
   @override
   void dispose() {
-    for (final c in [_name, _headline, _summary, _country, _city]) {
+    for (final c in [
+      _name,
+      _headline,
+      _summary,
+      _country,
+      _city,
+      _email,
+      _phone,
+    ]) {
       c.dispose();
     }
     super.dispose();
@@ -69,6 +79,8 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       headline: _headline.text,
       summary: _summary.text,
       city: _city.text,
+      contactEmail: _email.text,
+      phone: _phone.text,
       skills: _skills,
       countryOfResidence: cc,
       clearCountry: cc == null,
@@ -153,6 +165,30 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
           autofillHints: const [AutofillHints.addressCity],
           onChanged: (_) => touch(),
           validator: (v) => max(v, 120),
+        ),
+        OrbiTextField(
+          label: l.profileFieldEmail,
+          optional: true,
+          controller: _email,
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.email],
+          onChanged: (_) => touch(),
+          validator: (v) =>
+              (v ?? '').trim().isEmpty ||
+                  RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(v!.trim())
+              ? null
+              : l.profileEmailInvalid,
+        ),
+        OrbiTextField(
+          label: l.profileFieldPhone,
+          optional: true,
+          controller: _phone,
+          keyboardType: TextInputType.phone,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.telephoneNumber],
+          onChanged: (_) => touch(),
+          validator: (v) => max(v, 40),
         ),
         OrbiDropdownField<String>(
           label: l.profileFieldWorkMode,

@@ -40,5 +40,8 @@ abstract class ResumeRepository {
     ResumeFile file, {
     Duration validFor = const Duration(seconds: 60),
   });
+
+  /// The file's bytes, read with the user's own session (storage policies apply: only the owner can read it).
+  Future<Uint8List> download(ResumeFile file);
   Future<void> delete(ResumeFile file);
 }

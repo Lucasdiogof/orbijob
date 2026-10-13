@@ -40,6 +40,14 @@ class ProfessionalProfile extends Equatable {
   String? get summary => _text(personal['summary']);
   String? get city => _text(personal['city']);
 
+  /// Contact data kept inside `personal` (no extra columns): used by the application kit and shown for confirmation.
+  String? get contactEmail => _text(personal['email']);
+  String? get phone => _text(personal['phone']);
+  List<String> get links => [
+    for (final l in (personal['links'] as List? ?? const []))
+      if (l is String && l.trim().isNotEmpty) l.trim(),
+  ];
+
   /// `remote` | `hybrid` | `onsite`, or null when not chosen.
   String? get workMode {
     final v = _text(preferences['workMode']);
@@ -66,6 +74,10 @@ class ProfessionalProfile extends Equatable {
     bool clearWorkMode = false,
     String? primaryResumeId,
     bool clearPrimaryResume = false,
+    String? contactEmail,
+    String? phone,
+    List<String>? links,
+    List<ProfileLanguage>? languages,
   }) {
     Map<String, dynamic> put(Map<String, dynamic> m, String k, String? v) {
       final next = Map<String, dynamic>.of(m);
@@ -80,6 +92,16 @@ class ProfessionalProfile extends Equatable {
     }
     if (summary != null) nextPersonal = put(nextPersonal, 'summary', summary);
     if (city != null) nextPersonal = put(nextPersonal, 'city', city);
+    if (contactEmail != null) {
+      nextPersonal = put(nextPersonal, 'email', contactEmail);
+    }
+    if (phone != null) nextPersonal = put(nextPersonal, 'phone', phone);
+    if (links != null) {
+      nextPersonal = Map<String, dynamic>.of(nextPersonal);
+      links.isEmpty
+          ? nextPersonal.remove('links')
+          : nextPersonal['links'] = links;
+    }
     var nextPrefs = preferences;
     if (clearWorkMode) nextPrefs = put(nextPrefs, 'workMode', null);
     if (workMode != null) nextPrefs = put(nextPrefs, 'workMode', workMode);
@@ -93,7 +115,7 @@ class ProfessionalProfile extends Equatable {
       countryOfResidence: clearCountry
           ? null
           : (countryOfResidence ?? this.countryOfResidence),
-      languages: languages,
+      languages: languages ?? this.languages,
       occupations: occupations,
       skills: skills ?? this.skills,
       preferences: nextPrefs,

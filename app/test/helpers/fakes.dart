@@ -305,6 +305,15 @@ class FakeResumes extends Failing implements ResumeRepository {
     return 'https://example.invalid/${file.path}';
   }
 
+  /// What `download` returns, by file id (tests put a PDF here).
+  final contents = <String, Uint8List>{};
+
+  @override
+  Future<Uint8List> download(ResumeFile file) async {
+    check();
+    return contents[file.id] ?? tinyPdf();
+  }
+
   @override
   Future<void> delete(ResumeFile file) async {
     check();

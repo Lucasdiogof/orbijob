@@ -2595,6 +2595,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check the highlighted fields.'**
   String get formFixErrors;
+
+  /// No description provided for @profileFieldEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact e-mail'**
+  String get profileFieldEmail;
+
+  /// No description provided for @profileFieldPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get profileFieldPhone;
+
+  /// No description provided for @profileEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid e-mail address'**
+  String get profileEmailInvalid;
+
+  /// No description provided for @resumeSuggestAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill my profile from this résumé'**
+  String get resumeSuggestAction;
+
+  /// No description provided for @resumeImportStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start from a PDF résumé'**
+  String get resumeImportStart;
+
+  /// No description provided for @resumeImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review suggestions'**
+  String get resumeImportTitle;
+
+  /// No description provided for @resumeImportIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The text was read on this device; the file did not go anywhere. Check each item and fix what is wrong. Nothing is saved until you apply, and what you already have is only replaced where you tick it.'**
+  String get resumeImportIntro;
+
+  /// No description provided for @resumeImportReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the résumé…'**
+  String get resumeImportReading;
+
+  /// No description provided for @resumeImportNoText.
+  ///
+  /// In en, this message translates to:
+  /// **'This PDF has no selectable text (it looks like a scan or a photo). OrbiJob does not read images, so fill your profile by hand.'**
+  String get resumeImportNoText;
+
+  /// No description provided for @resumeImportEncrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'This PDF is password-protected, so its text cannot be read.'**
+  String get resumeImportEncrypted;
+
+  /// No description provided for @resumeImportUnreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'The text of this PDF could not be read (unusual fonts or a damaged file).'**
+  String get resumeImportUnreadable;
+
+  /// No description provided for @resumeImportNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'The text was read, but no profile data could be recognised in it.'**
+  String get resumeImportNothing;
+
+  /// No description provided for @resumeImportDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the file to read it.'**
+  String get resumeImportDownloadFailed;
+
+  /// No description provided for @resumeImportSectionIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity and contact'**
+  String get resumeImportSectionIdentity;
+
+  /// No description provided for @resumeImportSectionSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get resumeImportSectionSkills;
+
+  /// No description provided for @resumeImportSectionLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get resumeImportSectionLanguages;
+
+  /// No description provided for @resumeImportSectionExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get resumeImportSectionExperience;
+
+  /// No description provided for @resumeImportSectionEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get resumeImportSectionEducation;
+
+  /// No description provided for @resumeImportReplaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaces: {value}'**
+  String resumeImportReplaces(String value);
+
+  /// No description provided for @resumeImportAlready.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in your profile'**
+  String get resumeImportAlready;
+
+  /// No description provided for @resumeImportNeedsFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the role and the company to include this entry.'**
+  String get resumeImportNeedsFields;
+
+  /// No description provided for @resumeImportNeedsInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the institution to include this entry.'**
+  String get resumeImportNeedsInstitution;
+
+  /// No description provided for @resumeImportNeedsName.
+  ///
+  /// In en, this message translates to:
+  /// **'A profile needs a name: tick and fill in the name.'**
+  String get resumeImportNeedsName;
+
+  /// No description provided for @resumeImportApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply {count} selected'**
+  String resumeImportApply(int count);
+
+  /// No description provided for @resumeImportApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated from your résumé'**
+  String get resumeImportApplied;
+
+  /// No description provided for @resumeImportOfferTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill your profile from this résumé?'**
+  String get resumeImportOfferTitle;
+
+  /// No description provided for @resumeImportOfferBody.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob can read the text on this device and suggest data. You review everything before anything is saved.'**
+  String get resumeImportOfferBody;
+
+  /// No description provided for @resumeImportOfferYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Review suggestions'**
+  String get resumeImportOfferYes;
+
+  /// No description provided for @resumeImportOfferNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get resumeImportOfferNo;
+
+  /// No description provided for @resumeImportPresent.
+  ///
+  /// In en, this message translates to:
+  /// **'present'**
+  String get resumeImportPresent;
+
+  /// No description provided for @resumeImportDates.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String resumeImportDates(String from, String to);
 }
 
 class _AppLocalizationsDelegate

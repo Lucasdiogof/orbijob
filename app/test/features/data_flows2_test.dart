@@ -150,6 +150,10 @@ void main() {
       await t.tap(find.text('Upload PDF'));
       await t.pumpAndSettle();
       expect(fakes.resumes.rows, hasLength(1));
+      // the offer to read it on the device: declined here
+      expect(find.text('Fill your profile from this résumé?'), findsOneWidget);
+      await t.tap(find.text('Not now'));
+      await t.pumpAndSettle();
       expect(find.text('Résumé uploaded'), findsOneWidget);
       // the first résumé becomes the main one on its own
       expect(find.text('Main'), findsOneWidget);

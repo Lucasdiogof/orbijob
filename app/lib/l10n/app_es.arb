@@ -436,5 +436,60 @@
   "formDiscard": "Descartar",
   "formKeepEditing": "Seguir editando",
   "commonSaved": "Guardado",
-  "formFixErrors": "Revisa los campos resaltados."
+  "formFixErrors": "Revisa los campos resaltados.",
+  "profileFieldEmail": "Correo de contacto",
+  "profileFieldPhone": "Teléfono",
+  "profileEmailInvalid": "Introduce un correo válido",
+  "resumeSuggestAction": "Completar mi perfil con este currículum",
+  "resumeImportStart": "Empezar con un currículum en PDF",
+  "resumeImportTitle": "Revisa las sugerencias",
+  "resumeImportIntro": "El texto se leyó en este dispositivo; el archivo no se envió a ningún sitio. Revisa cada elemento y corrige lo que esté mal. No se guarda nada hasta que lo apliques, y lo que ya tienes solo se reemplaza donde lo marques.",
+  "resumeImportReading": "Leyendo el currículum…",
+  "resumeImportNoText": "Este PDF no tiene texto seleccionable (parece un escaneo o una foto). OrbiJob no lee imágenes, así que completa tu perfil a mano.",
+  "resumeImportEncrypted": "Este PDF está protegido con contraseña, así que no se puede leer su texto.",
+  "resumeImportUnreadable": "No se pudo leer el texto de este PDF (fuentes poco comunes o archivo dañado).",
+  "resumeImportNothing": "Se leyó el texto, pero no se reconoció ningún dato de perfil.",
+  "resumeImportDownloadFailed": "No se pudo abrir el archivo para leerlo.",
+  "resumeImportSectionIdentity": "Identidad y contacto",
+  "resumeImportSectionSkills": "Competencias",
+  "resumeImportSectionLanguages": "Idiomas",
+  "resumeImportSectionExperience": "Experiencia",
+  "resumeImportSectionEducation": "Formación",
+  "resumeImportReplaces": "Reemplaza: {value}",
+  "@resumeImportReplaces": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "resumeImportAlready": "Ya está en tu perfil",
+  "resumeImportNeedsFields": "Completa el cargo y la empresa para incluir esta entrada.",
+  "resumeImportNeedsInstitution": "Completa la institución para incluir esta entrada.",
+  "resumeImportNeedsName": "Un perfil necesita un nombre: marca y completa el nombre.",
+  "resumeImportApply": "Aplicar {count} seleccionados",
+  "@resumeImportApply": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resumeImportApplied": "Perfil actualizado con tu currículum",
+  "resumeImportOfferTitle": "¿Completar tu perfil con este currículum?",
+  "resumeImportOfferBody": "OrbiJob puede leer el texto en este dispositivo y sugerir datos. Revisas todo antes de guardar nada.",
+  "resumeImportOfferYes": "Ver sugerencias",
+  "resumeImportOfferNo": "Ahora no",
+  "resumeImportPresent": "actualidad",
+  "resumeImportDates": "{from} – {to}",
+  "@resumeImportDates": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  }
 }

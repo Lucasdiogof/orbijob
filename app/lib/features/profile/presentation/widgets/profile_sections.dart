@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/data/data_failure.dart';
 import '../../../../core/data/load_status.dart';
 import '../../../../core/design/design.dart';
 import '../../../../core/orbi/orbi.dart';
@@ -8,6 +9,9 @@ import '../../../../core/widgets/data_state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/professional_profile.dart';
 import '../profile_cubit.dart';
+import '../resume_import_page.dart';
+import '../../domain/pdf_picker.dart';
+import '../../../../core/di/injector.dart';
 import 'profile_forms.dart';
 
 class _Card extends StatelessWidget {
@@ -63,6 +67,25 @@ class ProfileSections extends StatelessWidget {
                   onPressed: () =>
                       openProfileForm(context, const ProfileFormPage()),
                 ),
+                const SizedBox(height: AppSpace.s2),
+                OrbiSecondaryButton(
+                  label: l.resumeImportStart,
+                  icon: Icons.upload_file_outlined,
+                  onPressed: () async {
+                    PickedPdf? picked;
+                    try {
+                      picked = await sl<PdfPicker>().pick();
+                    } catch (e) {
+                      if (context.mounted) {
+                        showDataFailure(context, mapDataError(e));
+                      }
+                      return;
+                    }
+                    if (picked != null && context.mounted) {
+                      await startResumeImport(context, picked.bytes);
+                    }
+                  },
+                ),
               ],
             ),
           );
@@ -105,6 +128,8 @@ class _ProfileCard extends StatelessWidget {
           Text(p.name, style: t.titleMedium),
           if (p.headline != null) Text(p.headline!, style: muted),
           if (place.isNotEmpty) Text(place, style: muted),
+          if (p.contactEmail != null) Text(p.contactEmail!, style: muted),
+          if (p.phone != null) Text(p.phone!, style: muted),
           if (p.workMode != null)
             Text(
               '${l.profileFieldWorkMode}: ${workModeLabel(l, p.workMode!)}',

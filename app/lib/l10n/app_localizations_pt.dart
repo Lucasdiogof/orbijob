@@ -1416,4 +1416,114 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get formFixErrors => 'Confira os campos destacados.';
+
+  @override
+  String get profileFieldEmail => 'E-mail de contato';
+
+  @override
+  String get profileFieldPhone => 'Telefone';
+
+  @override
+  String get profileEmailInvalid => 'Informe um e-mail válido';
+
+  @override
+  String get resumeSuggestAction => 'Preencher meu perfil com este currículo';
+
+  @override
+  String get resumeImportStart => 'Começar por um currículo em PDF';
+
+  @override
+  String get resumeImportTitle => 'Revise as sugestões';
+
+  @override
+  String get resumeImportIntro =>
+      'O texto foi lido neste aparelho; o arquivo não foi enviado a lugar nenhum. Confira cada item e corrija o que estiver errado. Nada é salvo até você aplicar, e o que você já tem só é substituído onde você marcar.';
+
+  @override
+  String get resumeImportReading => 'Lendo o currículo…';
+
+  @override
+  String get resumeImportNoText =>
+      'Este PDF não tem texto selecionável (parece um documento escaneado ou uma foto). O OrbiJob não lê imagens, então preencha seu perfil manualmente.';
+
+  @override
+  String get resumeImportEncrypted =>
+      'Este PDF é protegido por senha, então o texto não pode ser lido.';
+
+  @override
+  String get resumeImportUnreadable =>
+      'Não foi possível ler o texto deste PDF (fontes incomuns ou arquivo danificado).';
+
+  @override
+  String get resumeImportNothing =>
+      'O texto foi lido, mas nenhum dado de perfil pôde ser reconhecido.';
+
+  @override
+  String get resumeImportDownloadFailed =>
+      'Não foi possível abrir o arquivo para lê-lo.';
+
+  @override
+  String get resumeImportSectionIdentity => 'Identidade e contato';
+
+  @override
+  String get resumeImportSectionSkills => 'Competências';
+
+  @override
+  String get resumeImportSectionLanguages => 'Idiomas';
+
+  @override
+  String get resumeImportSectionExperience => 'Experiência';
+
+  @override
+  String get resumeImportSectionEducation => 'Formação';
+
+  @override
+  String resumeImportReplaces(String value) {
+    return 'Substitui: $value';
+  }
+
+  @override
+  String get resumeImportAlready => 'Já está no seu perfil';
+
+  @override
+  String get resumeImportNeedsFields =>
+      'Preencha o cargo e a empresa para incluir esta entrada.';
+
+  @override
+  String get resumeImportNeedsInstitution =>
+      'Preencha a instituição para incluir esta entrada.';
+
+  @override
+  String get resumeImportNeedsName =>
+      'Um perfil precisa de um nome: marque e preencha o nome.';
+
+  @override
+  String resumeImportApply(int count) {
+    return 'Aplicar $count selecionados';
+  }
+
+  @override
+  String get resumeImportApplied => 'Perfil atualizado com seu currículo';
+
+  @override
+  String get resumeImportOfferTitle =>
+      'Preencher seu perfil com este currículo?';
+
+  @override
+  String get resumeImportOfferBody =>
+      'O OrbiJob pode ler o texto neste aparelho e sugerir dados. Você revisa tudo antes de qualquer coisa ser salva.';
+
+  @override
+  String get resumeImportOfferYes => 'Ver sugestões';
+
+  @override
+  String get resumeImportOfferNo => 'Agora não';
+
+  @override
+  String get resumeImportPresent => 'atual';
+
+  @override
+  String resumeImportDates(String from, String to) {
+    return '$from – $to';
+  }
 }

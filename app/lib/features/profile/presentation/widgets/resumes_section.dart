@@ -13,6 +13,7 @@ import '../../domain/pdf_picker.dart';
 import '../../domain/professional_profile.dart';
 import '../../domain/resume_repository.dart';
 import '../profile_cubit.dart';
+import '../resume_import_page.dart';
 import '../resumes_cubit.dart';
 
 /// Résumés (private PDFs) of the profile. Appears only once a profile exists.
@@ -43,7 +44,7 @@ class ResumesSection extends StatelessWidget {
 /// The file type is the same in every language.
 const _fileKind = 'PDF';
 
-enum _ResumeAction { open, makePrimary, replace, delete }
+enum _ResumeAction { open, suggest, makePrimary, replace, delete }
 
 class _ResumesView extends StatelessWidget {
   const _ResumesView({required this.profile});
@@ -77,9 +78,29 @@ class _ResumesView extends StatelessWidget {
         ),
       );
     }
-    if (context.mounted) {
-      showOrbiSnackBar(context, l.resumeUploaded, kind: OrbiSnackKind.success);
+    if (!context.mounted) return;
+    showOrbiSnackBar(context, l.resumeUploaded, kind: OrbiSnackKind.success);
+    // offer to read it (on the device) and suggest profile data; the user decides, and reviews everything
+    final go = await showOrbiConfirm(
+      context,
+      title: l.resumeImportOfferTitle,
+      message: l.resumeImportOfferBody,
+      confirmLabel: l.resumeImportOfferYes,
+      cancelLabel: l.resumeImportOfferNo,
+    );
+    if (go && context.mounted) await startResumeImport(context, picked.bytes);
+  }
+
+  Future<void> _suggest(BuildContext context, ResumeFile f) async {
+    final l = AppLocalizations.of(context);
+    final cubit = context.read<ResumesCubit>();
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final bytes = await cubit.fetchBytes(f);
+    if (bytes == null) {
+      showOrbiSnackBarOn(messenger, l.resumeImportDownloadFailed);
+      return;
     }
+    if (context.mounted) await startResumeImport(context, bytes);
   }
 
   Future<void> _replace(BuildContext context, ResumeFile old) async {
@@ -263,6 +284,7 @@ class _ResumesView extends StatelessWidget {
                         icon: const Icon(Icons.more_vert_rounded),
                         onSelected: (a) => switch (a) {
                           _ResumeAction.open => _open(context, f),
+                          _ResumeAction.suggest => _suggest(context, f),
                           _ResumeAction.makePrimary => _makePrimary(context, f),
                           _ResumeAction.replace => _replace(context, f),
                           _ResumeAction.delete => _delete(context, f),
@@ -271,6 +293,10 @@ class _ResumesView extends StatelessWidget {
                           PopupMenuItem(
                             value: _ResumeAction.open,
                             child: Text(l.resumeOpen),
+                          ),
+                          PopupMenuItem(
+                            value: _ResumeAction.suggest,
+                            child: Text(l.resumeSuggestAction),
                           ),
                           if (f.id != primaryId)
                             PopupMenuItem(

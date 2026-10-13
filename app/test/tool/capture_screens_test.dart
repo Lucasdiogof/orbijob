@@ -105,11 +105,19 @@ void main() {
       bool signedIn = false,
       Locale? locale,
       bool fullProfile = true,
+      bool resumePdf = false,
     }) async {
       testWidgets('$name ($theme)', (t) async {
         final auth = FakeAuth();
         if (signedIn) auth.currentUser = _user;
         final fakes = await signedInFakes(auth, full: fullProfile);
+        if (resumePdf) {
+          for (final r in fakes.resumes.rows) {
+            fakes.resumes.contents[r.id] = File(
+              'test/fixtures/resumes/cv_en.pdf',
+            ).readAsBytesSync();
+          }
+        }
         await pumpApp(
           t,
           size: size,
@@ -208,6 +216,39 @@ void main() {
       await _tapText(t, 'Privacy');
       await _shot(t, '17-privacy-$theme');
     });
+    scene('18-profile-form-$theme', (t) async {
+      await t.tap(find.byTooltip('Profile'));
+      await t.pumpAndSettle();
+      await _tapText(t, 'Professional profile');
+      await _tapText(t, 'Edit profile');
+      await _shot(t, '18-profile-form-$theme');
+    }, signedIn: true);
+    scene('19-experience-form-$theme', (t) async {
+      await t.tap(find.byTooltip('Profile'));
+      await t.pumpAndSettle();
+      await _tapText(t, 'Professional profile');
+      await t.drag(find.byType(ListView).last, const Offset(0, -400));
+      await t.pumpAndSettle();
+      await _tapText(t, 'Add experience');
+      await _shot(t, '19-experience-form-$theme');
+    }, signedIn: true);
+    scene(
+      '22-resume-review-$theme',
+      (t) async {
+        await t.tap(find.byTooltip('Profile'));
+        await t.pumpAndSettle();
+        await _tapText(t, 'Résumés');
+        await t.tap(find.byTooltip('More actions').first);
+        await t.pumpAndSettle();
+        await t.tap(find.text('Fill my profile from this résumé'));
+        await t.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 800)),
+        );
+        await _shot(t, '22-resume-review-$theme');
+      },
+      signedIn: true,
+      resumePdf: true,
+    );
     scene(
       '20-tablet-home-$theme',
       (t) => _shot(t, '20-tablet-home-$theme'),

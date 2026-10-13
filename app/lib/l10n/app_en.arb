@@ -583,5 +583,60 @@
   "formDiscard": "Discard",
   "formKeepEditing": "Keep editing",
   "commonSaved": "Saved",
-  "formFixErrors": "Check the highlighted fields."
+  "formFixErrors": "Check the highlighted fields.",
+  "profileFieldEmail": "Contact e-mail",
+  "profileFieldPhone": "Phone",
+  "profileEmailInvalid": "Enter a valid e-mail address",
+  "resumeSuggestAction": "Fill my profile from this résumé",
+  "resumeImportStart": "Start from a PDF résumé",
+  "resumeImportTitle": "Review suggestions",
+  "resumeImportIntro": "The text was read on this device; the file did not go anywhere. Check each item and fix what is wrong. Nothing is saved until you apply, and what you already have is only replaced where you tick it.",
+  "resumeImportReading": "Reading the résumé…",
+  "resumeImportNoText": "This PDF has no selectable text (it looks like a scan or a photo). OrbiJob does not read images, so fill your profile by hand.",
+  "resumeImportEncrypted": "This PDF is password-protected, so its text cannot be read.",
+  "resumeImportUnreadable": "The text of this PDF could not be read (unusual fonts or a damaged file).",
+  "resumeImportNothing": "The text was read, but no profile data could be recognised in it.",
+  "resumeImportDownloadFailed": "Could not open the file to read it.",
+  "resumeImportSectionIdentity": "Identity and contact",
+  "resumeImportSectionSkills": "Skills",
+  "resumeImportSectionLanguages": "Languages",
+  "resumeImportSectionExperience": "Experience",
+  "resumeImportSectionEducation": "Education",
+  "resumeImportReplaces": "Replaces: {value}",
+  "@resumeImportReplaces": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "resumeImportAlready": "Already in your profile",
+  "resumeImportNeedsFields": "Fill in the role and the company to include this entry.",
+  "resumeImportNeedsInstitution": "Fill in the institution to include this entry.",
+  "resumeImportNeedsName": "A profile needs a name: tick and fill in the name.",
+  "resumeImportApply": "Apply {count} selected",
+  "@resumeImportApply": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resumeImportApplied": "Profile updated from your résumé",
+  "resumeImportOfferTitle": "Fill your profile from this résumé?",
+  "resumeImportOfferBody": "OrbiJob can read the text on this device and suggest data. You review everything before anything is saved.",
+  "resumeImportOfferYes": "Review suggestions",
+  "resumeImportOfferNo": "Not now",
+  "resumeImportPresent": "present",
+  "resumeImportDates": "{from} – {to}",
+  "@resumeImportDates": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  }
 }
