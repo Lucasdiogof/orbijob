@@ -82,6 +82,20 @@ function workModeOf(raw: unknown): WorkMode {
   return 'unspecified';
 }
 
+/**
+ * Country names as Platsbanken writes them in `workplace_address.country` (Swedish), to ISO 3166-1 alpha-2. Read from 2,000 live ads on 2026-10-13
+ * (Sverige 1,979, Malta 9, Norge 4, Spanien 3, Grekland 2, Bulgarien 1, Cypern 1, Danmark 1); the other names Swedish uses for countries are listed
+ * so that an ad abroad is placed by what it states. A name that is not here stays unknown.
+ */
+export const SWEDISH_COUNTRY: Readonly<Record<string, string>> = {
+  sverige: 'SE', norge: 'NO', danmark: 'DK', finland: 'FI', island: 'IS', tyskland: 'DE', frankrike: 'FR', spanien: 'ES', italien: 'IT', portugal: 'PT',
+  grekland: 'GR', cypern: 'CY', malta: 'MT', bulgarien: 'BG', 'rumänien': 'RO', polen: 'PL', storbritannien: 'GB', irland: 'IE', 'nederländerna': 'NL',
+  belgien: 'BE', luxemburg: 'LU', schweiz: 'CH', 'österrike': 'AT', tjeckien: 'CZ', slovakien: 'SK', ungern: 'HU', kroatien: 'HR', slovenien: 'SI',
+  estland: 'EE', lettland: 'LV', litauen: 'LT', usa: 'US', 'förenta staterna': 'US', kanada: 'CA', australien: 'AU', 'nya zeeland': 'NZ', thailand: 'TH',
+  turkiet: 'TR', 'förenade arabemiraten': 'AE', qatar: 'QA', saudiarabien: 'SA', japan: 'JP', kina: 'CN', indien: 'IN', singapore: 'SG', sydafrika: 'ZA',
+  marocko: 'MA', egypten: 'EG', brasilien: 'BR', mexiko: 'MX', argentina: 'AR', chile: 'CL', colombia: 'CO', peru: 'PE',
+};
+
 export function normalizeJobtech(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
   const r = raw as Record<string, unknown>;
@@ -99,8 +113,9 @@ export function normalizeJobtech(raw: unknown, nowIso: string): Normalized {
   let description = cleanDescription(str(desc.text) || str(desc.text_formatted));
   if (description.length > MAX_DESCRIPTION) description = `${description.slice(0, MAX_DESCRIPTION).trimEnd()}…`;
   const addr = obj(r.workplace_address);
-  // Only the country the ad itself names in Swedish is mapped; anything else stays unknown (the numeric country_code is AMS's own, not ISO).
-  const country = str(addr.country).trim().toLowerCase() === 'sverige' ? 'SE' : null;
+  // Only the country the ad itself names (in Swedish, `workplace_address.country`) is mapped, from a table of Swedish country names; anything else
+  // stays unknown (the numeric country_code is AMS's own, not ISO).
+  const country = SWEDISH_COUNTRY[str(addr.country).trim().toLowerCase()] ?? null;
   const city = inlineText(str(addr.municipality)) || inlineText(str(addr.city)) || null;
   const contract = [label(r.employment_type), label(r.working_hours_type)].filter(Boolean);
   const skills = (Array.isArray(obj(r.must_have).skills) ? (obj(r.must_have).skills as unknown[]) : []).map(label).filter(Boolean).slice(0, 12);

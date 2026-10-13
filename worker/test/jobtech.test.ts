@@ -42,6 +42,18 @@ describe('Platsbanken (JobTech) normalizer', () => {
     expect(mode(null)).toBe('unspecified');
   });
 
+  it('an ad abroad is placed by the country it names in Swedish; a name that is not in the table stays unknown', () => {
+    const c = (country: unknown) => ok(normalizeJobtech({ ...base, workplace_address: { country, municipality: null } }, NOW)).country;
+    expect(c('Malta')).toBe('MT');
+    expect(c('Norge')).toBe('NO');
+    expect(c('Spanien')).toBe('ES');
+    expect(c('Grekland')).toBe('GR');
+    expect(c('Cypern')).toBe('CY');
+    expect(c('  DANMARK ')).toBe('DK');
+    expect(c('Österrike')).toBe('AT');
+    expect(c('Sverige')).toBe('SE');
+    for (const unknown of ['Albanien', 'Narnia', '', null, undefined, 199, 'Sweden']) expect(c(unknown), String(unknown)).toBeNull();
+  });
   it('a country other than Sweden is not guessed: Albania stays unknown, never SE', () => {
     const j = ok(normalizeJobtech({ ...base, workplace_address: { country: 'Albanien', municipality: 'Tirana' } }, NOW));
     expect(j.country).toBeNull();
