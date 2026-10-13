@@ -146,6 +146,16 @@ abstract final class AppTheme {
         titleTextStyle: text.titleLarge,
         contentTextStyle: text.bodyMedium!.copyWith(color: c.muted),
       ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: c.surface,
+        surfaceTintColor: const Color(0x00000000),
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          side: BorderSide(color: c.hairline),
+        ),
+        textStyle: text.bodyMedium!.copyWith(color: c.ink),
+      ),
       listTileTheme: ListTileThemeData(
         iconColor: c.muted,
         textColor: c.ink,

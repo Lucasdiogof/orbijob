@@ -358,8 +358,6 @@ class Recommender {
           ReasonKind.remoteEligible,
           ReasonKind.remoteAnywhere,
           ReasonKind.city,
-          ReasonKind.workMode,
-          ReasonKind.language,
         };
         if (!(weakField && reasons.any((r) => placeLike.contains(r.$2.kind)))) {
           return null;

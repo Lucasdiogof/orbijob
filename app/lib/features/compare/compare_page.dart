@@ -322,6 +322,7 @@ class _Stacked extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final c = context.colors;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final r in rows)
           OrbiCard(
