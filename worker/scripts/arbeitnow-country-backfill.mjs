@@ -15,18 +15,23 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const work = mkdtempSync(join(tmpdir(), 'orbijob-backfill-'));
 const bundle = join(work, 'feeds.mjs');
 await build({ entryPoints: [join(root, 'src/connectors/feeds.ts')], bundle: true, format: 'esm', platform: 'node', outfile: bundle, logLevel: 'error' });
-const { arbeitnowStatedCountry } = await import(pathToFileURL(bundle).href);
+const { arbeitnowStatedCountry, arbeitnowStatedEligibility } = await import(pathToFileURL(bundle).href);
 
 const sqlFile = join(work, 'q.sql');
-writeFileSync(sqlFile, "select id, city, original_url from public.jobs where source_id = 'arbeitnow' and country is null and city is not null and status = 'open'");
+writeFileSync(sqlFile, "select id, city, original_url, geo_restrictions from public.jobs where source_id = 'arbeitnow' and country is null and city is not null and status = 'open'");
 const raw = execFileSync('npx', ['supabase', 'db', 'query', '--linked', '-o', 'json', '-f', sqlFile], { cwd: join(root, '..'), encoding: 'utf8', shell: process.platform === 'win32', maxBuffer: 64 * 1024 * 1024 });
 const rows = JSON.parse(raw.slice(raw.indexOf('{'))).rows;
 
 const byCountry = new Map();
 const byPlace = new Map();
+const byEligibility = new Map();
 for (const r of rows) {
   const code = arbeitnowStatedCountry(r.city, r.original_url);
-  if (!code) continue;
+  if (!code) {
+    const elig = (r.geo_restrictions ?? []).length === 0 ? arbeitnowStatedEligibility(r.city) : [];
+    if (elig.length) { const k = elig.join(","); if (!byEligibility.has(k)) byEligibility.set(k, []); byEligibility.get(k).push(r.id); }
+    continue;
+  }
   if (!byCountry.has(code)) byCountry.set(code, []);
   byCountry.get(code).push(r.id);
   const k = `${r.city.toLowerCase()} -> ${code}`;
@@ -38,6 +43,11 @@ let undo = 'begin;\n';
 for (const [code, ids] of byCountry) {
   apply += `update public.jobs set country = '${code}' where source_id = 'arbeitnow' and country is null and id in (${q(ids)});\n`;
   undo += `update public.jobs set country = null where source_id = 'arbeitnow' and country = '${code}' and id in (${q(ids)});\n`;
+}
+for (const [k, ids] of byEligibility) {
+  const arr = `array[${k.split(',').map((c) => `'${c}'`).join(', ')}]`;
+  apply += `update public.jobs set geo_restrictions = ${arr} where source_id = 'arbeitnow' and geo_restrictions = '{}' and id in (${q(ids)});\n`;
+  undo += `update public.jobs set geo_restrictions = '{}' where source_id = 'arbeitnow' and id in (${q(ids)});\n`;
 }
 apply += 'commit;\n';
 undo += 'commit;\n';

@@ -179,6 +179,22 @@ export function arbeitnowStatedCountry(location: string, url: string): string | 
   return site && site !== code ? null : code;
 }
 
+/**
+ * A location that is a LIST OF COUNTRY NAMES and nothing else ("United States, Canada, Spain, Czech Republic") names where the job can be done: it is kept as
+ * the job's eligibility (`geo_restrictions`, ISO codes in the order written), never as a single country. Anything else in the list (a city, a region, a mode) gives [].
+ */
+export function arbeitnowStatedEligibility(location: string): string[] {
+  const parts = location.split(/[,;/|]/).map((p) => foldPlace(p)).filter(Boolean);
+  if (parts.length < 2) return [];
+  const codes: string[] = [];
+  for (const p of parts) {
+    const code = ARBEITNOW_COUNTRY_NAMES[p];
+    if (!code) return [];
+    if (!codes.includes(code)) codes.push(code);
+  }
+  return codes.length >= 2 ? codes : [];
+}
+
 export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
   const r = raw as Record<string, unknown>;
@@ -204,7 +220,8 @@ export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
       country: arbeitnowStatedCountry(location, url),
       workMode, contractType: types.length ? types.join(', ') : null, ...NO_SALARY,
       publishedAt: isoFromEpoch(r.created_at), originalUrl: url, applyUrl: url,
-      geoRestrictions: [], // the feed names no eligible region: eligibility is unknown, never read as global
+      // the feed has no eligibility field: it is known only when the location itself is a list of country names; otherwise unknown, never read as global
+      geoRestrictions: arbeitnowStatedEligibility(location),
       ...(location ? { city: location } : {}),
     },
   };

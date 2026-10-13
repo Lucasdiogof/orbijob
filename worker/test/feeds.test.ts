@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arbeitnowConnector, arbeitnowStatedCountry, normalizeArbeitnow, normalizeRemoteOk, normalizeRemotive, remoteOkConnector, remotiveConnector, repairMojibake } from '../src/connectors/feeds';
+import { arbeitnowConnector, arbeitnowStatedCountry, arbeitnowStatedEligibility, normalizeArbeitnow, normalizeRemoteOk, normalizeRemotive, remoteOkConnector, remotiveConnector, repairMojibake } from '../src/connectors/feeds';
 import { HttpError } from '../src/http';
 import { runScheduledSync } from '../src/scheduled';
 import { SOURCES, SOURCE_IDS } from '../src/sources';
@@ -354,6 +354,14 @@ describe('Arbeitnow: a country only when the location states it (or names a plac
       ['Paris', 'https://www.arbeitnow.co.uk/jobs/a'],
       ['', 'https://www.arbeitnow.com/jobs/a'],
     ] as const) expect(arbeitnowStatedCountry(loc, url), loc).toBeNull();
+  });
+  it('a list of country names is the eligibility of the job, never a single country', () => {
+    expect(arbeitnowStatedEligibility('United States, Canada, Spain, Czech Republic')).toEqual(['US', 'CA', 'ES', 'CZ']);
+    expect(arbeitnowStatedEligibility('Germany; Austria; Switzerland')).toEqual(['DE', 'AT', 'CH']);
+    expect(arbeitnowStatedEligibility('Germany, Deutschland')).toEqual([]); // the same country twice is one country
+    for (const loc of ['Berlin, Germany', 'Germany', 'Remote, Germany, France', 'Europe, Germany', '', 'Atlantis, Germany']) expect(arbeitnowStatedEligibility(loc), loc).toEqual([]);
+    const r = normalizeArbeitnow({ ...arbeitnow.data[0], location: 'United States, Canada, Spain, Czech Republic', url: 'https://www.arbeitnow.com/jobs/x' }, NOW);
+    expect(r).toMatchObject({ ok: true, job: { country: null, geoRestrictions: ['US', 'CA', 'ES', 'CZ'] } });
   });
   it('the normaliser stores it, and still keeps the location as written', () => {
     const r = normalizeArbeitnow({ ...arbeitnow.data[0], location: 'Leipzig, Sachsen, Germany', url: 'https://www.arbeitnow.com/jobs/x' }, NOW);
