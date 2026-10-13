@@ -57,20 +57,14 @@ void main() {
       );
       expect(fakes.applications.rows, isEmpty);
 
-      await t.enterText(
-        find.widgetWithText(TextFormField, 'Job title'),
-        'Electrician',
-      );
-      await t.enterText(find.widgetWithText(TextFormField, 'Company'), 'Acme');
-      await t.enterText(
-        find.widgetWithText(TextFormField, 'Link to the posting (Optional)'),
-        'not a link',
-      );
+      await t.enterText(orbiField('Job title'), 'Electrician');
+      await t.enterText(orbiField('Company'), 'Acme');
+      await t.enterText(orbiField('Link to the posting'), 'not a link');
       await t.tap(find.text('Save'));
       await t.pumpAndSettle();
       expect(find.text('Enter a link starting with https://'), findsOneWidget);
       await t.enterText(
-        find.widgetWithText(TextFormField, 'Link to the posting (Optional)'),
+        orbiField('Link to the posting'),
         'https://acme.example/j/1',
       );
       await t.tap(find.text('Save'));
@@ -105,8 +99,8 @@ void main() {
     );
     await t.tap(find.text('Add application'));
     await t.pumpAndSettle();
-    await t.enterText(find.widgetWithText(TextFormField, 'Job title'), 'X');
-    await t.enterText(find.widgetWithText(TextFormField, 'Company'), 'Y');
+    await t.enterText(orbiField('Job title'), 'X');
+    await t.enterText(orbiField('Company'), 'Y');
     await t.tap(find.text('Save'));
     await t.pumpAndSettle();
     expect(find.textContaining('reached the limit'), findsOneWidget);
@@ -122,14 +116,8 @@ void main() {
       await goTo(t, 'Applications');
       await t.tap(find.text('Add application'));
       await t.pumpAndSettle();
-      await t.enterText(
-        find.widgetWithText(TextFormField, 'Job title'),
-        'Secret role of A',
-      );
-      await t.enterText(
-        find.widgetWithText(TextFormField, 'Company'),
-        'A Corp',
-      );
+      await t.enterText(orbiField('Job title'), 'Secret role of A');
+      await t.enterText(orbiField('Company'), 'A Corp');
       await t.tap(find.text('Save'));
       await t.pumpAndSettle();
       expect(find.text('Secret role of A'), findsOneWidget);
@@ -229,14 +217,8 @@ void main() {
     await t.tap(find.text('Save'));
     await t.pumpAndSettle();
     expect(find.text('Required field'), findsOneWidget);
-    await t.enterText(
-      find.widgetWithText(TextFormField, 'Professional name'),
-      'Maria Souza',
-    );
-    await t.enterText(
-      find.widgetWithText(TextFormField, 'Role or profession (Optional)'),
-      'Nurse',
-    );
+    await t.enterText(orbiField('Professional name'), 'Maria Souza');
+    await t.enterText(orbiField('Role or profession'), 'Nurse');
     await t.tap(find.text('Save'));
     await t.pumpAndSettle();
     expect(fakes.profiles.profileRows.single.headline, 'Nurse');
@@ -244,11 +226,8 @@ void main() {
 
     await t.tap(find.text('Add experience'));
     await t.pumpAndSettle();
-    await t.enterText(find.widgetWithText(TextFormField, 'Role'), 'ICU nurse');
-    await t.enterText(
-      find.widgetWithText(TextFormField, 'Company'),
-      'Hospital X',
-    );
+    await t.enterText(orbiField('Role'), 'ICU nurse');
+    await t.enterText(orbiField('Company'), 'Hospital X');
     await t.tap(find.text('I currently work here'));
     await t.pumpAndSettle();
     await t.tap(find.text('Save'));
@@ -269,10 +248,7 @@ void main() {
 
     await t.tap(find.text('Add education'));
     await t.pumpAndSettle();
-    await t.enterText(
-      find.widgetWithText(TextFormField, 'Institution'),
-      'SENAI',
-    );
+    await t.enterText(orbiField('Institution'), 'SENAI');
     await t.tap(find.text('Save'));
     await t.pumpAndSettle();
     expect(fakes.profiles.eduRows.single.institution, 'SENAI');

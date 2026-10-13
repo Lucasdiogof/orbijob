@@ -577,5 +577,11 @@
   "resumeReplaced": "Résumé replaced",
   "resumeMoreActions": "More actions",
   "resumeChooseFile": "Choose PDF",
-  "languageChooseHint": "The app switches right away."
+  "languageChooseHint": "The app switches right away.",
+  "formDiscardTitle": "Discard changes?",
+  "formDiscardBody": "What you typed will be lost.",
+  "formDiscard": "Discard",
+  "formKeepEditing": "Keep editing",
+  "commonSaved": "Saved",
+  "formFixErrors": "Check the highlighted fields."
 }

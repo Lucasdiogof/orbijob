@@ -339,9 +339,9 @@ class _JobsSection extends StatelessWidget {
         ),
       ),
       LatestStatus.ready => BlocBuilder<FavoritesCubit, FavoritesState>(
-        builder: (context, favs) => Column(
+        builder: (context, favs) => OrbiAdaptiveGrid(
           children: [
-            for (final j in state.jobs.take(maxItems)) ...[
+            for (final j in state.jobs.take(maxItems))
               OrbiJobCard(
                 scored: j,
                 compact: true,
@@ -354,8 +354,6 @@ class _JobsSection extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: AppSpace.s3),
-            ],
           ],
         ),
       ),

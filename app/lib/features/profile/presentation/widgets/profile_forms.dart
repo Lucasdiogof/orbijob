@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/design/design.dart';
 import '../../../../core/orbi/orbi.dart';
-import '../../../../core/widgets/date_field_tile.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
 import '../../domain/professional_profile.dart';
 import '../profile_cubit.dart';
-
-Widget _scaffold(BuildContext context, String title, Widget body) => Scaffold(
-  appBar: AppBar(title: Text(title)),
-  body: Align(
-    alignment: Alignment.topCenter,
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 640),
-      child: body,
-    ),
-  ),
-);
 
 String? _blank(String v) => v.trim().isEmpty ? null : v.trim();
 
@@ -36,56 +23,44 @@ Future<void> openProfileForm(BuildContext context, Widget page) =>
 
 /// Create or edit the professional profile. Any profession: every field except the name is optional.
 class ProfileFormPage extends StatefulWidget {
-  const ProfileFormPage({super.key, this.profile});
+  const ProfileFormPage({super.key, this.profile, this.suggested});
   final ProfessionalProfile? profile;
+
+  /// Values to start from (for example confirmed suggestions from a résumé). They fill the form; nothing is saved until the user saves.
+  final ProfessionalProfile? suggested;
   @override
   State<ProfileFormPage> createState() => _ProfileFormPageState();
 }
 
 class _ProfileFormPageState extends State<ProfileFormPage> {
   final _form = GlobalKey<FormState>();
-  late final _name = TextEditingController(text: widget.profile?.name);
-  late final _headline = TextEditingController(text: widget.profile?.headline);
-  late final _summary = TextEditingController(text: widget.profile?.summary);
-  late final _country = TextEditingController(
-    text: widget.profile?.countryOfResidence,
-  );
-  late final _city = TextEditingController(text: widget.profile?.city);
-  final _skillInput = TextEditingController();
-  late List<String> _skills = [...?widget.profile?.skills];
-  late String? _workMode = widget.profile?.workMode;
+  final _tags = GlobalKey<OrbiTagInputState>();
+  late final ProfessionalProfile? _src = widget.suggested ?? widget.profile;
+  late final _name = TextEditingController(text: _src?.name);
+  late final _headline = TextEditingController(text: _src?.headline);
+  late final _summary = TextEditingController(text: _src?.summary);
+  late final _country = TextEditingController(text: _src?.countryOfResidence);
+  late final _city = TextEditingController(text: _src?.city);
+  late List<String> _skills = [...?_src?.skills];
+  late String _workMode = _src?.workMode ?? '';
   bool _saving = false;
+  late bool _dirty = widget.suggested != null;
 
   @override
   void dispose() {
-    for (final c in [
-      _name,
-      _headline,
-      _summary,
-      _country,
-      _city,
-      _skillInput,
-    ]) {
+    for (final c in [_name, _headline, _summary, _country, _city]) {
       c.dispose();
     }
     super.dispose();
   }
 
-  void _addSkill() {
-    final v = _skillInput.text.trim();
-    if (v.isEmpty || v.length > 80) return;
-    if (_skills.any((s) => s.toLowerCase() == v.toLowerCase())) {
-      _skillInput.clear();
+  Future<void> _save() async {
+    final l = AppLocalizations.of(context);
+    _tags.currentState?.commit();
+    if (!(_form.currentState?.validate() ?? false)) {
+      showOrbiSnackBar(context, l.formFixErrors, kind: OrbiSnackKind.error);
       return;
     }
-    if (_skills.length >= 200) return;
-    setState(() => _skills = [..._skills, v]);
-    _skillInput.clear();
-  }
-
-  Future<void> _save() async {
-    if (!(_form.currentState?.validate() ?? false)) return;
-    _addSkill();
     setState(() => _saving = true);
     final cc = PreferencesCubit.normalizeCountry(_country.text);
     final base = widget.profile ?? ProfessionalProfile(name: _name.text.trim());
@@ -97,13 +72,17 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       skills: _skills,
       countryOfResidence: cc,
       clearCountry: cc == null,
-      workMode: _workMode,
-      clearWorkMode: _workMode == null,
+      workMode: _workMode.isEmpty ? null : _workMode,
+      clearWorkMode: _workMode.isEmpty,
     );
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final saved = l.profileSaved;
     final ok = await context.read<ProfileCubit>().saveProfile(next);
     if (!mounted) return;
     if (ok) {
+      _dirty = false;
       Navigator.of(context).pop();
+      showSavedFeedback(messenger, saved);
     } else {
       setState(() => _saving = false);
     }
@@ -114,117 +93,93 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
     final l = AppLocalizations.of(context);
     String? max(String? v, int n) =>
         (v ?? '').length > n ? l.tooLongError(n) : null;
-    return _scaffold(
-      context,
-      widget.profile == null ? l.profileCreateTitle : l.profileEditAction,
-      Form(
-        key: _form,
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpace.s4),
-          children: [
-            TextFormField(
-              controller: _name,
-              decoration: InputDecoration(labelText: l.profileFieldName),
-              textCapitalization: TextCapitalization.words,
-              validator: (v) =>
-                  (v ?? '').trim().isEmpty ? l.commonRequired : max(v, 200),
-            ),
-            TextFormField(
-              controller: _headline,
-              decoration: InputDecoration(
-                labelText: '${l.profileFieldHeadline} (${l.commonOptional})',
-              ),
-              validator: (v) => max(v, 200),
-            ),
-            TextFormField(
-              controller: _summary,
-              decoration: InputDecoration(
-                labelText: '${l.profileFieldSummary} (${l.commonOptional})',
-              ),
-              maxLines: 5,
-              validator: (v) => max(v, 4000),
-            ),
-            TextFormField(
-              controller: _country,
-              decoration: InputDecoration(
-                labelText: '${l.profileFieldCountry} (${l.commonOptional})',
-              ),
-              textCapitalization: TextCapitalization.characters,
-              validator: (v) =>
-                  (v ?? '').trim().isEmpty ||
-                      PreferencesCubit.normalizeCountry(v!) != null
-                  ? null
-                  : l.profileCountryInvalid,
-            ),
-            TextFormField(
-              controller: _city,
-              decoration: InputDecoration(
-                labelText: '${l.profileFieldCity} (${l.commonOptional})',
-              ),
-              validator: (v) => max(v, 120),
-            ),
-            const SizedBox(height: AppSpace.s3),
-            DropdownButtonFormField<String?>(
-              initialValue: _workMode,
-              decoration: InputDecoration(labelText: l.profileFieldWorkMode),
-              items: [
-                DropdownMenuItem<String?>(
-                  value: null,
-                  child: Text(l.profileWorkModeAny),
-                ),
-                for (final m in workModePreferences)
-                  DropdownMenuItem<String?>(
-                    value: m,
-                    child: Text(workModeLabel(l, m)),
-                  ),
-              ],
-              onChanged: (v) => setState(() => _workMode = v),
-            ),
-            const SizedBox(height: AppSpace.s4),
-            Text(l.profileFieldSkills, style: context.text.titleSmall),
-            const SizedBox(height: AppSpace.s2),
-            Wrap(
-              spacing: AppSpace.s2,
-              runSpacing: AppSpace.s2,
-              children: [
-                for (final s in _skills)
-                  InputChip(
-                    label: Text(s),
-                    deleteButtonTooltipMessage: l.profileSkillRemove(s),
-                    onDeleted: () => setState(
-                      () => _skills = _skills.where((e) => e != s).toList(),
-                    ),
-                  ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _skillInput,
-                    decoration: InputDecoration(
-                      labelText: l.profileSkillAdd,
-                      helperText: l.profileSkillsLimit,
-                    ),
-                    onSubmitted: (_) => _addSkill(),
-                  ),
-                ),
-                IconButton(
-                  tooltip: l.profileSkillAdd,
-                  icon: const Icon(Icons.add),
-                  onPressed: _addSkill,
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpace.s4),
-            OrbiPrimaryButton(
-              label: l.commonSave,
-              loading: _saving,
-              onPressed: _saving ? null : _save,
-            ),
-          ],
+    void touch() => _dirty = true;
+    return OrbiFormPage(
+      title: widget.profile == null
+          ? l.profileCreateTitle
+          : l.profileEditAction,
+      formKey: _form,
+      saving: _saving,
+      dirty: _dirty,
+      onSave: _save,
+      children: [
+        OrbiTextField(
+          label: l.profileFieldName,
+          controller: _name,
+          textCapitalization: TextCapitalization.words,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.name],
+          onChanged: (_) => touch(),
+          validator: (v) =>
+              (v ?? '').trim().isEmpty ? l.commonRequired : max(v, 200),
         ),
-      ),
+        OrbiTextField(
+          label: l.profileFieldHeadline,
+          optional: true,
+          controller: _headline,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.jobTitle],
+          onChanged: (_) => touch(),
+          validator: (v) => max(v, 200),
+        ),
+        OrbiTextField(
+          label: l.profileFieldSummary,
+          optional: true,
+          controller: _summary,
+          maxLines: 5,
+          textInputAction: TextInputAction.newline,
+          onChanged: (_) => touch(),
+          validator: (v) => max(v, 4000),
+        ),
+        OrbiTextField(
+          label: l.profileFieldCountry,
+          optional: true,
+          controller: _country,
+          textCapitalization: TextCapitalization.characters,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.countryCode],
+          onChanged: (_) => touch(),
+          validator: (v) =>
+              (v ?? '').trim().isEmpty ||
+                  PreferencesCubit.normalizeCountry(v!) != null
+              ? null
+              : l.profileCountryInvalid,
+        ),
+        OrbiTextField(
+          label: l.profileFieldCity,
+          optional: true,
+          controller: _city,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.addressCity],
+          onChanged: (_) => touch(),
+          validator: (v) => max(v, 120),
+        ),
+        OrbiDropdownField<String>(
+          label: l.profileFieldWorkMode,
+          value: _workMode,
+          items: [
+            DropdownMenuItem(value: '', child: Text(l.profileWorkModeAny)),
+            for (final m in workModePreferences)
+              DropdownMenuItem(value: m, child: Text(workModeLabel(l, m))),
+          ],
+          onChanged: (v) => setState(() {
+            _workMode = v;
+            _dirty = true;
+          }),
+        ),
+        OrbiTagInput(
+          key: _tags,
+          label: l.profileFieldSkills,
+          addLabel: l.profileSkillAdd,
+          removeLabel: l.profileSkillRemove,
+          helper: l.profileSkillsLimit,
+          tags: _skills,
+          onChanged: (v) => setState(() {
+            _skills = v;
+            _dirty = true;
+          }),
+        ),
+      ],
     );
   }
 }
@@ -254,6 +209,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   late DateTime? _end = widget.initial?.endDate;
   late bool _current = widget.initial?.isCurrent ?? false;
   bool _saving = false;
+  bool _dirty = false;
   String? _dateError;
 
   @override
@@ -277,8 +233,13 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
       err = l.experienceDatesInvalid;
     }
     setState(() => _dateError = err);
-    if (!valid || err != null) return;
+    if (!valid || err != null) {
+      showOrbiSnackBar(context, l.formFixErrors, kind: OrbiSnackKind.error);
+      return;
+    }
     setState(() => _saving = true);
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final saved = l.commonSaved;
     final ok = await context.read<ProfileCubit>().saveExperience(
       Experience(
         id: widget.initial?.id,
@@ -291,7 +252,13 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
       ),
     );
     if (!mounted) return;
-    ok ? Navigator.of(context).pop() : setState(() => _saving = false);
+    if (ok) {
+      _dirty = false;
+      Navigator.of(context).pop();
+      showSavedFeedback(messenger, saved);
+    } else {
+      setState(() => _saving = false);
+    }
   }
 
   @override
@@ -299,71 +266,71 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
     final l = AppLocalizations.of(context);
     String? req(String? v) =>
         (v ?? '').trim().isEmpty ? l.commonRequired : null;
-    return _scaffold(
-      context,
-      widget.initial == null ? l.experienceNewTitle : l.experienceEditTitle,
-      Form(
-        key: _form,
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpace.s4),
-          children: [
-            TextFormField(
-              controller: _role,
-              decoration: InputDecoration(labelText: l.experienceRole),
-              validator: req,
-            ),
-            TextFormField(
-              controller: _company,
-              decoration: InputDecoration(labelText: l.experienceCompany),
-              validator: req,
-            ),
-            const SizedBox(height: AppSpace.s3),
-            DateFieldTile(
-              label: l.fieldStartDate,
-              value: _start,
-              onChanged: (d) => setState(() => _start = d),
-            ),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(l.experienceCurrent),
-              value: _current,
-              onChanged: (v) => setState(() => _current = v ?? false),
-            ),
-            DateFieldTile(
-              label: l.fieldEndDate,
-              value: _current ? null : _end,
-              enabled: !_current,
-              onChanged: (d) => setState(() => _end = d),
-            ),
-            if (_dateError != null)
-              Padding(
-                padding: const EdgeInsets.only(top: AppSpace.s1),
-                child: Text(
-                  _dateError!,
-                  style: context.text.bodySmall!.copyWith(
-                    color: context.colors.error,
-                  ),
-                ),
-              ),
-            TextFormField(
-              controller: _desc,
-              decoration: InputDecoration(
-                labelText: '${l.experienceDescription} (${l.commonOptional})',
-              ),
-              maxLines: 5,
-              validator: (v) =>
-                  (v ?? '').length > 4000 ? l.tooLongError(4000) : null,
-            ),
-            const SizedBox(height: AppSpace.s4),
-            OrbiPrimaryButton(
-              label: l.commonSave,
-              loading: _saving,
-              onPressed: _saving ? null : _save,
-            ),
-          ],
+    void touch() => _dirty = true;
+    return OrbiFormPage(
+      title: widget.initial == null
+          ? l.experienceNewTitle
+          : l.experienceEditTitle,
+      formKey: _form,
+      saving: _saving,
+      dirty: _dirty,
+      onSave: _save,
+      children: [
+        OrbiTextField(
+          label: l.experienceRole,
+          controller: _role,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.jobTitle],
+          onChanged: (_) => touch(),
+          validator: req,
         ),
-      ),
+        OrbiTextField(
+          label: l.experienceCompany,
+          controller: _company,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.organizationName],
+          onChanged: (_) => touch(),
+          validator: req,
+        ),
+        OrbiDateField(
+          label: l.fieldStartDate,
+          value: _start,
+          onChanged: (d) => setState(() {
+            _start = d;
+            _dirty = true;
+          }),
+        ),
+        CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text(l.experienceCurrent),
+          value: _current,
+          onChanged: (v) => setState(() {
+            _current = v ?? false;
+            _dirty = true;
+          }),
+        ),
+        OrbiDateField(
+          label: l.fieldEndDate,
+          value: _current ? null : _end,
+          enabled: !_current,
+          errorText: _dateError,
+          onChanged: (d) => setState(() {
+            _end = d;
+            _dirty = true;
+          }),
+        ),
+        OrbiTextField(
+          label: l.experienceDescription,
+          optional: true,
+          controller: _desc,
+          maxLines: 5,
+          textInputAction: TextInputAction.newline,
+          onChanged: (_) => touch(),
+          validator: (v) =>
+              (v ?? '').length > 4000 ? l.tooLongError(4000) : null,
+        ),
+      ],
     );
   }
 }
@@ -385,6 +352,7 @@ class _EducationFormPageState extends State<EducationFormPage> {
   late DateTime? _start = widget.initial?.startDate;
   late DateTime? _end = widget.initial?.endDate;
   bool _saving = false;
+  bool _dirty = false;
   String? _dateError;
 
   @override
@@ -402,8 +370,13 @@ class _EducationFormPageState extends State<EducationFormPage> {
         ? l.experienceDatesInvalid
         : null;
     setState(() => _dateError = err);
-    if (!valid || err != null) return;
+    if (!valid || err != null) {
+      showOrbiSnackBar(context, l.formFixErrors, kind: OrbiSnackKind.error);
+      return;
+    }
     setState(() => _saving = true);
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final saved = l.commonSaved;
     final ok = await context.read<ProfileCubit>().saveEducation(
       Education(
         id: widget.initial?.id,
@@ -416,63 +389,68 @@ class _EducationFormPageState extends State<EducationFormPage> {
       ),
     );
     if (!mounted) return;
-    ok ? Navigator.of(context).pop() : setState(() => _saving = false);
+    if (ok) {
+      _dirty = false;
+      Navigator.of(context).pop();
+      showSavedFeedback(messenger, saved);
+    } else {
+      setState(() => _saving = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return _scaffold(
-      context,
-      widget.initial == null ? l.educationNewTitle : l.educationEditTitle,
-      Form(
-        key: _form,
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpace.s4),
-          children: [
-            TextFormField(
-              controller: _inst,
-              decoration: InputDecoration(labelText: l.educationInstitution),
-              validator: (v) =>
-                  (v ?? '').trim().isEmpty ? l.commonRequired : null,
-            ),
-            TextFormField(
-              controller: _field,
-              decoration: InputDecoration(
-                labelText: '${l.educationField} (${l.commonOptional})',
-              ),
-            ),
-            TextFormField(
-              controller: _degree,
-              decoration: InputDecoration(labelText: l.educationDegree),
-            ),
-            const SizedBox(height: AppSpace.s3),
-            DateFieldTile(
-              label: l.fieldStartDate,
-              value: _start,
-              onChanged: (d) => setState(() => _start = d),
-            ),
-            DateFieldTile(
-              label: l.fieldEndDate,
-              value: _end,
-              onChanged: (d) => setState(() => _end = d),
-            ),
-            if (_dateError != null)
-              Text(
-                _dateError!,
-                style: context.text.bodySmall!.copyWith(
-                  color: context.colors.error,
-                ),
-              ),
-            const SizedBox(height: AppSpace.s4),
-            OrbiPrimaryButton(
-              label: l.commonSave,
-              loading: _saving,
-              onPressed: _saving ? null : _save,
-            ),
-          ],
+    void touch() => _dirty = true;
+    return OrbiFormPage(
+      title: widget.initial == null
+          ? l.educationNewTitle
+          : l.educationEditTitle,
+      formKey: _form,
+      saving: _saving,
+      dirty: _dirty,
+      onSave: _save,
+      children: [
+        OrbiTextField(
+          label: l.educationInstitution,
+          controller: _inst,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.organizationName],
+          onChanged: (_) => touch(),
+          validator: (v) => (v ?? '').trim().isEmpty ? l.commonRequired : null,
         ),
-      ),
+        OrbiTextField(
+          label: l.educationField,
+          optional: true,
+          controller: _field,
+          textInputAction: TextInputAction.next,
+          onChanged: (_) => touch(),
+        ),
+        OrbiTextField(
+          label: l.educationDegree,
+          optional: true,
+          controller: _degree,
+          textInputAction: TextInputAction.done,
+          onChanged: (_) => touch(),
+        ),
+        OrbiDateField(
+          label: l.fieldStartDate,
+          value: _start,
+          onChanged: (d) => setState(() {
+            _start = d;
+            _dirty = true;
+          }),
+        ),
+        OrbiDateField(
+          label: l.fieldEndDate,
+          value: _end,
+          errorText: _dateError,
+          onChanged: (d) => setState(() {
+            _end = d;
+            _dirty = true;
+          }),
+        ),
+      ],
     );
   }
 }

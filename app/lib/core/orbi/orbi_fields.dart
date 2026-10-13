@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../design/design.dart';
+import 'orbi_form.dart';
 
 /// Labelled text input. The label sits above the field (always visible, never a floating hint that disappears),
 /// the helper or error text below, and the whole thing is one semantic group.
@@ -28,9 +29,13 @@ class OrbiTextField extends StatelessWidget {
     this.inputFormatters,
     this.autofocus = false,
     this.validator,
+    this.optional = false,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   final String label;
+  final bool optional;
+  final TextCapitalization textCapitalization;
   final TextEditingController? controller;
   final String? hint;
   final String? helper;
@@ -52,17 +57,10 @@ class OrbiTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: AppSpace.s2),
-          child: Text(
-            label,
-            style: context.text.labelMedium!.copyWith(color: c.ink),
-          ),
-        ),
+        OrbiFieldLabel(label, optional: optional),
         TextFormField(
           controller: controller,
           focusNode: focusNode,
@@ -70,6 +68,7 @@ class OrbiTextField extends StatelessWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
+          textCapitalization: textCapitalization,
           autofillHints: autofillHints,
           onChanged: onChanged,
           onFieldSubmitted: onSubmitted,

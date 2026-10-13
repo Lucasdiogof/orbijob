@@ -172,6 +172,7 @@ class _ApplicationFormPageState extends State<_ApplicationFormPage> {
   ApplicationStage _stage = ApplicationStage.applied;
   DateTime? _date;
   bool _saving = false;
+  bool _dirty = false;
 
   @override
   void dispose() {
@@ -181,20 +182,15 @@ class _ApplicationFormPageState extends State<_ApplicationFormPage> {
     super.dispose();
   }
 
-  Future<void> _pickDate() async {
-    final now = DateTime.now();
-    final d = await showDatePicker(
-      context: context,
-      initialDate: _date ?? now,
-      firstDate: DateTime(now.year - 10),
-      lastDate: now,
-    );
-    if (d != null) setState(() => _date = d);
-  }
-
   Future<void> _save() async {
-    if (!(_form.currentState?.validate() ?? false)) return;
+    final l = AppLocalizations.of(context);
+    if (!(_form.currentState?.validate() ?? false)) {
+      showOrbiSnackBar(context, l.formFixErrors, kind: OrbiSnackKind.error);
+      return;
+    }
     setState(() => _saving = true);
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final saved = l.commonSaved;
     final ok = await context.read<ApplicationsCubit>().create(
       company: _company.text,
       title: _title.text,
@@ -206,7 +202,9 @@ class _ApplicationFormPageState extends State<_ApplicationFormPage> {
     );
     if (!mounted) return;
     if (ok) {
+      _dirty = false;
       Navigator.of(context).pop();
+      showSavedFeedback(messenger, saved);
     } else {
       setState(() => _saving = false);
     }
@@ -215,111 +213,95 @@ class _ApplicationFormPageState extends State<_ApplicationFormPage> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final now = DateTime.now();
     String? required(String? v) =>
         (v ?? '').trim().isEmpty ? l.commonRequired : null;
-    return Scaffold(
-      appBar: AppBar(title: Text(l.applicationNewTitle)),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
-          child: Form(
-            key: _form,
-            child: ListView(
-              padding: const EdgeInsets.all(AppSpace.s4),
-              children: [
-                Text(
-                  l.applicationsDisclaimer,
-                  style: context.text.bodySmall!.copyWith(
-                    color: context.colors.muted,
-                  ),
-                ),
-                const SizedBox(height: AppSpace.s4),
-                TextFormField(
-                  controller: _title,
-                  decoration: InputDecoration(labelText: l.applicationJobTitle),
-                  maxLength: 200,
-                  validator: required,
-                ),
-                TextFormField(
-                  controller: _company,
-                  decoration: InputDecoration(labelText: l.applicationCompany),
-                  maxLength: 200,
-                  validator: required,
-                ),
-                TextFormField(
-                  controller: _link,
-                  keyboardType: TextInputType.url,
-                  decoration: InputDecoration(
-                    labelText: '${l.applicationLink} (${l.commonOptional})',
-                  ),
-                  validator: (v) =>
-                      (v ?? '').trim().isEmpty ||
-                          ApplicationsCubit.isWebLink(v!.trim())
-                      ? null
-                      : l.applicationLinkInvalid,
-                ),
-                const SizedBox(height: AppSpace.s3),
-                DropdownButtonFormField<ApplicationStage>(
-                  initialValue: _stage,
-                  decoration: InputDecoration(
-                    labelText: l.applicationStageLabel,
-                  ),
-                  items: [
-                    for (final s in ApplicationStage.values)
-                      DropdownMenuItem(
-                        value: s,
-                        child: Text(applicationStageLabel(l, s)),
-                      ),
-                  ],
-                  onChanged: (v) => setState(() => _stage = v ?? _stage),
-                ),
-                const SizedBox(height: AppSpace.s3),
-                TextFormField(
-                  controller: _channel,
-                  decoration: InputDecoration(
-                    labelText: '${l.applicationChannel} (${l.commonOptional})',
-                  ),
-                  maxLength: 100,
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(l.applicationAppliedOn),
-                  subtitle: Text(
-                    _date == null
-                        ? l.applicationNoDate
-                        : MaterialLocalizations.of(context)
-                              .formatMediumDate(_date!),
-                  ),
-                  trailing: _date == null
-                      ? const Icon(Icons.event_outlined)
-                      : IconButton(
-                          tooltip: l.dateClear,
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => setState(() => _date = null),
-                        ),
-                  onTap: _pickDate,
-                ),
-                TextFormField(
-                  controller: _note,
-                  decoration: InputDecoration(
-                    labelText: '${l.applicationNote} (${l.commonOptional})',
-                  ),
-                  maxLines: 4,
-                  maxLength: 5000,
-                ),
-                const SizedBox(height: AppSpace.s4),
-                OrbiPrimaryButton(
-                  label: l.commonSave,
-                  expand: true,
-                  loading: _saving,
-                  onPressed: _saving ? null : _save,
-                ),
-              ],
-            ),
-          ),
+    void touch() => _dirty = true;
+    return OrbiFormPage(
+      title: l.applicationNewTitle,
+      formKey: _form,
+      saving: _saving,
+      dirty: _dirty,
+      onSave: _save,
+      children: [
+        Text(
+          l.applicationsDisclaimer,
+          style: context.text.bodySmall!.copyWith(color: context.colors.muted),
         ),
-      ),
+        OrbiTextField(
+          label: l.applicationJobTitle,
+          controller: _title,
+          maxLength: 200,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.jobTitle],
+          onChanged: (_) => touch(),
+          validator: required,
+        ),
+        OrbiTextField(
+          label: l.applicationCompany,
+          controller: _company,
+          maxLength: 200,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.organizationName],
+          onChanged: (_) => touch(),
+          validator: required,
+        ),
+        OrbiTextField(
+          label: l.applicationLink,
+          optional: true,
+          controller: _link,
+          keyboardType: TextInputType.url,
+          textInputAction: TextInputAction.next,
+          autofillHints: const [AutofillHints.url],
+          onChanged: (_) => touch(),
+          validator: (v) =>
+              (v ?? '').trim().isEmpty || ApplicationsCubit.isWebLink(v!.trim())
+              ? null
+              : l.applicationLinkInvalid,
+        ),
+        OrbiDropdownField<ApplicationStage>(
+          label: l.applicationStageLabel,
+          value: _stage,
+          items: [
+            for (final s in ApplicationStage.values)
+              DropdownMenuItem(
+                value: s,
+                child: Text(applicationStageLabel(l, s)),
+              ),
+          ],
+          onChanged: (v) => setState(() {
+            _stage = v;
+            _dirty = true;
+          }),
+        ),
+        OrbiTextField(
+          label: l.applicationChannel,
+          optional: true,
+          controller: _channel,
+          maxLength: 100,
+          textInputAction: TextInputAction.next,
+          onChanged: (_) => touch(),
+        ),
+        OrbiDateField(
+          label: l.applicationAppliedOn,
+          value: _date,
+          lastDate: now,
+          firstDate: DateTime(now.year - 10),
+          onChanged: (d) => setState(() {
+            _date = d;
+            _dirty = true;
+          }),
+        ),
+        OrbiTextField(
+          label: l.applicationNote,
+          optional: true,
+          controller: _note,
+          maxLines: 4,
+          maxLength: 5000,
+          textInputAction: TextInputAction.newline,
+          onChanged: (_) => touch(),
+        ),
+      ],
     );
   }
 }
@@ -448,11 +430,9 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                     ),
                   ],
                   const SizedBox(height: AppSpace.s4),
-                  DropdownButtonFormField<ApplicationStage>(
-                    initialValue: a.stage,
-                    decoration: InputDecoration(
-                      labelText: l.applicationStageLabel,
-                    ),
+                  OrbiDropdownField<ApplicationStage>(
+                    label: l.applicationStageLabel,
+                    value: a.stage,
                     items: [
                       for (final st in ApplicationStage.values)
                         DropdownMenuItem(
@@ -463,7 +443,7 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                     onChanged: s.busy
                         ? null
                         : (v) {
-                            if (v != null && v != a.stage) {
+                            if (v != a.stage) {
                               context.read<ApplicationsCubit>().updateStage(
                                 a.id,
                                 v,
@@ -472,9 +452,9 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                           },
                   ),
                   const SizedBox(height: AppSpace.s3),
-                  TextField(
+                  OrbiTextField(
+                    label: l.applicationNote,
                     controller: _note,
-                    decoration: InputDecoration(labelText: l.applicationNote),
                     maxLines: 4,
                     maxLength: 5000,
                   ),

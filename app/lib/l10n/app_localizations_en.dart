@@ -1393,4 +1393,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageChooseHint => 'The app switches right away.';
+
+  @override
+  String get formDiscardTitle => 'Discard changes?';
+
+  @override
+  String get formDiscardBody => 'What you typed will be lost.';
+
+  @override
+  String get formDiscard => 'Discard';
+
+  @override
+  String get formKeepEditing => 'Keep editing';
+
+  @override
+  String get commonSaved => 'Saved';
+
+  @override
+  String get formFixErrors => 'Check the highlighted fields.';
 }

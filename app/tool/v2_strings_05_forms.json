@@ -1,0 +1,8 @@
+{
+  "formDiscardTitle": {"en": "Discard changes?", "pt": "Descartar alterações?", "es": "¿Descartar los cambios?"},
+  "formDiscardBody": {"en": "What you typed will be lost.", "pt": "O que você digitou será perdido.", "es": "Lo que escribiste se perderá."},
+  "formDiscard": {"en": "Discard", "pt": "Descartar", "es": "Descartar"},
+  "formKeepEditing": {"en": "Keep editing", "pt": "Continuar editando", "es": "Seguir editando"},
+  "commonSaved": {"en": "Saved", "pt": "Salvo", "es": "Guardado"},
+  "formFixErrors": {"en": "Check the highlighted fields.", "pt": "Confira os campos destacados.", "es": "Revisa los campos resaltados."}
+}

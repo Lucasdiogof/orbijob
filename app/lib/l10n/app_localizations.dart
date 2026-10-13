@@ -2559,6 +2559,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The app switches right away.'**
   String get languageChooseHint;
+
+  /// No description provided for @formDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get formDiscardTitle;
+
+  /// No description provided for @formDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'What you typed will be lost.'**
+  String get formDiscardBody;
+
+  /// No description provided for @formDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get formDiscard;
+
+  /// No description provided for @formKeepEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get formKeepEditing;
+
+  /// No description provided for @commonSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get commonSaved;
+
+  /// No description provided for @formFixErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the highlighted fields.'**
+  String get formFixErrors;
 }
 
 class _AppLocalizationsDelegate

@@ -1398,4 +1398,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get languageChooseHint => 'O app muda na hora.';
+
+  @override
+  String get formDiscardTitle => 'Descartar alterações?';
+
+  @override
+  String get formDiscardBody => 'O que você digitou será perdido.';
+
+  @override
+  String get formDiscard => 'Descartar';
+
+  @override
+  String get formKeepEditing => 'Continuar editando';
+
+  @override
+  String get commonSaved => 'Salvo';
+
+  @override
+  String get formFixErrors => 'Confira os campos destacados.';
 }

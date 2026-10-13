@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/app.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/core/di/injector.dart';
 import 'package:orbijob/features/auth/domain/auth_repository.dart';
 import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
@@ -79,3 +80,9 @@ Future<void> pumpApp(
 
 /// Path of a repository file relative to the app directory (tests run from app/).
 File repoFile(String relative) => File(relative);
+
+/// The input of the [OrbiTextField] whose label is [label] (the label sits above the field, not inside it).
+Finder orbiField(String label) => find.descendant(
+  of: find.byWidgetPredicate((w) => w is OrbiTextField && w.label == label),
+  matching: find.byType(TextFormField),
+);

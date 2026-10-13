@@ -430,5 +430,11 @@
   "resumeReplaced": "Currículo substituído",
   "resumeMoreActions": "Mais ações",
   "resumeChooseFile": "Escolher PDF",
-  "languageChooseHint": "O app muda na hora."
+  "languageChooseHint": "O app muda na hora.",
+  "formDiscardTitle": "Descartar alterações?",
+  "formDiscardBody": "O que você digitou será perdido.",
+  "formDiscard": "Descartar",
+  "formKeepEditing": "Continuar editando",
+  "commonSaved": "Salvo",
+  "formFixErrors": "Confira os campos destacados."
 }

@@ -119,7 +119,7 @@ class _ProfileCard extends StatelessWidget {
             Wrap(
               spacing: AppSpace.s2,
               runSpacing: AppSpace.s2,
-              children: [for (final s in p.skills) Chip(label: Text(s))],
+              children: [for (final s in p.skills) OrbiStatusBadge(label: s)],
             ),
           ],
           const SizedBox(height: AppSpace.s3),
@@ -174,7 +174,7 @@ class _ExperienceList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l.experienceSection, style: context.text.titleSmall),
+        OrbiSectionHeader(title: l.experienceSection),
         const SizedBox(height: AppSpace.s2),
         if (items.isEmpty) Text(l.experienceEmpty, style: muted),
         for (final e in items)
@@ -245,7 +245,7 @@ class _EducationList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l.educationSection, style: context.text.titleSmall),
+        OrbiSectionHeader(title: l.educationSection),
         const SizedBox(height: AppSpace.s2),
         if (items.isEmpty) Text(l.educationEmpty, style: muted),
         for (final e in items)

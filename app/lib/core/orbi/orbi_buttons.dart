@@ -167,7 +167,7 @@ class _OrbiButton extends StatelessWidget {
                   horizontal: kind == _Kind.text ? AppSpace.s3 : AppSpace.s5,
                   vertical: AppSpace.s2,
                 ),
-                child: Center(widthFactor: 1, child: content),
+                child: Center(widthFactor: 1, heightFactor: 1, child: content),
               ),
             ),
           ),

@@ -153,12 +153,14 @@ abstract final class AppTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? c.onPrimary : c.surface,
+          (s) => s.contains(WidgetState.selected) ? c.onPrimary : c.muted,
         ),
         trackColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? c.primary : c.outline,
+          (s) => s.contains(WidgetState.selected) ? c.primary : c.container,
         ),
-        trackOutlineColor: const WidgetStatePropertyAll(Color(0x00000000)),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? c.clear : c.muted,
+        ),
       ),
       checkboxTheme: CheckboxThemeData(
         shape: RoundedRectangleBorder(
