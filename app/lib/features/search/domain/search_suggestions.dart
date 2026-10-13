@@ -28,10 +28,14 @@ List<String> searchSuggestions(String term, {int max = 3}) {
   return out;
 }
 
+/// Groups that name a specialty or a body area, not a profession ("pélvica" narrows "fisioterapia"; it is not a search of its own).
+const _modifierGroups = {'pelvic', 'uroginecol'};
+
 bool _isProfession(String w) =>
     escoOccupationsOf(w).isNotEmpty ||
-    synonymGroups.any((g) => g.any((f) => w.startsWith(f))) ||
-    titleAlternatives(w).isNotEmpty;
+    synonymGroups.any(
+      (g) => !g.any(_modifierGroups.contains) && g.any((f) => w.startsWith(f)),
+    );
 
 // --- spelling -------------------------------------------------------------------------------------------------------------------------
 

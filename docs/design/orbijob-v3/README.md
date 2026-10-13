@@ -16,3 +16,4 @@ notifications, applications); they are not evidence of live job inventory.
 | 08 | Applications: coming up, stage filter | en light/dark, pt, es |
 | 09 | Application detail with interview and follow-up dates | en light/dark, pt, es |
 | 11 | Compare jobs | phone and desktop, light/dark |
+| 12 | No results: "Try instead" suggestions (5.0) | en light/dark, pt, es |

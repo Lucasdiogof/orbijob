@@ -287,6 +287,16 @@ void main() {
       await t.tap(find.byType(Switch).first);
       await _shot(t, '04-save-search-$suffix');
     });
+    scene('12-no-results-suggestions-$suffix', (t) async {
+      await _tapText(t, _label(t, 'navExplore'));
+      await t.enterText(
+        find.byType(TextField).last,
+        'fisioterapia pélvica xyz',
+      );
+      await t.testTextInput.receiveAction(TextInputAction.search);
+      await t.pumpAndSettle();
+      await _shot(t, '12-no-results-suggestions-$suffix');
+    });
     scene('05-saved-searches-$suffix', (t) async {
       await t.tap(find.text(_label(t, 'homeSavedAll')).first);
       await _shot(t, '05-saved-searches-$suffix');
