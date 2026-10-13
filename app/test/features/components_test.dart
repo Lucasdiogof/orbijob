@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageByteFormat, PictureRecorder;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/design.dart';
@@ -247,6 +249,69 @@ void main() {
     expect(t.binding.hasScheduledFrame, isFalse);
   });
 
+  testWidgets(
+    'orbital loader animates, and holds the exact logo with reduced motion',
+    (t) async {
+      for (final b in Brightness.values) {
+        await t.pumpWidget(host(const OrbiLoadingIndicator(size: 48), b: b));
+        await t.pump(const Duration(milliseconds: 300));
+        expect(
+          t.binding.hasScheduledFrame,
+          isTrue,
+          reason: 'animating (${b.name})',
+        );
+        expect(t.takeException(), isNull);
+      }
+      t.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(t.platformDispatcher.clearAccessibilityFeaturesTestValue);
+      await t.pumpWidget(host(const OrbiLoadingIndicator(size: 48)));
+      await t.pumpAndSettle();
+      expect(t.binding.hasScheduledFrame, isFalse);
+    },
+  );
+
+  testWidgets(
+    'orbital painter is exactly the logo at progress 0 and 1 (no seam in the loop)',
+    (t) async {
+      final img0 = await t.runAsync(() => _render(0));
+      final img1 = await t.runAsync(() => _render(1));
+      var far = 0;
+      for (var i = 0; i < img0!.length; i++) {
+        if ((img0[i] - img1![i]).abs() > 24) far++;
+      }
+      expect(
+        far / img0.length,
+        lessThan(0.002),
+        reason: 'a half turn of the symmetric mark looks the same (no seam)',
+      );
+    },
+  );
+
+  testWidgets('launch overlay shows, never blocks taps, and goes away', (
+    t,
+  ) async {
+    OrbiLaunchOverlay.resetForTests();
+    var taps = 0;
+    await t.pumpWidget(
+      host(
+        OrbiLaunchOverlay(
+          child: ElevatedButton(
+            onPressed: () => taps++,
+            child: const Text('Tap'),
+          ),
+        ),
+      ),
+    );
+    await t.pump(const Duration(milliseconds: 100));
+    expect(find.byType(CustomPaint), findsWidgets);
+    await t.tap(find.text('Tap'));
+    expect(taps, 1);
+    await t.pumpAndSettle(const Duration(milliseconds: 100));
+    expect(find.byType(OrbiLaunchOverlay), findsOneWidget);
+    expect(t.takeException(), isNull);
+  });
+
   testWidgets('brand logo and symbol render in light and dark', (t) async {
     for (final b in Brightness.values) {
       await t.pumpWidget(
@@ -263,4 +328,18 @@ void main() {
       expect(find.bySemanticsLabel('OrbiJob'), findsWidgets);
     }
   });
+}
+
+Future<List<int>> _render(double progress) async {
+  final rec = PictureRecorder();
+  OrbiOrbitPainter(
+    progress: progress,
+    color: Colors.black,
+    coreColor: Colors.blue,
+    ripple: false,
+    shorten: false,
+  ).paint(Canvas(rec), const Size(84, 84));
+  final image = await rec.endRecording().toImage(84, 84);
+  final bytes = await image.toByteData(format: ImageByteFormat.rawRgba);
+  return bytes!.buffer.asUint8List();
 }

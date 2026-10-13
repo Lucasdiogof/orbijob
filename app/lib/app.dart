@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/orbi/orbi.dart';
 import 'core/design/design.dart';
 import 'core/di/injector.dart';
 import 'core/locale_cubit.dart';
@@ -63,7 +64,9 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           builder: (context, child) {
             final inner = widget.builder?.call(context, child) ?? child!;
-            return UserScope(navigator: _navigator, child: inner);
+            return OrbiLaunchOverlay(
+              child: UserScope(navigator: _navigator, child: inner),
+            );
           },
           home: const ShellPage(),
         ),

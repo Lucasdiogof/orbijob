@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/app.dart';
+import 'package:orbijob/core/design/design.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
@@ -248,6 +250,46 @@ void main() {
       await _tapText(t, settings);
       await _tapText(t, device);
       await _shot(t, '33-language-$code');
+    }, skip: !_capture);
+  }
+
+  // The orbital loader frames (progress 0, .2, .4, .6, .8, 1) in both themes.
+  for (final b in Brightness.values) {
+    testWidgets('loader frames (${b.name})', (t) async {
+      t.view.physicalSize = const Size(900, 200);
+      t.view.devicePixelRatio = 1;
+      addTearDown(t.view.reset);
+      await t.pumpWidget(
+        MaterialApp(
+          theme: b == Brightness.light ? AppTheme.light() : AppTheme.dark(),
+          home: Builder(
+            builder: (context) => RepaintBoundary(
+              key: const ValueKey('frames'),
+              child: ColoredBox(
+                color: context.colors.bg,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (final p in [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+                      CustomPaint(
+                        size: const Size.square(96),
+                        painter: OrbiOrbitPainter(
+                          progress: p,
+                          color: context.colors.ink,
+                          coreColor: context.colors.primary,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await expectLater(
+        find.byKey(const ValueKey('frames')),
+        matchesGoldenFile('40-loader-frames-${b.name}.png'),
+      );
     }, skip: !_capture);
   }
 }
