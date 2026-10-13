@@ -30,18 +30,19 @@ drop policy if exists resumes_objects_delete on storage.objects;
 do $$
 begin
   if to_regnamespace('cron') is not null then
-    perform cron.unschedule(jobname) from cron.job where jobname in ('jobicy-revalidate-start', 'jobicy-revalidate-collect', 'ops-cron-history-purge', 'jobicy-retention', 'sources-expire-unseen');
+    perform cron.unschedule(jobname) from cron.job where jobname in ('jobicy-revalidate-start', 'jobicy-revalidate-collect', 'ops-cron-history-purge', 'jobicy-retention', 'sources-expire-unseen', 'alerts-run');
   end if;
 end $$;
 drop schema if exists ops cascade;
 
 drop table if exists
-  public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,
+  public.notifications, public.hidden_jobs, public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,
   public.saved_jobs, public.resumes, public.credentials, public.education, public.experiences,
   public.professional_profiles, public.user_preferences, public.sync_runs, public.job_clusters, public.jobs,
   public.job_sources
   cascade;
 drop function if exists public.set_updated_at();
+drop function if exists public.saved_search_alert_state();
 drop function if exists public.log_application_stage();
 drop function if exists public.enforce_row_quota();
 drop extension if exists pg_trgm cascade;

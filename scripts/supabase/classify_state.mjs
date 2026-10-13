@@ -22,9 +22,10 @@ export const MIGRATIONS = [
   { version: '20261020000000', name: 'jobtech_revalidation' },
   { version: '20261021000000', name: 'expire_by_evidence' },
   { version: '20261022000000', name: 'jobsconz_revalidation' },
+  { version: '20261023000000', name: 'v3_searches_alerts' },
 ];
 
-const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota'];
+const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota', 'saved_search_alert_state'];
 // Functions the Supabase platform itself installs in `public`. Known by name only: the inspection must still be backed by
 // inspect_predeploy_details.sql (return type, event trigger binding, definition) before the apply is called ready.
 const PLATFORM_FUNCTIONS = {
@@ -34,7 +35,7 @@ const PLATFORM_FUNCTIONS = {
 const OWN_TABLES = [
   'job_sources', 'jobs', 'job_clusters', 'sync_runs', 'professional_profiles', 'experiences', 'education',
   'credentials', 'resumes', 'saved_jobs', 'saved_searches', 'viewed_jobs', 'applications', 'application_events',
-  'reminders', 'user_preferences',
+  'reminders', 'user_preferences', 'notifications', 'hidden_jobs',
 ];
 
 /** Which migrations leave their fingerprint in the catalog (independent of the history table). */
@@ -71,6 +72,8 @@ function signatures(i) {
     (i.ops_functions ?? []).includes('expiry_rule'),
     // migration 15 adds the in-database revalidation of Jobs.co.nz (start + collect)
     (i.ops_functions ?? []).includes('jobsconz_revalidate_start') && (i.ops_functions ?? []).includes('jobsconz_revalidate_collect'),
+    // migration 16 adds the saved-search alert run (matching + hourly pass + its log table) in `ops`
+    (i.ops_functions ?? []).includes('alerts_run') && (i.ops_functions ?? []).includes('alert_matches') && (i.ops_tables ?? []).includes('alert_runs'),
   ];
 }
 
