@@ -70,7 +70,10 @@ class AuthState extends Equatable {
 /// Session state for the whole app. It follows the repository's user stream, so a restored session, a token
 /// refresh failure or a sign-out elsewhere is reflected without extra code in the UI.
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._repo)
+  /// Device clean-up that needs the session (the push token row), run before it ends.
+  final Future<void> Function()? beforeSignOut;
+
+  AuthCubit(this._repo, {this.beforeSignOut})
     : super(AuthState(available: _repo.isAvailable, user: _repo.currentUser)) {
     _sub = _repo.userChanges.listen(_onUser, onError: _onStreamError);
     _recovery = _repo.recoveryLinks.listen(
@@ -155,6 +158,10 @@ class AuthCubit extends Cubit<AuthState> {
     _signingOut = true;
     try {
       await _run(() async {
+        // device clean-up that needs the session (push token row) happens before it ends; never blocks the sign-out
+        try {
+          await beforeSignOut?.call();
+        } catch (_) {}
         await _repo.signOut();
         return AuthNotice.none;
       });

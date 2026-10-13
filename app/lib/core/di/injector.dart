@@ -54,6 +54,9 @@ import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
 import '../locale_cubit.dart';
 import '../theme_cubit.dart';
+import '../../features/push/data/supabase_push_devices_repository.dart';
+import '../../features/push/domain/push_messaging.dart';
+import '../../features/push/push_registrar.dart';
 
 final sl = GetIt.instance;
 
@@ -75,6 +78,7 @@ void configureDependencies({
   TranslationEngine? translationEngine,
   TranslationCache? translationCache,
   SharedPreferences? preferences,
+  PushMessaging? pushMessaging,
 
   /// How often the open app re-reads the notifications; null = never (tests, which must not leave a timer behind).
   Duration? notificationsRefresh = const Duration(minutes: 5),
@@ -104,7 +108,18 @@ void configureDependencies({
     ..registerLazySingleton<AuthRepository>(
       () => authRepository ?? UnconfiguredAuthRepository(),
     )
-    ..registerFactory<AuthCubit>(() => AuthCubit(sl<AuthRepository>()))
+    ..registerLazySingleton<PushRegistrar>(
+      () => PushRegistrar(
+        pushMessaging ?? const NoPushMessaging(),
+        maybe<PushDevicesRepository>(),
+      ),
+    )
+    ..registerFactory<AuthCubit>(
+      () => AuthCubit(
+        sl<AuthRepository>(),
+        beforeSignOut: sl<PushRegistrar>().beforeSignOut,
+      ),
+    )
     ..registerLazySingleton<RecentSearchesCubit>(
       () => RecentSearchesCubit(
         prefs: preferences,
@@ -173,6 +188,11 @@ void configureDependencies({
 /// Registers the Supabase-backed repositories. Called once at start-up, only when a public configuration exists.
 /// The screens read them through their Cubits (see [maybe]); a repository registered earlier (previews, tests) wins.
 void registerSupabaseRepositories(SupabaseClient client) {
+  if (!sl.isRegistered<PushDevicesRepository>()) {
+    sl.registerLazySingleton<PushDevicesRepository>(
+      () => SupabasePushDevicesRepository(client),
+    );
+  }
   if (!sl.isRegistered<FavoritesRepository>()) {
     sl.registerLazySingleton<FavoritesRepository>(
       () => SupabaseFavoritesRepository(client),

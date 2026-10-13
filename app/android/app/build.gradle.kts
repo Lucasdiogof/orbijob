@@ -47,3 +47,9 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// Push (Firebase Cloud Messaging) is enabled only on machines that hold the owner's google-services.json (gitignored: the repository is
+// public). Without it the app builds the same and the push service simply stays off.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,8 @@ import '../searches/presentation/saved_searches_cubit.dart';
 import '../profile/presentation/profile_cubit.dart';
 import '../../core/data/load_status.dart';
 import '../../core/widgets/data_state_view.dart';
+import '../notifications/presentation/notifications_page.dart';
+import '../push/push_registrar.dart';
 
 /// Owns everything that belongs to ONE account: favourites, profile, applications, preferences and saved searches.
 /// It is rebuilt (new Cubits, new requests, nothing carried over) whenever the signed-in user changes, so after a
@@ -52,7 +56,11 @@ class UserScope extends StatelessWidget {
             BlocProvider(create: (_) => sl<HiddenJobsCubit>()..load()),
             BlocProvider(create: (_) => sl<RecommendationsCubit>()),
           ],
-          child: _ScopeEffects(userId: auth.user?.id, child: child),
+          child: _ScopeEffects(
+            userId: auth.user?.id,
+            navigator: navigator,
+            child: child,
+          ),
         ),
       ),
     ),
@@ -60,8 +68,13 @@ class UserScope extends StatelessWidget {
 }
 
 class _ScopeEffects extends StatefulWidget {
-  const _ScopeEffects({required this.child, this.userId});
+  const _ScopeEffects({
+    required this.child,
+    required this.navigator,
+    this.userId,
+  });
   final Widget child;
+  final GlobalKey<NavigatorState> navigator;
   final String? userId;
   @override
   State<_ScopeEffects> createState() => _ScopeEffectsState();
@@ -75,6 +88,29 @@ class _ScopeEffectsState extends State<_ScopeEffects> {
     context.read<RecentSearchesCubit>().useScope(widget.userId);
     // A comparison is a scratch pad of one sitting: it does not follow a person to the next account.
     context.read<CompareCubit>().clear();
+    // Push: register this device for the signed-in person; a tapped push opens the notification centre.
+    final uid = widget.userId;
+    if (uid != null) {
+      final push = sl<PushRegistrar>();
+      push.onSignedIn(
+        uid,
+        locale: WidgetsBinding.instance.platformDispatcher.locale
+            .toLanguageTag(),
+      );
+      _opened = push.opened.listen((_) {
+        widget.navigator.currentState?.push(
+          MaterialPageRoute<void>(builder: (_) => const NotificationsPage()),
+        );
+      });
+    }
+  }
+
+  StreamSubscription<String>? _opened;
+
+  @override
+  void dispose() {
+    _opened?.cancel();
+    super.dispose();
   }
 
   static ThemeMode _mode(String t) => switch (t) {

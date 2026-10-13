@@ -86,7 +86,7 @@ export function buildMessage(r: PushRow): Record<string, unknown> {
       token: r.token,
       notification: { title: copy.head, body: body.slice(0, 240) },
       data: { kind: 'new_job', notification_id: r.notification_id, ...(r.job_id ? { job_id: r.job_id } : {}) },
-      android: { priority: 'normal', notification: { channel_id: 'job_alerts', tag: r.notification_id } },
+      android: { priority: 'normal', notification: { tag: r.notification_id } },
       apns: { payload: { aps: { 'thread-id': 'job_alerts' } } },
     },
   };
