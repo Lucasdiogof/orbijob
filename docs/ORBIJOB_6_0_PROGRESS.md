@@ -49,6 +49,9 @@ Unknown country across the visible catalogue: **2,286 of 6,994 (33 %) → 1,013 
 | Teaching Vacancies | England | PERSIST (OGL v3.0 declared in the API terms) | 700 → up to 2,000 | `docs/SOURCES_6_0.md` §1.1 |
 | NYC Jobs | New York City | PERSIST (NYC Open Data Law; External postings only) | 800 → up to 1,339 | §1.2 |
 | Get on Board | Latin America (tech) | PERSIST conditional (public API; no explicit storage licence: owner's decision) | 600 → up to 956 | §1.3 |
+| Karriere.NRW | Germany (NRW public sector, incl. apprenticeships) | PERSIST (dl-by-de/2.0) | 931 | §1.4 |
+| Groupe BPCE | France and abroad (banking/insurance) | PERSIST (Licence Ouverte 2.0, producer invites republication) | 1,000 → up to 1,750 | §1.5 |
+| Le Forem | Belgium (Wallonia service, mostly agencies) | PERSIST conditional (CC BY-SA 4.0 ShareAlike: owner's decision; facts only, no description in the dataset) | 1,000 → up to 2,000 | §1.6 |
 
 Rejected with evidence: Landing.jobs (robots.txt), Trampos.co (terms §2.5), MyCareersFuture (terms: no reproduction), Torre (commercial API, robots), Bundesagentur (403),
 Open Jobs CC0 (head still 2026-10-05); candidates for later: Latvia NVA (CC0, no employer name), Calgary (61 rows). Full table: `docs/SOURCES_6_0.md` §2.
@@ -75,7 +78,7 @@ Open Jobs CC0 (head still 2026-10-05); candidates for later: Latvia NVA (CC0, no
 
 ## Later in the night (13/10, after 23:00 UTC)
 
-* **Two more sources imported (stored, unpublished):** Karriere.NRW (Germany, `dl-by-de/2.0`, 931 stored) and Groupe BPCE (France and abroad, Licence Ouverte 2.0 with the producer's explicit invitation to republish, 1,000 stored). Evidence in `docs/SOURCES_6_0.md` §1.4–1.5.
+* **Three more sources imported (stored, unpublished; Le Forem added at 23:20 UTC):** Karriere.NRW (Germany, `dl-by-de/2.0`, 931 stored) and Groupe BPCE (France and abroad, Licence Ouverte 2.0 with the producer's explicit invitation to republish, 1,000 stored). Evidence in `docs/SOURCES_6_0.md` §1.4–1.5.
 * **Discovery trail** (all in `docs/SOURCES_6_0.md` §2): open-data portals searched for job-posting datasets (data.gouv.fr, Opendatasoft federation, GovData, CKAN of UK/AU/CA/HK/UY/CL, Socrata catalogue). Found and kept as candidates: Le Forem (Belgium, CC BY-SA, no descriptions), Infrabel (no link), emploi.nc (no employer name), ECYL (garbled columns), France Travail slices (per-publisher schemas). Rejected with evidence: Landing.jobs, Trampos.co, MyCareersFuture, Torre.
 * **App fix found while reading real data:** hourly salaries with cents (£13.45/h, $29.21–42.79/h) were rounded to whole numbers (£13); they now keep two decimals, whole amounts stay whole (`job_format.dart`, test in `data_quality_test.dart`).
 * **Performance of the larger catalogue** (≈ 12,000 stored rows): an app-style search over all stored rows plans in 4 ms and executes in 36 ms (title/city `ilike`, join to the source gate, ordered by date); the full-text count executes in 0.4 ms. No index change was needed (the trigram, GIN and source indexes carry it). Database size 143 MB → see `coverage.sql` for the current figure.
