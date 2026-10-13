@@ -76,6 +76,19 @@ link to the listing's own page on getonbrd.com, and never apply on anyone's beha
 | Normalisation | country as stated (`France`, or the French country name in `state` for "International"; none stated → none); upper-case cities written in normal case; **no publication date** (`lastmodifieddate` is the last edit, not the publication); no salary (empty in every record); **the recruiter's name and e-mail are never read** |
 | First import | 1,000 stored (FR 945, US 15, GB 11, LU 6, ES 3, AE 2 …, 12 without a country), 1 short description; 750 more wait for the next passes |
 
+### 1.6 Le Forem (Wallonia, Belgium) — `forem` — PERSIST conditional on the owner's decision (CC BY-SA 4.0)
+| Item | Evidence |
+|---|---|
+| Official URL / API | Open Data Wallonie-Bruxelles, Opendatasoft dataset `offres-d-emploi-forem`: `GET https://www.odwb.be/api/explore/v2.1/catalog/datasets/offres-d-emploi-forem/records?where=datefindiffusion>=now()&order_by=datedebutdiffusion desc&limit=100&offset=N` (≈ 25,000 offers, refreshed daily) |
+| Operator | Le Forem, the public employment and training service of Wallonia |
+| Countries / professions | Belgium (Wallonia, Brussels and Flanders); every profession — **most offers come from staffing agencies and job boards that distribute through the Forem** (Jobat 40 %, "Via site Forem" 16 %, Accent Job, Adecco, Randstad ...) |
+| Licence | **CC BY-SA 4.0** (stated on the dataset). Attribution is stored with the source and says that the records of this source are shared under the same licence. ShareAlike is the reason for the owner's decision: the public catalogue API exposes these records |
+| Content limits | the dataset has **no description text**: title, employer, locality, contract, working time, sector, trade, education, languages, experience, driving licence, link. The description shown is made only of those stated facts (≈ 240 characters) |
+| Link | the offer's own page `https://www.leforem.be/recherche-offres/offre-detail/{numero}` |
+| Update / closing | the 2,500 newest offers are read each pass (25 requests at 1.5 s), twice a day + twin; `datefindiffusion` (end of diffusion) refuses an expired offer; an offer that leaves the window is hidden at 72 h and `unknown` after 7 days |
+| Normalisation | country from the regions the offer lists (any order; "Belgique" or the French name of another country; several countries are eligibility); upper-case localities in normal case; publication date = `datedebutdiffusion`; no salary |
+| First import | 1,000 stored (BE 998, FR 1, LU 1), 0 invalid links; 1,451 more wait for the next passes |
+
 ## 2. Analysed and not integrated
 
 | Source | Region | Class | Why (evidence) |
@@ -93,7 +106,6 @@ link to the listing's own page on getonbrd.com, and never apply on anyone's beha
 | Finland Työmarkkinatori, Estonia Töötukassa | Europe | PENDING | no open read API found (404 / unreachable) |
 | Open-data portals of Mexico, Peru, Spain, Ireland, Brazil | Latin America / Europe | PENDING | refuse automated access (403 / 418 / 429 / 401); not circumvented. Colombia's `datos.gov.co` holds only registration statistics, no vacancy list |
 | Canada Job Bank open data | Canada | LINK_ONLY | monthly files of past postings: statistics, not the active catalogue |
-| Le Forem "Offres d'emploi" (digitalwallonia / odwb.be, 25,551 offers) | Belgium (Wallonia) | PENDING (owner decision) | licence **CC BY-SA 4.0** (ShareAlike: the records would have to stay under the same licence) and the records carry no description (title, employer, place, contract, sector, link) — mostly staffing-agency interim offers (Jobat, Accent, Adecco, Randstad ...). Implementable later with a 1,500 ceiling if the owner accepts the licence |
 | Infrabel open vacancies (CC0, 274 offers) | Belgium | PENDING | metadata only (title, department, place), **no link to the offer**: cannot be shown honestly |
 | ECYL "Ofertas de Empleo" (Junta de Castilla y León, CC BY 4.0, 1,002 rows) | Spain | PENDING | the published columns are garbled (field names are data values), no stable schema: parsing it would be guessing |
 | emploi.nc / Province Sud (Nouvelle-Calédonie, Licence Ouverte, 1,148 + 330 rows) | Oceania (New Caledonia) | PENDING | no employer name in the records (employer id only) and no link to the offer page |

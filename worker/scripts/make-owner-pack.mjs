@@ -45,6 +45,15 @@ const sources = [
     ],
   },
   {
+    id: 'forem',
+    note: [
+      'Le Forem (Valonia, Belgica): dados abertos do servico publico de emprego (Open Data Wallonie-Bruxelles) sob licenca CC BY-SA 4.0.',
+      'ATENCAO (decisao sua): CC BY-SA exige COMPARTILHAMENTO PELA MESMA LICENCA; a atribuicao gravada diz que os registros desta fonte sao compartilhados sob CC BY-SA 4.0.',
+      'O dataset nao traz descricao (so titulo, empregador, local, contrato, setor, ...) e a maioria das ofertas vem de agencias de trabalho temporario; a descricao do app e feita so dos fatos declarados.',
+      'Revisado em 13/10/2026: titulos, empregadores, localidade, pais BE declarado, link para a pagina da propria oferta. Detalhes: docs/SOURCES_6_0.md.',
+    ],
+  },
+  {
     id: 'getonboard',
     note: [
       'Get on Board (tecnologia na America Latina): API PUBLICA documentada ("Public API: open to anyone ... no authentication required", /api-doc.html), robots.txt sem restricoes.',
@@ -79,7 +88,7 @@ const expiry = [
   "  if to_regprocedure('ops.expire_unseen_jobs(text, interval, text[], integer)') is null then",
   "    raise exception 'ativacao bloqueada: a migration 20261017000000 nao foi aplicada';",
   '  end if;',
-  "  perform cron.schedule('sources6-expire-unseen', '27 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['getonboard', 'teachingvacancies', 'nycjobs', 'karrierenrw', 'bpce'])$cmd$);",
+  "  perform cron.schedule('sources6-expire-unseen', '27 4 * * *', $cmd$select ops.expire_unseen_jobs('EU-AUTORIZO-A-EXPIRACAO', interval '7 days', array['getonboard', 'teachingvacancies', 'nycjobs', 'karrierenrw', 'bpce', 'forem'])$cmd$);",
   'end',
   '$enable$;',
 ].join('\n');
@@ -88,7 +97,7 @@ writeFileSync(join(out, `${String(n++).padStart(2, '0')}_ligar_expiracao_fontes_
 writeFileSync(join(out, 'LEIA-ME.md'), [
   '# Pacote do dono: fontes novas do OrbiJob 6.0 (13/10/2026)',
   '',
-  'As cinco fontes abaixo ja estao no banco **sem aparecer no app** (`can_redistribute = false`): o conector foi testado, a simulacao e a importacao rodaram e as',
+  'As seis fontes abaixo ja estao no banco **sem aparecer no app** (`can_redistribute = false`): o conector foi testado, a simulacao e a importacao rodaram e as',
   'amostras foram revisadas (docs/SOURCES_6_0.md). Publicar e uma decisao sua: cada arquivo se recusa a rodar sem a frase de autorizacao, que ja vem na primeira linha.',
   '',
   'Ordem (SQL Editor do projeto `rpmlfxwebnlxnwadyvle`, um arquivo por vez):',
@@ -96,8 +105,9 @@ writeFileSync(join(out, 'LEIA-ME.md'), [
   '2. `02_publicar_nycjobs.sql`            (dados abertos da cidade; seguro)',
   '3. `03_publicar_karrierenrw.sql`        (licenca dl-by-de/2.0; seguro)',
   '4. `04_publicar_bpce.sql`               (Licence Ouverte do proprio empregador; seguro)',
-  '5. `05_publicar_getonboard.sql`         (leia a observacao do cabecalho antes)',
-  '6. `06_ligar_expiracao_fontes_novas.sql` (expiracao diaria; opcional, so organiza o banco)',
+  '5. `05_publicar_forem.sql`              (CC BY-SA: leia a observacao do cabecalho antes)',
+  '6. `06_publicar_getonboard.sql`         (leia a observacao do cabecalho antes)',
+  '7. `07_ligar_expiracao_fontes_novas.sql` (expiracao diaria; opcional, so organiza o banco)',
   '',
   'Conferir depois: `select id, can_redistribute from public.job_sources order by id;` e abrir o app (as vagas aparecem em ate uma passada de descoberta).',
 ].join('\n'));
