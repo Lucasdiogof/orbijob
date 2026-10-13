@@ -80,7 +80,7 @@ export const SOURCES: Record<string, SourceProfile> = {
     id: 'teachingvacancies',
     attribution: 'Jobs via Teaching Vacancies, Department for Education (England) (https://teaching-vacancies.service.gov.uk), Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)',
     host: 'teaching-vacancies.service.gov.uk',
-    maxPages: TEACHINGVACANCIES_MAX_PAGES, newCap: 700, catalogue: 2500,
+    maxPages: TEACHINGVACANCIES_MAX_PAGES, newCap: 700, catalogue: 2000,
     make: (f, n, origin) => teachingVacanciesConnector(f, n, { origin }),
   },
 };
