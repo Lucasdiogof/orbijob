@@ -19,7 +19,7 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
 | 8 | Layout net (320 px, 200 % text, en/pt/es) for every new screen; real-screen gallery (`docs/design/orbijob-v3/`, 40 captures) reviewed; popup menu themed | done | 3f8dca3 |
 | 9 | Docs, READMEs (en/pt/es) with delivered 3.0 features only, web release build ok, final CI | done | (docs commit) |
 
-| 10 | Push: migration 17 (push_devices, ops.push_claim / push_forget_tokens) applied; Edge Function push-send deployed + hourly cron; the app registers Android/iOS devices | done; waits for FCM_SERVICE_ACCOUNT | push commits |
+| 10 | Push: migration 17 (push_devices, ops.push_claim / push_forget_tokens) applied; Edge Function push-send deployed + hourly cron; the app registers Android/iOS devices | done; FCM key stored and verified (OAuth + FCM auth), function answers ok | push commits |
 
 ## Also in this phase
 - Arbeitnow catalogue ceiling 1500 → 2500 (7676785); database 109 MB of 500 MB on 2026-10-13.
@@ -36,5 +36,5 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
   work mode alone is too weak.
 
 ## Blockers / owner-side
-- Push: only the Firebase service-account key (FCM_SERVICE_ACCOUNT) is missing for Android; iOS also needs a Mac build + APNs key. See [ORBIJOB_3_0.md](ORBIJOB_3_0.md).
+- Push: Android fully configured; a real delivery still has to be observed on a signed-in phone. iOS needs a Mac build + APNs key. See [ORBIJOB_3_0.md](ORBIJOB_3_0.md).
 - No physical device or Mac in this environment: iOS and real-device behaviour of the new screens not verified.

@@ -36,7 +36,7 @@ by automated tests and (for the database parts) applied to the OrbiJob project. 
 
 ### Push notifications (phone / browser)
 
-Android and iOS push is implemented and deployed; it turns on by itself once the Firebase service-account key is stored (see the table).
+Android and iOS push is implemented, deployed and configured (2026-10-13): the Firebase service-account key is stored, OAuth and FCM authorisation were verified against Google, and the scheduled function answers `ok`.
 
 * **Device side:** `firebase_messaging`. After sign-in the app asks for permission (once) and stores its token in `public.push_devices` (migration
   17, owner-only RLS, at most 10 devices per person, the oldest makes room). Before sign-out the row is deleted and the token forgotten, so the next
@@ -49,13 +49,13 @@ Android and iOS push is implemented and deployed; it turns on by itself once the
   role gains access to notifications or devices. It claims unsent, unread rows of the last 6 hours, respects the global "notifications" switch,
   sends one FCM v1 message per device in the language of the person (title and company exactly as the listing states), and forgets tokens FCM no
   longer knows. A row is marked even if Google is down, so nobody receives an old burst later; the bell always has it.
-* **Secrets:** `PUSH_CRON_SECRET` (function) = `push_cron_secret` (Vault): generated and stored. `FCM_SERVICE_ACCOUNT` (function): **pending**.
-  Without it the function answers `not_configured` and touches nothing.
+* **Secrets:** `PUSH_CRON_SECRET` (function) = `push_cron_secret` (Vault): generated and stored. `FCM_SERVICE_ACCOUNT` (function): stored 2026-10-13.
+  Without it the function would answer `not_configured` and touch nothing.
 * **Switch off:** `scripts/supabase/ops/disable_push_cron.sql`.
 
 | Channel | Status |
 |---|---|
-| Android | built and launched on the emulator (Firebase initialised); end-to-end delivery waits for `FCM_SERVICE_ACCOUNT` and a signed-in device |
+| Android | built and launched on the emulator (Firebase initialised); server configured and verified; first real delivery happens when a signed-in phone has an alert match (not observed yet) |
 | iOS | code ready; needs a Mac build with the Push Notifications capability and an APNs key uploaded to Firebase; not verified here |
 | Web push | not done: needs a public HTTPS origin, a service worker and VAPID keys |
 | Local interview reminders | not done; the in-app agenda covers it |
