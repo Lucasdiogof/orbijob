@@ -1,4 +1,5 @@
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
+import { getOnBoardConnector } from './connectors/getonboard';
 import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
@@ -68,6 +69,11 @@ export const SOURCES: Record<string, SourceProfile> = {
     id: 'jobsconz', attribution: 'Jobs via Jobs.co.nz (https://jobs.co.nz), New Zealand', host: 'jobs.co.nz',
     maxPages: 6, newCap: 400, catalogue: 800,
     make: (f, n, origin) => jobsCoNzConnector(f, n, { origin }),
+  },
+  getonboard: {
+    id: 'getonboard', attribution: 'Jobs via Get on Board (https://www.getonbrd.com), tech jobs in Latin America', host: 'getonbrd.com',
+    maxPages: 40, newCap: 600, catalogue: 1500,
+    make: (f, n, origin) => getOnBoardConnector(f, n, { origin }),
   },
 };
 

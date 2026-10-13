@@ -1,0 +1,1273 @@
+{
+ "data": [
+  {
+   "id": "full-stack-mobile-react-native-java-3it-santiago",
+   "type": "job",
+   "attributes": {
+    "title": "Full-Stack Mobile | React Native + Java",
+    "description_headline": " Lo que necesitamos para este rol ",
+    "description": "<ul><li>Dominio en Java y Spring Boot.</li><li>Manejo de JavaScript y Node.js.</li><li>Práctica en OCI / Oracle Cloud.</li><li>Gestión de Dynatrace y trace/tracing.</li><li>Competencia en Google Analytics 4 (GA4).</li><li>Uso de servicios REST, SOAP y microservicios.</li><li>Conocimientos en herramientas Eclipse e IntelliJ.</li><li>Experiencia con prácticas DevOps y DevSecOps.</li><li>Trayectoria ",
+    "projects": "<p>El principal desafío será desarrollar soluciones Full Stack orientadas al ecosistema mobile, asegurando aplicaciones robustas, seguras y eficientes tanto en frontend como en backend. Trabajarás participando principalmente en el desarrollo de aplicaciones con React Native, la construcción y mantención de servicios backend con Java y Spring Boot, y el monitoreo y análisis del funcionamiento de la",
+    "functions_headline": "¿Dónde y cómo trabajarás?",
+    "functions": "<ul><li>Cliente: Importante empresa del sector Bancario</li><li>Ubicación: Santiago.</li><li>Modalidad: híbrida, con asistencia presencial 1 vez a la semana, los días martes.</li><li>Acompañamiento 3IT: contarás con un Service Manager que te apoyará durante tu integración y experiencia en cliente.</li></ul>",
+    "benefits_headline": "Beneficios tritianos ",
+    "benefits": "<p>🏥 Cuidamos tu salud: seguro de vida y complementario de salud MetLife, con cobertura ampliada y dental para ti y tus cargas legales.<br>📚 Sigue aprendiendo: acceso a Udemy Business, formación continua y oportunidades para fortalecer tus competencias técnicas y profesionales.<br>🎂 Tiempo para ti: hasta 2 días administrativos al año, medio día libre por tu cumpleaños y beneficios adicionales a",
+    "desirable_headline": "",
+    "desirable": "",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "lang_not_specified",
+    "category_name": "Mobile Development",
+    "perks": [],
+    "min_salary": 2200,
+    "max_salary": 2500,
+    "published_at": 1791081844,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 16,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 1,
+       "type": "tag"
+      },
+      {
+       "id": 2,
+       "type": "tag"
+      },
+      {
+       "id": 54,
+       "type": "tag"
+      },
+      {
+       "id": 58,
+       "type": "tag"
+      },
+      {
+       "id": 171,
+       "type": "tag"
+      },
+      {
+       "id": 587,
+       "type": "tag"
+      },
+      {
+       "id": 1656,
+       "type": "tag"
+      },
+      {
+       "id": 1686,
+       "type": "tag"
+      },
+      {
+       "id": 2492,
+       "type": "tag"
+      },
+      {
+       "id": 37138,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "3it-cl",
+      "type": "company",
+      "attributes": {
+       "name": "3IT",
+       "description": "Empresa especializada en desarrollo de software a medida, hunting, cibersegurida",
+       "long_description": "<h3>¿Por qué trabajar con nosotros?</h3><p>En 3IT te integras a proyectos tecnol",
+       "projects": "<p>&nbsp;Somos 3IT <strong>¡Innovación y talento que marcan la diferencia!</stro",
+       "benefits": "<p>🏥 Cuidamos tu salud: seguro de vida y complementario de salud MetLife, con c",
+       "web": "https://www.3it.cl/",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 0,
+        "max": 6
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/6322/Favicon.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/full-stack-mobile-react-native-java-3it-santiago"
+   }
+  },
+  {
+   "id": "semi-senior-ios-developer-mb-solutions-remote",
+   "type": "job",
+   "attributes": {
+    "title": "Senior iOS Developer",
+    "description_headline": "Requerimientos del cargo",
+    "description": "<p>Desarrollo experto y con experiencia comprobable en:</p><ul><li>Tecnologías de desarrollo Mobile, <strong>principalmente IOS</strong>.<strong> (Excluyente, demostrable con pruebas hands-on)</strong></li><li>Swift, SwiftUI y experiencia en <strong>XCode</strong>. <strong>(Excluyente, demostrable con pruebas hands-on)</strong></li><li>Versionamiento de código usando GIT</li><li>Bases de datos: My",
+    "projects": "<p>El equipo al cual se unirá el profesional es parte de MB Solutions, en su área de desarrollo de software, particularmente para el equipo de desarrollos evolutivo con experiencia SENIOR para el desarrollo Mobile particularmente con iOS nativo. El equipo trabaja con estructura fija a cargo de un coordinador y con validaciones de un arquitecto. Formará parte de una célula de desarrollo cuyas tarea",
+    "functions_headline": "Funciones del cargo",
+    "functions": "<p>MB Solutions requiere personal para cargo \"Desarrollador - IOS Senior\". El profesional será responsable de modelar, desarrollar, probar e implementar el desarrollo mobile para<strong> iOS Nativo, </strong>esto ultimo es excluyente, el personal debe tener experiencia demostrable en pruebas hands-on. La app y desarrollos iOS a construir son del ambito de de telecomunicaciones y su día a día const",
+    "benefits_headline": "Condiciones",
+    "benefits": "<p>Trabajo completamente remoto y basado en metas. Horario se basa en horarios de oficina estándar para Chile. Periodo mínimo de prueba y contrato a plazo fijo con posibilidad de extensión. <br>Ambiente laboral muy grato entre el equipo de trabajo y coordinadores.<br>Posibilidad de aguinaldos en fechas clave para chile dependiendo de facturación de la empresa.<br>Cliente Internacional, por lo que ",
+    "desirable_headline": "Opcionales",
+    "desirable": "<ul><li>Entendimiento de Inglés.</li></ul>",
+    "remote": true,
+    "remote_modality": "remote_local",
+    "remote_zone": null,
+    "countries": [
+     "Remote"
+    ],
+    "lang": "lang_not_specified",
+    "category_name": "Mobile Development",
+    "perks": [],
+    "min_salary": 1600,
+    "max_salary": 2500,
+    "published_at": 1790959406,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 9,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": [
+      {
+       "id": 1,
+       "type": "location_tenant"
+      }
+     ]
+    },
+    "location_cities": {
+     "data": []
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 4,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 53,
+       "type": "tag"
+      },
+      {
+       "id": 64,
+       "type": "tag"
+      },
+      {
+       "id": 98,
+       "type": "tag"
+      },
+      {
+       "id": 642,
+       "type": "tag"
+      },
+      {
+       "id": 874,
+       "type": "tag"
+      },
+      {
+       "id": 2137,
+       "type": "tag"
+      },
+      {
+       "id": 37169,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "mb-solutions",
+      "type": "company",
+      "attributes": {
+       "name": "MB Solutions",
+       "description": "Prestamos servicios de asesorías y desarrollos tecnológicos, y contamos con ampl",
+       "long_description": "<p>Tenemos una vasta experiencia desarrollando aplicaciones y procesos transacci",
+       "projects": "<div>En <strong>MB Solutions</strong>, brindamos servicios de asesoría y desarro",
+       "benefits": "<div>Trabajo completamente remoto y basado en metas. Horario se basa en horarios",
+       "web": "http://www.mbsolutions.cl",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 23,
+        "max": 33
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/6626/logo.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/semi-senior-ios-developer-mb-solutions-remote"
+   }
+  },
+  {
+   "id": "mobile-developer-ios-swift-42labs-remote",
+   "type": "job",
+   "attributes": {
+    "title": "Mobile Developer iOS Swift",
+    "description_headline": "¿Con que debes contar para postular al cargo?",
+    "description": "<p>Muchas ganas de participar en un equipo colaborativo, con actitud positiva frente a los cambios y desafíos, orientado al cliente, creativo y que nunca para de aprender.</p><p><strong>Requerimientos del cargo</strong></p><ul><li>4 años de experiencia comprobable en asignaciones reales en Cargo de Mobile iOS</li><li>Experiencia en sector Financiero</li><li>Desarrollo y mantenimiento de aplicacion",
+    "projects": "<p>Somos 42Labs, una empresa tecnológica especializada en acompañar a organizaciones del sector financiero y de servicios en sus procesos de transformación digital. Nos mueve resolver desafíos complejos con equipos comprometidos, trabajo bien hecho y un ambiente de colaboración que pone a las personas en el centro.</p><p>¡Nos encontramos en búsqueda de tu talento como Mobile Developer IOS (Swift) ",
+    "functions_headline": "Funciones del cargo",
+    "functions": "<ul><li>Construir y mantener aplicaciones nativas robustas utilizando Swift, asegurando la implementación de interfaces mediante UIKit o SwiftUI.</li><li>Aplicar patrones de diseño sólidos (como MVVM) para garantizar un código limpio, escalable y mantenible.</li><li>Gestionar la comunicación entre la aplicación y servicios externos mediante el consumo de APIs RESTful, asegurando el correcto manejo",
+    "benefits_headline": "Condiciones",
+    "benefits": "<ul><li>Aguinaldos</li><li>Flexi Days: dos días libres al año para lo que necesites.</li><li>Party Time: cinco tardes libres para celebrar fechas importantes.</li><li>Y, sobre todo, un equipo humano donde tu talento es valorado y tu trabajo tiene impacto.</li></ul>",
+    "desirable_headline": "Deseable",
+    "desirable": "",
+    "remote": true,
+    "remote_modality": "remote_local",
+    "remote_zone": null,
+    "countries": [
+     "Remote"
+    ],
+    "lang": "es",
+    "category_name": "Mobile Development",
+    "perks": [
+     "computer_provided",
+     "informal_dresscode",
+     "vacation_on_birthday"
+    ],
+    "min_salary": null,
+    "max_salary": null,
+    "published_at": 1790866699,
+    "response_time_in_days": {
+     "min": 1,
+     "max": 3
+    },
+    "applications_count": 145,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": [
+      {
+       "id": 1,
+       "type": "location_tenant"
+      },
+      {
+       "id": 6,
+       "type": "location_tenant"
+      },
+      {
+       "id": 3,
+       "type": "location_tenant"
+      }
+     ]
+    },
+    "location_cities": {
+     "data": []
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 4,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 98,
+       "type": "tag"
+      },
+      {
+       "id": 642,
+       "type": "tag"
+      },
+      {
+       "id": 888,
+       "type": "tag"
+      },
+      {
+       "id": 1720,
+       "type": "tag"
+      },
+      {
+       "id": 5732,
+       "type": "tag"
+      },
+      {
+       "id": 37557,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "42labs-cl-98fe",
+      "type": "company",
+      "attributes": {
+       "name": "42Labs",
+       "description": "En 42Labs, no solo desarrollamos tecnología, construimos soluciones donde lo téc",
+       "long_description": "<p>En 42LABS no solo desarrollamos software, creamos soluciones que transforman ",
+       "projects": "<p><strong>¡Somos 42Labs!</strong></p><p>Una empresa tecnológica especializada e",
+       "benefits": "<ul><li>Salud y protección integral, contamos con seguros complementarios de sal",
+       "web": "https://www.42labs.cl",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 9,
+        "max": 21
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/18836/getonboard2026-1.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/mobile-developer-ios-swift-42labs-remote"
+   }
+  },
+  {
+   "id": "software-engineer-full-stack-developer-mobile-neuralworks-santiago-897a",
+   "type": "job",
+   "attributes": {
+    "title": "Software Engineer Full-Stack Developer (Mobile)",
+    "description_headline": "Requerimientos del cargo",
+    "description": "<ul><li>Estudios de Ingeniería Civil en Computación o similar.</li><li>Experiencia previa como Software Engineer de al menos 4 años en la creación de aplicaciones web modernas basadas en JavaScript/TypeScript.</li><li>Experiencia integrando y desarrollando herramientas de A/B testing en aplicaciones.</li><li>Experiencia en la integración de APIs o herramientas de terceros.</li><li>Experiencia sóli",
+    "projects": "<p>NeuralWorks es una compañía de alto crecimiento fundada hace 5 años. Estamos trabajando a toda máquina en cosas que darán que hablar.<br>Somos un equipo donde se unen la creatividad, curiosidad y la pasión por hacer las cosas bien. Nos arriesgamos a explorar fronteras donde otros no llegan: un modelo predictor basado en monte carlo, una red convolucional para detección de caras, un sensor de po",
+    "functions_headline": "Funciones del cargo",
+    "functions": "<p>Como FullStack Developer, tendrás un rol fundamental en la creación y evolución de productos, desde el diseño hasta el desarrollo, pruebas, despliegue y mejora continua. Trabajarás estrechamente con un equipo multidisciplinario, donde serás responsable del producto y sus aplicaciones funcionales.</p><p>En conjunto con el equipo, definirás cómo el producto debe interactuar con los usuarios, qué ",
+    "benefits_headline": "Condiciones",
+    "benefits": "<ul><li>Bono por desempeño</li><li>Bono de almuerzo mensual y almuerzo de equipo los viernes</li><li>Seguro Complementario de salud y dental</li><li>Horario flexible</li><li>Flexibilidad entre oficina y home office</li><li>Medio día libre el día de tu cumpleaños</li><li>Financiamiento de certificaciones</li><li>Inscripción en Coursera con plan de entrenamiento a medida</li><li>Estacionamiento de b",
+    "desirable_headline": "Nice to have",
+    "desirable": "<ul><li>Conocimiento en arquitecturas cloud y CI/CD.</li><li>Conocimiento de metodologías ágiles.</li><li>Experiencia en UX/diseño.</li></ul>",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "es",
+    "category_name": "Mobile Development",
+    "perks": [
+     "flexible_hours",
+     "remote_partial",
+     "health_coverage",
+     "computer_provided",
+     "informal_dresscode",
+     "vacation_over_legal",
+     "beverages_and_snacks"
+    ],
+    "min_salary": null,
+    "max_salary": null,
+    "published_at": 1790861665,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 29,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 4,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 1,
+       "type": "tag"
+      },
+      {
+       "id": 171,
+       "type": "tag"
+      },
+      {
+       "id": 259,
+       "type": "tag"
+      },
+      {
+       "id": 429,
+       "type": "tag"
+      },
+      {
+       "id": 1338,
+       "type": "tag"
+      },
+      {
+       "id": 1658,
+       "type": "tag"
+      },
+      {
+       "id": 37121,
+       "type": "tag"
+      },
+      {
+       "id": 41683,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "neuralworks",
+      "type": "company",
+      "attributes": {
+       "name": "NeuralWorks",
+       "description": "NeuralWorks es el lugar donde juntamos nuestra imaginación y creatividad para cr",
+       "long_description": "<p>En NeuralWorks somos un equipo donde se unen la creatividad, curiosidad y la ",
+       "projects": "<p>NeuralWorks es una compañía de alto crecimiento fundada hace 4 años. Estamos ",
+       "benefits": "<ul><li>MacBook Air M2 o similar (con opción de compra hiper conveniente)</li><l",
+       "web": "http://www.neuralworks.cl",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 18,
+        "max": 24
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/10681/NW-Avatar-GetOnBoard.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/software-engineer-full-stack-developer-mobile-neuralworks-santiago-897a"
+   }
+  },
+  {
+   "id": "developer-java-bice-vida-santiago",
+   "type": "job",
+   "attributes": {
+    "title": "Developer Java",
+    "description_headline": "¿Qué buscamos 😎?",
+    "description": "<ul><li>Estudios de Ingeniería Civil o Ingeniería en Ejecución, con especialización en Informática.</li><li>Al menos 3 años de experiencia en cargos similares, y 2 años desarrollando en lenguaje de programación Java.</li><li>Conocimientos: en AWS, de Oracle, SQL server y mysql, y de Docker y Kubernetes. Desarrollo de microservicios con sprintboot, de microservicios con quarkus, de frontend con Rea",
+    "projects": "<div>En <strong>BICE VIDA</strong> somos líderes en el rubro de las aseguradoras en Chile y trabajamos para satisfacer las necesidades de <strong>seguridad, prosperidad y protección</strong> de nuestros clientes. Estamos viviendo un proceso profundo de <strong>transformación digital</strong>, explorando nuevas formas de hacer negocio, diseñar experiencias de alto impacto y responder a un entorno c",
+    "functions_headline": "¿Qué tendrás que hacer?",
+    "functions": "<p>En BICE Vida nos encontramos en búsqueda de un Developer, con experiencia desarrollando en lenguaje de programación Java, para la Subgerencia de Sistemas Financieros de la gerencia de Sistemas, quien estará encargado de diseñar y construir sistemas de Información de acuerdo a estándares tecnológicos y de calidad definidos por la Subgerencia.</p><p>En este rol deberás:</p><ul><li>Levantar requer",
+    "benefits_headline": "¿Cómo es trabajar en BICE Vida😺?",
+    "benefits": "<ul><li>Contamos con la mejor cobertura de la industria y te brindamos un seguro complementario de salud, dental y vida, y además un seguro catastrófico (Para ti y tus cargas legales).</li><li>🏅Bonos en UF dependiendo de la estación del año y del tiempo que lleves en nuestra Compañía. 🎁</li><li>Salida anticipada los días viernes, hasta las 14:00 hrs, lo que te permitirá balancear tu vida persona",
+    "desirable_headline": "Ganarás puntos si cuentas con:",
+    "desirable": "<ul><li>Deseable conocimiento de python.</li></ul>",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "es",
+    "category_name": "Programming",
+    "perks": [
+     "wellness",
+     "accessible",
+     "life_insurance",
+     "meals_provided",
+     "bicycle_parking",
+     "digital_library",
+     "health_coverage",
+     "dental_insurance",
+     "computer_provided"
+    ],
+    "min_salary": null,
+    "max_salary": null,
+    "published_at": 1791927619,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 6,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 2,
+       "type": "tag"
+      },
+      {
+       "id": 887,
+       "type": "tag"
+      },
+      {
+       "id": 74,
+       "type": "tag"
+      },
+      {
+       "id": 837,
+       "type": "tag"
+      },
+      {
+       "id": 50,
+       "type": "tag"
+      },
+      {
+       "id": 141,
+       "type": "tag"
+      },
+      {
+       "id": 209,
+       "type": "tag"
+      },
+      {
+       "id": 587,
+       "type": "tag"
+      },
+      {
+       "id": 156,
+       "type": "tag"
+      },
+      {
+       "id": 123,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "bice-vida",
+      "type": "company",
+      "attributes": {
+       "name": "BICE VIDA",
+       "description": "Líderes en el negocio de las aseguradoras en Chile, somos una empresa enfocada e",
+       "long_description": "<div>Con más de 30 años de historia, somos unos de los líderes del rubro de las ",
+       "projects": "<div>En <strong>BICE VIDA</strong> somos líderes en el rubro de las aseguradoras",
+       "benefits": "<ul><li>Contamos con la mejor cobertura de la industria y te brindamos un seguro",
+       "web": "http://www.bicevida.cl",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 8,
+        "max": 22
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/7178/bice_vida_logo.jpeg"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/developer-java-bice-vida-santiago"
+   }
+  },
+  {
+   "id": "desarrollador-a-salesforce-intermedio-ryc-tech-group-santiago",
+   "type": "job",
+   "attributes": {
+    "title": "Desarrollador/a Salesforce Intermedio",
+    "description_headline": "Requisitos Excluyentes",
+    "description": "<p>Buscamos un/a profesional con experiencia comprobable en el ecosistema Salesforce, capaz de combinar desarrollo, configuración e integración en un mismo rol.</p><ul><li>Experiencia en desarrollo con Apex (Triggers, Batch, Queueables, REST API).</li><li>Experiencia con Lightning Web Components (LWC) y/o Aura.</li><li>Manejo de Visualforce Pages.</li><li>Experiencia en configuración de Salesforce",
+    "projects": "En RyC Tech Group construimos soluciones de negocio basadas en tecnología, transformando ideas en realidades mediante la combinación de negocio, capital humano e innovación tecnológica. En esta oportunidad, buscamos un/a Desarrollador/a Salesforce Intermedio para integrarse a un equipo que trabaja sobre el ecosistema completo de Salesforce. El foco del proyecto es avanzar de punta a punta en soluc",
+    "functions_headline": "Principales responsabilidades",
+    "functions": "<p>Entre las principales responsabilidades se incluyen:</p><ul><li>Desarrollar soluciones en Salesforce utilizando Apex (Triggers, Batch, Queueables, Futures, Schedulables y REST API).</li><li>Construir interfaces utilizando LWC, Aura y Visualforce Pages.</li><li>Configurar y administrar la plataforma: Flows, Permission Sets, objetos y modelos de datos, jerarquía de roles y reglas de validación.</",
+    "benefits_headline": "Beneficios y condiciones",
+    "benefits": "<p>En RyC Tech Group te ofrecemos beneficios orientados al bienestar y la conciliación:</p><ul><li>Aguinaldos en marzo, septiembre y diciembre.</li><li>Seguro de salud complementario que incluye Plan de Salud, Plan Dental Familiar, Seguro Catastrófico y Seguro de Vida.</li><li>Contrato Indefinido </li></ul><p>Además, el trabajo se realiza en modalidad <strong>híbrida 3x2</strong>, con ubicación en",
+    "desirable_headline": "Perfil que buscamos",
+    "desirable": "<p>Buscamos un perfil técnico completo dentro del ecosistema Salesforce, con capacidad de adaptarse tanto a desarrollo como a configuración e integración. Se valorará la autonomía, la calidad técnica y la capacidad de analizar soluciones antes de implementarlas.</p><p>Como parte del equipo, esperamos que puedas:</p><ul><li>Tomar ownership de tareas técnicas y proponer enfoques, considerando manten",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "lang_not_specified",
+    "category_name": "Programming",
+    "perks": [
+     "computer_provided"
+    ],
+    "min_salary": 1800,
+    "max_salary": 2200,
+    "published_at": 1791914702,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 3,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 525,
+       "type": "tag"
+      },
+      {
+       "id": 37050,
+       "type": "tag"
+      },
+      {
+       "id": 4590,
+       "type": "tag"
+      },
+      {
+       "id": 1378,
+       "type": "tag"
+      },
+      {
+       "id": 73204,
+       "type": "tag"
+      },
+      {
+       "id": 74684,
+       "type": "tag"
+      },
+      {
+       "id": 1696,
+       "type": "tag"
+      },
+      {
+       "id": 73319,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "ryc-consultores",
+      "type": "company",
+      "attributes": {
+       "name": "RyC Tech Group",
+       "description": "Soluciones de negocio basadas en tecnología",
+       "long_description": "<p>RyC Group es el motor que transforma tus ideas en realidades, combinando tu n",
+       "projects": "<p>Nuestro cliente se encuentra desarrollando una plataforma de factura electrón",
+       "benefits": "<ol><li>Aguinaldos en marzo, septiembre y diciembre.</li><li>Seguro de salud com",
+       "web": "https://ryctechgroup.com",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": null,
+        "max": null
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/8958/logo-1.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/desarrollador-a-salesforce-intermedio-ryc-tech-group-santiago"
+   }
+  },
+  {
+   "id": "desarrollador-a-apex-group-chile-santiago-f267",
+   "type": "job",
+   "attributes": {
+    "title": "Desarrollador/a",
+    "description_headline": "Requisitos y experiencia",
+    "description": "<div>Buscamos un profesional con experiencia en desarrollo de soluciones informáticas, capaz de analizar requerimientos, diseñar e implementar soluciones tecnológicas, y gestionar incidentes de sistemas. Debe demostrar capacidad de resolución de problemas, trabajo en equipo, orientación al cliente, y buenas habilidades de planificación y organización. Se valorará experiencia en integración de solu",
+    "projects": "<div>En Apex Group Chile, estamos consolidando soluciones tecnológicas de alto impacto para apoyar a administradores de activos, asignadores, instituciones financieras y oficinas familiares. Nuestro equipo trabaja para integrar soluciones de software alineadas a las normativas CMF, garantizando continuidad operativa de los sistemas Core y mejorando la eficiencia de procesos. Buscamos un profesiona",
+    "functions_headline": "Funciones",
+    "functions": "<ul><li>Analizar y desarrollar requerimientos de soluciones tecnológicas para clientes internos y externos.</li><li>Recepción de requerimientos, reuniones con usuarios y diseño de propuestas de solución.</li><li>Participar en la planificación y desarrollo de soluciones, y entregar la propuesta de solución para revisión de arquitectura.</li><li>Realizar pruebas internas y externas, validar con clie",
+    "benefits_headline": "Beneficios",
+    "benefits": "<ul><li>Tarde libre en tu cumpleaños, porque celebrar es importante.</li><li>Seguro complementario de salud, vida, catastrófico y dental.</li><li>Lonchera para que nunca te falte energía</li><li>Días administrativos para esos trámites que no pueden esperar.</li></ul>",
+    "desirable_headline": "Requisitos deseables",
+    "desirable": "<div>Experiencia adicional en herramientas de integración y orquestación de procesos, conocimiento de arquitecturas en la nube, y certificaciones relacionadas con .NET y arquitectura de software. Valoramos proactividad, capacidad de aprendizaje continuo y capacidad para trabajar en entornos dinámicos y multiculturales. Se aprecia experiencia en entornos regulados y capacidad para interactuar con e",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "en",
+    "category_name": "Programming",
+    "perks": [
+     "wellness",
+     "remote_partial",
+     "bicycle_parking",
+     "health_coverage",
+     "dental_insurance",
+     "computer_provided",
+     "performance_bonus",
+     "vacation_over_legal",
+     "beverages_and_snacks",
+     "vacation_on_birthday"
+    ],
+    "min_salary": 2000,
+    "max_salary": 2300,
+    "published_at": 1791914228,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 11,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 5,
+       "type": "tag"
+      },
+      {
+       "id": 53,
+       "type": "tag"
+      },
+      {
+       "id": 91,
+       "type": "tag"
+      },
+      {
+       "id": 123,
+       "type": "tag"
+      },
+      {
+       "id": 175,
+       "type": "tag"
+      },
+      {
+       "id": 837,
+       "type": "tag"
+      },
+      {
+       "id": 37997,
+       "type": "tag"
+      },
+      {
+       "id": 146,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "finix-group",
+      "type": "company",
+      "attributes": {
+       "name": "Apex Group Chile",
+       "description": "Somos un proveedor integral de soluciones financieras dedicado a impulsar un cam",
+       "long_description": "",
+       "projects": "<div>En Apex Group Chile, estamos consolidando soluciones tecnológicas de alto i",
+       "benefits": "<ul><li>Tarde libre en tu cumpleaños, porque celebrar es importante.</li><li>Seg",
+       "web": "https://www.apexgroup.com",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 17,
+        "max": 25
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/8450/Logo_Apex.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/desarrollador-a-apex-group-chile-santiago-f267"
+   }
+  },
+  {
+   "id": "business-development-representative-bdr-zerviz-technologies-ciudad-de-mexico",
+   "type": "job",
+   "attributes": {
+    "title": "Business Development Representative (BDR)",
+    "description_headline": "Requisitos",
+    "description": "<ul><li>1 a 2 años de experiencia en prospección de ventas outbound de alto volumen.</li><li>Experiencia en ventas B2B; idealmente en empresas SaaS, tecnología o servicios TI.</li><li>Capacidad para comprender necesidades de clientes y relacionarlas con soluciones de software.</li><li>Excelentes habilidades de comunicación verbal y escrita, con capacidad de persuasión.</li><li>Orientación a result",
+    "projects": "<p>En Zerviz buscamos un/a Business Development Representative (BDR) para generar nuevas oportunidades comerciales y desarrollar relaciones con potenciales clientes en el mercado de tecnología y soluciones SaaS. El rol estará enfocado en la prospección outbound, identificación de nuevas cuentas y generación de oportunidades calificadas, trabajando con soluciones de experiencia de cliente y tecnolo",
+    "functions_headline": "¿Qué harás?",
+    "functions": "<ul><li>Prospectar activamente y generar nuevas oportunidades de negocio calificadas.</li><li>Desarrollar estrategias de prospección outbound mediante llamadas, email, LinkedIn y otros canales.</li><li>Investigar cuentas objetivo e identificar tomadores de decisión y personas clave.</li><li>Contactar y generar conversaciones con gerentes, ejecutivos y otros decisores.</li><li>Comprender necesidade",
+    "benefits_headline": "",
+    "benefits": "",
+    "desirable_headline": "Deseable",
+    "desirable": "<ul><li>Experiencia trabajando con CRM y herramientas de prospección para mantener trazabilidad del pipeline.</li><li>Conocimiento práctico de buenas prácticas de outbound (secuencias, personalización y seguimiento).</li><li>Interés por aprender de performance: interpretar métricas, iterar mensajes y mejorar tasas de respuesta.</li><li>Capacidad para coordinarte con Sales Leadership y Account Exec",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Mexico"
+    ],
+    "lang": "lang_not_specified",
+    "category_name": "Sales",
+    "perks": [
+     "computer_provided",
+     "vacation_on_birthday"
+    ],
+    "min_salary": 1500,
+    "max_salary": 1800,
+    "published_at": 1791569842,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 16,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "200",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Ciudad de México",
+        "country": "Mexico"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 1328,
+       "type": "tag"
+      },
+      {
+       "id": 1237,
+       "type": "tag"
+      },
+      {
+       "id": 37018,
+       "type": "tag"
+      },
+      {
+       "id": 86537,
+       "type": "tag"
+      },
+      {
+       "id": 213,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "zerviz",
+      "type": "company",
+      "attributes": {
+       "name": "Zerviz Technologies",
+       "description": "Porque innovamos, implementamos y transformamos proyectos y procesos de transfor",
+       "long_description": "<p><strong>¿Quiénes somos? 🧬<br></strong></p><p>Construimos tecnología y experi",
+       "projects": "<p>En ZerviZ, somos una empresa líder en innovación tecnológica y transformación",
+       "benefits": "<p>Ofrecemos un ambiente laboral colaborativo y enriquecedor, ideal para tu desa",
+       "web": "http://www.zervizgroup.com",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 9,
+        "max": 21
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/6167/Zerviz_Marca-Gr%C3%A1fica-Isotipo-Red__2_.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/business-development-representative-bdr-zerviz-technologies-ciudad-de-mexico"
+   }
+  },
+  {
+   "id": "consultor-de-implementacion-nomina-rankmi-santiago",
+   "type": "job",
+   "attributes": {
+    "title": "Consultor de Implementación Nómina",
+    "description_headline": "Requerimientos del cargo",
+    "description": "<ul><li>Título profesional de Ingeniería Comercial, Administración, Ingeniería Industrial, Recursos Humanos, Sistemas, Psicología, o carreras afines.</li><li>Más de 3 años trabajando en la implementación de plataformas SaaS B2B y la gestión de proyectos con clientes corporativos. Alternativamente, experiencia en áreas internas de Recursos Humanos (tales como Nómina o Desarrollo Organizacional) ope",
+    "projects": "<p>Somos la plataforma que unifica en un solo lugar todos los procesos de Gestión de Personas —desde la Nómina, Talento, Beneficios hasta la Comunicación —. <strong>Todo rediseñado y potenciado con Inteligencia Artificial.</strong></p><p>Buscamos a un/a <strong>Operations Consultant</strong> para sumarse a nuestro <strong>equipo de Global Solutions</strong>, liderando la implementación de nuestras",
+    "functions_headline": "Funciones del cargo",
+    "functions": "<ul><li>Liderar proyectos de implementación desde la planificación hasta la puesta en marcha. Realizar levantamiento de procesos avanzados, identificando riesgos, oportunidades de mejora y asegurando una ejecución en tiempo, alcance y calidad.</li><li>Configurar, parametrizar y personalizar los módulos SaaS de acuerdo con los procesos definidos por el cliente, considerando procesos de nómina local",
+    "benefits_headline": "🎁  Nuestros Beneficios",
+    "benefits": "<p>Sabemos que el alto desempeño requiere de un gran balance. Por eso, diseñamos una propuesta de valor que cuida de ti y de los tuyos:</p><ul><li>🤸<strong> Work-Life Balance</strong>: Modelo de trabajo híbrido, flexibilidad horaria (aquí confiamos en tu responsabilidad), días de vacaciones adicionales para desconectarte y día libre por mudanza.</li><li>💖 <strong>We Care</strong>: Medio día libr",
+    "desirable_headline": "Opcionales",
+    "desirable": "<ul><li>Dominio funcional de procesos de payroll/nómina local.</li><li>Conocimiento en implementación de módulos de Desarrollo Organizacional (DO).</li></ul>",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Chile"
+    ],
+    "lang": "es",
+    "category_name": "People & HR",
+    "perks": [
+     "remote_partial",
+     "health_coverage",
+     "dental_insurance",
+     "computer_provided",
+     "informal_dresscode",
+     "vacation_over_legal"
+    ],
+    "min_salary": null,
+    "max_salary": null,
+    "published_at": 1791900491,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 46,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "1",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Santiago",
+        "country": "Chile"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 879,
+       "type": "tag"
+      },
+      {
+       "id": 5620,
+       "type": "tag"
+      },
+      {
+       "id": 14274,
+       "type": "tag"
+      },
+      {
+       "id": 23596,
+       "type": "tag"
+      },
+      {
+       "id": 36818,
+       "type": "tag"
+      },
+      {
+       "id": 38305,
+       "type": "tag"
+      },
+      {
+       "id": 41582,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "rankmi",
+      "type": "company",
+      "attributes": {
+       "name": "Rankmi",
+       "description": "Somos la plataforma que unifica en un solo lugar todos los procesos de Gestión d",
+       "long_description": "<p>Rankmi es la plataforma para automatizar todos los procesos de Gestión de Per",
+       "projects": "<p>Somos la plataforma que unifica en un solo lugar todos los procesos de Gestió",
+       "benefits": "<p>Sabemos que el alto desempeño requiere de un gran balance. Por eso, diseñamos",
+       "web": "https://www.rankmi.com",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "CL",
+       "response_time_in_days": {
+        "min": 8,
+        "max": 20
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/1339/rankmi-color-original-icon.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/consultor-de-implementacion-nomina-rankmi-santiago"
+   }
+  },
+  {
+   "id": "learning-designer-middle-colectivo23-lima",
+   "type": "job",
+   "attributes": {
+    "title": "Learning Designer Middle | Temporal",
+    "description_headline": "Requerimientos del cargo",
+    "description": "<ul><li>Egresado/a de Psicología Educacional, Educación, Pedagogía o carreras afines. <strong>La formación específica no es excluyente.</strong></li><li>Entre <strong>2 a 3 años de experiencia</strong> en Learning Design, Diseño Instruccional o roles relacionados con educación.</li><li>Experiencia gestionando o participando en el diseño de <strong>programas educativos o experiencias de aprendizaje",
+    "projects": "<p><strong>Colectivo23</strong> es una Escuela Ejecutiva que forma talento extraordinario en Latam. Nuestro foco es apoyar el crecimiento profesional de personas y equipos mediante programas de desarrollo a cargo de profesionales referentes en diversas industrias.</p><p>Buscamos un/a <strong>Learning Designer Middle</strong> para sumarse temporalmente a nuestro equipo y gestionar el diseño y deliv",
+    "functions_headline": "Funciones del cargo",
+    "functions": "<ul><li>Gestionar el <strong>end-to-end de un programa educativo</strong>, desde el diseño instruccional hasta la entrega, asegurando la calidad y el cumplimiento de los indicadores definidos.</li><li>Trabajar de la mano con <strong>practitioners expertos en cada temática</strong>, asegurando la correcta bajada de sus conocimientos y experiencia al programa.</li><li>Revisar y monitorear métricas d",
+    "benefits_headline": "Condiciones",
+    "benefits": "<p>En <strong>Colectivo23</strong> fomentamos un ambiente laboral que potencia el crecimiento personal y profesional. Algunos de nuestros beneficios incluyen:</p><ul><li>Trabajo híbrido.</li><li>Ingreso a Planilla</li><li>Contratación por suplencia de maternidad - 4 meses</li><li>Integración con un equipo de profesionales apasionados por la transformación educativa.</li></ul>",
+    "desirable_headline": "",
+    "desirable": "",
+    "remote": false,
+    "remote_modality": "hybrid",
+    "remote_zone": null,
+    "countries": [
+     "Peru"
+    ],
+    "lang": "lang_not_specified",
+    "category_name": "Education & Coaching",
+    "perks": [],
+    "min_salary": 1000,
+    "max_salary": 1200,
+    "published_at": 1790200207,
+    "response_time_in_days": {
+     "min": null,
+     "max": null
+    },
+    "applications_count": 30,
+    "location_regions": {
+     "data": []
+    },
+    "location_tenants": {
+     "data": []
+    },
+    "location_cities": {
+     "data": [
+      {
+       "id": "130",
+       "type": "tenant_city",
+       "attributes": {
+        "name": "Lima",
+        "country": "Peru"
+       }
+      }
+     ]
+    },
+    "modality": {
+     "data": {
+      "id": 1,
+      "type": "modality"
+     }
+    },
+    "seniority": {
+     "data": {
+      "id": 3,
+      "type": "seniority"
+     }
+    },
+    "tags": {
+     "data": [
+      {
+       "id": 10379,
+       "type": "tag"
+      },
+      {
+       "id": 37658,
+       "type": "tag"
+      }
+     ]
+    },
+    "company": {
+     "data": {
+      "id": "colectivo23",
+      "type": "company",
+      "attributes": {
+       "name": "Colectivo23",
+       "description": "Somos una Escuela Ejecutiva que forma talento extraordinario en Latam. Ofrecemos",
+       "long_description": "",
+       "projects": "<p>Colectivo23 es una Escuela Ejecutiva que forma talento extraordinario en Lata",
+       "benefits": "<p>En <strong>Colectivo23</strong> fomentamos un ambiente laboral que potencia e",
+       "web": "http://www.colectivo23.com",
+       "twitter": null,
+       "github": null,
+       "facebook": null,
+       "angellist": null,
+       "country": "PE",
+       "response_time_in_days": {
+        "min": 1,
+        "max": 12
+       },
+       "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/7468/Fondo_azul.png"
+      }
+     }
+    }
+   },
+   "links": {
+    "public_url": "https://www.getonbrd.com/jobs/learning-designer-middle-colectivo23-lima"
+   }
+  }
+ ]
+}
