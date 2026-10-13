@@ -16,6 +16,8 @@ export interface PushRow {
   token: string;
   platform: string;
   locale: string | null;
+  kind?: string | null;
+  application_id?: string | null;
 }
 
 export type SendOutcome = 'sent' | 'unregistered' | 'failed';
@@ -70,10 +72,10 @@ export async function accessToken(sa: ServiceAccount, fetchImpl: typeof fetch, n
   return body.access_token;
 }
 
-const COPY: Record<string, { head: string }> = {
-  pt: { head: 'Nova vaga para você' },
-  es: { head: 'Nueva vacante para ti' },
-  en: { head: 'New job for you' },
+const COPY: Record<string, { head: string; interview: string; follow_up: string }> = {
+  pt: { head: 'Nova vaga para você', interview: 'Entrevista nas próximas 24 h', follow_up: 'Dia de dar retorno na candidatura' },
+  es: { head: 'Nueva vacante para ti', interview: 'Entrevista en las próximas 24 h', follow_up: 'Día de dar seguimiento a la candidatura' },
+  en: { head: 'New job for you', interview: 'Interview in the next 24 h', follow_up: 'Follow-up day for your application' },
 };
 
 /** The FCM v1 message: the person's language (pt / es / en), the job title and company as written by the listing, the ids the app opens. */
@@ -84,8 +86,11 @@ export function buildMessage(r: PushRow): Record<string, unknown> {
   return {
     message: {
       token: r.token,
-      notification: { title: copy.head, body: body.slice(0, 240) },
-      data: { kind: 'new_job', notification_id: r.notification_id, ...(r.job_id ? { job_id: r.job_id } : {}) },
+      notification: { title: r.kind === 'interview' ? copy.interview : r.kind === 'follow_up' ? copy.follow_up : copy.head, body: body.slice(0, 240) },
+      data: {
+        kind: r.kind ?? 'new_job', notification_id: r.notification_id,
+        ...(r.job_id ? { job_id: r.job_id } : {}), ...(r.application_id ? { application_id: r.application_id } : {}),
+      },
       android: { priority: 'normal', notification: { tag: r.notification_id } },
       apns: { payload: { aps: { 'thread-id': 'job_alerts' } } },
     },

@@ -87,3 +87,15 @@ describe('sending', () => {
     for (const [a, b] of [['abc123', 'abc124'], ['abc', 'abc123'], ['', ''], [null, 'x'], ['x', undefined]] as const) expect(sameSecret(a, b)).toBe(false);
   });
 });
+
+describe('reminders', () => {
+  it('interview and follow-up reminders get their own title in each language and carry the application id', () => {
+    const m = (o: Partial<PushRow>) => (buildMessage(row(o)) as { message: { notification: { title: string }; data: Record<string, string> } }).message;
+    expect(m({ kind: 'interview', job_id: null, application_id: 'a1' })).toMatchObject({
+      notification: { title: 'Entrevista nas próximas 24 h' }, data: { kind: 'interview', notification_id: 'n1', application_id: 'a1' },
+    });
+    expect(m({ kind: 'follow_up', locale: 'es' }).notification.title).toBe('Día de dar seguimiento a la candidatura');
+    expect(m({ kind: 'interview', locale: 'en-GB' }).notification.title).toBe('Interview in the next 24 h');
+    expect(m({ kind: null }).data.kind).toBe('new_job');
+  });
+});

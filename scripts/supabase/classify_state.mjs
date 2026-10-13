@@ -24,6 +24,7 @@ export const MIGRATIONS = [
   { version: '20261022000000', name: 'jobsconz_revalidation' },
   { version: '20261023000000', name: 'v3_searches_alerts' },
   { version: '20261024000000', name: 'push_devices' },
+  { version: '20261025000000', name: 'application_reminders' },
 ];
 
 const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota', 'saved_search_alert_state'];
@@ -77,6 +78,8 @@ function signatures(i) {
     (i.ops_functions ?? []).includes('alerts_run') && (i.ops_functions ?? []).includes('alert_matches') && (i.ops_tables ?? []).includes('alert_runs'),
     // migration 17 adds the device tokens of push notifications
     tables.has('push_devices') && (i.ops_functions ?? []).includes('push_claim'),
+    // migration 18 adds the hourly reminders of the application pipeline
+    (i.ops_functions ?? []).includes('reminders_run'),
   ];
 }
 

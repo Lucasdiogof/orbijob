@@ -31,6 +31,7 @@ run 12_retention.sql
 run 13_sources_maintenance.sql
 run 14_v3_alerts.sql
 run 15_push_devices.sql
+run 16_reminders.sql
 ./05_concurrency.sh "$URL"
 # the storage section must be re-runnable without error (idempotence of the bucket/policy statements)
 awk '/-- ───────── private storage: resumes/{f=1} f' ../migrations/20261010000000_app_integration.sql > /tmp/storage_section_$$.sql
@@ -62,7 +63,7 @@ trap 'psql "$PGURL" -qc "drop database if exists $DB" >/dev/null; psql "$PGURL" 
 URL2="${PGURL%/*}/$DB2"
 run2() { psql "$URL2" -v ON_ERROR_STOP=1 -q -f "$1"; }
 run2 00_platform_stub.sql
-for m in $(ls ../migrations/*.sql | grep -v -e quota_upsert_fix -e service_role_grants -e service_role_least_privilege -e supabase_cron_revalidation -e jobicy_retention -e sources_maintenance -e expire_window_floor -e freshness_policy -e jobtech_revalidation -e expire_by_evidence -e jobsconz_revalidation -e v3_searches_alerts -e push_devices); do run2 "$m" >/dev/null 2>&1 || { echo "upgrade setup failed: $m"; exit 1; }; done
+for m in $(ls ../migrations/*.sql | grep -v -e quota_upsert_fix -e service_role_grants -e service_role_least_privilege -e supabase_cron_revalidation -e jobicy_retention -e sources_maintenance -e expire_window_floor -e freshness_policy -e jobtech_revalidation -e expire_by_evidence -e jobsconz_revalidation -e v3_searches_alerts -e push_devices -e application_reminders); do run2 "$m" >/dev/null 2>&1 || { echo "upgrade setup failed: $m"; exit 1; }; done
 psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into auth.users (id) values ('00000000-0000-0000-0000-0000000000e1'); insert into public.saved_jobs (user_id, job_key, snapshot) select '00000000-0000-0000-0000-0000000000e1', 'k' || g, '{\"a\":1}' from generate_series(1, 1000) g;"
 # the original trigger is the one that is wrongly strict at the cap
 if psql "$URL2" -v ON_ERROR_STOP=1 -q -c "insert into public.saved_jobs (user_id, job_key, snapshot) values ('00000000-0000-0000-0000-0000000000e1', 'k5', '{}') on conflict (user_id, job_key) do update set snapshot = excluded.snapshot" >/dev/null 2>&1; then echo "expected the pre-fix trigger to refuse the upsert"; exit 1; fi

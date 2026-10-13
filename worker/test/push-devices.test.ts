@@ -180,9 +180,14 @@ describe('push_claim / push_forget_tokens (the sender)', () => {
 
   it('applying the migration twice changes nothing, and the rollback removes it cleanly', async () => {
     await register(A, TOK(1));
-    await db.exec(readFileSync(new URL('../../supabase/migrations/20261024000000_push_devices.sql', import.meta.url), 'utf8'));
+    const sql = (p: string) => readFileSync(new URL(`../../supabase/${p}`, import.meta.url), 'utf8');
+    // the chain from 17 on, again (18 redefines push_claim, so 17 alone is re-applied only after rolling 18 back)
+    await db.exec(sql('rollback/20261025000000_application_reminders.down.sql'));
+    await db.exec(sql('migrations/20261024000000_push_devices.sql'));
+    await db.exec(sql('migrations/20261025000000_application_reminders.sql'));
     expect(await devices(A)).toHaveLength(1);
-    await db.exec(readFileSync(new URL('../../supabase/rollback/20261024000000_push_devices.down.sql', import.meta.url), 'utf8'));
+    await db.exec(sql('rollback/20261025000000_application_reminders.down.sql'));
+    await db.exec(sql('rollback/20261024000000_push_devices.down.sql'));
     expect((await db.query(`select to_regclass('public.push_devices') t`)).rows[0]).toEqual({ t: null });
     await db.exec(readFileSync(new URL('../../supabase/migrations/20261024000000_push_devices.sql', import.meta.url), 'utf8'));
   });
