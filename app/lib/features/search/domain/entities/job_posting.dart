@@ -27,6 +27,7 @@ class JobPosting extends Equatable {
     this.language,
     this.geoRestrictions = const [],
     this.description,
+    this.skills = const [],
   });
 
   final String source;
@@ -60,6 +61,9 @@ class JobPosting extends Equatable {
   /// Plain-text description when the catalogue provides one. NOT stored in favourites or applications (their
   /// snapshots are limited to 16 KB); those open the original listing instead.
   final String? description;
+
+  /// Skills the source lists as structured data (only some sources do; never extracted from the description).
+  final List<String> skills;
 
   @override
   List<Object?> get props => [source, externalId];

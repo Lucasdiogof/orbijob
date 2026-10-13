@@ -65,6 +65,10 @@ List<CompareRow> comparisonRows(
     CompareRow(l.cpRowLanguage, [
       for (final j in jobs) nativeLanguageName(text(j.language)),
     ]),
+    // requirements and benefits have no structured field in any source; skills only where the source lists them
+    CompareRow(l.cpRowSkills, [
+      for (final j in jobs) j.skills.isEmpty ? null : j.skills.join(', '),
+    ]),
     CompareRow(l.cpRowSource, [for (final j in jobs) text(j.sourceName)]),
   ];
   return rows;

@@ -659,7 +659,7 @@
   "ntSettingsTitle": "Alertas",
   "ntEnabled": "Receber alertas",
   "ntEnabledHelp": "Desative para parar as novas notificações sem mexer nas pesquisas salvas. Vagas que surgirem enquanto estiver desativado não são entregues depois.",
-  "ntPushNote": "Os alertas chegam dentro do OrbiJob. Notificações push no celular ou no navegador ainda não estão ativadas.",
+  "ntPushNote": "Alertas e lembretes sempre chegam aqui. No Android também chegam como notificação push depois que você permitir; no iPhone e no navegador o push ainda não está ativado.",
   "ntSignedOut": "Entre na conta para receber alertas de vagas novas.",
   "ntLoadFailed": "Não foi possível carregar as notificações.",
   "ssUseCurrent": "Substituir pela pesquisa atual do Explorar",
@@ -781,5 +781,8 @@
   "cpEligibilityRestricted": "Restrito a: {places}",
   "cpSalaryNote": "Os salários usam moedas ou períodos diferentes e aparecem como informados, sem conversão.",
   "cpOpenListing": "Abrir o anúncio",
-  "cpRemoveOne": "Remover {title} da comparação"
+  "cpRemoveOne": "Remover {title} da comparação",
+  "ntReminderInterview": "Entrevista nas próximas 24 horas",
+  "ntReminderFollowUp": "Dia de dar retorno nesta candidatura",
+  "cpRowSkills": "Habilidades listadas"
 }

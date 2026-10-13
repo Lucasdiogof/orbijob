@@ -1954,7 +1954,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ntPushNote =>
-      'Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.';
+      'Alerts and reminders always arrive here. On Android they also arrive as push notifications once you allow them; iPhone and browser push are not enabled yet.';
 
   @override
   String get ntSignedOut => 'Sign in to receive alerts about new jobs.';
@@ -2422,4 +2422,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String cpRemoveOne(String title) {
     return 'Remove $title from the comparison';
   }
+
+  @override
+  String get ntReminderInterview => 'Interview in the next 24 hours';
+
+  @override
+  String get ntReminderFollowUp => 'Follow-up day for this application';
+
+  @override
+  String get cpRowSkills => 'Skills listed';
 }

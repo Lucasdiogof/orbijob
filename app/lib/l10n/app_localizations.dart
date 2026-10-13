@@ -3535,7 +3535,7 @@ abstract class AppLocalizations {
   /// No description provided for @ntPushNote.
   ///
   /// In en, this message translates to:
-  /// **'Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.'**
+  /// **'Alerts and reminders always arrive here. On Android they also arrive as push notifications once you allow them; iPhone and browser push are not enabled yet.'**
   String get ntPushNote;
 
   /// No description provided for @ntSignedOut.
@@ -4269,6 +4269,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove {title} from the comparison'**
   String cpRemoveOne(String title);
+
+  /// No description provided for @ntReminderInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview in the next 24 hours'**
+  String get ntReminderInterview;
+
+  /// No description provided for @ntReminderFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up day for this application'**
+  String get ntReminderFollowUp;
+
+  /// No description provided for @cpRowSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills listed'**
+  String get cpRowSkills;
 }
 
 class _AppLocalizationsDelegate

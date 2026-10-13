@@ -1,5 +1,21 @@
 import 'package:equatable/equatable.dart';
 
+/// What a notification is about: a new job for a saved search, or a reminder of the person's own application (interview in the next
+/// 24 hours, follow-up date reached). Reminders carry [AppNotification.applicationId] and no job.
+enum NotificationKind {
+  newJob,
+  interview,
+  followUp;
+
+  static NotificationKind parse(Object? v) => switch (v) {
+    'interview' => interview,
+    'follow_up' => followUp,
+    _ => newJob,
+  };
+
+  bool get isReminder => this != newJob;
+}
+
 /// A job the database announced because it matches one of the person's saved searches with alerts on. It keeps just enough of the job to be
 /// read on its own (title, company, link): the job itself may leave the catalogue later.
 class AppNotification extends Equatable {
@@ -14,6 +30,8 @@ class AppNotification extends Equatable {
     this.country,
     this.searchIds = const [],
     this.readAt,
+    this.kind = NotificationKind.newJob,
+    this.applicationId,
   });
 
   final String id;
@@ -28,6 +46,10 @@ class AppNotification extends Equatable {
   /// The saved searches that matched this job.
   final List<String> searchIds;
   final DateTime? readAt;
+  final NotificationKind kind;
+
+  /// The application a reminder is about.
+  final String? applicationId;
 
   bool get unread => readAt == null;
 
@@ -42,6 +64,8 @@ class AppNotification extends Equatable {
     country: country,
     searchIds: searchIds,
     readAt: readAt ?? at,
+    kind: kind,
+    applicationId: applicationId,
   );
 
   @override
@@ -56,6 +80,8 @@ class AppNotification extends Equatable {
     country,
     searchIds,
     readAt,
+    kind,
+    applicationId,
   ];
 }
 

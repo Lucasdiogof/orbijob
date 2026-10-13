@@ -44,7 +44,7 @@ class SupabaseJobCatalogRepository
   static const _columns =
       'id,source_id,external_id,company,title,description,country,city,language,work_mode,contract_type,'
       'salary_min,salary_max,salary_currency,salary_period,published_at,original_url,apply_url,status,'
-      'geo_restrictions,job_sources!inner(id,attribution,can_redistribute,status)';
+      'geo_restrictions,skills,job_sources!inner(id,attribution,can_redistribute,status)';
 
   @override
   Future<SearchResult> search(
@@ -342,6 +342,12 @@ JobPosting? jobFromCatalogRow(Object? raw) {
           ]
         : const [],
     description: s(raw['description']),
+    skills: raw['skills'] is List
+        ? [
+            for (final k in raw['skills'] as List)
+              if (k is String && k.trim().isNotEmpty) k.trim(),
+          ].take(30).toList()
+        : const [],
   );
 }
 

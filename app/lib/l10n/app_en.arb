@@ -879,7 +879,7 @@
   "ntSettingsTitle": "Alerts",
   "ntEnabled": "Receive alerts",
   "ntEnabledHelp": "Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.",
-  "ntPushNote": "Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.",
+  "ntPushNote": "Alerts and reminders always arrive here. On Android they also arrive as push notifications once you allow them; iPhone and browser push are not enabled yet.",
   "ntSignedOut": "Sign in to receive alerts about new jobs.",
   "ntLoadFailed": "Could not load notifications.",
   "ssUseCurrent": "Replace with the current Explore search",
@@ -1189,5 +1189,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "ntReminderInterview": "Interview in the next 24 hours",
+  "ntReminderFollowUp": "Follow-up day for this application",
+  "cpRowSkills": "Skills listed"
 }

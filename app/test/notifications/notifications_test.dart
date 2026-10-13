@@ -182,11 +182,44 @@ void main() {
         expect(list.single.country, 'DE');
         expect(list.single.searchIds, ['s1', 's2']);
         expect(list.single.unread, isTrue);
+        expect(list.single.kind, NotificationKind.newJob);
         final q = b.last.query;
         expect(q['dismissed_at'], 'is.null');
         expect(q['order'], startsWith('created_at.desc'));
       },
     );
+
+    test('reminder rows keep their kind and application', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => (
+          200,
+          [
+            {
+              'id': 'r1',
+              'kind': 'interview',
+              'application_id': 'a1',
+              'job_id': null,
+              'title': 'Physio',
+              'created_at': '2026-10-13T10:00:00+00:00',
+            },
+            {
+              'id': 'r2',
+              'kind': 'follow_up',
+              'title': 'Nurse',
+              'created_at': '2026-10-13T10:00:00+00:00',
+            },
+          ],
+        ),
+      );
+      final list = await SupabaseNotificationsRepository(b.client).list();
+      expect(list.map((n) => n.kind), [
+        NotificationKind.interview,
+        NotificationKind.followUp,
+      ]);
+      expect(list.first.applicationId, 'a1');
+      expect(list.first.jobId, isNull);
+      expect(b.last.query['select'], contains('kind'));
+    });
 
     test('marking and dismissing send only read_at / dismissed_at', () async {
       final b = FakeBackend(respond: (m, u, body) => (204, null));
@@ -279,6 +312,54 @@ void main() {
     );
 
     testWidgets(
+      'a reminder shows what it is about and opens the applications',
+      (t) async {
+        final auth = FakeAuth()..currentUser = _user;
+        final fakes = Fakes(auth: auth);
+        fakes.notifications.rows.addAll([
+          AppNotification(
+            id: 'r1',
+            title: 'Pelvic physiotherapist',
+            company: 'Clinic',
+            kind: NotificationKind.interview,
+            applicationId: 'app-1',
+            createdAt: DateTime.now().toUtc().subtract(
+              const Duration(hours: 1),
+            ),
+          ),
+          AppNotification(
+            id: 'r2',
+            title: 'Nurse',
+            kind: NotificationKind.followUp,
+            applicationId: 'app-2',
+            createdAt: DateTime.now().toUtc().subtract(
+              const Duration(hours: 2),
+            ),
+          ),
+        ]);
+        await pumpApp(
+          t,
+          repo: PreviewSearchRepository(),
+          auth: auth,
+          fakes: fakes,
+          size: const Size(390, 900),
+        );
+        await t.tap(find.byTooltip('Notifications, 2 unread'));
+        await t.pumpAndSettle();
+        expect(find.text('Interview in the next 24 hours'), findsOneWidget);
+        expect(find.text('Follow-up day for this application'), findsOneWidget);
+        expect(find.textContaining('Found'), findsNothing);
+        await t.tap(find.text('Pelvic physiotherapist'));
+        await t.pumpAndSettle();
+        expect(find.text('Interview in the next 24 hours'), findsNothing);
+        expect(
+          fakes.notifications.rows.firstWhere((n) => n.id == 'r1').unread,
+          isFalse,
+        );
+      },
+    );
+
+    testWidgets(
       'empty: says when new jobs are checked; the alerts switch is stored',
       (t) async {
         final auth = FakeAuth()..currentUser = _user;
@@ -301,7 +382,7 @@ void main() {
         await t.pumpAndSettle();
         expect(fakes.accountSettings.data['notifications'], {'enabled': false});
         expect(
-          find.textContaining('Push notifications on the phone'),
+          find.textContaining('also arrive as push notifications'),
           findsOneWidget,
         );
       },

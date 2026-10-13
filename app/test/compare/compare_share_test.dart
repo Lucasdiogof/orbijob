@@ -111,6 +111,25 @@ void main() {
       },
     );
 
+    test('skills only where the source lists them; nothing is taken from the description', () {
+      final rows = comparisonRows([
+        JobPosting(
+          source: 'jobtech',
+          externalId: 's1',
+          company: 'C',
+          title: 'Sjuksköterska',
+          originalUrl: 'https://example.com/s1',
+          skills: const ['Akutsjukvård', 'Körkort B'],
+          description: 'Experience with Python required',
+        ),
+        _job('2', 'Nurse'),
+      ], _en);
+      expect(rows.firstWhere((r) => r.label == 'Skills listed').values, [
+        'Akutsjukvård, Körkort B',
+        null,
+      ]);
+    });
+
     test('who can apply: only the explicit restriction list; "Anywhere" is said as the source states it', () {
       final rows = comparisonRows([
         _job('1', 'A', geo: ['Anywhere']),

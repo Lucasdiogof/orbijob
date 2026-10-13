@@ -26,6 +26,8 @@ AppNotification? notificationFromRow(Map<String, dynamic> r) {
           if (e is String) e,
     ],
     readAt: DateTime.tryParse('${r['read_at'] ?? ''}')?.toUtc(),
+    kind: NotificationKind.parse(r['kind']),
+    applicationId: s(r['application_id']),
   );
 }
 
@@ -36,7 +38,7 @@ class SupabaseNotificationsRepository implements NotificationsRepository {
   final SupabaseClient _client;
 
   static const _columns =
-      'id, job_id, search_ids, title, company, original_url, source_id, country, created_at, read_at';
+      'id, kind, application_id, job_id, search_ids, title, company, original_url, source_id, country, created_at, read_at';
 
   @override
   Future<List<AppNotification>> list({int limit = 100}) async {

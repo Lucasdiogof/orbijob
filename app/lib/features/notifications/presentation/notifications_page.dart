@@ -8,6 +8,7 @@ import '../../../core/format/country_names.dart';
 import '../../../core/format/relative_time.dart';
 import '../../../core/orbi/orbi.dart';
 import '../../../core/widgets/data_state_view.dart';
+import '../../shell/shell_cubit.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../browser/open_in_app.dart';
 import '../../search/domain/entities/job_posting.dart';
@@ -45,6 +46,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
     final cubit = context.read<NotificationsCubit>();
     final nav = Navigator.of(context);
     cubit.markRead(n);
+    if (n.kind.isReminder) {
+      // a reminder is about the person's own application: the pipeline shows it with its dates and notes
+      context.read<ShellCubit>().goTo(ShellCubit.applications);
+      nav.popUntil((r) => r.isFirst);
+      return;
+    }
     JobPosting? job;
     final repo = maybe<SearchRepository>();
     final id = n.jobId;
@@ -290,10 +297,38 @@ class _NotificationCard extends StatelessWidget {
                     Text(where, style: context.text.bodyMedium),
                   ],
                   const SizedBox(height: AppSpace.s1),
-                  Text(
-                    l.ntFound(agoLabel(n.createdAt, now, l)),
-                    style: context.metadataStyle,
-                  ),
+                  if (n.kind.isReminder) ...[
+                    Row(
+                      children: [
+                        Icon(
+                          n.kind == NotificationKind.interview
+                              ? Icons.event_available_outlined
+                              : Icons.reply_outlined,
+                          size: 16,
+                          color: c.primary,
+                        ),
+                        const SizedBox(width: AppSpace.s1),
+                        Flexible(
+                          child: Text(
+                            n.kind == NotificationKind.interview
+                                ? l.ntReminderInterview
+                                : l.ntReminderFollowUp,
+                            style: context.text.labelLarge!.copyWith(
+                              color: c.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      agoLabel(n.createdAt, now, l),
+                      style: context.metadataStyle,
+                    ),
+                  ] else
+                    Text(
+                      l.ntFound(agoLabel(n.createdAt, now, l)),
+                      style: context.metadataStyle,
+                    ),
                   if (from != null) Text(from, style: context.metadataStyle),
                 ],
               ),
