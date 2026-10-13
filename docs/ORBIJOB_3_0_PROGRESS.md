@@ -38,3 +38,22 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
 ## Blockers / owner-side
 - Push: Android fully configured; a real delivery still has to be observed on a signed-in phone. iOS needs a Mac build + APNs key. See [ORBIJOB_3_0.md](ORBIJOB_3_0.md).
 - No physical device or Mac in this environment: iOS and real-device behaviour of the new screens not verified.
+
+## Audit of 2026-10-13 (evening) — state of every 3.0 feature
+
+Checked against the code, the migrations applied to the OrbiJob project (`rpmlfxwebnlxnwadyvle`) and production data: 0 duplicate (user, job)
+notifications, 0 notifications linked to another account's search, 7 hourly alert runs all `ok` (no real user has saved a search yet).
+
+| # | Feature | State | Gap found by the audit → done now | Commits |
+|---|---|---|---|---|
+| 1 | Saved searches and alerts | complete | — (dedup, frequency, closed jobs, account isolation covered by `worker/test/v3-alerts.test.ts` + SQL test 14) | a433c3d, e78a8d1, 245aeb5 |
+| 2 | Notification centre | complete | push note was outdated ("not enabled") → now says Android push is on; reminders shown with their own label and open the applications | 245aeb5, 4b37deb |
+| 3 | Recommendations | complete | — (Home section + page, "Why this job?", must-haves vs preferences, incomplete profile still gets results) | ce612c4, 3f8dca3 |
+| 4 | Hide and restore jobs | complete | — | e5a3dac |
+| 5 | Search history | complete (device-only, per account, coalesced writes) | — | e5a3dac |
+| 6 | Application pipeline | complete | reminders existed only in the in-app agenda → interview (next 24 h) and follow-up (today) reminders as notifications + Android push, once per date, open processes only (migration 18, cron `reminders-run` at :50) | f806a44, de1d700, 4b37deb |
+| 7 | Share jobs | complete (title, company and the listing's own link; copy fallback) | — | e31c20d |
+| 8 | Compare jobs | complete | no requirements row → "Skills listed" row where the source lists skills (today only some JobTech jobs); requirements and benefits have no structured field in any source, so no row is invented | e31c20d, 4b37deb |
+| — | Push (Android) | configured and verified (OAuth + FCM authorisation, function answers `ok`) | — | c2117fe … c96996f |
+
+Still not done (outside this environment): iOS push (Mac build + APNs key), web push (public HTTPS origin + VAPID), a real delivery observed on a phone.

@@ -21,11 +21,11 @@ OrbiJob reúne la búsqueda internacional de empleo y el seguimiento de candidat
 - **Currículums PDF:** carga privada, currículum principal, sustitución, eliminación, extracción local de texto y revisión editable antes de aplicar sugerencias al perfil.
 - **Kit de candidatura:** copiar datos del perfil, acceder al currículum y registrar una candidatura con confirmación. OrbiJob no envía candidaturas automáticamente.
 - **Experiencia internacional:** inglés, portugués brasileño y español; temas claro/oscuro/sistema; diseño adaptable y animación de carga orbital.
-- **Búsquedas guardadas y alertas (3.0):** guarda cualquier combinación de filtros, renómbrala, edítala, duplícala o elimínala, y activa alertas por búsqueda (cada hora, diaria o semanal). Las vacantes nuevas compatibles, abiertas y verificadas recientemente llegan a un centro de notificaciones en la app, nunca dos veces por la misma vacante. El push en móvil/navegador aún no está activo.
+- **Búsquedas guardadas y alertas (3.0):** guarda cualquier combinación de filtros, renómbrala, edítala, duplícala o elimínala, y activa alertas por búsqueda (cada hora, diaria o semanal). Las vacantes nuevas compatibles, abiertas y verificadas recientemente llegan a un centro de notificaciones en la app, nunca dos veces por la misma vacante. En Android también llegan como notificación push; en iPhone y en el navegador el push aún no está activo.
 - **Recomendaciones explicables (3.0):** ranking determinista según tus profesiones, especialidad, lugares, idiomas y modalidad, para cualquier profesión, con los motivos y advertencias de cada vacante; no se afirma nada sobre visados o colegiaciones.
 - **Ocultar vacantes y búsquedas recientes (3.0):** oculta una vacante con deshacer y lista para restaurar; las búsquedas recientes quedan en el dispositivo, por cuenta, y se pueden desactivar o borrar.
-- **Embudo de candidaturas (3.0):** etapas de interesado a contratado o rechazado, notas personales, fechas de entrevista y seguimiento y una agenda; una candidatura solo se marca como enviada cuando lo confirmas.
-- **Compartir y comparar (3.0):** comparte el enlace de una vacante y compara vacantes lado a lado (tabla en pantallas anchas, bloques en el móvil) solo con lo que dicen los anuncios.
+- **Embudo de candidaturas (3.0):** etapas de interesado a contratado o rechazado, notas personales, fechas de entrevista y seguimiento con recordatorios en el centro de notificaciones (y push en Android) y una agenda; una candidatura solo se marca como enviada cuando lo confirmas.
+- **Compartir y comparar (3.0):** comparte el enlace de una vacante y compara vacantes lado a lado (tabla en pantallas anchas, bloques en el móvil) solo con lo que dicen los anuncios, incluidas las habilidades que indica la fuente.
 
 ## Capturas de pantalla
 

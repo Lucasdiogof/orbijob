@@ -121,6 +121,14 @@ Future<Fakes> _seed(FakeAuth auth, Locale locale) async {
   final now = DateTime.now().toUtc();
   fakes.notifications.rows.addAll([
     AppNotification(
+      id: 'r1',
+      title: 'Pelvic Health Physiotherapist',
+      company: 'Example Health Clinic',
+      kind: NotificationKind.interview,
+      applicationId: 'a1',
+      createdAt: now.subtract(const Duration(minutes: 40)),
+    ),
+    AppNotification(
       id: 'n1',
       title: 'Beckenboden-Physiotherapeut:in (m/w/d)',
       company: 'Beispiel Klinik GmbH',

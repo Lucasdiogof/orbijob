@@ -21,11 +21,11 @@ O OrbiJob reúne a busca internacional de empregos e o acompanhamento de candida
 - **Currículos em PDF:** upload privado, currículo principal, substituição, exclusão, leitura local de texto e revisão editável antes de aplicar sugestões ao perfil.
 - **Kit de candidatura:** copiar informações do perfil, acessar currículo e registrar candidatura mediante confirmação. O OrbiJob não envia candidaturas automaticamente.
 - **Experiência internacional:** interface em português, inglês e espanhol; temas claro/escuro/sistema; layout responsivo e loading com a identidade orbital.
-- **Pesquisas salvas e alertas (3.0):** salve qualquer combinação de filtros, renomeie, edite, duplique ou exclua, e ligue alertas por pesquisa (a cada hora, diário ou semanal). Vagas novas compatíveis, abertas e verificadas recentemente chegam a uma central de notificações no app, nunca duas vezes para a mesma vaga. Push no celular/navegador ainda não está ativo.
+- **Pesquisas salvas e alertas (3.0):** salve qualquer combinação de filtros, renomeie, edite, duplique ou exclua, e ligue alertas por pesquisa (a cada hora, diário ou semanal). Vagas novas compatíveis, abertas e verificadas recentemente chegam a uma central de notificações no app, nunca duas vezes para a mesma vaga. No Android também chegam como notificação push; no iPhone e no navegador o push ainda não está ativo.
 - **Recomendações explicáveis (3.0):** ranking determinístico a partir das suas profissões, especialidade, locais, idiomas e modalidade, para qualquer profissão, com os motivos e ressalvas de cada vaga; nada é afirmado sobre vistos ou registros profissionais.
 - **Ocultar vagas e pesquisas recentes (3.0):** oculte uma vaga com desfazer e lista para restaurar; as pesquisas recentes ficam no aparelho, por conta, e podem ser desligadas ou apagadas.
-- **Funil de candidaturas (3.0):** etapas de interessado a contratado ou rejeitado, notas pessoais, datas de entrevista e retorno e uma agenda; a candidatura só é marcada como enviada quando você confirma.
-- **Compartilhar e comparar (3.0):** compartilhe o link de uma vaga e compare vagas lado a lado (tabela em telas largas, blocos no celular) só com o que os anúncios informam.
+- **Funil de candidaturas (3.0):** etapas de interessado a contratado ou rejeitado, notas pessoais, datas de entrevista e retorno com lembretes na central de notificações (e push no Android) e uma agenda; a candidatura só é marcada como enviada quando você confirma.
+- **Compartilhar e comparar (3.0):** compartilhe o link de uma vaga e compare vagas lado a lado (tabela em telas largas, blocos no celular) só com o que os anúncios informam, inclusive as habilidades que a fonte lista.
 
 ## Capturas de tela
 
