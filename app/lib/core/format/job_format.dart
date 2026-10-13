@@ -13,8 +13,14 @@ String? formatSalary(JobPosting j, AppLocalizations l) {
   if (kind == SalaryKind.unknown || kind == SalaryKind.suspicious) return null;
   final min = j.salaryMin;
   final max = j.salaryMax;
+  // An hourly or daily rate with cents (13.45/h, 29.21–42.79/h) keeps them: rounding it to 13 would change what the employer stated.
+  final cents =
+      (j.salaryPeriod == SalaryPeriod.hour ||
+          j.salaryPeriod == SalaryPeriod.day) &&
+      [min, max].any((v) => v != null && v != v.roundToDouble());
   final nf = NumberFormat.decimalPattern(l.localeName)
-    ..maximumFractionDigits = 0;
+    ..minimumFractionDigits = cents ? 2 : 0
+    ..maximumFractionDigits = cents ? 2 : 0;
   final cur = j.salaryCurrency;
   final symbol = cur == null
       ? ''

@@ -15,7 +15,7 @@ OrbiJob brings international job discovery and personal application tracking tog
 ## Features
 
 - **Worldwide discovery:** search jobs by title, profession, specialty, country, continent and work arrangement, with professional-area navigation and current provider coverage.
-- **Real job feeds:** Jobicy, Arbeitnow, Remote OK, Remotive, Sweden's Platsbanken/JobTech, Taiwan Jobs Open Data and Jobs.co.nz have been integrated. Availability is dynamic; see the [source matrix](docs/SOURCES_MATRIX.md).
+- **Real job feeds:** Jobicy, Arbeitnow, Remote OK, Remotive, Sweden's Platsbanken/JobTech, Taiwan Jobs Open Data and Jobs.co.nz have been integrated. Availability is dynamic; see the [source matrix](docs/SOURCES_MATRIX.md). OrbiJob 6.0 also imports Teaching Vacancies (England), NYC Jobs, Karriere.NRW (Germany), Groupe BPCE (France) and Get on Board (Latin America); they appear in the app once the owner publishes them (licences and evidence in [docs/SOURCES_6_0.md](docs/SOURCES_6_0.md)).
 - **Relevant job information:** role, company, original description, location, work arrangement, source attribution, confidence and compatibility cues when supported by data.
 - **Personal workspace:** account, professional experience and education, skills, languages, professional preferences, saved jobs and application tracking.
 - **Résumé tools:** private PDF upload, primary résumé, replacement and deletion, local text extraction and editable review before applying suggestions to the profile.

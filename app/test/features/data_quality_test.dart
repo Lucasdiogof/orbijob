@@ -105,6 +105,26 @@ void main() {
         formatSalary(job(min: 120000, max: 145000), en),
         contains('120,000–145,000'),
       );
+      // hourly rates keep their cents; whole amounts stay whole
+      expect(
+        formatSalary(job(min: 13.45, max: 13.45, per: SalaryPeriod.hour), en),
+        allOf(contains('13.45'), isNot(contains('13.45–')), endsWith('/h')),
+      );
+      expect(
+        formatSalary(
+          job(min: 29.2118, max: 42.7915, per: SalaryPeriod.hour),
+          en,
+        ),
+        contains('29.21–42.79'),
+      );
+      expect(
+        formatSalary(job(min: 60, max: 70, per: SalaryPeriod.hour), en),
+        contains('60–70'),
+      );
+      expect(
+        formatSalary(job(min: 24884.87, max: 26531), en),
+        contains('24,885–26,531'),
+      );
       expect(
         formatSalary(job(min: 150000, max: 150000), en),
         isNot(contains('–')),

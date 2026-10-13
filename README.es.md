@@ -15,7 +15,7 @@ OrbiJob reúne la búsqueda internacional de empleo y el seguimiento de candidat
 ## Funciones
 
 - **Búsqueda global:** encuentra puestos por título, profesión, especialidad, país, continente y modalidad de trabajo.
-- **Fuentes reales:** Jobicy, Arbeitnow, Remote OK, Remotive, Platsbanken/JobTech (Suecia), Taiwan Jobs Open Data y Jobs.co.nz. La disponibilidad cambia constantemente; consulta la [matriz de fuentes](docs/SOURCES_MATRIX.md).
+- **Fuentes reales:** Jobicy, Arbeitnow, Remote OK, Remotive, Platsbanken/JobTech (Suecia), Taiwan Jobs Open Data y Jobs.co.nz. La disponibilidad cambia constantemente; consulta la [matriz de fuentes](docs/SOURCES_MATRIX.md). OrbiJob 6.0 también importa Teaching Vacancies (Inglaterra), NYC Jobs, Karriere.NRW (Alemania), Groupe BPCE (Francia) y Get on Board (América Latina); aparecen en la app cuando el propietario las publica (licencias y evidencias en [docs/SOURCES_6_0.md](docs/SOURCES_6_0.md)).
 - **Información transparente:** título, empresa, descripción original, ubicación, modalidad, atribución y señales de compatibilidad y confianza cuando haya datos suficientes.
 - **Espacio profesional:** perfil, experiencia, formación, habilidades, idiomas, preferencias, favoritos y seguimiento de candidaturas.
 - **Currículums PDF:** carga privada, currículum principal, sustitución, eliminación, extracción local de texto y revisión editable antes de aplicar sugerencias al perfil.
