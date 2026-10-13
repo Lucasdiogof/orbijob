@@ -5,6 +5,7 @@ import '../../data/job_snapshot.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../../domain/search_repository.dart';
+import '../../../searches/domain/search_spec.dart';
 
 /// Every state carries the active [filters], so the filter bar can render in any of them.
 sealed class SearchState extends Equatable {
@@ -167,6 +168,18 @@ class SearchCubit extends Cubit<SearchState> {
       if (gen != _generation) return;
       emit(SearchFailure(q, filters: _filters));
     }
+  }
+
+  /// What Explore is showing (or about to show): the text, the country and the filters.
+  SearchSpec get currentSpec =>
+      SearchSpec(term: _active ?? '', filters: _filters, countryCode: _country);
+
+  /// Runs a stored search: its filters replace the current ones and its text is searched. Not added to the recent searches, which are for what
+  /// the person typed.
+  Future<void> runSpec(SearchSpec spec) {
+    final s = spec.canonical;
+    _filters = s.filters;
+    return _start(s.term, null);
   }
 
   /// Repeats the last search (the retry button of the error state), keeping filters and country.

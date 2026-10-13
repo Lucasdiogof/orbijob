@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/data/load_status.dart';
 import '../../../core/design/design.dart';
 import '../../../core/locale_cubit.dart';
 import '../../../core/orbi/orbi.dart';
@@ -10,7 +9,7 @@ import '../../../core/widgets/data_state_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../translation/translation_cubit.dart';
 import 'preferences_cubit.dart';
-import 'saved_searches_cubit.dart';
+import '../../searches/presentation/saved_searches_page.dart';
 
 /// Language and appearance. Both apply at once on this device and are also kept in the account when the preferences
 /// were loaded from it. The language is a list in a sheet (radio), never a segmented control: "Português" and the
@@ -267,50 +266,22 @@ class SavedSearchesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final muted = context.text.bodySmall!.copyWith(color: context.colors.muted);
-    return BlocConsumer<SavedSearchesCubit, SavedSearchesState>(
-      listenWhen: (a, b) => a.actionTick != b.actionTick,
-      listener: (context, s) {
-        if (s.actionFailure != null) showDataFailure(context, s.actionFailure!);
-      },
-      builder: (context, s) {
-        Widget body;
-        if (s.status == LoadStatus.loading) {
-          body = const OrbiSkeletonList(count: 2, shrinkWrap: true);
-        } else if (s.status == LoadStatus.failure) {
-          body = Text(dataFailureText(l, s.failure!), style: muted);
-        } else if (s.items.isEmpty) {
-          body = Text(l.savedSearchesNote, style: muted);
-        } else {
-          body = Column(
-            children: [
-              for (final q in s.items)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.bookmark_border_rounded),
-                  title: Text(SavedSearchesCubit.termOf(q)),
-                  subtitle: SavedSearchesCubit.countryOf(q) == null
-                      ? null
-                      : Text(SavedSearchesCubit.countryOf(q)!),
-                  trailing: IconButton(
-                    tooltip: l.savedSearchRemove(SavedSearchesCubit.termOf(q)),
-                    icon: const Icon(Icons.close_rounded),
-                    onPressed: () =>
-                        context.read<SavedSearchesCubit>().remove(q.id),
-                  ),
-                ),
-            ],
-          );
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OrbiSectionHeader(title: l.savedSearchesTitle),
-            const SizedBox(height: AppSpace.s3),
-            body,
-          ],
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OrbiSectionHeader(title: l.savedSearchesTitle),
+        const SizedBox(height: AppSpace.s2),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.bookmarks_outlined),
+          title: Text(l.ssTitle),
+          subtitle: Text(l.ssSubtitle),
+          trailing: const Icon(Icons.chevron_right_rounded),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const SavedSearchesPage()),
+          ),
+        ),
+      ],
     );
   }
 }

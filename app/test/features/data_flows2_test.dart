@@ -81,10 +81,13 @@ void main() {
     final fakes = Fakes(auth: auth);
     await pumpApp(t, repo: PreviewSearchRepository(), auth: auth, fakes: fakes);
     await search(t);
-    await t.tap(find.byTooltip('Save this search'));
+    await t.tap(find.text('Save search'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Save').last);
     await t.pumpAndSettle();
     expect(fakes.savedSearches.rows.map((r) => r.query['term']), ['Pedreiro']);
-    expect(find.byTooltip('Search saved'), findsOneWidget);
+    expect(fakes.savedSearches.rows.single.alertsEnabled, isFalse);
+    expect(find.text('Search saved'), findsOneWidget);
   });
 
   testWidgets('language choice applies at once and is saved to the account', (

@@ -7,6 +7,8 @@ import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/favorites/data/supabase_favorites_repository.dart';
 import 'package:orbijob/features/preferences/data/supabase_preferences_repository.dart';
 import 'package:orbijob/features/preferences/domain/user_preferences.dart';
+import 'package:orbijob/features/searches/data/supabase_saved_searches_repository.dart';
+import 'package:orbijob/features/searches/domain/saved_search.dart';
 import 'package:orbijob/features/profile/data/supabase_profile_repository.dart';
 import 'package:orbijob/features/profile/data/supabase_resume_repository.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
@@ -257,6 +259,8 @@ void main() {
       final s = await repo.add({'q': 'nurse'});
       expect((b.requests.first.json as Map)['user_id'], testUserA);
       expect(s.query, {'q': 'nurse'});
+      expect(s.alertsEnabled, isFalse);
+      expect(s.frequency, AlertFrequency.daily);
       await repo.remove('s1');
       expect(b.last.query['id'], 'eq.s1');
     });

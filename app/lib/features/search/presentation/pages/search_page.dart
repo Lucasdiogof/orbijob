@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
+import '../../../../core/data/load_status.dart';
 import '../../../../core/orbi/orbi.dart';
+import '../../../../core/data/data_failure.dart';
 import '../../../../core/widgets/data_state_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../favorites/favorites_cubit.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
-import '../../../preferences/presentation/saved_searches_cubit.dart';
+import '../../../searches/domain/search_spec.dart';
+import '../../../searches/presentation/save_search_sheet.dart';
+import '../../../searches/presentation/saved_searches_cubit.dart';
+import '../../../searches/presentation/saved_searches_page.dart';
 import '../../../shell/shell_cubit.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
@@ -280,6 +285,16 @@ class _Header extends StatelessWidget {
         OrbiChipRow(
           children: [
             OrbiFilterChip(
+              label: l.ssMine,
+              icon: Icons.bookmarks_outlined,
+              selected: false,
+              onSelected: (_) => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const SavedSearchesPage(),
+                ),
+              ),
+            ),
+            OrbiFilterChip(
               label: _areaChipLabel(l),
               icon: filters.area == null ? Icons.category_outlined : null,
               selected: filters.area != null,
@@ -364,6 +379,7 @@ class _Results extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final spec = context.read<SearchCubit>().currentSpec;
     return switch (state) {
       SearchIdle() => ListView(
         padding: const EdgeInsets.all(AppSpace.s4),
@@ -423,6 +439,10 @@ class _Results extends StatelessWidget {
                 onPressed: () => context.read<SearchCubit>().clearFilters(),
               )
             : null,
+        secondaryAction: _SaveSearchButton(
+          spec: context.read<SearchCubit>().currentSpec,
+          prominent: true,
+        ),
       ),
       SearchFailure() => OrbiEmptyState(
         icon: Icons.error_outline,
@@ -437,7 +457,6 @@ class _Results extends StatelessWidget {
       ),
       SearchSuccess(
         :final jobs,
-        :final query,
         :final hasMore,
         :final loadingMore,
         :final loadMoreFailed,
@@ -455,19 +474,20 @@ class _Results extends StatelessWidget {
             separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
             itemBuilder: (context, i) {
               if (i == 0) {
-                return Row(
+                // A Wrap, not a Row: with large text the save button drops under the count instead of overflowing.
+                return Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Expanded(
-                      child: Semantics(
-                        liveRegion: true,
-                        child: Text(
-                          // With more pages behind it the count is "shown so far", never a catalogue total.
-                          '${hasMore ? l.resultsShown(jobs.length) : l.resultsCount(jobs.length)} · ${l.sortNewest}',
-                          style: context.metadataStyle,
-                        ),
+                    Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        // With more pages behind it the count is "shown so far", never a catalogue total.
+                        '${hasMore ? l.resultsShown(jobs.length) : l.resultsCount(jobs.length)} · ${l.sortNewest}',
+                        style: context.metadataStyle,
                       ),
                     ),
-                    if (query.isNotEmpty) _SaveSearchButton(query: query),
+                    _SaveSearchButton(spec: spec),
                   ],
                 );
               }
@@ -494,10 +514,14 @@ class _Results extends StatelessWidget {
   }
 }
 
-/// Keeps the current search in the account (server side). Recent searches are separate and stay on the device.
+/// Saves what Explore shows (text, country and every filter) in the account, optionally with alerts; when it is already saved, opens it for editing.
+/// Recent searches are separate and stay on the device.
 class _SaveSearchButton extends StatelessWidget {
-  const _SaveSearchButton({required this.query});
-  final String query;
+  const _SaveSearchButton({required this.spec, this.prominent = false});
+
+  /// What Explore shows; passed in (not read here) so the button follows every new search.
+  final SearchSpec spec;
+  final bool prominent;
 
   @override
   Widget build(BuildContext context) {
@@ -508,27 +532,40 @@ class _SaveSearchButton extends StatelessWidget {
         if (s.actionFailure != null) showDataFailure(context, s.actionFailure!);
       },
       builder: (context, s) {
-        final saved = context.read<SavedSearchesCubit>().isSaved(query);
-        return IconButton(
-          tooltip: saved ? l.savedSearchSaved : l.savedSearchSave,
-          onPressed: saved || s.busy
-              ? null
-              : () async {
-                  final ok = await context.read<SavedSearchesCubit>().save(
-                    query,
-                  );
-                  if (ok && context.mounted) {
-                    showOrbiSnackBar(
-                      context,
-                      l.savedSearchSaved,
-                      kind: OrbiSnackKind.success,
-                    );
-                  }
-                },
-          icon: Icon(
-            saved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
-          ),
-        );
+        if (spec.isEmpty) return const SizedBox.shrink();
+        final saved = context.read<SavedSearchesCubit>().savedFor(spec);
+        final signedOut =
+            s.status == LoadStatus.failure &&
+            needsSignIn(s.failure ?? DataFailureKind.unknown);
+        final label = saved == null ? l.ssSaveAction : l.ssEdit;
+        final icon = saved == null
+            ? Icons.bookmark_add_outlined
+            : (saved.alertsEnabled
+                  ? Icons.notifications_active_outlined
+                  : Icons.bookmark_rounded);
+        Future<void> onTap() async {
+          if (signedOut) {
+            await Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const SavedSearchesPage(),
+              ),
+            );
+            return;
+          }
+          await showSaveSearchSheet(context, spec: spec, editing: saved);
+        }
+
+        return prominent
+            ? OrbiSecondaryButton(
+                label: l.ssSaveAction,
+                icon: icon,
+                onPressed: s.busy ? null : onTap,
+              )
+            : OrbiTextButton(
+                label: label,
+                icon: icon,
+                onPressed: s.busy ? null : onTap,
+              );
       },
     );
   }

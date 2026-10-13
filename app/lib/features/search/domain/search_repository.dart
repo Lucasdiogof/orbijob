@@ -41,6 +41,12 @@ abstract class SearchRepository {
   });
 }
 
+/// Repositories that can fetch one catalogue job by its id (a notification points at a job this way).
+abstract interface class JobLookup {
+  /// The job, or null when it is no longer shown (closed, removed, not verified recently).
+  Future<JobPosting?> jobById(String id);
+}
+
 /// Repositories that can say how many open jobs each [JobArea] has (one count request per area).
 abstract interface class AreaCountSource {
   Future<Map<JobArea, int>> areaCounts();

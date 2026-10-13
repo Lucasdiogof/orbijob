@@ -3159,6 +3159,432 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title translated'**
   String get translationTitleOriginalHint;
+
+  /// No description provided for @ssTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved searches'**
+  String get ssTitle;
+
+  /// No description provided for @ssSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen a search in one tap and choose which ones alert you about new jobs.'**
+  String get ssSubtitle;
+
+  /// No description provided for @ssEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved searches yet'**
+  String get ssEmptyTitle;
+
+  /// No description provided for @ssEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Search or filter in Explore, then tap “Save search”. You can turn on alerts for it.'**
+  String get ssEmptyBody;
+
+  /// No description provided for @ssGoExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Explore'**
+  String get ssGoExplore;
+
+  /// No description provided for @ssSaveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save search'**
+  String get ssSaveAction;
+
+  /// No description provided for @ssMine.
+  ///
+  /// In en, this message translates to:
+  /// **'My searches'**
+  String get ssMine;
+
+  /// No description provided for @ssSaveSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this search'**
+  String get ssSaveSheetTitle;
+
+  /// No description provided for @ssEditSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit saved search'**
+  String get ssEditSheetTitle;
+
+  /// No description provided for @ssNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get ssNameLabel;
+
+  /// No description provided for @ssNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Nurse in Germany'**
+  String get ssNameHint;
+
+  /// No description provided for @ssNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the search a name.'**
+  String get ssNameRequired;
+
+  /// No description provided for @ssNameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at most {max} characters.'**
+  String ssNameTooLong(int max);
+
+  /// No description provided for @ssAlertsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert me about new jobs'**
+  String get ssAlertsLabel;
+
+  /// No description provided for @ssAlertsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'A notification appears in OrbiJob when a new job matches. Only open jobs verified recently are announced.'**
+  String get ssAlertsHelp;
+
+  /// No description provided for @ssFrequencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How often to check'**
+  String get ssFrequencyLabel;
+
+  /// No description provided for @ssFreqInstant.
+  ///
+  /// In en, this message translates to:
+  /// **'Every hour'**
+  String get ssFreqInstant;
+
+  /// No description provided for @ssFreqDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a day'**
+  String get ssFreqDaily;
+
+  /// No description provided for @ssFreqWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week'**
+  String get ssFreqWeekly;
+
+  /// No description provided for @ssAlertsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts on'**
+  String get ssAlertsOn;
+
+  /// No description provided for @ssAlertsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts off'**
+  String get ssAlertsOff;
+
+  /// No description provided for @ssAlertsToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts for {name}'**
+  String ssAlertsToggle(String name);
+
+  /// No description provided for @ssSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Search saved'**
+  String get ssSaved;
+
+  /// No description provided for @ssUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Search updated'**
+  String get ssUpdated;
+
+  /// No description provided for @ssRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Search deleted'**
+  String get ssRemoved;
+
+  /// No description provided for @ssDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy created'**
+  String get ssDuplicated;
+
+  /// No description provided for @ssOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Explore'**
+  String get ssOpen;
+
+  /// No description provided for @ssRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get ssRename;
+
+  /// No description provided for @ssDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get ssDuplicate;
+
+  /// No description provided for @ssEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get ssEdit;
+
+  /// No description provided for @ssDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get ssDelete;
+
+  /// No description provided for @ssMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for {name}'**
+  String ssMenu(String name);
+
+  /// No description provided for @ssDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this search?'**
+  String get ssDeleteTitle;
+
+  /// No description provided for @ssDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its alerts stop. Notifications already received stay.'**
+  String get ssDeleteBody;
+
+  /// No description provided for @ssCopyName.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String ssCopyName(String name);
+
+  /// No description provided for @ssDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get ssDefaultName;
+
+  /// No description provided for @ssAllJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'All jobs'**
+  String get ssAllJobs;
+
+  /// No description provided for @ssSpecDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Last {days} days'**
+  String ssSpecDays(int days);
+
+  /// No description provided for @ssAlertsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can have up to {max} searches with alerts. Turn one off first.'**
+  String ssAlertsLimit(int max);
+
+  /// No description provided for @ssSignedOutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to keep searches in your account and get alerts.'**
+  String get ssSignedOutNote;
+
+  /// No description provided for @homeSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved searches'**
+  String get homeSavedTitle;
+
+  /// No description provided for @homeSavedAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get homeSavedAll;
+
+  /// No description provided for @ntTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get ntTitle;
+
+  /// No description provided for @ntBell.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get ntBell;
+
+  /// No description provided for @ntBellUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications, {count} unread'**
+  String ntBellUnread(int count);
+
+  /// No description provided for @ntEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing new yet'**
+  String get ntEmptyTitle;
+
+  /// No description provided for @ntEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When a new job matches a saved search with alerts on, it shows up here. New jobs are checked about every hour.'**
+  String get ntEmptyBody;
+
+  /// No description provided for @ntEmptyNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no saved search with alerts on.'**
+  String get ntEmptyNoAlerts;
+
+  /// No description provided for @ntManageSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage saved searches'**
+  String get ntManageSearches;
+
+  /// No description provided for @ntMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get ntMarkAllRead;
+
+  /// No description provided for @ntClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get ntClearAll;
+
+  /// No description provided for @ntClearTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all notifications?'**
+  String get ntClearTitle;
+
+  /// No description provided for @ntClearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They disappear from this list. Jobs are not affected.'**
+  String get ntClearBody;
+
+  /// No description provided for @ntDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get ntDismiss;
+
+  /// No description provided for @ntUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get ntUnread;
+
+  /// No description provided for @ntFromSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches: {names}'**
+  String ntFromSearches(String names);
+
+  /// No description provided for @ntFromSearchesMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches: {names} and {count} more'**
+  String ntFromSearchesMore(String names, int count);
+
+  /// No description provided for @ntFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Found {when}'**
+  String ntFound(String when);
+
+  /// No description provided for @ntJobUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This job is no longer in the catalogue. You can still try the original listing.'**
+  String get ntJobUnavailable;
+
+  /// No description provided for @ntSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get ntSettingsTitle;
+
+  /// No description provided for @ntEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive alerts'**
+  String get ntEnabled;
+
+  /// No description provided for @ntEnabledHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.'**
+  String get ntEnabledHelp;
+
+  /// No description provided for @ntPushNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.'**
+  String get ntPushNote;
+
+  /// No description provided for @ntSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to receive alerts about new jobs.'**
+  String get ntSignedOut;
+
+  /// No description provided for @ntLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load notifications.'**
+  String get ntLoadFailed;
+
+  /// No description provided for @ssUseCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace with the current Explore search'**
+  String get ssUseCurrent;
+
+  /// No description provided for @agoJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get agoJustNow;
+
+  /// No description provided for @agoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
+  String agoMinutes(int count);
+
+  /// No description provided for @agoHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour ago} other{{count} hours ago}}'**
+  String agoHours(int count);
+
+  /// No description provided for @agoYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday'**
+  String get agoYesterday;
+
+  /// No description provided for @agoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days ago'**
+  String agoDays(int count);
 }
 
 class _AppLocalizationsDelegate

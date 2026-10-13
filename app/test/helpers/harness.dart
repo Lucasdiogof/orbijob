@@ -72,6 +72,7 @@ Future<void> pumpApp(
     pdfPicker: pdfPicker,
     translationEngine: translationEngine,
     translationCache: MemoryTranslationCache(),
+    notificationsRefresh: null,
     favoritesRepository: favorites ?? InMemoryFavoritesRepository(),
   );
   (fakes ?? Fakes()).register();

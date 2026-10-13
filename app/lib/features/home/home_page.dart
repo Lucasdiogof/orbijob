@@ -7,7 +7,9 @@ import '../../core/orbi/orbi.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/applications_cubit.dart';
 import '../favorites/favorites_cubit.dart';
-import '../preferences/presentation/saved_searches_cubit.dart';
+import '../searches/presentation/saved_searches_cubit.dart';
+import '../searches/presentation/saved_searches_page.dart';
+import '../searches/presentation/search_labels.dart';
 import '../search/domain/continent.dart';
 import '../search/domain/entities/job_posting.dart';
 import '../search/domain/job_area.dart';
@@ -76,6 +78,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: AppSpace.s3),
             _QuickFilters(onGo: (f) => _goExplore(context, f)),
             const SizedBox(height: AppSpace.s6),
+            const _SavedSection(),
             const _ContinueSection(),
             const _LatestJobs(),
             const SizedBox(height: AppSpace.s6),
@@ -143,98 +146,138 @@ class _ContinueSection extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return BlocBuilder<RecentSearchesCubit, List<String>>(
       builder: (context, recent) =>
-          BlocBuilder<SavedSearchesCubit, SavedSearchesState>(
-            builder: (context, saved) =>
-                BlocBuilder<ApplicationsCubit, ApplicationsState>(
-                  builder: (context, apps) {
-                    final terms = <(String, bool)>[
-                      for (final q in saved.items)
-                        (SavedSearchesCubit.termOf(q), true),
-                      for (final q in recent) (q, false),
-                    ];
-                    final seen = <String>{};
-                    final unique = [
-                      for (final t in terms)
-                        if (seen.add(t.$1.toLowerCase())) t,
-                    ].take(8).toList();
-                    final hasApps =
-                        apps.status == LoadStatus.ready &&
-                        apps.items.isNotEmpty;
-                    if (unique.isEmpty && !hasApps) {
-                      return const SizedBox.shrink();
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: AppSpace.s6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          OrbiSectionHeader(
-                            title: l.homeContinueTitle,
-                            actionLabel: unique.isNotEmpty && recent.isNotEmpty
-                                ? l.recentSearchesClear
-                                : null,
-                            onAction: context.read<RecentSearchesCubit>().clear,
+          BlocBuilder<ApplicationsCubit, ApplicationsState>(
+            builder: (context, apps) {
+              final terms = <(String, bool)>[
+                for (final q in recent) (q, false),
+              ];
+              final seen = <String>{};
+              final unique = [
+                for (final t in terms)
+                  if (seen.add(t.$1.toLowerCase())) t,
+              ].take(8).toList();
+              final hasApps =
+                  apps.status == LoadStatus.ready && apps.items.isNotEmpty;
+              if (unique.isEmpty && !hasApps) {
+                return const SizedBox.shrink();
+              }
+              return Padding(
+                padding: const EdgeInsets.only(bottom: AppSpace.s6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OrbiSectionHeader(
+                      title: l.homeContinueTitle,
+                      actionLabel: unique.isNotEmpty && recent.isNotEmpty
+                          ? l.recentSearchesClear
+                          : null,
+                      onAction: context.read<RecentSearchesCubit>().clear,
+                    ),
+                    const SizedBox(height: AppSpace.s2),
+                    if (hasApps)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpace.s2),
+                        child: OrbiCard(
+                          onTap: () => context.read<ShellCubit>().goTo(
+                            ShellCubit.applications,
                           ),
-                          const SizedBox(height: AppSpace.s2),
-                          if (hasApps)
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: AppSpace.s2,
+                          padding: const EdgeInsets.all(AppSpace.s3),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.assignment_turned_in_outlined,
+                                color: context.colors.primary,
                               ),
-                              child: OrbiCard(
-                                onTap: () => context.read<ShellCubit>().goTo(
-                                  ShellCubit.applications,
-                                ),
-                                padding: const EdgeInsets.all(AppSpace.s3),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.assignment_turned_in_outlined,
-                                      color: context.colors.primary,
-                                    ),
-                                    const SizedBox(width: AppSpace.s3),
-                                    Expanded(
-                                      child: Text(
-                                        l.homeApplicationsCount(
-                                          apps.items.length,
-                                        ),
-                                        style: context.text.labelLarge,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.chevron_right_rounded,
-                                      color: context.colors.muted,
-                                    ),
-                                  ],
+                              const SizedBox(width: AppSpace.s3),
+                              Expanded(
+                                child: Text(
+                                  l.homeApplicationsCount(apps.items.length),
+                                  style: context.text.labelLarge,
                                 ),
                               ),
-                            ),
-                          if (unique.isNotEmpty)
-                            OrbiChipRow(
-                              padding: EdgeInsets.zero,
-                              children: [
-                                for (final (q, isSaved) in unique)
-                                  OrbiFilterChip(
-                                    label: q,
-                                    icon: isSaved
-                                        ? Icons.bookmark_border
-                                        : Icons.history,
-                                    selected: false,
-                                    onSelected: (_) {
-                                      context.read<SearchCubit>().search(q);
-                                      context.read<ShellCubit>().goTo(
-                                        ShellCubit.explore,
-                                      );
-                                    },
-                                  ),
-                              ],
+                              Icon(
+                                Icons.chevron_right_rounded,
+                                color: context.colors.muted,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    if (unique.isNotEmpty)
+                      OrbiChipRow(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          for (final (q, isSaved) in unique)
+                            OrbiFilterChip(
+                              label: q,
+                              icon: isSaved
+                                  ? Icons.bookmark_border
+                                  : Icons.history,
+                              selected: false,
+                              onSelected: (_) {
+                                context.read<SearchCubit>().search(q);
+                                context.read<ShellCubit>().goTo(
+                                  ShellCubit.explore,
+                                );
+                              },
                             ),
                         ],
                       ),
-                    );
-                  },
+                  ],
                 ),
+              );
+            },
           ),
+    );
+  }
+}
+
+/// Saved searches as one quiet row of chips (a bell marks the ones with alerts on); a tap runs the search in Explore.
+class _SavedSection extends StatelessWidget {
+  const _SavedSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final lang = langOf(context);
+    return BlocBuilder<SavedSearchesCubit, SavedSearchesState>(
+      builder: (context, s) {
+        if (s.status != LoadStatus.ready || s.items.isEmpty) {
+          return const SizedBox.shrink();
+        }
+        return Padding(
+          padding: const EdgeInsets.only(bottom: AppSpace.s6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              OrbiSectionHeader(
+                title: l.homeSavedTitle,
+                actionLabel: l.homeSavedAll,
+                onAction: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const SavedSearchesPage(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpace.s2),
+              OrbiChipRow(
+                padding: EdgeInsets.zero,
+                children: [
+                  for (final item in s.items.take(8))
+                    OrbiFilterChip(
+                      label: savedSearchTitle(item, l, lang),
+                      icon: item.alertsEnabled
+                          ? Icons.notifications_active_outlined
+                          : Icons.bookmark_border,
+                      selected: false,
+                      onSelected: (_) => openSpecInExplore(context, item.spec),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

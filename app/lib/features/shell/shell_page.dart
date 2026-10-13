@@ -9,6 +9,7 @@ import '../auth/presentation/auth_cubit.dart';
 import '../auth/presentation/auth_effects.dart';
 import '../favorites/favorites_page.dart';
 import '../home/home_page.dart';
+import '../notifications/presentation/notifications_bell.dart';
 import '../profile/profile_page.dart';
 import '../search/presentation/pages/search_page.dart';
 import 'shell_cubit.dart';
@@ -69,6 +70,7 @@ class ShellPage extends StatelessWidget {
               appBar: OrbiTopBar(
                 brand: const BrandLogo(height: 24),
                 actions: [
+                  const NotificationsBell(),
                   OrbiProfileButton(
                     tooltip: l.profile,
                     initial: initial,
@@ -101,11 +103,17 @@ class ShellPage extends StatelessWidget {
                   leading: extended
                       ? const BrandLogo(height: 26)
                       : const BrandSymbol(size: 32),
-                  trailing: OrbiProfileButton(
-                    tooltip: l.profile,
-                    initial: initial,
-                    extendedLabel: extended ? l.profile : null,
-                    onPressed: () => _openProfile(context),
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const NotificationsBell(),
+                      OrbiProfileButton(
+                        tooltip: l.profile,
+                        initial: initial,
+                        extendedLabel: extended ? l.profile : null,
+                        onPressed: () => _openProfile(context),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(child: SafeArea(left: false, child: body)),

@@ -9,7 +9,8 @@ import '../auth/presentation/auth_cubit.dart';
 import '../favorites/favorites_cubit.dart';
 import '../home/recent_searches_cubit.dart';
 import '../preferences/presentation/preferences_cubit.dart';
-import '../preferences/presentation/saved_searches_cubit.dart';
+import '../notifications/presentation/notifications_cubit.dart';
+import '../searches/presentation/saved_searches_cubit.dart';
 import '../profile/presentation/profile_cubit.dart';
 import '../../core/data/load_status.dart';
 
@@ -42,6 +43,7 @@ class UserScope extends StatelessWidget {
             BlocProvider(create: (_) => sl<ApplicationsCubit>()..load()),
             BlocProvider(create: (_) => sl<PreferencesCubit>()..load()),
             BlocProvider(create: (_) => sl<SavedSearchesCubit>()..load()),
+            BlocProvider(create: (_) => sl<NotificationsCubit>()..load()),
           ],
           child: _ScopeEffects(child: child),
         ),

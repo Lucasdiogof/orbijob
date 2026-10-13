@@ -23,7 +23,12 @@ import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
 import '../../features/preferences/domain/user_preferences.dart';
 import '../../features/preferences/presentation/preferences_cubit.dart';
-import '../../features/preferences/presentation/saved_searches_cubit.dart';
+import '../../features/notifications/data/supabase_notifications_repository.dart';
+import '../../features/notifications/domain/notifications_repository.dart';
+import '../../features/notifications/presentation/notifications_cubit.dart';
+import '../../features/searches/data/supabase_saved_searches_repository.dart';
+import '../../features/searches/domain/saved_search.dart';
+import '../../features/searches/presentation/saved_searches_cubit.dart';
 import '../../features/profile/data/file_picker_pdf_picker.dart';
 import '../../features/profile/data/supabase_profile_repository.dart';
 import '../../features/profile/data/supabase_resume_repository.dart';
@@ -64,6 +69,9 @@ void configureDependencies({
   TranslationEngine? translationEngine,
   TranslationCache? translationCache,
   SharedPreferences? preferences,
+
+  /// How often the open app re-reads the notifications; null = never (tests, which must not leave a timer behind).
+  Duration? notificationsRefresh = const Duration(minutes: 5),
 }) {
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
@@ -126,6 +134,13 @@ void configureDependencies({
     ..registerFactory<PreferencesCubit>(
       () => PreferencesCubit(maybe<PreferencesRepository>()),
     )
+    ..registerFactory<NotificationsCubit>(
+      () => NotificationsCubit(
+        maybe<NotificationsRepository>(),
+        maybe<AccountSettingsRepository>(),
+        refreshEvery: notificationsRefresh,
+      ),
+    )
     ..registerFactory<SavedSearchesCubit>(
       () => SavedSearchesCubit(maybe<SavedSearchesRepository>()),
     )
@@ -170,5 +185,11 @@ void registerSupabaseRepositories(SupabaseClient client) {
     )
     ..registerLazySingleton<SavedSearchesRepository>(
       () => SupabaseSavedSearchesRepository(client),
+    )
+    ..registerLazySingleton<NotificationsRepository>(
+      () => SupabaseNotificationsRepository(client),
+    )
+    ..registerLazySingleton<AccountSettingsRepository>(
+      () => SupabaseAccountSettingsRepository(client),
     );
 }

@@ -16,7 +16,11 @@ import '../domain/search_synonyms.dart';
 /// (`isco08` is empty for most sources) and salary ranges (amounts in different currencies and periods are not
 /// comparable).
 class SupabaseJobCatalogRepository
-    implements SearchRepository, AreaCountSource, SpecialtyCountSource {
+    implements
+        SearchRepository,
+        AreaCountSource,
+        SpecialtyCountSource,
+        JobLookup {
   SupabaseJobCatalogRepository(
     this._client, {
     DateTime Function()? now,
@@ -140,6 +144,27 @@ class SupabaseJobCatalogRepository
       hasMore: hasMore,
       consumed: rows.length > safeLimit ? safeLimit : rows.length,
     );
+  }
+
+  /// One job by id, under the same visibility rules as the list (open, authorised source, verified recently); null otherwise.
+  @override
+  Future<JobPosting?> jobById(String id) async {
+    var q = _client
+        .from('jobs')
+        .select(_columns)
+        .eq('id', id)
+        .eq('status', 'open')
+        .eq('job_sources.can_redistribute', true)
+        .inFilter('job_sources.status', allowedSourceStatuses);
+    final maxAge = maxVerificationAge;
+    if (maxAge != null) {
+      q = q.gte(
+        'last_checked_at',
+        _now().toUtc().subtract(maxAge).toIso8601String(),
+      );
+    }
+    final row = await q.maybeSingle();
+    return jobFromCatalogRow(row);
   }
 
   ScoredJob? _scored(Object? row) {

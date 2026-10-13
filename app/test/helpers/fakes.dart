@@ -8,7 +8,9 @@ import 'package:orbijob/features/auth/domain/auth_repository.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/favorites/domain/favorites_repository.dart';
+import 'package:orbijob/features/notifications/domain/notifications_repository.dart';
 import 'package:orbijob/features/preferences/domain/user_preferences.dart';
+import 'package:orbijob/features/searches/domain/saved_search.dart';
 import 'package:orbijob/features/profile/domain/pdf_picker.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
 import 'package:orbijob/features/profile/domain/resume_repository.dart';
@@ -37,7 +39,9 @@ class FakeApplications extends Failing implements ApplicationsRepository {
   @override
   Future<List<ApplicationRecord>> list() async {
     check();
-    if (auth != null && auth!.currentUser == null) throw NotSignedInException();
+    if (auth != null && auth!.currentUser == null) {
+      throw NotSignedInException();
+    }
     return List.of(rows);
   }
 
@@ -248,27 +252,131 @@ class FakePreferences extends Failing implements PreferencesRepository {
 }
 
 class FakeSavedSearches extends Failing implements SavedSearchesRepository {
+  FakeSavedSearches({this.auth});
+
+  /// When set, a signed-out call is refused (like the repository guard before any request).
+  final FakeAuth? auth;
   final rows = <SavedSearch>[];
   var _n = 0;
 
   @override
   Future<List<SavedSearch>> list() async {
     check();
+    if (auth != null && auth!.currentUser == null) throw NotSignedInException();
     return List.of(rows);
   }
 
   @override
-  Future<SavedSearch> add(Map<String, dynamic> query) async {
+  Future<SavedSearch> add(
+    Map<String, dynamic> query, {
+    String? name,
+    bool alertsEnabled = false,
+    AlertFrequency frequency = AlertFrequency.daily,
+  }) async {
     check();
-    final s = SavedSearch(id: 's-${++_n}', query: query);
+    final s = SavedSearch(
+      id: 's-${++_n}',
+      query: query,
+      name: name,
+      alertsEnabled: alertsEnabled,
+      frequency: frequency,
+    );
     rows.insert(0, s);
     return s;
+  }
+
+  @override
+  Future<SavedSearch> update(
+    String id, {
+    String? name,
+    Map<String, dynamic>? query,
+    bool? alertsEnabled,
+    AlertFrequency? frequency,
+  }) async {
+    check();
+    final i = rows.indexWhere((e) => e.id == id);
+    if (i < 0) throw StateError('not found');
+    rows[i] = rows[i].copyWith(
+      name: name,
+      query: query,
+      alertsEnabled: alertsEnabled,
+      frequency: frequency,
+    );
+    return rows[i];
   }
 
   @override
   Future<void> remove(String id) async {
     check();
     rows.removeWhere((e) => e.id == id);
+  }
+}
+
+class FakeNotifications extends Failing implements NotificationsRepository {
+  FakeNotifications({this.auth});
+  final FakeAuth? auth;
+  final rows = <AppNotification>[];
+  final dismissed = <String>{};
+  int reads = 0;
+
+  void _guard() {
+    check();
+    if (auth != null && auth!.currentUser == null) throw NotSignedInException();
+  }
+
+  @override
+  Future<List<AppNotification>> list({int limit = 100}) async {
+    _guard();
+    reads++;
+    return [
+      for (final n in rows)
+        if (!dismissed.contains(n.id)) n,
+    ];
+  }
+
+  @override
+  Future<void> markRead(List<String> ids) async {
+    _guard();
+    for (var i = 0; i < rows.length; i++) {
+      if (ids.contains(rows[i].id)) {
+        rows[i] = rows[i].markedRead(DateTime.now());
+      }
+    }
+  }
+
+  @override
+  Future<void> markAllRead() async {
+    _guard();
+    for (var i = 0; i < rows.length; i++) {
+      rows[i] = rows[i].markedRead(DateTime.now());
+    }
+  }
+
+  @override
+  Future<void> dismiss(String id) async {
+    _guard();
+    dismissed.add(id);
+  }
+
+  @override
+  Future<void> dismissAll() async {
+    _guard();
+    dismissed.addAll(rows.map((e) => e.id));
+  }
+}
+
+class FakeAccountSettings extends Failing implements AccountSettingsRepository {
+  final Map<String, dynamic> data = {};
+  @override
+  Future<Map<String, dynamic>> load() async {
+    check();
+    return Map.of(data);
+  }
+
+  @override
+  Future<void> setKey(String key, Object? value) async {
+    check();
+    data[key] = value;
   }
 }
 
@@ -338,11 +446,16 @@ Uint8List tinyPdf([int extra = 0]) => Uint8List.fromList([
 /// Registers [FavoritesRepository] and the other fakes in the service locator, as the real start-up would with
 /// Supabase. Call after `configureDependencies`.
 class Fakes {
-  Fakes({FakeAuth? auth}) : applications = FakeApplications(auth: auth);
+  Fakes({FakeAuth? auth})
+    : applications = FakeApplications(auth: auth),
+      savedSearches = FakeSavedSearches(auth: auth),
+      notifications = FakeNotifications(auth: auth);
   final FakeApplications applications;
   final profiles = FakeProfiles();
   final preferences = FakePreferences();
-  final savedSearches = FakeSavedSearches();
+  final FakeSavedSearches savedSearches;
+  final FakeNotifications notifications;
+  final accountSettings = FakeAccountSettings();
   final resumes = FakeResumes();
 
   void register() {
@@ -351,6 +464,8 @@ class Fakes {
       ..registerLazySingleton<ProfileRepository>(() => profiles)
       ..registerLazySingleton<PreferencesRepository>(() => preferences)
       ..registerLazySingleton<SavedSearchesRepository>(() => savedSearches)
+      ..registerLazySingleton<NotificationsRepository>(() => notifications)
+      ..registerLazySingleton<AccountSettingsRepository>(() => accountSettings)
       ..registerLazySingleton<ResumeRepository>(() => resumes);
   }
 }

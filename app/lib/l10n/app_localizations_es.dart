@@ -1746,4 +1746,267 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get translationTitleOriginalHint => 'Título traducido';
+
+  @override
+  String get ssTitle => 'Búsquedas guardadas';
+
+  @override
+  String get ssSubtitle =>
+      'Reabre una búsqueda con un toque y elige cuáles te avisan de empleos nuevos.';
+
+  @override
+  String get ssEmptyTitle => 'Aún no hay búsquedas guardadas';
+
+  @override
+  String get ssEmptyBody =>
+      'Busca o filtra en Explorar y toca “Guardar búsqueda”. Puedes activar alertas para ella.';
+
+  @override
+  String get ssGoExplore => 'Ir a Explorar';
+
+  @override
+  String get ssSaveAction => 'Guardar búsqueda';
+
+  @override
+  String get ssMine => 'Mis búsquedas';
+
+  @override
+  String get ssSaveSheetTitle => 'Guardar esta búsqueda';
+
+  @override
+  String get ssEditSheetTitle => 'Editar búsqueda guardada';
+
+  @override
+  String get ssNameLabel => 'Nombre';
+
+  @override
+  String get ssNameHint => 'p. ej., Enfermero en Alemania';
+
+  @override
+  String get ssNameRequired => 'Ponle un nombre a la búsqueda.';
+
+  @override
+  String ssNameTooLong(int max) {
+    return 'Usa como máximo $max caracteres.';
+  }
+
+  @override
+  String get ssAlertsLabel => 'Avisarme de empleos nuevos';
+
+  @override
+  String get ssAlertsHelp =>
+      'Aparece una notificación en OrbiJob cuando un empleo nuevo coincide. Solo se avisa de empleos abiertos y verificados recientemente.';
+
+  @override
+  String get ssFrequencyLabel => 'Con qué frecuencia comprobar';
+
+  @override
+  String get ssFreqInstant => 'Cada hora';
+
+  @override
+  String get ssFreqDaily => 'Una vez al día';
+
+  @override
+  String get ssFreqWeekly => 'Una vez por semana';
+
+  @override
+  String get ssAlertsOn => 'Alertas activos';
+
+  @override
+  String get ssAlertsOff => 'Alertas desactivados';
+
+  @override
+  String ssAlertsToggle(String name) {
+    return 'Alertas de $name';
+  }
+
+  @override
+  String get ssSaved => 'Búsqueda guardada';
+
+  @override
+  String get ssUpdated => 'Búsqueda actualizada';
+
+  @override
+  String get ssRemoved => 'Búsqueda eliminada';
+
+  @override
+  String get ssDuplicated => 'Copia creada';
+
+  @override
+  String get ssOpen => 'Abrir en Explorar';
+
+  @override
+  String get ssRename => 'Renombrar';
+
+  @override
+  String get ssDuplicate => 'Duplicar';
+
+  @override
+  String get ssEdit => 'Editar';
+
+  @override
+  String get ssDelete => 'Eliminar';
+
+  @override
+  String ssMenu(String name) {
+    return 'Acciones de $name';
+  }
+
+  @override
+  String get ssDeleteTitle => '¿Eliminar esta búsqueda?';
+
+  @override
+  String get ssDeleteBody =>
+      'Sus alertas se detienen. Las notificaciones ya recibidas se conservan.';
+
+  @override
+  String ssCopyName(String name) {
+    return '$name (copia)';
+  }
+
+  @override
+  String get ssDefaultName => 'Búsqueda';
+
+  @override
+  String get ssAllJobs => 'Todos los empleos';
+
+  @override
+  String ssSpecDays(int days) {
+    return 'Últimos $days días';
+  }
+
+  @override
+  String ssAlertsLimit(int max) {
+    return 'Puedes tener hasta $max búsquedas con alertas. Desactiva una primero.';
+  }
+
+  @override
+  String get ssSignedOutNote =>
+      'Inicia sesión para guardar búsquedas en tu cuenta y recibir alertas.';
+
+  @override
+  String get homeSavedTitle => 'Búsquedas guardadas';
+
+  @override
+  String get homeSavedAll => 'Ver todas';
+
+  @override
+  String get ntTitle => 'Notificaciones';
+
+  @override
+  String get ntBell => 'Notificaciones';
+
+  @override
+  String ntBellUnread(int count) {
+    return 'Notificaciones, $count sin leer';
+  }
+
+  @override
+  String get ntEmptyTitle => 'Nada nuevo por ahora';
+
+  @override
+  String get ntEmptyBody =>
+      'Cuando un empleo nuevo coincida con una búsqueda guardada con alertas, aparecerá aquí. Los empleos nuevos se comprueban aproximadamente cada hora.';
+
+  @override
+  String get ntEmptyNoAlerts =>
+      'No tienes ninguna búsqueda guardada con alertas activas.';
+
+  @override
+  String get ntManageSearches => 'Gestionar búsquedas guardadas';
+
+  @override
+  String get ntMarkAllRead => 'Marcar todas como leídas';
+
+  @override
+  String get ntClearAll => 'Borrar todo';
+
+  @override
+  String get ntClearTitle => '¿Borrar todas las notificaciones?';
+
+  @override
+  String get ntClearBody =>
+      'Desaparecen de esta lista. Los empleos no se ven afectados.';
+
+  @override
+  String get ntDismiss => 'Descartar';
+
+  @override
+  String get ntUnread => 'Sin leer';
+
+  @override
+  String ntFromSearches(String names) {
+    return 'Coincide con: $names';
+  }
+
+  @override
+  String ntFromSearchesMore(String names, int count) {
+    return 'Coincide con: $names y $count más';
+  }
+
+  @override
+  String ntFound(String when) {
+    return 'Encontrado $when';
+  }
+
+  @override
+  String get ntJobUnavailable =>
+      'Este empleo ya no está en el catálogo. Aún puedes probar el anuncio original.';
+
+  @override
+  String get ntSettingsTitle => 'Alertas';
+
+  @override
+  String get ntEnabled => 'Recibir alertas';
+
+  @override
+  String get ntEnabledHelp =>
+      'Desactiva para dejar de recibir notificaciones sin tocar tus búsquedas guardadas. Los empleos que aparezcan mientras esté desactivado no se entregan después.';
+
+  @override
+  String get ntPushNote =>
+      'Las alertas llegan dentro de OrbiJob. Las notificaciones push en el móvil o el navegador aún no están activadas.';
+
+  @override
+  String get ntSignedOut =>
+      'Inicia sesión para recibir alertas de empleos nuevos.';
+
+  @override
+  String get ntLoadFailed => 'No se pudieron cargar las notificaciones.';
+
+  @override
+  String get ssUseCurrent => 'Sustituir por la búsqueda actual de Explorar';
+
+  @override
+  String get agoJustNow => 'hace un momento';
+
+  @override
+  String agoMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $count minutos',
+      one: 'hace 1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $count horas',
+      one: 'hace 1 hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get agoYesterday => 'ayer';
+
+  @override
+  String agoDays(int count) {
+    return 'hace $count días';
+  }
 }

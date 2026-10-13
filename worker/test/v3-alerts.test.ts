@@ -393,3 +393,31 @@ describe('hidden jobs', () => {
     await expect(db.query(`insert into public.hidden_jobs (user_id, job_key, source_id, external_id, title) values ($1,'s:x','s','x','t')`, [A])).rejects.toThrow(/quota/);
   });
 });
+
+describe('golden: the searches the app compiles agree with the plain rules of the app', () => {
+  // app/test/searches/search_spec_test.dart writes this file: specs compiled by the app and the answers of a Dart reference of the catalogue query.
+  const golden = JSON.parse(readFileSync(new URL('./fixtures/v3-specs.golden.json', import.meta.url), 'utf8')) as {
+    jobs: { title: string; country: string | null; city: string | null; geo: string[]; mode: string; daysAgo: number | null; salary: boolean }[];
+    searches: { name: string; query: Record<string, unknown>; expected: boolean[] }[];
+  };
+
+  it('has jobs and searches to compare', () => {
+    expect(golden.jobs.length).toBeGreaterThan(10);
+    expect(golden.searches.length).toBeGreaterThan(10);
+  });
+
+  it('ops.alert_matches answers exactly what the Dart reference answers, for every search and job', async () => {
+    const ids: string[] = [];
+    for (const j of golden.jobs) {
+      ids.push(await job({ title: j.title, country: j.country, city: j.city, geo: j.geo, mode: j.mode === 'unspecified' ? 'unspecified' : j.mode, publishedDaysAgo: j.daysAgo, salary: j.salary }));
+    }
+    const mismatches: string[] = [];
+    for (const s of golden.searches) {
+      for (let i = 0; i < ids.length; i++) {
+        const got = (await db.query<{ m: boolean }>('select ops.alert_matches(j, $2::jsonb) m from public.jobs j where j.id = $1', [ids[i], JSON.stringify(s.query)])).rows[0]!.m;
+        if (got !== s.expected[i]) mismatches.push(`${s.name} / ${golden.jobs[i]!.title}: sql=${got} dart=${s.expected[i]}`);
+      }
+    }
+    expect(mismatches).toEqual([]);
+  });
+});

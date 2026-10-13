@@ -743,5 +743,170 @@
   "translationSettingsBody": "Uses the translation built into this device: titles are translated when the language data is already on it, the full text when you ask. The original is always one tap away.",
   "translationClearCache": "Clear saved translations",
   "translationCacheCleared": "Saved translations cleared",
-  "translationTitleOriginalHint": "Title translated"
+  "translationTitleOriginalHint": "Title translated",
+  "ssTitle": "Saved searches",
+  "ssSubtitle": "Reopen a search in one tap and choose which ones alert you about new jobs.",
+  "ssEmptyTitle": "No saved searches yet",
+  "ssEmptyBody": "Search or filter in Explore, then tap “Save search”. You can turn on alerts for it.",
+  "ssGoExplore": "Go to Explore",
+  "ssSaveAction": "Save search",
+  "ssMine": "My searches",
+  "ssSaveSheetTitle": "Save this search",
+  "ssEditSheetTitle": "Edit saved search",
+  "ssNameLabel": "Name",
+  "ssNameHint": "e.g. Nurse in Germany",
+  "ssNameRequired": "Give the search a name.",
+  "ssNameTooLong": "Use at most {max} characters.",
+  "@ssNameTooLong": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "ssAlertsLabel": "Alert me about new jobs",
+  "ssAlertsHelp": "A notification appears in OrbiJob when a new job matches. Only open jobs verified recently are announced.",
+  "ssFrequencyLabel": "How often to check",
+  "ssFreqInstant": "Every hour",
+  "ssFreqDaily": "Once a day",
+  "ssFreqWeekly": "Once a week",
+  "ssAlertsOn": "Alerts on",
+  "ssAlertsOff": "Alerts off",
+  "ssAlertsToggle": "Alerts for {name}",
+  "@ssAlertsToggle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ssSaved": "Search saved",
+  "ssUpdated": "Search updated",
+  "ssRemoved": "Search deleted",
+  "ssDuplicated": "Copy created",
+  "ssOpen": "Open in Explore",
+  "ssRename": "Rename",
+  "ssDuplicate": "Duplicate",
+  "ssEdit": "Edit",
+  "ssDelete": "Delete",
+  "ssMenu": "Actions for {name}",
+  "@ssMenu": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ssDeleteTitle": "Delete this search?",
+  "ssDeleteBody": "Its alerts stop. Notifications already received stay.",
+  "ssCopyName": "{name} (copy)",
+  "@ssCopyName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ssDefaultName": "Search",
+  "ssAllJobs": "All jobs",
+  "ssSpecDays": "Last {days} days",
+  "@ssSpecDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "ssAlertsLimit": "You can have up to {max} searches with alerts. Turn one off first.",
+  "@ssAlertsLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "ssSignedOutNote": "Sign in to keep searches in your account and get alerts.",
+  "homeSavedTitle": "Saved searches",
+  "homeSavedAll": "See all",
+  "ntTitle": "Notifications",
+  "ntBell": "Notifications",
+  "ntBellUnread": "Notifications, {count} unread",
+  "@ntBellUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ntEmptyTitle": "Nothing new yet",
+  "ntEmptyBody": "When a new job matches a saved search with alerts on, it shows up here. New jobs are checked about every hour.",
+  "ntEmptyNoAlerts": "You have no saved search with alerts on.",
+  "ntManageSearches": "Manage saved searches",
+  "ntMarkAllRead": "Mark all as read",
+  "ntClearAll": "Clear all",
+  "ntClearTitle": "Clear all notifications?",
+  "ntClearBody": "They disappear from this list. Jobs are not affected.",
+  "ntDismiss": "Dismiss",
+  "ntUnread": "Unread",
+  "ntFromSearches": "Matches: {names}",
+  "@ntFromSearches": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "ntFromSearchesMore": "Matches: {names} and {count} more",
+  "@ntFromSearchesMore": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ntFound": "Found {when}",
+  "@ntFound": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ntJobUnavailable": "This job is no longer in the catalogue. You can still try the original listing.",
+  "ntSettingsTitle": "Alerts",
+  "ntEnabled": "Receive alerts",
+  "ntEnabledHelp": "Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.",
+  "ntPushNote": "Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.",
+  "ntSignedOut": "Sign in to receive alerts about new jobs.",
+  "ntLoadFailed": "Could not load notifications.",
+  "ssUseCurrent": "Replace with the current Explore search",
+  "agoJustNow": "just now",
+  "agoMinutes": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@agoMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoHours": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@agoHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agoYesterday": "yesterday",
+  "agoDays": "{count} days ago",
+  "@agoDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

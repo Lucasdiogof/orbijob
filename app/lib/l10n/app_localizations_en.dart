@@ -1736,4 +1736,265 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get translationTitleOriginalHint => 'Title translated';
+
+  @override
+  String get ssTitle => 'Saved searches';
+
+  @override
+  String get ssSubtitle =>
+      'Reopen a search in one tap and choose which ones alert you about new jobs.';
+
+  @override
+  String get ssEmptyTitle => 'No saved searches yet';
+
+  @override
+  String get ssEmptyBody =>
+      'Search or filter in Explore, then tap “Save search”. You can turn on alerts for it.';
+
+  @override
+  String get ssGoExplore => 'Go to Explore';
+
+  @override
+  String get ssSaveAction => 'Save search';
+
+  @override
+  String get ssMine => 'My searches';
+
+  @override
+  String get ssSaveSheetTitle => 'Save this search';
+
+  @override
+  String get ssEditSheetTitle => 'Edit saved search';
+
+  @override
+  String get ssNameLabel => 'Name';
+
+  @override
+  String get ssNameHint => 'e.g. Nurse in Germany';
+
+  @override
+  String get ssNameRequired => 'Give the search a name.';
+
+  @override
+  String ssNameTooLong(int max) {
+    return 'Use at most $max characters.';
+  }
+
+  @override
+  String get ssAlertsLabel => 'Alert me about new jobs';
+
+  @override
+  String get ssAlertsHelp =>
+      'A notification appears in OrbiJob when a new job matches. Only open jobs verified recently are announced.';
+
+  @override
+  String get ssFrequencyLabel => 'How often to check';
+
+  @override
+  String get ssFreqInstant => 'Every hour';
+
+  @override
+  String get ssFreqDaily => 'Once a day';
+
+  @override
+  String get ssFreqWeekly => 'Once a week';
+
+  @override
+  String get ssAlertsOn => 'Alerts on';
+
+  @override
+  String get ssAlertsOff => 'Alerts off';
+
+  @override
+  String ssAlertsToggle(String name) {
+    return 'Alerts for $name';
+  }
+
+  @override
+  String get ssSaved => 'Search saved';
+
+  @override
+  String get ssUpdated => 'Search updated';
+
+  @override
+  String get ssRemoved => 'Search deleted';
+
+  @override
+  String get ssDuplicated => 'Copy created';
+
+  @override
+  String get ssOpen => 'Open in Explore';
+
+  @override
+  String get ssRename => 'Rename';
+
+  @override
+  String get ssDuplicate => 'Duplicate';
+
+  @override
+  String get ssEdit => 'Edit';
+
+  @override
+  String get ssDelete => 'Delete';
+
+  @override
+  String ssMenu(String name) {
+    return 'Actions for $name';
+  }
+
+  @override
+  String get ssDeleteTitle => 'Delete this search?';
+
+  @override
+  String get ssDeleteBody =>
+      'Its alerts stop. Notifications already received stay.';
+
+  @override
+  String ssCopyName(String name) {
+    return '$name (copy)';
+  }
+
+  @override
+  String get ssDefaultName => 'Search';
+
+  @override
+  String get ssAllJobs => 'All jobs';
+
+  @override
+  String ssSpecDays(int days) {
+    return 'Last $days days';
+  }
+
+  @override
+  String ssAlertsLimit(int max) {
+    return 'You can have up to $max searches with alerts. Turn one off first.';
+  }
+
+  @override
+  String get ssSignedOutNote =>
+      'Sign in to keep searches in your account and get alerts.';
+
+  @override
+  String get homeSavedTitle => 'Saved searches';
+
+  @override
+  String get homeSavedAll => 'See all';
+
+  @override
+  String get ntTitle => 'Notifications';
+
+  @override
+  String get ntBell => 'Notifications';
+
+  @override
+  String ntBellUnread(int count) {
+    return 'Notifications, $count unread';
+  }
+
+  @override
+  String get ntEmptyTitle => 'Nothing new yet';
+
+  @override
+  String get ntEmptyBody =>
+      'When a new job matches a saved search with alerts on, it shows up here. New jobs are checked about every hour.';
+
+  @override
+  String get ntEmptyNoAlerts => 'You have no saved search with alerts on.';
+
+  @override
+  String get ntManageSearches => 'Manage saved searches';
+
+  @override
+  String get ntMarkAllRead => 'Mark all as read';
+
+  @override
+  String get ntClearAll => 'Clear all';
+
+  @override
+  String get ntClearTitle => 'Clear all notifications?';
+
+  @override
+  String get ntClearBody =>
+      'They disappear from this list. Jobs are not affected.';
+
+  @override
+  String get ntDismiss => 'Dismiss';
+
+  @override
+  String get ntUnread => 'Unread';
+
+  @override
+  String ntFromSearches(String names) {
+    return 'Matches: $names';
+  }
+
+  @override
+  String ntFromSearchesMore(String names, int count) {
+    return 'Matches: $names and $count more';
+  }
+
+  @override
+  String ntFound(String when) {
+    return 'Found $when';
+  }
+
+  @override
+  String get ntJobUnavailable =>
+      'This job is no longer in the catalogue. You can still try the original listing.';
+
+  @override
+  String get ntSettingsTitle => 'Alerts';
+
+  @override
+  String get ntEnabled => 'Receive alerts';
+
+  @override
+  String get ntEnabledHelp =>
+      'Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.';
+
+  @override
+  String get ntPushNote =>
+      'Alerts are delivered inside OrbiJob. Push notifications on the phone or browser are not enabled yet.';
+
+  @override
+  String get ntSignedOut => 'Sign in to receive alerts about new jobs.';
+
+  @override
+  String get ntLoadFailed => 'Could not load notifications.';
+
+  @override
+  String get ssUseCurrent => 'Replace with the current Explore search';
+
+  @override
+  String get agoJustNow => 'just now';
+
+  @override
+  String agoMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String agoHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get agoYesterday => 'yesterday';
+
+  @override
+  String agoDays(int count) {
+    return '$count days ago';
+  }
 }
