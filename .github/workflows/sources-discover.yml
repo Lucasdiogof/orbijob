@@ -32,23 +32,23 @@ on:
     - cron: '16 7 * * *'
     - cron: '5 3,9,15,21 * * *'
     # Get on Board (LatAm tech, public API): twice a day, one polite request every two seconds; the second series is the displaced twin
-    - cron: '33 4,16 * * *'
-    - cron: '9 10,22 * * *'
+    - cron: '16 4,16 * * *'
+    - cron: '16 10,22 * * *'
     # Teaching Vacancies (England, Open Government Licence): the whole feed (~70 pages at one request every 1.5 s) four times a day, plus a displaced twin
-    - cron: '38 1,7,13,19 * * *'
-    - cron: '12 4,10,16,22 * * *'
+    - cron: '59 1,7,13,19 * * *'
+    - cron: '31 4,10,16,22 * * *'
     # NYC Jobs (NYC Open Data, refreshed daily): twice a day plus a displaced twin; 3 pages of 500
-    - cron: '48 6,18 * * *'
-    - cron: '14 12 * * *'
+    - cron: '35 6,18 * * *'
+    - cron: '59 12 * * *'
     # Karriere.NRW (Open.NRW, dl-by-de/2.0): one 6.5 MB request per pass, twice a day plus a displaced twin
-    - cron: '36 5,17 * * *'
-    - cron: '8 11,23 * * *'
+    - cron: '12 5,17 * * *'
+    - cron: '14 11,23 * * *'
     # Groupe BPCE (employer open data, Licence Ouverte 2.0; the portal refreshes 4 times a day): 18 requests per pass, twice a day plus a displaced twin
-    - cron: '52 7,19 * * *'
-    - cron: '6 13 * * *'
+    - cron: '30 7,19 * * *'
+    - cron: '28 13 * * *'
     # Le Forem (Wallonia, CC BY-SA 4.0): the 2,500 newest offers, 25 requests at 1.5 s, twice a day plus a displaced twin
-    - cron: '58 8,20 * * *'
-    - cron: '3 14 * * *'
+    - cron: '46 8,20 * * *'
+    - cron: '43 14 * * *'
   workflow_dispatch:
     inputs:
       source:
@@ -115,18 +115,18 @@ jobs:
             '43 1,19 * * *')      s=twjobs ;;
             '16 7 * * *')         s=twjobs ;;
             '5 3,9,15,21 * * *')  s=jobsconz ;;
-            '33 4,16 * * *')      s=getonboard ;;
-            '9 10,22 * * *')      s=getonboard ;;
-            '38 1,7,13,19 * * *') s=teachingvacancies ;;
-            '12 4,10,16,22 * * *') s=teachingvacancies ;;
-            '48 6,18 * * *')      s=nycjobs ;;
-            '14 12 * * *')        s=nycjobs ;;
-            '36 5,17 * * *')      s=karrierenrw ;;
-            '8 11,23 * * *')      s=karrierenrw ;;
-            '52 7,19 * * *')      s=bpce ;;
-            '6 13 * * *')         s=bpce ;;
-            '58 8,20 * * *')      s=forem ;;
-            '3 14 * * *')         s=forem ;;
+            '16 4,16 * * *')      s=getonboard ;;
+            '16 10,22 * * *')      s=getonboard ;;
+            '59 1,7,13,19 * * *') s=teachingvacancies ;;
+            '31 4,10,16,22 * * *') s=teachingvacancies ;;
+            '35 6,18 * * *')      s=nycjobs ;;
+            '59 12 * * *')        s=nycjobs ;;
+            '12 5,17 * * *')      s=karrierenrw ;;
+            '14 11,23 * * *')      s=karrierenrw ;;
+            '30 7,19 * * *')      s=bpce ;;
+            '28 13 * * *')         s=bpce ;;
+            '46 8,20 * * *')      s=forem ;;
+            '43 14 * * *')         s=forem ;;
             *)                    s="$CHOSEN" ;;
           esac
           case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
