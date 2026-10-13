@@ -40,7 +40,7 @@ No new source could be integrated without an action of the owner or a paid plan;
 | Change | Evidence | Commit |
 |---|---|---|
 | Arbeitnow: country only when the employer's location **ends with a country name** ("München, Bayern, Germany"), never from a bare city, a region, a code, a list of places or a contradiction with the regional site (.co.uk/.fr/.ch) | 9 refusal cases + 5 accepted cases in `worker/test/feeds.test.ts`; applied to the 276 stored locations with a comma: **170** got a stated country (DE 54, FR 48, CH 36, GB 32), undo file kept in `_aplicar/` | 4f3e295 (worker), data fix 2026-10-13 |
-| Arbeitnow ceiling 1,500 → 2,500 (database at 109 MB) | the first pass after it is reported below | 7676785 |
+| Arbeitnow ceiling 1,500 → 2,500 (database at 109 MB) | first pass after it (2026-10-13 20:17 UTC): read 2,192 entries over 8 pages, **+300 new (1,500 → 1,800)**, 772 already known, 56 duplicates refused, 0 closed. It also showed **400 rejected**: Arbeitnow opened a Dutch site (arbeitnow.nl) whose links the host allow-list refused; .nl added (NL checked like the other regional sites) | 7676785, this commit |
 | Recommendations: no single source above half of the list while other sources have relevant jobs; nothing relevant is dropped when there is not enough variety | 2 tests in `recommender_test.dart` | 844e6ce |
 | Cross-source duplicates | 3 shared fingerprints among 6,238 open jobs; the discovery already refuses a second copy by fingerprint/URL. Not merged in the app: two different jobs with the same title and company must stay apart | audit only |
 

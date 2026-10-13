@@ -23,7 +23,7 @@ begin
     raise exception 'publicacao bloqueada: falta a autorizacao explicita do proprietario (ver o cabecalho deste arquivo)';
   end if;
   host_re := case sid
-    when 'arbeitnow' then '^https://(www\.)?arbeitnow\.(com|co\.uk|fr|ch)(/|$)'
+    when 'arbeitnow' then '^https://(www\.)?arbeitnow\.(com|co\.uk|fr|ch|nl)(/|$)'
     when 'remoteok'  then '^https://([a-z0-9-]+\.)*remoteok\.com(/|$)'
     when 'remotive'  then '^https://([a-z0-9-]+\.)*remotive\.com(/|$)'
     when 'jobsconz'  then '^https://([a-z0-9-]+\.)*jobs\.co\.nz(/|$)'

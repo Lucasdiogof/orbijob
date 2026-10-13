@@ -91,7 +91,7 @@ function geoOf(raw: unknown): { country: string | null; restrictions: string[] }
 // ───────────────────────────── Arbeitnow ─────────────────────────────
 
 /** Arbeitnow's own regional sites: the feed links UK, French and Swiss jobs to them. */
-export const ARBEITNOW_HOSTS = ['arbeitnow.com', 'arbeitnow.co.uk', 'arbeitnow.fr', 'arbeitnow.ch'] as const;
+export const ARBEITNOW_HOSTS = ['arbeitnow.com', 'arbeitnow.co.uk', 'arbeitnow.fr', 'arbeitnow.ch', 'arbeitnow.nl'] as const;
 
 /** Country names Arbeitnow locations end with (English and the local names employers write). Codes such as "DE" are not read. */
 const ARBEITNOW_COUNTRY_NAMES: Record<string, string> = {
@@ -102,7 +102,7 @@ const ARBEITNOW_COUNTRY_NAMES: Record<string, string> = {
   finland: 'FI', luxembourg: 'LU', australia: 'AU', 'united states': 'US', usa: 'US', canada: 'CA',
 };
 /** Arbeitnow's regional sites: a job linked from one of them must be in that country, or the stated country is not trusted. */
-const ARBEITNOW_SITE_COUNTRY: Record<string, string> = { 'arbeitnow.co.uk': 'GB', 'arbeitnow.fr': 'FR', 'arbeitnow.ch': 'CH' };
+const ARBEITNOW_SITE_COUNTRY: Record<string, string> = { 'arbeitnow.co.uk': 'GB', 'arbeitnow.fr': 'FR', 'arbeitnow.ch': 'CH', 'arbeitnow.nl': 'NL' };
 
 /** The country an Arbeitnow location states as its LAST part, or null (no country named, a list of places, or a contradiction with the site). */
 export function arbeitnowStatedCountry(location: string, url: string): string | null {

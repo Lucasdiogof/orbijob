@@ -45,7 +45,7 @@ describe('Arbeitnow normalizer (real payloads)', () => {
     expect(r({ url: 'http://www.arbeitnow.com/jobs/1' })).toMatchObject({ ok: false, reason: 'invalid_url' });
     expect(r({ url: 'https://user:pw@www.arbeitnow.com/jobs/1' })).toMatchObject({ ok: false, reason: 'invalid_url' });
     expect(r({ url: 'https://www.arbeitnow.com.evil.io/jobs/1' })).toMatchObject({ ok: false, reason: 'invalid_url' });
-    for (const h of ['www.arbeitnow.co.uk', 'www.arbeitnow.fr', 'www.arbeitnow.ch']) expect(r({ url: `https://${h}/jobs/1` })).toMatchObject({ ok: true });
+    for (const h of ['www.arbeitnow.co.uk', 'www.arbeitnow.fr', 'www.arbeitnow.ch', 'www.arbeitnow.nl']) expect(r({ url: `https://${h}/jobs/1` })).toMatchObject({ ok: true });
     expect(r({ url: 'https://www.arbeitnow.de/jobs/1' })).toMatchObject({ ok: false, reason: 'invalid_url' });
     expect(normalizeArbeitnow(null, NOW)).toMatchObject({ ok: false, reason: 'not_an_object' });
     expect(normalizeArbeitnow('x', NOW)).toMatchObject({ ok: false, reason: 'not_an_object' });
