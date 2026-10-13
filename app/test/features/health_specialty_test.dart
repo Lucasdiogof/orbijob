@@ -208,7 +208,10 @@ void main() {
           titleSynonyms('fisioterapia pélvica'),
           containsAll(['physiotherap', 'pelvic', 'beckenboden']),
         );
-        expect(titleSynonyms('enfermeira'), containsAll(['nurse', 'pflege']));
+        expect(
+          titleSynonyms('enfermeira'),
+          containsAll(['nurse', 'krankenpfleg', 'pflegefach']),
+        );
         expect(titleSynonyms('physiotherapist'), contains('fisioterap'));
       },
     );

@@ -84,3 +84,12 @@ Open Jobs CC0 (head still 2026-10-05); candidates for later: Latvia NVA (CC0, no
 * **Performance of the larger catalogue** (≈ 12,000 stored rows): an app-style search over all stored rows plans in 4 ms and executes in 36 ms (title/city `ilike`, join to the source gate, ordered by date); the full-text count executes in 0.4 ms. No index change was needed (the trigram, GIN and source indexes carry it). Database size 143 MB → see `coverage.sql` for the current figure.
 * **Operational health** (read from the database and GitHub at 23:15 UTC): 13 pg_cron jobs, every run of the last 24 h succeeded (`jobsconz-revalidate-*` 8/8 and 24/24, `jobtech-revalidate-*` 4/4 and 16/16 — the carried-over "first scheduled runs" item is confirmed); scheduled GitHub runs: `sources-discover` 52 ok / 4 failed (the 4 failures are Arbeitnow `catalogue_full` of 12–13/10 before the ceiling was raised, plus 2 manual tests), `sources-revalidate` 6/6, `jobicy-revalidate` 11/11, `jobicy-discover` failures are all old `push`-triggered lint runs; CI 53 ok.
 * Tests: Worker **794 passing** (745 at the start of 6.0; new: Get on Board 9, Teaching Vacancies 8, NYC Jobs 10, Karriere.NRW 9, BPCE 10, Arbeitnow places/eligibility, Platsbanken countries; 38 opt-in live tests skipped), Flutter **901 passing** (unchanged count, one test extended), `flutter analyze` clean, SQL/publish-guard tests unchanged.
+
+## Search precision found with the new German data (13/10, 23:35 UTC)
+
+Real Karriere.NRW titles exposed a flaw of the 5.0 hand group for nurses: the bare stem `pflege` matched *Rechtspfleger* (court clerk), *Tierpfleger* (zookeeper),
+*Denkmalpflege*, *Grünpflege* — "nurse" showed 70 Karriere.NRW results of which 4 were nurses. The group now uses nursing-specific stems (`krankenpfleg`, `krankenschwester`,
+`pflegefach`, `pflegekraft`, `altenpfleg`, `pflegehelf`, `pflegeassist`); the "health" area pattern no longer counts `pflege` alone either. Result over the stored catalogue:
+"nurse" Karriere.NRW 70 → 4, nothing else changed (`docs/evidence/search-coverage-2026-10-13-6-0.md`). Saved searches keep the alternatives they were saved with
+(they travel inside the stored query, so SQL parity is untouched); the PostgREST golden file was regenerated and the `catalog-postgrest` CI job re-validates it.
+Known and left as it was (5.0 design, documented there): "chef" is a manager in French and Swedish and a cook in English; the query term itself matches in the title.
