@@ -180,14 +180,30 @@ class SupabaseJobCatalogRepository
   }
 
   /// Open, visible jobs per area (the same visibility rules as the list: open, authorised source, verified recently).
+  ///
+  /// Each count is an exact count over a long list of title patterns, about half a second on the free database, which handles one query at a
+  /// time: nine at once all exceeded its 3-second statement limit (HTTP 500 `57014`, measured on 2026-10-13) and no chip appeared. So they
+  /// run three at a time, and an area whose count still fails is retried once alone and otherwise left out (no chip, never a wrong number).
   @override
   Future<Map<JobArea, int>> areaCounts() async {
-    final counts = await Future.wait([
-      for (final a in JobArea.values) _countArea(a),
-    ]);
+    final counts = <JobArea, int>{};
+    Future<void> count(JobArea a) async {
+      try {
+        counts[a] = await _countArea(a);
+      } catch (_) {}
+    }
+
+    const areas = JobArea.values;
+    for (var i = 0; i < areas.length; i += 3) {
+      await Future.wait([for (final a in areas.skip(i).take(3)) count(a)]);
+    }
+    for (final a in areas) {
+      if (!counts.containsKey(a)) await count(a);
+    }
+    if (counts.isEmpty) throw StateError('no area could be counted');
     return {
-      for (var i = 0; i < JobArea.values.length; i++)
-        JobArea.values[i]: counts[i],
+      for (final a in areas)
+        if (counts.containsKey(a)) a: counts[a]!,
     };
   }
 

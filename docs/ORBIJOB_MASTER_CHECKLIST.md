@@ -1,0 +1,59 @@
+# OrbiJob — master checklist (whole product)
+
+Updated 2026-10-13 against the repository, the OrbiJob project (`rpmlfxwebnlxnwadyvle`) and the automated runs of that day. The rule: **"Done"
+means built and demonstrated, not planned.** "Auto" = validated by automated tests/CI; "Device" = validated on a real phone or browser by a person
+(none of the device columns is "yes" yet: this environment has no physical device and no Mac; the Android emulator was used for the 2.0 build and
+the 3.0 push start-up only).
+
+Status legend: **Done** · **Partial** · **In progress** · **Pending**. Auto/Device: yes / partly / no.
+
+## Product
+
+| # | Area | Status | What exists | What is missing | Auto | Device | Reference |
+|---|---|---|---|---|---|---|---|
+| 1 | Branding and visual identity | Done | Identity C, logo, adaptive/monochrome Android icons, splash, design system 2.0 (tokens, light/dark) | trademark search (INPI/USPTO/EUIPO) was never done: the name is not cleared | yes (icon resource check `validate_android.sh` in CI, component tests) | no | `docs/DESIGN_SYSTEM.md`, `docs/design/identity/`, `docs/BRAND_NAME_CHECK.md` |
+| 2 | Screens and navigation | Done | Home, Explore, filters, detail, favorites, applications, profile, settings, notifications, compare, hidden jobs, saved searches; phone and wide layouts | iOS-specific behaviour unseen | yes (navigation, layout net at 320 px / 200 % text, 40-image gallery) | no | `app/test/features/`, `docs/design/orbijob-v3/` |
+| 3 | Localisation and languages | Done | PT-BR, EN, ES for every string (ARB, generated files committed); locale switch; layout net in the three languages | native-speaker review of the ESCO profession names (7 languages) never done | yes (`i18n_test`, `i18n_layout_test`) | no | `app/lib/l10n/`, `docs/OCCUPATIONS.md` |
+| 4 | Search and filters | Done | text, country/continent, area, health specialty, work mode, date, salary; multilingual professions (ESCO + groups, required parts), title-only profession search, empty-state suggestions; saved-search/alert parity | no fuzzy match in the query itself; qualifiers that need translating are not translated | yes (golden parity Dart ↔ SQL on PGlite and real PostgreSQL, catalogue contract against a real PostgREST in CI, benchmark on the real catalogue) | no | `docs/ORBIJOB_5_0.md`, `app/test/search/`, `scripts/search-benchmark.mjs` |
+| 5 | International sources | Partial | 7 published sources (Jobtech SE, Arbeitnow DE/EU, TWJobs TW, Jobicy, JobsCo NZ, RemoteOK, Remotive); guarded publish scripts; terms/licence per source | Latin America (BR 11, MX 13, ES 9 jobs), Asia beyond TW, Africa: no connector; NAV Norway waits for the owner's registration e-mail; USAJOBS/Jooble need owner keys; Finland needs a Finnish organisation; Adzuna rejected (paid) | yes (connector tests, acceptance runs) | n/a | `docs/SOURCES_MATRIX.md`, `docs/COVERAGE_MATRIX.md`, `docs/ORBIJOB_4_0_PROGRESS.md` |
+| 6 | Listing quality | Partial | freshness (72 h check), expiry, retention, dedup by fingerprint/URL, country only when stated, redistribution gate | 609 short descriptions, 265 jobs older than 60 days still confirmed open, 2,009 without a country (Arbeitnow gives cities only) | yes (data-quality, freshness, retention tests; `coverage.sql`) | n/a | `docs/FRESHNESS_POLICY.md`, `docs/evidence/coverage-2026-10-13.csv` |
+| 7 | Automatic translation | Done on Android/iOS code path | on-device translation of titles and descriptions into the app language, "see original", cache, readiness and download prompt | iOS and the browser translator were never run; Chrome Translator API unvalidated | yes (cubit/widget tests with a fake engine) | no | `docs/TRANSLATION.md` |
+| 8 | Profile and authentication | Done | email sign-up/in/reset, session in Keystore/Keychain, professional profile, experiences, education, skills, languages | social sign-in (not asked); account deletion in the app (see 21) | yes | no | `app/lib/features/auth`, `profile` |
+| 9 | Resumes | Done | PDF upload to a private bucket (folder per user, short signed URL), local text extraction with review before saving | OCR for scanned PDFs (not claimed) | yes (RLS, parser, storage policy tests) | no | `docs/SECURITY.md` |
+| 10 | Applications | Done | stages interested → hired/rejected, notes, interview/follow-up dates, agenda, reminders as notifications; nothing is sent to employers | calendar export | yes | no | `docs/ORBIJOB_3_0.md` §5 |
+| 11 | Recommendations | Done | deterministic and explainable scoring for any profession, must-haves vs preferences, "Why this job?", translated titles, explanation under its card | learning from behaviour (deliberately not done: no tracking) | yes (recommender tests) | no | `docs/ORBIJOB_3_0.md` §3 |
+| 12 | Favorites and history | Done | favorites per account; hide/restore with undo; device-only recent searches with clear/off | — | yes | no | `docs/ORBIJOB_3_0.md` §4 |
+| 13 | Compare and share | Done | up to 3 jobs side by side using only stated values; share title + company + the listing's own link | — | yes | no | `docs/ORBIJOB_3_0.md` §6 |
+| 14 | Saved searches | Done | every filter, rename/edit/duplicate/delete, alerts on/off and frequency, custom names preserved on edit | — | yes | no | `docs/ORBIJOB_3_0.md` §1 |
+| 15 | Notifications and push | Partial | notification centre (bell, unread, dismiss), hourly alerts with no duplicates, reminders; Android push configured and verified up to Google (OAuth + FCM authorisation) | **no real push has been seen on a phone**; iOS needs a Mac build + APNs key; web push needs a public HTTPS origin + VAPID | yes (SQL, Edge Function and cubit tests) | no | `docs/ORBIJOB_3_0.md` §2 |
+
+## Platform
+
+| # | Area | Status | What exists | What is missing | Auto | Device | Reference |
+|---|---|---|---|---|---|---|---|
+| 16 | Database | Done | 19 incremental idempotent migrations with rollback files, all applied; indexes; retention; 118 MB of 500 MB | — | yes (PGlite + real PostgreSQL 16/17 in CI) | n/a | `supabase/migrations/`, `docs/DATABASE.md` |
+| 17 | Supabase and RLS | Done | owner-only RLS on every private table, column-level grants, no SECURITY DEFINER or API-callable function in `public`, internal functions in `ops`, audit script | a periodic re-audit after every new table (manual step) | yes (`worker/test/rls.test.ts`, SQL tests) | n/a | `docs/SECURITY.md`, `supabase/tests/` |
+| 18 | Worker and infrastructure | Done | Cloudflare Worker/TypeScript connectors, Edge Function `push-send`, GitHub Actions discovery/revalidation, free plan only | GitHub scheduled runs can be delayed by hours on the free plan (alerts are as fresh as discovery) | yes (745 Worker tests) | n/a | `docs/DEPLOYED_ARCHITECTURE.md` |
+| 19 | Cron and automations | Done | 13 active pg_cron jobs (revalidation per source, expiry, retention, `alerts-run` :53, `reminders-run` :50, `push-send` :56, history purge); every run of the last 24 h succeeded (e.g. 8/8 `alerts-run`) | no alerting channel if a job stops (it is visible in `coverage.sql` and `ops` tables, nobody is paged) | yes (cron/scheduled tests) | n/a | `scripts/supabase/ops/`, `scripts/supabase/diagnostics/coverage.sql` |
+| 20 | Security and privacy | Partial | secrets outside Git (gitleaks in CI), private resumes, sessions in secure storage, third-party text treated as untrusted, nothing sent to employers, device-only history, no ads/trackers | **account deletion and data export are not in the app**; no published privacy policy or terms; consent text for profile data | partly | no | `docs/SECURITY.md` |
+| 21 | Performance | Partial | pagination, trigram indexes, count only on demand; the free database answers one query at a time (≈0.5 s per area count, 0.2–0.9 s per search), so the nine area counts that used to fire together all hit its 3-second limit (HTTP 500 `57014`, found and fixed on 2026-10-13: three at a time, retry once, never a wrong chip); web release build in CI | no measurement of cold start, scroll jank or the web bundle (43 MB build dir with CanvasKit); no load test | partly (request shape, retry tests; timings measured by hand against the real project) | no | `app/test/supabase/job_catalog_test.dart` |
+| 22 | Accessibility | Partial | semantics tests, tap targets ≥ 44 px, 200 % text without overflow, contrast tokens, light/dark | TalkBack/VoiceOver never used; no audit by a person | yes (`a11y_screens_test`, `accessibility_test`, layout net) | no | `app/test/features/` |
+| 23 | Automated tests | Done | Flutter 901 tests (90 more are opt-in screenshot tools), Worker 745, SQL on PGlite and PostgreSQL 16/17, PostgREST contract, secret scan, `dart format`/`analyze`, web release build in CI | integration tests that drive the signed-in app on a device | yes | no | `.github/workflows/ci.yml` |
+| 24 | Validation on physical devices | Pending | Android debug APK built (2.0) and launched on an emulator | any physical Android/iPhone, Safari/Firefox, real push delivery, in-app browser and PDF picker on devices | no | no | `docs/FLUTTER_REMOTE_TEST.md` |
+| 25 | Documentation | Done | READMEs in EN/PT/ES, guides per phase (2.0, 3.0, 4.0, 5.0), runbooks, security, data sources, this checklist | none known | n/a | n/a | `docs/` |
+
+## Release
+
+| # | Area | Status | What exists | What is missing | Auto | Device | Reference |
+|---|---|---|---|---|---|---|---|
+| 26 | Google Play | Pending | `applicationId com.lucksrei.orbijob`, version 1.0.0+1, icons, push config | upload keystore (release still uses the debug key), AAB, store listing (texts, screenshots, feature graphic), privacy policy URL, Data safety form, content rating, account-deletion URL, internal testing track | no | no | `app/android/app/build.gradle.kts` |
+| 27 | App Store | Pending | bundle id `com.lucksrei.orbijob`, iOS project | Mac build, signing and provisioning, APNs key, listing, privacy nutrition labels, account-deletion in the app (Apple requires it), TestFlight | no | no | `app/ios/` |
+| 28 | Publication and post-launch | Pending | health diagnostic (`coverage.sql`), freshness metrics, cron history | crash reporting and analytics choice (none installed on purpose), support e-mail, update policy, rollout plan, monitoring alert | no | no | — |
+
+## Next actions that need the owner
+
+1. Observe one real alert push on a signed-in Android phone (everything up to Google is verified).
+2. Decide the privacy policy, terms and the account-deletion/data-export flow (needed by both stores) — it can then be built and tested here.
+3. Create the upload keystore and the store accounts/listings; provide a Mac for iOS (APNs key, signing).
+4. NAV Norway registration e-mail; USAJOBS/Jooble keys; a source with Latin-American inventory.
+5. Native-speaker review of profession names; a person with TalkBack/VoiceOver.

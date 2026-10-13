@@ -159,6 +159,36 @@ void main() {
         expect(r.query['or'], startsWith('(title.ilike.'));
       }
     });
+    test('areaCounts retries a failed area once and leaves out one that keeps failing; the others still count', () async {
+      var techCalls = 0;
+      final b = FakeBackend(
+        respond: (m, url, _) {
+          final or = url.queryParameters['or'] ?? '';
+          if (or.contains('software')) {
+            techCalls++;
+            if (techCalls == 1) return (500, {'code': '57014'});
+          }
+          if (or.contains('nurse')) return (500, {'code': '57014'});
+          return (200, <Object?>[]);
+        },
+        headersFor: (url) => {'content-range': '0-0/5'},
+      );
+      final counts = await repoFor(b).areaCounts();
+      expect(counts[JobArea.technology], 5); // retried alone
+      expect(
+        counts.containsKey(JobArea.health),
+        isFalse,
+      ); // no chip rather than a wrong number
+      expect(counts[JobArea.finance], 5);
+    });
+
+    test(
+      'areaCounts reports a failure when no area could be counted',
+      () async {
+        final b = FakeBackend(respond: (m, url, _) => (500, {'code': '57014'}));
+        await expectLater(repoFor(b).areaCounts(), throwsA(isA<StateError>()));
+      },
+    );
   });
 
   group('request shape', () {
