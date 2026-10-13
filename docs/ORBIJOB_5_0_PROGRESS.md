@@ -50,3 +50,7 @@ Arbeitnow's own cadence is several hours, so this confirmation is recorded when 
 ## Blockers / owner-side
 See the master checklist ("Next actions that need the owner"): a real push on a phone, privacy policy + account deletion, store accounts and
 keystore, a Mac for iOS, NAV/USAJOBS/Jooble credentials, native-speaker review.
+
+## Arbeitnow confirmation (2026-10-13 21:23 UTC, simulation, nothing written)
+Manual `Sources discover` run with `action=preview`: 8 pages, 2,192 read, **rejected 0** (it was 400 before `.nl` was allowed), 300 would be imported from
+108 companies. The real passes run on the normal schedule.
