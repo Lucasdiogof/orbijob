@@ -1924,7 +1924,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Elas somem desta lista. As vagas não são afetadas.';
 
   @override
-  String get ntDismiss => 'Dispensar';
+  String get ntDismiss => 'Remover da lista';
 
   @override
   String get ntUnread => 'Não lida';
@@ -1956,7 +1956,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get ntEnabledHelp =>
-      'Desative para parar as novas notificações sem mexer nas pesquisas salvas. Vagas que surgirem enquanto estiver desativado não são entregues depois.';
+      'Das suas pesquisas salvas. Vagas encontradas com isto desligado não são enviadas depois.';
 
   @override
   String get ntPushNote =>
@@ -2439,4 +2439,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get cpRowSkills => 'Habilidades listadas';
+
+  @override
+  String get ntKindNewJob => 'Nova vaga';
+
+  @override
+  String get ntKindInterview => 'Entrevista';
+
+  @override
+  String get ntKindFollowUp => 'Retorno';
 }

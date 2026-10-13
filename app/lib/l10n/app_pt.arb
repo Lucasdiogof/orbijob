@@ -650,7 +650,7 @@
   "ntClearAll": "Limpar tudo",
   "ntClearTitle": "Limpar todas as notificações?",
   "ntClearBody": "Elas somem desta lista. As vagas não são afetadas.",
-  "ntDismiss": "Dispensar",
+  "ntDismiss": "Remover da lista",
   "ntUnread": "Não lida",
   "ntFromSearches": "Combina com: {names}",
   "ntFromSearchesMore": "Combina com: {names} e mais {count}",
@@ -658,7 +658,7 @@
   "ntJobUnavailable": "Esta vaga não está mais no catálogo. Você ainda pode tentar o anúncio original.",
   "ntSettingsTitle": "Alertas",
   "ntEnabled": "Receber alertas",
-  "ntEnabledHelp": "Desative para parar as novas notificações sem mexer nas pesquisas salvas. Vagas que surgirem enquanto estiver desativado não são entregues depois.",
+  "ntEnabledHelp": "Das suas pesquisas salvas. Vagas encontradas com isto desligado não são enviadas depois.",
   "ntPushNote": "Alertas e lembretes sempre chegam aqui. No Android também chegam como notificação push depois que você permitir; no iPhone e no navegador o push ainda não está ativado.",
   "ntSignedOut": "Entre na conta para receber alertas de vagas novas.",
   "ntLoadFailed": "Não foi possível carregar as notificações.",
@@ -784,5 +784,8 @@
   "cpRemoveOne": "Remover {title} da comparação",
   "ntReminderInterview": "Entrevista nas próximas 24 horas",
   "ntReminderFollowUp": "Dia de dar retorno nesta candidatura",
-  "cpRowSkills": "Habilidades listadas"
+  "cpRowSkills": "Habilidades listadas",
+  "ntKindNewJob": "Nova vaga",
+  "ntKindInterview": "Entrevista",
+  "ntKindFollowUp": "Retorno"
 }

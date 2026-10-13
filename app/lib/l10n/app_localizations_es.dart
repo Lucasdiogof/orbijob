@@ -1929,7 +1929,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Desaparecen de esta lista. Los empleos no se ven afectados.';
 
   @override
-  String get ntDismiss => 'Descartar';
+  String get ntDismiss => 'Quitar de la lista';
 
   @override
   String get ntUnread => 'Sin leer';
@@ -1961,7 +1961,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ntEnabledHelp =>
-      'Desactiva para dejar de recibir notificaciones sin tocar tus búsquedas guardadas. Los empleos que aparezcan mientras esté desactivado no se entregan después.';
+      'De tus búsquedas guardadas. Las vacantes encontradas con esto desactivado no se envían después.';
 
   @override
   String get ntPushNote =>
@@ -2443,4 +2443,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cpRowSkills => 'Habilidades indicadas';
+
+  @override
+  String get ntKindNewJob => 'Nueva vacante';
+
+  @override
+  String get ntKindInterview => 'Entrevista';
+
+  @override
+  String get ntKindFollowUp => 'Seguimiento';
 }

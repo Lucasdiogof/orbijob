@@ -650,7 +650,7 @@
   "ntClearAll": "Borrar todo",
   "ntClearTitle": "¿Borrar todas las notificaciones?",
   "ntClearBody": "Desaparecen de esta lista. Los empleos no se ven afectados.",
-  "ntDismiss": "Descartar",
+  "ntDismiss": "Quitar de la lista",
   "ntUnread": "Sin leer",
   "ntFromSearches": "Coincide con: {names}",
   "ntFromSearchesMore": "Coincide con: {names} y {count} más",
@@ -658,7 +658,7 @@
   "ntJobUnavailable": "Este empleo ya no está en el catálogo. Aún puedes probar el anuncio original.",
   "ntSettingsTitle": "Alertas",
   "ntEnabled": "Recibir alertas",
-  "ntEnabledHelp": "Desactiva para dejar de recibir notificaciones sin tocar tus búsquedas guardadas. Los empleos que aparezcan mientras esté desactivado no se entregan después.",
+  "ntEnabledHelp": "De tus búsquedas guardadas. Las vacantes encontradas con esto desactivado no se envían después.",
   "ntPushNote": "Las alertas y recordatorios siempre llegan aquí. En Android también llegan como notificación push cuando lo permites; en iPhone y en el navegador el push aún no está activado.",
   "ntSignedOut": "Inicia sesión para recibir alertas de empleos nuevos.",
   "ntLoadFailed": "No se pudieron cargar las notificaciones.",
@@ -784,5 +784,8 @@
   "cpRemoveOne": "Quitar {title} de la comparación",
   "ntReminderInterview": "Entrevista en las próximas 24 horas",
   "ntReminderFollowUp": "Día de dar seguimiento a esta candidatura",
-  "cpRowSkills": "Habilidades indicadas"
+  "cpRowSkills": "Habilidades indicadas",
+  "ntKindNewJob": "Nueva vacante",
+  "ntKindInterview": "Entrevista",
+  "ntKindFollowUp": "Seguimiento"
 }

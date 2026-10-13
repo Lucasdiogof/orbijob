@@ -1918,7 +1918,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'They disappear from this list. Jobs are not affected.';
 
   @override
-  String get ntDismiss => 'Dismiss';
+  String get ntDismiss => 'Remove from list';
 
   @override
   String get ntUnread => 'Unread';
@@ -1950,7 +1950,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ntEnabledHelp =>
-      'Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.';
+      'From your saved searches. Jobs found while this is off are not sent later.';
 
   @override
   String get ntPushNote =>
@@ -2431,4 +2431,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cpRowSkills => 'Skills listed';
+
+  @override
+  String get ntKindNewJob => 'New job';
+
+  @override
+  String get ntKindInterview => 'Interview';
+
+  @override
+  String get ntKindFollowUp => 'Follow-up';
 }

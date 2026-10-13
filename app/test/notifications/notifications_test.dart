@@ -297,9 +297,10 @@ void main() {
         expect(find.text('Registered Nurse'), findsOneWidget);
         expect(find.text('Acme · Germany'), findsNWidgets(2));
         expect(find.text('Matches: Nurses in Germany'), findsOneWidget);
-        expect(find.text('Found 3 hours ago'), findsNWidgets(2));
+        expect(find.text('3 hours ago'), findsNWidgets(2));
+        expect(find.text('New job'), findsNWidgets(2));
         // dismiss one
-        await t.tap(find.byTooltip('Dismiss').last);
+        await t.tap(find.byTooltip('Remove from list').last);
         await t.pumpAndSettle();
         expect(find.text('Welder'), findsNothing);
         expect(fakes.notifications.dismissed, {'2'});
@@ -348,6 +349,8 @@ void main() {
         await t.pumpAndSettle();
         expect(find.text('Interview in the next 24 hours'), findsOneWidget);
         expect(find.text('Follow-up day for this application'), findsOneWidget);
+      expect(find.text('Interview'), findsOneWidget);
+      expect(find.text('Follow-up'), findsOneWidget);
         expect(find.textContaining('Found'), findsNothing);
         await t.tap(find.text('Pelvic physiotherapist'));
         await t.pumpAndSettle();

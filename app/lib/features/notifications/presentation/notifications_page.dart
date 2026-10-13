@@ -17,6 +17,7 @@ import '../../search/presentation/pages/job_detail_page.dart';
 import '../../searches/presentation/saved_searches_cubit.dart';
 import '../../searches/presentation/saved_searches_page.dart';
 import '../../searches/presentation/search_labels.dart';
+import '../../translation/translation_widgets.dart';
 import '../domain/notifications_repository.dart';
 import 'notifications_cubit.dart';
 
@@ -155,6 +156,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 ),
                 child: SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  visualDensity: VisualDensity.compact,
                   value: s.alertsEnabled,
                   onChanged: s.busy ? null : cubit.setAlertsEnabled,
                   title: Text(l.ntEnabled),
@@ -245,6 +248,18 @@ class _NotificationCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onDismiss;
 
+  /// The job behind a job alert, enough for the shared translation of titles (the original title is always kept).
+  JobPosting? get _job => n.kind.isReminder
+      ? null
+      : JobPosting(
+          source: n.sourceId ?? 'notification',
+          externalId: n.jobId ?? n.id,
+          company: n.company ?? '',
+          title: n.title,
+          originalUrl: n.originalUrl ?? '',
+          country: n.country,
+        );
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
@@ -261,12 +276,54 @@ class _NotificationCard extends StatelessWidget {
         : (more > 0
               ? l.ntFromSearchesMore(shown, more)
               : l.ntFromSearches(shown));
+    final (kindLabel, kindIcon, kindFg, kindBg) = switch (n.kind) {
+      NotificationKind.newJob => (
+        l.ntKindNewJob,
+        Icons.work_outline_rounded,
+        c.onPrimaryContainer,
+        c.primaryContainer,
+      ),
+      NotificationKind.interview => (
+        l.ntKindInterview,
+        Icons.event_available_outlined,
+        c.onSuccessContainer,
+        c.successContainer,
+      ),
+      NotificationKind.followUp => (
+        l.ntKindFollowUp,
+        Icons.reply_outlined,
+        c.onWarningContainer,
+        c.warningContainer,
+      ),
+    };
+    final titleStyle = n.unread
+        ? context.text.titleMedium
+        : context.text.titleMedium!.copyWith(
+            color: c.muted,
+            fontWeight: FontWeight.w500,
+          );
+    Widget title(String t, bool translated) => Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: t),
+          if (translated)
+            const WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Padding(
+                padding: EdgeInsetsDirectional.only(start: 6),
+                child: TranslatedMark(),
+              ),
+            ),
+        ],
+      ),
+      style: titleStyle,
+    );
+    final job = _job;
     return Semantics(
       container: true,
-      label: n.unread ? '${l.ntUnread}: ${n.title}' : n.title,
+      label: '$kindLabel. ${n.unread ? '${l.ntUnread}: ' : ''}${n.title}',
       child: OrbiCard(
         onTap: onTap,
-        selected: n.unread,
         padding: const EdgeInsets.fromLTRB(
           AppSpace.s4,
           AppSpace.s3,
@@ -276,60 +333,74 @@ class _NotificationCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 6, right: AppSpace.s3),
-              child: n.unread
-                  ? Icon(Icons.circle, size: 10, color: c.primary)
-                  : const SizedBox(width: 10),
-            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    n.title,
-                    style: n.unread
-                        ? context.text.titleMedium
-                        : context.text.titleMedium!.copyWith(color: c.muted),
+                  Wrap(
+                    spacing: AppSpace.s2,
+                    runSpacing: AppSpace.s1,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      ExcludeSemantics(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpace.s2,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: kindBg,
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(kindIcon, size: 14, color: kindFg),
+                              const SizedBox(width: 4),
+                              Text(
+                                kindLabel,
+                                style: context.text.labelMedium!.copyWith(
+                                  color: kindFg,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        agoLabel(n.createdAt, now, l),
+                        style: context.metadataStyle,
+                      ),
+                      if (n.unread)
+                        ExcludeSemantics(
+                          child: Icon(Icons.circle, size: 8, color: c.primary),
+                        ),
+                    ],
                   ),
+                  const SizedBox(height: AppSpace.s1),
+                  if (job == null)
+                    title(n.title, false)
+                  else
+                    TranslatedTitle(
+                      job: job,
+                      builder: (context, t, translated) => title(t, translated),
+                    ),
                   if (where.isNotEmpty) ...[
                     const SizedBox(height: 2),
                     Text(where, style: context.text.bodyMedium),
                   ],
-                  const SizedBox(height: AppSpace.s1),
                   if (n.kind.isReminder) ...[
-                    Row(
-                      children: [
-                        Icon(
-                          n.kind == NotificationKind.interview
-                              ? Icons.event_available_outlined
-                              : Icons.reply_outlined,
-                          size: 16,
-                          color: c.primary,
-                        ),
-                        const SizedBox(width: AppSpace.s1),
-                        Flexible(
-                          child: Text(
-                            n.kind == NotificationKind.interview
-                                ? l.ntReminderInterview
-                                : l.ntReminderFollowUp,
-                            style: context.text.labelLarge!.copyWith(
-                              color: c.primary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    const SizedBox(height: 2),
                     Text(
-                      agoLabel(n.createdAt, now, l),
+                      n.kind == NotificationKind.interview
+                          ? l.ntReminderInterview
+                          : l.ntReminderFollowUp,
                       style: context.metadataStyle,
                     ),
-                  ] else
-                    Text(
-                      l.ntFound(agoLabel(n.createdAt, now, l)),
-                      style: context.metadataStyle,
-                    ),
-                  if (from != null) Text(from, style: context.metadataStyle),
+                  ] else if (from != null) ...[
+                    const SizedBox(height: 2),
+                    Text(from, style: context.metadataStyle),
+                  ],
                 ],
               ),
             ),

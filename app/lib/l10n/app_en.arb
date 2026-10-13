@@ -846,7 +846,7 @@
   "ntClearAll": "Clear all",
   "ntClearTitle": "Clear all notifications?",
   "ntClearBody": "They disappear from this list. Jobs are not affected.",
-  "ntDismiss": "Dismiss",
+  "ntDismiss": "Remove from list",
   "ntUnread": "Unread",
   "ntFromSearches": "Matches: {names}",
   "@ntFromSearches": {
@@ -878,7 +878,7 @@
   "ntJobUnavailable": "This job is no longer in the catalogue. You can still try the original listing.",
   "ntSettingsTitle": "Alerts",
   "ntEnabled": "Receive alerts",
-  "ntEnabledHelp": "Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.",
+  "ntEnabledHelp": "From your saved searches. Jobs found while this is off are not sent later.",
   "ntPushNote": "Alerts and reminders always arrive here. On Android they also arrive as push notifications once you allow them; iPhone and browser push are not enabled yet.",
   "ntSignedOut": "Sign in to receive alerts about new jobs.",
   "ntLoadFailed": "Could not load notifications.",
@@ -1192,5 +1192,8 @@
   },
   "ntReminderInterview": "Interview in the next 24 hours",
   "ntReminderFollowUp": "Follow-up day for this application",
-  "cpRowSkills": "Skills listed"
+  "cpRowSkills": "Skills listed",
+  "ntKindNewJob": "New job",
+  "ntKindInterview": "Interview",
+  "ntKindFollowUp": "Follow-up"
 }

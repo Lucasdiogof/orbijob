@@ -3481,7 +3481,7 @@ abstract class AppLocalizations {
   /// No description provided for @ntDismiss.
   ///
   /// In en, this message translates to:
-  /// **'Dismiss'**
+  /// **'Remove from list'**
   String get ntDismiss;
 
   /// No description provided for @ntUnread.
@@ -3529,7 +3529,7 @@ abstract class AppLocalizations {
   /// No description provided for @ntEnabledHelp.
   ///
   /// In en, this message translates to:
-  /// **'Turn off to stop new notifications without changing your saved searches. Jobs that appear while it is off are not delivered later.'**
+  /// **'From your saved searches. Jobs found while this is off are not sent later.'**
   String get ntEnabledHelp;
 
   /// No description provided for @ntPushNote.
@@ -4287,6 +4287,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skills listed'**
   String get cpRowSkills;
+
+  /// No description provided for @ntKindNewJob.
+  ///
+  /// In en, this message translates to:
+  /// **'New job'**
+  String get ntKindNewJob;
+
+  /// No description provided for @ntKindInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview'**
+  String get ntKindInterview;
+
+  /// No description provided for @ntKindFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get ntKindFollowUp;
 }
 
 class _AppLocalizationsDelegate
