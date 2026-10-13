@@ -1,90 +1,121 @@
-<p align="center"><b>OrbiJob</b> · by Lucksrei</p>
+<p align="center"><img src="docs/design/identity/c-minimal/png/icon-app-256.png" width="112" alt="OrbiJob app icon"></p>
 
-# OrbiJob
+<h1 align="center">OrbiJob</h1>
 
-> **Status real (2026-10-12):** backend no ar (Supabase, RLS) com **centenas de vagas reais** (Jobicy: 699 na última contagem, em 242 empresas), **revalidadas automaticamente** pelo Supabase Cron e **descobertas de forma incremental** (insert-only, com teto e retenção). Há três fontes adicionais implementadas — Arbeitnow, Remote OK e Remotive — que só aparecem no app depois de revisadas e publicadas ([matriz de fontes e licenças](docs/SOURCES_MATRIX.md)). Home e Explore listam as vagas mais recentes e filtram por área profissional; o app não foi validado ponta a ponta em aparelho. Cloudflare Worker **não** implantado.
+<p align="center">Find opportunities worldwide. Keep your career organized.</p>
 
-🇬🇧 [English README](README_EN.md) · Antigo nome provisório: *JobRadar* (descontinuado — [ver motivo](docs/BRAND_NAME_CHECK.md)).
+<p align="center"><img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white" alt="Flutter"> <img src="https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white" alt="Dart"> <img src="https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white" alt="Supabase"> <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL"> <img src="https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white" alt="Cloudflare"> <img src="https://img.shields.io/badge/Platforms-Android_%7C_iOS_%7C_Web-555555" alt="Platforms"></p>
 
-## Missão
-Ajudar qualquer pessoa, em qualquer profissão, a encontrar, avaliar e acompanhar oportunidades de emprego pelo mundo — com transparência sobre de onde vêm as vagas e onde ainda **não** há cobertura.
+<p align="center"><b>English</b> · <a href="README.pt-BR.md">Português</a> · <a href="README.es.md">Español</a></p>
 
-## O problema
-Vagas estão espalhadas em centenas de portais; ofícios e saúde são mal atendidos por ferramentas focadas em tecnologia; candidaturas se perdem em planilhas.
+---
 
-## Funcionalidades
-| Funcionalidade | Estado |
-|---|---|
-| Identidade **C — Minimal Tech** no app (tokens, Space Grotesk/Inter, logotipo, ícones Android/iOS/Web, splash, temas claro/escuro/sistema) | ✅ aplicada e testada (APK/iOS **não compilados** neste ambiente) |
-| Navegação Início / Explorar / Favoritos / Candidaturas, perfil no cabeçalho (barra inferior < 600 dp, rail, rail estendido + lista/detalhe) | ✅ implementada (estados vazios honestos) |
-| Componentes: botões, campo de busca, chips, cartão de vaga (compatibilidade e confiança separadas), favorito, badges, skeleton, estados | ✅ implementados (cartões só aparecem na prévia/testes: não há fonte de vagas) |
-| Busca com estados carregando / vazio / erro / **sem fonte integrada**, PT/EN/ES | ✅ implementada, **sem dados reais** |
-| Resolvedor de profissões multilíngue (seed ISCO-08, 12 ocupações) | ✅ implementado e testado |
-| Núcleo de conectores: contrato, dedupe, retry/backoff, rate limiter, regra de encerramento de vagas | ✅ implementado e testado (conector Lever só com fixture sintética) |
-| Esquema SQL + RLS | ✅ testado em PostgreSQL 16/17 · ✅ 8 migrations aplicadas no Supabase do proprietário (Auth, RLS, Storage, cotas, privilégio mínimo do `service_role`, revalidação por `pg_cron`) |
-| Catálogo real do **Jobicy** (fonte `CONDITIONAL`, com atribuição e link do anúncio original) | ✅ 299 vagas gravadas · primeira ingestão controlada; **sem importação automática de novas vagas** |
-| Revalidação automática (fecha só o que o Jobicy confirma encerrado; renova as ativas) | ✅ Supabase Cron + `pg_net`, a cada 6 h, sem chave e sem serviço pago · contingência: GitHub Actions · [arquitetura implantada](docs/DEPLOYED_ARCHITECTURE.md) |
-| Catálogo de fontes e matriz de cobertura | ✅ documentado · **nenhuma fonte `READY`** |
-| Busca mundial real, filtros internacionais, ranking 0–100 + confiança calculados, candidatura oficial | 🗓️ planejado |
-| Perfil/experiências/formação, currículos PDF, favoritos, candidaturas manuais, pesquisas salvas e preferências ligados ao Supabase | ✅ implementado e testado com backend simulado · ⚠️ **não validado ponta a ponta contra o Supabase real** |
-| Preenchimento assistido, envio de candidaturas | 🗓️ planejado (o OrbiJob nunca envia candidaturas por conta própria) |
+OrbiJob brings international job discovery and personal application tracking together. It covers **all professions**, including in-person, hybrid and remote roles. Flutter/mobile engineering and physiotherapy—including pelvic health—receive extra source research, but the platform is not limited to those fields.
 
-## Stack
-Flutter / Dart · Clean Architecture · BLoC/Cubit · GetIt · Supabase (PostgreSQL, Auth, Storage) · Cloudflare Workers (TypeScript) · GitHub Actions · i18n PT/EN/ES. Priorizamos infraestrutura gratuita, respeitando limites e licenças.
+## Features
 
-## Arquitetura
-Implantado hoje: Flutter → Supabase (leitura do catálogo com RLS); revalidação dentro do próprio Supabase (`pg_cron` + `pg_net`), com GitHub Actions como contingência. O código do Cloudflare Worker (API + sincronização) existe e é reaproveitado, mas **não está implantado**. Dados públicos (vagas) separados de dados privados (perfil, currículo, candidaturas), protegidos por RLS. Detalhes: [docs/DEPLOYED_ARCHITECTURE.md](docs/DEPLOYED_ARCHITECTURE.md) (o que roda hoje e como recuperar), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/DATABASE.md](docs/DATABASE.md), [docs/JOBICY_SUPABASE_CRON.md](docs/JOBICY_SUPABASE_CRON.md).
-
-## Plataformas
-Android, iOS e Web/PWA. Verificado: build web de produção e prévia (capturas reais em [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md)), testes de widget e validação dos recursos Android com `aapt2`. **Não verificado aqui:** APK (sem Android SDK) e iOS (sem macOS/Xcode). Nada foi publicado em lojas.
-
-## Integrações de vagas
-Fontes com dados reais: **Jobicy** e, quando publicadas, **Arbeitnow**, **Remote OK** e **Remotive** (todas `CONDITIONAL`, APIs oficiais sem chave, atribuição e link original preservados). As demais estão `RESEARCH`, `EXTERNAL_ONLY` ou bloqueadas por chave/licença — veja [docs/SOURCES_MATRIX.md](docs/SOURCES_MATRIX.md). Sem scraping, sem burlar CAPTCHA ou desafio anti-bot. Sem scraping proibido, sem burlar CAPTCHA, sem candidatura automática. Veja [docs/GLOBAL_SOURCES.md](docs/GLOBAL_SOURCES.md) e [docs/COVERAGE_MATRIX.md](docs/COVERAGE_MATRIX.md).
-
-## Configuração local
-Requisitos: Flutter estável (testado com 3.47.6), Node 22.
-```bash
-# App
-cd app && flutter pub get && flutter gen-l10n && flutter analyze && flutter test
-flutter run -d chrome                         # app real (sem dados)
-flutter run -d chrome -t lib/main_preview.dart  # mesma UI com vagas FICTÍCIAS e faixa de aviso
-# Worker
-cd worker && npm ci && npm run typecheck && npm test
-# Catálogo e cobertura (gera data/coverage-matrix.csv e docs/*.md)
-node scripts/build-coverage.mjs
-# Aceite de buscas (precisa de internet; chaves opcionais)
-USAJOBS_KEY=… USAJOBS_EMAIL=… ADZUNA_APP_ID=… ADZUNA_APP_KEY=… node scripts/acceptance.mjs --out docs/evidence/acceptance-$(date +%F).json
-```
-Copie `.env.example` para `.env` (nunca commitar). O projeto Supabase do proprietário existe (8 migrations aplicadas); nenhum Cloudflare foi publicado. Passo a passo do app contra o projeto real: `docs/SUPABASE_SETUP.md` (Fase 4). No Windows, um comando prepara um Flutter isolado e abre o app em `localhost:3000`: `docs/WINDOWS_WEB_RUN.md`.
-
-## Estrutura de diretórios
-```
-app/         Flutter (orbijob): lib/{core,features,l10n}, test/
-worker/      Cloudflare Worker (TypeScript): src/, test/ (inclui RLS via PGlite)
-supabase/    migrations (1–8 aplicadas no projeto do proprietário), testes SQL e rollbacks
-data/        catálogo de fontes, seed de ocupações, matriz de cobertura (CSV)
-scripts/     geração de cobertura e aceite de buscas
-docs/        arquitetura, requisitos, fontes, banco, segurança, roadmap, design, portfólio, evidências
-.github/     CI, revalidação (contingência) e monitor
-```
-
-## Testes
-`flutter analyze` + `flutter test` (tokens e contraste, temas, navegação, **sem overflow** em vários tamanhos e escalas de texto, acessibilidade, i18n, repositórios Supabase contra backend HTTP simulado) · `tsc` + `vitest` no `worker/` (conectores, lease, revalidação, RLS e a revalidação em SQL rodando em PostgreSQL real via PGlite) · testes SQL em PostgreSQL 16 e 17 (`supabase/tests/run.sh`) · build web e validação `aapt2` no CI. Os números atuais estão no CI. Testes de integração/E2E em dispositivo: ainda não existem.
-
-## Segurança
-RLS dono-único, currículos em bucket privado (planejado/proposto), nenhum segredo no repositório (**público**), sem scraping proibido, sem candidatura automática, autofill só em domínios autorizados. [docs/SECURITY.md](docs/SECURITY.md)
-
-## Identidade visual
-Identidade oficial: **C — Minimal Tech** (símbolo "O" de dois arcos com ponto violeta; ORBIJOB em Space Grotesk). [docs/design/identity/c-minimal/APPLIED.md](docs/design/identity/c-minimal/APPLIED.md) · [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md). As propostas A e B ficam como histórico.
-
-## Roadmap
-[docs/ROADMAP.md](docs/ROADMAP.md) · issues por área no GitHub · [docs/HANDOFF.md](docs/HANDOFF.md)
+- **Worldwide discovery:** search jobs by title, profession, specialty, country, continent and work arrangement, with professional-area navigation and current provider coverage.
+- **Real job feeds:** Jobicy, Arbeitnow, Remote OK, Remotive, Sweden's Platsbanken/JobTech, Taiwan Jobs Open Data and Jobs.co.nz have been integrated. Availability is dynamic; see the [source matrix](docs/SOURCES_MATRIX.md).
+- **Relevant job information:** role, company, original description, location, work arrangement, source attribution, confidence and compatibility cues when supported by data.
+- **Personal workspace:** account, professional experience and education, skills, languages, professional preferences, saved jobs and application tracking.
+- **Résumé tools:** private PDF upload, primary résumé, replacement and deletion, local text extraction and editable review before applying suggestions to the profile.
+- **Application kit:** copy verified profile details, access the primary résumé and track a submitted application after user confirmation; never submits applications on your behalf.
+- **International UX:** English, Brazilian Portuguese and Spanish interfaces, light/dark/system themes, responsive mobile/tablet/desktop layout, contextual sign-in screens and an orbital loader.
 
 ## Screenshots
-Capturas reais do app em [docs/design/flutter-screenshots](docs/design/flutter-screenshots/README.md) (claro/escuro, mobile/tablet/desktop; as com vagas são prévia fictícia, sempre sinalizada).
 
-## Licença
-Ainda não definida; **todos os direitos reservados** até decisão (nenhum arquivo LICENSE).
+### Search and discover
 
-## Créditos
-Produto da **Lucksrei** · desenvolvimento: Lucas Diogo França.
+<table><tr><td align="center"><img src="docs/design/orbijob-v2/01-home-light.png" width="235" alt="Home screen"><br><sub><b>Home</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/02-explore-light.png" width="235" alt="Explore jobs"><br><sub><b>Explore</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/03-filters-light.png" width="235" alt="Job search filters"><br><sub><b>Filters</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/04-job-detail-light.png" width="235" alt="Job details"><br><sub><b>Job details</b></sub></td></tr></table>
+
+### Your career, in one place
+
+<table><tr><td align="center"><img src="docs/design/orbijob-v2/12-profile-hub-dark.png" width="235" alt="Professional profile in dark theme"><br><sub><b>Profile</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/14-resumes-dark.png" width="235" alt="Resume management in dark theme"><br><sub><b>Résumés</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/22-resume-review-dark.png" width="235" alt="Review extracted resume details"><br><sub><b>PDF review</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/23-application-kit-dark.png" width="235" alt="Application kit"><br><sub><b>Application kit</b></sub></td></tr></table>
+
+More real Flutter widget captures (light, dark, desktop, tablet, PT and ES) are available in [the screenshot gallery](docs/design/orbijob-v2/README.md). They use controlled test data; they are not evidence of live job inventory.
+
+## Architecture
+
+```text
+Flutter (Android / iOS / Web)
+  ├─ Public job discovery, details and filters
+  └─ Supabase Auth → private profiles, résumés, saved jobs, applications
+          │
+          └─ PostgreSQL + RLS + private Storage
+
+Public job providers → TypeScript connectors → validated job catalogue
+                                      ├─ incremental discovery
+                                      ├─ revalidation / freshness
+                                      └─ retention, deduplication and monitoring
+
+GitHub Actions + Supabase scheduled jobs
+```
+
+Source attribution and original URLs stay attached to listings. Visibility depends on publisher permission and freshness; a missing result does not imply there are no jobs in that country or profession. The project prioritizes free infrastructure and safe provider integration. [Architecture](docs/ARCHITECTURE.md) · [Source matrix](docs/SOURCES_MATRIX.md) · [Freshness policy](docs/FRESHNESS_POLICY.md) · [Privacy and security](docs/SECURITY.md).
+
+## Tech stack
+
+| Area | Technology |
+|---|---|
+| Application | Flutter / Dart, feature-first Clean Architecture, Cubit/BLoC, GetIt |
+| Design & localization | OrbiJob 2.0 design system, light/dark, Flutter ARB — EN / PT-BR / ES |
+| Backend | Supabase Auth, PostgreSQL, Row Level Security, Storage, scheduled SQL jobs |
+| Ingestion | TypeScript / Cloudflare Worker code, provider adapters, GitHub Actions |
+| Quality | Flutter widget/accessibility tests, TypeScript tests, PostgreSQL 16/17, GitHub Actions CI |
+
+## Run locally
+
+Prerequisites: compatible Flutter SDK (the current app requires Dart `^3.13.5`), Node.js and the project's Supabase public configuration. Never commit tokens or service-role credentials.
+
+```bash
+cd app
+flutter pub get
+flutter gen-l10n
+flutter analyze
+flutter test
+flutter run -d chrome --dart-define-from-file=dart_defines.web.json
+```
+
+For mobile, use the appropriate local, ignored `dart_defines.dev.json` configuration. Consult [Supabase setup](docs/SUPABASE_SETUP.md) and [Windows web run](docs/WINDOWS_WEB_RUN.md); local configuration files must contain only client-safe values. The web command assumes the local configuration file already exists.
+
+Worker checks:
+
+```bash
+cd worker
+npm ci
+npm run typecheck
+npm test
+```
+
+## Repository
+
+```text
+app/        Flutter application and widget tests
+worker/     TypeScript ingestion/API components and tests
+supabase/   Database migrations, policies and SQL tests
+scripts/    Operational and validation scripts
+data/       Source and occupation metadata
+docs/       Architecture, sources, security, UX and screenshots
+.github/    CI and scheduled jobs
+```
+
+## Important limits
+
+- Job coverage varies by country, sector, provider terms and recency. Listing counts change continuously.
+- Job information originates from third parties; applications and eligibility requirements must be confirmed with the employer.
+- Résumé parsing works locally on text-based PDFs; scanned or encrypted PDFs are not automatically read. Extracted fields always require review.
+- The application kit helps prepare and track applications; OrbiJob does **not** submit applications or automatically fill third-party forms.
+- Mobile job links may open in an in-app browser, with an external-browser escape route; embedded third-party websites and authentication may have limitations.
+- Automatic listing translation is under development; its availability is not guaranteed on every platform or language pair.
+
+## Availability and status
+
+Android, iOS and Web are supported by the Flutter codebase. The app has passed automated tests, an Android debug APK build and a Web release build; full on-device verification and store publication are **not claimed** here. See [OrbiJob 2.0 status](docs/ORBIJOB_2_0_STATUS.md) and [progress](docs/ORBIJOB_2_0_PROGRESS.md). No Play Store / App Store links are published until listings are live.
+
+## Privacy and licensing
+
+Private candidate information and résumé files are protected by account-scoped access controls. No credentials belong in source control. Public job feeds have their own licensing and attribution obligations; see the [source matrix](docs/SOURCES_MATRIX.md). No repository-wide open-source license is declared; all rights reserved.
+
+## Credits
+
+Built by **Lucksrei** · [lucksrei.com](https://lucksrei.com) · Lucas Diogo França.
