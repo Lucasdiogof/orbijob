@@ -40,7 +40,7 @@ restriction separately in `geo_restrictions`.
 | Jobicy / Remote OK / Remotive | 277 / 96 / 17 | unchanged | all remote; the source gives eligibility lists, kept in `geo_restrictions` (a remote job with no stated country is not a failure) |
 | New sources | — | by design | NYC (US), Teaching Vacancies (GB) always state it; Get on Board states it for on-site/hybrid, remote ones keep none |
 
-Unknown country across the visible catalogue: **2,286 → 1,055** (of 6,994; most of the rest are remote jobs without a stated place).
+Unknown country across the visible catalogue: **2,286 of 6,994 (33 %) → 1,013 of 7,561 (13 %)** measured at 23:00 UTC (the 1,013 are 623 Arbeitnow in places two countries share or without a place, 276 + 96 + 17 remote jobs whose eligibility is kept in `geo_restrictions`, 1 Platsbanken). Visible total grew to 7,561 on its own (Platsbanken 2,363 → 2,963 by the scheduled passes).
 
 ## P0/P1 — new sources (all stored, none shown in the app until the owner publishes)
 
