@@ -349,8 +349,8 @@ void main() {
         await t.pumpAndSettle();
         expect(find.text('Interview in the next 24 hours'), findsOneWidget);
         expect(find.text('Follow-up day for this application'), findsOneWidget);
-      expect(find.text('Interview'), findsOneWidget);
-      expect(find.text('Follow-up'), findsOneWidget);
+        expect(find.text('Interview'), findsOneWidget);
+        expect(find.text('Follow-up'), findsOneWidget);
         expect(find.textContaining('Found'), findsNothing);
         await t.tap(find.text('Pelvic physiotherapist'));
         await t.pumpAndSettle();
