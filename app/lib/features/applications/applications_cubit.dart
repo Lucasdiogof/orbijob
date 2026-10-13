@@ -176,6 +176,19 @@ class ApplicationsCubit extends Cubit<ApplicationsState> {
     emit(state.copyWith(busy: true));
     try {
       await repo.changeStage(id, stage);
+      final current = state.items.where((a) => a.id == id).firstOrNull;
+      DateTime? appliedNow;
+      if (stage.impliesApplied &&
+          current != null &&
+          current.appliedAt == null) {
+        // The person moved it to a stage that only exists after applying: today is the best honest date, and it can be corrected.
+        appliedNow = DateTime.now();
+        try {
+          await repo.updateDates(id, appliedAt: appliedNow);
+        } catch (_) {
+          appliedNow = null;
+        }
+      }
       // The change is saved; a failure to re-read the history must not look like a failed change.
       List<ApplicationEvent>? events;
       try {
@@ -186,7 +199,10 @@ class ApplicationsCubit extends Cubit<ApplicationsState> {
           busy: false,
           items: [
             for (final a in state.items)
-              if (a.id == id) _withStage(a, stage) else a,
+              if (a.id == id)
+                a.copyWith(stage: stage, appliedAt: appliedNow)
+              else
+                a,
           ],
           history: events == null ? null : {...state.history, id: events},
         ),
@@ -210,7 +226,10 @@ class ApplicationsCubit extends Cubit<ApplicationsState> {
           busy: false,
           items: [
             for (final a in state.items)
-              if (a.id == id) _withNote(a, _blank(note)) else a,
+              if (a.id == id)
+                a.copyWith(note: _blank(note), clearNote: _blank(note) == null)
+              else
+                a,
           ],
         ),
       );
@@ -218,6 +237,68 @@ class ApplicationsCubit extends Cubit<ApplicationsState> {
       emit(state.copyWith(busy: false, actionFailure: mapDataError(e)));
     }
   }
+
+  /// Sets (or, with null, clears) the interview date and time.
+  Future<void> setInterview(String id, DateTime? at) => _setDate(
+    id,
+    (r) => r.updateDates(id, interviewAt: at, clearInterview: at == null),
+    (a) => a.copyWith(interviewAt: at, clearInterview: at == null),
+  );
+
+  /// Sets (or, with null, clears) the day to follow up with the employer.
+  Future<void> setFollowUp(String id, DateTime? at) => _setDate(
+    id,
+    (r) => r.updateDates(id, followUpAt: at, clearFollowUp: at == null),
+    (a) => a.copyWith(followUpAt: at, clearFollowUp: at == null),
+  );
+
+  Future<void> _setDate(
+    String id,
+    Future<void> Function(ApplicationsRepository r) write,
+    ApplicationRecord Function(ApplicationRecord a) apply,
+  ) async {
+    final repo = _repo;
+    if (repo == null) {
+      return emit(state.copyWith(actionFailure: DataFailureKind.notConfigured));
+    }
+    if (state.busy) return;
+    emit(state.copyWith(busy: true));
+    try {
+      await write(repo);
+      emit(
+        state.copyWith(
+          busy: false,
+          items: [for (final a in state.items) a.id == id ? apply(a) : a],
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(busy: false, actionFailure: mapDataError(e)));
+    }
+  }
+
+  /// Keeps an eye on a listing without claiming anything was sent: stage "interested", no application date. Refuses a second entry for the
+  /// same listing. Returns false (and reports why) when nothing was stored; [alreadyTracked] tells the two apart.
+  Future<bool> trackInterest(JobPosting job) async {
+    if (isTracked(job)) {
+      emit(state.copyWith(actionFailure: DataFailureKind.duplicate));
+      return false;
+    }
+    final hasListing = job.source != manualSource && job.originalUrl.isNotEmpty;
+    return create(
+      company: job.company.isEmpty ? job.title : job.company,
+      title: job.title,
+      link: hasListing ? job.originalUrl : null,
+      channel: job.sourceName,
+      stage: ApplicationStage.interested,
+    );
+  }
+
+  /// Whether this listing is already followed (by its link, or by title and company for entries typed by hand).
+  bool isTracked(JobPosting job) => state.items.any(
+    (a) =>
+        (job.originalUrl.isNotEmpty && a.job.originalUrl == job.originalUrl) ||
+        (a.job.source == job.source && a.job.externalId == job.externalId),
+  );
 
   Future<void> delete(String id) async {
     final repo = _repo;
@@ -258,28 +339,4 @@ class ApplicationsCubit extends Cubit<ApplicationsState> {
     final t = v?.trim() ?? '';
     return t.isEmpty ? null : t;
   }
-
-  static ApplicationRecord _withStage(
-    ApplicationRecord a,
-    ApplicationStage s,
-  ) => ApplicationRecord(
-    id: a.id,
-    job: a.job,
-    stage: s,
-    channel: a.channel,
-    appliedAt: a.appliedAt,
-    note: a.note,
-    profileId: a.profileId,
-  );
-
-  static ApplicationRecord _withNote(ApplicationRecord a, String? n) =>
-      ApplicationRecord(
-        id: a.id,
-        job: a.job,
-        stage: a.stage,
-        channel: a.channel,
-        appliedAt: a.appliedAt,
-        note: n,
-        profileId: a.profileId,
-      );
 }

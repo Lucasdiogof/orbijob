@@ -9,10 +9,13 @@ import '../../core/widgets/data_state_view.dart';
 import '../../l10n/app_localizations.dart';
 import '../shell/shell_cubit.dart';
 import 'applications_cubit.dart';
+import 'domain/application_agenda.dart';
 import 'domain/application_record.dart';
 
 String applicationStageLabel(AppLocalizations l, ApplicationStage s) =>
     switch (s) {
+      ApplicationStage.interested => l.applicationStageInterested,
+      ApplicationStage.hired => l.applicationStageHired,
       ApplicationStage.applied => l.applicationStageApplied,
       ApplicationStage.screening => l.applicationStageScreening,
       ApplicationStage.interview => l.applicationStageInterview,
@@ -23,7 +26,7 @@ String applicationStageLabel(AppLocalizations l, ApplicationStage s) =>
     };
 
 OrbiBadgeKind _stageKind(ApplicationStage s) => switch (s) {
-  ApplicationStage.offer => OrbiBadgeKind.success,
+  ApplicationStage.offer || ApplicationStage.hired => OrbiBadgeKind.success,
   ApplicationStage.interview ||
   ApplicationStage.screening => OrbiBadgeKind.info,
   ApplicationStage.rejected => OrbiBadgeKind.error,
@@ -66,31 +69,167 @@ class ApplicationsPage extends StatelessWidget {
             action: add,
           );
         }
-        return Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 760),
-            child: ListView(
-              padding: const EdgeInsets.all(AppSpace.s4),
+        return _ApplicationsList(items: s.items, add: add);
+      },
+    );
+  }
+}
+
+/// The pipeline: what is coming up, a filter by stage with counts, and the applications.
+class _ApplicationsList extends StatefulWidget {
+  const _ApplicationsList({required this.items, required this.add});
+  final List<ApplicationRecord> items;
+  final Widget add;
+
+  @override
+  State<_ApplicationsList> createState() => _ApplicationsListState();
+}
+
+class _ApplicationsListState extends State<_ApplicationsList> {
+  ApplicationStage? _filter;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final items = widget.items;
+    final agenda = buildAgenda(items, DateTime.now()).take(4).toList();
+    final counts = {
+      for (final st in ApplicationStage.values)
+        st: items.where((a) => a.stage == st).length,
+    };
+    final filter = (_filter != null && (counts[_filter] ?? 0) > 0)
+        ? _filter
+        : null;
+    final shown = filter == null
+        ? items
+        : [
+            for (final a in items)
+              if (a.stage == filter) a,
+          ];
+    return Align(
+      alignment: Alignment.topCenter,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 760),
+        child: ListView(
+          padding: const EdgeInsets.all(AppSpace.s4),
+          children: [
+            Text(
+              l.applicationsDisclaimer,
+              style: context.text.bodySmall!.copyWith(
+                color: context.colors.muted,
+              ),
+            ),
+            const SizedBox(height: AppSpace.s3),
+            Align(alignment: Alignment.centerLeft, child: widget.add),
+            if (agenda.isNotEmpty) ...[
+              const SizedBox(height: AppSpace.s5),
+              OrbiSectionHeader(title: l.apAgendaTitle),
+              const SizedBox(height: AppSpace.s3),
+              for (final e in agenda) ...[
+                _AgendaTile(e),
+                const SizedBox(height: AppSpace.s2),
+              ],
+            ],
+            const SizedBox(height: AppSpace.s4),
+            OrbiChipRow(
+              padding: EdgeInsets.zero,
+              children: [
+                OrbiFilterChip(
+                  label: l.apPipelineCount(l.apPipelineAll, items.length),
+                  selected: filter == null,
+                  onSelected: (_) => setState(() => _filter = null),
+                ),
+                for (final st in ApplicationStage.values)
+                  if ((counts[st] ?? 0) > 0)
+                    OrbiFilterChip(
+                      label: l.apPipelineCount(
+                        applicationStageLabel(l, st),
+                        counts[st]!,
+                      ),
+                      selected: filter == st,
+                      onSelected: (_) =>
+                          setState(() => _filter = filter == st ? null : st),
+                    ),
+              ],
+            ),
+            const SizedBox(height: AppSpace.s3),
+            if (shown.isEmpty)
+              Text(l.apFilteredEmpty, style: context.metadataStyle)
+            else
+              for (final a in shown) ...[
+                _ApplicationTile(a),
+                const SizedBox(height: AppSpace.s3),
+              ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+String _when(BuildContext context, AgendaKind k, DateTime at) {
+  final m = MaterialLocalizations.of(context);
+  final day = m.formatMediumDate(at);
+  return k == AgendaKind.interview
+      ? '$day · ${m.formatTimeOfDay(TimeOfDay.fromDateTime(at), alwaysUse24HourFormat: MediaQuery.alwaysUse24HourFormatOf(context))}'
+      : day;
+}
+
+String _kindLabel(AppLocalizations l, AgendaKind k) =>
+    k == AgendaKind.interview ? l.apAgendaInterview : l.apAgendaFollowUp;
+
+class _AgendaTile extends StatelessWidget {
+  const _AgendaTile(this.e);
+  final AgendaItem e;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final c = context.colors;
+    final a = e.application;
+    return OrbiCard(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => BlocProvider.value(
+            value: context.read<ApplicationsCubit>(),
+            child: ApplicationDetailPage(id: a.id),
+          ),
+        ),
+      ),
+      padding: const EdgeInsets.all(AppSpace.s3),
+      child: Row(
+        children: [
+          Icon(
+            e.kind == AgendaKind.interview
+                ? Icons.event_outlined
+                : Icons.alarm_outlined,
+            color: e.overdue ? c.error : c.primary,
+          ),
+          const SizedBox(width: AppSpace.s3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l.applicationsDisclaimer,
-                  style: context.text.bodySmall!.copyWith(
-                    color: context.colors.muted,
-                  ),
+                  '${_kindLabel(l, e.kind)} · ${a.job.title}',
+                  style: context.text.labelLarge,
                 ),
-                const SizedBox(height: AppSpace.s3),
-                Align(alignment: Alignment.centerLeft, child: add),
-                const SizedBox(height: AppSpace.s4),
-                for (final a in s.items) ...[
-                  _ApplicationTile(a),
-                  const SizedBox(height: AppSpace.s3),
-                ],
+                Text(
+                  [
+                    if (a.job.company.isNotEmpty) a.job.company,
+                    _when(context, e.kind, e.at),
+                  ].join(' · '),
+                  style: context.metadataStyle,
+                ),
+                if (e.overdue)
+                  Text(l.apAgendaOverdueHint, style: context.metadataStyle),
               ],
             ),
           ),
-        );
-      },
+          if (e.overdue)
+            OrbiStatusBadge(label: l.apOverdue, kind: OrbiBadgeKind.error),
+        ],
+      ),
     );
   }
 }
@@ -130,6 +269,22 @@ class _ApplicationTile extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpace.s1),
                 Text(date, style: context.metadataStyle),
+                if (a.nextDate != null)
+                  Text(
+                    l.apNextDate(
+                      a.interviewAt != null
+                          ? l.apAgendaInterview
+                          : l.apAgendaFollowUp,
+                      _when(
+                        context,
+                        a.interviewAt != null
+                            ? AgendaKind.interview
+                            : AgendaKind.followUp,
+                        a.nextDate!.toLocal(),
+                      ),
+                    ),
+                    style: context.metadataStyle,
+                  ),
               ],
             ),
           ),
@@ -442,6 +597,27 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
                             }
                           },
                   ),
+                  const SizedBox(height: AppSpace.s1),
+                  Text(l.apStageHint, style: context.metadataStyle),
+                  const SizedBox(height: AppSpace.s4),
+                  OrbiSectionHeader(title: l.apDatesTitle),
+                  const SizedBox(height: AppSpace.s2),
+                  _DateRow(
+                    label: l.apInterviewLabel,
+                    value: a.interviewAt?.toLocal(),
+                    withTime: true,
+                    busy: s.busy,
+                    onChanged: (d) =>
+                        context.read<ApplicationsCubit>().setInterview(a.id, d),
+                  ),
+                  _DateRow(
+                    label: l.apFollowUpLabel,
+                    value: a.followUpAt?.toLocal(),
+                    withTime: false,
+                    busy: s.busy,
+                    onChanged: (d) =>
+                        context.read<ApplicationsCubit>().setFollowUp(a.id, d),
+                  ),
                   const SizedBox(height: AppSpace.s3),
                   OrbiTextField(
                     label: l.applicationNote,
@@ -485,6 +661,82 @@ class _ApplicationDetailPageState extends State<ApplicationDetailPage> {
           ),
         );
       },
+    );
+  }
+}
+
+/// A date the person keeps for a process (interview with a time, or a follow-up day): shown, chosen with the platform pickers, cleared.
+class _DateRow extends StatelessWidget {
+  const _DateRow({
+    required this.label,
+    required this.value,
+    required this.withTime,
+    required this.onChanged,
+    this.busy = false,
+  });
+  final String label;
+  final DateTime? value;
+  final bool withTime;
+  final bool busy;
+  final ValueChanged<DateTime?> onChanged;
+
+  Future<void> _pick(BuildContext context) async {
+    final now = DateTime.now();
+    final date = await showDatePicker(
+      context: context,
+      initialDate: value ?? now,
+      firstDate: DateTime(now.year - 1),
+      lastDate: DateTime(now.year + 3),
+    );
+    if (date == null || !context.mounted) return;
+    if (!withTime) return onChanged(DateTime(date.year, date.month, date.day));
+    final time = await showTimePicker(
+      context: context,
+      initialTime: value == null
+          ? const TimeOfDay(hour: 9, minute: 0)
+          : TimeOfDay.fromDateTime(value!),
+    );
+    if (time == null) return;
+    onChanged(
+      DateTime(date.year, date.month, date.day, time.hour, time.minute),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final m = MaterialLocalizations.of(context);
+    final v = value;
+    final text = v == null
+        ? l.apDateNone
+        : (withTime
+              ? _when(context, AgendaKind.interview, v)
+              : m.formatMediumDate(v));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpace.s2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          OrbiFieldLabel(label),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: AppSpace.s2,
+            children: [
+              Text(text, style: context.text.bodyLarge),
+              OrbiTextButton(
+                label: l.apDatePick,
+                icon: withTime ? Icons.schedule : Icons.calendar_today_outlined,
+                onPressed: busy ? null : () => _pick(context),
+              ),
+              if (v != null)
+                OrbiTextButton(
+                  label: l.apDateClear,
+                  onPressed: busy ? null : () => onChanged(null),
+                ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

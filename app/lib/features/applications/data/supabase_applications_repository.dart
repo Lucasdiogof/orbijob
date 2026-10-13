@@ -22,6 +22,8 @@ ApplicationRecord? applicationFromRow(Map<String, dynamic> r) {
     appliedAt: DateTime.tryParse('${r['applied_at'] ?? ''}'),
     note: r['note'] as String?,
     profileId: r['profile_id'] as String?,
+    interviewAt: DateTime.tryParse('${r['interview_at'] ?? ''}')?.toUtc(),
+    followUpAt: DateTime.tryParse('${r['follow_up_at'] ?? ''}')?.toUtc(),
   );
 }
 
@@ -78,6 +80,34 @@ class SupabaseApplicationsRepository implements ApplicationsRepository {
   Future<void> updateNote(String id, String? note) async {
     requireUserId(_client);
     await _client.from('applications').update({'note': note}).eq('id', id);
+  }
+
+  @override
+  Future<void> updateDates(
+    String id, {
+    DateTime? appliedAt,
+    DateTime? interviewAt,
+    bool clearInterview = false,
+    DateTime? followUpAt,
+    bool clearFollowUp = false,
+  }) async {
+    requireUserId(_client);
+    final patch = <String, Object?>{};
+    if (appliedAt != null) {
+      patch['applied_at'] = appliedAt.toUtc().toIso8601String();
+    }
+    if (interviewAt != null) {
+      patch['interview_at'] = interviewAt.toUtc().toIso8601String();
+    } else if (clearInterview) {
+      patch['interview_at'] = null;
+    }
+    if (followUpAt != null) {
+      patch['follow_up_at'] = followUpAt.toUtc().toIso8601String();
+    } else if (clearFollowUp) {
+      patch['follow_up_at'] = null;
+    }
+    if (patch.isEmpty) return;
+    await _client.from('applications').update(patch).eq('id', id);
   }
 
   @override

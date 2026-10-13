@@ -3969,6 +3969,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Only my languages'**
   String get pfMustLanguage;
+
+  /// No description provided for @applicationStageInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested'**
+  String get applicationStageInterested;
+
+  /// No description provided for @applicationStageHired.
+  ///
+  /// In en, this message translates to:
+  /// **'Hired'**
+  String get applicationStageHired;
+
+  /// No description provided for @apPipelineAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get apPipelineAll;
+
+  /// No description provided for @apStageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You decide the stage. OrbiJob never contacts the employer and never assumes you applied.'**
+  String get apStageHint;
+
+  /// No description provided for @apAgendaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming up'**
+  String get apAgendaTitle;
+
+  /// No description provided for @apAgendaInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview'**
+  String get apAgendaInterview;
+
+  /// No description provided for @apAgendaFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow up'**
+  String get apAgendaFollowUp;
+
+  /// No description provided for @apOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get apOverdue;
+
+  /// No description provided for @apAgendaOverdueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The date has passed. Update the stage or set a new date.'**
+  String get apAgendaOverdueHint;
+
+  /// No description provided for @apDatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get apDatesTitle;
+
+  /// No description provided for @apInterviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview (date and time)'**
+  String get apInterviewLabel;
+
+  /// No description provided for @apFollowUpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow up on'**
+  String get apFollowUpLabel;
+
+  /// No description provided for @apDateNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get apDateNone;
+
+  /// No description provided for @apDatePick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get apDatePick;
+
+  /// No description provided for @apDateClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get apDateClear;
+
+  /// No description provided for @apDatesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Date saved'**
+  String get apDatesSaved;
+
+  /// No description provided for @apTrackInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Track this job'**
+  String get apTrackInterest;
+
+  /// No description provided for @apTrackedInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your applications as “interested”. Nothing was sent.'**
+  String get apTrackedInterest;
+
+  /// No description provided for @apAlreadyTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'This job is already in your applications.'**
+  String get apAlreadyTracked;
+
+  /// No description provided for @apNextDate.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {date}'**
+  String apNextDate(String kind, String date);
+
+  /// No description provided for @apPipelineCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{stage} ({count})'**
+  String apPipelineCount(String stage, int count);
+
+  /// No description provided for @apFilteredEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications in this stage.'**
+  String get apFilteredEmpty;
 }
 
 class _AppLocalizationsDelegate

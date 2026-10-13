@@ -1091,5 +1091,47 @@
   "pfMustHelp": "Turn on what a job must have to be recommended to you. Everything else is only a preference: it raises a job in the list but never hides it. A listing that does not say is never hidden.",
   "pfMustWorkMode": "Only my work mode",
   "pfMustCountry": "Only my countries",
-  "pfMustLanguage": "Only my languages"
+  "pfMustLanguage": "Only my languages",
+  "applicationStageInterested": "Interested",
+  "applicationStageHired": "Hired",
+  "apPipelineAll": "All",
+  "apStageHint": "You decide the stage. OrbiJob never contacts the employer and never assumes you applied.",
+  "apAgendaTitle": "Coming up",
+  "apAgendaInterview": "Interview",
+  "apAgendaFollowUp": "Follow up",
+  "apOverdue": "Overdue",
+  "apAgendaOverdueHint": "The date has passed. Update the stage or set a new date.",
+  "apDatesTitle": "Dates",
+  "apInterviewLabel": "Interview (date and time)",
+  "apFollowUpLabel": "Follow up on",
+  "apDateNone": "Not set",
+  "apDatePick": "Choose",
+  "apDateClear": "Clear",
+  "apDatesSaved": "Date saved",
+  "apTrackInterest": "Track this job",
+  "apTrackedInterest": "Added to your applications as “interested”. Nothing was sent.",
+  "apAlreadyTracked": "This job is already in your applications.",
+  "apNextDate": "{kind}: {date}",
+  "@apNextDate": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "apPipelineCount": "{stage} ({count})",
+  "@apPipelineCount": {
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "apFilteredEmpty": "No applications in this stage."
 }

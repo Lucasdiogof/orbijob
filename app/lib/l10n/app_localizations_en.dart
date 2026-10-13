@@ -2248,4 +2248,77 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pfMustLanguage => 'Only my languages';
+
+  @override
+  String get applicationStageInterested => 'Interested';
+
+  @override
+  String get applicationStageHired => 'Hired';
+
+  @override
+  String get apPipelineAll => 'All';
+
+  @override
+  String get apStageHint =>
+      'You decide the stage. OrbiJob never contacts the employer and never assumes you applied.';
+
+  @override
+  String get apAgendaTitle => 'Coming up';
+
+  @override
+  String get apAgendaInterview => 'Interview';
+
+  @override
+  String get apAgendaFollowUp => 'Follow up';
+
+  @override
+  String get apOverdue => 'Overdue';
+
+  @override
+  String get apAgendaOverdueHint =>
+      'The date has passed. Update the stage or set a new date.';
+
+  @override
+  String get apDatesTitle => 'Dates';
+
+  @override
+  String get apInterviewLabel => 'Interview (date and time)';
+
+  @override
+  String get apFollowUpLabel => 'Follow up on';
+
+  @override
+  String get apDateNone => 'Not set';
+
+  @override
+  String get apDatePick => 'Choose';
+
+  @override
+  String get apDateClear => 'Clear';
+
+  @override
+  String get apDatesSaved => 'Date saved';
+
+  @override
+  String get apTrackInterest => 'Track this job';
+
+  @override
+  String get apTrackedInterest =>
+      'Added to your applications as “interested”. Nothing was sent.';
+
+  @override
+  String get apAlreadyTracked => 'This job is already in your applications.';
+
+  @override
+  String apNextDate(String kind, String date) {
+    return '$kind: $date';
+  }
+
+  @override
+  String apPipelineCount(String stage, int count) {
+    return '$stage ($count)';
+  }
+
+  @override
+  String get apFilteredEmpty => 'No applications in this stage.';
 }

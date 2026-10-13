@@ -94,6 +94,27 @@ class FakeApplications extends Failing implements ApplicationsRepository {
   }
 
   @override
+  Future<void> updateDates(
+    String id, {
+    DateTime? appliedAt,
+    DateTime? interviewAt,
+    bool clearInterview = false,
+    DateTime? followUpAt,
+    bool clearFollowUp = false,
+  }) async {
+    check();
+    final i = rows.indexWhere((e) => e.id == id);
+    if (i < 0) throw StateError('not found');
+    rows[i] = rows[i].copyWith(
+      appliedAt: appliedAt,
+      interviewAt: interviewAt,
+      clearInterview: clearInterview,
+      followUpAt: followUpAt,
+      clearFollowUp: clearFollowUp,
+    );
+  }
+
+  @override
   Future<void> updateNote(String id, String? note) async {
     check();
     final i = rows.indexWhere((e) => e.id == id);
