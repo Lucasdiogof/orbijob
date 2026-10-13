@@ -38,7 +38,7 @@ class OrbiFilterChip extends StatelessWidget {
       child: FocusRing(
         radius: AppRadius.pill,
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 44),
+          constraints: const BoxConstraints(minHeight: 48),
           child: Center(
             widthFactor: 1,
             child: Material(

@@ -138,7 +138,7 @@ void main() {
       expect(find.byIcon(Icons.check), findsOneWidget);
       expect(
         t.getSize(find.byType(OrbiFilterChip)).height,
-        greaterThanOrEqualTo(44),
+        greaterThanOrEqualTo(48),
       );
     },
   );
