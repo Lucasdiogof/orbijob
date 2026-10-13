@@ -1,0 +1,618 @@
+[
+ {
+  "numerooffreforem": "2110283",
+  "titreoffre": "Conducteur de ligne etiquette (H/F/X)",
+  "lieuxtravaillocalite": [
+   "STADEN"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Flandre Occidentale",
+   "RÉGION FLAMANDE"
+  ],
+  "lieuxtravailcodepostal": [
+   "8840"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE25",
+   "BE2"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 3.059666,
+    "lat": 50.939976
+   }
+  ],
+  "typecontrat": "Intérimaire avec option sur durée indéterminée",
+  "nomemployeur": "LET'S WORK",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Primaire"
+  ],
+  "niveauxetudesisced2011": [
+   "02"
+  ],
+  "langues": [
+   "Français",
+   "Néerlandais"
+  ],
+  "languescodeiso2": [
+   "FR",
+   "NL"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Industries alimentaires"
+  ],
+  "secteurscodenace": [
+   "10"
+  ],
+  "source": "Let's Work",
+  "referenceexterne": "PO-MK2OUPKK-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110283",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Installation et maintenance d'équipements industriels et d'exploitation",
+  "metiercodedimeco": "I1304"
+ },
+ {
+  "numerooffreforem": "2110294",
+  "titreoffre": "Personnel de nettoyage | 20h/semaine PM | Ciney (H/F/X)",
+  "lieuxtravaillocalite": [
+   "CINEY"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Namur",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "5590"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE35",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 5.097425,
+    "lat": 50.294955
+   }
+  ],
+  "typecontrat": "Intérimaire avec option sur durée indéterminée",
+  "nomemployeur": "ADECCO PERSONNEL SERVICES",
+  "regimetravail": "Temps partiel",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Primaire"
+  ],
+  "niveauxetudesisced2011": [
+   "02"
+  ],
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Services administratifs de bureau et autres activités de soutien aux entreprises"
+  ],
+  "secteurscodenace": [
+   "82"
+  ],
+  "source": "Adecco",
+  "referenceexterne": "319-52159-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110294",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Nettoyage de locaux",
+  "metiercodedimeco": "K2204"
+ },
+ {
+  "numerooffreforem": "2110302",
+  "titreoffre": "Accountmanager | Ninove | Vast Contract (H/F/X)",
+  "lieuxtravaillocalite": [
+   "NINOVE"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Flandre Orientale",
+   "RÉGION FLAMANDE"
+  ],
+  "lieuxtravailcodepostal": [
+   "9400"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE23",
+   "BE2"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 4.024237,
+    "lat": 50.835361
+   }
+  ],
+  "typecontrat": "Durée indéterminée",
+  "nomemployeur": "ADECCO PERSONNEL SERVICES",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Enseignement secondaire (deuxième cycle)"
+  ],
+  "niveauxetudesisced2011": [
+   "04"
+  ],
+  "langues": [
+   "Français",
+   "Néerlandais"
+  ],
+  "languescodeiso2": [
+   "FR",
+   "NL"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": null,
+  "secteurs": [
+   "Autres activités spécialisées, scientifiques et techniques"
+  ],
+  "secteurscodenace": [
+   "74"
+  ],
+  "source": "Adecco",
+  "referenceexterne": "478-11060-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110302",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Opérations administratives",
+  "metiercodedimeco": "M1602"
+ },
+ {
+  "numerooffreforem": "2110293",
+  "titreoffre": "Ajusteur l usineur (H/F/X)",
+  "lieuxtravaillocalite": [
+   "VERVIERS"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Liège",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "4800"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE33",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 5.863854,
+    "lat": 50.593227
+   }
+  ],
+  "typecontrat": "Intérimaire avec option sur durée indéterminée",
+  "nomemployeur": "ADECCO PERSONNEL SERVICES",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Enseignement secondaire (premier cycle)"
+  ],
+  "niveauxetudesisced2011": [
+   "03"
+  ],
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": null,
+  "secteurs": [
+   "Autres activités spécialisées, scientifiques et techniques"
+  ],
+  "secteurscodenace": [
+   "74"
+  ],
+  "source": "Adecco",
+  "referenceexterne": "356-39330-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110293",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Intervention technique en gestion industrielle et logistique",
+  "metiercodedimeco": "H1403"
+ },
+ {
+  "numerooffreforem": "2110295",
+  "titreoffre": "Operator Verpakking | 2 ploegen of volcontinu | Veurne (H/F/X)",
+  "lieuxtravaillocalite": [
+   "VEURNE"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Flandre Occidentale",
+   "RÉGION FLAMANDE"
+  ],
+  "lieuxtravailcodepostal": [
+   "8630"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE25",
+   "BE2"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 2.654885,
+    "lat": 51.071043
+   }
+  ],
+  "typecontrat": "Durée indéterminée",
+  "nomemployeur": "ADECCO PERSONNEL SERVICES",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Enseignement secondaire (deuxième cycle)"
+  ],
+  "niveauxetudesisced2011": [
+   "04"
+  ],
+  "langues": [
+   "Néerlandais"
+  ],
+  "languescodeiso2": [
+   "NL"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": null,
+  "secteurs": [
+   "Industries alimentaires"
+  ],
+  "secteurscodenace": [
+   "10"
+  ],
+  "source": "Adecco",
+  "referenceexterne": "137-49966-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110295",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Installation et maintenance d'équipements industriels et d'exploitation",
+  "metiercodedimeco": "I1304"
+ },
+ {
+  "numerooffreforem": "2110304",
+  "titreoffre": "Monteur de pneus | Eupen (H/F/X)",
+  "lieuxtravaillocalite": [
+   "EUPEN"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province de Liège",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "4700"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE33",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 6.031452,
+    "lat": 50.630613
+   }
+  ],
+  "typecontrat": "Durée déterminée",
+  "nomemployeur": "ADECCO PERSONNEL SERVICES",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Primaire"
+  ],
+  "niveauxetudesisced2011": [
+   "02"
+  ],
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Commerce de gros et de détail et réparation véhicules automobiles et de motocycles"
+  ],
+  "secteurscodenace": [
+   "45"
+  ],
+  "source": "Adecco",
+  "referenceexterne": "342-39830-LEFOREM-BE-121000",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110304",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Conception et pilotage de la politique des pouvoirs publics",
+  "metiercodedimeco": "K1401"
+ },
+ {
+  "numerooffreforem": "2079926",
+  "titreoffre": "Chef / Cheffe d’équipe – Voirie et aménagements extérieurs (pavage, dallage, ...) (H/F/X)",
+  "lieuxtravaillocalite": null,
+  "lieuxtravailregion": [
+   "Province du Hainaut",
+   "Belgique",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": null,
+  "lieuxtravailregionnuts": [
+   "BE32",
+   "BE",
+   "BE3"
+  ],
+  "lieuxtravailgeo": null,
+  "typecontrat": "Durée indéterminée",
+  "nomemployeur": "STIPA - STIPA",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": null,
+  "niveauxetudesisced2011": null,
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": "Ouvrier / Ouvrière de voirie",
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Services d'aménagement paysager"
+  ],
+  "secteurscodenace": [
+   "81300"
+  ],
+  "source": "Via site Forem",
+  "referenceexterne": null,
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2079926",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-11",
+  "metier": "Ouvrier / Ouvrière de voirie",
+  "metiercodedimeco": "F170201-1"
+ },
+ {
+  "numerooffreforem": "2110525",
+  "titreoffre": "Chef de projet en ressources matérielles - Officier de réserve (H/F/X)",
+  "lieuxtravaillocalite": [
+   "EVERE"
+  ],
+  "lieuxtravailregion": [
+   "RÉGION DE BRUXELLES-CAPITALE",
+   "Belgique"
+  ],
+  "lieuxtravailcodepostal": [
+   "1140"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE1",
+   "BE"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 4.40216,
+    "lat": 50.870452
+   }
+  ],
+  "typecontrat": "Durée déterminée",
+  "nomemployeur": "Ministère de la Défense - KW KONINGIN ELISABETH",
+  "regimetravail": "Temps partiel",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Formation supérieure initiale de type long (Master)"
+  ],
+  "niveauxetudesisced2011": null,
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": null,
+  "secteurs": [
+   "Défense"
+  ],
+  "secteurscodenace": [
+   "84220"
+  ],
+  "source": "Via site Forem",
+  "referenceexterne": null,
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110525",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-23",
+  "metier": "Officier / Officère de la défense",
+  "metiercodedimeco": "K170301-1"
+ },
+ {
+  "numerooffreforem": "2110419",
+  "titreoffre": "Responsable dépôt /x (H/F/X)",
+  "lieuxtravaillocalite": [
+   "TUBIZE"
+  ],
+  "lieuxtravailregion": [
+   "Belgique",
+   "Province du Brabant Wallon",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "1480"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE",
+   "BE31",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 4.204304,
+    "lat": 50.69347
+   }
+  ],
+  "typecontrat": "Durée déterminée",
+  "nomemployeur": "Start People",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Enseignement secondaire (deuxième cycle)"
+  ],
+  "niveauxetudesisced2011": [
+   "04"
+  ],
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": null,
+  "secteurs": [
+   "Transports terrestres et transport par conduites"
+  ],
+  "secteurscodenace": [
+   "49"
+  ],
+  "source": "Jobat",
+  "referenceexterne": "15207050_FR",
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110419",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-09",
+  "metier": "Magasinage et préparation de commandes",
+  "metiercodedimeco": "N1103"
+ },
+ {
+  "numerooffreforem": "2083697",
+  "titreoffre": "Psychologue équipe mobile (H/F/X)",
+  "lieuxtravaillocalite": [
+   "HERSTAL"
+  ],
+  "lieuxtravailregion": [
+   "Province de Liège",
+   "Belgique",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "4040"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE33",
+   "BE",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 5.64039,
+    "lat": 50.670188
+   }
+  ],
+  "typecontrat": "Durée déterminée",
+  "nomemployeur": "Association interrégionale Guidance et de Santé",
+  "regimetravail": "Temps partiel",
+  "nombrepostes": 1,
+  "niveauxetudes": [
+   "Formation supérieure initiale de type long (Master)"
+  ],
+  "niveauxetudesisced2011": null,
+  "langues": [
+   "Français"
+  ],
+  "languescodeiso2": [
+   "FR"
+  ],
+  "experiencerequise": null,
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Activités relatives à la santé mentale, sauf hôpitaux et maisons de soins psychiatriques"
+  ],
+  "secteurscodenace": [
+   "86904"
+  ],
+  "source": "Via site Forem",
+  "referenceexterne": null,
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2083697",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-10-30",
+  "metier": "Psychologue",
+  "metiercodedimeco": "K110401-1"
+ },
+ {
+  "numerooffreforem": "2110264",
+  "titreoffre": "Chauffagiste  (H/F/X)",
+  "lieuxtravaillocalite": [
+   "HAVELANGE"
+  ],
+  "lieuxtravailregion": [
+   "Province de Namur",
+   "Belgique",
+   "RÉGION WALLONNE"
+  ],
+  "lieuxtravailcodepostal": [
+   "5370"
+  ],
+  "lieuxtravailregionnuts": [
+   "BE35",
+   "BE",
+   "BE3"
+  ],
+  "lieuxtravailgeo": [
+   {
+    "lon": 5.23958,
+    "lat": 50.387094
+   }
+  ],
+  "typecontrat": "Durée indéterminée",
+  "nomemployeur": "Z.DOKARNI Energy",
+  "regimetravail": "Temps plein",
+  "nombrepostes": 1,
+  "niveauxetudes": null,
+  "niveauxetudesisced2011": null,
+  "langues": null,
+  "languescodeiso2": null,
+  "experiencerequise": null,
+  "permisdeconduire": [
+   "B"
+  ],
+  "secteurs": [
+   "Installation de chauffage, de ventilation et de conditionnement d'air"
+  ],
+  "secteurscodenace": [
+   "43222"
+  ],
+  "source": "Via site Forem",
+  "referenceexterne": null,
+  "url": "https://www.leforem.be/recherche-offres/offre-detail/2110264",
+  "datedebutdiffusion": "2026-10-12",
+  "datefindiffusion": "2026-11-22",
+  "metier": "Monteur / Monteuse en chauffage, sanitaire",
+  "metiercodedimeco": "F160301-2"
+ }
+]

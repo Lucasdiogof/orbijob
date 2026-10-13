@@ -1,5 +1,6 @@
 import { bpceConnector, BPCE_MAX_PAGES } from './connectors/bpce';
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
+import { foremConnector, FOREM_MAX_PAGES } from './connectors/forem';
 import { getOnBoardConnector } from './connectors/getonboard';
 import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
@@ -106,6 +107,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'bpce.fr',
     maxPages: BPCE_MAX_PAGES, newCap: 1000, catalogue: 2000,
     make: (f, n, origin) => bpceConnector(f, n, { origin }),
+  },
+  forem: {
+    id: 'forem',
+    attribution: 'Jobs via Le Forem, public employment and training service of Wallonia (https://www.leforem.be), Open Data Wallonie-Bruxelles (https://www.odwb.be/explore/dataset/offres-d-emploi-forem/), licence CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/): the records of this source are shared under the same licence',
+    host: 'leforem.be',
+    maxPages: FOREM_MAX_PAGES, pageWindow: true, newCap: 1000, catalogue: 2000,
+    make: (f, n, origin) => foremConnector(f, n, { origin }),
   },
 };
 

@@ -36,6 +36,7 @@ export const FRENCH_COUNTRY: Readonly<Record<string, string>> = {
   singapour: 'SG', suisse: 'CH', monaco: 'MC', taiwan: 'TW', australie: 'AU', 'hong kong': 'HK', italie: 'IT', 'pays-bas': 'NL', belgique: 'BE', irlande: 'IE',
   japon: 'JP', inde: 'IN', bresil: 'BR', canada: 'CA', mexique: 'MX', pologne: 'PL', portugal: 'PT', autriche: 'AT', danemark: 'DK', norvege: 'NO', finlande: 'FI',
   'coree du sud': 'KR', maroc: 'MA', tunisie: 'TN', senegal: 'SN', 'republique tcheque': 'CZ', roumanie: 'RO', grece: 'GR', turquie: 'TR', 'arabie saoudite': 'SA', qatar: 'QA',
+  malte: 'MT', chypre: 'CY', bulgarie: 'BG', slovaquie: 'SK', slovenie: 'SI', hongrie: 'HU', croatie: 'HR', lituanie: 'LT', lettonie: 'LV', estonie: 'EE', islande: 'IS', liechtenstein: 'LI',
   'afrique du sud': 'ZA', egypte: 'EG', 'nouvelle-zelande': 'NZ', argentine: 'AR', chili: 'CL', colombie: 'CO', perou: 'PE', vietnam: 'VN', thailande: 'TH', malaisie: 'MY', indonesie: 'ID',
 };
 
