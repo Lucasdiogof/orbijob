@@ -17,11 +17,11 @@ const html = () => new Response('<!DOCTYPE html><html><title>Just a moment...</t
 const ok = <T extends { ok: boolean }>(r: T) => { if (!r.ok) throw new Error(`expected a valid job, got ${JSON.stringify(r)}`); return (r as unknown as { job: import('../src/types').NormalizedJob }).job; };
 
 describe('Arbeitnow normalizer (real payloads)', () => {
-  it('maps a listing without inventing anything: no country, no salary, no language; the mode only when the feed says remote', () => {
+  it('maps a listing without inventing anything: the country only from a place only one country has, no salary, no language; the mode only when the feed says remote', () => {
     const rows = arbeitnow.data.map((r) => ok(normalizeArbeitnow(r, NOW)));
     for (const j of rows) {
       expect(j.source).toBe('arbeitnow');
-      expect(j).toMatchObject({ country: null, salaryMin: null, salaryCurrency: null, language: null, status: 'open', geoRestrictions: [], lastCheckedAt: NOW });
+      expect(j).toMatchObject({ country: 'DE', salaryMin: null, salaryCurrency: null, language: null, status: 'open', geoRestrictions: [], lastCheckedAt: NOW }); // Hamburg, Berlin, München, Munich: only Germany has them
       expect(new URL(j.originalUrl).hostname).toBe('www.arbeitnow.com');
       expect(j.applyUrl).toBe(j.originalUrl);
       expect(j.company).not.toBe('');
@@ -309,7 +309,7 @@ describe('SYNC_SOURCE through the scheduled pass', () => {
   });
 });
 
-describe('Arbeitnow: a country only when the location states it', () => {
+describe('Arbeitnow: a country only when the location states it (or names a place only one country has)', () => {
   it('reads the country written at the end of the location, in English or the local name', () => {
     expect(arbeitnowStatedCountry('München, Bayern, Germany', 'https://www.arbeitnow.com/jobs/a')).toBe('DE');
     expect(arbeitnowStatedCountry('Köln, Deutschland', 'https://www.arbeitnow.com/jobs/a')).toBe('DE');
@@ -317,16 +317,41 @@ describe('Arbeitnow: a country only when the location states it', () => {
     expect(arbeitnowStatedCountry('Lyon, France', 'https://www.arbeitnow.fr/jobs/a')).toBe('FR');
     expect(arbeitnowStatedCountry('Manchester, United Kingdom', 'https://www.arbeitnow.co.uk/jobs/a')).toBe('GB');
   });
-  it('never guesses: a city alone, a region, a code, several places or a contradiction with the regional site give nothing', () => {
+  it('a city, or a country, that only one country has is a stated place', () => {
+    const u = 'https://www.arbeitnow.com/jobs/a';
+    expect(arbeitnowStatedCountry('Berlin', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('München', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('Munich, Bavaria', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('Berlin Office', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('Frankfurt am Main', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('Paris, Paris', 'https://www.arbeitnow.fr/jobs/a')).toBe('FR');
+    expect(arbeitnowStatedCountry('London, England, United Kingdom', 'https://www.arbeitnow.co.uk/jobs/a')).toBe('GB');
+    expect(arbeitnowStatedCountry('Zürich', u)).toBe('CH');
+    expect(arbeitnowStatedCountry('Germany', u)).toBe('DE');
+    expect(arbeitnowStatedCountry('United Kingdom', 'https://www.arbeitnow.co.uk/jobs/a')).toBe('GB');
+    expect(arbeitnowStatedCountry('Switzerland', 'https://www.arbeitnow.ch/jobs/a')).toBe('CH');
+  });
+  it('never guesses: a name two countries share, a mode, a code, several places, an unknown region or a contradiction with the regional site give nothing', () => {
     for (const [loc, url] of [
-      ['Berlin', 'https://www.arbeitnow.com/jobs/a'],
-      ['Paris, Paris', 'https://www.arbeitnow.fr/jobs/a'],
-      ['München, Bavaria', 'https://www.arbeitnow.com/jobs/a'],
+      ['Birmingham', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Manchester', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Cambridge', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Dublin', 'https://www.arbeitnow.com/jobs/a'],
+      ['Saint-Denis', 'https://www.arbeitnow.fr/jobs/a'],
+      ['Altendorf', 'https://www.arbeitnow.ch/jobs/a'],
+      ['Remote', 'https://www.arbeitnow.com/jobs/a'],
+      ['Remote Switzerland', 'https://www.arbeitnow.ch/jobs/a'],
+      ['Homeoffice', 'https://www.arbeitnow.com/jobs/a'],
       ['Hamburg, DE', 'https://www.arbeitnow.com/jobs/a'],
-      ['Germany', 'https://www.arbeitnow.com/jobs/a'],
       ['London, Cyprus', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Berlin, Texas', 'https://www.arbeitnow.com/jobs/a'],
+      ['Berlin, Paris', 'https://www.arbeitnow.com/jobs/a'],
+      ['Berlin, Germany, France', 'https://www.arbeitnow.com/jobs/a'],
       ['Northern Ireland; Birmingham; London, UK', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['United States, Canada, Spain, Czech Republic', 'https://www.arbeitnow.com/jobs/a'],
       ['Basel, Switzerland, Germany', 'https://www.arbeitnow.com/jobs/a'],
+      ['London', 'https://www.arbeitnow.fr/jobs/a'], // the French site contradicts it
+      ['Paris', 'https://www.arbeitnow.co.uk/jobs/a'],
       ['', 'https://www.arbeitnow.com/jobs/a'],
     ] as const) expect(arbeitnowStatedCountry(loc, url), loc).toBeNull();
   });

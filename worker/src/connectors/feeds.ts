@@ -104,14 +104,75 @@ const ARBEITNOW_COUNTRY_NAMES: Record<string, string> = {
 /** Arbeitnow's regional sites: a job linked from one of them must be in that country, or the stated country is not trusted. */
 const ARBEITNOW_SITE_COUNTRY: Record<string, string> = { 'arbeitnow.co.uk': 'GB', 'arbeitnow.fr': 'FR', 'arbeitnow.ch': 'CH', 'arbeitnow.nl': 'NL' };
 
-/** The country an Arbeitnow location states as its LAST part, or null (no country named, a list of places, or a contradiction with the site). */
+const foldPlace = (s: string): string => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+/**
+ * Cities whose NAME alone identifies the country: large cities (over 100,000 people) that no other country has a notable town of the same name
+ * (checked by hand 2026-10-13). A name two countries share (Birmingham, Manchester, Cambridge, Newcastle, Dublin, Rome, Saint-Denis, Altendorf...) is deliberately absent:
+ * those listings stay without a country unless the location itself names one. Evidence that the table agrees with the feed: of the Arbeitnow listings whose
+ * location states a country, every one that names one of these cities stated the same country (London 39/39 GB, Paris 25/25 FR, Berlin 20/20 DE,
+ * Munich 15/15 DE, Zurich 17/17 CH, Lille 7/7 FR; no contradiction anywhere).
+ */
+const ARBEITNOW_PLACES: [string, string[]][] = [
+  ['DE', ['berlin', 'hamburg', 'munich', 'munchen', 'koln', 'cologne', 'frankfurt', 'frankfurt am main', 'stuttgart', 'dusseldorf', 'dortmund', 'essen', 'leipzig', 'bremen',
+    'dresden', 'hannover', 'hanover', 'nurnberg', 'nuremberg', 'duisburg', 'bochum', 'wuppertal', 'bielefeld', 'bonn', 'munster', 'karlsruhe', 'mannheim', 'augsburg', 'wiesbaden',
+    'aachen', 'braunschweig', 'kiel', 'chemnitz', 'freiburg', 'freiburg im breisgau', 'mainz', 'erfurt', 'rostock', 'kassel', 'potsdam', 'heidelberg', 'darmstadt', 'regensburg',
+    'ingolstadt', 'ulm', 'wolfsburg', 'offenbach am main', 'osnabruck', 'detmold', 'jena', 'saarbrucken', 'paderborn', 'gottingen', 'bayreuth']],
+  ['GB', ['london', 'glasgow', 'edinburgh', 'leeds', 'liverpool', 'sheffield', 'bristol', 'cardiff', 'leicester', 'nottingham', 'southampton', 'belfast', 'oxford', 'milton keynes']],
+  ['FR', ['paris', 'lyon', 'marseille', 'toulouse', 'nantes', 'bordeaux', 'lille', 'strasbourg', 'montpellier', 'rennes', 'grenoble', 'nancy', 'limoges', 'dijon', 'toulon', 'reims', 'angers', 'nimes', 'bayonne']],
+  ['CH', ['zurich', 'bern', 'basel', 'geneva', 'geneve', 'lausanne', 'winterthur', 'lugano', 'lucerne', 'luzern', 'st gallen', 'zug', 'payerne']],
+  ['NL', ['amsterdam', 'rotterdam', 'the hague', 'den haag', 'utrecht', 'eindhoven', 'delft', 'groningen', 'tilburg', 'almere', 'breda', 'nijmegen', 'leiden', 'haarlem']],
+  ['AT', ['vienna', 'wien', 'graz', 'linz', 'salzburg', 'innsbruck']],
+  ['BE', ['brussels', 'bruxelles', 'brussel', 'antwerp', 'antwerpen', 'ghent', 'gent', 'leuven']],
+  ['ES', ['madrid', 'barcelona', 'valencia', 'seville', 'sevilla', 'malaga', 'bilbao']],
+  ['PT', ['lisbon', 'lisboa']],
+  ['IT', ['milan', 'milano', 'turin', 'torino', 'naples', 'napoli']],
+  ['PL', ['warsaw', 'warszawa', 'krakow', 'wroclaw', 'poznan', 'gdansk']],
+  ['CZ', ['prague', 'praha', 'brno']],
+  ['DK', ['copenhagen', 'kobenhavn', 'aarhus']],
+  ['SE', ['stockholm', 'gothenburg', 'goteborg', 'malmo']],
+  ['NO', ['oslo', 'bergen']],
+  ['FI', ['helsinki', 'espoo', 'tampere']],
+];
+const ARBEITNOW_PLACE_COUNTRY: Record<string, string> = Object.fromEntries(ARBEITNOW_PLACES.flatMap(([code, names]) => names.map((n) => [n, code] as [string, string])));
+
+/** Regions an employer writes after a city ("München, Bavaria"); a part that is not one of these (or the city again) makes the location ambiguous. */
+const ARBEITNOW_REGIONS: [string, string[]][] = [
+  ['DE', ['bayern', 'bavaria', 'nordrhein-westfalen', 'north rhine-westphalia', 'nrw', 'baden-wurttemberg', 'baden wurttemberg', 'hessen', 'hesse', 'niedersachsen', 'lower saxony',
+    'sachsen', 'saxony', 'berlin', 'hamburg', 'brandenburg', 'thuringen', 'thuringia', 'rheinland-pfalz', 'rhineland-palatinate', 'schleswig-holstein', 'saarland',
+    'mecklenburg-vorpommern', 'sachsen-anhalt', 'bremen']],
+  ['GB', ['england', 'scotland', 'wales', 'northern ireland', 'greater london', 'south east', 'north west', 'west midlands', 'yorkshire']],
+  ['FR', ['ile-de-france', 'ile de france', 'auvergne-rhone-alpes', 'occitanie', 'nouvelle-aquitaine', 'hauts-de-france', 'grand est', 'pays de la loire', 'bretagne', 'normandie',
+    'provence-alpes-cote d azur', 'bourgogne-franche-comte', 'centre-val de loire']],
+  ['CH', ['zurich', 'bern', 'vaud', 'geneve', 'geneva', 'basel-stadt', 'ticino', 'luzern', 'zug', 'aargau', 'st gallen']],
+  ['NL', ['noord-holland', 'zuid-holland', 'utrecht', 'noord-brabant', 'gelderland', 'overijssel', 'groningen', 'north holland', 'south holland']],
+  ['AT', ['wien', 'vienna', 'steiermark', 'styria', 'tirol', 'tyrol', 'salzburg', 'oberosterreich', 'upper austria']],
+];
+const ARBEITNOW_REGION_COUNTRY: Record<string, string> = Object.fromEntries(ARBEITNOW_REGIONS.flatMap(([code, names]) => names.map((n) => [n, code] as [string, string])));
+
+/** Words an employer adds after a city ("Berlin Office", "Munich HQ"); they say nothing about another place. */
+const PLACE_NOISE = /\s+(office|hq|headquarters|area)$/i;
+
+/**
+ * The country an Arbeitnow location STATES, or null:
+ *  - it ends with a country name ("München, Bayern, Germany"), or is just a country name ("United Kingdom");
+ *  - or its first part is one of the cities of ARBEITNOW_PLACE_COUNTRY, with nothing after it that names another country or another table city.
+ * A list of places, a contradiction with the listing's regional site, or a name two countries share gives null.
+ */
 export function arbeitnowStatedCountry(location: string, url: string): string | null {
   if (!location || /[;|/]/.test(location)) return null; // several places
-  const parts = location.split(',').map((p) => p.trim().toLowerCase()).filter(Boolean);
-  if (parts.length < 2) return null; // a bare city or a bare country name is not enough to place the job
-  const code = ARBEITNOW_COUNTRY_NAMES[parts[parts.length - 1]!] ?? null;
+  const parts = location.split(',').map((p) => p.trim()).filter(Boolean);
+  if (parts.length === 0) return null;
+  const names = parts.map((p) => foldPlace(p).replace(PLACE_NOISE, ''));
+  let code: string | null = ARBEITNOW_COUNTRY_NAMES[names[names.length - 1]!] ?? null;
+  if (code && names.slice(0, -1).some((p) => ARBEITNOW_COUNTRY_NAMES[p] && ARBEITNOW_COUNTRY_NAMES[p] !== code)) return null; // two different countries named
+  if (!code) {
+    const first = ARBEITNOW_PLACE_COUNTRY[names[0]!];
+    const rest = names.slice(1);
+    // the rest may only repeat the city or be a region of the same country ("Bavaria", "England"); anything else (an unknown country, another place) makes it ambiguous
+    if (first && rest.every((p) => p === names[0] || ARBEITNOW_REGION_COUNTRY[p] === first || ARBEITNOW_PLACE_COUNTRY[p] === first)) code = first;
+  }
   if (!code) return null;
-  if (parts.slice(0, -1).some((p) => ARBEITNOW_COUNTRY_NAMES[p])) return null; // two countries named
   let host = '';
   try { host = new URL(url).hostname.replace(/^www./, ''); } catch { /* checked by the caller */ }
   const site = ARBEITNOW_SITE_COUNTRY[host];
@@ -138,8 +199,8 @@ export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
     ok: true,
     job: {
       ...base('arbeitnow', nowIso), externalId: slug, company, title, description: cleanDescription(str(r.description)),
-      // the location sometimes ENDS with the country, written out by the employer ("München, Bayern, Germany"): that is stated, not guessed.
-      // A city alone ("Berlin") stays without a country.
+      // the location sometimes ENDS with the country, written out by the employer ("München, Bayern, Germany"), or is a country, or a city that only
+      // one country has (ARBEITNOW_PLACES): that is stated, not guessed. A name two countries share ("Birmingham") stays without a country.
       country: arbeitnowStatedCountry(location, url),
       workMode, contractType: types.length ? types.join(', ') : null, ...NO_SALARY,
       publishedAt: isoFromEpoch(r.created_at), originalUrl: url, applyUrl: url,
