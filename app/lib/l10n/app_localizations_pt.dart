@@ -2448,4 +2448,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get ntKindFollowUp => 'Retorno';
+
+  @override
+  String get searchSuggestTitle => 'Tente em vez disso';
+
+  @override
+  String get searchSuggestHint =>
+      'Profissões mais amplas ou com grafia parecida. São só sugestões: os resultados são o que o catálogo tem.';
 }

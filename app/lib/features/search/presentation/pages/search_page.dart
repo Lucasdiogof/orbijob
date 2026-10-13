@@ -24,6 +24,7 @@ import '../widgets/area_picker.dart';
 import '../widgets/health_specialty_chips.dart';
 import '../widgets/job_detail_view.dart';
 import '../widgets/search_filters_panel.dart';
+import '../widgets/search_suggestions_box.dart';
 import 'job_detail_page.dart';
 
 /// Explore: a search bar with its filters, a row of quick filters and the results.
@@ -419,7 +420,7 @@ class _Results extends StatelessWidget {
         body: l.noSourceBody,
         kind: OrbiStateKind.info,
       ),
-      SearchEmpty(:final filters) => OrbiEmptyState(
+      SearchEmpty(:final filters, :final query) => OrbiEmptyState(
         icon: Icons.search_off,
         title: l.emptyTitle,
         body: filters.specialty != null
@@ -441,9 +442,15 @@ class _Results extends StatelessWidget {
                 onPressed: () => context.read<SearchCubit>().clearFilters(),
               )
             : null,
-        secondaryAction: _SaveSearchButton(
-          spec: context.read<SearchCubit>().currentSpec,
-          prominent: true,
+        secondaryAction: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SearchSuggestionsBox(query: query, onSearch: onSearch),
+            _SaveSearchButton(
+              spec: context.read<SearchCubit>().currentSpec,
+              prominent: true,
+            ),
+          ],
         ),
       ),
       SearchFailure() => OrbiEmptyState(

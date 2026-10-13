@@ -1195,5 +1195,7 @@
   "cpRowSkills": "Skills listed",
   "ntKindNewJob": "New job",
   "ntKindInterview": "Interview",
-  "ntKindFollowUp": "Follow-up"
+  "ntKindFollowUp": "Follow-up",
+  "searchSuggestTitle": "Try instead",
+  "searchSuggestHint": "Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds."
 }

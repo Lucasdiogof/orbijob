@@ -136,6 +136,105 @@
       "salary": true
     },
     {
+      "title": "Bauingenieur (m/w/d)",
+      "country": "AT",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Civil Engineer",
+      "country": "GB",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Mechanical Engineer",
+      "country": "GB",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Senior Flutter-Entwickler",
+      "country": "DE",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Flutter Developer",
+      "country": "US",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Java Developer",
+      "country": "US",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Kfz-Elektriker",
+      "country": "DE",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Electrician",
+      "country": "GB",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Electrical Engineer",
+      "country": "GB",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Beckenbodenphysiotherapeut",
+      "country": "DE",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
+      "title": "Physiotherapist",
+      "country": "DE",
+      "city": null,
+      "geo": [],
+      "mode": "unspecified",
+      "daysAgo": 3,
+      "salary": false
+    },
+    {
       "title": "Line Cook",
       "country": "BR",
       "city": "São Paulo",
@@ -179,6 +278,17 @@
         false,
         false,
         false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false
       ]
     },
@@ -195,7 +305,9 @@
             "kinesiolog",
             "fysioterapeut",
             "sjukgymnast",
-            "物理治療"
+            "物理治療",
+            "fysiotherapeut",
+            "physiothérapeute"
           ]
         }
       },
@@ -213,6 +325,348 @@
         false,
         false,
         false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "profession-qualified",
+      "query": {
+        "v": 2,
+        "term": "engenheiro civil",
+        "match": {
+          "term": "engenheiro civil",
+          "alts": [
+            [
+              "civil",
+              "ingenier"
+            ],
+            [
+              "civil",
+              "engineer"
+            ],
+            [
+              "civil",
+              "ingenieur"
+            ],
+            [
+              "civil",
+              "ingenjör"
+            ],
+            [
+              "engenheira",
+              "civil"
+            ],
+            "bauingenieur",
+            [
+              "ingenieur",
+              "civiele",
+              "bouwkunde"
+            ],
+            [
+              "ingenieur",
+              "structuurberekening"
+            ],
+            [
+              "burgerlijk",
+              "ingenieur",
+              "bouwkunde"
+            ],
+            [
+              "ingénieur",
+              "génie",
+              "civil"
+            ]
+          ]
+        }
+      },
+      "expected": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "profession-parts",
+      "query": {
+        "v": 2,
+        "term": "desenvolvedor flutter",
+        "match": {
+          "term": "desenvolvedor flutter",
+          "alts": [
+            [
+              "flutter",
+              "desarrollador"
+            ],
+            [
+              "flutter",
+              "developer"
+            ],
+            [
+              "flutter",
+              "entwickler"
+            ],
+            [
+              "flutter",
+              "utvecklare"
+            ]
+          ]
+        }
+      },
+      "expected": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "profession-esco",
+      "query": {
+        "v": 2,
+        "term": "eletricista",
+        "match": {
+          "term": "eletricista",
+          "alts": [
+            "electricista",
+            "electrician",
+            "elektriker",
+            "électricien",
+            "elektricien",
+            [
+              "electrical",
+              "services",
+              "installer"
+            ],
+            [
+              "monteur",
+              "elektrische",
+              "installaties"
+            ]
+          ]
+        }
+      },
+      "expected": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "profession-specialty",
+      "query": {
+        "v": 2,
+        "term": "fisioterapia pélvica",
+        "match": {
+          "term": "fisioterapia pélvica",
+          "alts": [
+            [
+              "physiotherap",
+              "pelvic"
+            ],
+            [
+              "physiotherap",
+              "beckenboden"
+            ],
+            [
+              "physiotherap",
+              "bäckenbotten"
+            ],
+            [
+              "physical therap",
+              "pelvic"
+            ],
+            [
+              "physical therap",
+              "beckenboden"
+            ],
+            [
+              "physical therap",
+              "bäckenbotten"
+            ],
+            [
+              "kinesiolog",
+              "pelvic"
+            ],
+            [
+              "kinesiolog",
+              "beckenboden"
+            ],
+            [
+              "kinesiolog",
+              "bäckenbotten"
+            ],
+            [
+              "fysioterapeut",
+              "pelvic"
+            ],
+            [
+              "fysioterapeut",
+              "beckenboden"
+            ],
+            [
+              "fysioterapeut",
+              "bäckenbotten"
+            ],
+            [
+              "sjukgymnast",
+              "pelvic"
+            ],
+            [
+              "sjukgymnast",
+              "beckenboden"
+            ],
+            [
+              "sjukgymnast",
+              "bäckenbotten"
+            ],
+            [
+              "fisioterap",
+              "pelvic"
+            ],
+            [
+              "fisioterap",
+              "beckenboden"
+            ],
+            [
+              "fisioterap",
+              "assoalho pélvico"
+            ],
+            [
+              "fisioterap",
+              "piso pélvico"
+            ],
+            [
+              "fisioterap",
+              "bäckenbotten"
+            ],
+            [
+              "physiotherap",
+              "pélvic"
+            ],
+            [
+              "physical therap",
+              "pélvic"
+            ],
+            [
+              "kinesiolog",
+              "pélvic"
+            ],
+            [
+              "fysioterapeut",
+              "pélvic"
+            ],
+            [
+              "sjukgymnast",
+              "pélvic"
+            ]
+          ]
+        }
+      },
+      "expected": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
         false,
         false
       ]
@@ -234,6 +688,17 @@
         false,
         false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false,
@@ -323,6 +788,17 @@
         false,
         true,
         false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
         false
       ]
     },
@@ -352,6 +828,17 @@
         true,
         false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false
@@ -385,6 +872,17 @@
         true,
         true,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false
@@ -476,6 +974,17 @@
         false,
         false,
         false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false
       ]
     },
@@ -556,6 +1065,17 @@
         true,
         false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
         false,
         false,
         false,
@@ -695,6 +1215,17 @@
         false,
         false,
         false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
         false
       ]
     },
@@ -846,6 +1377,17 @@
         false,
         false,
         false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
         false
       ]
     },
@@ -872,6 +1414,17 @@
         true,
         true,
         false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true,
         false
       ]
@@ -900,6 +1453,17 @@
         false,
         false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false
       ]
     },
@@ -1044,6 +1608,17 @@
         }
       },
       "expected": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false,

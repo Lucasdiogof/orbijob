@@ -2440,4 +2440,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ntKindFollowUp => 'Follow-up';
+
+  @override
+  String get searchSuggestTitle => 'Try instead';
+
+  @override
+  String get searchSuggestHint =>
+      'Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds.';
 }

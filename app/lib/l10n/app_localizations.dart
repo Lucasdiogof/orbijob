@@ -4305,6 +4305,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Follow-up'**
   String get ntKindFollowUp;
+
+  /// No description provided for @searchSuggestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try instead'**
+  String get searchSuggestTitle;
+
+  /// No description provided for @searchSuggestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds.'**
+  String get searchSuggestHint;
 }
 
 class _AppLocalizationsDelegate

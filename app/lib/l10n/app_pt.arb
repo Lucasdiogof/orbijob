@@ -787,5 +787,7 @@
   "cpRowSkills": "Habilidades listadas",
   "ntKindNewJob": "Nova vaga",
   "ntKindInterview": "Entrevista",
-  "ntKindFollowUp": "Retorno"
+  "ntKindFollowUp": "Retorno",
+  "searchSuggestTitle": "Tente em vez disso",
+  "searchSuggestHint": "Profissões mais amplas ou com grafia parecida. São só sugestões: os resultados são o que o catálogo tem."
 }

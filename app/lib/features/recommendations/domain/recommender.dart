@@ -2,7 +2,7 @@ import '../../preferences/domain/user_preferences.dart';
 import '../../profile/domain/professional_profile.dart';
 import '../../search/domain/entities/job_posting.dart';
 import '../../search/domain/job_area.dart';
-import '../../search/domain/search_synonyms.dart';
+import '../../search/domain/search_alternatives.dart';
 import 'recommendation.dart';
 
 /// Lower case, accents removed, anything that is not a letter or digit turned into a single space. Used to compare words, never to show them.
@@ -461,8 +461,8 @@ class Recommender {
           continue;
         }
       }
-      final syn = titleSynonyms(phrase.toLowerCase());
-      if (syn.isNotEmpty && syn.any(rawTitle.toLowerCase().contains)) {
+      final syn = titleAlternatives(phrase);
+      if (syn.isNotEmpty && titleHasAlternative(rawTitle, syn)) {
         offer(38, Reason(ReasonKind.professionSynonym, text: phrase));
         continue;
       }

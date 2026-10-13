@@ -53,7 +53,10 @@ bool _matches(SearchSpec spec, _Job j) {
     final hit =
         t.contains(term) ||
         (j.city ?? '').toLowerCase().contains(term) ||
-        alts.any((a) => t.contains('$a'));
+        alts.any(
+          (a) =>
+              a is List ? a.every((p) => t.contains('$p')) : t.contains('$a'),
+        );
     if (!hit) return false;
   }
   final c = s.countryCode;
@@ -257,6 +260,10 @@ void main() {
     final specs = <String, SearchSpec>{
       'term-only': const SearchSpec(term: 'nurse'),
       'term-synonym': const SearchSpec(term: 'fisioterapeuta'),
+      'profession-qualified': const SearchSpec(term: 'engenheiro civil'),
+      'profession-parts': const SearchSpec(term: 'desenvolvedor flutter'),
+      'profession-esco': const SearchSpec(term: 'eletricista'),
+      'profession-specialty': const SearchSpec(term: 'fisioterapia pélvica'),
       'country': const SearchSpec(filters: JobFilters(countryCode: 'BR')),
       'continent': const SearchSpec(
         filters: JobFilters(continent: Continent.europe),
@@ -378,6 +385,17 @@ void main() {
         daysAgo: 0,
         salary: true,
       ),
+      _Job('Bauingenieur (m/w/d)', country: 'AT', daysAgo: 3),
+      _Job('Civil Engineer', country: 'GB', daysAgo: 3),
+      _Job('Mechanical Engineer', country: 'GB', daysAgo: 3),
+      _Job('Senior Flutter-Entwickler', country: 'DE', daysAgo: 3),
+      _Job('Flutter Developer', country: 'US', daysAgo: 3),
+      _Job('Java Developer', country: 'US', daysAgo: 3),
+      _Job('Kfz-Elektriker', country: 'DE', daysAgo: 3),
+      _Job('Electrician', country: 'GB', daysAgo: 3),
+      _Job('Electrical Engineer', country: 'GB', daysAgo: 3),
+      _Job('Beckenbodenphysiotherapeut', country: 'DE', daysAgo: 3),
+      _Job('Physiotherapist', country: 'DE', daysAgo: 3),
       _Job(
         'Line Cook',
         country: 'BR',
@@ -419,9 +437,27 @@ void main() {
         'Registered Nurse',
         'Enfermeiro(a) UTI',
       ]); // nurse also finds its other names
-      final pelvic = specs['health-pelvic']!;
-      expect(jobs.where((j) => _matches(pelvic, j)).map((j) => j.title), [
+      List<String> titles(String name) => [
+        for (final j in jobs)
+          if (_matches(specs[name]!, j)) j.title,
+      ];
+      expect(titles('health-pelvic'), [
         'Pelvic Floor Physiotherapist',
+        'Beckenbodenphysiotherapeut',
+      ]);
+      // a profession keeps its qualifier: other engineers, other developers and other physiotherapists are not matches
+      expect(titles('profession-qualified'), [
+        'Bauingenieur (m/w/d)',
+        'Civil Engineer',
+      ]);
+      expect(titles('profession-parts'), [
+        'Senior Flutter-Entwickler',
+        'Flutter Developer',
+      ]);
+      expect(titles('profession-esco'), ['Kfz-Elektriker', 'Electrician']);
+      expect(titles('profession-specialty'), [
+        'Pelvic Floor Physiotherapist',
+        'Beckenbodenphysiotherapeut',
       ]);
     });
   });

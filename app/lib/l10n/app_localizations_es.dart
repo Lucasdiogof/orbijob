@@ -2452,4 +2452,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ntKindFollowUp => 'Seguimiento';
+
+  @override
+  String get searchSuggestTitle => 'Prueba en su lugar';
+
+  @override
+  String get searchSuggestHint =>
+      'Profesiones más amplias o de grafía parecida. Son solo sugerencias: los resultados son lo que tiene el catálogo.';
 }

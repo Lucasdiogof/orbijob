@@ -5,7 +5,7 @@ import '../domain/health_specialty.dart';
 import '../domain/job_area.dart';
 import '../domain/job_filters.dart';
 import '../domain/search_repository.dart';
-import '../domain/search_synonyms.dart';
+import '../domain/search_alternatives.dart';
 
 /// Reads the public job catalogue (`public.jobs`) with the publishable key and the signed-in user's session, if any.
 /// Row Level Security is the real gate: it only exposes jobs of sources marked `can_redistribute` with status
@@ -80,12 +80,19 @@ class SupabaseJobCatalogRepository
       // (served by the trigram index), so a partial word such as "engin" still finds "Engineer".
       // ... OR the city ("Goiânia", "Berlin"), OR the same profession under its other names ("fisioterapeuta" also finds
       // "Physiotherapist"; nothing is translated, see search_synonyms.dart).
+      // A term that names a profession is judged on the title (a description that merely mentions the word is not a match); the
+      // alternatives keep the qualifying words together (search_alternatives.dart). Any other term keeps the full-text match.
+      final alts = titleAlternatives(term);
       q = q.or(
         [
-          'search.wfts(simple).$term',
+          if (alts.isEmpty) 'search.wfts(simple).$term',
           'title.ilike.*$term*',
           'city.ilike.*$term*',
-          for (final s in titleSynonyms(term)) 'title.ilike.*$s*',
+          for (final a in alts)
+            if (a.length == 1)
+              'title.ilike.*${a.first}*'
+            else
+              'and(${[for (final p in a) 'title.ilike.*$p*'].join(',')})',
         ].join(','),
       );
     }

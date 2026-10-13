@@ -226,8 +226,18 @@ void main() {
   });
 
   group('text search', () {
+    test('a free term uses the generated search column and a title substring, in one OR group', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('  Acme  Robotics ');
+      final or = b.requests.first.request.url.queryParametersAll['or']!.single;
+      expect(
+        or,
+        '(search.wfts(simple).Acme Robotics,title.ilike.*Acme Robotics*,city.ilike.*Acme Robotics*)',
+      );
+    });
+
     test(
-      'uses the generated search column and a title substring, in one OR group',
+      'a profession is judged on the title; its qualifying words stay together',
       () async {
         final b = FakeBackend(respond: answer([row()]));
         await repoFor(b).search('  Flutter  Developer ');
@@ -235,8 +245,11 @@ void main() {
             b.requests.first.request.url.queryParametersAll['or']!.single;
         expect(
           or,
-          '(search.wfts(simple).Flutter Developer,title.ilike.*Flutter Developer*,city.ilike.*Flutter Developer*,'
-          'title.ilike.*desenvolvedor*,title.ilike.*desarrollador*,title.ilike.*entwickler*,title.ilike.*utvecklare*)',
+          '(title.ilike.*Flutter Developer*,city.ilike.*Flutter Developer*,'
+          'and(title.ilike.*flutter*,title.ilike.*desenvolvedor*),'
+          'and(title.ilike.*flutter*,title.ilike.*desarrollador*),'
+          'and(title.ilike.*flutter*,title.ilike.*entwickler*),'
+          'and(title.ilike.*flutter*,title.ilike.*utvecklare*))',
         );
       },
     );

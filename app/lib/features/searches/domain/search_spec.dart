@@ -7,7 +7,7 @@ import '../../search/domain/entities/job_posting.dart';
 import '../../search/domain/health_specialty.dart';
 import '../../search/domain/job_area.dart';
 import '../../search/domain/job_filters.dart';
-import '../../search/domain/search_synonyms.dart';
+import '../../search/domain/search_alternatives.dart';
 
 /// Everything that defines a search: the text, the country and the filters of Explore. It is what a saved search stores.
 ///
@@ -77,7 +77,11 @@ class SearchSpec extends Equatable {
       'match': {
         if (s.term.isNotEmpty) ...{
           'term': s.term,
-          if (titleSynonyms(s.term).isNotEmpty) 'alts': titleSynonyms(s.term),
+          if (titleAlternatives(s.term) case final alts when alts.isNotEmpty)
+            'alts': [
+              for (final a in alts)
+                if (a.length == 1) a.first else a,
+            ],
         },
         'country': ?country,
         if (continent != null) ...{
