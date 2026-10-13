@@ -36,7 +36,7 @@ end $$;
 drop schema if exists ops cascade;
 
 drop table if exists
-  public.notifications, public.hidden_jobs, public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,
+  public.push_devices, public.notifications, public.hidden_jobs, public.reminders, public.application_events, public.applications, public.viewed_jobs, public.saved_searches,
   public.saved_jobs, public.resumes, public.credentials, public.education, public.experiences,
   public.professional_profiles, public.user_preferences, public.sync_runs, public.job_clusters, public.jobs,
   public.job_sources
