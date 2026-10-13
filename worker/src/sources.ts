@@ -3,6 +3,7 @@ import { getOnBoardConnector } from './connectors/getonboard';
 import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
 import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './connectors/teachingvacancies';
+import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
@@ -82,6 +83,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'teaching-vacancies.service.gov.uk',
     maxPages: TEACHINGVACANCIES_MAX_PAGES, newCap: 700, catalogue: 2000,
     make: (f, n, origin) => teachingVacanciesConnector(f, n, { origin }),
+  },
+  nycjobs: {
+    id: 'nycjobs',
+    attribution: 'Jobs via NYC Open Data, "Jobs NYC Postings", Department of Citywide Administrative Services, City of New York (https://data.cityofnewyork.us/d/kpav-sd4t); apply on https://cityjobs.nyc.gov',
+    host: 'cityjobs.nyc.gov',
+    maxPages: NYCJOBS_MAX_PAGES, newCap: 800, catalogue: 2000,
+    make: (f, n, origin) => nycJobsConnector(f, n, { origin }),
   },
 };
 
