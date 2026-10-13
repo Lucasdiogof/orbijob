@@ -694,5 +694,54 @@
   "browserOpeningExternal": "Opening in your browser…",
   "browserDidYouApply": "Did you apply?",
   "browserCannotOpenExternal": "Could not open the browser.",
-  "browserLanguageNotice": "The original page may be in another language. OrbiJob does not translate other sites."
+  "browserLanguageNotice": "The original page may be in another language. OrbiJob does not translate other sites.",
+  "translationAuto": "Automatic translation",
+  "translationNote": "Translated from {language} automatically. It may contain errors.",
+  "@translationNote": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationShowOriginal": "Show original",
+  "translationShowTranslation": "Show translation",
+  "translationLoading": "Translating…",
+  "translationNeedsTitle": "Translate this listing?",
+  "translationNeedsBody": "OrbiJob translates on your device, so what you read stays on it. The first time, language data of about {mb} MB is downloaded.",
+  "@translationNeedsBody": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "translationNeedsBodyWeb": "Your browser translates on this device, so what you read stays on it. It may download language data first.",
+  "translationDownload": "Download and translate",
+  "translationDownloading": "Downloading language data…",
+  "translationUnsupported": "Automatic translation from {language} is not available on this device. Showing the original.",
+  "@translationUnsupported": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationFailed": "Could not translate this listing. Showing the original.",
+  "translationPartialCut": "Only the first part was translated; the rest is in the original.",
+  "translationPartialLines": "Some lines stay in the original so numbers, codes and names remain exact.",
+  "translationOriginalLabel": "Original text ({language})",
+  "@translationOriginalLabel": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationSettingsTitle": "Translation",
+  "translationSettingsSwitch": "Translate listings into my language",
+  "translationSettingsBody": "Uses the translation built into this device: titles are translated when the language data is already on it, the full text when you ask. The original is always one tap away.",
+  "translationClearCache": "Clear saved translations",
+  "translationCacheCleared": "Saved translations cleared",
+  "translationTitleOriginalHint": "Title translated"
 }

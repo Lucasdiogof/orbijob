@@ -3033,6 +3033,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The original page may be in another language. OrbiJob does not translate other sites.'**
   String get browserLanguageNotice;
+
+  /// No description provided for @translationAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic translation'**
+  String get translationAuto;
+
+  /// No description provided for @translationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Translated from {language} automatically. It may contain errors.'**
+  String translationNote(String language);
+
+  /// No description provided for @translationShowOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Show original'**
+  String get translationShowOriginal;
+
+  /// No description provided for @translationShowTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Show translation'**
+  String get translationShowTranslation;
+
+  /// No description provided for @translationLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Translating…'**
+  String get translationLoading;
+
+  /// No description provided for @translationNeedsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate this listing?'**
+  String get translationNeedsTitle;
+
+  /// No description provided for @translationNeedsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob translates on your device, so what you read stays on it. The first time, language data of about {mb} MB is downloaded.'**
+  String translationNeedsBody(int mb);
+
+  /// No description provided for @translationNeedsBodyWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Your browser translates on this device, so what you read stays on it. It may download language data first.'**
+  String get translationNeedsBodyWeb;
+
+  /// No description provided for @translationDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download and translate'**
+  String get translationDownload;
+
+  /// No description provided for @translationDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading language data…'**
+  String get translationDownloading;
+
+  /// No description provided for @translationUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic translation from {language} is not available on this device. Showing the original.'**
+  String translationUnsupported(String language);
+
+  /// No description provided for @translationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not translate this listing. Showing the original.'**
+  String get translationFailed;
+
+  /// No description provided for @translationPartialCut.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first part was translated; the rest is in the original.'**
+  String get translationPartialCut;
+
+  /// No description provided for @translationPartialLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Some lines stay in the original so numbers, codes and names remain exact.'**
+  String get translationPartialLines;
+
+  /// No description provided for @translationOriginalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Original text ({language})'**
+  String translationOriginalLabel(String language);
+
+  /// No description provided for @translationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation'**
+  String get translationSettingsTitle;
+
+  /// No description provided for @translationSettingsSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate listings into my language'**
+  String get translationSettingsSwitch;
+
+  /// No description provided for @translationSettingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses the translation built into this device: titles are translated when the language data is already on it, the full text when you ask. The original is always one tap away.'**
+  String get translationSettingsBody;
+
+  /// No description provided for @translationClearCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear saved translations'**
+  String get translationClearCache;
+
+  /// No description provided for @translationCacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved translations cleared'**
+  String get translationCacheCleared;
+
+  /// No description provided for @translationTitleOriginalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title translated'**
+  String get translationTitleOriginalHint;
 }
 
 class _AppLocalizationsDelegate

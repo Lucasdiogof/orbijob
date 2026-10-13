@@ -5,6 +5,14 @@ import '../../features/applications/applications_cubit.dart';
 import '../../features/browser/browser_engine.dart';
 import '../../features/browser/link_share.dart';
 import '../../features/browser/webview_engine.dart';
+import '../../features/translation/engine_factory.dart';
+import '../../features/translation/translation_cache.dart';
+import '../../features/translation/translation_cubit.dart';
+import '../../features/translation/translation_engine.dart';
+import '../../features/translation/translation_service.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../features/applications/data/supabase_applications_repository.dart';
 import '../../features/applications/domain/application_record.dart';
 import '../../features/auth/data/unconfigured_auth_repository.dart';
@@ -53,6 +61,9 @@ void configureDependencies({
   PdfPicker? pdfPicker,
   BrowserEngine? browserEngine,
   LinkShare? linkShare,
+  TranslationEngine? translationEngine,
+  TranslationCache? translationCache,
+  SharedPreferences? preferences,
 }) {
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
@@ -65,6 +76,15 @@ void configureDependencies({
       () => browserEngine ?? const WebViewBrowserEngine(),
     )
     ..registerLazySingleton<LinkShare>(() => linkShare ?? shareLinkWithSystem)
+    ..registerLazySingleton<TranslationService>(
+      () => TranslationService(
+        engine: translationEngine ?? createPlatformEngine(),
+        cache: translationCache ?? PrefsTranslationCache(),
+      ),
+    )
+    ..registerLazySingleton<TranslationCubit>(
+      () => TranslationCubit(sl<TranslationService>(), prefs: preferences),
+    )
     ..registerLazySingleton<PdfPicker>(() => pdfPicker ?? FilePickerPdfPicker())
     ..registerLazySingleton<AuthRepository>(
       () => authRepository ?? UnconfiguredAuthRepository(),

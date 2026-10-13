@@ -214,19 +214,33 @@ class TranslationService {
         return;
       }
       final b = splitBullet(line);
-      final p = protectLine(b.body, keep: keep);
       try {
-        final pieces = <String>[];
-        for (final chunk in chunkLine(p.text)) {
-          await _acquire();
-          try {
-            engineCalls++;
-            pieces.add(await engine.translate(chunk, from: from, to: to));
-          } finally {
-            _release();
+        Future<String?> attempt(bool acronymsAsMarkers) async {
+          final p = protectLine(
+            b.body,
+            keep: keep,
+            acronymsAsMarkers: acronymsAsMarkers,
+          );
+          final pieces = <String>[];
+          for (final chunk in chunkLine(p.text)) {
+            await _acquire();
+            try {
+              engineCalls++;
+              pieces.add(await engine.translate(chunk, from: from, to: to));
+            } finally {
+              _release();
+            }
           }
+          return restoreLine(pieces.join(' '), p);
         }
-        final restored = restoreLine(pieces.join(' '), p);
+
+        // level 1: every protected part is a marker. Level 2 (only when level 1 was not trusted and the line has acronyms):
+        // acronyms stay in the text and must come back verbatim. Otherwise the line is kept as written.
+        var restored = await attempt(true);
+        if (restored == null &&
+            protectLine(b.body, keep: keep).originals.isNotEmpty) {
+          restored = await attempt(false);
+        }
         if (restored == null) {
           kept++;
           results[i] = line; // a protected part did not survive: keep this line as written
@@ -263,6 +277,9 @@ class TranslationService {
       cut: cut,
     );
   }
+
+  /// Forgets remembered failures so an explicit "try again" is not held back by the back-off.
+  void clearFailures() => _failedAt.clear();
 
   Future<void> dispose() => engine.dispose();
 }

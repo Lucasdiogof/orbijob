@@ -6,7 +6,7 @@
 library;
 
 class ProtectedLine {
-  const ProtectedLine(this.text, this.originals);
+  const ProtectedLine(this.text, this.originals, {this.mustContain = const []});
 
   /// The line with markers (`⟦0⟧`, `⟦1⟧`, …) where protected parts were.
   final String text;
@@ -14,7 +14,11 @@ class ProtectedLine {
   /// The protected parts, by marker number.
   final List<String> originals;
 
-  bool get hasProtected => originals.isNotEmpty;
+  /// Acronyms left in the text (second-level protection): the translation is only trusted if every one of them still appears
+  /// verbatim in it.
+  final List<String> mustContain;
+
+  bool get hasProtected => originals.isNotEmpty || mustContain.isNotEmpty;
 }
 
 final _markerRe = RegExp(r'⟦\s*(\d+)\s*⟧');
@@ -38,7 +42,11 @@ final _licence =
     r'(?:Klasse|Führerschein|Fuehrerschein|Class|Permis|Körkort|Licence|License|Carta|Carnet)\s+[A-Z]{1,3}\d?\b';
 
 /// Splits [line] into protected parts and replaces them by markers. [keep] are extra literal strings (the company name).
-ProtectedLine protectLine(String line, {Iterable<String> keep = const []}) {
+ProtectedLine protectLine(
+  String line, {
+  Iterable<String> keep = const [],
+  bool acronymsAsMarkers = true,
+}) {
   final parts = <String>[
     _url,
     _email,
@@ -54,7 +62,7 @@ ProtectedLine protectLine(String line, {Iterable<String> keep = const []}) {
   final letters = RegExp(r'\p{L}', unicode: true).allMatches(line).length;
   final upper = RegExp(r'\p{Lu}', unicode: true).allMatches(line).length;
   final isHeading = letters >= 6 && upper / letters > 0.8;
-  if (!isHeading) parts.add(_acronym);
+  if (!isHeading && acronymsAsMarkers) parts.add(_acronym);
   final re = RegExp(parts.join('|'), unicode: true);
 
   final originals = <String>[];
@@ -71,11 +79,29 @@ ProtectedLine protectLine(String line, {Iterable<String> keep = const []}) {
     last = m.end;
   }
   out.write(line.substring(last));
-  return ProtectedLine(out.toString(), originals);
+  final verify = <String>[];
+  if (!isHeading && !acronymsAsMarkers) {
+    // not swapped for markers (some engines mangle markers next to non-Latin text): checked afterwards instead
+    for (final m in RegExp(
+      _acronym,
+      unicode: true,
+    ).allMatches(out.toString())) {
+      final a = m.group(0)!;
+      if (a.length >= 2 && !verify.contains(a)) verify.add(a);
+    }
+  }
+  return ProtectedLine(out.toString(), originals, mustContain: verify);
 }
 
 /// Puts the protected parts back. Returns null when the engine lost, duplicated or invented a marker (the line is then not trusted).
 String? restoreLine(String translated, ProtectedLine p) {
+  // Acronyms that were left in the text: engines often change their case ("LALA PORT" -> "Lala Port"); that is put back. Anything
+  // else (letters changed or dropped, CREFITO -> "creço") makes the translation untrusted.
+  for (final a in p.mustContain) {
+    final re = RegExp(RegExp.escape(a), caseSensitive: false);
+    if (!re.hasMatch(translated)) return null;
+    translated = translated.replaceFirstMapped(re, (_) => a);
+  }
   if (p.originals.isEmpty) return translated;
   final seen = <int>{};
   var ok = true;

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/config/app_config.dart';
@@ -15,7 +16,14 @@ Future<void> main() async {
   // Public configuration only (--dart-define). Without it the app runs fully offline-first, without accounts.
   final config = AppConfig.fromEnvironment();
   final client = await initSupabase(config);
+  SharedPreferences? prefs;
+  try {
+    prefs = await SharedPreferences.getInstance();
+  } catch (_) {
+    prefs = null; // storage unavailable: settings and the translation cache simply do not persist
+  }
   configureDependencies(
+    preferences: prefs,
     authRepository: client == null
         ? null
         : SupabaseAuthRepository(client, redirectTo: config.redirectTo),

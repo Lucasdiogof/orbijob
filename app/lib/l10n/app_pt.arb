@@ -547,5 +547,54 @@
   "browserOpeningExternal": "Abrindo no navegador…",
   "browserDidYouApply": "Você se candidatou?",
   "browserCannotOpenExternal": "Não foi possível abrir o navegador.",
-  "browserLanguageNotice": "A página original pode estar em outro idioma. O OrbiJob não traduz outros sites."
+  "browserLanguageNotice": "A página original pode estar em outro idioma. O OrbiJob não traduz outros sites.",
+  "translationAuto": "Tradução automática",
+  "translationNote": "Traduzido do {language} automaticamente. Pode conter erros.",
+  "@translationNote": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationShowOriginal": "Ver original",
+  "translationShowTranslation": "Ver tradução",
+  "translationLoading": "Traduzindo…",
+  "translationNeedsTitle": "Traduzir esta vaga?",
+  "translationNeedsBody": "O OrbiJob traduz no seu aparelho, então o que você lê fica nele. Na primeira vez, são baixados dados de idioma de cerca de {mb} MB.",
+  "@translationNeedsBody": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "translationNeedsBodyWeb": "Seu navegador traduz neste aparelho, então o que você lê fica nele. Ele pode baixar dados de idioma antes.",
+  "translationDownload": "Baixar e traduzir",
+  "translationDownloading": "Baixando dados de idioma…",
+  "translationUnsupported": "A tradução automática do {language} não está disponível neste aparelho. Mostrando o original.",
+  "@translationUnsupported": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationFailed": "Não foi possível traduzir esta vaga. Mostrando o original.",
+  "translationPartialCut": "Só a primeira parte foi traduzida; o resto está no original.",
+  "translationPartialLines": "Algumas linhas ficam no original para que números, códigos e nomes continuem exatos.",
+  "translationOriginalLabel": "Texto original ({language})",
+  "@translationOriginalLabel": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationSettingsTitle": "Tradução",
+  "translationSettingsSwitch": "Traduzir vagas para o meu idioma",
+  "translationSettingsBody": "Usa a tradução embutida neste aparelho: os títulos são traduzidos quando os dados do idioma já estão nele, e o texto completo quando você pede. O original está sempre a um toque.",
+  "translationClearCache": "Limpar traduções salvas",
+  "translationCacheCleared": "Traduções salvas apagadas",
+  "translationTitleOriginalHint": "Título traduzido"
 }

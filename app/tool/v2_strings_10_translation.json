@@ -1,0 +1,23 @@
+{
+  "translationAuto": {"en": "Automatic translation", "pt": "Tradução automática", "es": "Traducción automática"},
+  "translationNote": {"en": "Translated from {language} automatically. It may contain errors.", "pt": "Traduzido do {language} automaticamente. Pode conter erros.", "es": "Traducido del {language} automáticamente. Puede contener errores.", "_meta": {"placeholders": {"language": {"type": "String"}}}},
+  "translationShowOriginal": {"en": "Show original", "pt": "Ver original", "es": "Ver original"},
+  "translationShowTranslation": {"en": "Show translation", "pt": "Ver tradução", "es": "Ver traducción"},
+  "translationLoading": {"en": "Translating…", "pt": "Traduzindo…", "es": "Traduciendo…"},
+  "translationNeedsTitle": {"en": "Translate this listing?", "pt": "Traduzir esta vaga?", "es": "¿Traducir este empleo?"},
+  "translationNeedsBody": {"en": "OrbiJob translates on your device, so what you read stays on it. The first time, language data of about {mb} MB is downloaded.", "pt": "O OrbiJob traduz no seu aparelho, então o que você lê fica nele. Na primeira vez, são baixados dados de idioma de cerca de {mb} MB.", "es": "OrbiJob traduce en tu dispositivo, así que lo que lees se queda en él. La primera vez se descargan datos de idioma de unos {mb} MB.", "_meta": {"placeholders": {"mb": {"type": "int"}}}},
+  "translationNeedsBodyWeb": {"en": "Your browser translates on this device, so what you read stays on it. It may download language data first.", "pt": "Seu navegador traduz neste aparelho, então o que você lê fica nele. Ele pode baixar dados de idioma antes.", "es": "Tu navegador traduce en este dispositivo, así que lo que lees se queda en él. Puede descargar datos de idioma antes."},
+  "translationDownload": {"en": "Download and translate", "pt": "Baixar e traduzir", "es": "Descargar y traducir"},
+  "translationDownloading": {"en": "Downloading language data…", "pt": "Baixando dados de idioma…", "es": "Descargando datos de idioma…"},
+  "translationUnsupported": {"en": "Automatic translation from {language} is not available on this device. Showing the original.", "pt": "A tradução automática do {language} não está disponível neste aparelho. Mostrando o original.", "es": "La traducción automática del {language} no está disponible en este dispositivo. Mostrando el original.", "_meta": {"placeholders": {"language": {"type": "String"}}}},
+  "translationFailed": {"en": "Could not translate this listing. Showing the original.", "pt": "Não foi possível traduzir esta vaga. Mostrando o original.", "es": "No se pudo traducir este empleo. Mostrando el original."},
+  "translationPartialCut": {"en": "Only the first part was translated; the rest is in the original.", "pt": "Só a primeira parte foi traduzida; o resto está no original.", "es": "Solo se tradujo la primera parte; el resto está en el original."},
+  "translationPartialLines": {"en": "Some lines stay in the original so numbers, codes and names remain exact.", "pt": "Algumas linhas ficam no original para que números, códigos e nomes continuem exatos.", "es": "Algunas líneas se quedan en el original para que números, códigos y nombres sigan siendo exactos."},
+  "translationOriginalLabel": {"en": "Original text ({language})", "pt": "Texto original ({language})", "es": "Texto original ({language})", "_meta": {"placeholders": {"language": {"type": "String"}}}},
+  "translationSettingsTitle": {"en": "Translation", "pt": "Tradução", "es": "Traducción"},
+  "translationSettingsSwitch": {"en": "Translate listings into my language", "pt": "Traduzir vagas para o meu idioma", "es": "Traducir empleos a mi idioma"},
+  "translationSettingsBody": {"en": "Uses the translation built into this device: titles are translated when the language data is already on it, the full text when you ask. The original is always one tap away.", "pt": "Usa a tradução embutida neste aparelho: os títulos são traduzidos quando os dados do idioma já estão nele, e o texto completo quando você pede. O original está sempre a um toque.", "es": "Usa la traducción integrada en este dispositivo: los títulos se traducen cuando los datos del idioma ya están en él, y el texto completo cuando lo pides. El original siempre está a un toque."},
+  "translationClearCache": {"en": "Clear saved translations", "pt": "Limpar traduções salvas", "es": "Borrar traducciones guardadas"},
+  "translationCacheCleared": {"en": "Saved translations cleared", "pt": "Traduções salvas apagadas", "es": "Traducciones guardadas borradas"},
+  "translationTitleOriginalHint": {"en": "Title translated", "pt": "Título traduzido", "es": "Título traducido"}
+}

@@ -1,80 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/translation/text_protection.dart';
 import 'package:orbijob/features/translation/translation_cache.dart';
 import 'package:orbijob/features/translation/translation_engine.dart';
 import 'package:orbijob/features/translation/translation_service.dart';
 
-/// A stand-in engine: "translates" by wrapping the text, so tests can see exactly what reached it. It never invents words.
-class FakeEngine implements TranslationEngine {
-  FakeEngine({
-    this.sources = const {'de', 'sv', 'zh', 'en', 'fr'},
-    this.targets = const {'pt', 'en', 'es'},
-    this.ready = true,
-    this.latency = Duration.zero,
-  });
-
-  Set<String> sources;
-  Set<String> targets;
-  bool ready;
-  Duration latency;
-  Object? failWith;
-
-  /// Marker mode: what to do with the ⟦n⟧ markers ('keep' | 'drop' | 'duplicate' | 'lower').
-  String markers = 'keep';
-  final seen = <String>[];
-  var concurrent = 0;
-  var maxConcurrent = 0;
-  var prepared = 0;
-
-  @override
-  String get name => 'fake';
-  @override
-  int get approxDownloadMb => 30;
-  @override
-  bool supportsSource(String c) => sources.contains(c);
-  @override
-  bool supportsTarget(String c) => targets.contains(c);
-  @override
-  Future<EngineReadiness> readiness(String from, String to) async =>
-      ready ? EngineReadiness.ready : EngineReadiness.needsDownload;
-  @override
-  Future<bool> prepare(String from, String to) async {
-    prepared++;
-    ready = true;
-    return true;
-  }
-
-  @override
-  Future<String> translate(
-    String text, {
-    required String from,
-    required String to,
-  }) async {
-    seen.add(text);
-    concurrent++;
-    if (concurrent > maxConcurrent) maxConcurrent = concurrent;
-    try {
-      if (latency > Duration.zero) await Future<void>.delayed(latency);
-      if (failWith != null) throw failWith!;
-      var t = text;
-      if (markers == 'drop') t = t.replaceAll(RegExp(r'⟦\d+⟧'), '');
-      if (markers == 'duplicate')
-        t = t.replaceAllMapped(
-          RegExp(r'⟦\d+⟧'),
-          (m) => '${m.group(0)} ${m.group(0)}',
-        );
-      if (markers == 'lower') t = t.replaceAll('⟦', '[').replaceAll('⟧', ']');
-      return '[$to] $t';
-    } finally {
-      concurrent--;
-    }
-  }
-
-  @override
-  Future<void> dispose() async {}
-}
+import '../helpers/translation_fakes.dart';
 
 TranslationService svc(
   FakeEngine e, {
@@ -322,6 +252,39 @@ void main() {
       expect(r.outcome, TranslationOutcome.partial);
       expect(r.keptLines, 1);
       expect(r.text, '[pt] Zeile ohne Schutz\nKontakt hr@firma.de');
+    });
+
+    test('level 2: an engine that drops markers still translates a line whose only protected parts are acronyms, if they come back verbatim', () async {
+      final e = FakeEngine()..markers = 'drop';
+      final s = svc(e);
+      final r = await tr(s, 'beard papa LALA PORT Verkäufer');
+      expect(r.outcome, TranslationOutcome.ok);
+      expect(r.text, '[pt] beard papa LALA PORT Verkäufer');
+      expect(
+        e.seen.length,
+        2,
+        reason:
+            'one attempt with markers, one with acronyms verified afterwards',
+      );
+    });
+
+    test('level 2 puts back the capitals an engine changed ("Lala Port" -> "LALA PORT")', () async {
+      final e = FakeEngine()..markers = 'titlecase';
+      final s = svc(e);
+      final r = await tr(s, 'Verkäufer bei LALA PORT');
+      expect(r.outcome, TranslationOutcome.ok);
+      expect(r.text, '[pt] Verkäufer bei LALA PORT');
+    });
+
+    test('level 2 never trusts a translation that altered an acronym (CREFITO must not become "creço")', () async {
+      final e = FakeEngine()..markers = 'mangle';
+      final s = svc(e);
+      final r = await tr(s, 'Registro CREFITO obrigatório');
+      expect(
+        r.outcome,
+        TranslationOutcome.failed,
+        reason: 'the only line was kept in the original',
+      );
     });
 
     test('if every line lost its markers the result is a failure, not a translation', () async {

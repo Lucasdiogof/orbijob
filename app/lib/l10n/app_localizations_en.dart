@@ -1660,4 +1660,80 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get browserLanguageNotice =>
       'The original page may be in another language. OrbiJob does not translate other sites.';
+
+  @override
+  String get translationAuto => 'Automatic translation';
+
+  @override
+  String translationNote(String language) {
+    return 'Translated from $language automatically. It may contain errors.';
+  }
+
+  @override
+  String get translationShowOriginal => 'Show original';
+
+  @override
+  String get translationShowTranslation => 'Show translation';
+
+  @override
+  String get translationLoading => 'Translating…';
+
+  @override
+  String get translationNeedsTitle => 'Translate this listing?';
+
+  @override
+  String translationNeedsBody(int mb) {
+    return 'OrbiJob translates on your device, so what you read stays on it. The first time, language data of about $mb MB is downloaded.';
+  }
+
+  @override
+  String get translationNeedsBodyWeb =>
+      'Your browser translates on this device, so what you read stays on it. It may download language data first.';
+
+  @override
+  String get translationDownload => 'Download and translate';
+
+  @override
+  String get translationDownloading => 'Downloading language data…';
+
+  @override
+  String translationUnsupported(String language) {
+    return 'Automatic translation from $language is not available on this device. Showing the original.';
+  }
+
+  @override
+  String get translationFailed =>
+      'Could not translate this listing. Showing the original.';
+
+  @override
+  String get translationPartialCut =>
+      'Only the first part was translated; the rest is in the original.';
+
+  @override
+  String get translationPartialLines =>
+      'Some lines stay in the original so numbers, codes and names remain exact.';
+
+  @override
+  String translationOriginalLabel(String language) {
+    return 'Original text ($language)';
+  }
+
+  @override
+  String get translationSettingsTitle => 'Translation';
+
+  @override
+  String get translationSettingsSwitch => 'Translate listings into my language';
+
+  @override
+  String get translationSettingsBody =>
+      'Uses the translation built into this device: titles are translated when the language data is already on it, the full text when you ask. The original is always one tap away.';
+
+  @override
+  String get translationClearCache => 'Clear saved translations';
+
+  @override
+  String get translationCacheCleared => 'Saved translations cleared';
+
+  @override
+  String get translationTitleOriginalHint => 'Title translated';
 }

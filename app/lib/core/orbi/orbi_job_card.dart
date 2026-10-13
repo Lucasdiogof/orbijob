@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/search/domain/entities/job_posting.dart';
 import '../../l10n/app_localizations.dart';
+import '../../features/translation/translation_widgets.dart';
 import '../design/design.dart';
 import '../format/job_format.dart';
 import '../widgets/compatibility_indicator.dart';
@@ -48,8 +49,9 @@ class OrbiJobCard extends StatelessWidget {
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);
     final ui = Localizations.localeOf(context).languageCode;
-    final langName = (j.language != null && j.language != ui)
-        ? nativeLanguageName(j.language)
+    final lang = jobLanguage(context, j);
+    final langName = (lang != null && lang.split('-').first != ui)
+        ? nativeLanguageName(lang)
         : null;
     final foot = <String>[
       ?published,
@@ -60,140 +62,159 @@ class OrbiJobCard extends StatelessWidget {
       ?langName,
     ];
 
-    return OrbiCard(
-      selected: selected,
-      onTap: onTap,
-      padding: EdgeInsets.fromLTRB(
-        AppSpace.s4,
-        compact ? AppSpace.s3 : AppSpace.s4,
-        AppSpace.s2,
-        compact ? AppSpace.s3 : AppSpace.s4,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: AppSpace.s2),
-                  child: Semantics(
-                    localeForSubtree: j.language == null
-                        ? null
-                        : Locale(j.language!),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(j.title, style: t.titleMedium),
-                        if (j.company.isNotEmpty) ...[
-                          const SizedBox(height: 2),
-                          Text(j.company, style: t.bodyMedium),
+    return TranslatedTitle(
+      job: j,
+      builder: (context, title, translated) => OrbiCard(
+        selected: selected,
+        onTap: onTap,
+        padding: EdgeInsets.fromLTRB(
+          AppSpace.s4,
+          compact ? AppSpace.s3 : AppSpace.s4,
+          AppSpace.s2,
+          compact ? AppSpace.s3 : AppSpace.s4,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: AppSpace.s2),
+                    child: Semantics(
+                      localeForSubtree: translated
+                          ? Locale(ui)
+                          : (lang == null
+                                ? null
+                                : Locale(lang.split('-').first)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(title, style: t.titleMedium),
+                          if (j.company.isNotEmpty) ...[
+                            const SizedBox(height: 2),
+                            Text(j.company, style: t.bodyMedium),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              if (onFavoriteChanged != null)
-                FavoriteButton(
-                  isFavorite: isFavorite,
-                  onChanged: onFavoriteChanged,
-                )
-              else
-                const SizedBox(width: AppSpace.s2),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: AppSpace.s2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (place != null) ...[
-                  const SizedBox(height: AppSpace.s2),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Icon(
-                          Icons.place_outlined,
-                          size: 16,
-                          color: c.muted,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpace.s1 + 2),
-                      Expanded(
-                        child: Text(
-                          place,
-                          style: t.bodySmall!.copyWith(color: c.muted),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-                if (mode.isNotEmpty || salary != null) ...[
-                  const SizedBox(height: AppSpace.s3),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: AppSpace.s3,
-                    runSpacing: AppSpace.s2,
-                    children: [
-                      if (mode.isNotEmpty)
-                        OrbiStatusBadge(
-                          label: mode,
-                          icon: _modeIcon(j.workMode),
-                          kind: OrbiBadgeKind.info,
-                        ),
-                      if (salary != null)
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(child: Text(salary, style: t.labelLarge)),
-                            if (j.salaryCurrency != null) ...[
-                              const SizedBox(width: AppSpace.s2),
-                              Text(
-                                j.salaryCurrency!,
-                                style: context.technicalStyle,
-                              ),
-                            ],
-                          ],
-                        ),
-                    ],
-                  ),
-                ],
-                if (facts.isNotEmpty) ...[
-                  const SizedBox(height: AppSpace.s2),
-                  Text(
-                    facts.join(' · '),
-                    style: context.metadataStyle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-                if (m != null) ...[
-                  const SizedBox(height: AppSpace.s3),
-                  CompatibilityIndicator(
-                    score: m.score,
-                    size: 36,
-                    showLabel: true,
-                  ),
-                ],
-                if (foot.isNotEmpty) ...[
-                  const SizedBox(height: AppSpace.s3),
-                  Text(
-                    foot.join(' · '),
-                    style: context.captionStyle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                if (onFavoriteChanged != null)
+                  FavoriteButton(
+                    isFavorite: isFavorite,
+                    onChanged: onFavoriteChanged,
+                  )
+                else
+                  const SizedBox(width: AppSpace.s2),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(right: AppSpace.s2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (place != null) ...[
+                    const SizedBox(height: AppSpace.s2),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Icon(
+                            Icons.place_outlined,
+                            size: 16,
+                            color: c.muted,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpace.s1 + 2),
+                        Expanded(
+                          child: Text(
+                            place,
+                            style: t.bodySmall!.copyWith(color: c.muted),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  if (mode.isNotEmpty || salary != null) ...[
+                    const SizedBox(height: AppSpace.s3),
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: AppSpace.s3,
+                      runSpacing: AppSpace.s2,
+                      children: [
+                        if (mode.isNotEmpty)
+                          OrbiStatusBadge(
+                            label: mode,
+                            icon: _modeIcon(j.workMode),
+                            kind: OrbiBadgeKind.info,
+                          ),
+                        if (salary != null)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(salary, style: t.labelLarge),
+                              ),
+                              if (j.salaryCurrency != null) ...[
+                                const SizedBox(width: AppSpace.s2),
+                                Text(
+                                  j.salaryCurrency!,
+                                  style: context.technicalStyle,
+                                ),
+                              ],
+                            ],
+                          ),
+                      ],
+                    ),
+                  ],
+                  if (facts.isNotEmpty) ...[
+                    const SizedBox(height: AppSpace.s2),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          if (translated)
+                            const WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 4),
+                                child: TranslatedMark(),
+                              ),
+                            ),
+                          TextSpan(text: facts.join(' · ')),
+                        ],
+                      ),
+                      style: context.metadataStyle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  if (m != null) ...[
+                    const SizedBox(height: AppSpace.s3),
+                    CompatibilityIndicator(
+                      score: m.score,
+                      size: 36,
+                      showLabel: true,
+                    ),
+                  ],
+                  if (foot.isNotEmpty) ...[
+                    const SizedBox(height: AppSpace.s3),
+                    Text(
+                      foot.join(' · '),
+                      style: context.captionStyle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

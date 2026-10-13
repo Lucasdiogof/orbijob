@@ -8,6 +8,7 @@ import '../../../core/orbi/orbi.dart';
 import '../../../core/theme_cubit.dart';
 import '../../../core/widgets/data_state_view.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../translation/translation_cubit.dart';
 import 'preferences_cubit.dart';
 import 'saved_searches_cubit.dart';
 
@@ -126,6 +127,43 @@ class SettingsSection extends StatelessWidget {
             context.read<ThemeCubit>().select(v.first);
             context.read<PreferencesCubit>().setTheme(v.first.name);
           },
+        ),
+        const SizedBox(height: AppSpace.s6),
+        OrbiSectionHeader(title: l.translationSettingsTitle),
+        const SizedBox(height: AppSpace.s3),
+        BlocBuilder<TranslationCubit, TranslationState>(
+          builder: (context, tr) => OrbiCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l.translationSettingsSwitch),
+                  value: tr.enabled,
+                  onChanged: (v) =>
+                      context.read<TranslationCubit>().setEnabled(v),
+                ),
+                Text(
+                  l.translationSettingsBody,
+                  style: context.text.bodySmall!.copyWith(color: c.muted),
+                ),
+                const SizedBox(height: AppSpace.s3),
+                OrbiTextButton(
+                  label: l.translationClearCache,
+                  onPressed: () async {
+                    await context.read<TranslationCubit>().clearSaved();
+                    if (context.mounted) {
+                      showOrbiSnackBar(
+                        context,
+                        l.translationCacheCleared,
+                        kind: OrbiSnackKind.success,
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
         if (!synced) ...[
           const SizedBox(height: AppSpace.s3),

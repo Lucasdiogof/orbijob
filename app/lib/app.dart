@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/orbi/orbi.dart';
+import 'features/translation/translation_cubit.dart';
+import 'features/translation/translation_target_sync.dart';
 import 'core/design/design.dart';
 import 'core/di/injector.dart';
 import 'core/locale_cubit.dart';
@@ -44,6 +46,7 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
       BlocProvider(create: (_) => sl<RemoteJobsCubit>()..load()),
       BlocProvider(create: (_) => sl<LocaleCubit>()),
       BlocProvider.value(value: sl<RecentSearchesCubit>()),
+      BlocProvider.value(value: sl<TranslationCubit>()),
     ],
     child: BlocBuilder<LocaleCubit, Locale?>(
       builder: (context, locale) => BlocBuilder<ThemeCubit, ThemeMode>(
@@ -65,7 +68,9 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
           builder: (context, child) {
             final inner = widget.builder?.call(context, child) ?? child!;
             return OrbiLaunchOverlay(
-              child: UserScope(navigator: _navigator, child: inner),
+              child: TranslationTargetSync(
+                child: UserScope(navigator: _navigator, child: inner),
+              ),
             );
           },
           home: const ShellPage(),

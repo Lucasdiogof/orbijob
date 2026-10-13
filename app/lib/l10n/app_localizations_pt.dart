@@ -1665,4 +1665,80 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get browserLanguageNotice =>
       'A página original pode estar em outro idioma. O OrbiJob não traduz outros sites.';
+
+  @override
+  String get translationAuto => 'Tradução automática';
+
+  @override
+  String translationNote(String language) {
+    return 'Traduzido do $language automaticamente. Pode conter erros.';
+  }
+
+  @override
+  String get translationShowOriginal => 'Ver original';
+
+  @override
+  String get translationShowTranslation => 'Ver tradução';
+
+  @override
+  String get translationLoading => 'Traduzindo…';
+
+  @override
+  String get translationNeedsTitle => 'Traduzir esta vaga?';
+
+  @override
+  String translationNeedsBody(int mb) {
+    return 'O OrbiJob traduz no seu aparelho, então o que você lê fica nele. Na primeira vez, são baixados dados de idioma de cerca de $mb MB.';
+  }
+
+  @override
+  String get translationNeedsBodyWeb =>
+      'Seu navegador traduz neste aparelho, então o que você lê fica nele. Ele pode baixar dados de idioma antes.';
+
+  @override
+  String get translationDownload => 'Baixar e traduzir';
+
+  @override
+  String get translationDownloading => 'Baixando dados de idioma…';
+
+  @override
+  String translationUnsupported(String language) {
+    return 'A tradução automática do $language não está disponível neste aparelho. Mostrando o original.';
+  }
+
+  @override
+  String get translationFailed =>
+      'Não foi possível traduzir esta vaga. Mostrando o original.';
+
+  @override
+  String get translationPartialCut =>
+      'Só a primeira parte foi traduzida; o resto está no original.';
+
+  @override
+  String get translationPartialLines =>
+      'Algumas linhas ficam no original para que números, códigos e nomes continuem exatos.';
+
+  @override
+  String translationOriginalLabel(String language) {
+    return 'Texto original ($language)';
+  }
+
+  @override
+  String get translationSettingsTitle => 'Tradução';
+
+  @override
+  String get translationSettingsSwitch => 'Traduzir vagas para o meu idioma';
+
+  @override
+  String get translationSettingsBody =>
+      'Usa a tradução embutida neste aparelho: os títulos são traduzidos quando os dados do idioma já estão nele, e o texto completo quando você pede. O original está sempre a um toque.';
+
+  @override
+  String get translationClearCache => 'Limpar traduções salvas';
+
+  @override
+  String get translationCacheCleared => 'Traduções salvas apagadas';
+
+  @override
+  String get translationTitleOriginalHint => 'Título traduzido';
 }

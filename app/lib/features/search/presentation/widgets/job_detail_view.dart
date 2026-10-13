@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
 import '../../../../core/format/description_text.dart';
@@ -8,6 +9,8 @@ import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/compatibility_indicator.dart';
 import '../../../../core/widgets/confidence_indicator.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../translation/translation_cubit.dart';
+import '../../../translation/translation_widgets.dart';
 import '../../../applications/application_kit.dart';
 import '../../../browser/open_in_app.dart';
 import '../../data/job_snapshot.dart' show manualSource;
@@ -23,9 +26,9 @@ Future<void> openOriginalListing(BuildContext context, JobPosting j) =>
 
 /// Details of one job. Shown as a page on narrow screens and as the detail pane on wide ones.
 ///
-/// [showActions] puts the call to action at the end of the content (detail pane); the page passes false and keeps the
-/// button fixed at the bottom instead.
-class JobDetailView extends StatelessWidget {
+/// It also asks for the translation of the listing into the interface language (on demand, only for this listing) and lets the
+/// person switch between translation and original.
+class JobDetailView extends StatefulWidget {
   const JobDetailView({
     super.key,
     required this.scored,
@@ -33,6 +36,90 @@ class JobDetailView extends StatelessWidget {
     this.now,
     this.showActions = true,
   });
+
+  final ScoredJob scored;
+  final VoidCallback? onOpenApplication;
+  final DateTime? now;
+  final bool showActions;
+
+  @override
+  State<JobDetailView> createState() => _JobDetailViewState();
+}
+
+class _JobDetailViewState extends State<JobDetailView> {
+  var _showOriginal = false;
+
+  void _load() {
+    final c = maybeTranslation(context);
+    if (c == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) c.loadDetail(widget.scored.job);
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _load();
+  }
+
+  @override
+  void didUpdateWidget(JobDetailView old) {
+    super.didUpdateWidget(old);
+    if (old.scored.job != widget.scored.job) {
+      _showOriginal = false;
+      _load();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final c = maybeTranslation(context);
+    Widget body(DetailTranslation? d) => _JobDetailBody(
+      scored: widget.scored,
+      onOpenApplication: widget.onOpenApplication,
+      now: widget.now,
+      showActions: widget.showActions,
+      detail: d,
+      showOriginal: _showOriginal,
+      onToggle: () => setState(() => _showOriginal = !_showOriginal),
+      onDownload: () => c?.downloadAndLoad(widget.scored.job),
+      onRetry: () => c?.loadDetail(widget.scored.job, retry: true),
+    );
+    if (c == null) return body(null);
+    final key = TranslationCubit.jobKey(widget.scored.job);
+    return BlocBuilder<TranslationCubit, TranslationState>(
+      bloc: c,
+      buildWhen: (a, b) =>
+          a.details[key] != b.details[key] || a.target != b.target,
+      builder: (context, s) => body(s.enabled ? s.details[key] : null),
+    );
+  }
+}
+
+/// Details of one job (the content). Shown as a page on narrow screens and as the detail pane on wide ones.
+///
+/// [showActions] puts the call to action at the end of the content (detail pane); the page passes false and keeps the
+/// button fixed at the bottom instead.
+class _JobDetailBody extends StatelessWidget {
+  const _JobDetailBody({
+    required this.scored,
+    required this.onOpenApplication,
+    required this.now,
+    required this.showActions,
+    required this.detail,
+    required this.showOriginal,
+    required this.onToggle,
+    required this.onDownload,
+    required this.onRetry,
+  });
+
+  /// The translation of this listing for the current interface language (null when translation is not provided).
+  final DetailTranslation? detail;
+  final bool showOriginal;
+  final VoidCallback onToggle;
+  final VoidCallback onDownload;
+  final VoidCallback onRetry;
 
   final ScoredJob scored;
 
@@ -90,9 +177,30 @@ class JobDetailView extends StatelessWidget {
     final published = formatPublished(j.publishedAt, now ?? DateTime.now(), l);
     final mode = workModeLabel(j.workMode, l);
     final ui = Localizations.localeOf(context).languageCode;
-    final langName = (j.language != null && j.language != ui)
-        ? nativeLanguageName(j.language)
+    final lang = detail?.from ?? jobLanguage(context, j);
+    final langName = (lang != null && lang.split('-').first != ui)
+        ? nativeLanguageName(lang)
         : null;
+    // translated text is only shown when BOTH title and description are translated (the cubit reports ready/partial only then),
+    // so a translated title is never paired with a description in another language without saying so
+    final translated =
+        detail != null &&
+        (detail!.status == DetailStatus.ready ||
+            detail!.status == DetailStatus.partial) &&
+        !showOriginal;
+    final hasTranslation =
+        detail != null &&
+        (detail!.status == DetailStatus.ready ||
+            detail!.status == DetailStatus.partial);
+    final shownTitle = translated && detail!.title != null
+        ? detail!.title!
+        : j.title;
+    final shownDescription = translated && detail!.description != null
+        ? detail!.description!
+        : j.description;
+    final textLocale = translated
+        ? Locale(ui)
+        : (lang == null ? null : Locale(lang.split('-').first));
     return ListView(
       padding: const EdgeInsets.all(AppSpace.s4),
       children: [
@@ -102,15 +210,13 @@ class JobDetailView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Semantics(
-                localeForSubtree: j.language == null
-                    ? null
-                    : Locale(j.language!),
+                localeForSubtree: textLocale,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Semantics(
                       header: true,
-                      child: Text(j.title, style: t.headlineMedium),
+                      child: Text(shownTitle, style: t.headlineMedium),
                     ),
                     const SizedBox(height: AppSpace.s2),
                     if (j.company.isNotEmpty)
@@ -160,7 +266,8 @@ class JobDetailView extends StatelessWidget {
                   ],
                 ),
               ],
-              if (langName != null) ...[
+              // "not translated" is only true when no translation exists: the banner below speaks for translated listings
+              if (langName != null && !hasTranslation) ...[
                 const SizedBox(height: AppSpace.s2),
                 Text(
                   l.originalLanguageNote(langName),
@@ -185,7 +292,17 @@ class JobDetailView extends StatelessWidget {
             ],
           ),
         ),
-        if ((j.description ?? '').isNotEmpty) ...[
+        if (detail != null && detail!.status != DetailStatus.none) ...[
+          const SizedBox(height: AppSpace.s3),
+          TranslationBanner(
+            detail: detail!,
+            showOriginal: showOriginal,
+            onToggle: onToggle,
+            onDownload: onDownload,
+            onRetry: onRetry,
+          ),
+        ],
+        if ((shownDescription ?? '').isNotEmpty) ...[
           const SizedBox(height: AppSpace.s3),
           OrbiCard(
             padding: const EdgeInsets.all(AppSpace.s5),
@@ -198,12 +315,10 @@ class JobDetailView extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpace.s3),
                 Semantics(
-                  localeForSubtree: j.language == null
-                      ? null
-                      : Locale(j.language!),
+                  localeForSubtree: textLocale,
                   // Plain text only: the catalogue strips markup before storing.
                   child: Text(
-                    cleanDescriptionText(j.description!),
+                    cleanDescriptionText(shownDescription!),
                     style: t.bodyMedium,
                   ),
                 ),
