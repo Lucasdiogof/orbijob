@@ -945,5 +945,151 @@
   "rsBody": "Only the words you search for, kept on this device and never sent to the server. Turning this off also forgets the ones already kept.",
   "rsClear": "Clear search history",
   "rsCleared": "Search history cleared",
-  "rsRecent": "Recent searches"
+  "rsRecent": "Recent searches",
+  "rcTitle": "Recommended for you",
+  "rcSubtitle": "Matched to your profile on this device: profession, skills, place, work mode and language.",
+  "rcSeeAll": "See all",
+  "rcEmptyTitle": "No matches right now",
+  "rcEmptyBody": "No open job matches your profile at the moment. Save a search with alerts to hear about new ones.",
+  "rcNeedProfileTitle": "Tell us what you do",
+  "rcNeedProfileBody": "Add your profession, where you want to work and how to your profile, and OrbiJob ranks jobs for you. It works for any profession.",
+  "rcNeedProfileAction": "Complete my profile",
+  "rcSignInBody": "Sign in and fill in your profile to get recommendations.",
+  "rcThinNote": "Your profile has little information, so these matches are broad. Add your profession for better ones.",
+  "rcFitStrong": "Strong match",
+  "rcFitGood": "Good match",
+  "rcFitPossible": "Possible match",
+  "rcWhy": "Why this job?",
+  "rcWhyTitle": "Why you see this job",
+  "rcMatches": "What matches",
+  "rcCheck": "Worth checking",
+  "rcDisclaimer": "OrbiJob compares the text of the listing with your profile. It does not check visas, work permits, professional registration or certifications: confirm the requirements in the listing.",
+  "rcScore": "Score {score} of 100",
+  "@rcScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "rcSignals": "{count, plural, =1{1 criterion evaluated} other{{count} criteria evaluated}}",
+  "@rcSignals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rcReasonProfessionExact": "The title mentions your profession: {profession}",
+  "@rcReasonProfessionExact": {
+    "placeholders": {
+      "profession": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonProfessionClose": "Close to your profession: {profession}",
+  "@rcReasonProfessionClose": {
+    "placeholders": {
+      "profession": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonProfessionSynonym": "Same profession, another language: {profession}",
+  "@rcReasonProfessionSynonym": {
+    "placeholders": {
+      "profession": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonSameField": "Same professional field: {area}",
+  "@rcReasonSameField": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonSkills": "Mentions your skills: {skills}",
+  "@rcReasonSkills": {
+    "placeholders": {
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonCountryInterest": "In {country}, one of your countries of interest",
+  "@rcReasonCountryInterest": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonCountryResidence": "In {country}, where you live",
+  "@rcReasonCountryResidence": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonRemoteEligible": "Remote and open to candidates from {country}",
+  "@rcReasonRemoteEligible": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonRemoteAnywhere": "Remote, open to candidates from anywhere",
+  "rcReasonCity": "In {city}",
+  "@rcReasonCity": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonWorkMode": "{mode}, as you prefer",
+  "@rcReasonWorkMode": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "rcReasonLanguage": "Written in {language}, a language of your profile",
+  "@rcReasonLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "rcCaveatLocation": "The listing does not say where the job is.",
+  "rcCaveatLanguage": "Written in {language}, which your profile does not list.",
+  "@rcCaveatLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "rcCaveatEligibility": "The listing restricts who can apply: {places}. Check that you qualify.",
+  "@rcCaveatEligibility": {
+    "placeholders": {
+      "places": {
+        "type": "String"
+      }
+    }
+  },
+  "rcCaveatMode": "The listing does not say if it is remote, hybrid or on site.",
+  "pfMustTitle": "Must-haves for recommendations",
+  "pfMustHelp": "Turn on what a job must have to be recommended to you. Everything else is only a preference: it raises a job in the list but never hides it. A listing that does not say is never hidden.",
+  "pfMustWorkMode": "Only my work mode",
+  "pfMustCountry": "Only my countries",
+  "pfMustLanguage": "Only my languages"
 }

@@ -2080,4 +2080,172 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rsRecent => 'Recent searches';
+
+  @override
+  String get rcTitle => 'Recommended for you';
+
+  @override
+  String get rcSubtitle =>
+      'Matched to your profile on this device: profession, skills, place, work mode and language.';
+
+  @override
+  String get rcSeeAll => 'See all';
+
+  @override
+  String get rcEmptyTitle => 'No matches right now';
+
+  @override
+  String get rcEmptyBody =>
+      'No open job matches your profile at the moment. Save a search with alerts to hear about new ones.';
+
+  @override
+  String get rcNeedProfileTitle => 'Tell us what you do';
+
+  @override
+  String get rcNeedProfileBody =>
+      'Add your profession, where you want to work and how to your profile, and OrbiJob ranks jobs for you. It works for any profession.';
+
+  @override
+  String get rcNeedProfileAction => 'Complete my profile';
+
+  @override
+  String get rcSignInBody =>
+      'Sign in and fill in your profile to get recommendations.';
+
+  @override
+  String get rcThinNote =>
+      'Your profile has little information, so these matches are broad. Add your profession for better ones.';
+
+  @override
+  String get rcFitStrong => 'Strong match';
+
+  @override
+  String get rcFitGood => 'Good match';
+
+  @override
+  String get rcFitPossible => 'Possible match';
+
+  @override
+  String get rcWhy => 'Why this job?';
+
+  @override
+  String get rcWhyTitle => 'Why you see this job';
+
+  @override
+  String get rcMatches => 'What matches';
+
+  @override
+  String get rcCheck => 'Worth checking';
+
+  @override
+  String get rcDisclaimer =>
+      'OrbiJob compares the text of the listing with your profile. It does not check visas, work permits, professional registration or certifications: confirm the requirements in the listing.';
+
+  @override
+  String rcScore(int score) {
+    return 'Score $score of 100';
+  }
+
+  @override
+  String rcSignals(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criteria evaluated',
+      one: '1 criterion evaluated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rcReasonProfessionExact(String profession) {
+    return 'The title mentions your profession: $profession';
+  }
+
+  @override
+  String rcReasonProfessionClose(String profession) {
+    return 'Close to your profession: $profession';
+  }
+
+  @override
+  String rcReasonProfessionSynonym(String profession) {
+    return 'Same profession, another language: $profession';
+  }
+
+  @override
+  String rcReasonSameField(String area) {
+    return 'Same professional field: $area';
+  }
+
+  @override
+  String rcReasonSkills(String skills) {
+    return 'Mentions your skills: $skills';
+  }
+
+  @override
+  String rcReasonCountryInterest(String country) {
+    return 'In $country, one of your countries of interest';
+  }
+
+  @override
+  String rcReasonCountryResidence(String country) {
+    return 'In $country, where you live';
+  }
+
+  @override
+  String rcReasonRemoteEligible(String country) {
+    return 'Remote and open to candidates from $country';
+  }
+
+  @override
+  String get rcReasonRemoteAnywhere =>
+      'Remote, open to candidates from anywhere';
+
+  @override
+  String rcReasonCity(String city) {
+    return 'In $city';
+  }
+
+  @override
+  String rcReasonWorkMode(String mode) {
+    return '$mode, as you prefer';
+  }
+
+  @override
+  String rcReasonLanguage(String language) {
+    return 'Written in $language, a language of your profile';
+  }
+
+  @override
+  String get rcCaveatLocation => 'The listing does not say where the job is.';
+
+  @override
+  String rcCaveatLanguage(String language) {
+    return 'Written in $language, which your profile does not list.';
+  }
+
+  @override
+  String rcCaveatEligibility(String places) {
+    return 'The listing restricts who can apply: $places. Check that you qualify.';
+  }
+
+  @override
+  String get rcCaveatMode =>
+      'The listing does not say if it is remote, hybrid or on site.';
+
+  @override
+  String get pfMustTitle => 'Must-haves for recommendations';
+
+  @override
+  String get pfMustHelp =>
+      'Turn on what a job must have to be recommended to you. Everything else is only a preference: it raises a job in the list but never hides it. A listing that does not say is never hidden.';
+
+  @override
+  String get pfMustWorkMode => 'Only my work mode';
+
+  @override
+  String get pfMustCountry => 'Only my countries';
+
+  @override
+  String get pfMustLanguage => 'Only my languages';
 }

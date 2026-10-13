@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/orbi/orbi.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../preferences/presentation/preferences_cubit.dart';
+import '../../../../core/design/design.dart';
+import '../../../recommendations/domain/recommendation.dart';
 import '../../domain/professional_profile.dart';
 import '../profile_cubit.dart';
 
@@ -45,6 +47,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   late final _phone = TextEditingController(text: _src?.phone);
   late List<String> _skills = [...?_src?.skills];
   late String _workMode = _src?.workMode ?? '';
+  late Set<MustHave> _must = {...?_src?.mustHave};
   bool _saving = false;
   late bool _dirty = widget.suggested != null;
 
@@ -86,6 +89,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       clearCountry: cc == null,
       workMode: _workMode.isEmpty ? null : _workMode,
       clearWorkMode: _workMode.isEmpty,
+      mustHave: _must,
     );
     final messenger = ScaffoldMessenger.maybeOf(context);
     final saved = l.profileSaved;
@@ -202,6 +206,34 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
             _workMode = v;
             _dirty = true;
           }),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            OrbiFieldLabel(l.pfMustTitle),
+            Text(l.pfMustHelp, style: context.metadataStyle),
+            for (final (m, label, enabled) in [
+              (MustHave.workMode, l.pfMustWorkMode, _workMode.isNotEmpty),
+              (MustHave.country, l.pfMustCountry, true),
+              (
+                MustHave.language,
+                l.pfMustLanguage,
+                _src?.languages.isNotEmpty ?? false,
+              ),
+            ])
+              SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                title: Text(label),
+                value: _must.contains(m),
+                onChanged: enabled
+                    ? (v) => setState(() {
+                        _must = v ? {..._must, m} : ({..._must}..remove(m));
+                        _dirty = true;
+                      })
+                    : null,
+              ),
+          ],
         ),
         OrbiTagInput(
           key: _tags,

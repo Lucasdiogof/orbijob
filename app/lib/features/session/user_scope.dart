@@ -10,6 +10,8 @@ import '../favorites/favorites_cubit.dart';
 import '../home/recent_searches_cubit.dart';
 import '../preferences/presentation/preferences_cubit.dart';
 import '../hidden/presentation/hidden_jobs_cubit.dart';
+import '../recommendations/presentation/recommendations_cubit.dart';
+import '../recommendations/presentation/recommendations_ui.dart';
 import '../notifications/presentation/notifications_cubit.dart';
 import '../searches/presentation/saved_searches_cubit.dart';
 import '../profile/presentation/profile_cubit.dart';
@@ -47,6 +49,7 @@ class UserScope extends StatelessWidget {
             BlocProvider(create: (_) => sl<SavedSearchesCubit>()..load()),
             BlocProvider(create: (_) => sl<NotificationsCubit>()..load()),
             BlocProvider(create: (_) => sl<HiddenJobsCubit>()..load()),
+            BlocProvider(create: (_) => sl<RecommendationsCubit>()),
           ],
           child: _ScopeEffects(userId: auth.user?.id, child: child),
         ),
@@ -98,7 +101,7 @@ class _ScopeEffectsState extends State<_ScopeEffects> {
         context.read<ThemeCubit>().select(_mode(s.prefs.theme));
         context.read<LocaleCubit>().select(s.prefs.locale);
       },
-      child: widget.child,
+      child: RecommendationsFeeder(child: widget.child),
     ),
   );
 }

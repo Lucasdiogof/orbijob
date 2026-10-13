@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../recommendations/domain/recommendation.dart' show MustHave;
+
 class ProfileLanguage extends Equatable {
   const ProfileLanguage({required this.code, this.level});
   final String code;
@@ -54,6 +56,14 @@ class ProfessionalProfile extends Equatable {
     return workModePreferences.contains(v) ? v : null;
   }
 
+  /// Which criteria the person marked as must-haves for recommendations (`workMode`, `country`, `language`); everything else is a nice-to-have.
+  /// Kept inside `preferences` (no column, no migration). Unknown names are ignored.
+  Set<MustHave> get mustHave => {
+    for (final v in (preferences['mustHave'] as List? ?? const []))
+      for (final m in MustHave.values)
+        if (m.name == v) m,
+  };
+
   /// Id of the résumé the person marked as the main one. Kept inside `preferences` (no column, no migration).
   String? get primaryResumeId => _text(preferences['primaryResume']);
 
@@ -74,6 +84,7 @@ class ProfessionalProfile extends Equatable {
     bool clearWorkMode = false,
     String? primaryResumeId,
     bool clearPrimaryResume = false,
+    Set<MustHave>? mustHave,
     String? contactEmail,
     String? phone,
     List<String>? links,
@@ -105,6 +116,15 @@ class ProfessionalProfile extends Equatable {
     var nextPrefs = preferences;
     if (clearWorkMode) nextPrefs = put(nextPrefs, 'workMode', null);
     if (workMode != null) nextPrefs = put(nextPrefs, 'workMode', workMode);
+    if (mustHave != null) {
+      nextPrefs = Map<String, dynamic>.of(nextPrefs);
+      mustHave.isEmpty
+          ? nextPrefs.remove('mustHave')
+          : nextPrefs['mustHave'] = [
+              for (final m in MustHave.values)
+                if (mustHave.contains(m)) m.name,
+            ];
+    }
     if (clearPrimaryResume) nextPrefs = put(nextPrefs, 'primaryResume', null);
     if (primaryResumeId != null) {
       nextPrefs = put(nextPrefs, 'primaryResume', primaryResumeId);

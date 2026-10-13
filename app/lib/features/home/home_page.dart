@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../applications/applications_cubit.dart';
 import '../favorites/favorites_cubit.dart';
 import '../hidden/presentation/hidden_jobs_cubit.dart';
+import '../recommendations/presentation/recommendations_ui.dart';
 import '../jobs/job_actions_menu.dart';
 import '../searches/presentation/saved_searches_cubit.dart';
 import '../searches/presentation/saved_searches_page.dart';
@@ -81,6 +82,7 @@ class HomePage extends StatelessWidget {
             _QuickFilters(onGo: (f) => _goExplore(context, f)),
             const SizedBox(height: AppSpace.s6),
             const _SavedSection(),
+            const RecommendationsSection(),
             const _ContinueSection(),
             const _LatestJobs(),
             const SizedBox(height: AppSpace.s6),

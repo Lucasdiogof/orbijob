@@ -3723,6 +3723,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent searches'**
   String get rsRecent;
+
+  /// No description provided for @rcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended for you'**
+  String get rcTitle;
+
+  /// No description provided for @rcSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matched to your profile on this device: profession, skills, place, work mode and language.'**
+  String get rcSubtitle;
+
+  /// No description provided for @rcSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get rcSeeAll;
+
+  /// No description provided for @rcEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches right now'**
+  String get rcEmptyTitle;
+
+  /// No description provided for @rcEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No open job matches your profile at the moment. Save a search with alerts to hear about new ones.'**
+  String get rcEmptyBody;
+
+  /// No description provided for @rcNeedProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what you do'**
+  String get rcNeedProfileTitle;
+
+  /// No description provided for @rcNeedProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your profession, where you want to work and how to your profile, and OrbiJob ranks jobs for you. It works for any profession.'**
+  String get rcNeedProfileBody;
+
+  /// No description provided for @rcNeedProfileAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete my profile'**
+  String get rcNeedProfileAction;
+
+  /// No description provided for @rcSignInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in and fill in your profile to get recommendations.'**
+  String get rcSignInBody;
+
+  /// No description provided for @rcThinNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile has little information, so these matches are broad. Add your profession for better ones.'**
+  String get rcThinNote;
+
+  /// No description provided for @rcFitStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong match'**
+  String get rcFitStrong;
+
+  /// No description provided for @rcFitGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good match'**
+  String get rcFitGood;
+
+  /// No description provided for @rcFitPossible.
+  ///
+  /// In en, this message translates to:
+  /// **'Possible match'**
+  String get rcFitPossible;
+
+  /// No description provided for @rcWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this job?'**
+  String get rcWhy;
+
+  /// No description provided for @rcWhyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why you see this job'**
+  String get rcWhyTitle;
+
+  /// No description provided for @rcMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'What matches'**
+  String get rcMatches;
+
+  /// No description provided for @rcCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth checking'**
+  String get rcCheck;
+
+  /// No description provided for @rcDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob compares the text of the listing with your profile. It does not check visas, work permits, professional registration or certifications: confirm the requirements in the listing.'**
+  String get rcDisclaimer;
+
+  /// No description provided for @rcScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score} of 100'**
+  String rcScore(int score);
+
+  /// No description provided for @rcSignals.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 criterion evaluated} other{{count} criteria evaluated}}'**
+  String rcSignals(int count);
+
+  /// No description provided for @rcReasonProfessionExact.
+  ///
+  /// In en, this message translates to:
+  /// **'The title mentions your profession: {profession}'**
+  String rcReasonProfessionExact(String profession);
+
+  /// No description provided for @rcReasonProfessionClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close to your profession: {profession}'**
+  String rcReasonProfessionClose(String profession);
+
+  /// No description provided for @rcReasonProfessionSynonym.
+  ///
+  /// In en, this message translates to:
+  /// **'Same profession, another language: {profession}'**
+  String rcReasonProfessionSynonym(String profession);
+
+  /// No description provided for @rcReasonSameField.
+  ///
+  /// In en, this message translates to:
+  /// **'Same professional field: {area}'**
+  String rcReasonSameField(String area);
+
+  /// No description provided for @rcReasonSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions your skills: {skills}'**
+  String rcReasonSkills(String skills);
+
+  /// No description provided for @rcReasonCountryInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'In {country}, one of your countries of interest'**
+  String rcReasonCountryInterest(String country);
+
+  /// No description provided for @rcReasonCountryResidence.
+  ///
+  /// In en, this message translates to:
+  /// **'In {country}, where you live'**
+  String rcReasonCountryResidence(String country);
+
+  /// No description provided for @rcReasonRemoteEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote and open to candidates from {country}'**
+  String rcReasonRemoteEligible(String country);
+
+  /// No description provided for @rcReasonRemoteAnywhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote, open to candidates from anywhere'**
+  String get rcReasonRemoteAnywhere;
+
+  /// No description provided for @rcReasonCity.
+  ///
+  /// In en, this message translates to:
+  /// **'In {city}'**
+  String rcReasonCity(String city);
+
+  /// No description provided for @rcReasonWorkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'{mode}, as you prefer'**
+  String rcReasonWorkMode(String mode);
+
+  /// No description provided for @rcReasonLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Written in {language}, a language of your profile'**
+  String rcReasonLanguage(String language);
+
+  /// No description provided for @rcCaveatLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'The listing does not say where the job is.'**
+  String get rcCaveatLocation;
+
+  /// No description provided for @rcCaveatLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Written in {language}, which your profile does not list.'**
+  String rcCaveatLanguage(String language);
+
+  /// No description provided for @rcCaveatEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'The listing restricts who can apply: {places}. Check that you qualify.'**
+  String rcCaveatEligibility(String places);
+
+  /// No description provided for @rcCaveatMode.
+  ///
+  /// In en, this message translates to:
+  /// **'The listing does not say if it is remote, hybrid or on site.'**
+  String get rcCaveatMode;
+
+  /// No description provided for @pfMustTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Must-haves for recommendations'**
+  String get pfMustTitle;
+
+  /// No description provided for @pfMustHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on what a job must have to be recommended to you. Everything else is only a preference: it raises a job in the list but never hides it. A listing that does not say is never hidden.'**
+  String get pfMustHelp;
+
+  /// No description provided for @pfMustWorkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Only my work mode'**
+  String get pfMustWorkMode;
+
+  /// No description provided for @pfMustCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Only my countries'**
+  String get pfMustCountry;
+
+  /// No description provided for @pfMustLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Only my languages'**
+  String get pfMustLanguage;
 }
 
 class _AppLocalizationsDelegate

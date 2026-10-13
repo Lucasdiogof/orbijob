@@ -2092,4 +2092,172 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get rsRecent => 'Búsquedas recientes';
+
+  @override
+  String get rcTitle => 'Recomendados para ti';
+
+  @override
+  String get rcSubtitle =>
+      'Comparados con tu perfil en este dispositivo: profesión, competencias, lugar, modalidad e idioma.';
+
+  @override
+  String get rcSeeAll => 'Ver todos';
+
+  @override
+  String get rcEmptyTitle => 'Nada coincide ahora';
+
+  @override
+  String get rcEmptyBody =>
+      'Ningún empleo abierto coincide con tu perfil por ahora. Guarda una búsqueda con alertas para enterarte de los nuevos.';
+
+  @override
+  String get rcNeedProfileTitle => 'Cuéntanos a qué te dedicas';
+
+  @override
+  String get rcNeedProfileBody =>
+      'Añade a tu perfil tu profesión, dónde quieres trabajar y cómo, y OrbiJob ordena los empleos para ti. Sirve para cualquier profesión.';
+
+  @override
+  String get rcNeedProfileAction => 'Completar mi perfil';
+
+  @override
+  String get rcSignInBody =>
+      'Inicia sesión y completa tu perfil para recibir recomendaciones.';
+
+  @override
+  String get rcThinNote =>
+      'Tu perfil tiene poca información, así que estas coincidencias son amplias. Añade tu profesión para mejorarlas.';
+
+  @override
+  String get rcFitStrong => 'Coincide mucho';
+
+  @override
+  String get rcFitGood => 'Coincide bien';
+
+  @override
+  String get rcFitPossible => 'Puede interesar';
+
+  @override
+  String get rcWhy => '¿Por qué este empleo?';
+
+  @override
+  String get rcWhyTitle => 'Por qué ves este empleo';
+
+  @override
+  String get rcMatches => 'Qué coincide';
+
+  @override
+  String get rcCheck => 'Conviene comprobar';
+
+  @override
+  String get rcDisclaimer =>
+      'OrbiJob compara el texto del anuncio con tu perfil. No verifica visados, permisos de trabajo, registro profesional ni certificaciones: confirma los requisitos en el anuncio.';
+
+  @override
+  String rcScore(int score) {
+    return 'Puntuación $score de 100';
+  }
+
+  @override
+  String rcSignals(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criterios evaluados',
+      one: '1 criterio evaluado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rcReasonProfessionExact(String profession) {
+    return 'El título menciona tu profesión: $profession';
+  }
+
+  @override
+  String rcReasonProfessionClose(String profession) {
+    return 'Cercana a tu profesión: $profession';
+  }
+
+  @override
+  String rcReasonProfessionSynonym(String profession) {
+    return 'La misma profesión en otro idioma: $profession';
+  }
+
+  @override
+  String rcReasonSameField(String area) {
+    return 'Mismo campo profesional: $area';
+  }
+
+  @override
+  String rcReasonSkills(String skills) {
+    return 'Menciona tus competencias: $skills';
+  }
+
+  @override
+  String rcReasonCountryInterest(String country) {
+    return 'En $country, uno de tus países de interés';
+  }
+
+  @override
+  String rcReasonCountryResidence(String country) {
+    return 'En $country, donde vives';
+  }
+
+  @override
+  String rcReasonRemoteEligible(String country) {
+    return 'Remoto y abierto a candidatos de $country';
+  }
+
+  @override
+  String get rcReasonRemoteAnywhere =>
+      'Remoto, abierto a candidatos de cualquier lugar';
+
+  @override
+  String rcReasonCity(String city) {
+    return 'En $city';
+  }
+
+  @override
+  String rcReasonWorkMode(String mode) {
+    return '$mode, como prefieres';
+  }
+
+  @override
+  String rcReasonLanguage(String language) {
+    return 'Escrito en $language, un idioma de tu perfil';
+  }
+
+  @override
+  String get rcCaveatLocation => 'El anuncio no dice dónde está el empleo.';
+
+  @override
+  String rcCaveatLanguage(String language) {
+    return 'Escrito en $language, que tu perfil no incluye.';
+  }
+
+  @override
+  String rcCaveatEligibility(String places) {
+    return 'El anuncio limita quién puede postularse: $places. Comprueba que cumples.';
+  }
+
+  @override
+  String get rcCaveatMode =>
+      'El anuncio no dice si es remoto, híbrido o presencial.';
+
+  @override
+  String get pfMustTitle => 'Requisitos para las recomendaciones';
+
+  @override
+  String get pfMustHelp =>
+      'Activa lo que un empleo debe tener para recomendártelo. Lo demás es solo una preferencia: sube el empleo en la lista pero nunca lo oculta. Un anuncio que no lo indica nunca se oculta.';
+
+  @override
+  String get pfMustWorkMode => 'Solo mi modalidad';
+
+  @override
+  String get pfMustCountry => 'Solo mis países';
+
+  @override
+  String get pfMustLanguage => 'Solo mis idiomas';
 }

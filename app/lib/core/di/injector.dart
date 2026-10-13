@@ -27,6 +27,7 @@ import '../../features/hidden/data/supabase_hidden_jobs_repository.dart';
 import '../../features/hidden/domain/hidden_jobs_repository.dart';
 import '../../features/hidden/presentation/hidden_jobs_cubit.dart';
 import '../../features/notifications/data/supabase_notifications_repository.dart';
+import '../../features/recommendations/presentation/recommendations_cubit.dart';
 import '../../features/notifications/domain/notifications_repository.dart';
 import '../../features/notifications/presentation/notifications_cubit.dart';
 import '../../features/searches/data/supabase_saved_searches_repository.dart';
@@ -143,6 +144,9 @@ void configureDependencies({
     )
     ..registerFactory<PreferencesCubit>(
       () => PreferencesCubit(maybe<PreferencesRepository>()),
+    )
+    ..registerFactory<RecommendationsCubit>(
+      () => RecommendationsCubit(maybe<SearchRepository>()),
     )
     ..registerFactory<HiddenJobsCubit>(
       () => HiddenJobsCubit(maybe<HiddenJobsRepository>()),
