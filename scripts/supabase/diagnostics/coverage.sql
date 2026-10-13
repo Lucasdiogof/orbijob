@@ -16,9 +16,14 @@ areas(area, re) as (values
   ('finance/admin', 'accountant|ekonom|controller|finance|buchhalt|administrat|assistant|assistent|secretary|office'),
   ('services', 'clean|städ|reinigung|security|väktare|hairdress|frisör|customer service|kundtjänst|support'))
 select 'source' section, source_id key, count(*)::text value, 'visible jobs' note from visible group by source_id
+union all select 'source_stored', j.source_id, count(*)::text || ' stored, ' || count(*) filter (where j.status = 'open') || ' open', case when s.can_redistribute then 'published' else 'NOT PUBLISHED (not shown in the app)' end
+  from public.jobs j join public.job_sources s on s.id = j.source_id group by j.source_id, s.can_redistribute
+union all select 'source_no_country', source_id, count(*)::text, 'visible jobs of the source without a country' from visible where country is null group by source_id
 union all select 'source_new_7d', source_id, count(*)::text, 'first stored in the last 7 days' from public.jobs where first_seen_at > now() - interval '7 days' group by source_id
 union all select 'source_stale', s.id, coalesce(max(r.started_at)::text, 'never'), 'last discovery pass that ended ok'
   from public.job_sources s left join public.sync_runs r on r.source_id = s.id and r.scope = 'discover' and r.status = 'ok' group by s.id
+union all select 'source_last_run', source_id, status || coalesce(' (' || error_class || ')', ''), 'started ' || started_at::text || ', scope ' || scope
+  from (select distinct on (source_id) * from public.sync_runs order by source_id, started_at desc) r
 union all select 'source_failures_7d', source_id, count(*)::text, 'discovery/revalidation passes not ok in 7 days (' || string_agg(distinct coalesce(error_class, status), ',') || ')'
   from public.sync_runs where started_at > now() - interval '7 days' and status <> 'ok' group by source_id
 union all select 'country', coalesce(country, '(unknown)'), count(*)::text, 'visible jobs; unknown = the source states no single country' from visible group by country
@@ -28,11 +33,13 @@ union all select 'area', a.area, count(*)::text, 'visible jobs whose TITLE match
 union all select 'area', '(none)', count(*)::text, 'visible jobs matching no broad pattern' from visible v where not exists (select 1 from areas a where v.title ~* a.re)
 union all select 'quality', 'no_company', count(*)::text, 'visible jobs without a company' from visible where btrim(company) = ''
 union all select 'quality', 'no_place', count(*)::text, 'visible jobs without country, city or eligibility' from visible where country is null and city is null and coalesce(geo_restrictions, '{}') = '{}'
-union all select 'quality', 'short_description', count(*)::text, 'visible jobs with a description under 200 characters' from visible where length(coalesce(description, '')) < 200
+union all select 'quality', 'short_description', count(*)::text, 'visible jobs with a description under 200 characters (under 60 when it is written in Chinese, Japanese or Korean, which says as much in a quarter of the characters)' from visible
+  where length(coalesce(description, '')) < case when description ~ '[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]' then 60 else 200 end
 union all select 'quality', 'no_published_date', count(*)::text, 'visible jobs without a publication date' from visible where published_at is null
 union all select 'quality', 'cross_source_duplicates', count(*)::text, 'fingerprints shared by open jobs of two or more sources' from (select fingerprint from public.jobs where status = 'open' group by fingerprint having count(distinct source_id) > 1) d
 union all select 'validity', 'open_not_verified_72h', count(*)::text, 'open jobs the app hides because nothing confirmed them in 72 h' from public.jobs where status = 'open' and last_checked_at <= now() - interval '72 hours'
-union all select 'validity', 'past_expiry_still_open', count(*)::text, 'open jobs published over 60 days ago' from public.jobs where status = 'open' and published_at < now() - interval '60 days'
+union all select 'validity', 'past_expiry_still_open', count(*)::text, 'open jobs published over 60 days ago (still confirmed by their source: a deadline, a status endpoint or the feed itself; shown with their real date, never closed for age alone)' from public.jobs where status = 'open' and published_at < now() - interval '60 days'
+union all select 'validity_old_by_source', source_id, count(*)::text, 'open jobs published over 60 days ago' from public.jobs where status = 'open' and published_at < now() - interval '60 days' group by source_id
 union all select 'growth', to_char(d, 'YYYY-MM-DD'), (select count(*) from public.jobs where first_seen_at::date = d)::text, 'jobs first stored that day'
   from generate_series(current_date - 6, current_date, interval '1 day') d
 union all select 'storage', 'database', pg_size_pretty(pg_database_size(current_database())), 'free plan limit 500 MB'

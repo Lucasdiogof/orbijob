@@ -68,3 +68,21 @@ Detalhes e evidências das fontes integradas: `docs/SOURCES_MATRIX.md`. Frescor 
 
 **Integradas hoje: 7 fontes (5 anteriores + Taiwan Jobs + Jobs.co.nz).** Pendências que dependem do proprietário: token NAV (e-mail à NAV), chave USAJOBS, formulário France Travail, permissão de Dev Global Jobs e Himalayas, credencial KEHA (Finlândia), chave do Jooble/Adzuna.
 Próxima rodada de fontes (depois da etapa visual): reavaliar Open Jobs CC0 (frescor), ler os termos das fontes marcadas "não lida", e construir a busca federada para as FEDERATED.
+
+## Atualização 6.0 (13/10/2026) — fontes avaliadas além das 60
+
+Detalhes, evidências e licenças em `docs/SOURCES_6_0.md`.
+
+| # | Fonte | Região | Classe | Estado | Vagas armazenadas |
+|---|---|---|---|---|---:|
+| 61 | Teaching Vacancies (DfE, Inglaterra) | Europa | **PERSIST — integrada, aguardando publicação** | OGL v3.0 declarada nos termos da API; feed completo lido a cada passada; teto 2.000 | 700 |
+| 62 | NYC Jobs (NYC Open Data) | América do Norte | **PERSIST — integrada, aguardando publicação** | dados abertos da cidade; só postagens External; link `cityjobs.nyc.gov/job/{id}` | 800 |
+| 63 | Get on Board | América Latina | **PERSIST (condicional) — integrada, aguardando publicação** | API pública documentada; nenhum termo concede ou nega o armazenamento: decisão do dono (pedido de confirmação sugerido) | 600 |
+| 64 | Landing.jobs | Europa | BLOCKED | `robots.txt`: `Disallow: /api/` | 0 |
+| 65 | Trampos.co | América Latina (BR) | BLOCKED | termos §2.5 proíbem robôs/scripts/cópia | 0 |
+| 66 | MyCareersFuture | Ásia (SG) | BLOCKED | termos §5/§16: sem reprodução sem permissão escrita | 0 |
+| 67 | Torre | América Latina | BLOCKED | API comercial com créditos; `robots.txt` `Disallow: /api/` | 0 |
+| 68 | Latvia NVA "Vakances" (data.gov.lv, CC0) | Europa | PENDING (candidata) | sem nome do empregador nem descrição; só setor público | 0 |
+| 69 | City of Calgary Careers (dados abertos) | América do Norte | PENDING (candidata) | 61 vagas, só título/área/prazo/link | 0 |
+
+Reavaliadas em 13/10: Open Jobs CC0 (head ainda 05/10: segue PENDING por frescor), Bundesagentur (403 a toda requisição deste ambiente: PENDING).
