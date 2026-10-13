@@ -36,16 +36,29 @@ by automated tests and (for the database parts) applied to the OrbiJob project. 
 
 ### Push notifications (phone / browser)
 
-Not enabled. In-app delivery needs nothing outside the project; push needs something only the owner can create:
+Android and iOS push is implemented and deployed; it turns on by itself once the Firebase service-account key is stored (see the table).
 
-| Channel | What it needs | Status |
-|---|---|---|
-| Android / iOS push | A Firebase project (free), `google-services.json` / `GoogleService-Info.plist`, an APNs key for iOS, a service-account credential kept as an Edge Function secret, a table of device tokens (owner-only RLS) and a sender reading `public.notifications` | pending — owner configuration |
-| Web push | The Flutter web build hosted on a public HTTPS origin, a service worker, a VAPID key pair (generated locally, private key as a secret), a subscriptions table, a sender | pending — no public web hosting yet |
-| Local reminders for interviews | `flutter_local_notifications` + platform permissions; cannot be verified on iOS here | not done; the in-app agenda covers it |
+* **Device side:** `firebase_messaging`. After sign-in the app asks for permission (once) and stores its token in `public.push_devices` (migration
+  17, owner-only RLS, at most 10 devices per person, the oldest makes room). Before sign-out the row is deleted and the token forgotten, so the next
+  account on the same phone starts clean. Tapping a push opens the notification centre. Web and desktop have no push.
+* **Configuration (not in Git, the repository is public):** Android reads `app/android/app/google-services.json` (the Google services Gradle plugin
+  is applied only when that file exists); iOS takes `FIREBASE_IOS_API_KEY`, `FIREBASE_IOS_APP_ID`, `FIREBASE_SENDER_ID`, `FIREBASE_PROJECT_ID`
+  from `--dart-define` (`dart_defines.dev.json`). A build without them simply has no push.
+* **Sender:** Edge Function `push-send` (`supabase/functions/push-send`), called every hour at minute 56 by pg_cron (`push-send` job, three
+  minutes after the alerts). It uses the internal database connection of the project and only `ops.push_claim` / `ops.push_forget_tokens`: no API
+  role gains access to notifications or devices. It claims unsent, unread rows of the last 6 hours, respects the global "notifications" switch,
+  sends one FCM v1 message per device in the language of the person (title and company exactly as the listing states), and forgets tokens FCM no
+  longer knows. A row is marked even if Google is down, so nobody receives an old burst later; the bell always has it.
+* **Secrets:** `PUSH_CRON_SECRET` (function) = `push_cron_secret` (Vault): generated and stored. `FCM_SERVICE_ACCOUNT` (function): **pending**.
+  Without it the function answers `not_configured` and touches nothing.
+* **Switch off:** `scripts/supabase/ops/disable_push_cron.sql`.
 
-The design keeps `public.notifications` as the single source: a sender only has to read new rows. Nothing paid is required (FCM and Web Push are
-free), but each needs an account or hosting that is not mine to create.
+| Channel | Status |
+|---|---|
+| Android | built and launched on the emulator (Firebase initialised); end-to-end delivery waits for `FCM_SERVICE_ACCOUNT` and a signed-in device |
+| iOS | code ready; needs a Mac build with the Push Notifications capability and an APNs key uploaded to Firebase; not verified here |
+| Web push | not done: needs a public HTTPS origin, a service worker and VAPID keys |
+| Local interview reminders | not done; the in-app agenda covers it |
 
 ## 3. Recommendations
 
