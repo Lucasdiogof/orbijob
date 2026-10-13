@@ -306,6 +306,7 @@ const _sourceNames = {
   'teachingvacancies': 'Teaching Vacancies',
   'nycjobs': 'NYC Jobs',
   'karrierenrw': 'Karriere.NRW',
+  'bpce': 'Groupe BPCE',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

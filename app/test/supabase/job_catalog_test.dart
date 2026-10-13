@@ -554,6 +554,7 @@ void main() {
         ),
         ('nycjobs', 'NYC Jobs', 'cityjobs.nyc.gov'),
         ('karrierenrw', 'Karriere.NRW', 'karriere.nrw'),
+        ('bpce', 'Groupe BPCE', 'recrutement.bpce.fr'),
       ]) {
         final j = jobFromCatalogRow(
           row(

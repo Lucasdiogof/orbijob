@@ -188,14 +188,14 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_DISCOVERY_ENABLED == 'true'/);
     expect(c).toMatch(/default: check/);
     expect(c).toMatch(/options: \[check, preview, discover\]/);
-    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw\]/);
+    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce\]/);
     const step = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
     expect(step).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'\)/);
   });
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '33 4,16 * * *', '9 10,22 * * *', '38 1,7,13,19 * * *', '12 4,10,16,22 * * *', '48 6,18 * * *', '14 12 * * *', '36 5,17 * * *', '8 11,23 * * *']);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '33 4,16 * * *', '9 10,22 * * *', '38 1,7,13,19 * * *', '12 4,10,16,22 * * *', '48 6,18 * * *', '14 12 * * *', '36 5,17 * * *', '8 11,23 * * *', '52 7,19 * * *', '6 13 * * *']);
     expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
     expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
     expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
@@ -239,7 +239,7 @@ describe('sources-discover.yml', () => {
     const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
     expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
     expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_|wrangler|supabase db|--prompt-key|revalidate-local/);
-    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\) ;; \*\) .*exit 1/);
+    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\) ;; \*\) .*exit 1/);
   });
 
   it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {

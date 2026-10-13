@@ -11,5 +11,6 @@ insert into public.job_sources (id, status, attribution, can_redistribute) value
   ('getonboard', 'CONDITIONAL', 'Jobs via Get on Board (https://www.getonbrd.com), tech jobs in Latin America', false),
   ('teachingvacancies', 'CONDITIONAL', 'Jobs via Teaching Vacancies, Department for Education (England) (https://teaching-vacancies.service.gov.uk), Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)', false),
   ('nycjobs', 'CONDITIONAL', 'Jobs via NYC Open Data, "Jobs NYC Postings", Department of Citywide Administrative Services, City of New York (https://data.cityofnewyork.us/d/kpav-sd4t); apply on https://cityjobs.nyc.gov', false),
-  ('karrierenrw', 'CONDITIONAL', 'Jobs via Karriere.NRW, employer portal of the state of North Rhine-Westphalia (https://karriere.nrw), Open.NRW, Datenlizenz Deutschland – Namensnennung – Version 2.0 (https://www.govdata.de/dl-de/by-2-0)', false)
+  ('karrierenrw', 'CONDITIONAL', 'Jobs via Karriere.NRW, employer portal of the state of North Rhine-Westphalia (https://karriere.nrw), Open.NRW, Datenlizenz Deutschland – Namensnennung – Version 2.0 (https://www.govdata.de/dl-de/by-2-0)', false),
+  ('bpce', 'CONDITIONAL', 'Jobs via Groupe BPCE open data (https://recrutement.bpce.fr), dataset "Groupe BPCE - Offres emploi publiques" on data.gouv.fr, Licence Ouverte v2.0 (https://www.etalab.gouv.fr/licence-ouverte-open-licence/)', false)
 on conflict (id) do nothing;

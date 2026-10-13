@@ -1,3 +1,4 @@
+import { bpceConnector, BPCE_MAX_PAGES } from './connectors/bpce';
 import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnector } from './connectors/feeds';
 import { getOnBoardConnector } from './connectors/getonboard';
 import { jobicyConnector } from './connectors/jobicy';
@@ -98,6 +99,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'karriere.nrw',
     maxPages: 1, newCap: 1000, catalogue: 1500,
     make: (f, n, origin) => karriereNrwConnector(f, n, { origin }),
+  },
+  bpce: {
+    id: 'bpce',
+    attribution: 'Jobs via Groupe BPCE open data (https://recrutement.bpce.fr), dataset "Groupe BPCE - Offres emploi publiques" on data.gouv.fr, Licence Ouverte v2.0 (https://www.etalab.gouv.fr/licence-ouverte-open-licence/)',
+    host: 'bpce.fr',
+    maxPages: BPCE_MAX_PAGES, newCap: 1000, catalogue: 2000,
+    make: (f, n, origin) => bpceConnector(f, n, { origin }),
   },
 };
 
