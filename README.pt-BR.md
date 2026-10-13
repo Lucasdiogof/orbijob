@@ -26,6 +26,7 @@ O OrbiJob reúne a busca internacional de empregos e o acompanhamento de candida
 - **Ocultar vagas e pesquisas recentes (3.0):** oculte uma vaga com desfazer e lista para restaurar; as pesquisas recentes ficam no aparelho, por conta, e podem ser desligadas ou apagadas.
 - **Funil de candidaturas (3.0):** etapas de interessado a contratado ou rejeitado, notas pessoais, datas de entrevista e retorno com lembretes na central de notificações (e push no Android) e uma agenda; a candidatura só é marcada como enviada quando você confirma.
 - **Compartilhar e comparar (3.0):** compartilhe o link de uma vaga e compare vagas lado a lado (tabela em telas largas, blocos no celular) só com o que os anúncios informam, inclusive as habilidades que a fonte lista.
+- **Busca multilíngue por profissão (5.0):** uma profissão digitada em um idioma também encontra a mesma profissão escrita nos outros (pt, en, es, de, sv, nl, fr), a partir da tabela de ocupações ESCO (© União Europeia, CC BY 4.0), sem transformar uma profissão qualificada no campo inteiro ("engenheiro civil" não é "qualquer engenheiro", "fisioterapia pélvica" não é "qualquer fisioterapia"). Os alertas das pesquisas salvas usam exatamente a mesma regra do app, e um resultado vazio sugere uma profissão mais ampla ou de grafia parecida. Detalhes e antes/depois medido: [ORBIJOB_5_0.md](docs/ORBIJOB_5_0.md).
 
 ## Capturas de tela
 

@@ -26,6 +26,7 @@ OrbiJob brings international job discovery and personal application tracking tog
 - **Hide jobs and recent searches (3.0):** hide a job with undo and a restore list; recent searches stay on the device, per account, and can be switched off or cleared.
 - **Application pipeline (3.0):** stages from interested to hired or rejected, personal notes, interview and follow-up dates with reminders in the notification centre (and Android push) and an agenda; an application is only marked as sent when you confirm it.
 - **Share and compare (3.0):** share a job link and compare jobs side by side (table on wide screens, blocks on phones) using only what the listings state, including the skills a source lists.
+- **Multilingual profession search (5.0):** a profession typed in one language also finds the same profession written in the others (pt, en, es, de, sv, nl, fr), from the ESCO occupation table (© European Union, CC BY 4.0), without turning a qualified profession into the whole field ("civil engineer" is not "any engineer", "pelvic physiotherapy" is not "any physiotherapy"). Saved-search alerts use exactly the same rule as the app, and an empty result suggests a broader or similarly spelled profession. Details and measured before/after: [ORBIJOB_5_0.md](docs/ORBIJOB_5_0.md).
 
 ## Screenshots
 

@@ -1,0 +1,93 @@
+# OrbiJob 5.0 vs 4.0, real catalogue (2026-10-13T21:14:47.978Z)
+query | 4.0 results | 4.0 description-only | 5.0 results | 5.0 found only via other names | alternatives
+fisioterapia pélvica | 212 | 0 | 0 | 0 | 25
+pelvic health physiotherapist | 212 | 0 | 0 | 0 | 23
+beckenbodenphysiotherapie | 212 | 0 | 0 | 0 | 23
+fisioterapeuta | 212 | 0 | 212 | 212 | 8
+physiotherapist | 213 | 1 | 212 | 212 | 9
+desenvolvedor flutter | 140 | 0 | 0 | 0 | 4
+flutter developer | 69 | 6 | 0 | 0 | 4
+flutter-entwickler | 121 | 0 | 0 | 0 | 4
+enfermeiro | 97 | 0 | 97 | 97 | 7
+nurse | 112 | 15 | 97 | 85 | 7
+krankenpfleger | 97 | 0 | 97 | 97 | 7
+pflegefachkraft | 97 | 0 | 97 | 97 | 7
+sjuksköterska | 174 | 77 | 97 | 23 | 7
+engenheiro civil | 849 | 0 | 0 | 0 | 10
+civil engineer | 96 | 14 | 0 | 0 | 11
+bauingenieur | 834 | 1 | 0 | 0 | 9
+professor | 164 | 26 | 138 | 134 | 5
+teacher | 145 | 7 | 138 | 138 | 5
+lehrer | 141 | 3 | 138 | 138 | 5
+motorista | 59 | 0 | 59 | 59 | 4
+truck driver | 45 | 16 | 1 | 0 | 4
+cozinheiro | 0 | 0 | 7 | 7 | 4
+chef | 404 | 283 | 404 | 0 | 0
+eletricista | 0 | 0 | 11 | 11 | 7
+electrician | 5 | 2 | 11 | 8 | 7
+elektriker | 23 | 15 | 11 | 3 | 5
+contador | 22 | 0 | 22 | 22 | 2
+accountant | 31 | 9 | 23 | 8 | 6
+vendedor | 306 | 0 | 306 | 306 | 10
+farmacêutico | 1 | 0 | 10 | 10 | 7
+psicólogo | 15 | 0 | 16 | 16 | 5
+soldador | 0 | 0 | 11 | 11 | 8
+welder | 0 | 0 | 11 | 11 | 8
+schweißer | 0 | 0 | 11 | 11 | 8
+recepcionista | 0 | 0 | 9 | 9 | 5
+advogado | 19 | 0 | 19 | 19 | 10
+TOTAL | 5127 | 475 | 2265 | 1744 | -
+
+[fisioterapia pélvica] dropped by 5.0: Fysioterapeut till Kiruna hälsocentral / Fysioterapeut till vårt team i natursköna Dalsjöfors / Fysioterapeut / Fysioterapeut Västerås / Fysioterapeut Enköping / Fysioterapeut Eskilstuna
+
+[pelvic health physiotherapist] dropped by 5.0: Fysioterapeut till Kiruna hälsocentral / Fysioterapeut till vårt team i natursköna Dalsjöfors / Fysioterapeut / Fysioterapeut Västerås / Fysioterapeut Enköping / Fysioterapeut Eskilstuna
+
+[beckenbodenphysiotherapie] dropped by 5.0: Fysioterapeut till Kiruna hälsocentral / Fysioterapeut till vårt team i natursköna Dalsjöfors / Fysioterapeut / Fysioterapeut Västerås / Fysioterapeut Enköping / Fysioterapeut Eskilstuna
+
+[physiotherapist] dropped by 5.0: Physio Assistant - Part Time
+[physiotherapist] only in 5.0: Fysioterapeut till teamet på Nyby Vårdcentral
+
+[desenvolvedor flutter] dropped by 5.0: Fullstack Developer Data & Analytics (GCP) - 20050 / Verksamhetsutvecklare inom digitalisering och AI / Systemutvecklare till myndighet / Embedded Developer till innovativt teknikbolag / Fullstackutvecklare / Mjukvaruutvecklare / Junior Produktägare inom Försvarsindustrin
+
+[flutter developer] dropped by 5.0: Verksamhetsutvecklare inom digitalisering och AI / Systemutvecklare till myndighet / Fullstackutvecklare / Mjukvaruutvecklare / Junior Produktägare inom Försvarsindustrin / Integrationsutvecklare / Fullstackutvecklare
+
+[flutter-entwickler] dropped by 5.0: Fullstack Developer Data & Analytics (GCP) - 20050 / Verksamhetsutvecklare inom digitalisering och AI / Systemutvecklare till myndighet / Embedded Developer till innovativt teknikbolag / Fullstackutvecklare / Mjukvaruutvecklare / Junior Produktägare inom Försvarsindustrin
+
+[nurse] dropped by 5.0: Unit Coordinator - Serviced Apartments / Unit Coordinator - Serviced Apartment / Unit Coordinator - Dual Unit / Unit Coordinator - Special Care Unit / Unit Coordinator - Serviced Apartment - EN / Physio Assistant - Part Time
+[nurse] only in 5.0: Sjuksköterska till korttiden i Svenljunga / Almia söker operationssjuksköterska till Ljungby / Sjuksköterska/Distriktssköterska / Sjuksköterska kväll och natt till Hälso- och sjukvårdsenhet Laholms kommun / Neonatalavdelningen söker Sjuksköterska/Barnsjuksköterska / Distriktssköterska/sjuksköterska till Vårdcentralen Håsten
+
+[sjuksköterska] dropped by 5.0: Vi söker intensivvårdssjuksköterskor till IVA Alingsås / Sjuksköterskor till avdelning M66/M68 Rättspsykiatri Syd / Utvecklingsledare till Avdelning 63 PAVA, Sunderby sjukhus / Specialistläkare till Rehabiliteringskliniken, Blekingesjukhuset / Biträdande enhetschefer till M66 och M68, Rättspsykiatri Vård Stockholm / Undersköterska för nattjänstgöring sökes till Golife äldreboende
+[sjuksköterska] only in 5.0: Röntgensjuksköterska till akutröntgen i Linköping / Sjuksköterska till ASIH i X / Legitimerad sjuksköterska till mag- och tarmmottagning / Sjuksköterska till postoperativ vård inom öron-plastik-käk och ortopedi 70H / Sjuksköterska/ Biträdande enhetschef / Sjuksköterska till Ersta diakoni äldreboende Hannahemmet
+
+[engenheiro civil] dropped by 5.0: Tier III Service Desk Engineer / Systemingenjör till BENNING! / Mark- och Exploateringsingenjörer till Kiruna kommun / Fastighetsingenjör / KIP-Ingenjör | Hässleholm / DevOps Engineer
+
+[civil engineer] dropped by 5.0: Systemingenjör till BENNING! / Mark- och Exploateringsingenjörer till Kiruna kommun / Fastighetsingenjör / KIP-Ingenjör | Hässleholm / Projektingenjör inom järnväg och anläggning / EMC-ingenjör
+
+[bauingenieur] dropped by 5.0: Tier III Service Desk Engineer / Systemingenjör till BENNING! / Mark- och Exploateringsingenjörer till Kiruna kommun / Fastighetsingenjör / KIP-Ingenjör | Hässleholm / DevOps Engineer
+
+[professor] dropped by 5.0: Forskare i zoologisk beräkningspaleogenomik / Teaching Fellow - Gender Studies / Accounts and Supply Chain Assistant / Senior Optics Manager / Software Engineer Talent Pool (all grades) / Lecturer in European Studies, with Gender Studies
+[professor] only in 5.0: Legitimerad slöjdlärare åk 4-9 / Ämneslärare engelska 7-9 / Speciallärare/Specialpedagog / Speciallärare, inrikt. intellektuell funktionsnedsättning / Ämneslärare åk 7-9 i SO till Junedalsskolan (vikariat) / Musiklärare till Elin Wägnerskolan
+
+[teacher] dropped by 5.0: Equipment Engineer - Automation / Senior Customer Success Manager - Mid-Market, TX / Snr. Marketing Manager, Enterprise ABM EMEA / Kaiako - Kōhanga Reo | Early Childhood Education / Lead Solutions Architect - Generative AI (EMEA Emerging DNB) / Lecturer/Senior Lecturer - Economics
+[teacher] only in 5.0: Allakando läxhjälp Fågelfors, privatlärare, Matematik / Allakando läxhjälp Gustavsberg, privatlärare, Matematik / Allakando läxhjälp Helsingborg, privatlärare, Matematik / Allakando läxhjälp, Johanneshov, privatlärare, Matematik / Lärare i slöjd till Askimsskolan / Lärare F-3 Lejonbacken
+
+[lehrer] dropped by 5.0: Trainee (m/w/x) als IT-Trainer/Dozent (m/w/x) für Microsoft Zertifizierungskurse / Dozent Fachinformatiker Systemintegration (m/w/d) / Senior Performance Marketing Manager (m/w/d)
+[lehrer] only in 5.0: Allakando läxhjälp, Johanneshov, privatlärare, Matematik / Lärare i slöjd till Askimsskolan / Lärare F-3 Lejonbacken
+
+[truck driver] dropped by 5.0: Kranbilschaufför (C-kort) till långsiktigt uppdrag i Västerås / Serviceinriktade taxichaufförer - Lycksele, Sorsele, Vilhelmina / Däckskiftare - Varberg / Lagerarbetare Däckverkstad - Varberg / C-chaufför - Karlstad / Lastbilschaufför / Kranbilschaufför
+[cozinheiro] only in 5.0: Line Cook / Cooks Assistant - Part time / Cooks Assistant - Part Time / Cooks Assistant / Cooks Assistant - Part Time / Cooks Assistant - Part Time
+[eletricista] only in 5.0: Automationstekniker / Elektriker för tjänst i Norge! / Elektriker / Eltekniker till St1 Refinery / Industrielektriker till Scan / Maintenance Services Technician (Electrician) - Collingwood St / Electrician / Elektriker SCA Munksund
+
+[electrician] dropped by 5.0: Site Manager. / Automation Engineer (gn) Industrial Robotics & Software Development
+[electrician] only in 5.0: Automationstekniker / Elektriker för tjänst i Norge! / Elektriker / Eltekniker till St1 Refinery / Industrielektriker till Scan / Elektriker SCA Munksund / Elektriker / Elektriker
+
+[elektriker] dropped by 5.0: Gymnasielärare i svenska som andraspråk och spanska / Teknisk säljare / Installatör / Servicetekniker / Montör med fokus på elinstallationer / Kfz-Mechatroniker (m/w/d) – Wohnmobile & Campervans / Stationstekniker / Stationstekniker
+[elektriker] only in 5.0: Maintenance Services Technician (Electrician) - Collingwood St / Electrician / Section Electrician
+
+[accountant] dropped by 5.0: Head of Kairos Labs / Implementation Consultant / Finance Partner - Revenue / Finance Business Partner - Research / Product Owner, Accounting Stack (entire Business Suite) / Accounting Automation Engineer
+[farmacêutico] only in 5.0: Farmaceut / Farmaceut till DOZ Apotek Helsingborg Råå / Farmaceut till DOZ Apotek på Väddö, Älmsta / Farmaceut till DOZ Apotek Tidaholm / Farmaceut till DOZ Apotek i Borås / Vi söker farmaceuter till Kronans Apoteks regionala kompetenspool i
+[psicólogo] only in 5.0: GZ-psycholoog
+[soldador] only in 5.0: Spårsvetsare till nytt järnvägskontrakt i Göteborg / Vi söker svetsare! / Duktig svetsare till Oxelösund / TIG-svetsare till Siemens Energy - Trollhättan / Svetsare / Robotsvetsare
+[welder] only in 5.0: Spårsvetsare till nytt järnvägskontrakt i Göteborg / Vi söker svetsare! / Duktig svetsare till Oxelösund / TIG-svetsare till Siemens Energy - Trollhättan / Svetsare / Robotsvetsare
+[schweißer] only in 5.0: Spårsvetsare till nytt järnvägskontrakt i Göteborg / Vi söker svetsare! / Duktig svetsare till Oxelösund / TIG-svetsare till Siemens Energy - Trollhättan / Svetsare / Robotsvetsare
+[recepcionista] only in 5.0: Receptionist till Nordic Wellness Falkenberg / Receptionist - Part Time / Faculty Assistant/Receptionist / Digital Front Office | Empfangsmitarbeiter (m/w/d) | 100% Remote / Receptionist / Vårdadministratör / Receptionist till statlig myndighet
