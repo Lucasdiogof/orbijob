@@ -90,7 +90,7 @@ begin
   -- guards
   perform tests.fails($q$insert into public.saved_jobs (user_id,job_key,snapshot) values ('00000000-0000-0000-0000-00000000000a','dup','{"a":1}'),('00000000-0000-0000-0000-00000000000a','dup','{"a":1}')$q$, 'duplicate key');
   perform tests.fails($q$insert into public.saved_jobs (user_id,job_key) values ('00000000-0000-0000-0000-00000000000a','empty')$q$, 'check constraint');
-  perform tests.fails(format($q$insert into public.saved_searches (user_id, query) values (%L, jsonb_build_object('x', repeat('a', 5000)))$q$, A), 'check constraint');
+  perform tests.fails(format($q$insert into public.saved_searches (user_id, query) values (%L, jsonb_build_object('x', repeat('a', 13000)))$q$, A), 'check constraint');
   perform tests.fails($q$update public.user_preferences set theme = 'neon'$q$, 'check constraint');
   perform tests.fails($q$update public.user_preferences set locale = 'xx'$q$, 'check constraint');
   perform tests.fails(format($q$update public.professional_profiles set skills = (select array_agg('s'||g) from generate_series(1,201) g) where user_id=%L$q$, A), 'check constraint');
