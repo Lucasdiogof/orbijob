@@ -39,7 +39,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   arbeitnow: {
     id: 'arbeitnow', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', host: 'arbeitnow.com', hosts: ARBEITNOW_HOSTS,
-    maxPages: 8, pageWindow: true, newCap: 300, catalogue: 1500,
+    maxPages: 8, pageWindow: true, newCap: 300, catalogue: 2500,
     make: (f, n, origin) => arbeitnowConnector(f, n, { origin }),
   },
   remoteok: {
