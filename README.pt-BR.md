@@ -119,7 +119,7 @@ docs/       Arquitetura, fontes, segurança, UX e capturas
 
 ## Plataformas e estado
 
-O código Flutter atende Android, iOS e Web. Há testes automatizados, build de APK debug Android e build Web release; **não afirmamos validação completa em aparelhos físicos nem publicação nas lojas**. Consulte [estado do OrbiJob 2.0](docs/ORBIJOB_2_0_STATUS.md) e [progresso](docs/ORBIJOB_2_0_PROGRESS.md). Links de Google Play e App Store serão adicionados quando publicados.
+O código Flutter atende Android, iOS e Web. Há testes automatizados, build de APK debug Android e build Web release; **não afirmamos validação completa em aparelhos físicos nem publicação nas lojas**. Consulte [estado do OrbiJob 2.0](docs/ORBIJOB_2_0_STATUS.md) , [progresso](docs/ORBIJOB_2_0_PROGRESS.md) e [guia do 3.0](docs/ORBIJOB_3_0.md). Links de Google Play e App Store serão adicionados quando publicados.
 
 ## Privacidade e licenciamento
 
