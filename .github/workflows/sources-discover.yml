@@ -34,12 +34,15 @@ on:
     # Get on Board (LatAm tech, public API): twice a day, one polite request every two seconds; the second series is the displaced twin
     - cron: '33 4,16 * * *'
     - cron: '9 10,22 * * *'
+    # Teaching Vacancies (England, Open Government Licence): the whole feed (~70 pages at one request every 1.5 s) four times a day, plus a displaced twin
+    - cron: '38 1,7,13,19 * * *'
+    - cron: '12 4,10,16,22 * * *'
   workflow_dispatch:
     inputs:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard]
+        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -102,9 +105,11 @@ jobs:
             '5 3,9,15,21 * * *')  s=jobsconz ;;
             '33 4,16 * * *')      s=getonboard ;;
             '9 10,22 * * *')      s=getonboard ;;
+            '38 1,7,13,19 * * *') s=teachingvacancies ;;
+            '12 4,10,16,22 * * *') s=teachingvacancies ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

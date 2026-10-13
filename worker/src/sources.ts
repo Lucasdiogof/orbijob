@@ -2,6 +2,7 @@ import { ARBEITNOW_HOSTS, arbeitnowConnector, remoteOkConnector, remotiveConnect
 import { getOnBoardConnector } from './connectors/getonboard';
 import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
+import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './connectors/teachingvacancies';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
@@ -74,6 +75,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     id: 'getonboard', attribution: 'Jobs via Get on Board (https://www.getonbrd.com), tech jobs in Latin America', host: 'getonbrd.com',
     maxPages: 40, newCap: 600, catalogue: 1500,
     make: (f, n, origin) => getOnBoardConnector(f, n, { origin }),
+  },
+  teachingvacancies: {
+    id: 'teachingvacancies',
+    attribution: 'Jobs via Teaching Vacancies, Department for Education (England) (https://teaching-vacancies.service.gov.uk), Open Government Licence v3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)',
+    host: 'teaching-vacancies.service.gov.uk',
+    maxPages: TEACHINGVACANCIES_MAX_PAGES, newCap: 700, catalogue: 2500,
+    make: (f, n, origin) => teachingVacanciesConnector(f, n, { origin }),
   },
 };
 

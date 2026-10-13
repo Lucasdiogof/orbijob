@@ -1,0 +1,601 @@
+{
+ "meta": {
+  "totalPages": 68,
+  "count": 6718
+ },
+ "data": [
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Exam Invigilator",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<p>\r\n</p><p>Who we’re looking for</p><p>We’re looking for a talented individual to provide an exceptional business support service to our pupils, teachers and wider stakeholders. As a key member of our school’s business support team, your expertise will help to deliver an outstanding learning environment for our young people.</p><p>The successful candidate will be a committed team player with excellent organisational and specialist technical skills. You will have extensive experience of deliveri",
+   "occupationalCategory": "other_support",
+   "directApply": false,
+   "employmentType": [
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Birmingham",
+     "addressRegion": "West Midlands",
+     "streetAddress": "441 Alum Rock Road",
+     "postalCode": "B8 3DT",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£13.45 per hour",
+     "unitText": "HOUR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/exam-invigilator-eden-boys-leadership-academy-birmingham-east-birmingham-west-midlands",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Eden Boys' Leadership Academy, Birmingham East",
+    "sameAs": "https://www.edenboysbirminghameast.com",
+    "identifier": "145878",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-27T23:59:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Higher Level Teaching Assistant",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<p>\r\n\r\n\r\n</p><p>This is an\r\nexciting opening to join the team at Stocksbridge as HLTA.  This\r\nappointment is a key opportunity to join a thriving, supportive and committed\r\nteam.  Applications are welcome from\r\nexperienced colleagues with the drive and commitment to consistently pursue the\r\nhighest standards of teaching and learning, whilst nurturing a culture of\r\npsychological safety where students and staff thrive and grow together. </p><p>\r\n\r\n\r\n\r\n\r\n\r\n</p>",
+   "occupationalCategory": "higher_level_teaching_assistant",
+   "directApply": false,
+   "employmentType": [
+    "FULL_TIME",
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Sheffield",
+     "addressRegion": "Yorkshire and the Humber",
+     "streetAddress": "Shay House Lane",
+     "postalCode": "S36 1FD",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£31,015 to £33,673",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/higher-level-teaching-assistant-0f412cd5-7b8d-49f3-a3bf-0e5ebfb18cf4",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Stocksbridge High School",
+    "sameAs": "http://www.stocksbridgehigh.co.uk",
+    "identifier": "145274",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-02T09:00:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Cover Supervisor",
+   "jobBenefits": "<p>SEN Allowance - £1,779.00 pro rata</p>",
+   "datePosted": "2026-10-13",
+   "description": "<p>Post: Cover Supervisor</p><p>Salary:  Grade 4 £35,570 - £43,149 FTE (£27,692.12 - £33,592.56 Actual)</p><p>Allowances: SEN Allowance - £1,779.00 pro rata</p><p>Hours of work: 32.5 hours per week</p><p>Contract type: Permanent</p><p>Start date of role: January 2027or sooner if possible</p><p>Closing date: Monday 2nd November 2026</p><p>Interview date: Monday 9th November 2026 </p><p>Enhanced DBS Check Required: Yes, Child and Adult</p><p>EIAT is a thriving Multi Academy Trust in North Birmingh",
+   "occupationalCategory": "education_support",
+   "directApply": false,
+   "employmentType": [
+    "FULL_TIME",
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Birmingham",
+     "addressRegion": "West Midlands",
+     "streetAddress": "Heathfield Road",
+     "postalCode": "B19 1HJ",
+     "addressCountry": "GB"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/cover-supervisor-f940d0e4-a53a-43e3-a59c-4bbd49146f5a",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Mayfield School",
+    "sameAs": "https://mayfield.eiat.org.uk",
+    "identifier": "148225",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-02T23:59:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Teacher of Design Technology –  Engineering Specialism",
+   "jobBenefits": "<p>A recruitment allowance of up to £5,000 is available for the right candidate</p>",
+   "datePosted": "2026-10-13",
+   "description": "<p>We are looking to appoint\r\nan enthusiastic, skilled and creative Teacher of Design Technology to join our\r\nArt, Design and Technology team. The successful candidate will play a key role\r\nin developing and delivering our Design Technology provision, including the OCR\r\nCambridge National in Engineering Design (J822) at Key Stage 4.</p><p>We are particularly\r\ninterested in appointing someone who is confident in practical and technical\r\ndesign and who can inspire pupils through high-quality teach",
+   "occupationalCategory": "teacher",
+   "directApply": false,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Waterlooville",
+     "addressRegion": "South East",
+     "streetAddress": "Park Avenue",
+     "postalCode": "PO7 5DS",
+     "addressCountry": "GB"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/teacher-of-design-technology-engineering-specialism-purbrook-park-school",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Purbrook Park School",
+    "sameAs": "http://www.purbrookparkschool.co.uk/",
+    "identifier": "116506",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-19T15:00:00+01:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Governance Professional",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<div><p>We are seeking a highly organised and motivated Governance Professional to join the Skinners' Academies Trust, to provide clerking and governance support for our Trust. </p><p>This role is ideal if you are looking for flexibility, where you do not mind evening attendance to pre planned meetings and in person meetings as required. </p><p><b>The successful candidate will provide: </b></p><ul><li>Effective administration of Local Board meetings (in person) and membership and compliance<br><",
+   "occupationalCategory": "administration_hr_data_and_finance",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME",
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "London",
+     "addressRegion": null,
+     "streetAddress": "8 Dowgate Hill",
+     "postalCode": "EC4R 2SP",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£37,597.00 - £39,598.00 Annually (FTE)",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/governance-professional-skinners-academies-trust",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Skinners' Academies Trust",
+    "sameAs": null,
+    "identifier": "15760",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-25T23:59:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "SENCO",
+   "jobBenefits": "<p>TLR2A</p>",
+   "datePosted": "2026-10-13",
+   "description": "<p>\r\n</p><p>We'dlove to hear from someone who:</p><p>\r\n</p><ul><li>Brings energy, commitment and creativity to their work</li><li>Builds positive relationships and works well in a team</li><li>Has knowledge and experience of using a range of strategies to deal with pupil behaviour</li><li>Has Qualified teacher status (QTS) and National Award for SEN Coordination (NASENCO) (or willingness to complete within statutory timeframe)</li><li>Shares our belief that every child deserves the very best opp",
+   "occupationalCategory": "sendco",
+   "directApply": false,
+   "employmentType": [
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Clevedon",
+     "addressRegion": "South West",
+     "streetAddress": "Yeo Moor Primary School",
+     "postalCode": "BS21 6JL",
+     "addressCountry": "GB"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/senco-yeo-moor-primary-school-clevedon-somerset",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Yeo Moor Primary School",
+    "sameAs": "http://www.yeomoorprimaryschool.org.uk",
+    "identifier": "141361",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-01T23:59:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Assistant Cook",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<p><b>Assistant Cook - Grade 3&nbsp;</b></p><p> Forge Valley School is seeking a committed and enthusiastic Assistant Cook to join our friendly catering team. This is a fantastic opportunity to play an important role in providing fresh, nutritious meals for our pupils while helping to create a positive dining experience every day. The role is based solely at Forge Valley School and is a permanent position working <b>30 hours per week, 38 weeks per year, plus two training days</b>.&nbsp; </p><p>W",
+   "occupationalCategory": "catering_cleaning_and_site_management",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME",
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Sheffield",
+     "addressRegion": "Yorkshire and the Humber",
+     "streetAddress": "Wood Lane",
+     "postalCode": "S6 5HG",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "Grade 3 Point 5 - 6",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/assistant-cook-forge-valley-school-sixth-form",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Forge Valley School & Sixth Form",
+    "sameAs": "https://www.forgevalley.school/",
+    "identifier": "140547",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-03T09:00:59+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Teaching Assistant",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<p><strong>The working hours for this role are expected to be&nbsp;30 hours per week, 39 weeks per year. The start date for this role is 01 December 2026. </strong></p><p>Working under the direction of the SENDCo and teaching staff, the Teaching Assistant will play a key role in supporting students across Key Stages 3 and 4 to access learning, develop independence and achieve their full potential. The role involves providing individual, small-group and classroom support, adapting learning activi",
+   "occupationalCategory": "teaching_assistant",
+   "directApply": null,
+   "employmentType": [
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Trowbridge",
+     "addressRegion": "South West",
+     "streetAddress": "Wingfield Road",
+     "postalCode": "BA14 9EH",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£26,847 - £27,709 per annum pro rata | £18,723 - £19,763 per annum",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/teaching-assistant-6145f3f2-6573-4e0b-9075-a86d3fa0ce3a",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "The John of Gaunt School",
+    "sameAs": "http://johnofgauntschool.org",
+    "identifier": "138020",
+    "description": "<div class=\"trix-content\">The John of Gaunt School is large and dynamic school with approximately 1270 students on roll.  We are currently a single Academy and actively promote collaboration with our feeder primary schools through the Trowbridge Schools’ Social Enterprise - Collaborative Schools Ltd and the West Wiltshire Alliance; a partnership of 8 secondary schools and Wiltshire College.  Our school roll is rising significantly each year and our reputation has accelerated over the last two years. We are now at the forefront educational practice and we are delighted that our recent changes are accelerating the progress of our students. We are part EQUA Mead Learning Trust. Details about EQUA Mead can be found on their website https://www.equamead.org/\n</div>",
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-09T09:00:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Subject Lead of Art",
+   "jobBenefits": "<p>Annual Loyalty Bonus + Pension Scheme (TPS) + Harris Wellbeing Cash Plan + Additional Harris Benefits</p>",
+   "datePosted": "2026-10-13",
+   "description": "<p>We are looking for a qualified teacher with subject leadership experience to join Harris Academy Tottenham as Subject Leader of Art and Design.</p><p>You will join an open and supportive team in establishing outstanding provision within Art and Design. This will include all programmes, systems and structures taking account of the academy's vision and values leading to outstanding teaching and learning.</p><p>\r\n</p><p>The successful candidate will:</p><ul><li>Hold QTS (or equivalent) and a rel",
+   "occupationalCategory": "head_of_department_or_curriculum",
+   "directApply": false,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "London",
+     "addressRegion": "London",
+     "streetAddress": "Ashley Road",
+     "postalCode": "N17 9LN",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£41,817 - £63,996 + TLR 2c",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/subject-lead-of-art-harris-academy-tottenham",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Harris Academy Tottenham",
+    "sameAs": "http://www.harristottenham.org.uk",
+    "identifier": "140935",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-02T23:59:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Intervention Officer",
+   "jobBenefits": null,
+   "datePosted": "2026-10-13",
+   "description": "<div><p><b>About Moorside High School</b></p><p>Moorside High School is a thriving 11-16 secondary school located on the modern Moorside Campus. Rated 'Good' by Ofsted, we are proud of our strong community ethos, excellent pastoral support and commitment to delivering the highest standards of education.</p><p>As part of Consilium Academies, our vision is to enrich lives and inspire ambitions through excellence, equality and integrity.</p><p><b>The Role</b></p><p>The Intervention Officer will sup",
+   "occupationalCategory": "pastoral_health_and_welfare",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Manchester",
+     "addressRegion": "North West",
+     "streetAddress": "57 Deans Road",
+     "postalCode": "M27 0AP",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£24,884.87 - £26,531",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/intervention-officer",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Moorside High School",
+    "sameAs": "http://www.moorsidehigh.co.uk/",
+    "identifier": "144199",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-02T09:00:00+00:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Teaching Assistant",
+   "jobBenefits": null,
+   "datePosted": "2026-10-08",
+   "description": "<div><p>The Governors of St Bernard’s Catholic High School in Barrow in Furness are looking to appoint 2 Teaching Assistants</p><p>Number on Role: 631 pupils</p><p>Age Range: 11-16</p><p>Contract: Permanent</p><p>Two posts available one at 17.5 hours and one at 18.5 hours, please specify on your application what hours you are looking for. (Hours negotiable for right candidate).</p><p>Salary: PCD 5, Scale Point 6, £25,989 (Term time only (39 weeks) (Pro rata £10,526 - 17.5 hours, £11127 - 18.5 Ho",
+   "occupationalCategory": "teaching_assistant",
+   "directApply": null,
+   "employmentType": [
+    "PART_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Barrow-in-Furness",
+     "addressRegion": "North West",
+     "streetAddress": "Rating Lane",
+     "postalCode": "LA13 9LE",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£25,989.00 - £25,989.00 Annually (FTE)",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/teaching-assistant-f27fd1eb-98fc-4335-b413-aac7ce307ef1",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "St Bernards Catholic High School, Barrow",
+    "sameAs": "http://www.stbernardsschool.uk",
+    "identifier": "148702",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-20T12:00:00+01:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Associate Assistant Principal",
+   "jobBenefits": null,
+   "datePosted": "2026-10-08",
+   "description": "<div><p>Summit Learning Trust Mission Statement</p><p>Success through Endeavour</p><p>Ambition through Challenge</p><p>Strength through Diversity</p><p>About this Role</p><p>An exciting opportunity has arisen within our Academy for an enthusiastic and inspirational Associate Assistant Principal to lead on furthering our journey towards excellence. The successful candidate will be working alongside Assistant Principals and SLT to help plan strategy, manage complex change and inspire colleagues an",
+   "occupationalCategory": "other_leadership",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Birmingham",
+     "addressRegion": "West Midlands",
+     "streetAddress": "Hartfield Crescent",
+     "postalCode": "B27 7QG",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "L9 -11 (£65,277 to £68,691)",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/associate-assistant-principal-ninestiles-an-academy",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Ninestiles, an Academy",
+    "sameAs": "http://www.ninestiles.org.uk",
+    "identifier": "136406",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-15T18:00:00+01:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Teacher of MFL (Maternity Cover)",
+   "jobBenefits": null,
+   "datePosted": "2026-10-08",
+   "description": "<div><p>We are seeking an inspirational Teacher of Modern Foreign Languages to work in our dynamic and creative MFL Team, initially this is a maternity cover position of up to one year in length. This is a fantastic opportunity for a colleague wishing to teach across the three Key Stages to ignite a love for languages which results in pupils achieving their highest potential. In addition, we are also looking for a passionate advocate for multilingual learners who believes in the value that lingu",
+   "occupationalCategory": "teacher",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "London",
+     "addressRegion": "London",
+     "streetAddress": "Redbridge Lane West",
+     "postalCode": "E11 2JZ",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "ECT/MPS",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/teacher-of-mfl-maternity-cover-wanstead-high-school",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Wanstead High School",
+    "sameAs": "http://www.wansteadhigh.co.uk",
+    "identifier": "102851",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-10-22T23:59:00+01:00"
+  },
+  {
+   "@context": "http://schema.org",
+   "@type": "JobPosting",
+   "title": "Behaviour Manager",
+   "jobBenefits": null,
+   "datePosted": "2026-10-08",
+   "description": "<div><p>We are committed to developing a positive school environment, where students can regulate their emotions and are taught how to contribute positively to our inclusive, respectful and ambitious school culture. We are looking for a colleague who has an enthusiasm for pastoral support, the skills to guide and develop students who have additional needs, and who has a vision for promoting Saltash school's high expectations for respectful behaviour. The role includes oversight of the school’s ‘",
+   "occupationalCategory": "pastoral_health_and_welfare",
+   "directApply": null,
+   "employmentType": [
+    "FULL_TIME"
+   ],
+   "industry": "Education",
+   "jobLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Saltash",
+     "addressRegion": "South West",
+     "streetAddress": "Wearde Road",
+     "postalCode": "PL12 4AY",
+     "addressCountry": "GB"
+    }
+   },
+   "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "GBP",
+    "value": {
+     "@type": "QuantitativeValue",
+     "value": "£26,847.00 - £29,071.00 Annually (FTE)\n\rActual salary approx. £22,552 - £24,420",
+     "unitText": "YEAR"
+    }
+   },
+   "url": "https://teaching-vacancies.service.gov.uk/jobs/behaviour-manager-0b3efeed-3aed-4e55-8e02-4ddd06baf6ea",
+   "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Saltash Community School",
+    "sameAs": "http://saltash.net/",
+    "identifier": "136575",
+    "description": null,
+    "logo": "/assets/images/govuk-icon-180-e3675089.png"
+   },
+   "validThrough": "2026-11-02T09:00:00+00:00"
+  }
+ ]
+}
