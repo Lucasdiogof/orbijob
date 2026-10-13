@@ -26,7 +26,7 @@ export const MIGRATIONS = [
   { version: '20261024000000', name: 'push_devices' },
 ];
 
-const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota', 'saved_search_alert_state', 'push_register', 'push_claim', 'push_forget_tokens'];
+const OWN_FUNCTIONS = ['set_updated_at', 'log_application_stage', 'enforce_row_quota', 'saved_search_alert_state'];
 // Functions the Supabase platform itself installs in `public`. Known by name only: the inspection must still be backed by
 // inspect_predeploy_details.sql (return type, event trigger binding, definition) before the apply is called ready.
 const PLATFORM_FUNCTIONS = {
@@ -76,7 +76,7 @@ function signatures(i) {
     // migration 16 adds the saved-search alert run (matching + hourly pass + its log table) in `ops`
     (i.ops_functions ?? []).includes('alerts_run') && (i.ops_functions ?? []).includes('alert_matches') && (i.ops_tables ?? []).includes('alert_runs'),
     // migration 17 adds the device tokens of push notifications
-    tables.has('push_devices'),
+    tables.has('push_devices') && (i.ops_functions ?? []).includes('push_claim'),
   ];
 }
 

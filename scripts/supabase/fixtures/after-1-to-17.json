@@ -239,7 +239,9 @@
       "table": "push_devices",
       "privileges": [
         "DELETE",
-        "SELECT"
+        "INSERT",
+        "SELECT",
+        "UPDATE"
       ]
     }
   ],
@@ -677,27 +679,6 @@
       "security_definer": false,
       "quota_has_key_arg": false,
       "authenticated_can_execute": false
-    },
-    {
-      "name": "push_register",
-      "anon_can_execute": false,
-      "security_definer": true,
-      "quota_has_key_arg": false,
-      "authenticated_can_execute": true
-    },
-    {
-      "name": "push_claim",
-      "anon_can_execute": false,
-      "security_definer": true,
-      "quota_has_key_arg": false,
-      "authenticated_can_execute": false
-    },
-    {
-      "name": "push_forget_tokens",
-      "anon_can_execute": false,
-      "security_definer": true,
-      "quota_has_key_arg": false,
-      "authenticated_can_execute": false
     }
   ],
   "storage_policies": [
@@ -779,6 +760,8 @@
     "jobsconz_revalidate_start",
     "jobtech_revalidate_collect",
     "jobtech_revalidate_start",
+    "push_claim",
+    "push_forget_tokens",
     "slot_run_id",
     "source_window_floor",
     "title_has"

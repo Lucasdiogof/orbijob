@@ -4,7 +4,7 @@ import { pg_trgm } from '@electric-sql/pglite/contrib/pg_trgm';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 /**
- * Migration 20261024000000 (push devices and the two functions of the sender), against the REAL schema in
+ * Migration 20261024000000 (push device tokens and the sender's two functions in ops), against the REAL schema in
  * PGlite with every migration applied. Nothing here touches a hosted project.
  */
 const A = '00000000-0000-4000-8000-00000000000a';
@@ -54,8 +54,11 @@ async function as<T>(role: 'anon' | 'authenticated', uid: string | null, fn: () 
 }
 
 const TOK = (n: number | string) => `fcm-token-${n}-${'x'.repeat(30)}`;
+/** What the app does: an upsert of its own row under RLS (the same statement PostgREST runs for `upsert(onConflict: user_id,token)`). */
 const register = (uid: string, token: string, platform = 'android', locale: string | null = 'pt-BR') =>
-  as('authenticated', uid, () => db.query('select public.push_register($1, $2, $3)', [token, platform, locale]));
+  as('authenticated', uid, () => db.query(
+    `insert into public.push_devices (user_id, token, platform, locale) values ($1, $2, $3, $4)
+     on conflict (user_id, token) do update set platform = excluded.platform, locale = excluded.locale, last_seen_at = now()`, [uid, token, platform, locale]));
 const devices = async (uid?: string) =>
   (await db.query<{ user_id: string; token: string; platform: string }>(
     `select user_id, token, platform from public.push_devices ${uid ? 'where user_id = $1' : ''} order by token`, uid ? [uid] : [])).rows;
@@ -73,7 +76,7 @@ async function note(uid: string, o: { minutesAgo?: number; read?: boolean; dismi
 }
 const claim = (limit = 200) =>
   db.query<{ notification_id: string; user_id: string; token: string; title: string; locale: string | null }>(
-    'select * from public.push_claim($1) order by title, token', [limit]).then((r) => r.rows);
+    'select * from ops.push_claim($1) order by title, token', [limit]).then((r) => r.rows);
 
 describe('push_devices: registration and ownership', () => {
   it('a signed-in person registers a device; re-registering the same token updates it instead of failing', async () => {
@@ -82,37 +85,28 @@ describe('push_devices: registration and ownership', () => {
     expect(await devices(A)).toEqual([{ user_id: A, token: TOK(1), platform: 'ios' }]);
   });
 
-  it('anonymous registration and bad values are refused', async () => {
-    await expect(register('', TOK(1))).rejects.toThrow();
-    await expect(register(A, 'short')).rejects.toThrow(/invalid token/);
-    await expect(register(A, TOK(2), 'windows')).rejects.toThrow(/invalid platform/);
+  it('bad values and writing for someone else are refused', async () => {
+    await expect(register(A, 'short')).rejects.toThrow(/check constraint/);
+    await expect(register(A, TOK(2), 'windows')).rejects.toThrow(/check constraint/);
+    await expect(as('authenticated', A, () => db.query(`insert into public.push_devices (user_id, token, platform) values ($1, $2, 'android')`, [B, TOK(3)]))).rejects.toThrow(/row-level security/);
+    await expect(as('anon', null, () => db.query(`insert into public.push_devices (user_id, token, platform) values ($1, $2, 'android')`, [A, TOK(4)]))).rejects.toThrow(/permission denied/);
   });
 
-  it('a token used by another account on the same phone moves to the person signing in now', async () => {
-    await register(A, TOK(1));
-    await register(B, TOK(1));
-    expect(await devices()).toEqual([{ user_id: B, token: TOK(1), platform: 'android' }]);
+  it('at most 10 devices per person; re-registering a known device never counts against it', async () => {
+    for (let i = 0; i < 10; i++) await register(A, TOK(i));
+    await register(A, TOK(3), 'ios');
+    await expect(register(A, TOK(10))).rejects.toThrow(/quota/);
   });
 
-  it('an 11th device makes room by dropping the least recently seen one (never fails)', async () => {
-    for (let i = 0; i < 11; i++) {
-      await register(A, TOK(i));
-      await db.query(`update public.push_devices set last_seen_at = now() - ($2 || ' minutes')::interval where token = $1`, [TOK(i), String(100 - i)]);
-    }
-    const left = (await devices(A)).map((d) => d.token);
-    expect(left).toHaveLength(10);
-    expect(left).not.toContain(TOK(0));
-  });
-
-  it('each person sees and deletes only their own devices, and cannot insert or update directly', async () => {
+  it('each person sees and deletes only their own devices, and cannot touch other rows', async () => {
     await register(A, TOK('a'));
     await register(B, TOK('b'));
     const seen = await as('authenticated', A, () => db.query<{ token: string }>('select token from public.push_devices'));
     expect(seen.rows.map((r) => r.token)).toEqual([TOK('a')]);
     await as('authenticated', A, () => db.query('delete from public.push_devices'));
     expect((await devices()).map((d) => d.token)).toEqual([TOK('b')]);
-    await expect(as('authenticated', A, () => db.query(`insert into public.push_devices (user_id, token, platform) values ($1, $2, 'android')`, [A, TOK('z')]))).rejects.toThrow(/permission denied/);
-    await expect(as('authenticated', B, () => db.query(`update public.push_devices set platform = 'ios'`))).rejects.toThrow(/permission denied/);
+    expect((await as('authenticated', B, () => db.query(`update public.push_devices set platform = 'ios' where token = $1`, [TOK('a')]))).affectedRows ?? 0).toBe(0);
+    await expect(as('authenticated', B, () => db.query(`update public.push_devices set user_id = $1`, [A]))).rejects.toThrow(/permission denied/);
     await expect(as('anon', null, () => db.query('select * from public.push_devices'))).rejects.toThrow(/permission denied/);
   });
 });
@@ -163,20 +157,20 @@ describe('push_claim / push_forget_tokens (the sender)', () => {
   it('forgets the tokens FCM no longer knows', async () => {
     await register(A, TOK(1));
     await register(A, TOK(2));
-    expect((await db.query<{ n: number }>('select public.push_forget_tokens($1) n', [[TOK(1), 'unknown']])).rows[0]!.n).toBe(1);
+    expect((await db.query<{ n: number }>('select ops.push_forget_tokens($1) n', [[TOK(1), 'unknown']])).rows[0]!.n).toBe(1);
     expect((await devices(A)).map((d) => d.token)).toEqual([TOK(2)]);
   });
 
-  it('only service_role may call the sender functions; the client cannot write pushed_at', async () => {
+  it('no API role can run the sender, read rows of others or write pushed_at', async () => {
     await note(A);
     for (const role of ['anon', 'authenticated'] as const) {
-      await expect(as(role, A, () => db.query('select * from public.push_claim(10)'))).rejects.toThrow(/permission denied/);
-      await expect(as(role, A, () => db.query(`select public.push_forget_tokens('{}')`))).rejects.toThrow(/permission denied/);
+      await expect(as(role, A, () => db.query('select * from ops.push_claim(10)'))).rejects.toThrow(/permission denied/);
+      await expect(as(role, A, () => db.query(`select ops.push_forget_tokens('{}')`))).rejects.toThrow(/permission denied/);
     }
     await expect(as('authenticated', A, () => db.query('update public.notifications set pushed_at = now()'))).rejects.toThrow(/permission denied/);
     await db.exec('set role service_role');
     try {
-      await expect(db.query('select * from public.push_claim(10)')).resolves.toBeDefined();
+      await expect(db.query('select * from ops.push_claim(10)')).rejects.toThrow(/permission denied/);
       await expect(db.query('select * from public.notifications')).rejects.toThrow(/permission denied/);
       await expect(db.query('select * from public.push_devices')).rejects.toThrow(/permission denied/);
     } finally {
