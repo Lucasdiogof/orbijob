@@ -21,6 +21,11 @@ OrbiJob brings international job discovery and personal application tracking tog
 - **Résumé tools:** private PDF upload, primary résumé, replacement and deletion, local text extraction and editable review before applying suggestions to the profile.
 - **Application kit:** copy verified profile details, access the primary résumé and track a submitted application after user confirmation; never submits applications on your behalf.
 - **International UX:** English, Brazilian Portuguese and Spanish interfaces, light/dark/system themes, responsive mobile/tablet/desktop layout, contextual sign-in screens and an orbital loader.
+- **Saved searches and alerts (3.0):** save any combination of filters, rename, edit, duplicate or delete it, and switch alerts per search (hourly, daily or weekly). New matching jobs that are open and recently verified arrive in an in-app notification centre, never twice for the same job. Phone/browser push is not enabled yet.
+- **Explainable recommendations (3.0):** a deterministic ranking from your professions, specialty, places, languages and work mode, for any profession, with the reasons and caveats shown for every job; nothing is claimed about visas or professional registrations.
+- **Hide jobs and recent searches (3.0):** hide a job with undo and a restore list; recent searches stay on the device, per account, and can be switched off or cleared.
+- **Application pipeline (3.0):** stages from interested to hired or rejected, personal notes, interview and follow-up dates and an agenda; an application is only marked as sent when you confirm it.
+- **Share and compare (3.0):** share a job link and compare jobs side by side (table on wide screens, blocks on phones) using only what the listings state.
 
 ## Screenshots
 
@@ -31,6 +36,12 @@ OrbiJob brings international job discovery and personal application tracking tog
 ### Your career, in one place
 
 <table><tr><td align="center"><img src="docs/design/orbijob-v2/12-profile-hub-dark.png" width="235" alt="Professional profile in dark theme"><br><sub><b>Profile</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/14-resumes-dark.png" width="235" alt="Resume management in dark theme"><br><sub><b>Résumés</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/22-resume-review-dark.png" width="235" alt="Review extracted resume details"><br><sub><b>PDF review</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/23-application-kit-dark.png" width="235" alt="Application kit"><br><sub><b>Application kit</b></sub></td></tr></table>
+
+### Alerts, recommendations and follow-up (3.0)
+
+<table><tr><td align="center"><img src="docs/design/orbijob-v3/02-recommendations-en-light.png" width="188" alt="Recommendations"><br><sub><b>Recommendations</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/05-saved-searches-en-light.png" width="188" alt="Saved searches"><br><sub><b>Saved searches</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/06-notifications-en-light.png" width="188" alt="Notifications"><br><sub><b>Notifications</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/08-applications-en-light.png" width="188" alt="Applications"><br><sub><b>Applications</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/11-compare-phone-light.png" width="188" alt="Compare"><br><sub><b>Compare</b></sub></td></tr></table>
+
+More 3.0 captures (en/pt/es, light/dark, phone/desktop): [3.0 gallery](docs/design/orbijob-v3/README.md).
 
 More real Flutter widget captures (light, dark, desktop, tablet, PT and ES) are available in [the screenshot gallery](docs/design/orbijob-v2/README.md). They use controlled test data; they are not evidence of live job inventory.
 
@@ -110,7 +121,7 @@ docs/       Architecture, sources, security, UX and screenshots
 
 ## Availability and status
 
-Android, iOS and Web are supported by the Flutter codebase. The app has passed automated tests, an Android debug APK build and a Web release build; full on-device verification and store publication are **not claimed** here. See [OrbiJob 2.0 status](docs/ORBIJOB_2_0_STATUS.md) and [progress](docs/ORBIJOB_2_0_PROGRESS.md). No Play Store / App Store links are published until listings are live.
+Android, iOS and Web are supported by the Flutter codebase. The app has passed automated tests, an Android debug APK build and a Web release build; full on-device verification and store publication are **not claimed** here. See [OrbiJob 2.0 status](docs/ORBIJOB_2_0_STATUS.md), [2.0 progress](docs/ORBIJOB_2_0_PROGRESS.md) and [3.0 guide](docs/ORBIJOB_3_0.md). No Play Store / App Store links are published until listings are live.
 
 ## Privacy and licensing
 

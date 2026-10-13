@@ -21,6 +21,11 @@ O OrbiJob reúne a busca internacional de empregos e o acompanhamento de candida
 - **Currículos em PDF:** upload privado, currículo principal, substituição, exclusão, leitura local de texto e revisão editável antes de aplicar sugestões ao perfil.
 - **Kit de candidatura:** copiar informações do perfil, acessar currículo e registrar candidatura mediante confirmação. O OrbiJob não envia candidaturas automaticamente.
 - **Experiência internacional:** interface em português, inglês e espanhol; temas claro/escuro/sistema; layout responsivo e loading com a identidade orbital.
+- **Pesquisas salvas e alertas (3.0):** salve qualquer combinação de filtros, renomeie, edite, duplique ou exclua, e ligue alertas por pesquisa (a cada hora, diário ou semanal). Vagas novas compatíveis, abertas e verificadas recentemente chegam a uma central de notificações no app, nunca duas vezes para a mesma vaga. Push no celular/navegador ainda não está ativo.
+- **Recomendações explicáveis (3.0):** ranking determinístico a partir das suas profissões, especialidade, locais, idiomas e modalidade, para qualquer profissão, com os motivos e ressalvas de cada vaga; nada é afirmado sobre vistos ou registros profissionais.
+- **Ocultar vagas e pesquisas recentes (3.0):** oculte uma vaga com desfazer e lista para restaurar; as pesquisas recentes ficam no aparelho, por conta, e podem ser desligadas ou apagadas.
+- **Funil de candidaturas (3.0):** etapas de interessado a contratado ou rejeitado, notas pessoais, datas de entrevista e retorno e uma agenda; a candidatura só é marcada como enviada quando você confirma.
+- **Compartilhar e comparar (3.0):** compartilhe o link de uma vaga e compare vagas lado a lado (tabela em telas largas, blocos no celular) só com o que os anúncios informam.
 
 ## Capturas de tela
 
@@ -31,6 +36,12 @@ O OrbiJob reúne a busca internacional de empregos e o acompanhamento de candida
 ### Sua carreira em um só lugar
 
 <table><tr><td align="center"><img src="docs/design/orbijob-v2/12-profile-hub-dark.png" width="235" alt="Professional profile in dark theme"><br><sub><b>Profile</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/14-resumes-dark.png" width="235" alt="Resume management in dark theme"><br><sub><b>Résumés</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/22-resume-review-dark.png" width="235" alt="Review extracted resume details"><br><sub><b>PDF review</b></sub></td><td align="center"><img src="docs/design/orbijob-v2/23-application-kit-dark.png" width="235" alt="Application kit"><br><sub><b>Application kit</b></sub></td></tr></table>
+
+### Alertas, recomendações e acompanhamento (3.0)
+
+<table><tr><td align="center"><img src="docs/design/orbijob-v3/02-recommendations-pt-light.png" width="188" alt="Recomendações"><br><sub><b>Recomendações</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/05-saved-searches-pt-light.png" width="188" alt="Pesquisas salvas"><br><sub><b>Pesquisas salvas</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/06-notifications-pt-light.png" width="188" alt="Notificações"><br><sub><b>Notificações</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/08-applications-pt-light.png" width="188" alt="Candidaturas"><br><sub><b>Candidaturas</b></sub></td><td align="center"><img src="docs/design/orbijob-v3/11-compare-phone-light.png" width="188" alt="Comparar"><br><sub><b>Comparar</b></sub></td></tr></table>
+
+Mais capturas do 3.0 (en/pt/es, claro/escuro, celular/desktop): [galeria 3.0](docs/design/orbijob-v3/README.md).
 
 Mais capturas reais dos widgets Flutter (claro, escuro, desktop, tablet, PT e ES) estão na [galeria](docs/design/orbijob-v2/README.md). Usam dados controlados de teste, não comprovam a quantidade de vagas em produção.
 
