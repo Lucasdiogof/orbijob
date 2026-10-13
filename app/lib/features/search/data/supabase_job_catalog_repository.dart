@@ -305,6 +305,7 @@ const _sourceNames = {
   'getonboard': 'Get on Board',
   'teachingvacancies': 'Teaching Vacancies',
   'nycjobs': 'NYC Jobs',
+  'karrierenrw': 'Karriere.NRW',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

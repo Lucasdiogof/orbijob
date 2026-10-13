@@ -4,6 +4,7 @@ import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
 import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './connectors/teachingvacancies';
 import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
+import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
 import type { Connector } from './types';
@@ -90,6 +91,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'cityjobs.nyc.gov',
     maxPages: NYCJOBS_MAX_PAGES, newCap: 800, catalogue: 2000,
     make: (f, n, origin) => nycJobsConnector(f, n, { origin }),
+  },
+  karrierenrw: {
+    id: 'karrierenrw',
+    attribution: 'Jobs via Karriere.NRW, employer portal of the state of North Rhine-Westphalia (https://karriere.nrw), Open.NRW, Datenlizenz Deutschland – Namensnennung – Version 2.0 (https://www.govdata.de/dl-de/by-2-0)',
+    host: 'karriere.nrw',
+    maxPages: 1, newCap: 1000, catalogue: 1500,
+    make: (f, n, origin) => karriereNrwConnector(f, n, { origin }),
   },
 };
 

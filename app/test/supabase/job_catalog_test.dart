@@ -553,6 +553,7 @@ void main() {
           'teaching-vacancies.service.gov.uk',
         ),
         ('nycjobs', 'NYC Jobs', 'cityjobs.nyc.gov'),
+        ('karrierenrw', 'Karriere.NRW', 'karriere.nrw'),
       ]) {
         final j = jobFromCatalogRow(
           row(
