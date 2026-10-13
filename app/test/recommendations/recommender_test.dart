@@ -56,6 +56,42 @@ RecommendationProfile profile({
 Recommendation? one(RecommendationProfile p, JobPosting j) => _r.evaluate(p, j);
 
 void main() {
+  group('no single source dominates', () {
+    JobPosting from(String source, String id) => JobPosting(
+      source: source,
+      externalId: id,
+      company: 'Acme',
+      title: 'Registered Nurse',
+      originalUrl: 'https://example.com/$source/$id',
+      publishedAt: _now.subtract(Duration(hours: int.parse(id))),
+    );
+    test('at most half of the list from one source while others have relevant jobs', () {
+      final jobs = [
+        for (var i = 1; i <= 20; i++) from('big', '$i'),
+        for (var i = 30; i <= 34; i++) from('small', '$i'),
+      ];
+      final top = _r.rank(profile(professions: ['nurse']), jobs, limit: 10);
+      expect(top, hasLength(10));
+      expect(top.where((r) => r.job.source == 'big'), hasLength(5));
+      expect(top.where((r) => r.job.source == 'small'), hasLength(5));
+    });
+    test('when there is not enough variety nothing relevant is dropped', () {
+      final jobs = [
+        for (var i = 1; i <= 8; i++) from('big', '$i'),
+        from('small', '40'),
+      ];
+      final top = _r.rank(profile(professions: ['nurse']), jobs, limit: 10);
+      expect(top, hasLength(9));
+      expect(top.map((r) => r.job.externalId).take(5), [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+      ]);
+    });
+  });
+
   group('any profession, not only technology', () {
     test('a nurse is matched to nursing jobs in two languages and not to unrelated ones', () {
       final p = profile(professions: ['Enfermeira']);

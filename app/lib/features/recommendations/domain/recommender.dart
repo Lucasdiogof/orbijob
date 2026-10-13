@@ -177,7 +177,34 @@ class Recommender {
         '${b.job.source}:${b.job.externalId}',
       );
     });
-    return out.take(limit).toList();
+    return diversify(out, limit);
+  }
+
+  /// At most half of the list from one source while other sources still have relevant jobs; the order inside each source and the
+  /// overall ranking are kept, and nothing relevant is dropped when there is not enough variety (the rest fills the list in rank order).
+  static List<Recommendation> diversify(
+    List<Recommendation> ranked,
+    int limit,
+  ) {
+    final cap = (limit / 2).ceil();
+    final perSource = <String, int>{};
+    final picked = <Recommendation>[];
+    final held = <Recommendation>[];
+    for (final r in ranked) {
+      if (picked.length >= limit) break;
+      final n = perSource[r.job.source] ?? 0;
+      if (n >= cap) {
+        held.add(r);
+        continue;
+      }
+      perSource[r.job.source] = n + 1;
+      picked.add(r);
+    }
+    for (final r in held) {
+      if (picked.length >= limit) break;
+      picked.add(r);
+    }
+    return picked;
   }
 
   /// One job against one profile: null when a must-have is contradicted or the job is not relevant to the profession.
