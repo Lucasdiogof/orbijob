@@ -394,6 +394,48 @@ void main() {
     },
   );
 
+  group('layout: every translation state in each language, narrow screen, large text', () {
+    final states = <String, (FakeEngine?, bool)>{
+      'ready': (FakeEngine(), false),
+      'download offer': (FakeEngine(ready: false), false),
+      'no engine': (null, false),
+      'failure': (FakeEngine()..failWith = StateError('x'), false),
+      'loading': (FakeEngine(latency: const Duration(milliseconds: 900)), true),
+    };
+    for (final lang in ['en', 'pt', 'es']) {
+      for (final e in states.entries) {
+        testWidgets('$lang / ${e.key}', (t) async {
+          final engine = e.value.$1;
+          await pumpApp(
+            t,
+            size: const Size(320, 640),
+            textScale: 2,
+            locale: Locale(lang),
+            repo: ListRepo([german]),
+            translationEngine: engine,
+            settle: false,
+          );
+          await t.pump(const Duration(milliseconds: 300));
+          await t.tap(find.byIcon(Icons.explore_outlined).first);
+          await t.pump(const Duration(milliseconds: 300));
+          await t.enterText(find.byType(TextField).last, 'x');
+          await t.testTextInput.receiveAction(TextInputAction.search);
+          await t.pump(const Duration(milliseconds: 600));
+          await t.tap(find.textContaining('Pflegefachkraft').first);
+          await t.pump(const Duration(milliseconds: 800));
+          if (!e.value.$2) await t.pumpAndSettle();
+          expect(t.takeException(), isNull);
+          // let the slow fake finish so no timer is left pending
+          if (e.value.$2) {
+            for (var i = 0; i < 40; i++) {
+              await t.pump(const Duration(seconds: 1));
+            }
+          }
+        });
+      }
+    }
+  });
+
   group('real listings from the live catalogue', () {
     testWidgets(
       'German, Swedish and Traditional Chinese titles are recognised and translated; English ones from DE/FR/JP are left alone',
