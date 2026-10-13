@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arbeitnowConnector, normalizeArbeitnow, normalizeRemoteOk, normalizeRemotive, remoteOkConnector, remotiveConnector, repairMojibake } from '../src/connectors/feeds';
+import { arbeitnowConnector, arbeitnowStatedCountry, normalizeArbeitnow, normalizeRemoteOk, normalizeRemotive, remoteOkConnector, remotiveConnector, repairMojibake } from '../src/connectors/feeds';
 import { HttpError } from '../src/http';
 import { runScheduledSync } from '../src/scheduled';
 import { SOURCES, SOURCE_IDS } from '../src/sources';
@@ -306,5 +306,32 @@ describe('SYNC_SOURCE through the scheduled pass', () => {
     const out = await runScheduledSync(w.env({ SYNC_MODE: 'revalidate', SYNC_SOURCE: 'arbeitnow' }), w.deps());
     expect(out).toMatchObject({ status: 'failed', summary: { error_class: 'no_status_check', closed: 0 } });
     expect(rows(w, 'arbeitnow').every((j) => j.status === 'open')).toBe(true);
+  });
+});
+
+describe('Arbeitnow: a country only when the location states it', () => {
+  it('reads the country written at the end of the location, in English or the local name', () => {
+    expect(arbeitnowStatedCountry('München, Bayern, Germany', 'https://www.arbeitnow.com/jobs/a')).toBe('DE');
+    expect(arbeitnowStatedCountry('Köln, Deutschland', 'https://www.arbeitnow.com/jobs/a')).toBe('DE');
+    expect(arbeitnowStatedCountry('Zurich, Switzerland', 'https://www.arbeitnow.ch/jobs/a')).toBe('CH');
+    expect(arbeitnowStatedCountry('Lyon, France', 'https://www.arbeitnow.fr/jobs/a')).toBe('FR');
+    expect(arbeitnowStatedCountry('Manchester, United Kingdom', 'https://www.arbeitnow.co.uk/jobs/a')).toBe('GB');
+  });
+  it('never guesses: a city alone, a region, a code, several places or a contradiction with the regional site give nothing', () => {
+    for (const [loc, url] of [
+      ['Berlin', 'https://www.arbeitnow.com/jobs/a'],
+      ['Paris, Paris', 'https://www.arbeitnow.fr/jobs/a'],
+      ['München, Bavaria', 'https://www.arbeitnow.com/jobs/a'],
+      ['Hamburg, DE', 'https://www.arbeitnow.com/jobs/a'],
+      ['Germany', 'https://www.arbeitnow.com/jobs/a'],
+      ['London, Cyprus', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Northern Ireland; Birmingham; London, UK', 'https://www.arbeitnow.co.uk/jobs/a'],
+      ['Basel, Switzerland, Germany', 'https://www.arbeitnow.com/jobs/a'],
+      ['', 'https://www.arbeitnow.com/jobs/a'],
+    ] as const) expect(arbeitnowStatedCountry(loc, url), loc).toBeNull();
+  });
+  it('the normaliser stores it, and still keeps the location as written', () => {
+    const r = normalizeArbeitnow({ ...arbeitnow.data[0], location: 'Leipzig, Sachsen, Germany', url: 'https://www.arbeitnow.com/jobs/x' }, NOW);
+    expect(r).toMatchObject({ ok: true, job: { country: 'DE', city: 'Leipzig, Sachsen, Germany' } });
   });
 });

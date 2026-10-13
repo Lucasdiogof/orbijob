@@ -93,6 +93,31 @@ function geoOf(raw: unknown): { country: string | null; restrictions: string[] }
 /** Arbeitnow's own regional sites: the feed links UK, French and Swiss jobs to them. */
 export const ARBEITNOW_HOSTS = ['arbeitnow.com', 'arbeitnow.co.uk', 'arbeitnow.fr', 'arbeitnow.ch'] as const;
 
+/** Country names Arbeitnow locations end with (English and the local names employers write). Codes such as "DE" are not read. */
+const ARBEITNOW_COUNTRY_NAMES: Record<string, string> = {
+  germany: 'DE', deutschland: 'DE', austria: 'AT', 'österreich': 'AT', switzerland: 'CH', schweiz: 'CH', suisse: 'CH', svizzera: 'CH',
+  france: 'FR', uk: 'GB', 'united kingdom': 'GB', england: 'GB', scotland: 'GB', wales: 'GB', 'northern ireland': 'GB', ireland: 'IE',
+  netherlands: 'NL', nederland: 'NL', belgium: 'BE', belgique: 'BE', 'belgië': 'BE', spain: 'ES', 'españa': 'ES', italy: 'IT', italia: 'IT',
+  portugal: 'PT', poland: 'PL', polska: 'PL', 'czech republic': 'CZ', czechia: 'CZ', hungary: 'HU', denmark: 'DK', sweden: 'SE', norway: 'NO',
+  finland: 'FI', luxembourg: 'LU', australia: 'AU', 'united states': 'US', usa: 'US', canada: 'CA',
+};
+/** Arbeitnow's regional sites: a job linked from one of them must be in that country, or the stated country is not trusted. */
+const ARBEITNOW_SITE_COUNTRY: Record<string, string> = { 'arbeitnow.co.uk': 'GB', 'arbeitnow.fr': 'FR', 'arbeitnow.ch': 'CH' };
+
+/** The country an Arbeitnow location states as its LAST part, or null (no country named, a list of places, or a contradiction with the site). */
+export function arbeitnowStatedCountry(location: string, url: string): string | null {
+  if (!location || /[;|/]/.test(location)) return null; // several places
+  const parts = location.split(',').map((p) => p.trim().toLowerCase()).filter(Boolean);
+  if (parts.length < 2) return null; // a bare city or a bare country name is not enough to place the job
+  const code = ARBEITNOW_COUNTRY_NAMES[parts[parts.length - 1]!] ?? null;
+  if (!code) return null;
+  if (parts.slice(0, -1).some((p) => ARBEITNOW_COUNTRY_NAMES[p])) return null; // two countries named
+  let host = '';
+  try { host = new URL(url).hostname.replace(/^www./, ''); } catch { /* checked by the caller */ }
+  const site = ARBEITNOW_SITE_COUNTRY[host];
+  return site && site !== code ? null : code;
+}
+
 export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
   const r = raw as Record<string, unknown>;
@@ -113,7 +138,9 @@ export function normalizeArbeitnow(raw: unknown, nowIso: string): Normalized {
     ok: true,
     job: {
       ...base('arbeitnow', nowIso), externalId: slug, company, title, description: cleanDescription(str(r.description)),
-      country: null, // the feed gives a city (and sometimes a region), never a country: it is not guessed
+      // the location sometimes ENDS with the country, written out by the employer ("München, Bayern, Germany"): that is stated, not guessed.
+      // A city alone ("Berlin") stays without a country.
+      country: arbeitnowStatedCountry(location, url),
       workMode, contractType: types.length ? types.join(', ') : null, ...NO_SALARY,
       publishedAt: isoFromEpoch(r.created_at), originalUrl: url, applyUrl: url,
       geoRestrictions: [], // the feed names no eligible region: eligibility is unknown, never read as global
