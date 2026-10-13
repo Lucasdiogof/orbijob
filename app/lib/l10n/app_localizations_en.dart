@@ -1520,4 +1520,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String resumeImportDates(String from, String to) {
     return '$from – $to';
   }
+
+  @override
+  String get kitButton => 'Prepare my application';
+
+  @override
+  String get kitTitle => 'Application kit';
+
+  @override
+  String get kitIntro =>
+      'OrbiJob never fills in or sends forms on other sites. Copy what you need from your profile, open the original listing and paste it there.';
+
+  @override
+  String get kitSignIn => 'Sign in to use the data from your profile.';
+
+  @override
+  String get kitEmpty =>
+      'Your profile has no data to copy yet. Fill it in, or start from a PDF résumé.';
+
+  @override
+  String kitCopy(String field) {
+    return 'Copy $field';
+  }
+
+  @override
+  String kitCopied(String field) {
+    return '$field copied';
+  }
+
+  @override
+  String get kitCopyAll => 'Copy everything';
+
+  @override
+  String get kitAllCopied => 'Profile data copied';
+
+  @override
+  String get kitLocation => 'Location';
+
+  @override
+  String get kitLinks => 'Links';
+
+  @override
+  String get kitLastJob => 'Latest experience';
+
+  @override
+  String get kitLastEducation => 'Latest education';
+
+  @override
+  String get kitMainResume => 'Open my main résumé';
+
+  @override
+  String get kitMainResumeHint =>
+      'Download it from the link to attach it on the listing.';
+
+  @override
+  String get kitTrack => 'I applied: track it';
+
+  @override
+  String get kitTrackConfirmTitle => 'Track this application?';
+
+  @override
+  String get kitTrackConfirmBody =>
+      'It is added to Applications as Applied, dated today. OrbiJob cannot check whether you really applied.';
+
+  @override
+  String get kitTracked => 'Added to your applications';
+
+  @override
+  String get kitNoListing => 'This job has no original listing to open.';
 }

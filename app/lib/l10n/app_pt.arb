@@ -491,5 +491,39 @@
         "type": "String"
       }
     }
-  }
+  },
+  "kitButton": "Preparar minha candidatura",
+  "kitTitle": "Kit de candidatura",
+  "kitIntro": "O OrbiJob nunca preenche nem envia formulários em outros sites. Copie o que precisar do seu perfil, abra o anúncio original e cole lá.",
+  "kitSignIn": "Entre para usar os dados do seu perfil.",
+  "kitEmpty": "Seu perfil ainda não tem dados para copiar. Preencha-o ou comece por um currículo em PDF.",
+  "kitCopy": "Copiar {field}",
+  "@kitCopy": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopied": "{field} copiado",
+  "@kitCopied": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopyAll": "Copiar tudo",
+  "kitAllCopied": "Dados do perfil copiados",
+  "kitLocation": "Localização",
+  "kitLinks": "Links",
+  "kitLastJob": "Experiência mais recente",
+  "kitLastEducation": "Formação mais recente",
+  "kitMainResume": "Abrir meu currículo principal",
+  "kitMainResumeHint": "Baixe pelo link para anexá-lo no anúncio.",
+  "kitTrack": "Já me candidatei: acompanhar",
+  "kitTrackConfirmTitle": "Acompanhar esta candidatura?",
+  "kitTrackConfirmBody": "Ela entra em Candidaturas como Inscrito, com a data de hoje. O OrbiJob não consegue verificar se você realmente se candidatou.",
+  "kitTracked": "Adicionada às suas candidaturas",
+  "kitNoListing": "Esta vaga não tem anúncio original para abrir."
 }

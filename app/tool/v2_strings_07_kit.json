@@ -1,0 +1,22 @@
+{
+  "kitButton": {"en": "Prepare my application", "pt": "Preparar minha candidatura", "es": "Preparar mi postulación"},
+  "kitTitle": {"en": "Application kit", "pt": "Kit de candidatura", "es": "Kit de postulación"},
+  "kitIntro": {"en": "OrbiJob never fills in or sends forms on other sites. Copy what you need from your profile, open the original listing and paste it there.", "pt": "O OrbiJob nunca preenche nem envia formulários em outros sites. Copie o que precisar do seu perfil, abra o anúncio original e cole lá.", "es": "OrbiJob nunca rellena ni envía formularios en otros sitios. Copia lo que necesites de tu perfil, abre el anuncio original y pégalo allí."},
+  "kitSignIn": {"en": "Sign in to use the data from your profile.", "pt": "Entre para usar os dados do seu perfil.", "es": "Inicia sesión para usar los datos de tu perfil."},
+  "kitEmpty": {"en": "Your profile has no data to copy yet. Fill it in, or start from a PDF résumé.", "pt": "Seu perfil ainda não tem dados para copiar. Preencha-o ou comece por um currículo em PDF.", "es": "Tu perfil aún no tiene datos para copiar. Complétalo o empieza con un currículum en PDF."},
+  "kitCopy": {"en": "Copy {field}", "pt": "Copiar {field}", "es": "Copiar {field}", "_meta": {"placeholders": {"field": {"type": "String"}}}},
+  "kitCopied": {"en": "{field} copied", "pt": "{field} copiado", "es": "{field} copiado", "_meta": {"placeholders": {"field": {"type": "String"}}}},
+  "kitCopyAll": {"en": "Copy everything", "pt": "Copiar tudo", "es": "Copiar todo"},
+  "kitAllCopied": {"en": "Profile data copied", "pt": "Dados do perfil copiados", "es": "Datos del perfil copiados"},
+  "kitLocation": {"en": "Location", "pt": "Localização", "es": "Ubicación"},
+  "kitLinks": {"en": "Links", "pt": "Links", "es": "Enlaces"},
+  "kitLastJob": {"en": "Latest experience", "pt": "Experiência mais recente", "es": "Experiencia más reciente"},
+  "kitLastEducation": {"en": "Latest education", "pt": "Formação mais recente", "es": "Formación más reciente"},
+  "kitMainResume": {"en": "Open my main résumé", "pt": "Abrir meu currículo principal", "es": "Abrir mi currículum principal"},
+  "kitMainResumeHint": {"en": "Download it from the link to attach it on the listing.", "pt": "Baixe pelo link para anexá-lo no anúncio.", "es": "Descárgalo desde el enlace para adjuntarlo en el anuncio."},
+  "kitTrack": {"en": "I applied: track it", "pt": "Já me candidatei: acompanhar", "es": "Ya postulé: hacer seguimiento"},
+  "kitTrackConfirmTitle": {"en": "Track this application?", "pt": "Acompanhar esta candidatura?", "es": "¿Hacer seguimiento de esta postulación?"},
+  "kitTrackConfirmBody": {"en": "It is added to Applications as Applied, dated today. OrbiJob cannot check whether you really applied.", "pt": "Ela entra em Candidaturas como Candidatura enviada, com a data de hoje. O OrbiJob não consegue verificar se você realmente se candidatou.", "es": "Se añade a Postulaciones como Postulación enviada, con la fecha de hoy. OrbiJob no puede comprobar si realmente postulaste."},
+  "kitTracked": {"en": "Added to your applications", "pt": "Adicionada às suas candidaturas", "es": "Añadida a tus postulaciones"},
+  "kitNoListing": {"en": "This job has no original listing to open.", "pt": "Esta vaga não tem anúncio original para abrir.", "es": "Este empleo no tiene un anuncio original que abrir."}
+}

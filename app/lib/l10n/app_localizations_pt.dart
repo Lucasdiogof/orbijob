@@ -1526,4 +1526,71 @@ class AppLocalizationsPt extends AppLocalizations {
   String resumeImportDates(String from, String to) {
     return '$from – $to';
   }
+
+  @override
+  String get kitButton => 'Preparar minha candidatura';
+
+  @override
+  String get kitTitle => 'Kit de candidatura';
+
+  @override
+  String get kitIntro =>
+      'O OrbiJob nunca preenche nem envia formulários em outros sites. Copie o que precisar do seu perfil, abra o anúncio original e cole lá.';
+
+  @override
+  String get kitSignIn => 'Entre para usar os dados do seu perfil.';
+
+  @override
+  String get kitEmpty =>
+      'Seu perfil ainda não tem dados para copiar. Preencha-o ou comece por um currículo em PDF.';
+
+  @override
+  String kitCopy(String field) {
+    return 'Copiar $field';
+  }
+
+  @override
+  String kitCopied(String field) {
+    return '$field copiado';
+  }
+
+  @override
+  String get kitCopyAll => 'Copiar tudo';
+
+  @override
+  String get kitAllCopied => 'Dados do perfil copiados';
+
+  @override
+  String get kitLocation => 'Localização';
+
+  @override
+  String get kitLinks => 'Links';
+
+  @override
+  String get kitLastJob => 'Experiência mais recente';
+
+  @override
+  String get kitLastEducation => 'Formação mais recente';
+
+  @override
+  String get kitMainResume => 'Abrir meu currículo principal';
+
+  @override
+  String get kitMainResumeHint => 'Baixe pelo link para anexá-lo no anúncio.';
+
+  @override
+  String get kitTrack => 'Já me candidatei: acompanhar';
+
+  @override
+  String get kitTrackConfirmTitle => 'Acompanhar esta candidatura?';
+
+  @override
+  String get kitTrackConfirmBody =>
+      'Ela entra em Candidaturas como Inscrito, com a data de hoje. O OrbiJob não consegue verificar se você realmente se candidatou.';
+
+  @override
+  String get kitTracked => 'Adicionada às suas candidaturas';
+
+  @override
+  String get kitNoListing => 'Esta vaga não tem anúncio original para abrir.';
 }

@@ -9,6 +9,7 @@ import '../../../../core/orbi/orbi.dart';
 import '../../../../core/widgets/compatibility_indicator.dart';
 import '../../../../core/widgets/confidence_indicator.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../applications/application_kit.dart';
 import '../../data/job_snapshot.dart' show manualSource;
 import '../../domain/entities/job_posting.dart';
 
@@ -284,6 +285,14 @@ class JobDetailActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (hasOriginalListing(job)) ...[
+          OrbiSecondaryButton(
+            label: l.kitButton,
+            icon: Icons.assignment_ind_outlined,
+            onPressed: () => showApplicationKit(context, job),
+          ),
+          const SizedBox(height: AppSpace.s2),
+        ],
         if (onOpenApplication != null)
           OrbiPrimaryButton(
             label: l.openOfficialApplication,

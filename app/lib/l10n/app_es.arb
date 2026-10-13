@@ -491,5 +491,39 @@
         "type": "String"
       }
     }
-  }
+  },
+  "kitButton": "Preparar mi postulación",
+  "kitTitle": "Kit de postulación",
+  "kitIntro": "OrbiJob nunca rellena ni envía formularios en otros sitios. Copia lo que necesites de tu perfil, abre el anuncio original y pégalo allí.",
+  "kitSignIn": "Inicia sesión para usar los datos de tu perfil.",
+  "kitEmpty": "Tu perfil aún no tiene datos para copiar. Complétalo o empieza con un currículum en PDF.",
+  "kitCopy": "Copiar {field}",
+  "@kitCopy": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopied": "{field} copiado",
+  "@kitCopied": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopyAll": "Copiar todo",
+  "kitAllCopied": "Datos del perfil copiados",
+  "kitLocation": "Ubicación",
+  "kitLinks": "Enlaces",
+  "kitLastJob": "Experiencia más reciente",
+  "kitLastEducation": "Formación más reciente",
+  "kitMainResume": "Abrir mi currículum principal",
+  "kitMainResumeHint": "Descárgalo desde el enlace para adjuntarlo en el anuncio.",
+  "kitTrack": "Ya postulé: hacer seguimiento",
+  "kitTrackConfirmTitle": "¿Hacer seguimiento de esta postulación?",
+  "kitTrackConfirmBody": "Se añade a Postulaciones como Postulado, con la fecha de hoy. OrbiJob no puede comprobar si realmente postulaste.",
+  "kitTracked": "Añadida a tus postulaciones",
+  "kitNoListing": "Este empleo no tiene un anuncio original que abrir."
 }

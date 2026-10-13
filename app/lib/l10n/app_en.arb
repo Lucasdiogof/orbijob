@@ -638,5 +638,39 @@
         "type": "String"
       }
     }
-  }
+  },
+  "kitButton": "Prepare my application",
+  "kitTitle": "Application kit",
+  "kitIntro": "OrbiJob never fills in or sends forms on other sites. Copy what you need from your profile, open the original listing and paste it there.",
+  "kitSignIn": "Sign in to use the data from your profile.",
+  "kitEmpty": "Your profile has no data to copy yet. Fill it in, or start from a PDF résumé.",
+  "kitCopy": "Copy {field}",
+  "@kitCopy": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopied": "{field} copied",
+  "@kitCopied": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "kitCopyAll": "Copy everything",
+  "kitAllCopied": "Profile data copied",
+  "kitLocation": "Location",
+  "kitLinks": "Links",
+  "kitLastJob": "Latest experience",
+  "kitLastEducation": "Latest education",
+  "kitMainResume": "Open my main résumé",
+  "kitMainResumeHint": "Download it from the link to attach it on the listing.",
+  "kitTrack": "I applied: track it",
+  "kitTrackConfirmTitle": "Track this application?",
+  "kitTrackConfirmBody": "It is added to Applications as Applied, dated today. OrbiJob cannot check whether you really applied.",
+  "kitTracked": "Added to your applications",
+  "kitNoListing": "This job has no original listing to open."
 }

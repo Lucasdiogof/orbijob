@@ -1529,4 +1529,73 @@ class AppLocalizationsEs extends AppLocalizations {
   String resumeImportDates(String from, String to) {
     return '$from – $to';
   }
+
+  @override
+  String get kitButton => 'Preparar mi postulación';
+
+  @override
+  String get kitTitle => 'Kit de postulación';
+
+  @override
+  String get kitIntro =>
+      'OrbiJob nunca rellena ni envía formularios en otros sitios. Copia lo que necesites de tu perfil, abre el anuncio original y pégalo allí.';
+
+  @override
+  String get kitSignIn => 'Inicia sesión para usar los datos de tu perfil.';
+
+  @override
+  String get kitEmpty =>
+      'Tu perfil aún no tiene datos para copiar. Complétalo o empieza con un currículum en PDF.';
+
+  @override
+  String kitCopy(String field) {
+    return 'Copiar $field';
+  }
+
+  @override
+  String kitCopied(String field) {
+    return '$field copiado';
+  }
+
+  @override
+  String get kitCopyAll => 'Copiar todo';
+
+  @override
+  String get kitAllCopied => 'Datos del perfil copiados';
+
+  @override
+  String get kitLocation => 'Ubicación';
+
+  @override
+  String get kitLinks => 'Enlaces';
+
+  @override
+  String get kitLastJob => 'Experiencia más reciente';
+
+  @override
+  String get kitLastEducation => 'Formación más reciente';
+
+  @override
+  String get kitMainResume => 'Abrir mi currículum principal';
+
+  @override
+  String get kitMainResumeHint =>
+      'Descárgalo desde el enlace para adjuntarlo en el anuncio.';
+
+  @override
+  String get kitTrack => 'Ya postulé: hacer seguimiento';
+
+  @override
+  String get kitTrackConfirmTitle => '¿Hacer seguimiento de esta postulación?';
+
+  @override
+  String get kitTrackConfirmBody =>
+      'Se añade a Postulaciones como Postulado, con la fecha de hoy. OrbiJob no puede comprobar si realmente postulaste.';
+
+  @override
+  String get kitTracked => 'Añadida a tus postulaciones';
+
+  @override
+  String get kitNoListing =>
+      'Este empleo no tiene un anuncio original que abrir.';
 }

@@ -249,6 +249,14 @@ void main() {
       signedIn: true,
       resumePdf: true,
     );
+    scene('23-application-kit-$theme', (t) async {
+      await _tapText(t, 'Explore');
+      await _search(t, 'Pedreiro');
+      await t.tap(find.text('Construtora Exemplo'));
+      await t.pumpAndSettle();
+      await t.tap(find.text('Prepare my application'));
+      await _shot(t, '23-application-kit-$theme');
+    }, signedIn: true);
     scene(
       '20-tablet-home-$theme',
       (t) => _shot(t, '20-tablet-home-$theme'),

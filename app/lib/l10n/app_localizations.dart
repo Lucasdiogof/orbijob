@@ -2781,6 +2781,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{from} – {to}'**
   String resumeImportDates(String from, String to);
+
+  /// No description provided for @kitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepare my application'**
+  String get kitButton;
+
+  /// No description provided for @kitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application kit'**
+  String get kitTitle;
+
+  /// No description provided for @kitIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob never fills in or sends forms on other sites. Copy what you need from your profile, open the original listing and paste it there.'**
+  String get kitIntro;
+
+  /// No description provided for @kitSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use the data from your profile.'**
+  String get kitSignIn;
+
+  /// No description provided for @kitEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile has no data to copy yet. Fill it in, or start from a PDF résumé.'**
+  String get kitEmpty;
+
+  /// No description provided for @kitCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy {field}'**
+  String kitCopy(String field);
+
+  /// No description provided for @kitCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} copied'**
+  String kitCopied(String field);
+
+  /// No description provided for @kitCopyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy everything'**
+  String get kitCopyAll;
+
+  /// No description provided for @kitAllCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile data copied'**
+  String get kitAllCopied;
+
+  /// No description provided for @kitLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get kitLocation;
+
+  /// No description provided for @kitLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get kitLinks;
+
+  /// No description provided for @kitLastJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest experience'**
+  String get kitLastJob;
+
+  /// No description provided for @kitLastEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest education'**
+  String get kitLastEducation;
+
+  /// No description provided for @kitMainResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Open my main résumé'**
+  String get kitMainResume;
+
+  /// No description provided for @kitMainResumeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Download it from the link to attach it on the listing.'**
+  String get kitMainResumeHint;
+
+  /// No description provided for @kitTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'I applied: track it'**
+  String get kitTrack;
+
+  /// No description provided for @kitTrackConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track this application?'**
+  String get kitTrackConfirmTitle;
+
+  /// No description provided for @kitTrackConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It is added to Applications as Applied, dated today. OrbiJob cannot check whether you really applied.'**
+  String get kitTrackConfirmBody;
+
+  /// No description provided for @kitTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your applications'**
+  String get kitTracked;
+
+  /// No description provided for @kitNoListing.
+  ///
+  /// In en, this message translates to:
+  /// **'This job has no original listing to open.'**
+  String get kitNoListing;
 }
 
 class _AppLocalizationsDelegate
