@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/app.dart';
+import 'package:orbijob/core/data/user_scope.dart';
 import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
@@ -125,6 +126,9 @@ void main() {
           repo: PreviewSearchRepository(),
           auth: auth,
           fakes: fakes,
+          favorites: signedIn
+              ? null
+              : (FailingFavorites()..error = const NotSignedInException()),
           locale: locale ?? const Locale('en'),
         );
         await body(t);
@@ -172,13 +176,18 @@ void main() {
     scene('10-login-$theme', (t) async {
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
-      await t.tap(find.text('Sign in').first);
+      await t.tap(
+        find.descendant(
+          of: find.byType(OrbiPrimaryButton),
+          matching: find.text('Sign in'),
+        ),
+      );
       await _shot(t, '10-login-$theme');
     });
     scene('11-signup-$theme', (t) async {
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();
-      await t.tap(find.text('Create account').first);
+      await t.tap(find.text('Create account').last);
       await _shot(t, '11-signup-$theme');
     });
     scene('12-profile-hub-$theme', (t) async {

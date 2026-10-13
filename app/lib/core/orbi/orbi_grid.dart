@@ -8,7 +8,7 @@ class OrbiAdaptiveGrid extends StatelessWidget {
   const OrbiAdaptiveGrid({
     super.key,
     required this.children,
-    this.minColumnWidth = 380,
+    this.minColumnWidth = 340,
     this.maxColumns = 3,
     this.gap = AppSpace.s3,
   });
