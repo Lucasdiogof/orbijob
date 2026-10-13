@@ -15,7 +15,7 @@ Flutter for `app/`: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$
 | 5 | Splash: native static splashes already consistent (Android 12 anim duration 0, iOS LaunchBackground, web #splash) + Flutter hand-over `OrbiLaunchOverlay` (half turn + fade, non-blocking, skipped with reduced motion) | done | (this batch) |
 | 6 | PDF résumé: pure-Dart local text extraction (`pdf_text.dart`: classic + object streams, Flate/Hex/A85, simple + Type0 fonts with widths/ToUnicode, form XObjects; honest statuses for scans/encrypted/unreadable), parser pt/en/es (`resume_parser.dart`), review screen (nothing saved until applied; existing data replaced only when ticked; duplicates skipped), entry points: after upload, résumé menu, start-a-profile; real Chrome-made PDFs as fixtures | done | 43b06a8 + this batch |
 | 7 | Application kit on job detail: copy own profile data piece by piece / all, open main résumé link, open original listing, track as applied (with confirm); no third-party form is touched or filled | done | this batch |
-| 8 | i18n audit (long text, pt/es), a11y tests | pending | |
+| 8 | i18n/layout net: 18 screens x en/pt/es x text 1x/2x at 320 px (`i18n_layout_test.dart`); fixed: filters footer stacks on large text, sheet footer capped/scrolls, tall-button bug | done (a11y contrast audit of new screens pending) | this batch |
 | 9 | Builds (web, Android if possible), final screenshots, final report | pending | |
 
 ## Findings log

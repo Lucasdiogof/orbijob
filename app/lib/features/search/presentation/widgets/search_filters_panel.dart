@@ -226,28 +226,44 @@ Future<void> showExploreFilters(
           countries: countries,
           onChanged: (f) => setState(() => draft = f),
         ),
-        footer: Row(
-          children: [
-            Expanded(
-              child: OrbiSecondaryButton(
-                label: l.filtersReset,
-                onPressed: activeFilterCount(draft) == 0
-                    ? null
-                    : () => setState(() => draft = const JobFilters()),
-              ),
-            ),
-            const SizedBox(width: AppSpace.s3),
-            Expanded(
-              flex: 2,
-              child: OrbiPrimaryButton(
-                label: l.filtersApply,
-                onPressed: () {
-                  onApply(draft);
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ),
-          ],
+        footer: Builder(
+          builder: (ctx) {
+            final reset = OrbiSecondaryButton(
+              label: l.filtersReset,
+              onPressed: activeFilterCount(draft) == 0
+                  ? null
+                  : () => setState(() => draft = const JobFilters()),
+            );
+            final apply = OrbiPrimaryButton(
+              label: l.filtersApply,
+              expand: true,
+              onPressed: () {
+                onApply(draft);
+                Navigator.of(ctx).pop();
+              },
+            );
+            // large text or a narrow window: stack the two actions so neither label wraps into a tall button
+            final stacked =
+                MediaQuery.textScalerOf(ctx).scale(16) > 22 ||
+                MediaQuery.sizeOf(ctx).width < 360;
+            return stacked
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      apply,
+                      const SizedBox(height: AppSpace.s2),
+                      reset,
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Expanded(child: reset),
+                      const SizedBox(width: AppSpace.s3),
+                      Expanded(flex: 2, child: apply),
+                    ],
+                  );
+          },
         ),
       ),
     ),

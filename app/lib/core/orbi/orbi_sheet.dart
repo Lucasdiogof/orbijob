@@ -89,6 +89,8 @@ class OrbiSheetScaffold extends StatelessWidget {
             ),
           ),
           if (footer != null)
+            // The footer may take at most 45 % of the sheet and scrolls beyond that: with very large text on a small window the
+            // title and the actions must never push the sheet past its height.
             DecoratedBox(
               decoration: BoxDecoration(
                 color: c.surface,
@@ -96,9 +98,12 @@ class OrbiSheetScaffold extends StatelessWidget {
               ),
               child: SafeArea(
                 top: false,
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpace.s4),
-                  child: footer,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: maxH * 0.45),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(AppSpace.s4),
+                    child: footer,
+                  ),
                 ),
               ),
             ),
