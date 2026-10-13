@@ -187,3 +187,25 @@ describe('push_claim / push_forget_tokens (the sender)', () => {
     await db.exec(readFileSync(new URL('../../supabase/migrations/20261024000000_push_devices.sql', import.meta.url), 'utf8'));
   });
 });
+
+describe('push schedule scripts', () => {
+  const ENABLE = readFileSync(new URL('../../scripts/supabase/ops/enable_push_cron.sql', import.meta.url), 'utf8');
+  const DISABLE = readFileSync(new URL('../../scripts/supabase/ops/disable_push_cron.sql', import.meta.url), 'utf8');
+  it('enabling refuses without the owner phrase, and without the Vault secret even with it', async () => {
+    await expect(db.exec(ENABLE)).rejects.toThrow(/autorizacao explicita/);
+    await db.exec(`create schema vault; create table vault.secrets (name text); create schema if not exists net;`);
+    await expect(db.exec(`set orbijob.enable_push_cron = 'EU-AUTORIZO-O-PUSH-AUTOMATICO';` + ENABLE)).rejects.toThrow(/push_cron_secret/);
+    expect((await db.query(`select 1 from cron.job where jobname = 'push-send'`)).rows).toHaveLength(0);
+  });
+  it('with everything in place it schedules push-send at minute 56; disabling removes it and can run again', async () => {
+    await db.exec(`create schema vault; create table vault.secrets (name text); insert into vault.secrets values ('push_cron_secret');`);
+    await db.exec(`set orbijob.enable_push_cron = 'EU-AUTORIZO-O-PUSH-AUTOMATICO';` + ENABLE);
+    const job = (await db.query<{ schedule: string; command: string }>(`select schedule, command from cron.job where jobname = 'push-send'`)).rows[0]!;
+    expect(job.schedule).toBe('56 * * * *');
+    expect(job.command).toContain('/functions/v1/push-send');
+    expect(job.command).toContain("name = 'push_cron_secret'");
+    await db.exec(DISABLE);
+    await db.exec(DISABLE);
+    expect((await db.query(`select 1 from cron.job where jobname = 'push-send'`)).rows).toHaveLength(0);
+  });
+});
