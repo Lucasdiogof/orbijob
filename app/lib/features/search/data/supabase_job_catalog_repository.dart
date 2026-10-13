@@ -301,6 +301,10 @@ const _sourceNames = {
   'remotive': 'Remotive',
   'jobtech': 'Arbetsförmedlingen',
   'twjobs': 'Taiwan Jobs',
+  'jobsconz': 'Jobs.co.nz',
+  'getonboard': 'Get on Board',
+  'teachingvacancies': 'Teaching Vacancies',
+  'nycjobs': 'NYC Jobs',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

@@ -545,6 +545,14 @@ void main() {
         ('arbeitnow', 'Arbeitnow', 'www.arbeitnow.com'),
         ('remoteok', 'Remote OK', 'remoteok.com'),
         ('remotive', 'Remotive', 'remotive.com'),
+        ('jobsconz', 'Jobs.co.nz', 'jobs.co.nz'),
+        ('getonboard', 'Get on Board', 'www.getonbrd.com'),
+        (
+          'teachingvacancies',
+          'Teaching Vacancies',
+          'teaching-vacancies.service.gov.uk',
+        ),
+        ('nycjobs', 'NYC Jobs', 'cityjobs.nyc.gov'),
       ]) {
         final j = jobFromCatalogRow(
           row(
