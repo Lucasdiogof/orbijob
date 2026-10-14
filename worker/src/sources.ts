@@ -77,7 +77,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   getonboard: {
     id: 'getonboard', attribution: 'Jobs via Get on Board (https://www.getonbrd.com), tech jobs in Latin America', host: 'getonbrd.com',
-    maxPages: 40, newCap: 600, catalogue: 1500,
+    maxPages: 40, newCap: 600, catalogue: 600,
     make: (f, n, origin) => getOnBoardConnector(f, n, { origin }),
   },
   teachingvacancies: {
