@@ -265,6 +265,10 @@
             "pflegehelf",
             "pflegeassist",
             "sjuksköterska",
+            "infirmier",
+            "infirmière",
+            "zdravotní sestr",
+            "všeobecná sestr",
             "護理"
           ]
         }
@@ -307,13 +311,15 @@
           "term": "fisioterapeuta",
           "alts": [
             "physiotherap",
+            "kinésithérapeute",
             "physical therap",
             "kinesiolog",
             "fysioterapeut",
             "sjukgymnast",
             "物理治療",
             "fysiotherapeut",
-            "physiothérapeute"
+            "physiothérapeute",
+            "fyzioterapeut"
           ]
         }
       },
@@ -393,6 +399,10 @@
               "ingénieur",
               "génie",
               "civil"
+            ],
+            [
+              "stavební",
+              "inženýr"
             ]
           ]
         }
@@ -495,6 +505,7 @@
             "elektriker",
             "électricien",
             "elektricien",
+            "elektrikář",
             [
               "electrical",
               "services",
@@ -555,6 +566,18 @@
             ],
             [
               "physiotherap",
+              "bäckenbotten"
+            ],
+            [
+              "kinésithérapeute",
+              "pelvic"
+            ],
+            [
+              "kinésithérapeute",
+              "beckenboden"
+            ],
+            [
+              "kinésithérapeute",
               "bäckenbotten"
             ],
             [
@@ -627,6 +650,10 @@
             ],
             [
               "physiotherap",
+              "pélvic"
+            ],
+            [
+              "kinésithérapeute",
               "pélvic"
             ],
             [

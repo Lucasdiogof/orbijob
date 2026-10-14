@@ -1,0 +1,68 @@
+query,by_term,with_alternatives,samples
+cozinheiro,0,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+cook,0,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+cocinero,0,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+kuchař,65,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+koch,0,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+kock,0,4,"[Kuchaři (kromě šéfkuchařů), pomocní kuchaři Kuchaři (kromě šéfkuchařů) Kuchaři (kromě šéfkuchařů), pomocní kuchaři (m/ž)]"
+cuisinier,0,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+garçom,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+waiter,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+camarero,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+číšník,13,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+kellner,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+servitör,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+serveur,0,16,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+motorista,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+driver,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+conductor,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+řidič,64,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+fahrer,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+chaufför,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+chauffeur,0,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+trabalhador de armazém,0,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+warehouse worker,0,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+skladník,22,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+lagerarbeiter,0,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+lagerarbetare,0,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+magasinier,0,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+trabalhador de construção,0,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+construction worker,0,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+stavební dělník,9,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+bauarbeiter,0,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+byggnadsarbetare,0,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+eletricista,0,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+electrician,0,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+electricista,0,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+elektrikář,7,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+elektriker,0,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+électricien,0,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+soldador,0,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+welder,0,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+svářeč,14,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+schweißer,0,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+svetsare,0,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+soudeur,0,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+enfermeiro,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+nurse,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+enfermero,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+zdravotní sestra,2,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+krankenpfleger,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+sjuksköterska,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+infirmier,0,4,[Úseková (staniční) zdravotní sestra Všeobecná sestra ( m/ž ) VŠEOBECNÁ SESTRA/PRAKTICKÁ SESTRA (m+ž)]
+fisioterapeuta,0,0,NULL
+physiotherapist,0,0,NULL
+fyzioterapeut,0,0,NULL
+physiotherapeut,0,0,NULL
+fysioterapeut,0,0,NULL
+kinésithérapeute,0,0,NULL
+professor,0,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+teacher,1,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+učitel,19,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+lehrer,0,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+lärare,0,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+enseignant,0,20,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+desenvolvedor flutter,0,0,NULL
+flutter developer,0,0,NULL
+flutter-entwickler,0,0,NULL
+vývojář flutter,0,0,NULL

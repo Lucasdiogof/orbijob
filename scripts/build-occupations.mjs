@@ -14,7 +14,7 @@
 // * Labels are lower-cased; accents are kept (titles are matched as written); the app compares queries accent-insensitively.
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const LANGS = ['en', 'pt', 'es', 'de', 'sv', 'nl', 'fr']; // the languages of the catalogue (EN, DE, SV, NL, FR) and of the app (PT, ES, EN)
+const LANGS = ['en', 'pt', 'es', 'de', 'sv', 'nl', 'fr', 'cs']; // the languages of the catalogue (EN, DE, SV, NL, FR, CS) and of the app (PT, ES, EN)
 const details = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const clean = (s) => s.toLowerCase().replace(/\s+/g, ' ').trim();
 const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');

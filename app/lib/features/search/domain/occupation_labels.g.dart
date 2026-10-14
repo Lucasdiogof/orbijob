@@ -36,6 +36,7 @@ const escoOccupations = <OccupationLabels>[
     'sandstrahlbläser',
     'blästrare',
     'gritstraler',
+    'obsluha zařízení na otryskávání',
   ]),
   OccupationLabels('8143', [
     'absorbent pad machine operator',
@@ -56,6 +57,8 @@ const escoOccupations = <OccupationLabels>[
     'studierendenberaterin',
     'studievägledare',
     'studieadviseur hoger onderwijs',
+    'studijní poradce',
+    'studijní poradkyně',
   ]),
   OccupationLabels('2359', [
     'academic support officer',
@@ -66,6 +69,8 @@ const escoOccupations = <OccupationLabels>[
     'studentenondersteuner',
     'chargée de mission handicap',
     'chargé de mission handicap',
+    'asistent pedagoga',
+    'asistentka pedagoga',
   ]),
   OccupationLabels('1411', [
     'accommodation manager',
@@ -83,6 +88,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur de l\'hébergement',
     'directrice de l\'hébergement',
     'directrice d\'établissement hôtelier',
+    'manažer ubytovacího zařízení',
+    'manažerka ubytovacího zařízení',
+    'generální manažerka hotelu',
   ]),
   OccupationLabels('2411', [
     'accountant',
@@ -98,6 +106,8 @@ const escoOccupations = <OccupationLabels>[
     'expert-accountant',
     'interne accountant',
     'comptable',
+    'účetní revizor',
+    'účetní revizorka',
   ]),
   OccupationLabels('2411', [
     'accounting analyst',
@@ -115,6 +125,9 @@ const escoOccupations = <OccupationLabels>[
     'gespecialiseerd boekhouder analytische boekhouding',
     'expert-comptable',
     'experte-comptable',
+    'účetní analytik',
+    'účetní analytička',
+    'analytička účetních systémů',
   ]),
   OccupationLabels('3313', [
     'accounting assistant',
@@ -130,6 +143,8 @@ const escoOccupations = <OccupationLabels>[
     'assistent boekhoudkundig beheer',
     'assistant vérificateur de comptes',
     'assistante vérificatrice de comptes',
+    'účetní asistent',
+    'účetní asistentka',
   ]),
   OccupationLabels('1211', [
     'accounting manager',
@@ -147,6 +162,7 @@ const escoOccupations = <OccupationLabels>[
     'directeur comptable',
     'directrice comptable',
     'directeur des services comptables',
+    'hlavní účetní',
   ]),
   OccupationLabels('2149', [
     'acoustical engineer',
@@ -165,6 +181,8 @@ const escoOccupations = <OccupationLabels>[
     'acousticien',
     'acousticienne',
     'ingénieur acousticien',
+    'inženýr akustiky',
+    'inženýrka akustiky',
   ]),
   OccupationLabels('2432', [
     'activism officer',
@@ -178,6 +196,8 @@ const escoOccupations = <OccupationLabels>[
     'campagnevoerder',
     'chargé de campagne',
     'chargée de campagne',
+    'aktivista',
+    'aktivistka',
   ]),
   OccupationLabels('3423', [
     'activity leader',
@@ -194,6 +214,8 @@ const escoOccupations = <OccupationLabels>[
     'recreatiebegeleider',
     'recreatiebegeleider op het strand',
     'recreatiebegeleider buurthuis',
+    'animátor',
+    'animátorka',
   ]),
   OccupationLabels('2655', [
     'actor',
@@ -209,6 +231,8 @@ const escoOccupations = <OccupationLabels>[
     'skådespelerska',
     'acteur',
     'actrice',
+    'herec',
+    'herečka',
   ]),
   OccupationLabels('3314', [
     'actuarial assistant',
@@ -223,6 +247,8 @@ const escoOccupations = <OccupationLabels>[
     'assistent-actuaris',
     'assistant actuaire',
     'assistante actuaire',
+    'pojistný matematik',
+    'pojistná matematička',
   ]),
   OccupationLabels('2120', [
     'actuarial consultant',
@@ -238,6 +264,8 @@ const escoOccupations = <OccupationLabels>[
     'aktuariekonsult',
     'raadgevend actuaris',
     'actuaire',
+    'matematický konzultant',
+    'matematická konzultantka',
   ]),
   OccupationLabels('2230', [
     'acupuncturist',
@@ -252,6 +280,9 @@ const escoOccupations = <OccupationLabels>[
     'deskundige acupunctuur',
     'acupuncteur',
     'acupunctrice',
+    'akupunkturista',
+    'akupunkturistka',
+    'specialista v oblasti akupunktury',
   ]),
   OccupationLabels('3343', [
     'administrative assistant',
@@ -270,6 +301,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief assistent',
     'assistant administratif',
     'assistante administrative',
+    'administrativní asistent',
+    'administrativní asistentka',
   ]),
   OccupationLabels('2359', [
     'admissions coordinator',
@@ -298,6 +331,8 @@ const escoOccupations = <OccupationLabels>[
     'lehrkraft für erwachsenenalphabetisierung',
     'docent alfabetisering',
     'docente alfabetisering',
+    'učitel gramotnosti dospělých',
+    'učitelka gramotnosti dospělých',
   ]),
   OccupationLabels('2221', [
     'advanced nurse practitioner',
@@ -315,6 +350,7 @@ const escoOccupations = <OccupationLabels>[
     'infirmier de pratique avancée',
     'infirmière de pratique avancée',
     'infirmier praticien',
+    'kvalifikovaná zdravotní sestra',
   ]),
   OccupationLabels('2264', [
     'advanced physiotherapist',
@@ -326,6 +362,8 @@ const escoOccupations = <OccupationLabels>[
     'gespecialiseerd fysiotherapeute',
     'expert physiothérapeute',
     'experte physiothérapeute',
+    'diplomovaný fyzioterapeut',
+    'diplomovaná fyzioterapeutka',
   ]),
   OccupationLabels('4419', [
     'advertising assistant',
@@ -341,6 +379,9 @@ const escoOccupations = <OccupationLabels>[
     'advertentieassistente',
     'assistant en publicité',
     'assistante en publicité',
+    'asistent inzerce',
+    'asistentka inzerce',
+    'asistent reklamního oddělení',
   ]),
   OccupationLabels('2431', [
     'advertising copywriter',
@@ -354,6 +395,8 @@ const escoOccupations = <OccupationLabels>[
     'werbetexterin',
     'concepteur - rédacteur publicitaire',
     'conceptrice - rédactrice publicitaire',
+    'reklamní textař',
+    'reklamní textařka',
   ]),
   OccupationLabels('9629', [
     'advertising installer',
@@ -368,6 +411,8 @@ const escoOccupations = <OccupationLabels>[
     'plaatser van affiches',
     'colleur d\'affiche',
     'colleuse d\'affiche',
+    'pracovník pro instalaci reklamy',
+    'pracovnice pro instalaci reklamy',
   ]),
   OccupationLabels('1222', [
     'advertising manager',
@@ -384,6 +429,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur de la publicité',
     'directrice de la publicité',
     'directeur de publicité',
+    'reklamní manažer',
+    'reklamní manažerka',
+    'manažer reklamní agentury',
   ]),
   OccupationLabels('2431', [
     'advertising media buyer',
@@ -399,6 +447,7 @@ const escoOccupations = <OccupationLabels>[
     'acheteur d’espaces publicitaires',
     'acheteuse d’espaces publicitaires',
     'acheteur d\'espaces publicitaires',
+    'nákupčí reklamy v médiích',
   ]),
   OccupationLabels('2431', [
     'advertising media planner',
@@ -410,6 +459,8 @@ const escoOccupations = <OccupationLabels>[
     'chargé d’études média',
     'chargée d’études média',
     'chargé d\'études média',
+    'mediální plánovač',
+    'mediální plánovačka',
   ]),
   OccupationLabels('3339', [
     'advertising sales agent',
@@ -427,6 +478,8 @@ const escoOccupations = <OccupationLabels>[
     'commercial vendeur d’espaces publicitaires',
     'commerciale vendeuse d’espaces publicitaires',
     'commercial vendeur d\'espaces publicitaires',
+    'reklamní agent',
+    'reklamní agentka',
   ]),
   OccupationLabels('2431', [
     'advertising specialist',
@@ -439,6 +492,9 @@ const escoOccupations = <OccupationLabels>[
     'reklamkonsulent',
     'mediaconsultant',
     'spécialiste en publicité',
+    'specialista v oblasti reklamy',
+    'specialistka v oblasti reklamy',
+    'reklamní specialistka',
   ]),
   OccupationLabels('2144', [
     'aerodynamics engineer',
@@ -469,6 +525,8 @@ const escoOccupations = <OccupationLabels>[
     'officer luchtvaartinformatiedienst',
     'officer ais',
     'ais officer',
+    'operátor letových dat',
+    'operátorka letových dat',
   ]),
   OccupationLabels('3154', [
     'aeronautical information specialist',
@@ -483,6 +541,9 @@ const escoOccupations = <OccupationLabels>[
     'luchtvaartinformatie-experte',
     'luchtvaartinformatiespecialist',
     'spécialiste de l’information aéronautique',
+    'specialista leteckých informací',
+    'specialistka leteckých informací',
+    'specialista leteckých dat',
   ]),
   OccupationLabels('2144', [
     'aerospace engineer',
@@ -501,6 +562,9 @@ const escoOccupations = <OccupationLabels>[
     'luchtvaart- en ruimtevaartingenieur',
     'ingénieur en aérospatiale',
     'ingénieure en aérospatiale',
+    'letecká mechanička pro avioniku',
+    'letecká mechanička pro drak',
+    'letecký mechanik',
   ]),
   OccupationLabels('3118', [
     'aerospace engineering drafter',
@@ -544,6 +608,8 @@ const escoOccupations = <OccupationLabels>[
     'schoonheidsdeskundige',
     'esthéticien',
     'esthéticienne',
+    'kosmetik',
+    'kosmetička',
   ]),
   OccupationLabels('2433', [
     'after-sales service technician',
@@ -560,6 +626,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien sav',
     'technicienne sav',
     'technicien du service après-vente',
+    'technik poprodejních služeb',
+    'technička poprodejních služeb',
   ]),
   OccupationLabels('2144', [
     'agricultural engineer',
@@ -578,6 +646,9 @@ const escoOccupations = <OccupationLabels>[
     'landbouwingenieur',
     'ingénieur agronome',
     'ingénieure agronome',
+    'zemědělský specialista mechanizátor',
+    'zemědělská specialistka mechanizátorka',
+    'zemědělská inženýrka mechanizátor',
   ]),
   OccupationLabels('2144', [
     'agricultural equipment design engineer',
@@ -588,6 +659,8 @@ const escoOccupations = <OccupationLabels>[
     'konstruktör av jordbruksutrustning',
     'landbouwtechnisch ingenieur',
     'ontwerpingenieur landbouwuitrusting',
+    'projektant zemědělských zařízení',
+    'projektantka zemědělských zařízení',
   ]),
   OccupationLabels('3359', [
     'agricultural inspector',
@@ -603,6 +676,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur landbouw',
     'inspecteur landbouw en visserij',
     'inspecteur land- en tuinbouw',
+    'zemědělský inspektor',
+    'zemědělská inspektorka',
   ]),
   OccupationLabels('1324', [
     'distributiemanager landbouwmachines en -uitrusting',
@@ -628,6 +703,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’équipements agricoles',
     'technicienne d’équipements agricoles',
     'technicien d\'équipements agricoles',
+    'mechanik zemědělských zařízení',
+    'mechanička zemědělských zařízení',
   ]),
   OccupationLabels('2422', [
     'agricultural policy officer',
@@ -641,6 +718,9 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker agrarische zaken',
     'beleidsmedewerker veeteelt',
     'beleidsmedewerker land- en tuinbouw',
+    'referent pro zemědělskou politiku',
+    'referentka pro zemědělskou politiku',
+    'zemědělský referent',
   ]),
   OccupationLabels('2132', [
     'agricultural scientist',
@@ -657,6 +737,8 @@ const escoOccupations = <OccupationLabels>[
     'landbouwwetenschapster',
     'landbouwkundig onderzoeker',
     'scientifique agricole',
+    'vědecký pracovník v zemědělství',
+    'vědecká pracovnice v zemědělství',
   ]),
   OccupationLabels('3142', [
     'agricultural technician',
@@ -674,6 +756,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien agricole',
     'technicienne agricole',
     'technicien aquacole',
+    'zemědělský technik',
+    'zemědělská technička',
   ]),
   OccupationLabels('2320', [
     'professeur d’enseignement agricole',
@@ -700,6 +784,7 @@ const escoOccupations = <OccupationLabels>[
     'specialist landbouwtechniek',
     'adviseur landbouwmechanisatie',
     'agronome',
+    'agronomka',
   ]),
   OccupationLabels('0110', [
     'air force officer',
@@ -712,6 +797,8 @@ const escoOccupations = <OccupationLabels>[
     'officier luchtmacht',
     'officier koninklijke luchtmacht',
     'officier vlieger',
+    'letecký důstojník',
+    'letecká důstojnice',
   ]),
   OccupationLabels('0310', [
     'air force pilot',
@@ -726,6 +813,9 @@ const escoOccupations = <OccupationLabels>[
     'vlieger luchtmacht',
     'helikoptervlieger',
     'militaire vlieger',
+    'pilot vzdušných sil',
+    'pilotka vzdušných sil',
+    'pilot ozbrojených sil',
   ]),
   OccupationLabels('3111', [
     'air pollution analyst',
@@ -734,6 +824,8 @@ const escoOccupations = <OccupationLabels>[
     'luftverschmutzungsanalystin',
     'luftverschmutzungsanalytiker',
     'analist luchtvervuiling',
+    'analytik znečištění ovzduší',
+    'analytička znečištění ovzduší',
   ]),
   OccupationLabels('3133', [
     'air separation plant operator',
@@ -743,6 +835,8 @@ const escoOccupations = <OccupationLabels>[
     'procesoperator luchtscheiding',
     'lsi-operator',
     'conducteur',
+    'operátor kyslíkárny',
+    'operátorka kyslíkárny',
   ]),
   OccupationLabels('3154', [
     'air traffic controller',
@@ -759,6 +853,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice contrôleuse aérienne',
     'contrôleur aérien',
     'instructeur contrôleur aérien',
+    'letový dispečer',
+    'letová dispečerka',
   ]),
   OccupationLabels('2320', [
     'air traffic instructor',
@@ -771,6 +867,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice luchtverkeersleiding',
     'instructeur navigation aérienne',
     'instructrice navigation aérienne',
+    'instruktor letového provozu',
+    'instruktorka letového provozu',
   ]),
   OccupationLabels('1324', [
     'air traffic manager',
@@ -785,6 +883,7 @@ const escoOccupations = <OccupationLabels>[
     'manager luchtvaart',
     'superviseur trafic aérien',
     'superviseuse trafic aérien',
+    'řídící letového provozu',
   ]),
   OccupationLabels('3155', [
     'air traffic safety technician',
@@ -793,6 +892,8 @@ const escoOccupations = <OccupationLabels>[
     'flugsicherungstechniker',
     'flugsicherungstechnikerin',
     'monteur veiligheidssystemen luchtvaart',
+    'technik bezpečnosti letového provozu',
+    'technička bezpečnosti letového provozu',
   ]),
   OccupationLabels('8211', [
     'aircraft assembler',
@@ -808,6 +909,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagetechnicus vliegtuigen',
     'assemblagemedewerkster vliegtuigen',
     'assemblagemedewerker vliegtuigen',
+    'montážní dělník letadel',
+    'montážní dělnice letadel',
   ]),
   OccupationLabels('7543', [
     'aircraft assembly inspector',
@@ -820,6 +923,8 @@ const escoOccupations = <OccupationLabels>[
     'controleur luchtvaartassemblage',
     'contrôleur assemblage aéronautique',
     'contrôleuse assemblage aéronautique',
+    'kontrolor výstupní kvality letadel',
+    'kontrolorka výstupní kvality letadel',
   ]),
   OccupationLabels('3122', [
     'aircraft assembly supervisor',
@@ -830,6 +935,8 @@ const escoOccupations = <OccupationLabels>[
     'industriemeister flugzeugbau',
     'industriemeisterin flugzeugbau',
     'montageleider luchtvaartassemblage',
+    'mistr montáže letadel',
+    'mistrová montáže letadel',
   ]),
   OccupationLabels('4323', [
     'aircraft cargo operations coordinator',
@@ -839,6 +946,8 @@ const escoOccupations = <OccupationLabels>[
     'logistiek coördinator luchtvracht',
     'logistiek coördinatrice luchtvracht',
     'chef avion',
+    'koordinátor nákladní letecké dopravy',
+    'koordinátorka nákladní letecké dopravy',
   ]),
   OccupationLabels('7232', [
     'aircraft de-icer installer',
@@ -862,6 +971,8 @@ const escoOccupations = <OccupationLabels>[
     'flygklarerare',
     'régulateur de vols',
     'régulatrice de vols',
+    'dispečer letecké dopravy',
+    'dispečerka letecké dopravy',
   ]),
   OccupationLabels('8211', [
     'aircraft engine assembler',
@@ -877,6 +988,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerker vliegtuigmotoren',
     'ajusteur-monteur de moteurs d’avion',
     'ajusteuse-monteuse de moteurs d’avion',
+    'montážní dělník leteckých motorů',
+    'montážní dělnice leteckých motorů',
   ]),
   OccupationLabels('3115', [
     'aircraft engine inspector',
@@ -889,6 +1002,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur vliegtuigmotoren',
     'inspecteur de moteurs d’avions',
     'inspectrice de moteurs d’avions',
+    'inspektor leteckých motorů',
+    'inspektorka leteckých motorů',
   ]),
   OccupationLabels('7232', [
     'aircraft engine specialist',
@@ -901,6 +1016,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist vliegtuigmotoren',
     'specialiste vliegtuigmotoren',
     'spécialiste de moteurs d’avion',
+    'letecký mechanik-motorář',
+    'letecká mechanička-motorářka',
   ]),
   OccupationLabels('3115', [
     'aircraft engine tester',
@@ -916,6 +1033,8 @@ const escoOccupations = <OccupationLabels>[
     'tester vliegtuigmotoren',
     'testeur de moteurs d’avions',
     'testeuse de moteurs d’avions',
+    'zkušební technik leteckých motorů',
+    'zkušební technička leteckých motorů',
   ]),
   OccupationLabels('8332', [
     'aircraft fuel system operator',
@@ -931,6 +1050,7 @@ const escoOccupations = <OccupationLabels>[
     'avitailleur',
     'avitailleuse',
     'avitailleuse avion',
+    'obsluha tankovacího systému',
   ]),
   OccupationLabels('7232', [
     'fluggerätemechaniker für gasturbinen-triebwerke',
@@ -940,6 +1060,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudstechnicus gasturbinemotoren',
     'onderhoudstechnica vliegtuigmotoren',
     'onderhoudstechnicus vliegtuigmotoren',
+    'mechanik letadlových motorů',
+    'mechanička letadlových motorů',
   ]),
   OccupationLabels('9112', [
     'aircraft groomer',
@@ -953,6 +1075,8 @@ const escoOccupations = <OccupationLabels>[
     'schoonmaakster vliegtuiginterieur',
     'agent de nettoyage avion',
     'agente de nettoyage avion',
+    'pracovník pro úklid letadel',
+    'pracovnice pro úklid letadel',
   ]),
   OccupationLabels('7534', [
     'aircraft interior technician',
@@ -981,6 +1105,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd vliegtuigonderhoud',
     'coordinateur en maintenance aéronautique',
     'coordinatrice en maintenance aéronautique',
+    'koordinátor údržby letadel',
+    'koordinátorka údržby letadel',
   ]),
   OccupationLabels('3153', [
     'aircraft maintenance engineer',
@@ -996,6 +1122,8 @@ const escoOccupations = <OccupationLabels>[
     'vliegtuigmonteur',
     'technicien de maintenance aéronautique',
     'technicienne de maintenance aéronautique',
+    'palubní inženýr',
+    'palubní inženýrka',
   ]),
   OccupationLabels('7232', [
     'aircraft maintenance technician',
@@ -1012,6 +1140,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudstechnica vliegtuigen',
     'technicien en maintenance aéronautique',
     'technicienne en maintenance aéronautique',
+    'technik údržby letadel',
+    'technička údržby letadel',
   ]),
   OccupationLabels('5419', [
     'aircraft marshaller',
@@ -1025,6 +1155,8 @@ const escoOccupations = <OccupationLabels>[
     'rangeringsman',
     'agent de piste',
     'agente de piste',
+    'signalista v letecké dopravě',
+    'signalistka v letecké dopravě',
   ]),
   OccupationLabels('3153', [
     'aircraft pilot',
@@ -1037,6 +1169,8 @@ const escoOccupations = <OccupationLabels>[
     'pilot',
     'piloot',
     'pilote d’avion',
+    'letecký pilot',
+    'letecká pilotka',
   ]),
   OccupationLabels('5246', [
     'airline food service worker',
@@ -1064,6 +1198,8 @@ const escoOccupations = <OccupationLabels>[
     'verkeersvlieger',
     'verkeersvliegster',
     'pilote de ligne aérienne',
+    'pilot letounu',
+    'pilotka letounu',
   ]),
   OccupationLabels('9333', [
     'airport baggage handler',
@@ -1097,6 +1233,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur d\'aérodrome',
     'directrice d\'aérodrome',
     'directrice d\'exploitation aéroportuaire',
+    'generální ředitel letiště',
+    'generální ředitelka letiště',
   ]),
   OccupationLabels('1324', [
     'airport director',
@@ -1117,6 +1255,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur de département aéroportuaire',
     'directrice de département aéroportuaire',
     'directrice d\'exploitation aéroportuaire',
+    'ředitel letiště',
+    'ředitelka letiště',
   ]),
   OccupationLabels('2133', [
     'airport environment officer',
@@ -1143,6 +1283,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudstechnicus luchtvaart',
     'technicien de maintenance aéroportuaire',
     'technicienne de maintenance aéroportuaire',
+    'technik údržby letiště',
+    'technička údržby letiště',
   ]),
   OccupationLabels('3154', [
     'airport operations officer',
@@ -1156,6 +1298,8 @@ const escoOccupations = <OccupationLabels>[
     'verkehrsüberwacherin flugsicherung',
     'airport operations-verantwoordelijke',
     'responsable d’exploitation aéroportuaire',
+    'manažer provozu letiště',
+    'manažerka provozu letiště',
   ]),
   OccupationLabels('2142', [
     'airport planning engineer',
@@ -1168,6 +1312,8 @@ const escoOccupations = <OccupationLabels>[
     'planningsingenieur luchthaven',
     'ingénieur en planification aéroportuaire',
     'ingénieure en planification aéroportuaire',
+    'letištní inženýr plánovač',
+    'letištní inženýrka plánovačka',
   ]),
   OccupationLabels('5414', [
     'airport security officer',
@@ -1182,6 +1328,9 @@ const escoOccupations = <OccupationLabels>[
     'agent de sûreté aéroportuaire',
     'agente de sûreté aéroportuaire',
     'agente de sécurité aéoportuaire',
+    'bezpečnostní pracovník na letišti',
+    'bezpečnostní pracovnice na letišti',
+    'pracovník letištní bezpečnostní kontroly',
   ]),
   OccupationLabels('1349', [
     'airside safety manager',
@@ -1195,6 +1344,9 @@ const escoOccupations = <OccupationLabels>[
     'flugsicherungsleiterin',
     'manager veiligheid airside luchthaven',
     'manager veiligheid luchthaven',
+    'ředitel pro bezpečnost letiště',
+    'ředitelka pro bezpečnost letiště',
+    'bezpečnostní ředitel letiště',
   ]),
   OccupationLabels('1349', [
     'airspace manager',
@@ -1209,6 +1361,8 @@ const escoOccupations = <OccupationLabels>[
     'manager luchtverkeer',
     'air traffic control-manager',
     'manager atc',
+    'manažer struktury vzdušného prostoru',
+    'manažerka struktury vzdušného prostoru',
   ]),
   OccupationLabels('3240', [
     'alternative animal therapist',
@@ -1219,6 +1373,8 @@ const escoOccupations = <OccupationLabels>[
     'dierenarts alternatieve diergeneeskunde',
     'alternatief dierentherapeute',
     'physiothérapeute vétérinaire',
+    'provozovatel alternativní terapie zvířat',
+    'provozovatelka alternativní terapie zvířat',
   ]),
   OccupationLabels('1112', [
     'ambassador',
@@ -1234,6 +1390,9 @@ const escoOccupations = <OccupationLabels>[
     'ambassadör',
     'ambassadeur',
     'ambassadrice',
+    'velvyslanec',
+    'velvyslankyně',
+    'mimořádná a zplnomocněná velvyslankyně',
   ]),
   OccupationLabels('8219', [
     'ammunition assembler',
@@ -1249,6 +1408,8 @@ const escoOccupations = <OccupationLabels>[
     'ammunitionsarbetare',
     'munitiesamensteller',
     'munitiesamenstelster',
+    'dělník ve výrobě střeliva',
+    'dělnice ve výrobě střeliva',
   ]),
   OccupationLabels('1420', [
     'ammunition shop manager',
@@ -1273,6 +1434,9 @@ const escoOccupations = <OccupationLabels>[
     'waffenfachverkäuferin',
     'verkoopspecialist munitie',
     'verkoopspecialist wapens',
+    'prodavač v prodejně zbraní',
+    'prodavačka v prodejně zbraní',
+    'prodavačka v prodejně střeliva',
   ]),
   OccupationLabels('9629', [
     'amusement and recreation attendant',
@@ -1307,6 +1471,8 @@ const escoOccupations = <OccupationLabels>[
     'infirmier anesthésiste',
     'infirmière anesthésiste',
     'infirmière anesthésiste diplômée d\'état',
+    'laborant v oboru anesteziologie',
+    'laborantka v oboru anesteziologie',
   ]),
   OccupationLabels('2113', [
     'analytical chemist',
@@ -1323,6 +1489,8 @@ const escoOccupations = <OccupationLabels>[
     'analytisch chemicus',
     'analytisch laborant scheikunde',
     'chimiste analytique',
+    'analytický chemik',
+    'analytická chemička',
   ]),
   OccupationLabels('3212', [
     'anatomical pathology technician',
@@ -1340,6 +1508,8 @@ const escoOccupations = <OccupationLabels>[
     'obductieassistente',
     'technicien en anatomopathologie',
     'technicienne en anatomopathologie',
+    'laborant na oddělení patologie',
+    'laborantka na oddělení patologie',
   ]),
   OccupationLabels('3240', [
     'animal artificial insemination technician',
@@ -1357,6 +1527,9 @@ const escoOccupations = <OccupationLabels>[
     'k.i.-technicus',
     'technicienne de l\'ia animale',
     'technicien de l\'ia animale',
+    'inseminační technik',
+    'inseminační technička',
+    'inseminátorka',
   ]),
   OccupationLabels('2269', [
     'animal assisted therapist',
@@ -1366,6 +1539,8 @@ const escoOccupations = <OccupationLabels>[
     'therapeute animal assisted therapy',
     'aat-therapeut',
     'zoothérapeute',
+    'animoterapeut',
+    'animoterapeutka',
   ]),
   OccupationLabels('2131', [
     'animal behaviourist',
@@ -1383,6 +1558,9 @@ const escoOccupations = <OccupationLabels>[
     'comportementaliste animalier',
     'comportementaliste animalière',
     'comportementaliste des animaux',
+    'odborník na chování zvířat',
+    'odbornice na chování zvířat',
+    'behaviorální odborník',
   ]),
   OccupationLabels('5164', [
     'animal care attendant',
@@ -1395,6 +1573,8 @@ const escoOccupations = <OccupationLabels>[
     'djurvårdare på djurpark',
     'medewerker dierverzorging',
     'auxiliaire de soins animaux',
+    'pečovatel o zvířata',
+    'pečovatelka o zvířata',
   ]),
   OccupationLabels('2250', [
     'animal chiropractor',
@@ -1413,6 +1593,8 @@ const escoOccupations = <OccupationLabels>[
     'chiropracteur animalier',
     'intervenant en chiropraxie animalière',
     'chiropracticien animalier',
+    'veterinární chiropraktik',
+    'veterinární chiropraktička',
   ]),
   OccupationLabels('3240', [
     'animal embryo transfer technician',
@@ -1438,6 +1620,9 @@ const escoOccupations = <OccupationLabels>[
     'exploitant de parc animalier',
     'exploitante de parc animalier',
     'exploitante de parc zoologique',
+    'vedoucí zařízení pro zvířata',
+    'vedoucí zvířecího útulku',
+    'vedoucí útulku pro zvířata',
   ]),
   OccupationLabels('2131', [
     'animal feed nutritionist',
@@ -1454,6 +1639,9 @@ const escoOccupations = <OccupationLabels>[
     'diervoedingsdeskundige',
     'diervoedingsspecialist',
     'nutritionniste animalier',
+    'výživový specialista',
+    'výživová specialista pro krmiva',
+    'výživová specialistka pro krmiva',
   ]),
   OccupationLabels('8160', [
     'animal feed operator',
@@ -1468,6 +1656,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker veevoer',
     'opérateur de l\'alimentation animale',
     'opératrice de l\'alimentation animale',
+    'operátorka pro krmiva',
+    'operátor pro zvířecí krmivo',
   ]),
   OccupationLabels('3122', [
     'animal feed supervisor',
@@ -1483,6 +1673,8 @@ const escoOccupations = <OccupationLabels>[
     'toezichthouder diervoeder',
     'toezichthouder diervoeding en vleesproductie',
     'toezichthoudster diervoeder- en vleesproductie',
+    'kontrolor výroby krmiv',
+    'kontrolorka výroby krmiv',
   ]),
   OccupationLabels('5164', [
     'animal groomer',
@@ -1518,6 +1710,8 @@ const escoOccupations = <OccupationLabels>[
     'soigneur d’animaux',
     'soigneuse d’animaux',
     'soigneuse d\'animaux',
+    'cvičitel zvířat',
+    'cvičitelka zvířat',
   ]),
   OccupationLabels('3255', [
     'animal hydrotherapist',
@@ -1535,6 +1729,8 @@ const escoOccupations = <OccupationLabels>[
     'dierenhydrotherapeut',
     'hydrothérapiste animalier',
     'hydrothérapiste animalière',
+    'veterinární hydroterapeut',
+    'veterinární hydroterapeutka',
   ]),
   OccupationLabels('3255', [
     'animal massage therapist',
@@ -1551,6 +1747,9 @@ const escoOccupations = <OccupationLabels>[
     'massothérapeute animalier',
     'massothérapeute animalière',
     'massothérapiste animal',
+    'zvířecí masér',
+    'zvířecí masérka',
+    'poskytovatel zvířecích masáží',
   ]),
   OccupationLabels('2269', [
     'animal osteopath',
@@ -1570,6 +1769,8 @@ const escoOccupations = <OccupationLabels>[
     'dierenosteopaat',
     'osthéopathe animalier',
     'osthéopathe animalière',
+    'veterinární osteopat',
+    'veterinární osteopatka',
   ]),
   OccupationLabels('2264', [
     'animal physiotherapist',
@@ -1586,6 +1787,8 @@ const escoOccupations = <OccupationLabels>[
     'dierenfysiotherapeut',
     'physiothérapeute animalier',
     'physiothérapeute animalière',
+    'veterinární fyzioterapeut',
+    'veterinární fyzioterapeutka',
   ]),
   OccupationLabels('5164', [
     'animal shelter worker',
@@ -1600,6 +1803,8 @@ const escoOccupations = <OccupationLabels>[
     'soigneur en refuge',
     'soigneuse en refuge',
     'soigneur animalier en refuge',
+    'ošetřovatel útulku pro zvířata',
+    'ošetřovatelka útulku pro zvířata',
   ]),
   OccupationLabels('3255', [
     'animal therapist',
@@ -1620,6 +1825,9 @@ const escoOccupations = <OccupationLabels>[
     'thérapeute animalier',
     'thérapeute animalière',
     'hydrothérapeute pour chien',
+    'veterinární terapeut',
+    'veterinární terapeutka',
+    'veterinární léčitel',
   ]),
   OccupationLabels('5164', [
     'animal trainer',
@@ -1637,6 +1845,8 @@ const escoOccupations = <OccupationLabels>[
     'dresseur d’animaux',
     'dresseuse d’animaux',
     'dresseur d\'animaux',
+    'trenér zvířat',
+    'trenérka zvířat',
   ]),
   OccupationLabels('5164', [
     'animal welfare inspector',
@@ -1672,6 +1882,8 @@ const escoOccupations = <OccupationLabels>[
     'regisseur animatie',
     'animatieregisseur',
     'chef d\'équipe animation',
+    'vedoucí animátor',
+    'vedoucí animátorka',
   ]),
   OccupationLabels('2166', [
     'animation layout artist',
@@ -1684,6 +1896,8 @@ const escoOccupations = <OccupationLabels>[
     'lay-outtekenares animatiefilms',
     'layout man',
     'layout woman',
+    'výtvarník layoutu animace',
+    'výtvarnice layoutu animace',
   ]),
   OccupationLabels('2166', [
     'animator',
@@ -1697,6 +1911,9 @@ const escoOccupations = <OccupationLabels>[
     'animatör',
     'animatiefilmmaker',
     'animatiefilmmaakster',
+    'animátor',
+    'animátorka',
+    'filmová animátorka',
   ]),
   OccupationLabels('8122', [
     'anodising machine operator',
@@ -1709,6 +1926,8 @@ const escoOccupations = <OccupationLabels>[
     'anodiseur',
     'anodiseur industriel',
     'anodiseuse industrielle',
+    'obsluha strojů na eloxování',
+    'obsluha eloxovací linky',
   ]),
   OccupationLabels('2632', [
     'anthropologist',
@@ -1722,6 +1941,7 @@ const escoOccupations = <OccupationLabels>[
     'antropolog',
     'antropoloog',
     'antropologe',
+    'antropoložka',
   ]),
   OccupationLabels('2310', [
     'anthropology lecturer',
@@ -1747,6 +1967,8 @@ const escoOccupations = <OccupationLabels>[
     'kunsttischler',
     'kunsttischlerin',
     'reproducent van antieke meubelen',
+    'restaurátor starožitného nábytku',
+    'restaurátorka starožitného nábytku',
   ]),
   OccupationLabels('1420', [
     'antique shop manager',
@@ -1759,6 +1981,9 @@ const escoOccupations = <OccupationLabels>[
     'winkelmanager antiek en curiosa',
     'gérant de magasin d\'antiquités',
     'gérante de magasin d\'antiquités',
+    'vedoucí prodejny starožitností',
+    'vedoucí starožitnictví',
+    'vedoucí prodejny starožitnicví',
   ]),
   OccupationLabels('2149', [
     'application engineer',
@@ -1777,6 +2002,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur it-applicaties',
     'ingénieur d’application',
     'ingénieure d’application',
+    'aplikační inženýr',
+    'aplikační inženýrka',
   ]),
   OccupationLabels('2131', [
     'aquaculture biologist',
@@ -1825,6 +2052,9 @@ const escoOccupations = <OccupationLabels>[
     'miljöanalytiker vattenbruk',
     'milieuanalist aquacultuur',
     'analyste environnement en aquaculture',
+    'environmentální analytik pro akvakulturu',
+    'environmentální analytička pro akvakulturu',
+    'environmentální specialistka na akvakulturu',
   ]),
   OccupationLabels('1312', [
     'aquaculture harvesting manager',
@@ -1832,6 +2062,8 @@ const escoOccupations = <OccupationLabels>[
     'manager of aquaculture harvesting',
     'oogstmanager in de aquacultuur',
     'responsable de récoltes aquacoles',
+    'vedoucí výlovu v akvakultuře',
+    'vedoucí výlovu rybí farmy',
   ]),
   OccupationLabels('6221', [
     'aquaculture harvesting technician',
@@ -1887,6 +2119,8 @@ const escoOccupations = <OccupationLabels>[
     'broedhuisarbeidster in de aquacultuur',
     'ouvrier aquacole en écloserie',
     'ouvrière aquacole en écloserie',
+    'líhňař v odvětví akvakultury',
+    'líhňařka v odvětví akvakultury',
   ]),
   OccupationLabels('1312', [
     'aquaculture husbandry manager',
@@ -1944,6 +2178,8 @@ const escoOccupations = <OccupationLabels>[
     'manager aquacultuur',
     'responsable de production aquacole',
     'responsable de production piscicole',
+    'vedoucí výroby v akvakultuře',
+    'vedoucí rybolovné výroby',
   ]),
   OccupationLabels('3142', [
     'aquaculture quality supervisor',
@@ -1958,6 +2194,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager aquacultuurproducten',
     'technicien qualité en aquaculture',
     'technicienne qualité en aquaculture',
+    'kontrolor kvality v akvakultuře',
+    'kontrolorka kvality v akvakultuře',
   ]),
   OccupationLabels('6221', [
     'aquaculture rearing technician',
@@ -1977,6 +2215,8 @@ const escoOccupations = <OccupationLabels>[
     'vattenbruksansvarig på recirkulationsanläggning',
     'manager recirculatiesystemen aquacultuur',
     'ras-manager',
+    'manažer recirkulačních akvakulturních systémů',
+    'manažerka recirkulačních akvakulturních systémů',
   ]),
   OccupationLabels('6221', [
     'aquaculture recirculation technician',
@@ -1998,6 +2238,8 @@ const escoOccupations = <OccupationLabels>[
     'fischzuchtbetriebsleiterin',
     'leidinggevende aquacultuurbedrijf',
     'chef d’exploitation aquacole',
+    'kontrolor akvakulturního zařízení',
+    'kontrolorka akvakulturního zařízení',
   ]),
   OccupationLabels('2250', [
     'aquatic animal health professional',
@@ -2020,6 +2262,9 @@ const escoOccupations = <OccupationLabels>[
     'boomkweker',
     'arboriculteur',
     'arboricultrice',
+    'arborista',
+    'arboristka',
+    'samostatný technik arborista',
   ]),
   OccupationLabels('2632', [
     'archaeologist',
@@ -2034,6 +2279,8 @@ const escoOccupations = <OccupationLabels>[
     'archeoloog',
     'archeologe',
     'archéologue',
+    'archeolog',
+    'archeoložka',
   ]),
   OccupationLabels('2310', [
     'archaeology lecturer',
@@ -2051,6 +2298,7 @@ const escoOccupations = <OccupationLabels>[
     'docente archeologie hoger onderwijs',
     'enseignant-chercheur en archéologie',
     'enseignante-chercheuse en archéologie',
+    'přednášející v oboru archeologie',
   ]),
   OccupationLabels('2161', [
     'architect',
@@ -2067,6 +2315,7 @@ const escoOccupations = <OccupationLabels>[
     'bouwkundig architecte',
     'bouwkundig architect',
     'architecte',
+    'architektka',
   ]),
   OccupationLabels('3118', [
     'architectural drafter',
@@ -2082,6 +2331,8 @@ const escoOccupations = <OccupationLabels>[
     'dessinateur en architecture',
     'dessinatrice en architecture',
     'dessinatrice-projeteuse',
+    'kreslič architektonických návrhů',
+    'kreslička architektonických návrhů',
   ]),
   OccupationLabels('2310', [
     'architecture lecturer',
@@ -2100,6 +2351,7 @@ const escoOccupations = <OccupationLabels>[
     'docente bouwkunde hoger onderwijs',
     'enseignant-chercheur en architecture',
     'enseignante-chercheuse en architecture',
+    'vyučující v oboru architektura',
   ]),
   OccupationLabels('1349', [
     'archive manager',
@@ -2115,6 +2367,7 @@ const escoOccupations = <OccupationLabels>[
     'manager archiefbeheer en digitalisering',
     'archiefmanager',
     'responsable de service d\'archives',
+    'vedoucí archivu',
   ]),
   OccupationLabels('2621', [
     'archivist',
@@ -2128,6 +2381,8 @@ const escoOccupations = <OccupationLabels>[
     'arkivarie',
     'archivaris',
     'archiviste',
+    'archivář',
+    'archivářka',
   ]),
   OccupationLabels('0110', [
     'armed forces officer',
@@ -2142,6 +2397,9 @@ const escoOccupations = <OccupationLabels>[
     'officier koninklijke marine',
     'officier des forces armées',
     'officière des forces armées',
+    'důstojník ozbrojených sil',
+    'důstojnice ozbrojených sil',
+    'vojenská důstojnice',
   ]),
   OccupationLabels('2320', [
     'armed forces instructor',
@@ -2172,6 +2430,8 @@ const escoOccupations = <OccupationLabels>[
     'bestuurster geld- en waardetransport',
     'convoyeur conducteur de fonds',
     'convoyeuse conductrice de fonds',
+    'řidič obrněných vozidel',
+    'řidička obrněných vozidel',
   ]),
   OccupationLabels('5414', [
     'armoured car guard',
@@ -2201,6 +2461,8 @@ const escoOccupations = <OccupationLabels>[
     'kapten i armén',
     'legerkapitein',
     'capitaine',
+    'armádní kapitán',
+    'armádní kapitánka',
   ]),
   OccupationLabels('0210', [
     'army corporal',
@@ -2213,6 +2475,8 @@ const escoOccupations = <OccupationLabels>[
     'eerste korporaal-chef',
     'korporaal-chef',
     'premier sergent',
+    'desátník',
+    'desátnice',
   ]),
   OccupationLabels('0110', [
     'army general',
@@ -2230,6 +2494,9 @@ const escoOccupations = <OccupationLabels>[
     'generaal-majoor',
     'général',
     'générale',
+    'generál',
+    'generálka',
+    'armádní generálka',
   ]),
   OccupationLabels('0110', [
     'army major',
@@ -2246,6 +2513,7 @@ const escoOccupations = <OccupationLabels>[
     'majoor landmacht',
     'capitaine-commandante',
     'capitaine-commandant',
+    'majorka',
   ]),
   OccupationLabels('3255', [
     'aromatherapist',
@@ -2261,6 +2529,7 @@ const escoOccupations = <OccupationLabels>[
     'masseur aromatherapie',
     'conseiller en aromathérapie',
     'conseillère en aromathérapie',
+    'aromaterapeutka',
   ]),
   OccupationLabels('2166', [
     'art director',
@@ -2273,6 +2542,8 @@ const escoOccupations = <OccupationLabels>[
     'art-direktorin',
     'directeur artistique',
     'directrice artistique',
+    'umělecký ředitel',
+    'umělecká ředitelka',
   ]),
   OccupationLabels('3433', [
     'art handler',
@@ -2289,6 +2560,8 @@ const escoOccupations = <OccupationLabels>[
     'konstmodell',
     'artistiek model',
     'modèle',
+    'model pro uměleckou tvorbu',
+    'modelka pro uměleckou tvorbu',
   ]),
   OccupationLabels('2651', [
     'art restorer',
@@ -2303,6 +2576,9 @@ const escoOccupations = <OccupationLabels>[
     'restaurateur d’objets d’art',
     'restauratrice d’objets d’art',
     'restauratrice d\'objets d’art',
+    'restaurátor uměleckých děl',
+    'restaurátorka uměleckých děl',
+    'restaurátor',
   ]),
   OccupationLabels('2310', [
     'art studies lecturer',
@@ -2326,6 +2602,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur d’enseignements artistiques',
     'professeure d’enseignements artistiques',
     'professeur d’arts plastiques',
+    'středoškolský učitel umění',
+    'učitel umění',
+    'učitelka umění',
   ]),
   OccupationLabels('2269', [
     'art therapist',
@@ -2338,6 +2617,8 @@ const escoOccupations = <OccupationLabels>[
     'kunstzinnig therapeut',
     'kunstzinnig therapeute',
     'art thérapeute',
+    'arteterapeut',
+    'arteterapeutka',
   ]),
   OccupationLabels('0110', [
     'artillery officer',
@@ -2353,6 +2634,8 @@ const escoOccupations = <OccupationLabels>[
     'officier wapentechnische dienst',
     'officier d\'artillerie',
     'officière d\'artillerie',
+    'důstojník dělostřelectva',
+    'důstojnice dělostřelectva',
   ]),
   OccupationLabels('7317', [
     'artisan papermaker',
@@ -2369,6 +2652,8 @@ const escoOccupations = <OccupationLabels>[
     'ambachtelijk papiermaakster',
     'artisan papetier',
     'artisane papetière',
+    'výrobce ručního papíru',
+    'výrobkyně ručního papíru',
   ]),
   OccupationLabels('3422', [
     'artistic coach',
@@ -2383,6 +2668,9 @@ const escoOccupations = <OccupationLabels>[
     'konstnärlig instruktör',
     'artistiek coach',
     'coach artistique',
+    'umělecký trenér',
+    'umělecká trenérka',
+    'umělecký instruktor',
   ]),
   OccupationLabels('1349', [
     'artistic director',
@@ -2398,6 +2686,9 @@ const escoOccupations = <OccupationLabels>[
     'artistiek leider',
     'artistiek directeur',
     'responsable de la programmation',
+    'umělecký vedoucí',
+    'umělecká vedoucí',
+    'umělecká vedoucí tanečního souboru',
   ]),
   OccupationLabels('2651', [
     'artistic painter',
@@ -2411,6 +2702,9 @@ const escoOccupations = <OccupationLabels>[
     'bildkonstnär',
     'kunstschilder',
     'artiste peintre',
+    'malíř',
+    'malířka',
+    'pouliční malířka',
   ]),
   OccupationLabels('2621', [
     'arts education officer',
@@ -2421,6 +2715,8 @@ const escoOccupations = <OccupationLabels>[
     'educatief medewerkster theater',
     'educatief medewerkster',
     'responsable de projets culturels',
+    'pedagogický pracovník v muzeu',
+    'pedagogická pracovnice v muzeu',
   ]),
   OccupationLabels('7133', [
     'asbestos abatement worker',
@@ -2433,6 +2729,8 @@ const escoOccupations = <OccupationLabels>[
     'verwijderaar van asbestvezels',
     'désamianteur',
     'désamianteuse',
+    'pracovník pro odstraňování azbestu',
+    'pracovnice pro odstraňování azbestu',
   ]),
   OccupationLabels('3116', [
     'asphalt laboratory technician',
@@ -2444,6 +2742,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien de laboratoire asphaltes',
     'technicienne de laboratoire asphaltes',
     'technicien de laboratoire bitumes',
+    'technik silniční laboratoře',
+    'technička silniční laboratoře',
   ]),
   OccupationLabels('8114', [
     'asphalt plant operator',
@@ -2455,6 +2755,8 @@ const escoOccupations = <OccupationLabels>[
     'operator asfaltproductie',
     'operator asfaltcentrale',
     'operator asfaltproductie-installatie',
+    'pracovník ve výrobě asfaltu',
+    'pracovnice ve výrobě asfaltu',
   ]),
   OccupationLabels('2146', [
     'assayer',
@@ -2471,6 +2773,9 @@ const escoOccupations = <OccupationLabels>[
     'provare',
     'essayeur',
     'essayeuse',
+    'prubíř',
+    'prubířka',
+    'prubíř zlata',
   ]),
   OccupationLabels('3311', [
     'asset manager',
@@ -2487,6 +2792,8 @@ const escoOccupations = <OccupationLabels>[
     'kundmäklare',
     'gestionnaire de patrimoine financier',
     'gestionnaire de fortune',
+    'správce aktiv',
+    'správkyně aktiv',
   ]),
   OccupationLabels('3259', [
     'assistant clinical psychologist',
@@ -2504,6 +2811,9 @@ const escoOccupations = <OccupationLabels>[
     'psychologisch medewerker',
     'assistant en psychologie',
     'assistante en psychologie',
+    'asistent klinického psychologa',
+    'asistentka klinického psychologa',
+    'asistent psychologa',
   ]),
   OccupationLabels('2310', [
     'assistant lecturer',
@@ -2523,6 +2833,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant enseignant-chercheur',
     'assistante enseignante-chercheuse',
     'enseignant-chercheur assistant',
+    'vysokoškolský asistent',
+    'vysokoškolská asistentka',
   ]),
   OccupationLabels('3423', [
     'assistant outdoor animator',
@@ -2534,6 +2846,9 @@ const escoOccupations = <OccupationLabels>[
     'assistent-animator outdooractiviteiten',
     'assistent-animatrice outdooractiviteiten',
     'assistent-animatrice buitenactiviteiten',
+    'pomocný outdoor animátor',
+    'pomocná outdoor animátorka',
+    'pomocná instruktorka volnočasových aktivit',
   ]),
   OccupationLabels('3435', [
     'assistant stage director',
@@ -2548,6 +2863,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant metteur en scène',
     'assistante metteuse en scène',
     'assistante mise en scène',
+    'pomocný divadelní režisér',
+    'pomocná divadelní režisérka',
   ]),
   OccupationLabels('3435', [
     'assistant director',
@@ -2573,6 +2890,7 @@ const escoOccupations = <OccupationLabels>[
     'astrolog',
     'astroloog',
     'astrologue',
+    'astroložka',
   ]),
   OccupationLabels('3153', [
     'astronaut',
@@ -2581,6 +2899,8 @@ const escoOccupations = <OccupationLabels>[
     'astronauta',
     'astronautin',
     'astronaute',
+    'kosmonaut',
+    'kosmonautka',
   ]),
   OccupationLabels('2111', [
     'astronomer',
@@ -2592,6 +2912,7 @@ const escoOccupations = <OccupationLabels>[
     'astronomin',
     'sterrenkundige',
     'astronome',
+    'astronomka',
   ]),
   OccupationLabels('7421', [
     'atm repair technician',
@@ -2599,6 +2920,8 @@ const escoOccupations = <OccupationLabels>[
     'geldautomatenfachfrau – automatenmechatronik',
     'geldautomatenfachmann - automatenmechatronik',
     'servicetechnicus geldautomaten',
+    'opravář pokladen',
+    'opravářka pokladen',
   ]),
   OccupationLabels('9629', [
     'attraction operator',
@@ -2617,6 +2940,8 @@ const escoOccupations = <OccupationLabels>[
     'attractiemedewerkster',
     'opérateur d’attractions',
     'opératrice d’attractions',
+    'provozovatel atrakce',
+    'provozovatelka atrakce',
   ]),
   OccupationLabels('5311', [
     'au pair',
@@ -2635,6 +2960,7 @@ const escoOccupations = <OccupationLabels>[
     'veilinghuisdirecteur',
     'directrice van een veilinghuis',
     'veilinghuismanager',
+    'vedoucí aukční síně',
   ]),
   OccupationLabels('3339', [
     'auctioneer',
@@ -2652,6 +2978,8 @@ const escoOccupations = <OccupationLabels>[
     'veilingmeester visafslag',
     'commissaire-priseur',
     'commissaire-priseuse',
+    'dražebník',
+    'dražebnice',
   ]),
   OccupationLabels('1420', [
     'audio-visual shop manager',
@@ -2672,6 +3000,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en matériel audiovisuel',
     'vendeuse en matériel audiovisuel',
     'vendeuse en matériel hi-fi',
+    'prodavač v prodejně audio-video',
+    'prodavačka v prodejně audio-video',
+    'prodavač audio- a videozařízení',
   ]),
   OccupationLabels('2656', [
     'audio describer',
@@ -2688,6 +3019,8 @@ const escoOccupations = <OccupationLabels>[
     'audiobeschrijfster',
     'audiodescripteur',
     'audiodescriptrice',
+    'tvůrce audiopopisu',
+    'tvůrkyně audiopopisu',
   ]),
   OccupationLabels('3521', [
     'audio production technician',
@@ -2702,6 +3035,8 @@ const escoOccupations = <OccupationLabels>[
     'geluidstechnicus',
     'technicien de production son',
     'technicienne de production son',
+    'technik audio produkce',
+    'technička audio produkce',
   ]),
   OccupationLabels('3521', [
     'audio-visual technician',
@@ -2717,6 +3052,8 @@ const escoOccupations = <OccupationLabels>[
     'audiovisueel technisch medewerker',
     'technicien audiovisuel',
     'technicienne audiovisuel',
+    'audiovizuální technik',
+    'audiovizuální technička',
   ]),
   OccupationLabels('2266', [
     'audiologist',
@@ -2740,6 +3077,7 @@ const escoOccupations = <OccupationLabels>[
     'leiterin eines hörakustikgeschäftes',
     'leiterin eines audiologiegeschäftes',
     'manager audiologiewinkel',
+    'vedoucí prodejny audiologické techniky',
   ]),
   OccupationLabels('5223', [
     'audiology equipment specialised seller',
@@ -2753,6 +3091,8 @@ const escoOccupations = <OccupationLabels>[
     'vendeur d’appareils auditifs',
     'vendeuse d’appareils auditifs',
     'vendeuse d\'appareils auditifs',
+    'prodavač v audiologickém centru',
+    'prodavačka v audiologickém centru',
   ]),
   OccupationLabels('3214', [
     'audiology technician',
@@ -2770,6 +3110,8 @@ const escoOccupations = <OccupationLabels>[
     'audicien',
     'audicienne',
     'audioprothésiste',
+    'audiologický technik',
+    'audiologická technička',
   ]),
   OccupationLabels('2411', [
     'audit supervisor',
@@ -2787,6 +3129,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur de l\'audit interne',
     'directrice de l\'audit interne',
     'directeur de l\'audit',
+    'vedoucí auditor',
+    'vedoucí auditorka',
+    'vedoucí auditorského týmu',
   ]),
   OccupationLabels('4312', [
     'auditing clerk',
@@ -2801,6 +3146,9 @@ const escoOccupations = <OccupationLabels>[
     'operational auditor',
     'agent d’audit',
     'agente d’audit',
+    'pracovník auditního oddělení',
+    'pracovnice auditního oddělení',
+    'pracovnice vnitropodnikové kontroly',
   ]),
   OccupationLabels('8181', [
     'auger press operator',
@@ -2816,6 +3164,8 @@ const escoOccupations = <OccupationLabels>[
     'bediener vormgietmachine keramiek',
     'opératrice de presse d’extrusion',
     'opérateur de presse d’extrusion',
+    'obsluha šnekového lisu',
+    'obsluha protlačovacího lisu',
   ]),
   OccupationLabels('3139', [
     'automated assembly line operator',
@@ -2826,6 +3176,7 @@ const escoOccupations = <OccupationLabels>[
     'bandsteuerer',
     'robotoperatör',
     'operator automatische assemblagelijnen',
+    'obsluha montážní linky',
   ]),
   OccupationLabels('8343', [
     'automated cable vehicle controller',
@@ -2865,6 +3216,7 @@ const escoOccupations = <OccupationLabels>[
     'cintrier',
     'cintrière',
     'cintrière-machiniste',
+    'obsluha jevištní strojní technologie',
   ]),
   OccupationLabels('7543', [
     'automated optical inspection operator',
@@ -2894,6 +3246,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en automatismes',
     'ingénieure en automatismes',
     'ingénieure automaticienne',
+    'inženýr automatizace',
+    'inženýrka automatizace',
   ]),
   OccupationLabels('3119', [
     'automation engineering technician',
@@ -2910,6 +3264,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus automatisering',
     'automatiseringstechnicus',
     'technicus productieautomatiseringsmethodes',
+    'technik v oboru automatizace',
+    'technička v oboru automatizace',
   ]),
   OccupationLabels('7412', [
     'automotive battery technician',
@@ -2923,6 +3279,7 @@ const escoOccupations = <OccupationLabels>[
     'accumonteuse',
     'technicien en batterie automobile',
     'technicienne en batterie automobile',
+    'automechanička–- specialistka na baterie',
   ]),
   OccupationLabels('7231', [
     'automotive brake technician',
@@ -2932,6 +3289,8 @@ const escoOccupations = <OccupationLabels>[
     'kraftfahrzeugtechniker für bremsanlagen',
     'bromsmekaniker',
     'remmenmonteur',
+    'technik brzdových systémů automobilů',
+    'technička brzdových systémů automobilů',
   ]),
   OccupationLabels('2163', [
     'automotive designer',
@@ -2949,6 +3308,8 @@ const escoOccupations = <OccupationLabels>[
     'voertuigdesigner',
     'designer automobile',
     'designeuse automobile',
+    'designér automobilů',
+    'designérka automobilů',
   ]),
   OccupationLabels('7412', [
     'automotive electrician',
@@ -2962,6 +3323,8 @@ const escoOccupations = <OccupationLabels>[
     'auto-elektrotechnicus',
     'électricien automobile',
     'électricienne automobile',
+    'autoelektrikář',
+    'autoelektrikářka',
   ]),
   OccupationLabels('2144', [
     'automotive engineer',
@@ -2978,6 +3341,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur automobile',
     'ingénieure automobile',
     'ingénieur en construction automobile',
+    'automobilový inženýr',
+    'automobilová inženýrka',
   ]),
   OccupationLabels('3118', [
     'automotive engineering drafter',
@@ -3005,6 +3370,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch ingenieur motorvoertuigen',
     'technicien en ingénierie automobile',
     'technicienne en ingénierie automobile',
+    'automobilový technik',
+    'automobilová technička',
   ]),
   OccupationLabels('7543', [
     'automotive test driver',
@@ -3020,6 +3387,8 @@ const escoOccupations = <OccupationLabels>[
     'testrijder',
     'testrijdster',
     'pilote d\'essai automobile',
+    'automobilový zkušební řidič',
+    'automobilová zkušební řidička',
   ]),
   OccupationLabels('2320', [
     'lehrkraft für säuglingspflege',
@@ -3035,6 +3404,7 @@ const escoOccupations = <OccupationLabels>[
     'datacommunicatiemanager luchtvaart',
     'verantwoordelijke datacommunicatie luchtvaart',
     'datacommunicatiemanager in de luchtvaart',
+    'správce komunikace leteckých dat',
   ]),
   OccupationLabels('2149', [
     'aviation ground systems engineer',
@@ -3045,6 +3415,9 @@ const escoOccupations = <OccupationLabels>[
     'luchthaventechnicus',
     'industrieel ingenieur luchthaven',
     'responsable zone avion',
+    'mechanik pozemních leteckých systémů',
+    'mechanička pozemních leteckých systémů',
+    'mechanik pozemních systémů',
   ]),
   OccupationLabels('3154', [
     'aviation inspector',
@@ -3066,6 +3439,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur de l’aéronautique',
     'inspectrice de l’aéronautique',
     'inspectrice de l\'aéronautique',
+    'inspektor letového provozu',
+    'inspektorka letového provozu',
   ]),
   OccupationLabels('2112', [
     'aviation meteorologist',
@@ -3083,6 +3458,8 @@ const escoOccupations = <OccupationLabels>[
     'luchtvaartmeteorologe',
     'météorologue aéronautique',
     'météorologiste aéronautique',
+    'letecký meteorolog',
+    'letecká meteoroložka',
   ]),
   OccupationLabels('3119', [
     'aviation safety officer',
@@ -3120,6 +3497,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur avionics',
     'technicien aéronautique',
     'technicienne aéronautique',
+    'inspektor letecké elektroniky',
+    'inspektorka letecké elektroniky',
   ]),
   OccupationLabels('7421', [
     'avionics technician',
@@ -3137,6 +3516,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur luchtvaartelektronica',
     'technicien avionique',
     'technicienne avionique',
+    'letecký mechanik – avionik',
+    'letecká mechanička – avionička',
   ]),
   OccupationLabels('5311', [
     'babysitter',
@@ -3146,6 +3527,8 @@ const escoOccupations = <OccupationLabels>[
     'barnvakt',
     'oppas',
     'kinderoppas',
+    'domácí pečovatel o děti',
+    'domácí pečovatelka o děti',
   ]),
   OccupationLabels('4312', [
     'back office specialist',
@@ -3159,6 +3542,8 @@ const escoOccupations = <OccupationLabels>[
     'backofficemedewerkster',
     'agent de back-office',
     'agente de back-office',
+    'samostatný pracovník back office',
+    'samostatná pracovnice back office',
   ]),
   OccupationLabels('3141', [
     'bacteriology technician',
@@ -3177,6 +3562,8 @@ const escoOccupations = <OccupationLabels>[
     'bacteriologisch analist wateronderzoek',
     'technicien bactériologiste',
     'technicienne bactériologiste',
+    'technik bakteriolog',
+    'technička bakterioložka',
   ]),
   OccupationLabels('4323', [
     'baggage flow supervisor',
@@ -3186,6 +3573,8 @@ const escoOccupations = <OccupationLabels>[
     'koordinatorin der gepäckabfertigung',
     'supervisor bagagestromen',
     'supervisor bagage',
+    'pracovník třídírny zavazadel',
+    'pracovnice třídírny zavazadel',
   ]),
   OccupationLabels('7512', [
     'baker',
@@ -3205,6 +3594,9 @@ const escoOccupations = <OccupationLabels>[
     'boulanger',
     'boulangère',
     'ouvrière en boulangerie',
+    'pekař',
+    'pekařka',
+    'pracovník pekárny',
   ]),
   OccupationLabels('1420', [
     'bakery shop manager',
@@ -3220,6 +3612,7 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleidster banketbakkerij',
     'gérant de boulangerie',
     'gérante de boulangerie',
+    'vedoucí prodejny pečiva',
   ]),
   OccupationLabels('5223', [
     'bakery specialised seller',
@@ -3232,6 +3625,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en boulangerie',
     'vendeuse en boulangerie',
     'vendeur en boulangerie-pâtisserie',
+    'prodavač v pekárně',
+    'prodavačka v pekárně',
+    'prodavačka v prodejně pečiva',
   ]),
   OccupationLabels('8160', [
     'baking operator',
@@ -3248,6 +3644,8 @@ const escoOccupations = <OccupationLabels>[
     'bakkerijhulp',
     'opérateur de boulangerie',
     'opératrice de boulangerie',
+    'operátorka pečicího zařízení',
+    'operátorka pece',
   ]),
   OccupationLabels('8172', [
     'band saw operator',
@@ -3261,6 +3659,8 @@ const escoOccupations = <OccupationLabels>[
     'operator lintzaagmachine',
     'operator bandzaag',
     'operator bandzaagmachine',
+    'obsluha pásové pily',
+    'obsluha cnc pásové pily',
   ]),
   OccupationLabels('3312', [
     'bank account manager',
@@ -3271,6 +3671,8 @@ const escoOccupations = <OccupationLabels>[
     'privatekonomisk rådgivare',
     'cliëntadviseur bankbedrijf',
     'gestionnaire de clientèle bancaire',
+    'klientský pracovník',
+    'klientská pracovnice',
   ]),
   OccupationLabels('1346', [
     'bank manager',
@@ -3286,6 +3688,8 @@ const escoOccupations = <OccupationLabels>[
     'adjunct-bankdirecteur',
     'directeur d\'agence bancaire',
     'directrice d\'agence bancaire',
+    'bankovní manažer',
+    'bankovní manažerka',
   ]),
   OccupationLabels('4211', [
     'bank teller',
@@ -3302,6 +3706,8 @@ const escoOccupations = <OccupationLabels>[
     'baliemedewerker bankkantoor',
     'employé de banque',
     'employée de banque',
+    'bankovní pracovník',
+    'bankovní pracovnice',
   ]),
   OccupationLabels('1211', [
     'bank treasurer',
@@ -3318,6 +3724,9 @@ const escoOccupations = <OccupationLabels>[
     'financieel manager bankbedrijf',
     'trésorier de banque',
     'trésorière de banque',
+    'finanční ředitel banky',
+    'finanční ředitelka banky',
+    'hlavní finanční analytik',
   ]),
   OccupationLabels('1221', [
     'banking products manager',
@@ -3330,6 +3739,8 @@ const escoOccupations = <OccupationLabels>[
     'manager bankproducten',
     'productmanager banken',
     'responsable de produits bancaires',
+    'manažer bankovních produktů',
+    'manažerka bankovních produktů',
   ]),
   OccupationLabels('2411', [
     'bankruptcy trustee',
@@ -3346,6 +3757,8 @@ const escoOccupations = <OccupationLabels>[
     'mandataire judiciaire',
     'mandataire liquidatrice',
     'mandataire liquidateur',
+    'správce konkurzní podstaty',
+    'správkyně konkurzní podstaty',
   ]),
   OccupationLabels('5141', [
     'barber',
@@ -3360,8 +3773,16 @@ const escoOccupations = <OccupationLabels>[
     'herenkapster',
     'barbier',
     'barbière',
+    'holič',
+    'holička',
   ]),
-  OccupationLabels('5132', ['barista', 'cafeteiro', 'cafeteira', 'baristan']),
+  OccupationLabels('5132', [
+    'barista',
+    'cafeteiro',
+    'cafeteira',
+    'baristan',
+    'baristka',
+  ]),
   OccupationLabels('5132', [
     'bartender',
     'empregado de bar',
@@ -3372,6 +3793,7 @@ const escoOccupations = <OccupationLabels>[
     'bartendern',
     'barvrouw',
     'barmaid',
+    'barmanka',
   ]),
   OccupationLabels('7317', [
     'basketmaker',
@@ -3388,6 +3810,8 @@ const escoOccupations = <OccupationLabels>[
     'vannier',
     'vannière',
     'vannière osiéricultrice',
+    'košíkář',
+    'košíkářka',
   ]),
   OccupationLabels('7126', [
     'bathroom fitter',
@@ -3399,6 +3823,8 @@ const escoOccupations = <OccupationLabels>[
     'badkamermonteur',
     'badkamerinstallateur',
     'monteur van badkamers',
+    'instalatér koupelnového vybavení',
+    'instalatérka koupelnového vybavení',
   ]),
   OccupationLabels('8212', [
     'battery assembler',
@@ -3418,6 +3844,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur de batteries',
     'monteuse de batteries',
     'monteur-sertisseur de batteries',
+    'výrobce baterií',
+    'výrobkyně baterií',
   ]),
   OccupationLabels('7543', [
     'battery test technician',
@@ -3431,6 +3859,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’essais de batteries',
     'technicienne d’essais de batterie',
     'technicienne d\'essais de batterie',
+    'servisní technik baterií',
+    'servisní technička baterií',
   ]),
   OccupationLabels('5142', [
     'beauty salon attendant',
@@ -3444,6 +3874,9 @@ const escoOccupations = <OccupationLabels>[
     'employé d’institut de beauté',
     'employée d’institut de beauté',
     'employée d\'institut de bronzage',
+    'pracovník salonu krásy',
+    'pracovnice salonu krásy',
+    'pracovnice solária',
   ]),
   OccupationLabels('1431', [
     'beauty salon manager',
@@ -3456,6 +3889,8 @@ const escoOccupations = <OccupationLabels>[
     'manager wellness',
     'manager beautycentrum',
     'responsable d\'institut de beauté',
+    'vedoucí salonu krásy',
+    'vedoucí vlasového salonu',
   ]),
   OccupationLabels('2320', [
     'beauty vocational teacher',
@@ -3489,6 +3924,8 @@ const escoOccupations = <OccupationLabels>[
     'biodlare',
     'apiculteur',
     'apicultrice',
+    'chovatel včel',
+    'chovatelka včel',
   ]),
   OccupationLabels('5131', [
     'beer sommelier',
@@ -3502,6 +3939,8 @@ const escoOccupations = <OccupationLabels>[
     'sommelier en bière',
     'sommelière en bière',
     'sommelier en bières',
+    'pivní someliér',
+    'pivní someliérka',
   ]),
   OccupationLabels('2632', [
     'behavioural scientist',
@@ -3522,6 +3961,8 @@ const escoOccupations = <OccupationLabels>[
     'treibriemenhersteller',
     'riemenmaker',
     'riemenmaakster',
+    'montážní technik dopravníkových pásů',
+    'montážní technička dopravníkových pásů',
   ]),
   OccupationLabels('2635', [
     'benefits advice worker',
@@ -3549,6 +3990,8 @@ const escoOccupations = <OccupationLabels>[
     'rouwconsulente',
     'accompagnateur du deuil',
     'accompagnatrice du deuil',
+    'poradce pro pozůstalé',
+    'poradkyně pro pozůstalé',
   ]),
   OccupationLabels('7536', [
     'bespoke footwear technician',
@@ -3558,6 +4001,8 @@ const escoOccupations = <OccupationLabels>[
     'beställningskomakare',
     'maatschoenmaker',
     'maatschoenmaakster',
+    'zakázkový výrobce obuvi',
+    'zakázková výrobkyně obuvi',
   ]),
   OccupationLabels('1431', [
     'betting manager',
@@ -3568,6 +4013,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur d\'agence de paris',
     'directrice d\'agence de paris',
     'directrice d\'agence pmu',
+    'ředitel sázkové kanceláře',
+    'ředitelka sázkové kanceláře',
   ]),
   OccupationLabels('8160', [
     'beverage filtration technician',
@@ -3578,6 +4025,9 @@ const escoOccupations = <OccupationLabels>[
     'getränkefiltrationsfacharbeiterin',
     'expert på dryckesfiltrering',
     'technicus drankenfiltering',
+    'technik filtrace nápojů',
+    'technička filtrace nápojů',
+    'technik čištění nápojů',
   ]),
   OccupationLabels('1324', [
     'beverages distribution manager',
@@ -3588,6 +4038,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager drankenhandel',
     'verantwoordelijke distributielogistiek drankenhandel',
     'hoofd distributie drankenhandel',
+    'manažer distribuce nápojů',
+    'manažerka distribuce nápojů',
   ]),
   OccupationLabels('1420', [
     'beverages shop manager',
@@ -3598,6 +4050,7 @@ const escoOccupations = <OccupationLabels>[
     'manager drankenhandel',
     'filiaalmanager verkoop alcoholhoudende dranken',
     'manager detailhandel alcoholhoudende dranken',
+    'vedoucí prodejny nápojů',
   ]),
   OccupationLabels('5223', [
     'beverages specialised seller',
@@ -3614,6 +4067,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist dranken',
     'vendeur de boissons',
     'vendeuse de boissons',
+    'prodavač v prodejně nápojů',
+    'prodavačka v prodejně nápojů',
   ]),
   OccupationLabels('8219', [
     'bicycle assembler',
@@ -3630,6 +4085,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker fietsenbouw',
     'monteur de cycles',
     'monteuse de cycles',
+    'montážní dělník jízdních kol',
+    'montážní dělnice jízdních kol',
   ]),
   OccupationLabels('9331', [
     'bicycle courier',
@@ -3663,6 +4120,8 @@ const escoOccupations = <OccupationLabels>[
     'fietsenmaakster',
     'mécanicien en cycles',
     'mécanicienne en cycles',
+    'mechanik jízdních kol',
+    'mechanička jízdních kol',
   ]),
   OccupationLabels('1420', [
     'bicycle shop manager',
@@ -3671,6 +4130,8 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleider fietsenwinkel',
     'bedrijfsleider verkoop rijwielen',
     'bedrijfsleidster fietsenwinkel',
+    'vedoucí cykloobchodu',
+    'vedoucí cykloprodejny',
   ]),
   OccupationLabels('3433', [
     'big data archive librarian',
@@ -3681,6 +4142,8 @@ const escoOccupations = <OccupationLabels>[
     'bibliothecaris big-data-archief',
     'digitaal bibliothecaris',
     'archiviste digital',
+    'knihovník archivu big data',
+    'knihovnice archivu big data',
   ]),
   OccupationLabels('4311', [
     'billing clerk',
@@ -3696,6 +4159,8 @@ const escoOccupations = <OccupationLabels>[
     'facturiste',
     'secrétaire facturier',
     'secrétaire facturière',
+    'fakturant',
+    'fakturantka',
   ]),
   OccupationLabels('7323', [
     'bindery operator',
@@ -3708,6 +4173,9 @@ const escoOccupations = <OccupationLabels>[
     'operator boekbindmachine',
     'opérateur en reliure',
     'opératrice en reliure',
+    'vazač knih',
+    'vazačka knih',
+    'knihvazačka',
   ]),
   OccupationLabels('4212', [
     'bingo caller',
@@ -3722,6 +4190,8 @@ const escoOccupations = <OccupationLabels>[
     'bingoleidster',
     'animateur de bingo',
     'animatrice de bingo',
+    'vyvolavač v bingu',
+    'vyvolavačka v bingu',
   ]),
   OccupationLabels('2145', [
     'biochemical engineer',
@@ -3740,6 +4210,9 @@ const escoOccupations = <OccupationLabels>[
     'laboratoriumingenieur biochemie',
     'ingénieur biochimiste en industrie',
     'ingénieure biochimiste en industrie',
+    'biochemický inženýr',
+    'biochemická inženýrka',
+    'inženýrka biochemie',
   ]),
   OccupationLabels('2131', [
     'biochemist',
@@ -3754,6 +4227,8 @@ const escoOccupations = <OccupationLabels>[
     'wetenschappelijk onderzoeker biochemie',
     'wetenschappelijk onderzoekster biochemie',
     'biochimiste',
+    'biochemik',
+    'biochemička',
   ]),
   OccupationLabels('3141', [
     'biochemistry technician',
@@ -3772,6 +4247,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien',
     'technicienne biochimiste',
     'technicien biochimiste',
+    'technik biochemik',
+    'technička biochemička',
   ]),
   OccupationLabels('2149', [
     'bioengineer',
@@ -3788,6 +4265,8 @@ const escoOccupations = <OccupationLabels>[
     'bio-ingenieur in de industrie',
     'ingénieur en biotechnologie',
     'ingénieure en biotechnologie',
+    'bioinženýr',
+    'bioinženýrka',
   ]),
   OccupationLabels('3133', [
     'biogas technician',
@@ -3816,6 +4295,8 @@ const escoOccupations = <OccupationLabels>[
     'bio-informaticus',
     'bioinformaticien',
     'bioinformaticienne',
+    'bioinformatik',
+    'bioinformatička',
   ]),
   OccupationLabels('2131', [
     'biologist',
@@ -3831,6 +4312,7 @@ const escoOccupations = <OccupationLabels>[
     'hydrobioloog',
     'biologiste',
     'biologiste en environnement',
+    'bioložka',
   ]),
   OccupationLabels('2310', [
     'biology lecturer',
@@ -3848,6 +4330,7 @@ const escoOccupations = <OccupationLabels>[
     'docente biologie hoger onderwijs',
     'enseignant-chercheur en biologie',
     'enseignante-chercheuse en biologie',
+    'přednášející v oboru biologie',
   ]),
   OccupationLabels('2330', [
     'biology teacher secondary school',
@@ -3858,6 +4341,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht biologie secundair onderwijs',
     'professeur de biologie',
     'professeure de biologie',
+    'učitel biologie',
+    'učitelka biologie',
+    'středoškolská učitelka biologie',
   ]),
   OccupationLabels('3141', [
     'biology technician',
@@ -3875,6 +4361,8 @@ const escoOccupations = <OccupationLabels>[
     'microbiologisch laborant',
     'technicien biologiste',
     'technicienne biologiste',
+    'technik v oboru biologie',
+    'technička v oboru biologie',
   ]),
   OccupationLabels('2149', [
     'biomedical engineer',
@@ -3890,6 +4378,8 @@ const escoOccupations = <OccupationLabels>[
     'biomedisch technoloog',
     'ingenieur biomedische technologie',
     'biomedisch specialist',
+    'biomedicínský inženýr',
+    'biomedicínská inženýrka',
   ]),
   OccupationLabels('3212', [
     'biomedical scientist',
@@ -3938,6 +4428,8 @@ const escoOccupations = <OccupationLabels>[
     'biométricien',
     'biométricienne',
     'biométriste',
+    'specialista v oboru biometriky',
+    'specialistka v oboru biometriky',
   ]),
   OccupationLabels('2131', [
     'biophysicist',
@@ -3954,6 +4446,8 @@ const escoOccupations = <OccupationLabels>[
     'biophysicien',
     'biophysicienne',
     'biophysicien de laboratoire',
+    'biofyzik',
+    'biofyzička',
   ]),
   OccupationLabels('3141', [
     'biotechnical technician',
@@ -3971,6 +4465,8 @@ const escoOccupations = <OccupationLabels>[
     'biotechnisch laborant',
     'technicien biotechnicien',
     'technicienne biotechnicienne',
+    'biotechnický asistent',
+    'biotechnická asistentka',
   ]),
   OccupationLabels('7221', [
     'blacksmith',
@@ -3987,6 +4483,8 @@ const escoOccupations = <OccupationLabels>[
     'smid',
     'forgeron',
     'forgeronne',
+    'kovář',
+    'kovářka',
   ]),
   OccupationLabels('8160', [
     'blanching operator',
@@ -4007,6 +4505,9 @@ const escoOccupations = <OccupationLabels>[
     'medewerker aan de blancheermachine',
     'opératrice d’ébouillantage',
     'opérateur d’ébouillantage',
+    'operátor blanšírovacího zařízení',
+    'operátorka blanšírovacího zařízení',
+    'operátorka vylupovacího stroje',
   ]),
   OccupationLabels('8171', [
     'bleacher operator',
@@ -4031,6 +4532,8 @@ const escoOccupations = <OccupationLabels>[
     'blenderoperator',
     'fabricante de boissons gazeuses',
     'fabricant de boissons gazeuses',
+    'pracovník míchání nápojů',
+    'pracovnice míchání nápojů',
   ]),
   OccupationLabels('8160', [
     'blending plant operator',
@@ -4049,6 +4552,9 @@ const escoOccupations = <OccupationLabels>[
     'opérateur de mélangeur d\'aliments',
     'opératrice de mélangeur d\'aliment',
     'opératrice de mélangeur d\'aliments',
+    'operátor míchacího zařízení',
+    'operátorka míchacího zařízení',
+    'operátorka emulzního stroje',
   ]),
   OccupationLabels('8114', [
     'block machine operator',
@@ -4072,6 +4578,9 @@ const escoOccupations = <OccupationLabels>[
     'bloggare',
     'blogueur',
     'blogueuse',
+    'bloger',
+    'blogerka',
+    'blogerka zaměřená na cestování',
   ]),
   OccupationLabels('8142', [
     'blow moulding machine operator',
@@ -4095,6 +4604,8 @@ const escoOccupations = <OccupationLabels>[
     'scheepstuiger',
     'accastilleur',
     'accastilleuse',
+    'lodní montér',
+    'lodní montérka',
   ]),
   OccupationLabels('8350', [
     'boatswain',
@@ -4108,6 +4619,9 @@ const escoOccupations = <OccupationLabels>[
     'bootsman',
     'bootsman trawlervisserij',
     'bootsman visserij',
+    'loďmistr',
+    'loďmistrová',
+    'loďmistr na rybářské lodi',
   ]),
   OccupationLabels('3435', [
     'body artist',
@@ -4118,6 +4632,8 @@ const escoOccupations = <OccupationLabels>[
     'piercare',
     'tatoueur',
     'tatoueuse',
+    'tatér',
+    'tatérka',
   ]),
   OccupationLabels('5414', [
     'bodyguard',
@@ -4130,6 +4646,8 @@ const escoOccupations = <OccupationLabels>[
     'garde du corps',
     'garde du corps privé',
     'garde du corps privée',
+    'tělesný strážce',
+    'tělesná strážkyně',
   ]),
   OccupationLabels('8182', [
     'boiler operator',
@@ -4167,6 +4685,8 @@ const escoOccupations = <OccupationLabels>[
     'chaudronnier',
     'chaudronnière',
     'aide chaudronnier',
+    'kotlář',
+    'kotlářka',
   ]),
   OccupationLabels('0310', [
     'bomb disposal technician',
@@ -4177,6 +4697,8 @@ const escoOccupations = <OccupationLabels>[
     'explosievenruimer',
     'démineur',
     'démineuse',
+    'pyrotechnik specialista',
+    'pyrotechnička specialistka',
   ]),
   OccupationLabels('2641', [
     'book editor',
@@ -4191,6 +4713,8 @@ const escoOccupations = <OccupationLabels>[
     'boekenredacteur',
     'directeur de collection',
     'directrice de collection',
+    'knižní redaktor',
+    'knižní redaktorka',
   ]),
   OccupationLabels('1349', [
     'book publisher',
@@ -4208,6 +4732,8 @@ const escoOccupations = <OccupationLabels>[
     'manager uitgeverij boeken',
     'éditeur',
     'éditrice',
+    'nakladatel',
+    'nakladatelka',
   ]),
   OccupationLabels('7323', [
     'book restorer',
@@ -4223,6 +4749,8 @@ const escoOccupations = <OccupationLabels>[
     'boekbinder-restaurateur',
     'restaurateur de livres',
     'restauratrice de livres',
+    'restaurátor knih',
+    'restaurátorka knih',
   ]),
   OccupationLabels('7323', [
     'book-sewing machine operator',
@@ -4248,6 +4776,7 @@ const escoOccupations = <OccupationLabels>[
     'algemeen boekhouder',
     'chargé de comptabilité',
     'chargée de comptabilité',
+    'účetní',
   ]),
   OccupationLabels('4212', [
     'bookmaker',
@@ -4260,6 +4789,8 @@ const escoOccupations = <OccupationLabels>[
     'buchmacher',
     'buchmacherin',
     'online bookmaker',
+    'bookmakerka',
+    'dostihový bookmaker',
   ]),
   OccupationLabels('1420', [
     'bookshop manager',
@@ -4274,6 +4805,7 @@ const escoOccupations = <OccupationLabels>[
     'storemanager boekhandel',
     'gérant de librairie',
     'gérante de librairie',
+    'vedoucí knihkupectví',
   ]),
   OccupationLabels('5223', [
     'bookshop specialised seller',
@@ -4290,6 +4822,9 @@ const escoOccupations = <OccupationLabels>[
     'libraire',
     'libraire-conseil',
     'libraire spécialisé',
+    'prodavač v knihkupectví',
+    'prodavačka v knihkupectví',
+    'prodavačka v antikvariátu',
   ]),
   OccupationLabels('3521', [
     'boom operator',
@@ -4299,6 +4834,8 @@ const escoOccupations = <OccupationLabels>[
     'b-ljud',
     'geluidsman',
     'perchiste',
+    'mikrofonista',
+    'mikrofonistka',
   ]),
   OccupationLabels('7223', [
     'boring machine operator',
@@ -4330,6 +4867,8 @@ const escoOccupations = <OccupationLabels>[
     'botanisch analist',
     'technicien botaniste',
     'technicienne botaniste',
+    'technik v oboru botanika',
+    'technička v oboru botanika',
   ]),
   OccupationLabels('2131', [
     'botanicals specialist',
@@ -4347,6 +4886,9 @@ const escoOccupations = <OccupationLabels>[
     'specialister på växtämnen',
     'specialist plantaardige producten',
     'spécialiste en botanique',
+    'specialista',
+    'specialistka na rostlinné výtažky',
+    'specialista na rostlinné výtažky',
   ]),
   OccupationLabels('2131', [
     'botanist',
@@ -4359,6 +4901,8 @@ const escoOccupations = <OccupationLabels>[
     'botanikerin',
     'botanicus',
     'botaniste',
+    'botanik',
+    'botanička',
   ]),
   OccupationLabels('3422', [
     'boxing instructor',
@@ -4375,6 +4919,8 @@ const escoOccupations = <OccupationLabels>[
     'bokstrainer',
     'entraîneur de boxe',
     'entraîneuse de boxe',
+    'trenér boxu',
+    'trenérka boxu',
   ]),
   OccupationLabels('8159', [
     'braiding machine operator',
@@ -4408,6 +4954,8 @@ const escoOccupations = <OccupationLabels>[
     'textieltechnicus vlechten',
     'technicien en tressage textile',
     'technicienne en tressage textile',
+    'technik výroby splétaných textilií',
+    'technička výroby splétaných textilií',
   ]),
   OccupationLabels('1120', [
     'branch manager',
@@ -4422,6 +4970,8 @@ const escoOccupations = <OccupationLabels>[
     'regiomanager',
     'directeur régional',
     'directrice régionale',
+    'oblastní manažer',
+    'oblastní manažerka',
   ]),
   OccupationLabels('2431', [
     'brand manager',
@@ -4435,6 +4985,8 @@ const escoOccupations = <OccupationLabels>[
     'varumärkeschef',
     'brandmanager',
     'chef de marque',
+    'manažer značky',
+    'manažerka značky',
   ]),
   OccupationLabels('7212', [
     'brazier',
@@ -4446,6 +4998,8 @@ const escoOccupations = <OccupationLabels>[
     'hardsoldeerder',
     'braseur',
     'braseuse',
+    'pracovník pro tvrdé pájení',
+    'pracovnice pro tvrdé pájení',
   ]),
   OccupationLabels('8160', [
     'brew house operator',
@@ -4458,6 +5012,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker in een brouwerij',
     'opérateur de brasserie',
     'opératrice de brasserie',
+    'operátor pivovaru',
+    'operátorka pivovaru',
   ]),
   OccupationLabels('2145', [
     'brewmaster',
@@ -4472,6 +5028,8 @@ const escoOccupations = <OccupationLabels>[
     'brouwmeester',
     'maître-brasseur',
     'maître-brasseuse',
+    'pivovarník',
+    'pivovarnice',
   ]),
   OccupationLabels('8181', [
     'brick and tile caster',
@@ -4497,6 +5055,8 @@ const escoOccupations = <OccupationLabels>[
     'maçon',
     'maçonne',
     'maçon-briqueteur',
+    'zedník',
+    'zednice',
   ]),
   OccupationLabels('3123', [
     'bricklaying supervisor',
@@ -4510,6 +5070,8 @@ const escoOccupations = <OccupationLabels>[
     'meewerkend voorman metselaar',
     'chef d’équipe maçon',
     'chef d’équipe maçonne',
+    'zednický mistr',
+    'zednická mistrová',
   ]),
   OccupationLabels('3123', [
     'bridge construction supervisor',
@@ -4517,6 +5079,7 @@ const escoOccupations = <OccupationLabels>[
     'bridgebuilding supervisor',
     'aufsichtskraft brückenbau',
     'voorman brugbouw',
+    'stavební dozor mostních staveb',
   ]),
   OccupationLabels('3112', [
     'bridge inspector',
@@ -4535,6 +5098,8 @@ const escoOccupations = <OccupationLabels>[
     'visueel inspecteur wegen',
     'inspecteur de ponts',
     'inspectrice de ponts',
+    'inspektor mostů',
+    'inspektorka mostů',
   ]),
   OccupationLabels('0110', [
     'brigadier',
@@ -4550,6 +5115,8 @@ const escoOccupations = <OccupationLabels>[
     'brigadegeneraal',
     'général de brigade',
     'générale de brigade',
+    'velitel brigády',
+    'velitelka brigády',
   ]),
   OccupationLabels('7223', [
     'briquetting machine operator',
@@ -4561,6 +5128,7 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin für brikettierpresse',
     'operator brikettenpers',
     'operator metaalchipbriketpers',
+    'obsluha briketovacího stroje',
   ]),
   OccupationLabels('2642', [
     'broadcast news editor',
@@ -4573,6 +5141,9 @@ const escoOccupations = <OccupationLabels>[
     'redacteur omroep',
     'redacteur televisie',
     'bureauredacteur televisie',
+    'rozhlasový redaktor',
+    'rozhlasová redaktorka',
+    'televizní redaktorka',
   ]),
   OccupationLabels('3521', [
     'broadcast technician',
@@ -4589,6 +5160,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien de radiodiffusion',
     'technicienne de radiodiffusion',
     'technicien de broadcasting',
+    'vysílací technik',
+    'vysílací technička',
   ]),
   OccupationLabels('3435', [
     'broadcasting programme director',
@@ -4606,6 +5179,8 @@ const escoOccupations = <OccupationLabels>[
     'programmacoördinator radio',
     'directeur de programmes',
     'directrice de programmes',
+    'ředitel programu vysílání',
+    'ředitelka programu vysílání',
   ]),
   OccupationLabels('1346', [
     'brokerage firm director',
@@ -4633,6 +5208,8 @@ const escoOccupations = <OccupationLabels>[
     'borstelmaakster',
     'brossier',
     'brossière',
+    'výrobce kartáčů',
+    'výrobkyně kartáčů',
   ]),
   OccupationLabels('2411', [
     'budget analyst',
@@ -4645,6 +5222,8 @@ const escoOccupations = <OccupationLabels>[
     'budgetanalytiker',
     'budgetanalist',
     'analyste budgétaire',
+    'rozpočtový analytik',
+    'rozpočtová analytička',
   ]),
   OccupationLabels('1211', [
     'budget manager',
@@ -4661,6 +5240,8 @@ const escoOccupations = <OccupationLabels>[
     'beheerscontroleur budget',
     'directeur du budget',
     'directrice du budget',
+    'rozpočtový manažer',
+    'rozpočtová manažerka',
   ]),
   OccupationLabels('5153', [
     'building caretaker',
@@ -4674,6 +5255,9 @@ const escoOccupations = <OccupationLabels>[
     'fastighetsvärd',
     'conciërge',
     'concierge',
+    'správce objektu',
+    'správkyně objektu',
+    'správce budov',
   ]),
   OccupationLabels('9112', [
     'building cleaner',
@@ -4701,6 +5285,8 @@ const escoOccupations = <OccupationLabels>[
     'ouvrier de chantier',
     'ouvrière de chantier',
     'ouvrier du bâtiment',
+    'dělník pro výstavbu budov',
+    'dělnice pro výstavbu budov',
   ]),
   OccupationLabels('7411', [
     'building electrician',
@@ -4715,6 +5301,8 @@ const escoOccupations = <OccupationLabels>[
     'elektromonteur gebouwen',
     'électricien du bâtiment',
     'électricienne du bâtiment',
+    'stavební elektrikář',
+    'stavební elektrikářka',
   ]),
   OccupationLabels('7133', [
     'building exterior cleaner',
@@ -4726,6 +5314,9 @@ const escoOccupations = <OccupationLabels>[
     'fasadrengörare',
     'gevelreiniger',
     'gevelreinigster',
+    'čistič vnějších plášťů budov',
+    'čistička vnějších plášťů budov',
+    'čistička fasády',
   ]),
   OccupationLabels('3112', [
     'building inspector',
@@ -4745,6 +5336,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur technique d’immeubles',
     'inspectrice technique d’immeubles',
     'inspecteur en construction',
+    'stavební inspektor',
+    'stavební inspektorka',
   ]),
   OccupationLabels('1420', [
     'building materials shop manager',
@@ -4753,6 +5346,8 @@ const escoOccupations = <OccupationLabels>[
     'leiter eines baumarktes',
     'leiterin eines baumarktes',
     'verkoopmanager bouwmaterialen',
+    'vedoucí prodejny stavebnin',
+    'vedoucí stavebnin',
   ]),
   OccupationLabels('5223', [
     'building materials specialised seller',
@@ -4764,6 +5359,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist bouwmaterialen',
     'verkoopspecialist doe-het-zelfwinkel',
     'vendeur en bicolage',
+    'prodavač ve stavebninách',
+    'prodavačka ve stavebninách',
+    'prodavač v prodejně stavebnin',
   ]),
   OccupationLabels('8160', [
     'bulk filler',
@@ -4774,6 +5372,9 @@ const escoOccupations = <OccupationLabels>[
     'bulkvuller',
     'opérateur de remplissage',
     'opératrice de remplissage',
+    'pracovník',
+    'pracovnice plničky sypaného materiálu',
+    'pracovník plničky sypaného materiálu',
   ]),
   OccupationLabels('8342', [
     'bulldozer operator',
@@ -4793,6 +5394,7 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de bulldozer',
     'conductrice de bulldozer',
     'conducteur de bouteur',
+    'obsluha buldozeru',
   ]),
   OccupationLabels('8331', [
     'bus driver',
@@ -4808,6 +5410,9 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d’autobus',
     'conductrice d’autobus',
     'conducteur de bus',
+    'řidič autobusu',
+    'řidička autobusu',
+    'řidička linkového autobusu',
   ]),
   OccupationLabels('5165', [
     'bus driving instructor',
@@ -4817,6 +5422,8 @@ const escoOccupations = <OccupationLabels>[
     'rijinstructrice bus',
     'moniteur de bus-école',
     'monitrice de bus-école',
+    'instruktor řízení autobusů',
+    'instruktorka řízení autobusů',
   ]),
   OccupationLabels('4323', [
     'bus route supervisor',
@@ -4846,6 +5453,8 @@ const escoOccupations = <OccupationLabels>[
     'företagsanalytiker',
     'businessanalist',
     'analyste de gestion',
+    'obchodní analytik',
+    'obchodní analytička',
   ]),
   OccupationLabels('2424', [
     'business coach',
@@ -4858,6 +5467,9 @@ const escoOccupations = <OccupationLabels>[
     'medarbetarcoach',
     'coach professionnel',
     'coach professionnelle',
+    'kouč',
+    'koučka',
+    'interní koučka',
   ]),
   OccupationLabels('2421', [
     'business consultant',
@@ -4873,6 +5485,8 @@ const escoOccupations = <OccupationLabels>[
     'businessadviseur',
     'consultant en gestion d’entreprise',
     'consultante en gestion d’entreprise',
+    'obchodní konzultant',
+    'obchodní konzultantka',
   ]),
   OccupationLabels('2431', [
     'business developer',
@@ -4883,6 +5497,7 @@ const escoOccupations = <OccupationLabels>[
     'businessdevelopmentmanager',
     'responsable de la prospection',
     'responsable du marketing opérationnel',
+    'business developerka',
   ]),
   OccupationLabels('2631', [
     'business economics researcher',
@@ -4911,6 +5526,8 @@ const escoOccupations = <OccupationLabels>[
     'business intelligence consultant',
     'veilleur stratégique',
     'veilleuse stratégique',
+    'manažer podpory rozhodování',
+    'manažerka podpory rozhodování',
   ]),
   OccupationLabels('2642', [
     'business journalist',
@@ -4960,6 +5577,8 @@ const escoOccupations = <OccupationLabels>[
     'teammanager',
     'responsable commercial',
     'responsable commerciale',
+    'podnikový manažer',
+    'podniková manažerka',
   ]),
   OccupationLabels('1219', [
     'business service manager',
@@ -4969,10 +5588,13 @@ const escoOccupations = <OccupationLabels>[
     'manager zakelijke diensten',
     'directeur services aux entreprises',
     'directrice services aux entreprises',
+    'vedoucí podnikových služeb',
   ]),
   OccupationLabels('2330', [
     'leerkracht economie voortgezet onderwijs',
     'leerkracht economie secundair onderwijs',
+    'učitel obchodu a ekonomie',
+    'učitelka obchodu a ekonomie',
   ]),
   OccupationLabels('2412', [
     'business valuer',
@@ -4988,6 +5610,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist waardebepaling',
     'expert en évaluation d\'entreprises',
     'experte en évaluation d\'entreprises',
+    'odhadce majetku podniku',
+    'odhadkyně majetku podniku',
   ]),
   OccupationLabels('7511', [
     'butcher',
@@ -5005,6 +5629,8 @@ const escoOccupations = <OccupationLabels>[
     'boucher',
     'bouchère',
     'bouchère-charcutière',
+    'řezník',
+    'řeznice',
   ]),
   OccupationLabels('2320', [
     'cabin crew instructor',
@@ -5018,6 +5644,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice cabinepersoneel',
     'instructeur personnel navigant commercial',
     'instructrice personnel navigant commercial',
+    'instruktor palubních průvodčích',
+    'instruktorka palubních průvodčích',
   ]),
   OccupationLabels('5111', [
     'cabin crew manager',
@@ -5032,6 +5660,9 @@ const escoOccupations = <OccupationLabels>[
     'eerste purser',
     'senior purser',
     'chef de cabine',
+    'vedoucí kabiny',
+    'vedoucí týmu palubních průvodčích',
+    'vedoucí týmu letušek',
   ]),
   OccupationLabels('7522', [
     'cabinet maker',
@@ -5048,6 +5679,8 @@ const escoOccupations = <OccupationLabels>[
     'ontwerpend meubelmaakster',
     'meubelmaakster',
     'ébéniste',
+    'výrobce nábytku',
+    'výrobkyně nábytku',
   ]),
   OccupationLabels('7413', [
     'cable jointer',
@@ -5063,6 +5696,8 @@ const escoOccupations = <OccupationLabels>[
     'kabelmonteur laagspanning',
     'installateur de câbles',
     'installatrice de câbles',
+    'montér kabelových vedení',
+    'montérka kabelových vedení',
   ]),
   OccupationLabels('8160', [
     'cacao bean roaster',
@@ -5070,6 +5705,8 @@ const escoOccupations = <OccupationLabels>[
     'kakaobohnenrösterin',
     'kakaobohnenbrenner',
     'cacaobonenbrander',
+    'pražič kakaových bobů',
+    'pražička kakaových bobů',
   ]),
   OccupationLabels('8160', [
     'cacao beans cleaner',
@@ -5081,6 +5718,9 @@ const escoOccupations = <OccupationLabels>[
     'schoonmaker cacaobonen',
     'schoonmakers cacaobonen',
     'schoonmaakster cacaobonen',
+    'čistič kakaových bobů',
+    'čistička kakaových bobů',
+    'čističi kakaových bobů',
   ]),
   OccupationLabels('2165', [
     'cadastral technician',
@@ -5099,6 +5739,8 @@ const escoOccupations = <OccupationLabels>[
     'géomètre du cadastre',
     'technicien géomètre du cadastre',
     'géomètre-cadastreuse',
+    'geodet',
+    'geodetka',
   ]),
   OccupationLabels('8142', [
     'cake press operator',
@@ -5128,6 +5770,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur calcul',
     'ingénieure calcul',
     'ingénieure structures',
+    'inženýr kalkulant',
+    'inženýrka kalkulantka',
   ]),
   OccupationLabels('3113', [
     'calibration technician',
@@ -5143,6 +5787,8 @@ const escoOccupations = <OccupationLabels>[
     'ijker',
     'ijker van precisie-instrumenten',
     'meterijker',
+    'kalibrační technik',
+    'kalibrační technička',
   ]),
   OccupationLabels('5244', [
     'call centre agent',
@@ -5160,6 +5806,8 @@ const escoOccupations = <OccupationLabels>[
     'agent de centre d’appels',
     'agente de centre d’appels',
     'agent de centre d\'appels',
+    'pracovník call centra',
+    'pracovnice call centra',
   ]),
   OccupationLabels('3341', [
     'call centre analyst',
@@ -5173,6 +5821,8 @@ const escoOccupations = <OccupationLabels>[
     'analiste in een callcenter',
     'analist in een callcenter',
     'analyste en centre d’appels',
+    'analytik call centra',
+    'analytička call centra',
   ]),
   OccupationLabels('3341', [
     'call centre manager',
@@ -5183,6 +5833,8 @@ const escoOccupations = <OccupationLabels>[
     'manager callcenter',
     'manager van een callcenter',
     'responsable de centre d’appels',
+    'vedoucí call centra',
+    'vedoucí telefonického centra',
   ]),
   OccupationLabels('3341', [
     'call centre quality auditor',
@@ -5204,6 +5856,8 @@ const escoOccupations = <OccupationLabels>[
     'superviseur de centre d’appels',
     'superviseuse de centre d’appels',
     'superviseuse de centre d\'appels',
+    'manažer call centra',
+    'manažerka call centra',
   ]),
   OccupationLabels('3521', [
     'camera operator',
@@ -5221,6 +5875,8 @@ const escoOccupations = <OccupationLabels>[
     'cameraman studio',
     'opératrice image',
     'opérateur image',
+    'kameraman',
+    'kameramanka',
   ]),
   OccupationLabels('2432', [
     'campaign canvasser',
@@ -5235,6 +5891,9 @@ const escoOccupations = <OccupationLabels>[
     'stemmenwerver',
     'démarcheur politique',
     'démarcheuse politique',
+    'politický agitátor',
+    'politická agitátorka',
+    'politický aktivista',
   ]),
   OccupationLabels('1439', [
     'camping ground manager',
@@ -5250,6 +5909,8 @@ const escoOccupations = <OccupationLabels>[
     'campingbeheerder',
     'responsable de camping',
     'responsable du campement',
+    'manažer kempinku',
+    'manažerka kempinku',
   ]),
   OccupationLabels('4224', [
     'camping ground operative',
@@ -5262,6 +5923,9 @@ const escoOccupations = <OccupationLabels>[
     'campingmedewerker',
     'employé de camping',
     'employée de camping',
+    'provozní pracovník kempinku',
+    'provozní pracovnice kempinku',
+    'provozní pracovnice kempu',
   ]),
   OccupationLabels('7319', [
     'candle maker',
@@ -5275,6 +5939,8 @@ const escoOccupations = <OccupationLabels>[
     'kaarsenmaakster',
     'fabricant de bougies',
     'fabricante de bougies',
+    'výrobce svíček',
+    'výrobkyně svíček',
   ]),
   OccupationLabels('8160', [
     'candy machine operator',
@@ -5284,6 +5950,8 @@ const escoOccupations = <OccupationLabels>[
     'süßigkeitenproduktionsarbeiter',
     'süßigkeitenproduktionsarbeiterin',
     'operator snoepmachine',
+    'operátor stroje na cukrovinky',
+    'operátorka stroje na cukrovinky',
   ]),
   OccupationLabels('8183', [
     'canning operative',
@@ -5295,6 +5963,8 @@ const escoOccupations = <OccupationLabels>[
     'fabriksarbetare inom konservering',
     'fabriksarbetare inom tappning',
     'medewerker conservenindustrie',
+    'operátorka nápojové balicí linky',
+    'operátor nápojové balicí linky',
   ]),
   OccupationLabels('8159', [
     'canvas goods assembler',
@@ -5306,6 +5976,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerkster producten in doek',
     'assembleur d’articles en toile',
     'assembleuse d’articles en toile',
+    'montážní dělník plátěných výrobků',
+    'montážní dělnice plátěných výrobků',
   ]),
   OccupationLabels('8131', [
     'capsule filling machine operator',
@@ -5319,6 +5991,7 @@ const escoOccupations = <OccupationLabels>[
     'tablettoperatör',
     'operator capsulevulmachine',
     'capsulevulmachineoperator',
+    'obsluha kapslovacích strojů',
   ]),
   OccupationLabels('5165', [
     'car driving instructor',
@@ -5330,6 +6003,8 @@ const escoOccupations = <OccupationLabels>[
     'moniteur automobile',
     'monitrice automobile',
     'moniteur de conduite automobile',
+    'instruktor řízení osobních automobilů',
+    'instruktorka řízení osobních automobilů',
   ]),
   OccupationLabels('5223', [
     'car leasing agent',
@@ -5342,6 +6017,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en crédit-bail automobile',
     'conseillère en crédit-bail automobile',
     'conseillère en loa automobile',
+    'pracovník automobilové leasingové společnosti',
+    'pracovnice automobilové leasingové společnosti',
   ]),
   OccupationLabels('8160', [
     'carbonation operator',
@@ -5361,6 +6038,8 @@ const escoOccupations = <OccupationLabels>[
     'operators carbonisatie machine',
     'opérateur d\'appareil de carbonatation',
     'opératrice d\'appareil de carbonatation',
+    'operátor sycení nápojů',
+    'operátorka sycení nápojů',
   ]),
   OccupationLabels('3412', [
     'care at home worker',
@@ -5392,6 +6071,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller d’orientation',
     'conseillère d’orientation',
     'conseiller d\'orientation professionnelle',
+    'kariérová poradkyně',
+    'kariérový poradce',
   ]),
   OccupationLabels('8332', [
     'cargo vehicle driver',
@@ -5406,6 +6087,9 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de poids lourd',
     'conductrice de poids lourd',
     'conducteur routier',
+    'řidič nákladního automobilu',
+    'řidička nákladního automobilu',
+    'řidič dodávkového automobilu',
   ]),
   OccupationLabels('7115', [
     'carpenter',
@@ -5426,6 +6110,8 @@ const escoOccupations = <OccupationLabels>[
     'timmerman binnenwerk',
     'charpentier',
     'charpentière',
+    'tesař',
+    'tesařka',
   ]),
   OccupationLabels('3123', [
     'carpenter supervisor',
@@ -5435,6 +6121,7 @@ const escoOccupations = <OccupationLabels>[
     'baupolierin zimmerarbeiten',
     'opzichter timmerwerk',
     'opzichter in de schrijnwerkerij',
+    'mistr tesař',
   ]),
   OccupationLabels('7122', [
     'carpet fitter',
@@ -5452,6 +6139,8 @@ const escoOccupations = <OccupationLabels>[
     'tapijtlegster',
     'poseur de moquette',
     'poseuse de moquette',
+    'pokladač koberců',
+    'pokladačka koberců',
   ]),
   OccupationLabels('7318', [
     'carpet handicraft worker',
@@ -5466,6 +6155,8 @@ const escoOccupations = <OccupationLabels>[
     'tapijtknoopster',
     'artisan créateur de tapis',
     'artisane créatrice de tapis',
+    'dělník řemeslné tkalcovny koberců',
+    'dělnice řemeslné tkalcovny koberců',
   ]),
   OccupationLabels('7318', [
     'carpet weaver',
@@ -5482,6 +6173,8 @@ const escoOccupations = <OccupationLabels>[
     'tapijtweefster',
     'tisseur de tapis',
     'tisseuse de tapis',
+    'tkadlec koberců',
+    'tkadlena koberců',
   ]),
   OccupationLabels('9332', [
     'carriage driver',
@@ -5498,6 +6191,7 @@ const escoOccupations = <OccupationLabels>[
     'koetsier',
     'cocher',
     'cochère',
+    'kočí',
   ]),
   OccupationLabels('2165', [
     'cartographer',
@@ -5512,6 +6206,8 @@ const escoOccupations = <OccupationLabels>[
     'cartographe',
     'dessinateur en cartographie',
     'dessinatrice en cartographie',
+    'kartograf specialista',
+    'kartografka specialistka',
   ]),
   OccupationLabels('2651', [
     'cartoonist',
@@ -5527,6 +6223,8 @@ const escoOccupations = <OccupationLabels>[
     'dessinateur de presse',
     'dessinatrice de presse',
     'dessinateur de bande dessinée',
+    'karikaturista',
+    'karikaturistka',
   ]),
   OccupationLabels('3411', [
     'case administrator',
@@ -5555,6 +6253,9 @@ const escoOccupations = <OccupationLabels>[
     'kassamedewerkster',
     'hôte de caisse',
     'hôtesse de caisse',
+    'pokladník v prodejně',
+    'pokladnice v prodejně',
+    'pokladní v hypermarketu',
   ]),
   OccupationLabels('4212', [
     'casino cashier',
@@ -5569,12 +6270,14 @@ const escoOccupations = <OccupationLabels>[
     'kassamedewerkster casino',
     'caissier de casino',
     'caissière de casino',
+    'pokladní v kasinu',
   ]),
   OccupationLabels('4212', [
     'casino gaming manager',
     'spielbetriebsleiter',
     'spielbetriebsleiterin',
     'manager casinospelen',
+    'vedoucí kasina',
   ]),
   OccupationLabels('4212', [
     'casino pit boss',
@@ -5598,6 +6301,8 @@ const escoOccupations = <OccupationLabels>[
     'castingdirecteur',
     'directeur de casting',
     'directrice de casting',
+    'castingový ředitel',
+    'castingová ředitelka',
   ]),
   OccupationLabels('8121', [
     'casting machine operator',
@@ -5610,6 +6315,7 @@ const escoOccupations = <OccupationLabels>[
     'gieter metaal',
     'productieoperator in een gieterij',
     'arbeider gieterij',
+    'obsluha licích strojů',
   ]),
   OccupationLabels('7222', [
     'casting mould maker',
@@ -5619,6 +6325,8 @@ const escoOccupations = <OccupationLabels>[
     'matrijzenmaakster',
     'modeleur mouliste',
     'modeleuse mouliste',
+    'výrobce modelů',
+    'výrobkyně modelů',
   ]),
   OccupationLabels('9212', [
     'catcher',
@@ -5640,6 +6348,9 @@ const escoOccupations = <OccupationLabels>[
     'attrapeur de volaille',
     'attrapeuse de volaille',
     'attrapeur de poules',
+    'chytač',
+    'chytačka',
+    'chytačka drůbeže',
   ]),
   OccupationLabels('1221', [
     'category manager',
@@ -5652,6 +6363,8 @@ const escoOccupations = <OccupationLabels>[
     'kategorichef',
     'produktkategorichef',
     'responsable catégorie de produits',
+    'manažer sortimentu',
+    'manažerka sortimentu',
   ]),
   OccupationLabels('6121', [
     'cattle breeder',
@@ -5670,6 +6383,9 @@ const escoOccupations = <OccupationLabels>[
     'éleveur de bovins',
     'éleveuse de bovins',
     'éleveur en production bovine',
+    'chovatel skotu',
+    'chovatelka skotu',
+    'chovatelka dobytka',
   ]),
   OccupationLabels('5164', [
     'cattle pedicure',
@@ -5687,6 +6403,8 @@ const escoOccupations = <OccupationLabels>[
     'pédicure pour bovins',
     'pédicure bovin',
     'pédicure bovine',
+    'paznehtář',
+    'paznehtářka',
   ]),
   OccupationLabels('7123', [
     'ceiling installer',
@@ -5706,6 +6424,8 @@ const escoOccupations = <OccupationLabels>[
     'poseur de plafonds',
     'poseuse de plafonds',
     'poseur de plafond',
+    'montér stropů',
+    'montérka stropů',
   ]),
   OccupationLabels('8160', [
     'cellar operator',
@@ -5726,6 +6446,9 @@ const escoOccupations = <OccupationLabels>[
     'operators gistkelder',
     'opérateur de fermentation',
     'opératrice de fermentation',
+    'pracovník fermentačního sklepa',
+    'pracovnice fermentačního sklepa',
+    'pracovník sklípku',
   ]),
   OccupationLabels('5163', [
     'cemetery attendant',
@@ -5743,6 +6466,8 @@ const escoOccupations = <OccupationLabels>[
     'begraafplaatsmedewerkster',
     'fossoyeur',
     'fossoyeuse',
+    'hrobník',
+    'hrobnice',
   ]),
   OccupationLabels('1112', [
     'central bank governor',
@@ -5757,6 +6482,9 @@ const escoOccupations = <OccupationLabels>[
     'zentralbankgouverneurin',
     'centralbankschef',
     'centralbanksdirektör',
+    'guvernér centrální banky',
+    'guvernérka centrální banky',
+    'guvernérka národní banky',
   ]),
   OccupationLabels('8160', [
     'centrifuge operator',
@@ -5775,6 +6503,8 @@ const escoOccupations = <OccupationLabels>[
     'centrifugeerder',
     'opérateur de centrifugeuse',
     'opératrice de centrifugeuse',
+    'operátorka odstřeďovací stanice',
+    'operátor odstřeďovací stanice',
   ]),
   OccupationLabels('7316', [
     'ceramic painter',
@@ -5791,6 +6521,8 @@ const escoOccupations = <OccupationLabels>[
     'aardewerkschilderes',
     'schilder op aardewerk',
     'peintre sur céramique',
+    'dekoratér keramiky',
+    'dekoratérka keramiky',
   ]),
   OccupationLabels('2651', [
     'ceramicist',
@@ -5805,6 +6537,9 @@ const escoOccupations = <OccupationLabels>[
     'céramiste',
     'céramiste concepteur',
     'céramiste conceptrice',
+    'keramik',
+    'keramička',
+    'výrobkyně umělecké keramiky',
   ]),
   OccupationLabels('7223', [
     'chain making machine operator',
@@ -5832,6 +6567,8 @@ const escoOccupations = <OccupationLabels>[
     'geestelijk verzorger krijgsmacht',
     'aumônier',
     'aumônière',
+    'kaplanka',
+    'vojenský kaplan',
   ]),
   OccupationLabels('5222', [
     'checkout supervisor',
@@ -5846,6 +6583,7 @@ const escoOccupations = <OccupationLabels>[
     'afdelingsmanager kassa detailhandel',
     'afdelingschef kassa detailhandel',
     'responsable des caisses',
+    'vedoucí pokladních',
   ]),
   OccupationLabels('3434', [
     'chef',
@@ -5853,6 +6591,8 @@ const escoOccupations = <OccupationLabels>[
     'chefköchin',
     'kock',
     'chef de cuisine',
+    'šéfkuchař',
+    'šéfkuchařka',
   ]),
   OccupationLabels('2113', [
     'chemical application specialist',
@@ -5864,6 +6604,8 @@ const escoOccupations = <OccupationLabels>[
     'productontwikkelaar chemie',
     'productontwikkelaar chemische industrie',
     'spécialiste d’application produits chimiques',
+    'specialista pro chemické látky',
+    'specialistka pro chemické látky',
   ]),
   OccupationLabels('2145', [
     'chemical engineer',
@@ -5880,6 +6622,8 @@ const escoOccupations = <OccupationLabels>[
     'chemisch procesingenieur',
     'ingénieur chimiste',
     'ingénieure chimiste',
+    'inženýr chemie',
+    'inženýrka chemie',
   ]),
   OccupationLabels('3116', [
     'chemical engineering technician',
@@ -5897,6 +6641,9 @@ const escoOccupations = <OccupationLabels>[
     'technicus-chemicus onderzoek en ontwikkeling',
     'technicien en génie chimique',
     'technicienne en génie chimique',
+    'technik v chemickém inženýrství',
+    'technička v chemickém inženýrství',
+    'chemická technička',
   ]),
   OccupationLabels('3116', [
     'chemical manufacturing quality technician',
@@ -5910,6 +6657,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitstechnicus chemische productie',
     'kwaliteitscontroleur chemische producten',
     'technicus productiekwaliteit',
+    'chemická technička',
+    'chemický technik',
   ]),
   OccupationLabels('2146', [
     'chemical metallurgist',
@@ -5957,6 +6706,8 @@ const escoOccupations = <OccupationLabels>[
     'manager chemische industrie',
     'directrice de site chimique',
     'directeur de site chimique',
+    'ředitel chemického závodu',
+    'ředitelka chemického závodu',
   ]),
   OccupationLabels('3133', [
     'chemical processing plant controller',
@@ -5982,6 +6733,7 @@ const escoOccupations = <OccupationLabels>[
     'productieleider chemische industrie',
     'productieleider chemie',
     'verantwoordelijke productieafdeling chemie',
+    'vedoucí chemického provozu',
   ]),
   OccupationLabels('1321', [
     'chemical production manager',
@@ -5990,6 +6742,8 @@ const escoOccupations = <OccupationLabels>[
     'leiter in der chemieproduktion',
     'leiterin in der chemieproduktion',
     'operationeel manager chemische productie',
+    'manažer v chemické výrobě',
+    'manažerka v chemické výrobě',
   ]),
   OccupationLabels('1324', [
     'chemical products distribution manager',
@@ -6000,6 +6754,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager chemische producten',
     'distributiechef chemische producten',
     'hoofd distributie chemische producten',
+    'manažer distribuce chemických výrobků',
+    'manažerka distribuce chemických výrobků',
   ]),
   OccupationLabels('2113', [
     'chemical tester',
@@ -6011,6 +6767,8 @@ const escoOccupations = <OccupationLabels>[
     'kemisk provare',
     'chemisch tester',
     'chemisch technicus',
+    'kontrolor chemického složení kovů',
+    'kontrolorka chemického složení kovů',
   ]),
   OccupationLabels('2113', [
     'chemist',
@@ -6026,6 +6784,8 @@ const escoOccupations = <OccupationLabels>[
     'industrieel scheikundige',
     'wetenschappelijk onderzoekster scheikunde',
     'chimiste',
+    'chemik',
+    'chemička',
   ]),
   OccupationLabels('2310', [
     'chemistry lecturer',
@@ -6044,6 +6804,7 @@ const escoOccupations = <OccupationLabels>[
     'docente scheikunde hoger onderwijs',
     'enseignant-chercheur en chimie',
     'enseignante-chercheuse en chimie',
+    'přednášející v oboru chemie',
   ]),
   OccupationLabels('2330', [
     'chemistry teacher secondary school',
@@ -6055,6 +6816,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de chimie',
     'professeure de chimie',
     'professeur de physique-chimie',
+    'středoškolská učitelka chemie',
+    'učitelka chemie',
+    'středoškolský učitel chemie',
   ]),
   OccupationLabels('3111', [
     'chemistry technician',
@@ -6073,6 +6837,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien en chimie',
     'technicienne en chimie',
     'technicien de laboratoire nucléaire',
+    'chemický laborant',
+    'chemická laborantka',
   ]),
   OccupationLabels('5112', [
     'chief conductor',
@@ -6088,6 +6854,7 @@ const escoOccupations = <OccupationLabels>[
     'hoofdconductrice trein',
     'hoofdconductrice',
     'chef de train',
+    'hlavní průvodčí',
   ]),
   OccupationLabels('1330', [
     'chief data officer',
@@ -6105,6 +6872,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur des données',
     'directrice des données',
     'directrice des data',
+    'manažer správy dat',
+    'manažerka správy dat',
   ]),
   OccupationLabels('1120', [
     'chief executive officer',
@@ -6119,6 +6888,8 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directrice',
     'directeur général',
     'directrice générale',
+    'výkonný ředitel',
+    'výkonná ředitelka',
   ]),
   OccupationLabels('1349', [
     'chief fire officer',
@@ -6131,6 +6902,9 @@ const escoOccupations = <OccupationLabels>[
     'brandmeester',
     'bedrijfsbrandmeester',
     'hoofdbrandmeester',
+    'velitel hasičského záchranného sboru',
+    'velitelka hasičského záchranného sboru',
+    'velitelka hasičů',
   ]),
   OccupationLabels('2529', [
     'chief ict security officer',
@@ -6145,6 +6919,9 @@ const escoOccupations = <OccupationLabels>[
     'it-säkerhetsansvarig',
     'hoofd ict-beveiliging',
     'hoofd it-beveiliging',
+    'manažer informační bezpečnosti',
+    'manažerka informační bezpečnosti',
+    'manažerka bezpečnosti informačních systémů',
   ]),
   OccupationLabels('1330', [
     'chief information officer',
@@ -6162,6 +6939,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur des systèmes d\'information',
     'directrice des systèmes d\'information',
     'directrice des si',
+    'ředitel informačních systémů',
+    'ředitelka informačních systémů',
+    'ředitel it',
   ]),
   OccupationLabels('1221', [
     'chief marketing officer',
@@ -6182,6 +6962,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur du marketing',
     'directrice du marketing',
     'directeur marketing',
+    'marketingový ředitel',
+    'marketingová ředitelka',
+    'ředitel marketingu',
   ]),
   OccupationLabels('1120', [
     'chief operating officer',
@@ -6200,6 +6983,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur général adjoint',
     'directrice générale adjointe',
     'directrice de l\'exploitation',
+    'provozní ředitel',
+    'provozní ředitelka',
   ]),
   OccupationLabels('1330', [
     'chief technology officer',
@@ -6215,6 +7000,9 @@ const escoOccupations = <OccupationLabels>[
     'chief technical officer',
     'responsable de la technologie',
     'responsable des technologies',
+    'technický vedoucí',
+    'technická vedoucí',
+    'technický ředitel',
   ]),
   OccupationLabels('1341', [
     'child care coordinator',
@@ -6228,6 +7016,8 @@ const escoOccupations = <OccupationLabels>[
     'begeleider-coördinator kinderopvang',
     'begeleidster-coördinatrice kinderopvang',
     'responsable d\'accueil de loisirs',
+    'koordinátor péče o děti',
+    'koordinátorka péče o děti',
   ]),
   OccupationLabels('2635', [
     'child care social worker',
@@ -6250,6 +7040,8 @@ const escoOccupations = <OccupationLabels>[
     'kinderverzorger',
     'éducateur en petite enfance',
     'éducatrice en petite enfance',
+    'pracovník péče o děti',
+    'pracovnice péče o děti',
   ]),
   OccupationLabels('1341', [
     'child daycare centre coordinator',
@@ -6313,6 +7105,8 @@ const escoOccupations = <OccupationLabels>[
     'schoorsteenveegster',
     'ramoneur',
     'ramoneuse',
+    'kominík',
+    'kominice',
   ]),
   OccupationLabels('7133', [
     'chimney sweep supervisor',
@@ -6329,6 +7123,8 @@ const escoOccupations = <OccupationLabels>[
     'skorstensfejarmästare',
     'voorman schoorsteenveger',
     'chef d’équipe de ramoneurs',
+    'vedoucí kominík',
+    'vedoucí kominice',
   ]),
   OccupationLabels('1324', [
     'distributiemanager porselein en glaswerk',
@@ -6348,6 +7144,7 @@ const escoOccupations = <OccupationLabels>[
     'operator houtversnipperaar',
     'conducteur de déchiqueteuse',
     'conductrice de déchiqueteuse',
+    'obsluha sekačky na štěpky',
   ]),
   OccupationLabels('3344', [
     'chiropractic assistant',
@@ -6365,6 +7162,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant chiropracteur',
     'assistante chiropracteur',
     'assistant chiropraticienne',
+    'chiropraktický asistent',
+    'chiropraktická asistentka',
   ]),
   OccupationLabels('2269', [
     'chiropractor',
@@ -6381,6 +7180,8 @@ const escoOccupations = <OccupationLabels>[
     'chiropracteur',
     'chiropractrice',
     'chiropraticien',
+    'chiropraktik',
+    'chiropraktička',
   ]),
   OccupationLabels('8160', [
     'chocolate moulding operator',
@@ -6396,6 +7197,8 @@ const escoOccupations = <OccupationLabels>[
     'chokladfabriksarbetare',
     'chokladfabriksarbetaren',
     'procesoperator chocoladegieterij',
+    'operátor forem na čokoládu',
+    'operátorka forem na čokoládu',
   ]),
   OccupationLabels('7512', [
     'chocolatier',
@@ -6412,6 +7215,8 @@ const escoOccupations = <OccupationLabels>[
     'chokladmästaren',
     'chocolatière',
     'pâtissière-chocolatière',
+    'pracovník čokoládovny',
+    'pracovnice čokoládovny',
   ]),
   OccupationLabels('2652', [
     'choirmaster',
@@ -6426,6 +7231,8 @@ const escoOccupations = <OccupationLabels>[
     'dirigent koor',
     'koordirigent',
     'chef de chœur',
+    'sbormistr',
+    'sbormistryně',
   ]),
   OccupationLabels('2653', [
     'choreographer',
@@ -6443,6 +7250,8 @@ const escoOccupations = <OccupationLabels>[
     'chorégraphe',
     'assistante du chorégraphe',
     'assistant du chorégraphe',
+    'choreografka',
+    'taneční choreograf',
   ]),
   OccupationLabels('2653', [
     'choreologist',
@@ -6454,6 +7263,8 @@ const escoOccupations = <OccupationLabels>[
     'koreolog',
     'choreoloog',
     'notateur',
+    'choreolog',
+    'choreoložka',
   ]),
   OccupationLabels('3111', [
     'chromatographer',
@@ -6471,6 +7282,9 @@ const escoOccupations = <OccupationLabels>[
     'chromatographiste',
     'opératrice de chromatographe',
     'technicien chromatographiste',
+    'chromatografický technik',
+    'chromatografická technička',
+    'obsluha chromatografů',
   ]),
   OccupationLabels('8160', [
     'cider fermentation operator',
@@ -6480,6 +7294,8 @@ const escoOccupations = <OccupationLabels>[
     'apfelweinproduktionsmitarbeiterin',
     'apfelweinherstellungsmitarbeiter',
     'procesoperator ciderfermentatie',
+    'operátorka kvašení jablečného vína',
+    'operátor kvašení jablečného vína',
   ]),
   OccupationLabels('2145', [
     'cider master',
@@ -6498,6 +7314,9 @@ const escoOccupations = <OccupationLabels>[
     'cidermeester',
     'expert en cidre',
     'experte en cidre',
+    'mistr',
+    'mistrová výroby jablečného vína',
+    'mistrová výroby cideru',
   ]),
   OccupationLabels('8183', [
     'cigar brander',
@@ -6509,6 +7328,9 @@ const escoOccupations = <OccupationLabels>[
     'zigarrenherstellungsmitarbeiter',
     'ansvarig för cigarettmärkning',
     'sigarenverpakker',
+    'značkovač',
+    'značkovačka doutníků',
+    'pracovník značkování doutníků',
   ]),
   OccupationLabels('7543', [
     'cigar inspector',
@@ -6522,6 +7344,8 @@ const escoOccupations = <OccupationLabels>[
     'sigareninspecteur',
     'vérificateur de cigares',
     'vérificatrice de cigares',
+    'kontrolor doutníků',
+    'kontrolorka doutníků',
   ]),
   OccupationLabels('8160', [
     'cigarette making machine operator',
@@ -6550,6 +7374,8 @@ const escoOccupations = <OccupationLabels>[
     'circusartiest',
     'circusartieste',
     'artiste de cirque',
+    'cirkusový umělec',
+    'cirkusová umělkyně',
   ]),
   OccupationLabels('2355', [
     'circus arts teacher',
@@ -6563,6 +7389,8 @@ const escoOccupations = <OccupationLabels>[
     'lehrkraft für zirkuskunst',
     'cirkuslärare',
     'leraar circustechnieken',
+    'učitel cirkusového umění',
+    'učitelka cirkusového umění',
   ]),
   OccupationLabels('1111', [
     'city councillor',
@@ -6579,6 +7407,9 @@ const escoOccupations = <OccupationLabels>[
     'conseiller municipal',
     'conseillère municipale',
     'conseillère communale',
+    'člen zastupitelstva obce',
+    'členka zastupitelstva obce',
+    'členka zastupitelstva',
   ]),
   OccupationLabels('3118', [
     'civil drafter',
@@ -6589,6 +7420,8 @@ const escoOccupations = <OccupationLabels>[
     'civieltechnisch tekenaar',
     'dessinateur en génie civil',
     'dessinatrice en génie civil',
+    'projektant elektrických instalací',
+    'projektantka elektrických instalací',
   ]),
   OccupationLabels('5419', [
     'civil enforcement officer',
@@ -6605,6 +7438,9 @@ const escoOccupations = <OccupationLabels>[
     'buitengewoon opsporingsambtenaar parkeercontrole',
     'agent de stationnement',
     'agente de stationnement',
+    'dopravní policista',
+    'dopravní policistka',
+    'dopravní strážník',
   ]),
   OccupationLabels('2142', [
     'civil engineer',
@@ -6621,6 +7457,8 @@ const escoOccupations = <OccupationLabels>[
     'burgerlijk ingenieur bouwkunde',
     'ingénieur génie civil',
     'ingénieure génie civil',
+    'stavební inženýr',
+    'stavební inženýrka',
   ]),
   OccupationLabels('3112', [
     'civil engineering technician',
@@ -6640,6 +7478,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus burgerlijke bouwkunde',
     'conducteur génie civil',
     'conductrice génie civil',
+    'stavební technik',
+    'stavební technička',
   ]),
   OccupationLabels('9312', [
     'civil engineering worker',
@@ -6668,6 +7508,8 @@ const escoOccupations = <OccupationLabels>[
     'employé de l’état civil',
     'employée de l’état civil',
     'employé de l\'état civil',
+    'matrikář',
+    'matrikářka',
   ]),
   OccupationLabels('2422', [
     'civil service administrative officer',
@@ -6680,6 +7522,8 @@ const escoOccupations = <OccupationLabels>[
     'verwaltungsbedienstete im öffentlichen dienst',
     'administratief medewerker openbaar bestuur',
     'administratief medewerkster openbaar bestuur',
+    'referent veřejné správy',
+    'referentka veřejné správy',
   ]),
   OccupationLabels('8160', [
     'clarifier',
@@ -6699,6 +7543,7 @@ const escoOccupations = <OccupationLabels>[
     'operator van zuiveringsinstallatie',
     'opérateur de clarificateur',
     'opératrice de clarificateur',
+    'obsluha čisticího stroje',
   ]),
   OccupationLabels('2310', [
     'classical languages lecturer',
@@ -6715,6 +7560,9 @@ const escoOccupations = <OccupationLabels>[
     'docente oudgrieks hoger onderwijs',
     'enseignant-chercheur en lettres classiques',
     'enseignante-chercheuse en lettres classiques',
+    'učitel klasických jazyků',
+    'učitelka klasických jazyků',
+    'učitel řečtiny a latiny',
   ]),
   OccupationLabels('2330', [
     'leerkracht grieks voortgezet onderwijs',
@@ -6723,6 +7571,8 @@ const escoOccupations = <OccupationLabels>[
     'professeur de langues anciennes',
     'professeure de langues anciennes',
     'professeur de latin-grec',
+    'středoškolský učitel klasických jazyků',
+    'středoškolská učitelka klasických jazyků',
   ]),
   OccupationLabels('8181', [
     'clay kiln burner',
@@ -6731,6 +7581,7 @@ const escoOccupations = <OccupationLabels>[
     'operator baksteenoven',
     'procesoperator aardewerkoven',
     'operator aardewerkoven',
+    'obsluha cihlářské pece',
   ]),
   OccupationLabels('8181', [
     'operador de secadero cerámico',
@@ -6740,6 +7591,7 @@ const escoOccupations = <OccupationLabels>[
     'operator drogerij baksteen',
     'opératrice de séchoir-tunnel',
     'opérateur de séchoir-tunnel',
+    'obsluha sušárny cihlářských výrobků',
   ]),
   OccupationLabels('2431', [
     'client relations manager',
@@ -6770,6 +7622,7 @@ const escoOccupations = <OccupationLabels>[
     'klimatoloog',
     'climatologue',
     'climatologiste',
+    'klimatoložka',
   ]),
   OccupationLabels('3252', [
     'clinical coder',
@@ -6786,6 +7639,8 @@ const escoOccupations = <OccupationLabels>[
     'medisch codeur',
     'medisch secretaris mzg',
     'medisch secretaresse mzg',
+    'klinický kódovač',
+    'klinická kódovačka',
   ]),
   OccupationLabels('1342', [
     'clinical informatics manager',
@@ -6800,6 +7655,7 @@ const escoOccupations = <OccupationLabels>[
     'manager bedrijfskundige informatica zorg',
     'responsable informatique clinique',
     'responsable informatique médicale',
+    'vedoucí zdravotnické informatiky',
   ]),
   OccupationLabels('3211', [
     'clinical perfusion scientist',
@@ -6815,6 +7671,8 @@ const escoOccupations = <OccupationLabels>[
     'perfusionist',
     'klinisch perfusionist',
     'perfusionniste clinique',
+    'klinický perfuziolog',
+    'klinická perfuzioložka',
   ]),
   OccupationLabels('2634', [
     'clinical psychologist',
@@ -6831,6 +7689,9 @@ const escoOccupations = <OccupationLabels>[
     'klinisch psychologe',
     'psychologue clinicien',
     'psychologue clinicienne',
+    'klinický psycholog',
+    'klinická psycholožka',
+    'klinická psycholožka specialistka',
   ]),
   OccupationLabels('2635', [
     'clinical social worker',
@@ -6842,6 +7703,8 @@ const escoOccupations = <OccupationLabels>[
     'omsorgskurator',
     'medisch maatschappelijk werker',
     'aide médico-psychologique',
+    'klinický sociální pracovník',
+    'klinická sociální pracovnice',
   ]),
   OccupationLabels('9629', [
     'cloak room attendant',
@@ -6860,6 +7723,8 @@ const escoOccupations = <OccupationLabels>[
     'garderobejuffrouw',
     'garderobemedewerkster',
     'responsable de vestiaire',
+    'šatnář',
+    'šatnářka',
   ]),
   OccupationLabels('7311', [
     'clock and watchmaker',
@@ -6876,6 +7741,8 @@ const escoOccupations = <OccupationLabels>[
     'horloger',
     'horlogère',
     'monteuse en systèmes horlogers',
+    'hodinář',
+    'hodinářka',
   ]),
   OccupationLabels('8153', [
     'clothing alteration machinist',
@@ -6930,6 +7797,8 @@ const escoOccupations = <OccupationLabels>[
     'kledingsnijdster',
     'coupeur tailleur',
     'coupeuse tailleuse',
+    'střihač oděvů',
+    'střihačka oděvů',
   ]),
   OccupationLabels('1223', [
     'clothing development manager',
@@ -6944,6 +7813,7 @@ const escoOccupations = <OccupationLabels>[
     'directeur artistique mode',
     'directrice artistique mode',
     'directeur de collection habillement',
+    'vedoucí vývoje oděvních návrhů',
   ]),
   OccupationLabels('2163', [
     'clothing fashion designer',
@@ -6957,6 +7827,8 @@ const escoOccupations = <OccupationLabels>[
     'kledingontwerper',
     'kledingontwerpster',
     'styliste',
+    'oděvní návrhář',
+    'oděvní návrhářka',
   ]),
   OccupationLabels('9321', [
     'clothing finisher',
@@ -6981,6 +7853,8 @@ const escoOccupations = <OccupationLabels>[
     'leiterin in der bekleidungsindustrie',
     'leiter in der textilindustrie',
     'manager kledingproductie',
+    'oděvní manažer',
+    'oděvní manažerka',
   ]),
   OccupationLabels('3139', [
     'clothing process control technician',
@@ -6989,6 +7863,8 @@ const escoOccupations = <OccupationLabels>[
     'fertigungskontrolltechnikerin textil',
     'technikerin bekleidungsfertigung',
     'montageoperator kleding en textielproducten',
+    'kontrolor procesu výroby oděvů',
+    'kontrolorka procesu výroby oděvů',
   ]),
   OccupationLabels('7532', [
     'clothing product grader',
@@ -7005,6 +7881,8 @@ const escoOccupations = <OccupationLabels>[
     'gradeerder kleding',
     'patronnier gradeur',
     'patronnière gradeuse',
+    'klasifikátor oděvních výrobků',
+    'klasifikátorka oděvních výrobků',
   ]),
   OccupationLabels('7543', [
     'clothing quality inspector',
@@ -7017,6 +7895,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur confectie',
     'contrôleur qualité en habillement',
     'contrôleuse qualité en habillement',
+    'inspektor výstupní kvality oděvů',
+    'inspektorka výstupní kvality oděvů',
   ]),
   OccupationLabels('8153', [
     'clothing sample machinist',
@@ -7035,6 +7915,8 @@ const escoOccupations = <OccupationLabels>[
     'manager kledingwinkel',
     'storemanager herenkleding',
     'floormanager kleding',
+    'vedoucí prodejny oděvů',
+    'vedoucí prodejny s oděvy',
   ]),
   OccupationLabels('5223', [
     'clothing specialised seller',
@@ -7051,6 +7933,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist herenkleding',
     'retoucheuse-vendeuse',
     'retoucheur-vendeur',
+    'prodavač v prodejně oděvů',
+    'prodavač v prodejně textilu',
+    'prodavačka v prodejně textilu',
   ]),
   OccupationLabels('2141', [
     'clothing technologist',
@@ -7063,6 +7948,9 @@ const escoOccupations = <OccupationLabels>[
     'beklädnadstekniker',
     'kledingingenieur',
     'modéliste habillement',
+    'oděvní technolog',
+    'oděvní technoložka',
+    'oděvní technička technoložka',
   ]),
   OccupationLabels('5169', [
     'club host',
@@ -7078,6 +7966,8 @@ const escoOccupations = <OccupationLabels>[
     'clubhostess',
     'animateur de club',
     'animatrice de club',
+    'pracovník přijímající hosty klubu',
+    'pracovnice přijímající hosty klubu',
   ]),
   OccupationLabels('3153', [
     'co-pilot',
@@ -7091,6 +7981,8 @@ const escoOccupations = <OccupationLabels>[
     'flygstyrman',
     'copiloot',
     'copilote',
+    'druhý pilot',
+    'druhá pilotka',
   ]),
   OccupationLabels('7231', [
     'coachbuilder',
@@ -7110,6 +8002,8 @@ const escoOccupations = <OccupationLabels>[
     'carrossier',
     'carrossière',
     'carrossier poids lourds',
+    'výrobce autokarů',
+    'výrobkyně autokarů',
   ]),
   OccupationLabels('8141', [
     'coagulation operator',
@@ -7132,6 +8026,7 @@ const escoOccupations = <OccupationLabels>[
     'kustbevakare',
     'vuurtorenwachter',
     'garde-côte',
+    'pobřežní stráž',
   ]),
   OccupationLabels('8122', [
     'coating machine operator',
@@ -7145,6 +8040,8 @@ const escoOccupations = <OccupationLabels>[
     'enduiseur industriel',
     'enduiseuse industrielle',
     'opérateur d’enduiseuse de production',
+    'obsluha lakovacích zařízení',
+    'obsluha zařízení na pokovování',
   ]),
   OccupationLabels('5132', [
     'cocktail bartender',
@@ -7163,6 +8060,8 @@ const escoOccupations = <OccupationLabels>[
     'barman spécialisé en cocktails',
     'barmaid spécialisée en cocktails',
     'barman expert en cocktails',
+    'barman připravující koktejly',
+    'barmanka připravující koktejly',
   ]),
   OccupationLabels('8160', [
     'cocoa mill operator',
@@ -7171,6 +8070,8 @@ const escoOccupations = <OccupationLabels>[
     'kakaomahler',
     'kakaomahlerin',
     'procesoperator cacaomolen',
+    'operátorka výrobny kakaa',
+    'operátor výrobny kakaa',
   ]),
   OccupationLabels('8160', [
     'cocoa press operator',
@@ -7180,6 +8081,8 @@ const escoOccupations = <OccupationLabels>[
     'kakaopressenbedienerin',
     'kakaopressenfahrer',
     'medewerker cacaopers',
+    'operátor lisu na kakao',
+    'operátorka lisu na kakao',
   ]),
   OccupationLabels('8160', [
     'coffee grinder',
@@ -7192,6 +8095,7 @@ const escoOccupations = <OccupationLabels>[
     'ansvariga för kaffekvarn',
     'kaffekvarnsansvarig',
     'koffiemaler',
+    'obsluha průmyslových kávomlýnků',
   ]),
   OccupationLabels('8160', [
     'coffee roaster',
@@ -7202,6 +8106,9 @@ const escoOccupations = <OccupationLabels>[
     'kaffeeröster',
     'kaffeerösterin',
     'koffiebrander',
+    'pražič',
+    'pražička kávy',
+    'pražič kávy',
   ]),
   OccupationLabels('7515', [
     'coffee taster',
@@ -7217,6 +8124,8 @@ const escoOccupations = <OccupationLabels>[
     'dégustateur de café',
     'dégustatrice de café',
     'dégustatrice de cafés',
+    'ochutnávač kávy',
+    'ochutnávačka kávy',
   ]),
   OccupationLabels('8131', [
     'coking furnace operator',
@@ -7232,6 +8141,9 @@ const escoOccupations = <OccupationLabels>[
     'ugnsoperatör',
     'vulmachinist cokesoven',
     'conducteur',
+    'operátor koksovny',
+    'operátorka koksovny',
+    'hutní technik operátor',
   ]),
   OccupationLabels('2621', [
     'collection manager',
@@ -7246,6 +8158,7 @@ const escoOccupations = <OccupationLabels>[
     'samlingsansvarig',
     'collectiebeheerder',
     'gestionnaire de collections',
+    'vedoucí sbírek',
   ]),
   OccupationLabels('0110', [
     'colonel',
@@ -7262,6 +8175,9 @@ const escoOccupations = <OccupationLabels>[
     'kolonel',
     'luitenant-kolonel',
     'colonelle',
+    'plukovník',
+    'plukovnice',
+    'podplukovník',
   ]),
   OccupationLabels('8155', [
     'colour sampling operator',
@@ -7272,6 +8188,9 @@ const escoOccupations = <OccupationLabels>[
     'läderfärgare',
     'leerverver',
     'coloriste en tannerie-mégisserie',
+    'barvíř',
+    'barvířka vzorků',
+    'barvíř vzorků',
   ]),
   OccupationLabels('3116', [
     'colour sampling technician',
@@ -7289,6 +8208,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien coloriste',
     'technicienne coloriste',
     'technicienne finissage des peaux',
+    'barvíř',
+    'barvířka',
   ]),
   OccupationLabels('2642', [
     'columnist',
@@ -7302,6 +8223,8 @@ const escoOccupations = <OccupationLabels>[
     'columniste',
     'chroniqueur',
     'chroniqueuse',
+    'sloupkař',
+    'sloupkařka',
   ]),
   OccupationLabels('1349', [
     'commercial art gallery manager',
@@ -7311,6 +8234,8 @@ const escoOccupations = <OccupationLabels>[
     'gallerichef',
     'verantwoordelijke kunstgalerij',
     'responsable de galerie d\'art',
+    'ředitel komerční galerie umění',
+    'ředitelka komerční galerie umění',
   ]),
   OccupationLabels('1221', [
     'commercial director',
@@ -7329,6 +8254,9 @@ const escoOccupations = <OccupationLabels>[
     'commercieel directrice',
     'directeur commercial',
     'directrice commerciale',
+    'obchodní ředitel',
+    'obchodní ředitelka',
+    'ředitel obchodní strategie',
   ]),
   OccupationLabels('3153', [
     'commercial pilot',
@@ -7343,6 +8271,8 @@ const escoOccupations = <OccupationLabels>[
     'commercieel piloot',
     'commercieel pilote',
     'pilote de l’aviation commerciale',
+    'komerční pilot',
+    'komerční pilotka',
   ]),
   OccupationLabels('3322', [
     'commercial sales representative',
@@ -7357,6 +8287,8 @@ const escoOccupations = <OccupationLabels>[
     'commercieel vertegenwoordigster',
     'délégué commercial',
     'déléguée commerciale',
+    'obchodní zástupce',
+    'obchodní zástupkyně',
   ]),
   OccupationLabels('2149', [
     'commissioning engineer',
@@ -7367,6 +8299,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieure mise en route',
     'ingénieur mise en route',
     'ingénieure mise en service',
+    'inženýr uvádění do provozu',
+    'inženýrka uvádění do provozu',
   ]),
   OccupationLabels('3119', [
     'commissioning technician',
@@ -7375,6 +8309,8 @@ const escoOccupations = <OccupationLabels>[
     'drifttagningstekniker',
     'installations- och idrifttagningstekniker',
     'inbedrijfsteller installaties en machines',
+    'provozní technik',
+    'provozní technička',
   ]),
   OccupationLabels('3324', [
     'commodity broker',
@@ -7393,6 +8329,8 @@ const escoOccupations = <OccupationLabels>[
     'courtier',
     'courtière',
     'courtières en matières premières',
+    'komoditní makléř',
+    'komoditní makléřka',
   ]),
   OccupationLabels('3324', [
     'commodity trader',
@@ -7406,6 +8344,8 @@ const escoOccupations = <OccupationLabels>[
     'beurshandelaar in basisproducten',
     'négociateur en matières premières',
     'négociatrice en matières premières',
+    'obchodník s komoditami',
+    'obchodnice s komoditami',
   ]),
   OccupationLabels('7422', [
     'communication infrastructure maintainer',
@@ -7418,6 +8358,8 @@ const escoOccupations = <OccupationLabels>[
     'ansvariga för kommunikationsinfrastruktur',
     'kommunikationsinfrastrukturansvarig',
     'servicemonteur communicatie-infrastructuur',
+    'údržbář komunikační infrastruktury',
+    'údržbářka komunikační infrastruktury',
   ]),
   OccupationLabels('1222', [
     'communication manager',
@@ -7437,6 +8379,9 @@ const escoOccupations = <OccupationLabels>[
     'verantwoordelijke externe communicatie',
     'directeur de la communication',
     'directrice de la communication',
+    'manažer komunikace',
+    'manažerka komunikace',
+    'manažerka sociálních médií',
   ]),
   OccupationLabels('2632', [
     'communication scientist',
@@ -7480,6 +8425,9 @@ const escoOccupations = <OccupationLabels>[
     'gemeenschapskunstenaar',
     'animateur socioculturel artistique',
     'animatrice socioculturelle artistique',
+    'komunitní umělec',
+    'komunitní umělkyně',
+    'komunitní tanečník',
   ]),
   OccupationLabels('2635', [
     'community care case worker',
@@ -7490,6 +8438,9 @@ const escoOccupations = <OccupationLabels>[
     'helpende thuiszorg',
     'aide-soignant à domicile',
     'aide-soignante à domicile',
+    'pracovník komunitní péče',
+    'pracovnice komunitní péče',
+    'pracovnice domácí péče',
   ]),
   OccupationLabels('2422', [
     'community development officer',
@@ -7501,6 +8452,8 @@ const escoOccupations = <OccupationLabels>[
     'opbouwwerker',
     'agent de développement local',
     'agente de développement local',
+    'referent komunitního rozvoje',
+    'referentka komunitního rozvoje',
   ]),
   OccupationLabels('2635', [
     'community development social worker',
@@ -7527,6 +8480,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker gezondheidsvoorlichting en -bevordering',
     'agent de santé communautaire',
     'agente de santé communautaire',
+    'komunitní zdravotník',
+    'komunitní zdravotnice',
   ]),
   OccupationLabels('2635', [
     'community social worker',
@@ -7540,6 +8495,8 @@ const escoOccupations = <OccupationLabels>[
     'agent d’insertion socioprofessionnelle',
     'agente d’insertion socioprofessionnelle',
     'agente d\'insertion socioprofessionnelle',
+    'komunitní sociální pracovník',
+    'komunitní sociální pracovnice',
   ]),
   OccupationLabels('5162', [
     'companion',
@@ -7554,6 +8511,8 @@ const escoOccupations = <OccupationLabels>[
     'gezelschapspersoon',
     'gezelschapsdame',
     'aide à domicile',
+    'společník',
+    'společnice',
   ]),
   OccupationLabels('2422', [
     'competition policy officer',
@@ -7566,6 +8525,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker concurrentie',
     'chargé de mission concurrence',
     'chargée de mission concurrence',
+    'referent pro konkurenční strategii',
+    'referentka pro konkurenční strategii',
   ]),
   OccupationLabels('2230', [
     'complementary therapist',
@@ -7585,6 +8546,9 @@ const escoOccupations = <OccupationLabels>[
     'praticien de médecine alternative',
     'praticienne de médecine alternative',
     'praticien de médecine douce',
+    'terapeut komplementární medicíny',
+    'terapeutka komplementární medicíny',
+    'terapeut alternativní medicíny',
   ]),
   OccupationLabels('2149', [
     'compliance engineer',
@@ -7609,6 +8573,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur componenten',
     'ingénieur pièces détachées',
     'ingénieure pièces détachées',
+    'komponentový inženýr',
+    'komponentová inženýrka',
   ]),
   OccupationLabels('2652', [
     'composer',
@@ -7625,6 +8591,8 @@ const escoOccupations = <OccupationLabels>[
     'compositeur',
     'compositrice',
     'auteur-compositeur',
+    'hudební skladatel',
+    'hudební skladatelka',
   ]),
   OccupationLabels('8142', [
     'compression moulding machine operator',
@@ -7645,6 +8613,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en informatique',
     'vendeuse en informatique',
     'vendeuse en matériel informatique',
+    'prodavač výpočetní techniky',
+    'prodavačka výpočetní techniky',
+    'prodavačka it',
   ]),
   OccupationLabels('5223', [
     'computer games salesperson',
@@ -7656,6 +8627,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en jeux vidéo',
     'vendeuse en jeux vidéo',
     'vendeuse en jeux électroniques',
+    'prodavačka počítačových her',
+    'prodavačka softwaru',
+    'prodavač multimédií',
   ]),
   OccupationLabels('2152', [
     'computer hardware engineer',
@@ -7675,6 +8649,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en matériel informatique',
     'ingénieure en matériel informatique',
     'ingénieur support',
+    'hardwarový inženýr',
+    'hardwarová inženýrka',
   ]),
   OccupationLabels('3114', [
     'computer hardware engineering technician',
@@ -7692,6 +8668,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus computerapparatuur',
     'technicien en conception électronique',
     'technicienne en conception électronique',
+    'počítačový inženýr',
+    'počítačová inženýrka',
   ]),
   OccupationLabels('7422', [
     'computer hardware repair technician',
@@ -7704,6 +8682,8 @@ const escoOccupations = <OccupationLabels>[
     'computerhersteller',
     'réparateur de matériel informatique',
     'réparatrice de matériel informatique',
+    'opravář počítačů',
+    'opravářka počítačů',
   ]),
   OccupationLabels('3114', [
     'computer hardware test technician',
@@ -7740,6 +8720,7 @@ const escoOccupations = <OccupationLabels>[
     'docente computerwetenschap hoger onderwijs',
     'enseignant-chercheur en informatique',
     'enseignante-chercheuse en informatique',
+    'přednášející v oboru informatika',
   ]),
   OccupationLabels('2511', [
     'computer scientist',
@@ -7757,6 +8738,9 @@ const escoOccupations = <OccupationLabels>[
     'informaticien',
     'informaticienne',
     'chercheur informatique',
+    'počítačový výzkumný pracovník',
+    'počítačová výzkumná pracovnice',
+    'počítačový vědec',
   ]),
   OccupationLabels('1420', [
     'computer shop manager',
@@ -7791,6 +8775,8 @@ const escoOccupations = <OccupationLabels>[
     'cad-bedienerin',
     'cad-operatör',
     'cad-tekenaar',
+    'projektant cad',
+    'projektantka cad',
   ]),
   OccupationLabels('2651', [
     'conceptual artist',
@@ -7802,6 +8788,8 @@ const escoOccupations = <OccupationLabels>[
     'conceptueel kunstenaar',
     'artiste conceptuel',
     'artiste conceptuelle',
+    'konceptuální umělec',
+    'konceptuální umělkyně',
   ]),
   OccupationLabels('7114', [
     'concrete finisher',
@@ -7816,6 +8804,8 @@ const escoOccupations = <OccupationLabels>[
     'betonafwerkster',
     'cimentier enduiseur',
     'cimentière enduiseuse',
+    'železobetonář',
+    'železobetonářka',
   ]),
   OccupationLabels('3123', [
     'concrete finisher supervisor',
@@ -7825,6 +8815,7 @@ const escoOccupations = <OccupationLabels>[
     'betonbaupolierin',
     'meister betonbau',
     'voorman-betonafwerker',
+    'mistr betonář',
   ]),
   OccupationLabels('8114', [
     'concrete products machine operator',
@@ -7864,6 +8855,8 @@ const escoOccupations = <OccupationLabels>[
     'banketbakker',
     'confiseur',
     'confiseuse',
+    'pracovník výroby cukrovinek',
+    'pracovnice výroby cukrovinek',
   ]),
   OccupationLabels('1420', [
     'confectionery shop manager',
@@ -7877,6 +8870,7 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleidster snoepwinkel',
     'gérant de confiserie',
     'gérante de confiserie',
+    'vedoucí prodejny cukrovinek',
   ]),
   OccupationLabels('5223', [
     'confectionery specialised seller',
@@ -7889,6 +8883,9 @@ const escoOccupations = <OccupationLabels>[
     'marchand de confiseries',
     'marchande de confiseries',
     'marchand de bonbons',
+    'prodavač v cukrářství',
+    'prodavačka v cukrářství',
+    'prodavač cukrovinek',
   ]),
   OccupationLabels('2133', [
     'conservation scientist',
@@ -7903,6 +8900,8 @@ const escoOccupations = <OccupationLabels>[
     'wetenschappelijk onderzoeker milieubescherming',
     'wetenschappelijk onderzoekster milieubescherming',
     'wetenschappelijk onderzoeker milieukunde',
+    'ochránce životního prostředí',
+    'ochránkyně životního prostředí',
   ]),
   OccupationLabels('2621', [
     'conservator',
@@ -7920,6 +8919,8 @@ const escoOccupations = <OccupationLabels>[
     'conservateur',
     'conservatrice',
     'conservateur de musée',
+    'památkář',
+    'památkářka',
   ]),
   OccupationLabels('7541', [
     'construction commercial diver',
@@ -7948,6 +8949,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur travaux',
     'ingénieure travaux',
     'ingénieur du btp',
+    'stavební inženýr - stavbyvedoucí',
+    'stavební inženýrka - stavbyvedoucí',
   ]),
   OccupationLabels('7233', [
     'construction equipment technician',
@@ -7962,6 +8965,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteur wegenbouwmachines',
     'mécanicien d’équipement de chantier',
     'mécanicienne d’équipement de chantier',
+    'mechanik stavebních strojů',
+    'mechanička stavebních strojů',
   ]),
   OccupationLabels('1323', [
     'construction general contractor',
@@ -7974,6 +8979,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofdaannemer bouw',
     'directeur de travaux',
     'directrice de travaux',
+    'projektový manažer stavby',
+    'projektová manažerka stavby',
+    'projektový manažer staveb',
   ]),
   OccupationLabels('3123', [
     'construction general supervisor',
@@ -7986,6 +8994,7 @@ const escoOccupations = <OccupationLabels>[
     'oberbauleiter',
     'oberbauleiterin',
     'bouwopzichter',
+    'stavební dozor',
   ]),
   OccupationLabels('1323', [
     'construction manager',
@@ -7997,6 +9006,7 @@ const escoOccupations = <OccupationLabels>[
     'projectleider bouw',
     'projectleidster nieuwbouw',
     'projectleidster woningbouw',
+    'stavbyvedoucí',
   ]),
   OccupationLabels('7131', [
     'construction painter',
@@ -8018,6 +9028,8 @@ const escoOccupations = <OccupationLabels>[
     'peintre en bâtiment',
     'peintre finisseur',
     'peintre vitrier',
+    'stavební natěrač',
+    'stavební natěračka',
   ]),
   OccupationLabels('3123', [
     'construction painting supervisor',
@@ -8026,6 +9038,8 @@ const escoOccupations = <OccupationLabels>[
     'bauleiterin maler- und anstreicharbeiten',
     'voorman-industrieschilder',
     'voorman-schilder',
+    'malířský mistr',
+    'malířská mistrová',
   ]),
   OccupationLabels('3112', [
     'construction quality inspector',
@@ -8039,6 +9053,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsinspecteur bouwsector',
     'inspecteur qualité construction',
     'inspectrice qualité construction',
+    'stavební technik kontrolor kvality',
+    'stavební technička kontrolorka kvality',
   ]),
   OccupationLabels('3112', [
     'construction quality manager',
@@ -8048,6 +9064,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager bouw',
     'kvm-manager bouw',
     'responsable qualité construction',
+    'manažer kvality ve stavebnictví',
+    'manažerka kvality ve stavebnictví',
   ]),
   OccupationLabels('3112', [
     'construction safety inspector',
@@ -8088,6 +9106,9 @@ const escoOccupations = <OccupationLabels>[
     'monteur en échafaudage',
     'monteuse en échafaudage',
     'monteur-échafaudeur',
+    'stavební dělník-lešenář',
+    'stavební dělnice-lešenářka',
+    'stavební dělník - lešenář',
   ]),
   OccupationLabels('3123', [
     'construction scaffolding supervisor',
@@ -8101,6 +9122,7 @@ const escoOccupations = <OccupationLabels>[
     'superviseur',
     'superviseuse d’échafaudeurs',
     'superviseuse d\'échafaudeurs',
+    'vedoucí montáže lešení',
   ]),
   OccupationLabels('1112', [
     'consul',
@@ -8118,6 +9140,9 @@ const escoOccupations = <OccupationLabels>[
     'ereconsul',
     'consule',
     'consule générale',
+    'konzul',
+    'konzulka',
+    'honorární konzul',
   ]),
   OccupationLabels('2635', [
     'consultant social worker',
@@ -8132,6 +9157,8 @@ const escoOccupations = <OccupationLabels>[
     'consultant en action sociale',
     'consultante en action sociale',
     'consultante-formatrice en action sociale',
+    'konzultant pro sociální práci',
+    'konzultantka pro sociální práci',
   ]),
   OccupationLabels('7421', [
     'consumer electronics repair technician',
@@ -8143,6 +9170,8 @@ const escoOccupations = <OccupationLabels>[
     'hemelektronikreparatör',
     'monteur consumentenelektronica',
     'servicemonteur consumentenelektronica',
+    'opravář spotřební elektroniky',
+    'opravářka spotřební elektroniky',
   ]),
   OccupationLabels('7543', [
     'consumer goods inspector',
@@ -8152,6 +9181,8 @@ const escoOccupations = <OccupationLabels>[
     'warenprüferin',
     'controleur consumptiegoederen',
     'kwaliteitscontroleur consumptiegoederen',
+    'kontrolor spotřebního zboží',
+    'kontrolorka spotřebního zboží',
   ]),
   OccupationLabels('3359', [
     'consumer rights advisor',
@@ -8171,6 +9202,8 @@ const escoOccupations = <OccupationLabels>[
     'manager klantcontactcentrum',
     'manager klantendienst',
     'responsable service clientèle',
+    'manažer kontaktního centra',
+    'manažerka kontaktního centra',
   ]),
   OccupationLabels('3341', [
     'contact centre supervisor',
@@ -8180,6 +9213,8 @@ const escoOccupations = <OccupationLabels>[
     'supervisor contactcenter',
     'supervisor van een contactcenter',
     'supervisor van een klantcontactcentrum',
+    'vedoucí zákaznického centra',
+    'vedoucí zákaznického servisu',
   ]),
   OccupationLabels('8343', [
     'container crane operator',
@@ -8191,6 +9226,9 @@ const escoOccupations = <OccupationLabels>[
     'kraandrijver haven',
     'conducteur de portique',
     'conductrice de portique',
+    'obsluha kontejnerového jeřábu',
+    'obsluha přístavního jeřábu',
+    'obsluha lodního jeřábu',
   ]),
   OccupationLabels('7213', [
     'container equipment assembler',
@@ -8205,6 +9243,7 @@ const escoOccupations = <OccupationLabels>[
     'ketelbouwer metaal',
     'assembleur d’équipements de conteneurs',
     'assembleuse d’équipements de conteneurs',
+    'montér kotlář a potrubář',
   ]),
   OccupationLabels('3122', [
     'container equipment assembly supervisor',
@@ -8214,6 +9253,7 @@ const escoOccupations = <OccupationLabels>[
     'montageleiterin behälterbau',
     'montageleiterin behälter',
     'montageleider assemblage reservoirs',
+    'vedoucí montáže kontejnerů',
   ]),
   OccupationLabels('2144', [
     'container equipment design engineer',
@@ -8240,6 +9280,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur contrat',
     'ingénieure contrat',
     'ingénieure de contrats industriels',
+    'externí inženýr',
+    'externí inženýrka',
+    'inženýr externista',
   ]),
   OccupationLabels('8212', [
     'control panel assembler',
@@ -8252,6 +9295,8 @@ const escoOccupations = <OccupationLabels>[
     'schaltanlagenmonteur',
     'schaltanlagenmonteurin',
     'panelenbouwer',
+    'montážní dělník kontrolních panelů',
+    'montážní dělnice kontrolních panelů',
   ]),
   OccupationLabels('7543', [
     'control panel tester',
@@ -8261,6 +9306,8 @@ const escoOccupations = <OccupationLabels>[
     'qualitätskontrolleurin für schalttafeln',
     'tester schakelborden',
     'tester bedieningspanelen',
+    'testovač kontrolních panelů',
+    'testovačka kontrolních panelů',
   ]),
   OccupationLabels('3411', [
     'conveyance clerk',
@@ -8275,6 +9322,8 @@ const escoOccupations = <OccupationLabels>[
     'notariatsgehilfin',
     'inskrivningshandläggare',
     'opsteller van overdrachtsakten',
+    'úředník pro majetkové převody',
+    'úřednice pro majetkové převody',
   ]),
   OccupationLabels('5120', [
     'cook',
@@ -8286,6 +9335,8 @@ const escoOccupations = <OccupationLabels>[
     'kokerska',
     'cuisinier',
     'cuisinière',
+    'kuchař',
+    'kuchařka',
   ]),
   OccupationLabels('7522', [
     'cooper',
@@ -8300,6 +9351,8 @@ const escoOccupations = <OccupationLabels>[
     'kuiper',
     'tonnelier',
     'tonnelière',
+    'výrobce dřevěných sudů',
+    'výrobkyně dřevěných sudů',
   ]),
   OccupationLabels('7213', [
     'coppersmith',
@@ -8315,6 +9368,7 @@ const escoOccupations = <OccupationLabels>[
     'chaudronnier',
     'chaudronnière de cuivre',
     'chaudronnier de cuivre',
+    'mědikovec',
   ]),
   OccupationLabels('2642', [
     'copy editor',
@@ -8330,6 +9384,8 @@ const escoOccupations = <OccupationLabels>[
     'eindredacteur',
     'réviseur',
     'réviseuse',
+    'korektor',
+    'korektorka',
   ]),
   OccupationLabels('7211', [
     'coquille casting worker',
@@ -8340,6 +9396,8 @@ const escoOccupations = <OccupationLabels>[
     'coquillegietster',
     'coquilleur en fonderie',
     'coquilleuse en fonderie',
+    'výrobce kokilových odlitků',
+    'výrobkyně kokilových odlitků',
   ]),
   OccupationLabels('2619', [
     'coroner',
@@ -8355,6 +9413,8 @@ const escoOccupations = <OccupationLabels>[
     'gerechtelijk lijkschouwer',
     'gemeentelijk lijkschouwer',
     'médecin légiste',
+    'soudní lékař',
+    'soudní lékařka',
   ]),
   OccupationLabels('2412', [
     'corporate banking manager',
@@ -8367,6 +9427,8 @@ const escoOccupations = <OccupationLabels>[
     'manager zakenbank',
     'accountmanager zakelijke bankdiensten',
     'accountmanager bedrijven bankbedrijf',
+    'specialista úseku korporátního bankovnictví',
+    'specialistka úseku korporátního bankovnictví',
   ]),
   OccupationLabels('2412', [
     'corporate investment banker',
@@ -8380,6 +9442,8 @@ const escoOccupations = <OccupationLabels>[
     'beleggingsbankier',
     'banquier d\'affaires',
     'banquière d\'affaires',
+    'korporátní investiční bankéř',
+    'korporátní investiční bankéřka',
   ]),
   OccupationLabels('2611', [
     'corporate lawyer',
@@ -8397,6 +9461,8 @@ const escoOccupations = <OccupationLabels>[
     'avocat d’affaires',
     'avocate d’affaires',
     'avocate d\'affaires',
+    'podnikový právník',
+    'podniková právnička',
   ]),
   OccupationLabels('1219', [
     'corporate social responsibility manager',
@@ -8423,6 +9489,9 @@ const escoOccupations = <OccupationLabels>[
     'formateur en entreprise',
     'formatrice en entreprise',
     'formateur interne',
+    'firemní školitel',
+    'firemní školitelka',
+    'specialista firemního školení',
   ]),
   OccupationLabels('2424', [
     'corporate training manager',
@@ -8433,6 +9502,9 @@ const escoOccupations = <OccupationLabels>[
     'opleidingsadviseur in ondernemingen',
     'opleidingsadviseur voor bedrijven',
     'responsable de formation',
+    'firemní manažer školení zaměstnanců',
+    'firemní manažerka školení zaměstnanců',
+    'manažerka firemního vzdělávání',
   ]),
   OccupationLabels('1211', [
     'corporate treasurer',
@@ -8448,6 +9520,9 @@ const escoOccupations = <OccupationLabels>[
     'manager financiële strategie',
     'trésorier d\'entreprise',
     'trésorière d\'entreprise',
+    'finanční ředitel organizace',
+    'finanční ředitelka organizace',
+    'finanční ředitel společnosti',
   ]),
   OccupationLabels('1349', [
     'correctional services manager',
@@ -8465,6 +9540,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur detentiecentrum',
     'directeur van een detentiecentrum',
     'chef d\'établissement pénitentiaire',
+    'ředitel nápravného zařízení',
+    'ředitelka nápravného zařízení',
+    'ředitelka věznice',
   ]),
   OccupationLabels('3112', [
     'corrosion technician',
@@ -8480,6 +9558,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien corrosion',
     'technicienne corrosion',
     'technicien de pipelines',
+    'korozní technik',
+    'korozní technička',
   ]),
   OccupationLabels('8143', [
     'corrugator operator',
@@ -8513,6 +9593,7 @@ const escoOccupations = <OccupationLabels>[
     'gerente de perfumaria',
     'bedrijfsleider drogisterij',
     'bedrijfsleidster drogisterij',
+    'vedoucí parfumerie',
   ]),
   OccupationLabels('5223', [
     'make-up and cosmetics salesperson',
@@ -8524,6 +9605,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist cosmetica en parfums',
     'vendeur en parfumerie',
     'vendeuse en parfumerie',
+    'prodavač kosmetiky a parfémů',
+    'prodavačka kosmetiky a parfémů',
+    'prodavač kosmetiky',
   ]),
   OccupationLabels('8131', [
     'cosmetics production machine operator',
@@ -8549,6 +9633,8 @@ const escoOccupations = <OccupationLabels>[
     'kosmoloog',
     'cosmologiste',
     'cosmologue',
+    'kosmoložka',
+    'odbornice v odvětví kosmologie',
   ]),
   OccupationLabels('2411', [
     'cost analyst',
@@ -8560,6 +9646,9 @@ const escoOccupations = <OccupationLabels>[
     'kostenanalist',
     'analyste coûts',
     'analyste des coûts',
+    'nákladový analytik',
+    'nákladová analytička',
+    'nákladový a rozpočtový analytik',
   ]),
   OccupationLabels('3435', [
     'costume attendant',
@@ -8573,6 +9662,8 @@ const escoOccupations = <OccupationLabels>[
     'kostuummeester',
     'assistant costumier',
     'assistante costumière',
+    'kostýmní asistent',
+    'kostýmní asistentka',
   ]),
   OccupationLabels('3323', [
     'costume buyer',
@@ -8589,6 +9680,7 @@ const escoOccupations = <OccupationLabels>[
     'kostuumkoopster',
     'acheteur-costumier',
     'acheteuse-costumière',
+    'nákupčí kostýmů',
   ]),
   OccupationLabels('2163', [
     'costume designer',
@@ -8604,6 +9696,8 @@ const escoOccupations = <OccupationLabels>[
     'kostuumontwerpster',
     'créateur de costumes',
     'créatrice de costumes',
+    'kostýmní výtvarník',
+    'kostýmní výtvarnice',
   ]),
   OccupationLabels('7531', [
     'costume maker',
@@ -8622,6 +9716,8 @@ const escoOccupations = <OccupationLabels>[
     'costumier',
     'costumière',
     'cheffe costumière',
+    'výrobce kostýmů',
+    'výrobkyně kostýmů',
   ]),
   OccupationLabels('8151', [
     'cotton gin operator',
@@ -8645,6 +9741,8 @@ const escoOccupations = <OccupationLabels>[
     'landschapsinspecteur',
     'agent technique forestier',
     'agente technique forestière',
+    'strážce přírody',
+    'strážkyně přírody',
   ]),
   OccupationLabels('3411', [
     'court administrative officer',
@@ -8662,6 +9760,8 @@ const escoOccupations = <OccupationLabels>[
     'griffier',
     'agent administratif judiciaire',
     'agente administrative judiciaire',
+    'pracovník soudní kanceláře',
+    'pracovnice soudní kanceláře',
   ]),
   OccupationLabels('1349', [
     'court administrator',
@@ -8673,6 +9773,8 @@ const escoOccupations = <OccupationLabels>[
     'gerichtsverwalter',
     'gerichtsverwalterin',
     'chef de juridiction',
+    'ředitel správy soudu',
+    'ředitelka správy soudu',
   ]),
   OccupationLabels('3411', [
     'court bailiff',
@@ -8684,6 +9786,9 @@ const escoOccupations = <OccupationLabels>[
     'gerechtsbode',
     'huissier audiencier',
     'huissière audiencière',
+    'soudní zřízenec',
+    'soudní zřízenkyně',
+    'soudní uvaděčka',
   ]),
   OccupationLabels('3411', [
     'court clerk',
@@ -8699,6 +9804,8 @@ const escoOccupations = <OccupationLabels>[
     'referendaris',
     'assistant de justice',
     'assistante de justice',
+    'soudní úředník',
+    'soudní úřednice',
   ]),
   OccupationLabels('3411', [
     'court enforcement officer',
@@ -8710,6 +9817,8 @@ const escoOccupations = <OccupationLabels>[
     'gerechtsdeurwaarder',
     'huissier',
     'huissière',
+    'soudní vykonavatel',
+    'soudní vykonavatelka',
   ]),
   OccupationLabels('2619', [
     'court jury coordinator',
@@ -8721,6 +9830,8 @@ const escoOccupations = <OccupationLabels>[
     'gerichtskoordinatorin',
     'jurysamordnare',
     'jurycoördinator',
+    'koordinátor soudní poroty',
+    'koordinátorka soudní poroty',
   ]),
   OccupationLabels('3343', [
     'court reporter',
@@ -8736,6 +9847,9 @@ const escoOccupations = <OccupationLabels>[
     'gerechtelijk notuliste',
     'greffier',
     'greffière',
+    'soudní stenograf',
+    'soudní stenografka',
+    'soudní reportérka',
   ]),
   OccupationLabels('1420', [
     'craft shop manager',
@@ -8747,6 +9861,8 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleider hobbywinkel',
     'bedrijfsleider handwerkwinkel',
     'bedrijfsleidster verkoop hobbyartikelen',
+    'vedoucí řemeslné prodejny',
+    'vedoucí prodejny pro kutily',
   ]),
   OccupationLabels('3123', [
     'crane crew supervisor',
@@ -8760,6 +9876,7 @@ const escoOccupations = <OccupationLabels>[
     'teamleider kraanmachinisten',
     'teamleider kraanbestuurders',
     'teamleider kraanbedieners',
+    'vedoucí jeřábnických prací',
   ]),
   OccupationLabels('7233', [
     'crane technician',
@@ -8776,6 +9893,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteur kranen',
     'technicien grutier',
     'technicienne grutière',
+    'montér jeřábů',
+    'montérka jeřábů',
   ]),
   OccupationLabels('2431', [
     'creative director',
@@ -8790,6 +9909,8 @@ const escoOccupations = <OccupationLabels>[
     'creatief directeur',
     'directeur de création',
     'directrice de création',
+    'kreativní ředitel',
+    'kreativní ředitelka',
   ]),
   OccupationLabels('3312', [
     'credit adviser',
@@ -8809,6 +9930,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller crédits',
     'conseillère crédits',
     'conseillère en crédits',
+    'úvěrový poradce',
+    'úvěrová poradkyně',
   ]),
   OccupationLabels('3312', [
     'credit analyst',
@@ -8822,6 +9945,8 @@ const escoOccupations = <OccupationLabels>[
     'kredietanalist',
     'kredietadviseur',
     'analyste prêt bancaire',
+    'úvěrový analytik',
+    'úvěrová analytička',
   ]),
   OccupationLabels('3312', [
     'credit manager',
@@ -8833,6 +9958,8 @@ const escoOccupations = <OccupationLabels>[
     'kreditmanagerin',
     'manager kredieten',
     'responsable des crédits',
+    'úvěrový manažer',
+    'úvěrová manažerka',
   ]),
   OccupationLabels('3312', [
     'credit risk analyst',
@@ -8848,6 +9975,8 @@ const escoOccupations = <OccupationLabels>[
     'analyste de risques crédits',
     'analyste engagements bancaires',
     'analyste know your customer',
+    'analytik úvěrového rizika',
+    'analytička úvěrového rizika',
   ]),
   OccupationLabels('1346', [
     'credit union manager',
@@ -8859,6 +9988,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur de banque mutualiste',
     'directrice de banque coopérative',
     'directeur de banque coopérative',
+    'ředitel úvěrového družstva',
+    'ředitelka úvěrového družstva',
+    'ředitelka spořitelního družstva',
   ]),
   OccupationLabels('2642', [
     'crime journalist',
@@ -8888,6 +10020,8 @@ const escoOccupations = <OccupationLabels>[
     'forensisch technisch recherchekundige',
     'officier de police judiciaire',
     'officière de police judiciaire',
+    'kriminální vyšetřovatel',
+    'kriminální vyšetřovatelka',
   ]),
   OccupationLabels('2635', [
     'criminal justice social worker',
@@ -8896,6 +10030,8 @@ const escoOccupations = <OccupationLabels>[
     'sozialarbeiter im bereich straffälligenhilfe',
     'sozialarbeiterin im bereich straffälligenhilfe',
     'sociaal werker reclassering',
+    'sociální pracovník ve vězeňství',
+    'sociální pracovnice ve vězeňství',
   ]),
   OccupationLabels('2632', [
     'criminologist',
@@ -8909,6 +10045,7 @@ const escoOccupations = <OccupationLabels>[
     'criminoloog',
     'criminologe',
     'criminologue',
+    'kriminoložka',
   ]),
   OccupationLabels('3412', [
     'crisis helpline operator',
@@ -8920,6 +10057,9 @@ const escoOccupations = <OccupationLabels>[
     'hulplijnmedewerkster',
     'écoutant social',
     'écoutante sociale',
+    'operátor krizové linky',
+    'operátorka krizové linky',
+    'operátor linky důvěry',
   ]),
   OccupationLabels('2635', [
     'crisis situation social worker',
@@ -8945,6 +10085,9 @@ const escoOccupations = <OccupationLabels>[
     'recensente',
     'filmrecensent',
     'critique',
+    'kritik',
+    'kritička',
+    'umělecký kritik',
   ]),
   OccupationLabels('6114', [
     'crop production manager',
@@ -8961,6 +10104,8 @@ const escoOccupations = <OccupationLabels>[
     'productmanager in de landbouw',
     'responsable de production agricole',
     'responsable agricole',
+    'manažer rostlinné výroby',
+    'manažerka rostlinné výroby',
   ]),
   OccupationLabels('9213', [
     'crop production worker',
@@ -8979,6 +10124,9 @@ const escoOccupations = <OccupationLabels>[
     'landbouwmedewerker',
     'ouvrier agricole',
     'ouvrière agricole',
+    'pracovník v rostlinné výrobě',
+    'pracovnice v rostlinné výrobě',
+    'pracovník v rostlinářství',
   ]),
   OccupationLabels('8172', [
     'crosscut saw operator',
@@ -8996,6 +10144,8 @@ const escoOccupations = <OccupationLabels>[
     'operator manuele boomzaag',
     'scieur bois',
     'scieuse bois',
+    'operátor přeřezávací pily',
+    'operátorka přeřezávací pily',
   ]),
   OccupationLabels('5419', [
     'crossing guard',
@@ -9021,6 +10171,8 @@ const escoOccupations = <OccupationLabels>[
     'evenementenbeveiligster',
     'agent de sécurité événementiel',
     'agente de sécurité événementiel',
+    'pracovník ostrahy veřejných akcí',
+    'pracovnice ostrahy veřejných akcí',
   ]),
   OccupationLabels('1431', [
     'cultural centre director',
@@ -9038,6 +10190,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur sociaal-cultureel centrum',
     'directeur de centre culturel',
     'directrice de centre culturel',
+    'vedoucí kulturního centra',
+    'vedoucí kulturního střediska',
+    'vedoucí uměleckého centra',
   ]),
   OccupationLabels('1431', [
     'cultural facilities manager',
@@ -9051,6 +10206,7 @@ const escoOccupations = <OccupationLabels>[
     'manager culturele infrastructuur',
     'manager multifunctionele culturele accommodatie',
     'directrice d\'infrastructure culturelle',
+    'vedoucí kulturního zařízení',
   ]),
   OccupationLabels('2422', [
     'cultural policy officer',
@@ -9063,6 +10219,8 @@ const escoOccupations = <OccupationLabels>[
     'kulturreferentin',
     'beleidsmedewerker cultuur',
     'beleidsmedewerker kunst en cultuur',
+    'kulturní referent',
+    'kulturní referentka',
   ]),
   OccupationLabels('2131', [
     'curator of horticulture',
@@ -9078,6 +10236,9 @@ const escoOccupations = <OccupationLabels>[
     'botanisch analist',
     'jardinier botaniste',
     'jardinière botaniste',
+    'zahradnický specialista',
+    'zahradnická specialistka',
+    'zahradnice',
   ]),
   OccupationLabels('7516', [
     'curing room worker',
@@ -9091,6 +10252,9 @@ const escoOccupations = <OccupationLabels>[
     'medewerker droogschuur',
     'tabakdroogschuurmedewerker',
     'medewerkers tabakdroogschuur',
+    'pracovník zpracování tabáku',
+    'pracovnice zpracování tabáku',
+    'pracovník konzervace tabáku',
   ]),
   OccupationLabels('2351', [
     'curriculum administrator',
@@ -9107,6 +10271,9 @@ const escoOccupations = <OccupationLabels>[
     'administrateur de programme d\'études',
     'administratrice de programme d\'études',
     'responsable administratif et pédagogique',
+    'tvůrce kurikul',
+    'tvůrkyně kurikul',
+    'tvůrkyně kurikulí',
   ]),
   OccupationLabels('4222', [
     'customer representative',
@@ -9116,6 +10283,8 @@ const escoOccupations = <OccupationLabels>[
     'kundinformatör',
     'medewerker klantencontactcentrum',
     'callcentermedewerkster',
+    'pracovník zákaznického kontaktního centra',
+    'pracovnice zákaznického kontaktního centra',
   ]),
   OccupationLabels('2431', [
     'customer experience manager',
@@ -9128,6 +10297,9 @@ const escoOccupations = <OccupationLabels>[
     'manager klantbeleving',
     'guest relations manager',
     'responsable de l’expérience client',
+    'manažer pro zkušenosti zákazníků',
+    'manažerka pro zkušenosti zákazníků',
+    'manažerka pro zkušenosti hostů',
   ]),
   OccupationLabels('4225', [
     'customer service representative',
@@ -9142,6 +10314,9 @@ const escoOccupations = <OccupationLabels>[
     'représentant du service clients',
     'représentante du service clients',
     'représentant du service clientèle',
+    'pracovník služeb pro zákazníky',
+    'pracovnice služeb pro zákazníky',
+    'pracovník zákaznického servisu',
   ]),
   OccupationLabels('3331', [
     'customs and excise officer',
@@ -9157,6 +10332,8 @@ const escoOccupations = <OccupationLabels>[
     'douanedeclarant',
     'préposé des douanes',
     'préposée des douanes',
+    'úředník celní správy',
+    'úřednice celní správy',
   ]),
   OccupationLabels('3351', [
     'customs officer',
@@ -9170,6 +10347,8 @@ const escoOccupations = <OccupationLabels>[
     'zollbeamtin',
     'tulltjänsteman',
     'douaneambtenaar',
+    'celník',
+    'celnice',
   ]),
   OccupationLabels('8156', [
     'cutting machine operator',
@@ -9179,6 +10358,9 @@ const escoOccupations = <OccupationLabels>[
     'oberlederzurichterin',
     'coupeur en chaussures',
     'coupeuse en chaussures',
+    'vysekávač',
+    'vysekávačka',
+    'strojník vysekávacího stroje',
   ]),
   OccupationLabels('8183', [
     'cylinder filler',
@@ -9204,6 +10386,8 @@ const escoOccupations = <OccupationLabels>[
     'metaaldraaier',
     'opérateur de rectifieuse cylindrique',
     'opératrice de rectifieuse cylindrique',
+    'obsluha válcových brusek',
+    'obsluha kovových brusek',
   ]),
   OccupationLabels('3212', [
     'cytology screener',
@@ -9223,6 +10407,8 @@ const escoOccupations = <OccupationLabels>[
     'analist cytologie',
     'technicien en dépistage cytologique',
     'technicienne en dépistage cytologique',
+    'cytolog',
+    'cytoložka',
   ]),
   OccupationLabels('8160', [
     'dairy processing operator',
@@ -9233,6 +10419,8 @@ const escoOccupations = <OccupationLabels>[
     'molkereiarbeiter',
     'ansvarig för mjölkbearbetningsmaskin',
     'procesoperator zuivelverwerking',
+    'operátorka zpracování mléčných výrobků',
+    'operátor zpracování mléčných výrobků',
   ]),
   OccupationLabels('3122', [
     'dairy processing technician',
@@ -9243,6 +10431,8 @@ const escoOccupations = <OccupationLabels>[
     'ansvarig för mjölkbearbetning',
     'zuiveltechnoloog',
     'zuiveltechnicus',
+    'technik zpracování mléka',
+    'technička zpracování mléka',
   ]),
   OccupationLabels('1324', [
     'distributiemanager zuivelproducten en spijsoliën',
@@ -9261,6 +10451,8 @@ const escoOccupations = <OccupationLabels>[
     'fabricant de produits laitiers',
     'fabricante de produits laitiers',
     'fabricant de yaourts',
+    'výrobce mléčných produktů',
+    'výrobkyně mléčných produktů',
   ]),
   OccupationLabels('8160', [
     'dairy products manufacturing worker',
@@ -9271,6 +10463,9 @@ const escoOccupations = <OccupationLabels>[
     'mejerifabriksarbetare',
     'mejerifabriksarbetaren',
     'productiemedewerker vervaardiging van zuivelproducten',
+    'pracovník',
+    'pracovnice výroby mléčných výrobků',
+    'pracovník mlékárny',
   ]),
   OccupationLabels('2653', [
     'dance répétiteur',
@@ -9286,6 +10481,8 @@ const escoOccupations = <OccupationLabels>[
     'dansrepetitor',
     'répétiteur de ballet',
     'répétitrice de ballet',
+    'korepetitor tance',
+    'korepetitorka tance',
   ]),
   OccupationLabels('2355', [
     'dance teacher',
@@ -9301,6 +10498,8 @@ const escoOccupations = <OccupationLabels>[
     'dansleraar',
     'animateur danse',
     'animatrice danse',
+    'učitel tance',
+    'učitelka tance',
   ]),
   OccupationLabels('2269', [
     'dance therapist',
@@ -9313,6 +10512,8 @@ const escoOccupations = <OccupationLabels>[
     'danstherapeut',
     'danstherapeute',
     'dansethérapeute',
+    'taneční terapeut',
+    'taneční terapeutka',
   ]),
   OccupationLabels('2653', [
     'dancer',
@@ -9329,6 +10530,9 @@ const escoOccupations = <OccupationLabels>[
     'danseres',
     'danseur',
     'danseuse',
+    'tanečník',
+    'tanečnice',
+    'břišní tanečnice',
   ]),
   OccupationLabels('8332', [
     'dangerous goods driver',
@@ -9343,6 +10547,9 @@ const escoOccupations = <OccupationLabels>[
     'chauffeur adr',
     'conducteur poids lourd adr',
     'conductrice poids lourd adr',
+    'řidič přepravy nebezpečných věcí',
+    'řidička přepravy nebezpečných věcí',
+    'řidič adr',
   ]),
   OccupationLabels('4323', [
     'dangerous goods safety adviser',
@@ -9368,6 +10575,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste de données',
     'analystes de données',
     'analyste data',
+    'analytik dat',
+    'analytička dat',
+    'datový analytik',
   ]),
   OccupationLabels('3511', [
     'data centre operator',
@@ -9382,6 +10592,8 @@ const escoOccupations = <OccupationLabels>[
     'opératrice de data centers',
     'opérateur de centres informatiques',
     'opérateur de data centers',
+    'operátor datového centra',
+    'operátorka datového centra',
   ]),
   OccupationLabels('4132', [
     'data entry clerk',
@@ -9394,6 +10606,9 @@ const escoOccupations = <OccupationLabels>[
     'datatypist',
     'opérateur de saisie',
     'opératrice de saisie',
+    'pracovník vkládání dat',
+    'pracovnice vkládání dat',
+    'pracovník zadávání dat',
   ]),
   OccupationLabels('3341', [
     'data entry supervisor',
@@ -9417,6 +10632,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste qualité des données',
     'analyste qualité de données',
     'analystes qualité de données',
+    'specialista kvality dat',
+    'specialistka kvality dat',
+    'datový specialista',
   ]),
   OccupationLabels('2511', [
     'data scientist',
@@ -9431,6 +10649,8 @@ const escoOccupations = <OccupationLabels>[
     'scientifique des données',
     'scientifiques des données',
     'analyste scientifique des données',
+    'datový vědec',
+    'datová vědkyně',
   ]),
   OccupationLabels('2521', [
     'data warehouse designer',
@@ -9440,6 +10660,8 @@ const escoOccupations = <OccupationLabels>[
     'concepteur d’entrepôt de données',
     'conceptrice d’entrepôt de données',
     'concepteur d\'entrepôt de données',
+    'designér datových skladů',
+    'designérka datových skladů',
   ]),
   OccupationLabels('2521', [
     'database administrator',
@@ -9454,6 +10676,8 @@ const escoOccupations = <OccupationLabels>[
     'databasebeheerder',
     'administrateur de données',
     'administratrice de données',
+    'správce databází',
+    'správkyně databází',
   ]),
   OccupationLabels('2521', [
     'database designer',
@@ -9464,6 +10688,9 @@ const escoOccupations = <OccupationLabels>[
     'datenbank-designer',
     'databasdesigner',
     'databaseontwerper',
+    'databázový designér',
+    'databázová designérka',
+    'databázový architekt',
   ]),
   OccupationLabels('2521', [
     'database developer',
@@ -9476,6 +10703,9 @@ const escoOccupations = <OccupationLabels>[
     'databaseontwikkelaar',
     'database manager',
     'database-ontwerper',
+    'vývojář databází',
+    'vývojářka databází',
+    'databázový vývojář',
   ]),
   OccupationLabels('2521', [
     'database integrator',
@@ -9490,6 +10720,8 @@ const escoOccupations = <OccupationLabels>[
     'database integratiespecialist',
     'intégratrice de données',
     'intégrateur de données',
+    'databázový integrátor',
+    'databázová integrátorka',
   ]),
   OccupationLabels('5169', [
     'dating service consultant',
@@ -9504,6 +10736,9 @@ const escoOccupations = <OccupationLabels>[
     'conseiller d’agence de rencontre',
     'conseillère d’agence de rencontre',
     'conseiller d\'agence de rencontre',
+    'konzultant seznamovací služby',
+    'konzultantka seznamovací služby',
+    'konzultantka seznamovací agentury',
   ]),
   OccupationLabels('1345', [
     'dean of faculty',
@@ -9520,6 +10755,9 @@ const escoOccupations = <OccupationLabels>[
     'decaan van de faculteit',
     'président d\'université',
     'présidente d\'université',
+    'děkan',
+    'děkanka',
+    'děkan fakulty',
   ]),
   OccupationLabels('8172', [
     'debarker operator',
@@ -9536,6 +10774,7 @@ const escoOccupations = <OccupationLabels>[
     'operator ontschorsingsmachine',
     'conducteur de tambour-écorceur',
     'conductrice de tambour-écorceur',
+    'obsluha odkorňovacích strojů',
   ]),
   OccupationLabels('4214', [
     'debt collector',
@@ -9551,6 +10790,8 @@ const escoOccupations = <OccupationLabels>[
     'incassomedewerkster',
     'agent de recouvrement',
     'agente de recouvrement',
+    'inkasista pohledávek',
+    'inkasistka pohledávek',
   ]),
   OccupationLabels('8122', [
     'deburring machine operator',
@@ -9565,6 +10806,7 @@ const escoOccupations = <OccupationLabels>[
     'industrieel afbramer-slijper',
     'ébarbeur-ébavureur industriel',
     'ébarbeuse-ébavureuse industrielle',
+    'obsluha odjehlovacích strojů',
   ]),
   OccupationLabels('3152', [
     'deck officer',
@@ -9581,6 +10823,8 @@ const escoOccupations = <OccupationLabels>[
     'dekofficier',
     'officier de pont',
     'officière de pont',
+    'palubní důstojník',
+    'palubní důstojnice',
   ]),
   OccupationLabels('8350', [
     'decksman',
@@ -9588,6 +10832,8 @@ const escoOccupations = <OccupationLabels>[
     'marinheira de convés',
     'deckpersonal',
     'deksman',
+    'pracovník lodní posádky',
+    'pracovnice lodní posádky',
   ]),
   OccupationLabels('7133', [
     'decontamination worker',
@@ -9607,6 +10853,9 @@ const escoOccupations = <OccupationLabels>[
     'medewerker bodemsanering',
     'agent de décontamination',
     'agente de décontamination',
+    'pracovník dekontaminace',
+    'pracovnice dekontaminace',
+    'pracovník dekontaminace nebezpečných látek',
   ]),
   OccupationLabels('7316', [
     'decorative painter',
@@ -9623,6 +10872,8 @@ const escoOccupations = <OccupationLabels>[
     'decoratieschilderes',
     'peintre décorateur',
     'peintre décoratrice',
+    'malíř dekoratér',
+    'malířka dekoratérka',
   ]),
   OccupationLabels('6223', [
     'deep-sea fishery worker',
@@ -9631,6 +10882,8 @@ const escoOccupations = <OccupationLabels>[
     'djuphavsfiskare',
     'zeevisser',
     'diepzeevisser',
+    'pracovník hlubinného rybolovu',
+    'pracovnice hlubinného rybolovu',
   ]),
   OccupationLabels('1219', [
     'defence administration officer',
@@ -9641,6 +10894,7 @@ const escoOccupations = <OccupationLabels>[
     'officier militaire administratie',
     'onderofficier administratie',
     'officier administratie',
+    'vedoucí úseku obrany',
   ]),
   OccupationLabels('1420', [
     'delicatessen shop manager',
@@ -9655,6 +10909,8 @@ const escoOccupations = <OccupationLabels>[
     'manager detailhandel delicatessen',
     'gérant d\'épicerie fine',
     'gérante d\'épicerie fine',
+    'vedoucí prodejny lahůdek',
+    'vedoucí lahůdek',
   ]),
   OccupationLabels('5223', [
     'delicatessen specialised seller',
@@ -9669,6 +10925,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopster delicatessen',
     'vendeur en épicerie fine',
     'vendeuse en épicerie fine',
+    'prodavač v lahůdkářství',
+    'prodavačka v lahůdkářství',
+    'prodavač lahůdek',
   ]),
   OccupationLabels('8322', [
     'delivery driver',
@@ -9685,6 +10944,8 @@ const escoOccupations = <OccupationLabels>[
     'koerierster auto',
     'chauffeur-livreur',
     'chauffeuse-livreuse',
+    'řidička rozvozu',
+    'řidič rozvozu',
   ]),
   OccupationLabels('2120', [
     'demographer',
@@ -9697,6 +10958,7 @@ const escoOccupations = <OccupationLabels>[
     'demografin',
     'demograaf',
     'démographe',
+    'demografka',
   ]),
   OccupationLabels('3123', [
     'demolition supervisor',
@@ -9711,6 +10973,7 @@ const escoOccupations = <OccupationLabels>[
     'meewerkend voorman sloopwerken',
     'superviseur de démolisseurs',
     'superviseuse de démolisseurs',
+    'stavební dozor u demolic',
   ]),
   OccupationLabels('7119', [
     'demolition worker',
@@ -9728,6 +10991,8 @@ const escoOccupations = <OccupationLabels>[
     'démolisseur',
     'démolisseuse',
     'démolisseuse-récupératrice mat btp',
+    'pracovník demoličních prací',
+    'pracovnice demoličních prací',
   ]),
   OccupationLabels('3251', [
     'dental chairside assistant',
@@ -9745,6 +11010,9 @@ const escoOccupations = <OccupationLabels>[
     'tandartsassistent',
     'tandartsassistente',
     'aide dentaire',
+    'zubní asistent',
+    'zubní asistentka',
+    'zubní sestra',
   ]),
   OccupationLabels('3251', [
     'dental hygienist',
@@ -9760,6 +11028,8 @@ const escoOccupations = <OccupationLabels>[
     'mondhygiëniste',
     'hygiéniste dentaire',
     'hygiéniste en orthodontie',
+    'zubní hygienik',
+    'zubní hygienička',
   ]),
   OccupationLabels('8212', [
     'dental instrument assembler',
@@ -9794,6 +11064,8 @@ const escoOccupations = <OccupationLabels>[
     'dentiste',
     'chirurgienne-dentiste',
     'chirurgien-dentiste',
+    'zubní lékař',
+    'zubní lékařka',
   ]),
   OccupationLabels('3214', [
     'dental technician',
@@ -9811,6 +11083,9 @@ const escoOccupations = <OccupationLabels>[
     'tandtechnicus',
     'tandtechnisch medewerkster orthodontie',
     'tandtechnisch medewerker orthodontie',
+    'zubní technik',
+    'zubní technička',
+    'zubní laborantka',
   ]),
   OccupationLabels('2310', [
     'dentistry lecturer',
@@ -9823,6 +11098,7 @@ const escoOccupations = <OccupationLabels>[
     'hochschullehrkraft für zahnmedizin',
     'docent tandheelkunde hoger onderwijs',
     'docente tandheelkunde hoger onderwijs',
+    'přednášející v oboru stomatologie',
   ]),
   OccupationLabels('1219', [
     'department manager',
@@ -9839,6 +11115,7 @@ const escoOccupations = <OccupationLabels>[
     'afdelingshoofd',
     'afdelingschef',
     'chef de département',
+    'vedoucí oddělení',
   ]),
   OccupationLabels('1420', [
     'department store manager',
@@ -9857,6 +11134,7 @@ const escoOccupations = <OccupationLabels>[
     'manager detailhandel',
     'directeur de grand magasin',
     'directrice de grand magasin',
+    'vedoucí obchodního domu',
   ]),
   OccupationLabels('1345', [
     'deputy head teacher',
@@ -9874,6 +11152,8 @@ const escoOccupations = <OccupationLabels>[
     'adjunct-directrice',
     'adjunct-schoolhoofd',
     'chef d\'établissement scolaire adjoint',
+    'zástupce ředitele školy',
+    'zástupkyně ředitele školy',
   ]),
   OccupationLabels('8113', [
     'derrickhand',
@@ -9885,6 +11165,8 @@ const escoOccupations = <OccupationLabels>[
     'kärnborrare',
     'accrocheur',
     'accrocheuse',
+    'jeřábník na ropné plošině',
+    'jeřábnice na ropné plošině',
   ]),
   OccupationLabels('3117', [
     'desalination technician',
@@ -9902,12 +11184,16 @@ const escoOccupations = <OccupationLabels>[
     'zuiveringstechnicus',
     'technicien en désalinisation',
     'technicienne en désalinisation',
+    'desalinační technik',
+    'desalinační technička',
   ]),
   OccupationLabels('2320', [
     'art and design teacher',
     'art and design instructor',
     'lehrkraft für angewandte kunst',
     'fachlehrkraft für angewandte kunst',
+    'učitel umění a designu',
+    'učitelka umění a designu',
   ]),
   OccupationLabels('2149', [
     'design engineer',
@@ -9926,6 +11212,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur d’études',
     'ingénieure d’études',
     'ingénieure d’études et développement',
+    'designér specialista',
+    'designérka specialistka',
   ]),
   OccupationLabels('2166', [
     'desktop publisher',
@@ -9941,6 +11229,8 @@ const escoOccupations = <OccupationLabels>[
     'maquettiste',
     'metteur en page maquettiste',
     'metteuse en page maquettiste',
+    'operátor dtp',
+    'operátorka dtp',
   ]),
   OccupationLabels('1221', [
     'destination manager',
@@ -9969,6 +11259,8 @@ const escoOccupations = <OccupationLabels>[
     'entwässerungstechnikerin',
     'avvattningstekniker',
     'afwateringstechnicus',
+    'technik v oblasti odvodňování',
+    'technička v oblasti odvodňování',
   ]),
   OccupationLabels('2269', [
     'diagnostic radiographer',
@@ -9979,6 +11271,8 @@ const escoOccupations = <OccupationLabels>[
     'radiodiagnost',
     'radiodiagnostisch laborante',
     'radiodiagnostisch laborant',
+    'radiolog diagnostik',
+    'radioložka diagnostička',
   ]),
   OccupationLabels('7231', [
     'diesel engine mechanic',
@@ -9997,6 +11291,8 @@ const escoOccupations = <OccupationLabels>[
     'mécanicien diéséliste',
     'mécanicienne diéséliste',
     'mécanicienne diéséliste marine',
+    'mechanik vznětových motorů',
+    'mechanička vznětových motorů',
   ]),
   OccupationLabels('5120', [
     'diet cook',
@@ -10029,6 +11325,8 @@ const escoOccupations = <OccupationLabels>[
     'assistent diëtist',
     'technicien en diététique',
     'technicienne en diététique',
+    'dietolog',
+    'dietoložka',
   ]),
   OccupationLabels('2265', [
     'dietitian',
@@ -10073,6 +11371,9 @@ const escoOccupations = <OccupationLabels>[
     'digitaal artiest',
     'digitaal beeldhouwster',
     'artiste numérique',
+    'digitální umělec',
+    'digitální umělkyně',
+    'digitální sochařka',
   ]),
   OccupationLabels('2529', [
     'digital forensics expert',
@@ -10091,6 +11392,8 @@ const escoOccupations = <OccupationLabels>[
     'digitaal rechercheur',
     'spécialiste de l’investigation numérique',
     'spécialiste de l\'investigation informatique',
+    'počítačový forenzní odborník',
+    'počítačová forenzní odbornice',
   ]),
   OccupationLabels('2166', [
     'digital games designer',
@@ -10110,6 +11413,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de jeux numériques',
     'conceptrice de jeux numériques',
     'concepteur de jeux virtuels',
+    'designér digitálních her',
+    'designérka digitálních her',
+    'designér virtuálních her',
   ]),
   OccupationLabels('2513', [
     'digital games developer',
@@ -10129,6 +11435,9 @@ const escoOccupations = <OccupationLabels>[
     'développeur de jeux numériques',
     'développeuse de jeux numériques',
     'développeur de jeux vidéo',
+    'vývojář digitálních her',
+    'vývojářka digitálních her',
+    'vývojářka virtuálních her',
   ]),
   OccupationLabels('2519', [
     'digital games tester',
@@ -10149,6 +11458,9 @@ const escoOccupations = <OccupationLabels>[
     'testeur de jeux numériques',
     'testeuse de jeux numériques',
     'testeuse de jeux virtuels',
+    'tester digitálních her',
+    'testerka digitálních her',
+    'tester her',
   ]),
   OccupationLabels('2356', [
     'digital literacy teacher',
@@ -10163,6 +11475,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar digitale geletterdheid',
     'formateur numérique',
     'formatrice numérique',
+    'učitel informatiky',
+    'učitelka informatiky',
   ]),
   OccupationLabels('2166', [
     'digital media designer',
@@ -10182,6 +11496,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de médias numériques',
     'conceptrice de médias numériques',
     'concepteur médias numérique',
+    'designér digitálních médií',
+    'designérka digitálních médií',
+    'designérka digitálních multimédií',
   ]),
   OccupationLabels('7322', [
     'digital printer',
@@ -10211,6 +11528,8 @@ const escoOccupations = <OccupationLabels>[
     'operator digitaal patroontekenen',
     'digitaal patroontekenaarster',
     'modéliste cao',
+    'počítačový konstruktér střihů',
+    'počítačová konstruktérka střihů',
   ]),
   OccupationLabels('8122', [
     'dip tank operator',
@@ -10219,6 +11538,7 @@ const escoOccupations = <OccupationLabels>[
     'metaaldompelaar',
     'opérateur de trempe',
     'opératrice de trempe',
+    'obsluha namáčecí nádrže',
   ]),
   OccupationLabels('1112', [
     'diplomat',
@@ -10234,6 +11554,7 @@ const escoOccupations = <OccupationLabels>[
     'diplomate',
     'agente diplomatique',
     'agent diplomatique',
+    'diplomatka',
   ]),
   OccupationLabels('1213', [
     'security information director',
@@ -10258,6 +11579,8 @@ const escoOccupations = <OccupationLabels>[
     'cinematograaf',
     'directeur de la photographie',
     'directrice de la photographie',
+    'hlavní kameraman',
+    'hlavní kameramanka',
   ]),
   OccupationLabels('3412', [
     'disability support worker',
@@ -10275,6 +11598,8 @@ const escoOccupations = <OccupationLabels>[
     'disc-jockey',
     'animateur disc-jockey',
     'animatrice disc-jockey',
+    'diskžokej',
+    'diskžokejka',
   ]),
   OccupationLabels('2149', [
     'dismantling engineer',
@@ -10288,6 +11613,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur démantèlement déconstruction',
     'ingénieure démantèlement déconstruction',
     'ingénieur conception démantèlement',
+    'inženýr demontáže',
+    'inženýrka demontáže',
   ]),
   OccupationLabels('3123', [
     'dismantling supervisor',
@@ -10299,6 +11626,7 @@ const escoOccupations = <OccupationLabels>[
     'superviseur de démantèlement',
     'superviseuse de démantèlement',
     'superviseur de démanteleurs',
+    'vedoucí demontáže',
   ]),
   OccupationLabels('7214', [
     'dismantling worker',
@@ -10314,6 +11642,8 @@ const escoOccupations = <OccupationLabels>[
     'schietmeester-sloper',
     'démanteleur',
     'démanteleuse',
+    'demontážní dělník',
+    'demontážní dělnice',
   ]),
   OccupationLabels('8131', [
     'distillation operator',
@@ -10344,6 +11674,7 @@ const escoOccupations = <OccupationLabels>[
     'molenaar op een distilleerderij',
     'fouleur',
     'fouleuse',
+    'obsluha lihovaru',
   ]),
   OccupationLabels('3122', [
     'distillery supervisor',
@@ -10362,6 +11693,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd distilleerderij',
     'superviseur de distillerie',
     'superviseuse de distillerie',
+    'kontrolor lihovaru',
+    'kontrolorka lihovaru',
   ]),
   OccupationLabels('8160', [
     'distillery worker',
@@ -10381,6 +11714,8 @@ const escoOccupations = <OccupationLabels>[
     'distilleerder',
     'opérateur de distillerie',
     'opératrice de distillerie',
+    'pracovník lihovaru',
+    'pracovnice lihovaru',
   ]),
   OccupationLabels('9333', [
     'distribution centre dispatcher',
@@ -10394,6 +11729,8 @@ const escoOccupations = <OccupationLabels>[
     'expeditiemedewerkster',
     'dispatcher centre de distribution',
     'dispatcheuse centre de distribution',
+    'operátor distribučního centra',
+    'operátorka distribučního centra',
   ]),
   OccupationLabels('1324', [
     'distribution manager',
@@ -10410,6 +11747,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager',
     'verantwoordelijke distributielogistiek',
     'hoofd distributie',
+    'manažer distribuce',
+    'manažerka distribuce',
   ]),
   OccupationLabels('2411', [
     'dividend analyst',
@@ -10421,6 +11760,8 @@ const escoOccupations = <OccupationLabels>[
     'dividendanalist',
     'dividendenanalist',
     'spécialiste des dividendes',
+    'analytik dividend',
+    'analytička dividend',
   ]),
   OccupationLabels('3256', [
     'doctors\' surgery assistant',
@@ -10435,6 +11776,9 @@ const escoOccupations = <OccupationLabels>[
     'assistant en cabinet médical',
     'assistante en cabinet médical',
     'assistante médico-technique',
+    'asistent chirurga',
+    'asistentka chirurga',
+    'radiologická asistentka',
   ]),
   OccupationLabels('5164', [
     'dog breeder',
@@ -10450,6 +11794,8 @@ const escoOccupations = <OccupationLabels>[
     'éleveur de chiens',
     'éleveuse de chiens',
     'éleveuse canine',
+    'chovatel psů',
+    'chovatelka psů',
   ]),
   OccupationLabels('5164', [
     'dog trainer',
@@ -10464,6 +11810,8 @@ const escoOccupations = <OccupationLabels>[
     'hondentrainster',
     'dresseur de chiens',
     'dresseuse de chiens',
+    'cvičitel psů',
+    'cvičitelka psů',
   ]),
   OccupationLabels('7533', [
     'doll maker',
@@ -10476,6 +11824,8 @@ const escoOccupations = <OccupationLabels>[
     'poppenmaakster',
     'fabricant de poupées',
     'fabricante de poupées',
+    'výrobce loutek',
+    'výrobkyně loutek',
   ]),
   OccupationLabels('1420', [
     'domestic appliances shop manager',
@@ -10484,6 +11834,8 @@ const escoOccupations = <OccupationLabels>[
     'manager witgoedwinkel',
     'manager witgoed',
     'afdelingsmanager verkoop huishoudelijke apparatuur',
+    'vedoucí prodejny domácích spotřebičů',
+    'vedoucí domácích potřeb',
   ]),
   OccupationLabels('5223', [
     'domestic appliances specialised seller',
@@ -10502,6 +11854,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en électroménager',
     'vendeuse en électroménager',
     'vendeur en petit électroménager',
+    'prodavač domácích spotřebičů',
+    'prodavačka domácích spotřebičů',
+    'prodavačka elektrických spotřebičů',
   ]),
   OccupationLabels('5152', [
     'domestic butler',
@@ -10512,6 +11867,7 @@ const escoOccupations = <OccupationLabels>[
     'butler',
     'butlerin',
     'majordome',
+    'majordomus',
   ]),
   OccupationLabels('9111', [
     'domestic cleaner',
@@ -10530,6 +11886,8 @@ const escoOccupations = <OccupationLabels>[
     'interieurverzorgster',
     'aide ménager à domicile',
     'aide ménagère à domicile',
+    'pomocný pracovník v domácnosti',
+    'pomocná pracovnice v domácnosti',
   ]),
   OccupationLabels('7411', [
     'domestic electrician',
@@ -10543,6 +11901,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur huisaansluitingen',
     'électricien d’équipements domestiques',
     'électricienne d’équipements domestiques',
+    'domovní elektrikář',
+    'domovní elektrikářka',
   ]),
   OccupationLabels('3112', [
     'domestic energy assessor',
@@ -10556,6 +11916,8 @@ const escoOccupations = <OccupationLabels>[
     'energiedeskundige residentiële gebouwen',
     'évaluateur en énergie domestique',
     'évaluatrice en énergie domestique',
+    'energetický poradce pro domácnosti',
+    'energetická poradkyně pro domácnosti',
   ]),
   OccupationLabels('5152', [
     'domestic housekeeper',
@@ -10572,6 +11934,9 @@ const escoOccupations = <OccupationLabels>[
     'huishoudster',
     'gouvernantes',
     'intendants à domicile',
+    'hospodyně v domácnosti',
+    'vrchní hospodyně v domácnosti',
+    'hlavní hospodyně v domácnosti',
   ]),
   OccupationLabels('7115', [
     'door installer',
@@ -10586,6 +11951,8 @@ const escoOccupations = <OccupationLabels>[
     'deurenmonteuse',
     'installateur de portes',
     'installatrice de portes',
+    'montér dveří',
+    'montérka dveří',
   ]),
   OccupationLabels('5414', [
     'door supervisor',
@@ -10601,6 +11968,7 @@ const escoOccupations = <OccupationLabels>[
     'buitenportier',
     'portier physionomiste',
     'portière physionomiste',
+    'ostraha vstupu',
   ]),
   OccupationLabels('5243', [
     'door to door seller',
@@ -10616,6 +11984,9 @@ const escoOccupations = <OccupationLabels>[
     'huis-aan-huisverkoopster',
     'vendeur itinérant',
     'vendeuse itinérante',
+    'podomní prodejce',
+    'podomní prodejkyně',
+    'podomní obchodník',
   ]),
   OccupationLabels('9621', [
     'doorman',
@@ -10631,6 +12002,8 @@ const escoOccupations = <OccupationLabels>[
     'portierin',
     'dörrvaktmästare',
     'horecaportier',
+    'vrátný',
+    'vrátná',
   ]),
   OccupationLabels('3118', [
     'drafter',
@@ -10647,6 +12020,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch tekenaar-ontwerper',
     'dessinateur',
     'dessinatrice',
+    'projektant',
+    'projektantka',
   ]),
   OccupationLabels('7126', [
     'drain technician',
@@ -10662,6 +12037,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur afvoertechniek',
     'monteur van afvoerpijpen',
     'monteur van afvoerbuizen',
+    'montér drenážních systémů',
+    'montérka drenážních systémů',
   ]),
   OccupationLabels('2142', [
     'drainage engineer',
@@ -10674,6 +12051,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur drainagesystemen',
     'ingénieur réseaux d’évacuation',
     'ingénieure réseaux d’évacuation',
+    'inženýr kanalizačních systémů',
+    'inženýrka kanalizačních systémů',
   ]),
   OccupationLabels('9312', [
     'drainage worker',
@@ -10701,12 +12080,16 @@ const escoOccupations = <OccupationLabels>[
     'leraar drama',
     'animateur d’atelier de théâtre',
     'animatrice d’atelier de théâtre',
+    'učitel herectví',
+    'učitelka herectví',
   ]),
   OccupationLabels('2330', [
     'drama teacher secondary school',
     'secondary school drama teacher',
     'leerkracht drama voortgezet onderwijs',
     'leerkracht drama secundair onderwijs',
+    'středoškolská učitelka dramatické výchovy',
+    'středoškolský učitel dramatické výchovy',
   ]),
   OccupationLabels('2641', [
     'dramaturge',
@@ -10719,6 +12102,8 @@ const escoOccupations = <OccupationLabels>[
     'musikdramaturgin',
     'conseiller dramaturgique',
     'conseillère dramaturgique',
+    'dramaturgyně',
+    'dramaturgyně hudebního divadla',
   ]),
   OccupationLabels('9129', [
     'drapery and carpet cleaner',
@@ -10730,6 +12115,9 @@ const escoOccupations = <OccupationLabels>[
     'gordijnschoonmaker',
     'tapijtschoonmaakster',
     'tapijtschoonmaker',
+    'čistič textilního zboží',
+    'čistič koberců',
+    'čistička textilního zboží',
   ]),
   OccupationLabels('2651', [
     'drawing artist',
@@ -10744,6 +12132,8 @@ const escoOccupations = <OccupationLabels>[
     'dessinateur d’art',
     'dessinatrice d’art',
     'dessinateur d\'art',
+    'kreslíř',
+    'křeslířka',
   ]),
   OccupationLabels('8181', [
     'drawing kiln operator',
@@ -10773,6 +12163,7 @@ const escoOccupations = <OccupationLabels>[
     'machiniste baggermachine',
     'conducteur de drague',
     'conductrice de drague',
+    'obsluha plovoucího rypadla',
   ]),
   OccupationLabels('3123', [
     'dredging supervisor',
@@ -10800,6 +12191,8 @@ const escoOccupations = <OccupationLabels>[
     'aankleedster',
     'habilleur',
     'habilleuse',
+    'garderobiér',
+    'garderobiérka',
   ]),
   OccupationLabels('7531', [
     'dressmaker',
@@ -10814,6 +12207,8 @@ const escoOccupations = <OccupationLabels>[
     'dames- en kinderkleermaakster',
     'couturier',
     'couturière',
+    'krejčí',
+    'švadlena',
   ]),
   OccupationLabels('8113', [
     'drill operator',
@@ -10829,6 +12224,8 @@ const escoOccupations = <OccupationLabels>[
     'driller',
     'foreur chef de poste',
     'foreuse chef de poste',
+    'hlavní vrtař',
+    'hlavní vrtařka',
   ]),
   OccupationLabels('7223', [
     'drill press operator',
@@ -10842,6 +12239,8 @@ const escoOccupations = <OccupationLabels>[
     'pelarborrmaskinsoperatör',
     'operator kolomboormachine',
     'operator cnc-kolomboormachine',
+    'seřizovač vrtacího lisu',
+    'seřizovačka vrtacího lisu',
   ]),
   OccupationLabels('8111', [
     'driller',
@@ -10859,6 +12258,8 @@ const escoOccupations = <OccupationLabels>[
     'foreur de roche',
     'foreuse de roche',
     'foreuse',
+    'vrtač',
+    'vrtačka',
   ]),
   OccupationLabels('2146', [
     'drilling engineer',
@@ -10871,6 +12272,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur de forage',
     'ingénieure de forage',
     'ingénieur forage',
+    'vrtač v dole',
+    'vrtačka v dole',
   ]),
   OccupationLabels('7223', [
     'drilling machine operator',
@@ -10887,6 +12290,8 @@ const escoOccupations = <OccupationLabels>[
     'operator cnc-boormachine',
     'opérateur sur perceuse',
     'opératrice sur perceuse',
+    'seřizovač vrtacího stroje',
+    'seřizovačka vrtacího stroje',
   ]),
   OccupationLabels('5165', [
     'driving instructor',
@@ -10905,6 +12310,8 @@ const escoOccupations = <OccupationLabels>[
     'moniteur de conduite',
     'monitrice de conduite',
     'moniteur d\'école de conduite',
+    'instruktor v autoškole',
+    'instruktorka v autoškole',
   ]),
   OccupationLabels('7221', [
     'drop forging hammer worker',
@@ -10939,6 +12346,7 @@ const escoOccupations = <OccupationLabels>[
     'gérant de parapharmacie',
     'gérante de parapharmacie',
     'gérant de droguerie',
+    'vedoucí lékárny',
   ]),
   OccupationLabels('8131', [
     'dry house attendant',
@@ -10953,6 +12361,7 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster droogkamer',
     'opératrice en montage pyrotechnique',
     'opérateur en montage pyrotechnique',
+    'obsluha sušárny pyrotechnických výrobků',
   ]),
   OccupationLabels('8181', [
     'dry press operator',
@@ -10977,6 +12386,8 @@ const escoOccupations = <OccupationLabels>[
     'préposé au séchoir',
     'préposée au séchoir',
     'préposé au déshydrateur',
+    'operátor sušičky',
+    'operátorka sušičky',
   ]),
   OccupationLabels('2359', [
     'e-learning architect',
@@ -10990,6 +12401,9 @@ const escoOccupations = <OccupationLabels>[
     'e-lärandearkitekt',
     'arkitekter för e-lärande',
     'e-learningarchitect',
+    'architekt e-learningových řešení',
+    'architektka e-learningových řešení',
+    'architekt e-learningových aplikací',
   ]),
   OccupationLabels('2359', [
     'e-learning developer',
@@ -11006,6 +12420,9 @@ const escoOccupations = <OccupationLabels>[
     'développeur elearning',
     'développeuse d\'apprentissage en ligne',
     'développeur al',
+    'vývojář e-learningu',
+    'vývojářka e-learningu',
+    'vývojář elektronických vzdělávacích aplikací',
   ]),
   OccupationLabels('2352', [
     'early years sen teacher',
@@ -11031,6 +12448,9 @@ const escoOccupations = <OccupationLabels>[
     'leraar kleuteronderwijs',
     'instituteur d’école maternelle',
     'institutrice d’école maternelle',
+    'učitel v předškolním zařízení',
+    'učitelka v mateřské škole',
+    'učitel v mateřské škole',
   ]),
   OccupationLabels('5312', [
     'early years teaching assistant',
@@ -11063,6 +12483,9 @@ const escoOccupations = <OccupationLabels>[
     'docent aardwetenschappen hoger onderwijs',
     'docente aardwetenschappen hoger onderwijs',
     'docent geowetenschap hoger onderwijs',
+    'přednášející v oboru hydrologie',
+    'přednášející v oboru meteorologie',
+    'přednášející v oboru geologie',
   ]),
   OccupationLabels('2431', [
     'ebusiness manager',
@@ -11080,6 +12503,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable du commerce électronique',
     'responsable de l\'e-business',
     'responsable des affaires électroniques',
+    'manažer elektronických obchodů',
+    'manažerka elektronických obchodů',
+    'manažerka e-obchodů',
   ]),
   OccupationLabels('2133', [
     'ecologist',
@@ -11097,6 +12523,7 @@ const escoOccupations = <OccupationLabels>[
     'écologue',
     'ingénieur écologue',
     'ingénieure écologue',
+    'ekoložka',
   ]),
   OccupationLabels('2631', [
     'economic adviser',
@@ -11114,6 +12541,9 @@ const escoOccupations = <OccupationLabels>[
     'chargé d’études économiques',
     'chargée d’études économiques',
     'chargé d\'études économiques',
+    'ekonomický poradce',
+    'ekonomická poradkyně',
+    'ekonomický analytik',
   ]),
   OccupationLabels('2631', [
     'economic development coordinator',
@@ -11129,6 +12559,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinatrice economische ontwikkeling',
     'coordonnateur du développement économique',
     'coordonnatrice du développement économique',
+    'koordinátor hospodářského rozvoje',
+    'koordinátorka hospodářského rozvoje',
   ]),
   OccupationLabels('2412', [
     'economic policy officer',
@@ -11142,6 +12574,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker economische zaken',
     'chargé de mission économique',
     'chargée de mission économique',
+    'referent specialista hospodářské politiky',
+    'referentka specialistka hospodářské politiky',
   ]),
   OccupationLabels('2310', [
     'economics lecturer',
@@ -11159,6 +12593,7 @@ const escoOccupations = <OccupationLabels>[
     'docente economie hoger onderwijs',
     'enseignant-chercheur en économie',
     'enseignante-chercheuse en économie',
+    'přednášející v oboru ekonomie',
   ]),
   OccupationLabels('2631', [
     'economist',
@@ -11171,6 +12606,7 @@ const escoOccupations = <OccupationLabels>[
     'ekonom',
     'econoom',
     'économiste',
+    'ekonomka',
   ]),
   OccupationLabels('8189', [
     'edge bander operator',
@@ -11184,6 +12620,7 @@ const escoOccupations = <OccupationLabels>[
     'kantenanleimmaschinenbedienerin',
     'kantmaskinoperatör',
     'operator randafwerkingsmachine',
+    'obsluha olepovačky hran',
   ]),
   OccupationLabels('2642', [
     'editor-in-chief',
@@ -11198,6 +12635,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofdredactrice',
     'directeur de rédaction',
     'directrice de rédaction',
+    'šéfredaktor',
+    'šéfredaktorka',
   ]),
   OccupationLabels('3343', [
     'editorial assistant',
@@ -11211,6 +12650,8 @@ const escoOccupations = <OccupationLabels>[
     'redactieassistent',
     'redactieassistente',
     'secrétaire d’édition',
+    'redakční asistent',
+    'redakční asistentka',
   ]),
   OccupationLabels('3343', [
     'education administrator',
@@ -11224,6 +12665,8 @@ const escoOccupations = <OccupationLabels>[
     'utbildningsadministratör',
     'administratief medewerker onderwijsinstelling',
     'administratief medewerkster onderwijsinstelling',
+    'administrativní pracovník ve školství',
+    'administrativní pracovnice ve školství',
   ]),
   OccupationLabels('2351', [
     'education inspector',
@@ -11242,6 +12685,8 @@ const escoOccupations = <OccupationLabels>[
     'onderwijsinspectrice',
     'inspecteur de l’éducation nationale',
     'inspectrice de l’éducation nationale',
+    'školní inspektor',
+    'školní inspektorka',
   ]),
   OccupationLabels('2422', [
     'education policy officer',
@@ -11253,6 +12698,8 @@ const escoOccupations = <OccupationLabels>[
     'referentin für bildungspolitik',
     'bildungsreferent',
     'beleidsmedewerker onderwijs',
+    'referent vzdělávání',
+    'referentka vzdělávání',
   ]),
   OccupationLabels('1345', [
     'education programme coordinator',
@@ -11270,6 +12717,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinator van onderwijsprogramma\'s',
     'coordinateur pédagogique',
     'coordinatrice pédagogique',
+    'koordinátor vzdělávacích programů',
+    'koordinátorka vzdělávacích programů',
   ]),
   OccupationLabels('2310', [
     'education studies lecturer',
@@ -11283,6 +12732,7 @@ const escoOccupations = <OccupationLabels>[
     'docente pedagogiek hoger onderwijs',
     'docent pedagogiek hoger onderwijs',
     'docente onderwijskunde hoger onderwijs',
+    'přednášející v oboru pedagogika',
   ]),
   OccupationLabels('2635', [
     'education welfare officer',
@@ -11292,6 +12742,8 @@ const escoOccupations = <OccupationLabels>[
     'schulsozialarbeiterin',
     'skolkurator',
     'schoolmaatschappelijk werker',
+    'školní sociální pracovník',
+    'školní sociální pracovnice',
   ]),
   OccupationLabels('2359', [
     'educational counsellor',
@@ -11309,6 +12761,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en information scolaire',
     'conseillère en information scolaire',
     'conseiller d’orientation-psychologue',
+    'výchovný poradce',
+    'výchovná poradkyně',
   ]),
   OccupationLabels('2634', [
     'educational psychologist',
@@ -11324,6 +12778,8 @@ const escoOccupations = <OccupationLabels>[
     'onderwijspsycholoog',
     'onderwijspsychologe',
     'psychologue scolaire',
+    'školní psycholog',
+    'školní psycholožka',
   ]),
   OccupationLabels('2351', [
     'educational researcher',
@@ -11348,6 +12804,8 @@ const escoOccupations = <OccupationLabels>[
     'manager verzorgingshuis',
     'manager woonzorgcentrum',
     'manager verpleeghuis',
+    'vedoucí domova důchodců',
+    'vedoucí domova pro seniory',
   ]),
   OccupationLabels('2432', [
     'election agent',
@@ -11362,6 +12820,8 @@ const escoOccupations = <OccupationLabels>[
     'campagneleider',
     'agent électoral',
     'agente électorale',
+    'volební manažer',
+    'volební manažerka',
   ]),
   OccupationLabels('2619', [
     'election observer',
@@ -11378,6 +12838,8 @@ const escoOccupations = <OccupationLabels>[
     'verkiezingswaarneemster',
     'assesseur',
     'assesseure',
+    'volební pozorovatel',
+    'volební pozorovatelka',
   ]),
   OccupationLabels('7411', [
     'electric meter technician',
@@ -11394,6 +12856,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur verbruikersaansluitingen',
     'technicien de compteurs électriques',
     'technicienne de compteurs électriques',
+    'technik elektroměrů',
+    'technička elektroměrů',
   ]),
   OccupationLabels('2151', [
     'electric power generation engineer',
@@ -11419,6 +12883,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker kabelassemblage',
     'medewerkster kabelconfectie',
     'medewerkster kabelassemblage',
+    'montážní dělník elektrických kabelů',
+    'montážní dělnice elektrických kabelů',
   ]),
   OccupationLabels('3118', [
     'electrical drafter',
@@ -11436,6 +12902,8 @@ const escoOccupations = <OccupationLabels>[
     'dessinateur en électricité',
     'dessinatrice en électricité',
     'dessinatrice-projeteuse en électricité',
+    'projektant elektrických systémů',
+    'projektantka elektrických systémů',
   ]),
   OccupationLabels('2151', [
     'electrical engineer',
@@ -11454,6 +12922,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur électricien',
     'ingénieure électricienne',
     'ingénieur électrotechnicien',
+    'elektroinženýr',
+    'elektroinženýrka',
   ]),
   OccupationLabels('3113', [
     'electrical engineering technician',
@@ -11470,6 +12940,8 @@ const escoOccupations = <OccupationLabels>[
     'elektrotechnicus',
     'elektrotechnisch inspecteur',
     'installatie-elektrotechnicus',
+    'elektrotechnik',
+    'elektrotechnička',
   ]),
   OccupationLabels('8212', [
     'electrical equipment assembler',
@@ -11485,6 +12957,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerker elektrische apparatuur',
     'assemblagemedewerker elektra',
     'assemblagemonteur elektrische apparatuur',
+    'montážní dělník elektrických zařízení',
+    'montážní dělnice elektrických zařízení',
   ]),
   OccupationLabels('7543', [
     'electrical equipment inspector',
@@ -11501,6 +12975,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur elektrische apparaten',
     'contrôleur qualité d’équipements électriques',
     'contrôleuse qualité d’équipements électriques',
+    'kontrolor elektrických zařízení',
+    'kontrolorka elektrických zařízení',
   ]),
   OccupationLabels('3122', [
     'electrical equipment production supervisor',
@@ -11511,6 +12987,7 @@ const escoOccupations = <OccupationLabels>[
     'hoofd productie elektrische uitrusting',
     'hoofd productielijn elektrische materialen',
     'diensthoofd productie elektrische uitrusting',
+    'vedoucí výroby elektrických zařízení',
   ]),
   OccupationLabels('1324', [
     'vertriebsleiter für elektrische haushaltsgeräte',
@@ -11534,6 +13011,8 @@ const escoOccupations = <OccupationLabels>[
     'elektromecanicien',
     'électromécanicien',
     'électromécanicienne',
+    'elektromechanik',
+    'elektromechanička',
   ]),
   OccupationLabels('3131', [
     'electrical power distributor',
@@ -11542,6 +13021,9 @@ const escoOccupations = <OccupationLabels>[
     'dispatcher voor het elektriciteitstransportnet',
     'monteur-électricien réseaux distribution électrique',
     'monteuse-électricienne réseaux distribution électrique',
+    'technik provozu distribuční soustavy',
+    'technička provozu distribuční soustavy',
+    'technička distribuce elektřiny',
   ]),
   OccupationLabels('3123', [
     'electrical supervisor',
@@ -11557,6 +13039,8 @@ const escoOccupations = <OccupationLabels>[
     'teamleider van onderhoudselektriciens',
     'chef d’équipe électricien',
     'chef d’équipe électricienne',
+    'elektrikářský mistr',
+    'mistr elektrikář',
   ]),
   OccupationLabels('3131', [
     'electrical transmission system operator',
@@ -11568,6 +13052,8 @@ const escoOccupations = <OccupationLabels>[
     'steuerin stromversorgungsnetz',
     'exploitatietechnicus elektriciteitsleidingen',
     'conducteur',
+    'operátor přenosové soustavy',
+    'operátorka přenosové soustavy',
   ]),
   OccupationLabels('7411', [
     'electrician',
@@ -11581,6 +13067,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur-elektricien',
     'électricien',
     'électricienne',
+    'elektrikář',
+    'elektrikářka',
   ]),
   OccupationLabels('7413', [
     'electricity distribution worker',
@@ -11594,6 +13082,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur elektriciteitsnetten',
     'netwerkmonteur',
     'netwerkelektricien-monteur',
+    'montér elektrorozvodných sítí',
+    'montérka elektrorozvodných sítí',
   ]),
   OccupationLabels('3322', [
     'electricity sales representative',
@@ -11624,6 +13114,9 @@ const escoOccupations = <OccupationLabels>[
     'verantwoordelijke kathodische betonbescherming',
     'mouleur de cuve électrolytique',
     'mouleuse de cuve électrolytique',
+    'výrobce elektrolyzérů',
+    'výrobkyně elektrolyzérů',
+    'výrobce betonových elektrolyzérů',
   ]),
   OccupationLabels('2151', [
     'electromagnetic engineer',
@@ -11641,6 +13134,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en électromagnétisme',
     'ingénieure en électromagnétisme',
     'ingénieur d’études électromagnétisme',
+    'inženýr v oboru elektromagnetiky',
+    'inženýrka v oboru elektromagnetiky',
   ]),
   OccupationLabels('3118', [
     'electromechanical drafter',
@@ -11656,6 +13151,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch tekenaar elektromechanica',
     'dessinateur en électromécanique',
     'dessinatrice en électromécanique',
+    'projektant elektromechanických zařízení',
+    'projektantka elektromechanických zařízení',
   ]),
   OccupationLabels('2151', [
     'electromechanical engineer',
@@ -11673,6 +13170,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur électromécanicien',
     'ingénieure électromécanicienne',
     'ingénieure en électromécanique',
+    'inženýr elektromechaniky',
+    'inženýrka elektromechaniky',
   ]),
   OccupationLabels('3113', [
     'electromechanical engineering technician',
@@ -11688,6 +13187,9 @@ const escoOccupations = <OccupationLabels>[
     'technicus voor elektromechanisch onderhoud',
     'technicien électromécanicien',
     'technicienne électromécanicienne',
+    'technik-elektromechanik',
+    'technička-elektromechanička',
+    'technička - elektromechanička',
   ]),
   OccupationLabels('8212', [
     'electromechanical equipment assembler',
@@ -11703,6 +13205,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerker elektromechanische apparatuur',
     'assemblagemonteur elektromechanische apparaten',
     'assemblagemedewerker elektromechanische apparaten',
+    'montážní dělník elektromechanického zařízení',
+    'montážní dělnice elektromechanického zařízení',
   ]),
   OccupationLabels('7212', [
     'electron beam welder',
@@ -11715,6 +13219,8 @@ const escoOccupations = <OccupationLabels>[
     'soudeur par bombardement d’électrons',
     'soudeuse par bombardement d’électrons',
     'soudeuse par faisceau d’électrons',
+    'pracovnice pro elektronové svařování',
+    'pracovník pro elektronové svařování',
   ]),
   OccupationLabels('8212', [
     'electronic equipment assembler',
@@ -11733,6 +13239,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemonteur industriële elektronica',
     'assembleur en produits électroniques',
     'assembleuse en produits électroniques',
+    'montážní dělník elektronických zařízení',
+    'montážní dělnice elektronických zařízení',
   ]),
   OccupationLabels('7543', [
     'electronic equipment inspector',
@@ -11749,6 +13257,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur elektronische apparaten',
     'contrôleur qualité d’équipements électroniques',
     'contrôleuse qualité d’équipements électroniques',
+    'kontrolor elektronických zařízení',
+    'kontrolorka elektronických zařízení',
   ]),
   OccupationLabels('8212', [
     'electronic musical instrument maker',
@@ -11759,6 +13269,8 @@ const escoOccupations = <OccupationLabels>[
     'bouwer van elektronische muziekinstrumenten',
     'keyboardbouwer',
     'bouwer van keyboards',
+    'výrobce elektronických hudebních nástrojů',
+    'výrobkyně elektronických hudebních nástrojů',
   ]),
   OccupationLabels('2320', [
     'electronics and automation educator',
@@ -11781,6 +13293,8 @@ const escoOccupations = <OccupationLabels>[
     'tekenaar-ontwerper elektronische schema\'s',
     'dessinateur en électronique',
     'dessinatrice en électronique',
+    'technik konstruktér elektroniky',
+    'technička konstruktérka elektroniky',
   ]),
   OccupationLabels('2152', [
     'electronics engineer',
@@ -11799,6 +13313,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur électronicien',
     'ingénieure électronicienne',
     'ingénieur en électronique',
+    'inženýr elektroniky',
+    'inženýrka elektroniky',
   ]),
   OccupationLabels('3114', [
     'electronics engineering technician',
@@ -11817,6 +13333,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien électronicien',
     'technicienne électronicienne',
     'technicienne en électronique',
+    'technik v oblasti elektroniky',
+    'technička v oblasti elektroniky',
   ]),
   OccupationLabels('3122', [
     'electronics production supervisor',
@@ -11827,6 +13345,7 @@ const escoOccupations = <OccupationLabels>[
     'productieleider elektronica',
     'hoofd productielijn elektronica',
     'ploegbaas productie elektronica',
+    'vedoucí elektronické výroby',
   ]),
   OccupationLabels('8122', [
     'electroplating machine operator',
@@ -11852,6 +13371,8 @@ const escoOccupations = <OccupationLabels>[
     'balsemer',
     'thanatopracteur',
     'thanatopractrice',
+    'balzamovač',
+    'balzamovačka',
   ]),
   OccupationLabels('1112', [
     'embassy counsellor',
@@ -11868,6 +13389,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller spécialisé d\'ambassade',
     'conseillère spécialisée d\'ambassade',
     'conseiller d\'ambassade',
+    'velvyslanecký rada',
+    'velvyslanecká radová',
   ]),
   OccupationLabels('2511', [
     'embedded system designer',
@@ -11887,6 +13410,9 @@ const escoOccupations = <OccupationLabels>[
     'conceptrice de systèmes incorporés',
     'concepteur de systèmes imbriqués',
     'conceptrice informatique intégré',
+    'designér vestavěných systémů',
+    'designérka vestavěných systémů',
+    'designérka vestavěných zařízení',
   ]),
   OccupationLabels('2514', [
     'embedded systems software developer',
@@ -11899,6 +13425,9 @@ const escoOccupations = <OccupationLabels>[
     'programutvecklare för inbäddade system',
     'embedded software designer',
     'embedded software engineer',
+    'vývojář softwaru vestavěných systémů',
+    'vývojářka softwaru vestavěných systémů',
+    'vývojářka softwaru vestavěných zařízení',
   ]),
   OccupationLabels('7533', [
     'embroiderer',
@@ -11919,6 +13448,8 @@ const escoOccupations = <OccupationLabels>[
     'handborduurster',
     'brodeur',
     'brodeuse',
+    'vyšívač',
+    'vyšívačka',
   ]),
   OccupationLabels('8153', [
     'embroidery machine operator',
@@ -11929,6 +13460,8 @@ const escoOccupations = <OccupationLabels>[
     'brodermaskinoperatör',
     'operator borduurmachine',
     'operator computergestuurde borduurmachine',
+    'obsluha vyšívacích strojů',
+    'obsluha vyšívacích automatů',
   ]),
   OccupationLabels('3258', [
     'emergency ambulance driver',
@@ -11959,6 +13492,8 @@ const escoOccupations = <OccupationLabels>[
     'centralist meldkamer',
     'meldkamercentraliste',
     'standardiste aux urgences médicales',
+    'zdravotnický dispečer',
+    'zdravotnická dispečerka',
   ]),
   OccupationLabels('2263', [
     'emergency response coordinator',
@@ -11971,6 +13506,9 @@ const escoOccupations = <OccupationLabels>[
     'preventiemedewerker',
     'chargé hygiène sécurité environnement',
     'chargée hygiène sécurité environnement',
+    'koordinátorka krizové pomoci',
+    'koordinátor krizové pomoci',
+    'koordinátor krizového plánování',
   ]),
   OccupationLabels('5419', [
     'emergency response worker',
@@ -11999,6 +13537,9 @@ const escoOccupations = <OccupationLabels>[
     'conseiller à l’emploi',
     'conseillère à l’emploi',
     'conseillère de pôle emploi',
+    'zprostředkovatel práce',
+    'zprostředkovatelka práce',
+    'poradce pro zprostředkování práce',
   ]),
   OccupationLabels('2423', [
     'public employment service consultant',
@@ -12017,6 +13558,8 @@ const escoOccupations = <OccupationLabels>[
     'koordinatorin für beschäftigungsprogramme',
     'coördinator werkgelegenheidsprogramma\'s',
     'coördinatrice werkgelegenheidsprogramma\'s',
+    'koordinátor programu zaměstnanosti',
+    'koordinátorka programu zaměstnanosti',
   ]),
   OccupationLabels('2635', [
     'employment support worker',
@@ -12031,6 +13574,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en insertion professionnelle',
     'conseillère en insertion professionnelle',
     'conseiller à l\'emploi',
+    'referent zaměstnanosti',
+    'referentka zaměstnanosti',
   ]),
   OccupationLabels('8122', [
     'enameller',
@@ -12046,6 +13591,8 @@ const escoOccupations = <OccupationLabels>[
     'emailleur',
     'émailleur',
     'émailleuse',
+    'smaltér',
+    'smaltérka',
   ]),
   OccupationLabels('3112', [
     'energy analyst',
@@ -12064,6 +13611,8 @@ const escoOccupations = <OccupationLabels>[
     'analist energie',
     'energieanalist',
     'analyste en énergie',
+    'analytik energetické spotřeby',
+    'analytička energetické spotřeby',
   ]),
   OccupationLabels('3112', [
     'energy assessor',
@@ -12079,6 +13628,8 @@ const escoOccupations = <OccupationLabels>[
     'certifierad energiexpert',
     'energiedeskundige',
     'diagnostiqueur performance énergétique dubâtiment',
+    'energetický specialista',
+    'energetická specialistka',
   ]),
   OccupationLabels('3112', [
     'energy conservation officer',
@@ -12092,6 +13643,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller espace info-énergie',
     'conseillère espace info-énergie',
     'conseillère info-énergie',
+    'energetický poradce',
+    'energetická poradkyně',
   ]),
   OccupationLabels('3112', [
     'energy consultant',
@@ -12107,6 +13660,8 @@ const escoOccupations = <OccupationLabels>[
     'energieanalist',
     'conseiller en énergie',
     'conseillère en énergie',
+    'energetický konzultant',
+    'energetická konzultantka',
   ]),
   OccupationLabels('2149', [
     'energy engineer',
@@ -12124,6 +13679,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en énergie',
     'ingénieure en énergie',
     'ingénieur énergie',
+    'energetický inženýr',
+    'energetická inženýrka',
   ]),
   OccupationLabels('1349', [
     'energy manager',
@@ -12142,6 +13699,8 @@ const escoOccupations = <OccupationLabels>[
     'duurzaamheidsmanager',
     'directeur de l\'efficacité énergétique',
     'directrice de l\'efficacité énergétique',
+    'energetický manažer',
+    'energetická manažerka',
   ]),
   OccupationLabels('2149', [
     'energy systems engineer',
@@ -12154,6 +13713,9 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur energie',
     'ingénieur procédés énergie',
     'ingénieure procédés énergie',
+    'inženýr energetických systémů',
+    'inženýrka energetických systémů',
+    'inženýrka distribučních systémů',
   ]),
   OccupationLabels('3311', [
     'energy trader',
@@ -12168,6 +13730,9 @@ const escoOccupations = <OccupationLabels>[
     'trader hernieuwbare energie',
     'négociateur en énergie',
     'négociatrice en énergie',
+    'energetický analytik',
+    'energetická analytička',
+    'analytička energetického trhu',
   ]),
   OccupationLabels('2144', [
     'engine designer',
@@ -12186,6 +13751,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur qualité moteur',
     'ingénieure qualité moteur',
     'ingénieur propulsion',
+    'konstruktér motorů',
+    'konstruktérka motorů',
   ]),
   OccupationLabels('8350', [
     'engine minder',
@@ -12212,6 +13779,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur samengesteld hout',
     'kwaliteitscontroleur laminaat',
     'kwaliteitscontroleur houtvezelplaten',
+    'třídič ve výrobě překližky',
+    'třídička ve výrobě překližky',
   ]),
   OccupationLabels('8172', [
     'engineered wood machine technician',
@@ -12240,6 +13809,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant d’ingénieur',
     'assistante d’ingénieur',
     'assistante d\'ingénieur',
+    'asistent inženýra',
+    'asistentka inženýra',
   ]),
   OccupationLabels('2310', [
     'engineering lecturer',
@@ -12255,6 +13826,7 @@ const escoOccupations = <OccupationLabels>[
     'docente ingenieurswetenschappen hoger onderwijs',
     'enseignant-chercheur en ingénierie',
     'enseignante-chercheuse en ingénierie',
+    'přednášející v oboru inženýrství',
   ]),
   OccupationLabels('7223', [
     'engraving machine operator',
@@ -12264,6 +13836,8 @@ const escoOccupations = <OccupationLabels>[
     'cnc-graveurin',
     'operator graveermachine',
     'operator cnc-graveermachine',
+    'seřizovač rycího stroje',
+    'seřizovačka rycího stroje',
   ]),
   OccupationLabels('2511', [
     'enterprise architect',
@@ -12280,6 +13854,9 @@ const escoOccupations = <OccupationLabels>[
     'architecte d’entreprise',
     'architecte métier',
     'responsable de l\'architecture d\'entreprise',
+    'podnikový architekt',
+    'podniková architektka',
+    'manažer podnikové architektury',
   ]),
   OccupationLabels('2635', [
     'enterprise development worker',
@@ -12301,6 +13878,8 @@ const escoOccupations = <OccupationLabels>[
     'nöjesjournalist',
     'amusementsjournalist',
     'amusementsjournaliste',
+    'filmový novinář',
+    'filmová novinářka',
   ]),
   OccupationLabels('8143', [
     'envelope maker',
@@ -12364,6 +13943,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur environnement',
     'ingénieure environnement',
     'ingénieur écologue',
+    'specialista pro životní prostředí',
+    'specialistka pro životní prostředí',
+    'specialista ochrany životního prostředí',
   ]),
   OccupationLabels('2114', [
     'environmental geologist',
@@ -12381,6 +13963,8 @@ const escoOccupations = <OccupationLabels>[
     'géologue environnementaliste',
     'géologue en environnement',
     'écogéologue',
+    'environmentální geolog',
+    'environmentální geoložka',
   ]),
   OccupationLabels('3257', [
     'environmental health inspector',
@@ -12396,6 +13980,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur volksgezondheid',
     'inspecteur en santé environnementale',
     'inspectrice en santé environnementale',
+    'inspektor životního prostředí',
+    'inspektorka životního prostředí',
   ]),
   OccupationLabels('2143', [
     'environmental mining engineer',
@@ -12404,6 +13990,8 @@ const escoOccupations = <OccupationLabels>[
     'umweltschutzingenieur bergbau',
     'umweltschutzingenieurin bergbau',
     'milieutechnisch ingenieur mijnbouw',
+    'důlní ekolog',
+    'důlní ekoložka',
   ]),
   OccupationLabels('2422', [
     'environmental policy officer',
@@ -12417,6 +14005,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker milieu',
     'chargée de mission environnement',
     'chargé de mission environnement',
+    'referent životního prostředí',
+    'referentka životního prostředí',
   ]),
   OccupationLabels('2133', [
     'environmental programme coordinator',
@@ -12431,6 +14021,8 @@ const escoOccupations = <OccupationLabels>[
     'milieucoördinator',
     'coordonnateur de programmes environnementaux',
     'coordonnatrice de programmes environnementaux',
+    'koordinátor ochrany životního prostředí',
+    'koordinátorka ochrany životního prostředí',
   ]),
   OccupationLabels('1349', [
     'environmental protection manager',
@@ -12442,6 +14034,8 @@ const escoOccupations = <OccupationLabels>[
     'umweltschutzmanagerin',
     'miljöskyddschef',
     'manager milieubeleid',
+    'manažer ochrany životního prostředí',
+    'manažerka ochrany životního prostředí',
   ]),
   OccupationLabels('2133', [
     'environmental scientist',
@@ -12473,6 +14067,8 @@ const escoOccupations = <OccupationLabels>[
     'milieutechnicus',
     'technicien de l’environnement',
     'technicienne de l’environnement',
+    'technik ochrany životního prostředí',
+    'technička ochrany životního prostředí',
   ]),
   OccupationLabels('2131', [
     'epidemiologist',
@@ -12487,6 +14083,7 @@ const escoOccupations = <OccupationLabels>[
     'epidemiolog',
     'epidemioloog',
     'épidémiologiste',
+    'epidemioložka',
   ]),
   OccupationLabels('1212', [
     'equality and inclusion manager',
@@ -12515,6 +14112,8 @@ const escoOccupations = <OccupationLabels>[
     'paardentandarts',
     'technicien dentiste équin',
     'technicienne dentiste équin',
+    'koňský zubní technik',
+    'koňská zubní technička',
   ]),
   OccupationLabels('9212', [
     'equine worker',
@@ -12547,6 +14146,8 @@ const escoOccupations = <OccupationLabels>[
     'manegebeheerder',
     'responsable d’écurie',
     'responsable des écuries',
+    'manažer koňské farmy',
+    'manažerka koňské farmy',
   ]),
   OccupationLabels('2144', [
     'equipment engineer',
@@ -12561,6 +14162,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur équipement',
     'ingénieure équipement',
     'ingénieure maintenance des équipements',
+    'inženýr konstruktér zařízení',
+    'inženýrka konstruktérka zařízení',
+    'inženýr technolog zařízení',
   ]),
   OccupationLabels('2263', [
     'ergonomist',
@@ -12572,6 +14176,7 @@ const escoOccupations = <OccupationLabels>[
     'ergonoom',
     'ergonoom in de industrie',
     'ergonome',
+    'ergonomka',
   ]),
   OccupationLabels('5169', [
     'escort',
@@ -12603,6 +14208,8 @@ const escoOccupations = <OccupationLabels>[
     'ethisch hacker',
     'hacker éthique',
     'hacker professionnel',
+    'etický hacker',
+    'etická hackerka',
   ]),
   OccupationLabels('3332', [
     'event assistant',
@@ -12617,6 +14224,9 @@ const escoOccupations = <OccupationLabels>[
     'assistant en organisation d’évènements',
     'assistante en organisation d’évènements',
     'assistant en organisation d\'évènements',
+    'koordinátor akcí',
+    'koordinátorka akcí',
+    'koordinátor eventových akcí',
   ]),
   OccupationLabels('7411', [
     'event electrician',
@@ -12633,6 +14243,8 @@ const escoOccupations = <OccupationLabels>[
     'électricien d’événement',
     'électricienne d’événement',
     'électricienne éclairagiste',
+    'mobilní elektrikář',
+    'mobilní elektrikářka',
   ]),
   OccupationLabels('3332', [
     'event manager',
@@ -12648,6 +14260,9 @@ const escoOccupations = <OccupationLabels>[
     'kultur- und eventmanagerin',
     'eventproducent',
     'responsable évènement',
+    'event manažer',
+    'event manažerka',
+    'manažerka eventů',
   ]),
   OccupationLabels('7215', [
     'event scaffolder',
@@ -12658,6 +14273,8 @@ const escoOccupations = <OccupationLabels>[
     'podiumbouwer',
     'monteur d’échafaudage pour événements',
     'monteuse d’échafaudage pour événements',
+    'lešenář',
+    'lešenářka',
   ]),
   OccupationLabels('8342', [
     'excavator operator',
@@ -12677,6 +14294,9 @@ const escoOccupations = <OccupationLabels>[
     'bestuurster graafmachine',
     'conducteur d’excavatrice',
     'conductrice d’excavatrice',
+    'obsluha rypadla',
+    'obsluha bagru',
+    'obsluha exkavátoru',
   ]),
   OccupationLabels('3343', [
     'executive assistant',
@@ -12694,6 +14314,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant de direction',
     'assistante de direction',
     'assistante de direction trilingue',
+    'výkonný asistent',
+    'výkonná asistentka',
   ]),
   OccupationLabels('2621', [
     'exhibition curator',
@@ -12710,6 +14332,9 @@ const escoOccupations = <OccupationLabels>[
     'utställningskurator',
     'tentoonstellingsmaker',
     'responsable des expositions',
+    'kurátor výstavy',
+    'kurátorka výstavy',
+    'kurátor v galerii',
   ]),
   OccupationLabels('2621', [
     'exhibition registrar',
@@ -12722,6 +14347,8 @@ const escoOccupations = <OccupationLabels>[
     'régisseur des collections',
     'régisseuse des collections',
     'régisseuse d\'oeuvres',
+    'muzejní registrátor',
+    'muzejní registrátorka',
   ]),
   OccupationLabels('2114', [
     'exploration geologist',
@@ -12738,6 +14365,8 @@ const escoOccupations = <OccupationLabels>[
     'exploratiegeologe',
     'géologue prospecteur',
     'géologue prospectrice',
+    'průzkumný geolog',
+    'průzkumná geoložka',
   ]),
   OccupationLabels('2146', [
     'explosives engineer',
@@ -12752,6 +14381,8 @@ const escoOccupations = <OccupationLabels>[
     'schietmeester',
     'ingénieur explosifs',
     'ingénieure explosifs',
+    'technik trhacích prací',
+    'technička trhacích prací',
   ]),
   OccupationLabels('3435', [
     'extra',
@@ -12761,6 +14392,9 @@ const escoOccupations = <OccupationLabels>[
     'statist',
     'statistin',
     'figurant',
+    'komparz',
+    'komparzista',
+    'komparzistka',
   ]),
   OccupationLabels('8160', [
     'extract mixer tester',
@@ -12774,6 +14408,8 @@ const escoOccupations = <OccupationLabels>[
     'préparateur d\'arômes alimentaires',
     'préparatrice d\'arômes alimentaires',
     'préparatrice d\'épices',
+    'testér kořenících směsí',
+    'testérka kořenících směsí',
   ]),
   OccupationLabels('8121', [
     'extrusion machine operator',
@@ -12792,6 +14428,7 @@ const escoOccupations = <OccupationLabels>[
     'operator extrusiepers',
     'opérateur extrusion en métallurgie',
     'opératrice extrusion en métallurgie',
+    'obsluha extrudéru',
   ]),
   OccupationLabels('1420', [
     'eyewear store manager',
@@ -12813,6 +14450,8 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en optique',
     'vendeuse en optique',
     'monteur-vendeur opticien',
+    'prodavač oční optiky',
+    'prodavačka oční optiky',
   ]),
   OccupationLabels('1219', [
     'facilities manager',
@@ -12827,6 +14466,8 @@ const escoOccupations = <OccupationLabels>[
     'facilitair manager',
     'onderhoudsmanager gebouwen',
     'gestionnaire d\'immeubles',
+    'provozní vedoucí',
+    'vedoucí technické správy budov',
   ]),
   OccupationLabels('2642', [
     'fact checker',
@@ -12838,6 +14479,8 @@ const escoOccupations = <OccupationLabels>[
     'factchecker',
     'vérificateur de faits',
     'vérificatrice de faits',
+    'ověřovatel faktů',
+    'ověřovatelka faktů',
   ]),
   OccupationLabels('9329', [
     'factory hand',
@@ -12855,6 +14498,8 @@ const escoOccupations = <OccupationLabels>[
     'productiemedewerker',
     'manœuvre industriel',
     'manœuvre industrielle',
+    'tovární dělník',
+    'tovární dělnice',
   ]),
   OccupationLabels('2635', [
     'family planning counsellor',
@@ -12869,12 +14514,16 @@ const escoOccupations = <OccupationLabels>[
     'berater zur familienplanung',
     'consulent gezinsplanning',
     'consulente gezinsplanning',
+    'poradkyně pro plánované rodičovství',
+    'poradce pro plánované rodičovství',
   ]),
   OccupationLabels('2635', [
     'family social worker',
     'sozialarbeiter im bereich familienhilfe',
     'sozialarbeiterin im bereich familienhilfe',
     'gezinsmaatschappelijk werker',
+    'rodinný sociální pracovník',
+    'rodinná sociální pracovnice',
   ]),
   OccupationLabels('3412', [
     'family support worker',
@@ -12892,6 +14541,8 @@ const escoOccupations = <OccupationLabels>[
     'ambulent gezinsbegeleidster',
     'assistant familial',
     'assistante familiale',
+    'pracovník služeb podpory rodin',
+    'pracovnice služeb podpory rodin',
   ]),
   OccupationLabels('6130', [
     'farm manager',
@@ -12909,6 +14560,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable d’exploitation agricole',
     'responsable d\'exploitations agricoles',
     'responsable de ferme',
+    'manažer zemědělského podniku',
+    'manažerka zemědělského podniku',
+    'manažer farmy',
   ]),
   OccupationLabels('7515', [
     'farm milk controller',
@@ -12920,6 +14574,8 @@ const escoOccupations = <OccupationLabels>[
     'controleur voedsel- en warenwet',
     'melkcontroleur',
     'contrôleur en production laitière',
+    'kontrolor produkce mléka',
+    'kontrolorka produkce mléka',
   ]),
   OccupationLabels('7221', [
     'farrier',
@@ -12936,6 +14592,9 @@ const escoOccupations = <OccupationLabels>[
     'maréchal-ferrant',
     'personnel de maréchalerie',
     'maréchal férrant',
+    'podkovář',
+    'podkovářka',
+    'europodkovářka',
   ]),
   OccupationLabels('2163', [
     'fashion designer',
@@ -12951,6 +14610,9 @@ const escoOccupations = <OccupationLabels>[
     'modeontwerpster',
     'créateur de mode',
     'créatrice de mode',
+    'módní návrhář',
+    'módní návrhářka',
+    'návrhářka módních doplňků',
   ]),
   OccupationLabels('5241', [
     'fashion model',
@@ -12965,6 +14627,7 @@ const escoOccupations = <OccupationLabels>[
     'fotomodel',
     'mannequine',
     'mannequin mode',
+    'modelka',
   ]),
   OccupationLabels('8160', [
     'fat-purification worker',
@@ -12975,6 +14638,9 @@ const escoOccupations = <OccupationLabels>[
     'ansvarig för fettrening',
     'medewerker vetzuivering',
     'medewerker vetzuiveringsinstallatie',
+    'pracovník',
+    'pracovnice čističky tuků',
+    'pracovník čističky tuků',
   ]),
   OccupationLabels('8131', [
     'fermenter operator',
@@ -12992,6 +14658,7 @@ const escoOccupations = <OccupationLabels>[
     'opérateur de production fermentation',
     'opératrice de production fermentation',
     'opératrice de fermentation artisanale',
+    'obsluha fermentoru',
   ]),
   OccupationLabels('8131', [
     'fertiliser mixer',
@@ -13001,6 +14668,7 @@ const escoOccupations = <OccupationLabels>[
     'düngemittelmischerin',
     'düngemittelmaschinenführer',
     'meststoffenmenger',
+    'obsluha míchárny hnojiv',
   ]),
   OccupationLabels('8142', [
     'fiberglass laminator',
@@ -13009,6 +14677,8 @@ const escoOccupations = <OccupationLabels>[
     'plexiglasverformerin',
     'plexiglasbearbeiterin',
     'operator lamineren van glasvezel',
+    'sklolaminátor',
+    'sklolaminátorka',
   ]),
   OccupationLabels('8181', [
     'fibre machine tender',
@@ -13043,6 +14713,7 @@ const escoOccupations = <OccupationLabels>[
     'directeur d’enquêtes terrain',
     'directrice d’enquêtes terrain',
     'directrice d\'enquêtes terrain',
+    'vedoucí terénního průzkumu',
   ]),
   OccupationLabels('3435', [
     'fight director',
@@ -13058,6 +14729,7 @@ const escoOccupations = <OccupationLabels>[
     'regisseuse vechtscènes',
     'régleur de cascades',
     'régleuse de cascades',
+    'vedoucí bojových scén',
   ]),
   OccupationLabels('8142', [
     'filament winding operator',
@@ -13082,6 +14754,8 @@ const escoOccupations = <OccupationLabels>[
     'archiefmedewerkster',
     'classeur-archiviste',
     'classeuse-archiviste',
+    'spisový manipulant',
+    'spisová manipulantka',
   ]),
   OccupationLabels('7313', [
     'filigree maker',
@@ -13092,6 +14766,8 @@ const escoOccupations = <OccupationLabels>[
     'filigranschmuckherstellerin',
     'filigraanmaker',
     'filigraanmaakster',
+    'výrobce drátkovaných šperků',
+    'výrobkyně drátkovaných šperků',
   ]),
   OccupationLabels('8122', [
     'filing machine operator',
@@ -13127,6 +14803,9 @@ const escoOccupations = <OccupationLabels>[
     'analist afgeleid financieel product',
     'analyste financier',
     'analyste financière',
+    'finanční analytik',
+    'finanční analytička',
+    'analytik finančních trhů',
   ]),
   OccupationLabels('2411', [
     'financial auditor',
@@ -13144,6 +14823,8 @@ const escoOccupations = <OccupationLabels>[
     'controleur interne financiële administratie',
     'auditeur comptable et financier',
     'auditrice comptable et financière',
+    'finanční auditor',
+    'finanční auditorka',
   ]),
   OccupationLabels('3311', [
     'financial broker',
@@ -13161,6 +14842,8 @@ const escoOccupations = <OccupationLabels>[
     'makelaar in financiële diensten',
     'conseiller en investissements financiers',
     'conseillère en investissements financiers',
+    'finanční makléř',
+    'finanční makléřka',
   ]),
   OccupationLabels('2411', [
     'financial controller',
@@ -13178,6 +14861,8 @@ const escoOccupations = <OccupationLabels>[
     'projectcontroller',
     'contrôleur financier',
     'contrôleuse financière',
+    'finanční kontrolor',
+    'finanční kontrolorka',
   ]),
   OccupationLabels('2411', [
     'financial fraud examiner',
@@ -13211,6 +14896,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur financier',
     'directrice financière',
     'directeur administratif et financier',
+    'finanční manažer',
+    'finanční manažerka',
   ]),
   OccupationLabels('4312', [
     'back-office-mitarbeiter im maklergeschäft',
@@ -13237,6 +14924,8 @@ const escoOccupations = <OccupationLabels>[
     'financieel adviseur particulieren',
     'planificateur financier',
     'planificatrice financière',
+    'finanční poradce',
+    'finanční poradkyně',
   ]),
   OccupationLabels('2413', [
     'financial risk analyst',
@@ -13248,6 +14937,9 @@ const escoOccupations = <OccupationLabels>[
     'financieel risicoanalist',
     'analyste de risques financiers',
     'analyste de crédit',
+    'analytik finančního rizika',
+    'analytička finančního rizika',
+    'analytik úvěrových rizik',
   ]),
   OccupationLabels('3311', [
     'financial trader',
@@ -13264,6 +14956,8 @@ const escoOccupations = <OccupationLabels>[
     'vendeur d’instruments financiers',
     'vendeuse d’instruments financiers',
     'vendeur d\'instruments financiers',
+    'finanční obchodník',
+    'finanční obchodnice',
   ]),
   OccupationLabels('2310', [
     'fine arts instructor',
@@ -13276,6 +14970,8 @@ const escoOccupations = <OccupationLabels>[
     'docent kunsteducatie hoger onderwijs',
     'professeur des beaux-arts',
     'professeure des beaux-arts',
+    'učitel výtvarného umění',
+    'učitelka výtvarného umění',
   ]),
   OccupationLabels('1324', [
     'finished leather warehouse manager',
@@ -13305,6 +15001,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus textielafwerking',
     'agent de finition textile',
     'agente de finition textile',
+    'technik konečné úpravy textilií',
+    'technička konečné úpravy textilií',
   ]),
   OccupationLabels('1112', [
     'fire commissioner',
@@ -13314,6 +15012,8 @@ const escoOccupations = <OccupationLabels>[
     'brandinspektorin',
     'brandinspektör',
     'hoofdcommandeur van de brandweer',
+    'ředitel hasičského záchranného sboru',
+    'ředitelka hasičského záchranného sboru',
   ]),
   OccupationLabels('3112', [
     'fire inspector',
@@ -13327,6 +15027,8 @@ const escoOccupations = <OccupationLabels>[
     'brandinspektör',
     'inspecteur brandveiligheid',
     'inspecteur conformiteit brandveiligheid',
+    'požární inspektor',
+    'požární inspektorka',
   ]),
   OccupationLabels('2149', [
     'brandschutzingenieur',
@@ -13348,6 +15050,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus brandbeveiligingssystemen',
     'technicus brandblussystemen',
     'onderhoudstechnicus brandalarmen',
+    'technik požární ochrany',
+    'technička požární ochrany',
   ]),
   OccupationLabels('3112', [
     'fire safety tester',
@@ -13356,6 +15060,8 @@ const escoOccupations = <OccupationLabels>[
     'brandtekniker',
     'tester brandveiligheid',
     'tester brandbeveiliging',
+    'zkušební technik požární ochrany',
+    'zkušební technička požární ochrany',
   ]),
   OccupationLabels('8332', [
     'fire service vehicle operator',
@@ -13388,6 +15094,9 @@ const escoOccupations = <OccupationLabels>[
     'pompier',
     'pompière',
     'pompier volontaire',
+    'hasič',
+    'hasička',
+    'letištní hasič',
   ]),
   OccupationLabels('2320', [
     'firefighter instructor',
@@ -13403,6 +15112,8 @@ const escoOccupations = <OccupationLabels>[
     'sapeur-pompier formateur',
     'sapeuse-pompière formatrice',
     'sapeur-pompier instructeur',
+    'hasičský instruktor',
+    'hasičská instruktorka',
   ]),
   OccupationLabels('8219', [
     'firework assembler',
@@ -13416,6 +15127,8 @@ const escoOccupations = <OccupationLabels>[
     'vuurwerkmaker',
     'vuurwerkmaker pyrotechnische spektakels',
     'vuurwerkmaakster pyrotechnische spektakels',
+    'montážní dělník zábavní pyrotechniky',
+    'montážní dělnice zábavní pyrotechniky',
   ]),
   OccupationLabels('3253', [
     'first aid instructor',
@@ -13431,6 +15144,8 @@ const escoOccupations = <OccupationLabels>[
     'eerstehulpinstructeur',
     'formateur secourisme',
     'formatrice secourisme',
+    'instruktor první pomoci',
+    'instruktorka první pomoci',
   ]),
   OccupationLabels('2422', [
     'fiscal affairs policy officer',
@@ -13444,6 +15159,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker belastingen',
     'chargé de mission fiscalité',
     'chargée de mission fiscalité',
+    'referent specialista fiskální politiky',
+    'referentka specialistka fiskální politiky',
   ]),
   OccupationLabels('1420', [
     'gerente de peixaria',
@@ -13452,6 +15169,7 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleidster viswinkel',
     'gérant de poissonnerie',
     'gérante de poissonnerie',
+    'vedoucí rybárny',
   ]),
   OccupationLabels('5223', [
     'visverkoopster',
@@ -13459,6 +15177,9 @@ const escoOccupations = <OccupationLabels>[
     'garnalenverkoopster',
     'poissonnier',
     'poissonnière',
+    'prodavačka ryb',
+    'prodavačka mořských plodů',
+    'prodavač mořských plodů',
   ]),
   OccupationLabels('8160', [
     'fish canning operator',
@@ -13468,6 +15189,8 @@ const escoOccupations = <OccupationLabels>[
     'ansvarig för fiskkonservering',
     'medewerker visinblikkerij',
     'medewerker visconserven',
+    'operátor konzervace ryb',
+    'operátorka konzervace ryb',
   ]),
   OccupationLabels('5120', [
     'fish cook',
@@ -13500,6 +15223,8 @@ const escoOccupations = <OccupationLabels>[
     'driftsledaren inom fiskeproduktion',
     'medewerker visproductie',
     'productiemedewerker in een visfabriek',
+    'operátor výroby rybích produktů',
+    'operátorka výroby rybích produktů',
   ]),
   OccupationLabels('7511', [
     'fish trimmer',
@@ -13514,6 +15239,9 @@ const escoOccupations = <OccupationLabels>[
     'visfileerder',
     'préparateur de poisson',
     'préparatrice de poisson',
+    'čistič ryb',
+    'čistička ryb',
+    'pracovník čistící ryby',
   ]),
   OccupationLabels('2132', [
     'fisheries adviser',
@@ -13532,6 +15260,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller halieutique',
     'conseillère halieutique',
     'conseiller en halieutique',
+    'poradce v rybářství',
+    'poradkyně v rybářství',
   ]),
   OccupationLabels('7233', [
     'fisheries assistant engineer',
@@ -13563,6 +15293,8 @@ const escoOccupations = <OccupationLabels>[
     'kustvisser',
     'batelier-pêcheur',
     'batelière-pêcheuse',
+    'provozovatel rybářských člunů',
+    'provozovatelka rybářských člunů',
   ]),
   OccupationLabels('6223', [
     'fisheries boatmaster',
@@ -13578,6 +15310,8 @@ const escoOccupations = <OccupationLabels>[
     'visserijkapitein',
     'kapitein zeevisserij',
     'capitaine de pêche côtière',
+    'kapitán rybářské lodi',
+    'kapitánka rybářské lodi',
   ]),
   OccupationLabels('8350', [
     'fisheries deckhand',
@@ -13590,6 +15324,8 @@ const escoOccupations = <OccupationLabels>[
     'deksman visserij',
     'deksman trawlervisserij',
     'marin-pêcheur',
+    'pomocný námořník rybářského plavidla',
+    'pomocná námořnice rybářského plavidla',
   ]),
   OccupationLabels('6223', [
     'fisheries master',
@@ -13601,6 +15337,8 @@ const escoOccupations = <OccupationLabels>[
     'fischwirtschaftsmeisterin',
     'gezagvoerder van een vissersvaartuig',
     'capitaine de pêche',
+    'kapitán rybářského plavidla',
+    'kapitánka rybářského plavidla',
   ]),
   OccupationLabels('3359', [
     'fisheries observer',
@@ -13619,6 +15357,8 @@ const escoOccupations = <OccupationLabels>[
     'controleur zeevisserij',
     'observateur de pêche',
     'observatrice de pêche',
+    'inspektor rybolovu',
+    'inspektorka rybolovu',
   ]),
   OccupationLabels('3151', [
     'fisheries refrigeration engineer',
@@ -13638,6 +15378,8 @@ const escoOccupations = <OccupationLabels>[
     'nätbindare',
     'nettenknoper',
     'nettenknoopster',
+    'výrobce rybářských sítí',
+    'výrobkyně rybářských sítí',
   ]),
   OccupationLabels('3423', [
     'fitness instructor',
@@ -13653,6 +15395,9 @@ const escoOccupations = <OccupationLabels>[
     'motionsinstruktör',
     'fitnessinstructeur',
     'fitnessinstructrice',
+    'instruktor ve fitness',
+    'instruktorka ve fitness',
+    'instruktorka aerobiku',
   ]),
   OccupationLabels('7223', [
     'fitter and turner',
@@ -13671,6 +15416,7 @@ const escoOccupations = <OccupationLabels>[
     'bankwerkster',
     'tourneur ajusteur',
     'tourneuse ajusteuse',
+    'provozní zámečník a soustružník',
   ]),
   OccupationLabels('0110', [
     'fleet commander',
@@ -13686,6 +15432,9 @@ const escoOccupations = <OccupationLabels>[
     'luitenant-admiraal',
     'flottielje-admiraal',
     'capitaine de frégate',
+    'velitel flotil',
+    'velitelka flotil',
+    'velitel loďstva',
   ]),
   OccupationLabels('7322', [
     'flexographic press operator',
@@ -13717,6 +15466,7 @@ const escoOccupations = <OccupationLabels>[
     'cabinemedewerker',
     'membre d’équipage de cabine',
     'membre d\'équipage de cabine',
+    'palubní průvodčí',
   ]),
   OccupationLabels('3153', [
     'flight instructor',
@@ -13734,6 +15484,8 @@ const escoOccupations = <OccupationLabels>[
     'vlieginstructrice',
     'pilote instructeur aéronautique',
     'pilote instructrice aéronautique',
+    'letový instruktor',
+    'letová instruktorka',
   ]),
   OccupationLabels('3154', [
     'flight operations officer',
@@ -13746,6 +15498,8 @@ const escoOccupations = <OccupationLabels>[
     'vluchtinformatieverstrekker',
     'directeur des opérations aériennes',
     'directrice des opérations aériennes',
+    'referent pro letový provoz',
+    'referentka pro letový provoz',
   ]),
   OccupationLabels('2152', [
     'flight test engineer',
@@ -13773,6 +15527,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en textiles d\'ameublement',
     'vendeuse en tissus d\'intérieur',
     'vendeuse en textiles d\'ameublement',
+    'prodavač dekorace interiérů',
+    'prodavač koberců',
+    'prodavačka koberců',
   ]),
   OccupationLabels('8160', [
     'flour purifier operator',
@@ -13781,6 +15538,8 @@ const escoOccupations = <OccupationLabels>[
     'grießputzmaschinenbediener',
     'grießputzmaschinenbedienerin',
     'procesoperator meelzuivering',
+    'operátor čističky mouky',
+    'operátorka čističky mouky',
   ]),
   OccupationLabels('1420', [
     'flower shop manager',
@@ -13791,6 +15550,7 @@ const escoOccupations = <OccupationLabels>[
     'manager bloemendetailhandel',
     'gérant de jardinerie',
     'gérante de jardinerie',
+    'vedoucí květinářství',
   ]),
   OccupationLabels('5223', [
     'flower shop salesperson',
@@ -13803,6 +15563,8 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en jardinerie',
     'vendeuse en jardinerie',
     'vendeur pépiniériste',
+    'prodavačka v prodejně květin',
+    'prodavač v prodejně květin',
   ]),
   OccupationLabels('1324', [
     'distributiemanager bloemen en planten',
@@ -13820,6 +15582,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur vloeistofmechanica',
     'ingenieur hydromechanica',
     'hydraulisch ingenieur',
+    'inženýr hydrauliky',
+    'inženýrka hydrauliky',
   ]),
   OccupationLabels('7233', [
     'fluid power technician',
@@ -13848,6 +15612,7 @@ const escoOccupations = <OccupationLabels>[
     'regisseuse luchtscènes',
     'régisseur effets spéciaux volants',
     'régisseuse effets spéciaux volants',
+    'vedoucí efektů létání',
   ]),
   OccupationLabels('8141', [
     'foam rubber mixer',
@@ -13874,6 +15639,7 @@ const escoOccupations = <OccupationLabels>[
     'bediener volgspot',
     'poursuiteur',
     'poursuiteuse',
+    'obsluha sledovacích světlometů',
   ]),
   OccupationLabels('3111', [
     'food analyst',
@@ -13890,6 +15656,8 @@ const escoOccupations = <OccupationLabels>[
     'analyste agroalimentaire',
     'analyste en agroalimentaire',
     'analyste alimentaire',
+    'potravinářský analytik',
+    'potravinářská analytička',
   ]),
   OccupationLabels('2141', [
     'lebensmittelverpackungstechniker',
@@ -13900,6 +15668,7 @@ const escoOccupations = <OccupationLabels>[
     'voedsel- en drankverpakkingsspecialiste',
     'technicien en conditionnement alimentaire',
     'technicienne en conditionnement alimentaire',
+    'technolog',
   ]),
   OccupationLabels('2131', [
     'food biotechnologist',
@@ -13916,6 +15685,8 @@ const escoOccupations = <OccupationLabels>[
     'voedingsbiotechnoloog',
     'biotechnoloog voedingsmiddelen',
     'spécialiste en biotechnologie alimentaire',
+    'biotechnolog v potravinářství',
+    'biotechnoložka v potravinářství',
   ]),
   OccupationLabels('7515', [
     'food grader',
@@ -13926,6 +15697,8 @@ const escoOccupations = <OccupationLabels>[
     'nahrungsmittelklassierer',
     'nahrungsmittelklassiererin',
     'klasseerder van voedingsmiddelen',
+    'kvalitář potravin',
+    'kvalitářka potravin',
   ]),
   OccupationLabels('2141', [
     'food production engineer',
@@ -13940,6 +15713,9 @@ const escoOccupations = <OccupationLabels>[
     'productie-ingenieur levensmiddelen',
     'ingénieur de production agroalimentaire',
     'ingénieure de production agroalimentaire',
+    'inženýr',
+    'inženýrka potravinářské výroby',
+    'inženýr potravinářské výroby',
   ]),
   OccupationLabels('1321', [
     'food production manager',
@@ -13955,6 +15731,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofd voedselproductie',
     'responsable de production agroalimentaire',
     'responsable de production alimentaire',
+    'manažer',
+    'manažerka potravinářské výroby',
+    'manažer potravinářské výroby',
   ]),
   OccupationLabels('8160', [
     'food production operator',
@@ -13967,6 +15746,8 @@ const escoOccupations = <OccupationLabels>[
     'opérateur de production alimentaire',
     'opérateur de production agroalimentaire',
     'opératrice de production agroalimentaire',
+    'operátorka potravinářské výroby',
+    'operátor potravinářské výroby',
   ]),
   OccupationLabels('3122', [
     'food production planner',
@@ -13979,6 +15760,8 @@ const escoOccupations = <OccupationLabels>[
     'voedselproductieplanner',
     'manager voedselproductie',
     'coördinator voedselproductie',
+    'plánovač potravinářské výroby',
+    'plánovačka potravinářské výroby',
   ]),
   OccupationLabels('3257', [
     'food regulatory advisor',
@@ -14007,6 +15790,9 @@ const escoOccupations = <OccupationLabels>[
     'livsmedelsinspektörer',
     'inspecteur voedselveiligheid',
     'voedselhygiëne-inspecteur',
+    'inspektor potravinářské inspekce',
+    'inspektorka potravinářské inspekce',
+    'inspektorka bezpečnosti potravin',
   ]),
   OccupationLabels('2263', [
     'food safety specialist',
@@ -14016,6 +15802,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist voedselveiligheid',
     'specialist kwaliteit & voedselveiligheid',
     'specialiste kwaliteit & voedselveiligheid',
+    'odborník na bezpečnost potravin',
+    'odbornice na bezpečnost potravin',
   ]),
   OccupationLabels('2310', [
     'food science lecturer',
@@ -14035,6 +15823,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de restauration',
     'professeure de restauration',
     'professeur de cuisine',
+    'učitel vaření',
+    'učitel technologie potravin',
+    'učitelka vaření',
   ]),
   OccupationLabels('3119', [
     'food technician',
@@ -14052,6 +15843,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien agroalimentaire',
     'technicienne agroalimentaire',
     'technicienne alimentaire',
+    'potravinářský technik',
+    'potravinářská technička',
   ]),
   OccupationLabels('2145', [
     'food technologist',
@@ -14067,6 +15860,9 @@ const escoOccupations = <OccupationLabels>[
     'voedingstechnoloog',
     'ingénieur en technologie alimentaire',
     'ingénieure en technologie alimentaire',
+    'technolog',
+    'technoložka potravinářské výroby',
+    'potravinářská technoložka',
   ]),
   OccupationLabels('3422', [
     'football coach',
@@ -14083,6 +15879,9 @@ const escoOccupations = <OccupationLabels>[
     'entraîneur d’équipe de football',
     'entraîneuse d’équipe de football',
     'entraîneur d\'équipe de football',
+    'fotbalový trenér',
+    'fotbalová trenérka',
+    'fotbalový instruktor',
   ]),
   OccupationLabels('3122', [
     'footwear assembly supervisor',
@@ -14093,6 +15892,8 @@ const escoOccupations = <OccupationLabels>[
     'montageleider schoenassemblage',
     'superviseur assemblage articles chaussants',
     'superviseuse assemblage articles chaussants',
+    'koordinátor kompletace obuvi',
+    'koordinátorka kompletace obuvi',
   ]),
   OccupationLabels('7536', [
     'footwear cad patternmaker',
@@ -14104,6 +15905,8 @@ const escoOccupations = <OccupationLabels>[
     'cad-patroonmaakster schoenen',
     'patronnier cao-dao d\'articles chaussants',
     'patronnière cao-dao d\'articles chaussants',
+    'počítačový konstruktér obuvnických střihů',
+    'počítačová konstruktérka obuvnických střihů',
   ]),
   OccupationLabels('2163', [
     'footwear designer',
@@ -14119,6 +15922,8 @@ const escoOccupations = <OccupationLabels>[
     'schoenontwerper',
     'ontwerper',
     'styliste chaussure',
+    'návrhář obuvi',
+    'návrhářka obuvi',
   ]),
   OccupationLabels('4321', [
     'footwear factory warehouse operator',
@@ -14129,6 +15934,8 @@ const escoOccupations = <OccupationLabels>[
     'magazijnmedewerker schoenfabriek',
     'magazijnbediende schoenfabriek',
     'magazijnmedewerker in een schoenfabriek',
+    'pracovník ve skladu obuvi',
+    'pracovnice ve skladu obuvi',
   ]),
   OccupationLabels('8183', [
     'schuhverpacker',
@@ -14136,6 +15943,7 @@ const escoOccupations = <OccupationLabels>[
     'appreteur-verpakker van schoeisel',
     'appreteuse van schoeisel',
     'appreteur van schoeisel',
+    'obsluha lepicích strojů',
   ]),
   OccupationLabels('7536', [
     'footwear hand sewer',
@@ -14147,6 +15955,8 @@ const escoOccupations = <OccupationLabels>[
     'schoenstikster',
     'bottier',
     'bottière',
+    'šič obuvi',
+    'šička obuvi',
   ]),
   OccupationLabels('8156', [
     'footwear maintenance technician',
@@ -14154,6 +15964,8 @@ const escoOccupations = <OccupationLabels>[
     'wartungstechnikerin in der schuhherstellung',
     'onderhoudstechnicus machines voor schoenenproductie',
     'onderhoudstechnica machines voor schoenenproductie',
+    'technik údržby obuvnických strojů',
+    'technička údržby obuvnických strojů',
   ]),
   OccupationLabels('7536', [
     'footwear patternmaker',
@@ -14165,6 +15977,8 @@ const escoOccupations = <OccupationLabels>[
     'patroontekenaar schoeisel',
     'patronnier',
     'patronnière',
+    'konstruktér obuvnických střihů',
+    'konstruktérka obuvnických střihů',
   ]),
   OccupationLabels('3119', [
     'footwear product developer',
@@ -14173,6 +15987,8 @@ const escoOccupations = <OccupationLabels>[
     'produktentwickler schuhe',
     'produktentwicklerin schuhe',
     'productontwikkelaar schoeisel',
+    'vývojář obuvnických výrobků',
+    'vývojářka obuvnických výrobků',
   ]),
   OccupationLabels('1223', [
     'footwear product development manager',
@@ -14184,6 +16000,7 @@ const escoOccupations = <OccupationLabels>[
     'productmanager schoenindustrie',
     'directeur artistique chaussures',
     'directrice artistique chaussures',
+    'vedoucí vývoje obuvi',
   ]),
   OccupationLabels('8156', [
     'footwear production machine operator',
@@ -14203,6 +16020,7 @@ const escoOccupations = <OccupationLabels>[
     'leiter in der schuhproduktion',
     'manager schoenproductie',
     'responsable de production chaussure',
+    'vedoucí výroby obuvnických výrobků',
   ]),
   OccupationLabels('3122', [
     'footwear production supervisor',
@@ -14213,6 +16031,9 @@ const escoOccupations = <OccupationLabels>[
     'productieleider schoenen',
     'productiemanager schoeisel',
     'hoofd schoenproductie',
+    'vedoucí výroby obuvi',
+    'vedoucí šicí obuvnické dílny',
+    'vedoucí dokončovací obuvnické dílny',
   ]),
   OccupationLabels('3119', [
     'footwear production technician',
@@ -14221,6 +16042,8 @@ const escoOccupations = <OccupationLabels>[
     'produktionstechniker schuhwaren',
     'produktionstechnikerin schuhwaren',
     'productietechnicus schoeisel',
+    'technik výroby obuvi',
+    'technička výroby obuvi',
   ]),
   OccupationLabels('3119', [
     'footwear quality control engineer',
@@ -14239,6 +16062,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur schoeisel',
     'contrôleur qualité d\'articles chaussants',
     'contrôleuse qualité d\'articles chaussants',
+    'kvalitář obuvi',
+    'kvalitářka obuvi',
   ]),
   OccupationLabels('1321', [
     'footwear quality manager',
@@ -14251,6 +16076,9 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager schoenindustrie',
     'kwaliteitscontroleur schoenproductie',
     'responsable qualité chaussure',
+    'manažer kvality obuvi',
+    'manažerka kvality obuvi',
+    'manažerka jakosti obuvi',
   ]),
   OccupationLabels('3119', [
     'footwear quality technician',
@@ -14268,6 +16096,7 @@ const escoOccupations = <OccupationLabels>[
     'operator schoenstikmachine',
     'piqueur en chaussures',
     'piqueuse en chaussures',
+    'obsluha obuvnických šicích strojů',
   ]),
   OccupationLabels('1324', [
     'forecast manager',
@@ -14285,6 +16114,8 @@ const escoOccupations = <OccupationLabels>[
     'forecasting manager',
     'business analist forecasting',
     'responsable prévision des ventes',
+    'manažer plánování',
+    'manažerka plánování',
   ]),
   OccupationLabels('3315', [
     'foreclosure specialist',
@@ -14296,6 +16127,8 @@ const escoOccupations = <OccupationLabels>[
     'insolvenzsachbearbeiterin',
     'insolventiemedewerker',
     'insolventiemedewerkster',
+    'insolvenční specialista',
+    'insolvenční specialistka',
   ]),
   OccupationLabels('2422', [
     'foreign affairs officer',
@@ -14307,6 +16140,9 @@ const escoOccupations = <OccupationLabels>[
     'referentin für außenpolitik',
     'außenpolitischer referent',
     'beleidsmedewerker buitenlandse zaken',
+    'úředník ministerstva zahraničních věcí',
+    'úřednice ministerstva zahraničních věcí',
+    'konzulární úředník',
   ]),
   OccupationLabels('2642', [
     'foreign correspondent',
@@ -14321,6 +16157,9 @@ const escoOccupations = <OccupationLabels>[
     'correspondant de presse',
     'correspondante de presse',
     'correspondant local de presse',
+    'zahraniční dopisovatel',
+    'zahraniční dopisovatelka',
+    'zahraniční zpravodajka',
   ]),
   OccupationLabels('3311', [
     'foreign exchange broker',
@@ -14334,6 +16173,8 @@ const escoOccupations = <OccupationLabels>[
     'valutamakelaar',
     'négociateur en devises',
     'négociatrice en devises',
+    'makléř s devizovými swapy',
+    'makléřka s devizovými swapy',
   ]),
   OccupationLabels('4312', [
     'foreign exchange cashier',
@@ -14346,6 +16187,8 @@ const escoOccupations = <OccupationLabels>[
     'valutakassör',
     'kassier wisselkantoor',
     'kassierster wisselkantoor',
+    'směnárník',
+    'směnárnice',
   ]),
   OccupationLabels('3311', [
     'foreign exchange trader',
@@ -14358,6 +16201,8 @@ const escoOccupations = <OccupationLabels>[
     'valutatrader',
     'vendeur en devises',
     'vendeuse en devises',
+    'směnárník',
+    'směnárnice',
   ]),
   OccupationLabels('4419', [
     'foreign language correspondence clerk',
@@ -14369,6 +16214,8 @@ const escoOccupations = <OccupationLabels>[
     'correspondent vreemde talen',
     'correspondente vreemde talen',
     'commercieel correspondente vreemde talen',
+    'referent zahraničního styku',
+    'referentka zahraničního styku',
   ]),
   OccupationLabels('6210', [
     'forest ranger',
@@ -14403,6 +16250,8 @@ const escoOccupations = <OccupationLabels>[
     'ouvrier forestier',
     'ouvrière forestière',
     'ouvrier sylvicole',
+    'lesní dělník',
+    'lesní dělnice',
   ]),
   OccupationLabels('1311', [
     'forester',
@@ -14419,6 +16268,8 @@ const escoOccupations = <OccupationLabels>[
     'forestier',
     'responsable forestier',
     'cheffe de district forestière',
+    'lesník',
+    'lesnice',
   ]),
   OccupationLabels('2132', [
     'forestry adviser',
@@ -14434,6 +16285,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en sylviculture',
     'conseillère en sylviculture',
     'conseillère forestière',
+    'poradce pro lesní hospodářství',
+    'poradkyně pro lesní hospodářství',
   ]),
   OccupationLabels('8341', [
     'forestry equipment operator',
@@ -14455,6 +16308,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d\'engins forestiers',
     'conductrice d\'engins forestiers',
     'conductrice d\'engins sylvicoles',
+    'pěstební a těžební mechanizátor',
+    'pěstební a těžební mechanizátorka',
   ]),
   OccupationLabels('3359', [
     'forestry inspector',
@@ -14473,6 +16328,8 @@ const escoOccupations = <OccupationLabels>[
     'bosinspecteur',
     'natuurinspecteur',
     'inspecteur en foresterie',
+    'lesní inspektor',
+    'lesní inspektorka',
   ]),
   OccupationLabels('7233', [
     'forestry machinery technician',
@@ -14494,6 +16351,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’engins forestiers',
     'technicienne d’engins forestiers',
     'technicien d\'engins forestiers',
+    'lesní technik pro mechanizaci',
+    'lesní technička pro mechanizaci',
+    'správce lesní techniky',
   ]),
   OccupationLabels('3143', [
     'forestry technician',
@@ -14511,6 +16371,9 @@ const escoOccupations = <OccupationLabels>[
     'uitvoerend medewerker bosbouw',
     'technicien forestier',
     'technicienne forestière',
+    'lesní technik',
+    'lesní technička',
+    'lesní inženýrka kontrolorka',
   ]),
   OccupationLabels('7233', [
     'forge equipment technician',
@@ -14524,6 +16387,9 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudsmonteur installaties smederij',
     'technicien de forge',
     'technicienne de forge',
+    'mechanik kovářských zařízení',
+    'mechanička kovářských zařízení',
+    'mechanička zařízení pro kovárny',
   ]),
   OccupationLabels('8344', [
     'forklift operator',
@@ -14544,6 +16410,9 @@ const escoOccupations = <OccupationLabels>[
     'cariste',
     'cariste chargeur-déchargeur',
     'cariste agent de magasinage',
+    'řidič vysokozdvižného vozíku',
+    'řidička vysokozdvižného vozíku',
+    'řidič manipulačního vozíku',
   ]),
   OccupationLabels('5161', [
     'fortune teller',
@@ -14557,6 +16426,9 @@ const escoOccupations = <OccupationLabels>[
     'waarzegger',
     'voyant',
     'voyante',
+    'jasnovidec',
+    'jasnovidka',
+    'jasnovidkyně',
   ]),
   OccupationLabels('3331', [
     'forwarding manager',
@@ -14572,6 +16444,9 @@ const escoOccupations = <OccupationLabels>[
     'speditör',
     'expediteur',
     'chef de service affrètement',
+    'manažer spedice',
+    'manažerka spedice',
+    'manažer vývozu',
   ]),
   OccupationLabels('3131', [
     'fossil-fuel power plant operator',
@@ -14609,6 +16484,9 @@ const escoOccupations = <OccupationLabels>[
     'operationeel manager gieterij',
     'procesmanager gieterij',
     'responsable de fonderie',
+    'manažer ve slévárenství',
+    'manažerka ve slévárenství',
+    'manažerka ve slévárenské výrobě',
   ]),
   OccupationLabels('7211', [
     'foundry moulder',
@@ -14626,6 +16504,8 @@ const escoOccupations = <OccupationLabels>[
     'kernmaker',
     'mouleur en fonderie',
     'mouleuse en fonderie',
+    'slévárenský formíř',
+    'slévárenská formířka',
   ]),
   OccupationLabels('7211', [
     'foundry operative',
@@ -14644,6 +16524,8 @@ const escoOccupations = <OccupationLabels>[
     'procesoperator metaalgieterij',
     'opérateur en fonderie',
     'opératrice en fonderie',
+    'pracovník slévárny',
+    'pracovnice slévárny',
   ]),
   OccupationLabels('2113', [
     'fragrance chemist',
@@ -14659,6 +16541,8 @@ const escoOccupations = <OccupationLabels>[
     'chemicus aroma\'s en geuren',
     'aromaticien parfumeur',
     'aromaticienne parfumeuse',
+    'chemik v odvětví parfémů',
+    'chemička v odvětví parfémů',
   ]),
   OccupationLabels('7522', [
     'frame maker',
@@ -14673,6 +16557,8 @@ const escoOccupations = <OccupationLabels>[
     'ambachtelijk lijstenmaker',
     'fabricant de cadres',
     'fabricante de cadres',
+    'výrobce rámů',
+    'výrobkyně rámů',
   ]),
   OccupationLabels('3359', [
     'freight inspector',
@@ -14686,6 +16572,8 @@ const escoOccupations = <OccupationLabels>[
     'ilt-inspecteur',
     'contrôleur des transports terrestres',
     'contrôleuse des transports terrestres',
+    'kontrolor nákladu',
+    'kontrolorka nákladu',
   ]),
   OccupationLabels('4323', [
     'freight transport dispatcher',
@@ -14700,6 +16588,8 @@ const escoOccupations = <OccupationLabels>[
     'dispatcher vrachtvervoer',
     'dispatcheur transport de marchandises',
     'dispatcheuse transport de marchandises',
+    'dispečer nákladní dopravy',
+    'dispečerka nákladní dopravy',
   ]),
   OccupationLabels('2342', [
     'freinet school teacher',
@@ -14713,6 +16603,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar freinetschool',
     'instituteur en école freinet',
     'institutrice en école freinet',
+    'učitel freinetovské školy',
+    'učitelka freinetovské školy',
   ]),
   OccupationLabels('4226', [
     'front line medical receptionist',
@@ -14726,6 +16618,7 @@ const escoOccupations = <OccupationLabels>[
     'onthaalverantwoordelijke bij een ziekenhuis',
     'réceptionniste médical',
     'réceptionniste médicale',
+    'recepční ve zdravotnickém zařízení',
   ]),
   OccupationLabels('1349', [
     'front of house manager',
@@ -14737,6 +16630,8 @@ const escoOccupations = <OccupationLabels>[
     'leidinggevende publieksservice',
     'responsable accueil et billetterie',
     'responsable billetterie',
+    'front of house manažer',
+    'front of house manažerka',
   ]),
   OccupationLabels('8171', [
     'froth flotation deinking operator',
@@ -14753,6 +16648,9 @@ const escoOccupations = <OccupationLabels>[
     'obst- und gemüseabfüllerin',
     'obst- und gemüseverarbeiter',
     'conservenfabrikant',
+    'konzervátor',
+    'konzervátorka ovoce a zeleniny',
+    'konzervátor ovoce a zeleniny',
   ]),
   OccupationLabels('9211', [
     'fruit and vegetable picker',
@@ -14765,6 +16663,8 @@ const escoOccupations = <OccupationLabels>[
     'plukker',
     'fruitplukker',
     'fruit- en groenteplukker',
+    'sběrač ovoce a zeleniny',
+    'sběračka ovoce a zeleniny',
   ]),
   OccupationLabels('7514', [
     'fruit and vegetable preserver',
@@ -14792,6 +16692,9 @@ const escoOccupations = <OccupationLabels>[
     'organic fruit salesperson',
     'fruit specialised seller',
     'verkoopspecialist groenten en fruit',
+    'prodavač ovoce a zeleniny',
+    'prodavačka ovoce a zeleniny',
+    'prodavačka zeleniny',
   ]),
   OccupationLabels('6112', [
     'fruit production team leader',
@@ -14811,6 +16714,8 @@ const escoOccupations = <OccupationLabels>[
     'ansvarig för juicepress',
     'fruitperser',
     'medewerker fruitpers',
+    'operátor ovocného lisu',
+    'operátorka ovocného lisu',
   ]),
   OccupationLabels('1420', [
     'fuel station manager',
@@ -14821,6 +16726,8 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleider pompshop',
     'bedrijfsleidster benzinestation',
     'responsable de station-service',
+    'vedoucí čerpací stanice',
+    'vedoucí pumpy',
   ]),
   OccupationLabels('5245', [
     'fuel station specialised seller',
@@ -14849,6 +16756,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant collecteur de fonds',
     'assistante collectrice de fonds',
     'assistante fundraiser',
+    'fundraisingový asistent',
+    'fundraisingová asistentka',
   ]),
   OccupationLabels('2432', [
     'fundraising manager',
@@ -14878,6 +16787,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster begrafenisondernemer',
     'agent de pompes funèbres',
     'agente de pompes funèbres',
+    'pohřební zřízenec',
+    'pohřební zřízenkyně',
   ]),
   OccupationLabels('5163', [
     'funeral services director',
@@ -14898,6 +16809,8 @@ const escoOccupations = <OccupationLabels>[
     'entrepreneur de pompes funèbres',
     'entrepreneuse de pompes funèbres',
     'entrepreneure de pompes funèbres',
+    'ředitel pohřební služby',
+    'ředitelka pohřební služby',
   ]),
   OccupationLabels('6129', [
     'fur animals breeder',
@@ -14914,6 +16827,8 @@ const escoOccupations = <OccupationLabels>[
     'éleveur d’animaux à fourrure',
     'éleveuse d’animaux à fourrure',
     'éleveur d\'animaux à fourrure',
+    'chovatel kožešinových zvířat',
+    'chovatelka kožešinových zvířat',
   ]),
   OccupationLabels('8219', [
     'furniture assembler',
@@ -14931,6 +16846,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerkster meubelen',
     'monteur de meubles',
     'monteuse de meubles',
+    'montážní dělník nábytku',
+    'montážní dělnice nábytku',
   ]),
   OccupationLabels('9112', [
     'furniture cleaner',
@@ -14940,6 +16857,8 @@ const escoOccupations = <OccupationLabels>[
     'schoonmaker meubilair',
     'meubelschoonmaakster',
     'schoonmaakster meubilair',
+    'pracovník pro čištění nábytku',
+    'pracovnice pro čištění nábytku',
   ]),
   OccupationLabels('2163', [
     'furniture designer',
@@ -14957,6 +16876,8 @@ const escoOccupations = <OccupationLabels>[
     'interieur- en meubelontwerpster',
     'designer mobilier',
     'designeuse mobilier',
+    'nábytkový návrhář',
+    'nábytková návrhářka',
   ]),
   OccupationLabels('7522', [
     'furniture finisher',
@@ -14973,6 +16894,8 @@ const escoOccupations = <OccupationLabels>[
     'finisseur de meubles',
     'finisseuse de meubles',
     'vernisseuse finisseuse',
+    'lakýrník a natěrač nábytku',
+    'lakýrnice a natěračka nábytku',
   ]),
   OccupationLabels('7522', [
     'furniture restorer',
@@ -14987,6 +16910,8 @@ const escoOccupations = <OccupationLabels>[
     'meubelrestaurateur',
     'restaurateur de meubles',
     'restauratrice de meubles',
+    'restaurátor nábytku',
+    'restaurátorka nábytku',
   ]),
   OccupationLabels('1420', [
     'furniture shop manager',
@@ -14997,6 +16922,7 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleider woonwinkel',
     'meewerkend bedrijfsleider woonwinkel',
     'bedrijfsleidster woonwinkel',
+    'vedoucí prodejny nábytku',
   ]),
   OccupationLabels('5223', [
     'furniture specialised seller',
@@ -15013,6 +16939,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist meubelen',
     'marchand de meubles',
     'marchande de meubles',
+    'prodavač nábytku',
+    'prodavačka nábytku',
+    'prodavač v prodejně svítidel',
   ]),
   OccupationLabels('7534', [
     'furniture upholsterer',
@@ -15027,6 +16956,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster meubelstoffeerderij',
     'tapissier d’ameublement',
     'tapissière d’ameublement',
+    'čalouník nábytku',
+    'čalounice nábytku',
   ]),
   OccupationLabels('1345', [
     'further education principal',
@@ -15044,6 +16975,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur tweedekansonderwijs',
     'directeur d\'établissement d\'enseignement post-secondaire',
     'directrice d\'établissement d\'enseignement post-secondaire',
+    'ředitel vyšší odborné školy',
+    'ředitelka vyšší odborné školy',
   ]),
   OccupationLabels('2359', [
     'further education teacher',
@@ -15053,6 +16986,8 @@ const escoOccupations = <OccupationLabels>[
     'profesora de formación continua',
     'leraar volwassenenonderwijs',
     'leraar tweedekansonderwijs',
+    'učitel dalšího vzdělávání',
+    'učitelka dalšího vzdělávání',
   ]),
   OccupationLabels('3311', [
     'futures trader',
@@ -15064,6 +16999,8 @@ const escoOccupations = <OccupationLabels>[
     'warenterminhändlerin',
     'handelaar in futures',
     'trader in futures',
+    'obchodník s futures',
+    'obchodnice s futures',
   ]),
   OccupationLabels('1431', [
     'gambling manager',
@@ -15077,6 +17014,8 @@ const escoOccupations = <OccupationLabels>[
     'manager kansspelen',
     'directeur des jeux',
     'directrice des jeux',
+    'manažer v oblasti hazardu',
+    'manažerka v oblasti hazardu',
   ]),
   OccupationLabels('2120', [
     'gambling games developer',
@@ -15095,6 +17034,8 @@ const escoOccupations = <OccupationLabels>[
     'ontwikkelaar van kansspelen',
     'ontwikkelaar loterijproducten',
     'kansspelontwikkelaar',
+    'designérka sázkových her',
+    'designér sázkových her',
   ]),
   OccupationLabels('2120', [
     'gambling quality controller',
@@ -15110,6 +17051,8 @@ const escoOccupations = <OccupationLabels>[
     'jachtopziener',
     'jachtopzichter',
     'garde-chasse',
+    'chovatel zvěře',
+    'chovatelka zvěře',
   ]),
   OccupationLabels('1223', [
     'games development manager',
@@ -15122,6 +17065,7 @@ const escoOccupations = <OccupationLabels>[
     'projectmanager gameontwikkeling',
     'directeur de création jeux',
     'directrice de création jeux',
+    'vedoucí vývoje her',
   ]),
   OccupationLabels('4212', [
     'gaming dealer',
@@ -15131,6 +17075,8 @@ const escoOccupations = <OccupationLabels>[
     'croupière',
     'croupier de boule',
     'croupier bout de table',
+    'pracovník herny',
+    'pracovnice herny',
   ]),
   OccupationLabels('3359', [
     'gaming inspector',
@@ -15142,6 +17088,8 @@ const escoOccupations = <OccupationLabels>[
     'spielhallenaufseher',
     'inspecteur kansspelen',
     'inspecteur kansspelautoriteit',
+    'inspektor hazardních her',
+    'inspektorka hazardních her',
   ]),
   OccupationLabels('1439', [
     'garage manager',
@@ -15152,6 +17100,7 @@ const escoOccupations = <OccupationLabels>[
     'manager autogaragebedrijf',
     'werkplaatsmanager motorvoertuigentechniek',
     'manager logistiek & reparatie',
+    'vedoucí autoservisu',
   ]),
   OccupationLabels('9214', [
     'garden labourer',
@@ -15166,6 +17115,8 @@ const escoOccupations = <OccupationLabels>[
     'tuinier',
     'aide jardinier',
     'aide jardinière',
+    'zahradnický dělník',
+    'zahradnická dělnice',
   ]),
   OccupationLabels('2145', [
     'gas distribution engineer',
@@ -15212,6 +17163,8 @@ const escoOccupations = <OccupationLabels>[
     'gas scheduling representative',
     'fachkraft gasversorgung',
     'gasdistributieplanner',
+    'plánovač v plynárenství',
+    'plánovačka v plynárenství',
   ]),
   OccupationLabels('7126', [
     'gas service technician',
@@ -15226,6 +17179,8 @@ const escoOccupations = <OccupationLabels>[
     'gasmonteuse',
     'technicien gaz',
     'technicienne gaz',
+    'instalatér plynárenských zařízení',
+    'instalatérka plynárenských zařízení',
   ]),
   OccupationLabels('3133', [
     'gas station operator',
@@ -15234,6 +17189,8 @@ const escoOccupations = <OccupationLabels>[
     'operator gascompressie',
     'operator gaspompstation',
     'opérateur',
+    'operátor kompresní stanice',
+    'operátorka kompresní stanice',
   ]),
   OccupationLabels('4323', [
     'gas transmission system operator',
@@ -15244,6 +17201,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker gasdistributie',
     'gasdistributiemedewerkster',
     'gasdistributiemedewerker',
+    'provozovatel přepravní plynárenské soustavy',
+    'provozovatelka přepravní plynárenské soustavy',
   ]),
   OccupationLabels('5414', [
     'gate guard',
@@ -15267,6 +17226,8 @@ const escoOccupations = <OccupationLabels>[
     'operator raffinaderij',
     'technicien pétrolier',
     'technicienne pétrolière',
+    'kontrolor v ropném odvětví',
+    'kontrolorka v ropném odvětví',
   ]),
   OccupationLabels('7223', [
     'gear machinist',
@@ -15278,6 +17239,8 @@ const escoOccupations = <OccupationLabels>[
     'werktuigkundige aandrijvingen',
     'tailleur d’engrenage',
     'tailleuse d’engrenage',
+    'mechanik převodových ústrojí',
+    'mechanička převodových ústrojí',
   ]),
   OccupationLabels('3315', [
     'gemmologist',
@@ -15291,6 +17254,8 @@ const escoOccupations = <OccupationLabels>[
     'edelsteenkundige',
     'gemmologue-expert',
     'gemmologue-experte',
+    'gemolog',
+    'gemoložka',
   ]),
   OccupationLabels('2633', [
     'genealogist',
@@ -15302,6 +17267,7 @@ const escoOccupations = <OccupationLabels>[
     'genealog',
     'genealoog',
     'généalogiste',
+    'genealožka',
   ]),
   OccupationLabels('2211', [
     'general practitioner',
@@ -15312,6 +17278,8 @@ const escoOccupations = <OccupationLabels>[
     'läkare',
     'huisarts',
     'médecin généraliste',
+    'praktický lékař',
+    'praktická lékařka',
   ]),
   OccupationLabels('2250', [
     'general veterinarian',
@@ -15332,6 +17300,9 @@ const escoOccupations = <OccupationLabels>[
     'vétérinaire',
     'vétérinaire généraliste',
     'chirurgien vétérinaire',
+    'všeobecný zvěrolékař',
+    'všeobecná zvěrolékařka',
+    'všeobecný veterinář',
   ]),
   OccupationLabels('2131', [
     'geneticist',
@@ -15349,6 +17320,8 @@ const escoOccupations = <OccupationLabels>[
     'klinisch geneticus',
     'généticien',
     'généticienne',
+    'genetik',
+    'genetička',
   ]),
   OccupationLabels('2114', [
     'geochemist',
@@ -15361,6 +17334,8 @@ const escoOccupations = <OccupationLabels>[
     'geokemist',
     'geochemicus',
     'géochimiste',
+    'geochemik',
+    'geochemička',
   ]),
   OccupationLabels('2632', [
     'geographer',
@@ -15373,6 +17348,8 @@ const escoOccupations = <OccupationLabels>[
     'anthropogeograf',
     'geograaf',
     'géographe',
+    'geografka',
+    'geograf specialista',
   ]),
   OccupationLabels('2165', [
     'geographic information systems specialist',
@@ -15386,6 +17363,8 @@ const escoOccupations = <OccupationLabels>[
     'specialiste geografische informatiesystemen',
     'cartographe géomaticien',
     'cartographe géomaticienne',
+    'specialista katastru nemovitostí',
+    'specialistka katastru nemovitostí',
   ]),
   OccupationLabels('2330', [
     'geography teacher secondary school',
@@ -15399,6 +17378,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de géographie',
     'professeure de géographie',
     'professeur d’histoire géographique',
+    'středoškolská učitelka zeměpisu',
+    'středoškolský učitel zeměpisu',
+    'učitel zeměpisu',
   ]),
   OccupationLabels('2142', [
     'geological engineer',
@@ -15417,6 +17399,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur-geologe',
     'ingénieur géologue',
     'ingénieure géologue',
+    'inženýrský geolog',
+    'inženýrská geoložka',
   ]),
   OccupationLabels('2114', [
     'geologist',
@@ -15430,6 +17414,7 @@ const escoOccupations = <OccupationLabels>[
     'geoloog',
     'gasgeoloog',
     'géologue',
+    'geoložka',
   ]),
   OccupationLabels('3111', [
     'geology technician',
@@ -15447,6 +17432,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien géologue',
     'technicienne géologue',
     'technicienne géologue de terrain',
+    'technik v oblasti geologie',
+    'technička v oblasti geologie',
+    'technik geofyzik',
   ]),
   OccupationLabels('2114', [
     'geophysicist',
@@ -15460,6 +17448,8 @@ const escoOccupations = <OccupationLabels>[
     'geofysicus',
     'géophysicien',
     'géophysicienne',
+    'geofyzik',
+    'geofyzička',
   ]),
   OccupationLabels('3117', [
     'geotechnician',
@@ -15476,6 +17466,8 @@ const escoOccupations = <OccupationLabels>[
     'geotechnicus mijnbouw',
     'géotechnicien',
     'géotechnicienne',
+    'geotechnik',
+    'geotechnička',
   ]),
   OccupationLabels('3131', [
     'geothermal power plant operator',
@@ -15488,6 +17480,8 @@ const escoOccupations = <OccupationLabels>[
     'steuerin von erdwärmekraftwerken',
     'exploitatietechnicus geothermische energiecentrale',
     'conducteur',
+    'operátor geotermální elektrárny',
+    'operátorka geotermální elektrárny',
   ]),
   OccupationLabels('8160', [
     'germination operator',
@@ -15506,6 +17500,9 @@ const escoOccupations = <OccupationLabels>[
     'operators ontkiemingsproces',
     'ouvrier brasseur-malteur',
     'ouvrière brasseuse malteuse',
+    'operátor klíčení',
+    'operátorka klíčení',
+    'operátoři systému klíčení',
   ]),
   OccupationLabels('2635', [
     'gerontology social worker',
@@ -15528,6 +17525,7 @@ const escoOccupations = <OccupationLabels>[
     'operator uitgloeioven',
     'operator glaskoeloven',
     'operator gloeioven',
+    'obsluha sklářské chladící pece',
   ]),
   OccupationLabels('2651', [
     'glass artist',
@@ -15541,6 +17539,8 @@ const escoOccupations = <OccupationLabels>[
     'glaskonstnär',
     'glaskunstenaar',
     'vitrailliste',
+    'umělecký sklář',
+    'umělecká sklářka',
   ]),
   OccupationLabels('7315', [
     'glass beveller',
@@ -15554,6 +17554,8 @@ const escoOccupations = <OccupationLabels>[
     'glaszetter',
     'biseauteur de verre',
     'biseauteuse de verre',
+    'brusič skla',
+    'brusička skla',
   ]),
   OccupationLabels('7316', [
     'glass engraver',
@@ -15570,6 +17572,8 @@ const escoOccupations = <OccupationLabels>[
     'graveur sur verre',
     'graveuse sur verre',
     'graveur sur cristal',
+    'rytec skla',
+    'rytkyně skla',
   ]),
   OccupationLabels('8181', [
     'glass forming machine operator',
@@ -15604,6 +17608,8 @@ const escoOccupations = <OccupationLabels>[
     'glasschilder',
     'glasschilderes',
     'peintre sur verre',
+    'dekoratér skla',
+    'dekoratérka skla',
   ]),
   OccupationLabels('8181', [
     'glass polisher',
@@ -15622,6 +17628,8 @@ const escoOccupations = <OccupationLabels>[
     'machineoperator glasbewerking',
     'polisseur sur verre',
     'polisseuse sur verre',
+    'leštič skla',
+    'leštička skla',
   ]),
   OccupationLabels('7315', [
     'glass-blower',
@@ -15635,6 +17643,8 @@ const escoOccupations = <OccupationLabels>[
     'glasblazer',
     'souffleur de verre',
     'souffleuse de verre',
+    'sklář',
+    'sklářka',
   ]),
   OccupationLabels('7533', [
     'glove maker',
@@ -15652,6 +17662,8 @@ const escoOccupations = <OccupationLabels>[
     'handschoenmaakster',
     'gantier',
     'gantière',
+    'výrobce rukavic',
+    'výrobkyně rukavic',
   ]),
   OccupationLabels('7313', [
     'goldsmith',
@@ -15665,6 +17677,8 @@ const escoOccupations = <OccupationLabels>[
     'goudsmid',
     'juwelier-goudsmid',
     'orfèvre',
+    'zlatník',
+    'zlatnice',
   ]),
   OccupationLabels('3422', [
     'golf instructor',
@@ -15678,6 +17692,9 @@ const escoOccupations = <OccupationLabels>[
     'golfcoach',
     'professeur de golf',
     'professeure de golf',
+    'trenér golfu',
+    'trenérka golfu',
+    'golfový trenér',
   ]),
   OccupationLabels('1111', [
     'government minister',
@@ -15694,6 +17711,8 @@ const escoOccupations = <OccupationLabels>[
     'ministre',
     'premier ministre',
     'première ministre',
+    'ministr',
+    'ministryně',
   ]),
   OccupationLabels('2422', [
     'government planning inspector',
@@ -15722,6 +17741,9 @@ const escoOccupations = <OccupationLabels>[
     'gradermachiniste',
     'conducteur de niveleuse',
     'conductrice de niveleuse',
+    'obsluha traktorového srovnávače',
+    'obsluha třídidla',
+    'obsluha grejdru',
   ]),
   OccupationLabels('3313', [
     'grants administrator',
@@ -15735,6 +17757,8 @@ const escoOccupations = <OccupationLabels>[
     'granskningsman',
     'subsidiecoördinator',
     'consultant subsidieadvies',
+    'správce grantových programů',
+    'správkyně grantových programů',
   ]),
   OccupationLabels('2411', [
     'grants management officer',
@@ -15749,6 +17773,8 @@ const escoOccupations = <OccupationLabels>[
     'bidragshandläggare',
     'administratief medewerker subsidieaanvragen',
     'gestionnaire des subventions',
+    'referent řízení grantů',
+    'referentka řízení grantů',
   ]),
   OccupationLabels('8131', [
     'granulator machine operator',
@@ -15761,6 +17787,7 @@ const escoOccupations = <OccupationLabels>[
     'pharmawerker im bereich granulierung',
     'pharmawerkerin im bereich granulierung',
     'granulatorbediener',
+    'obsluha granulovacích strojů',
   ]),
   OccupationLabels('2166', [
     'graphic designer',
@@ -15781,6 +17808,9 @@ const escoOccupations = <OccupationLabels>[
     'graphiste',
     'graphiste concepteur',
     'graphiste conceptrice',
+    'grafický designér',
+    'grafická designérka',
+    'komerční grafický designér',
   ]),
   OccupationLabels('2643', [
     'graphologist',
@@ -15795,6 +17825,7 @@ const escoOccupations = <OccupationLabels>[
     'grafolog',
     'grafoloog',
     'graphologue',
+    'grafoložka',
   ]),
   OccupationLabels('7322', [
     'gravure press operator',
@@ -15828,6 +17859,8 @@ const escoOccupations = <OccupationLabels>[
     'smeerder',
     'graisseur',
     'graisseuse',
+    'strojní mazací technik',
+    'strojní mazací technička',
   ]),
   OccupationLabels('3323', [
     'green coffee buyer',
@@ -15848,6 +17881,7 @@ const escoOccupations = <OccupationLabels>[
     'acheteur de café vert',
     'acheteuse de café vert',
     'acheteuse de café marchand',
+    'nákupčí zelené kávy',
   ]),
   OccupationLabels('3122', [
     'green coffee coordinator',
@@ -15863,6 +17897,8 @@ const escoOccupations = <OccupationLabels>[
     'råkaffesamordnare',
     'coördinator ongebrande koffiebonen',
     'coördinator groene koffiebonen',
+    'koordinátor pro zelenou kávu',
+    'koordinátorka pro zelenou kávu',
   ]),
   OccupationLabels('2511', [
     'green ict consultant',
@@ -15895,6 +17931,8 @@ const escoOccupations = <OccupationLabels>[
     'rotisseur',
     'grillardin',
     'grillardine',
+    'kuchař specializovaný na grilování',
+    'kuchařka specializovaná na grilování',
   ]),
   OccupationLabels('7223', [
     'grinding machine operator',
@@ -15912,6 +17950,9 @@ const escoOccupations = <OccupationLabels>[
     'rectifieur',
     'rectifieuse',
     'rectifieur en usinage',
+    'seřizovač brousicího stroje',
+    'seřizovačka brousicího stroje',
+    'seřizovač brusky',
   ]),
   OccupationLabels('9212', [
     'groom',
@@ -15926,6 +17967,9 @@ const escoOccupations = <OccupationLabels>[
     'paardenverzorgster',
     'palefrenier',
     'palefrenière',
+    'ošetřovatel',
+    'ošetřovatelka',
+    'ošetřovatelka koní',
   ]),
   OccupationLabels('7412', [
     'ground lighting officer',
@@ -15935,6 +17979,8 @@ const escoOccupations = <OccupationLabels>[
     'flugfeldbeleuchtungsinspektorin',
     'ingenieur luchthavenverlichting',
     'ingenieur vliegveldverlichting',
+    'technik pozemního osvětlení letišť',
+    'technička pozemního osvětlení letišť',
   ]),
   OccupationLabels('7215', [
     'ground rigger',
@@ -15942,6 +17988,8 @@ const escoOccupations = <OccupationLabels>[
     'grondrigger',
     'monteur au sol',
     'monteuse au sol',
+    'montér',
+    'montérka',
   ]),
   OccupationLabels('4221', [
     'ground steward',
@@ -15958,6 +18006,8 @@ const escoOccupations = <OccupationLabels>[
     'grondstewardess',
     'agent d’escale',
     'agente d’escale',
+    'pracovník odbavení cestujících',
+    'pracovnice odbavení cestujících',
   ]),
   OccupationLabels('6113', [
     'groundsman',
@@ -15972,6 +18022,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker groenvoorziening',
     'medewerkster groenvoorziening',
     'medewerker groene ruimte',
+    'greenkeeper specialista',
+    'greenkeeper specialistka',
   ]),
   OccupationLabels('3111', [
     'groundwater monitoring technician',
@@ -15982,6 +18034,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus grondwatercontrole',
     'grondwatertechnicus',
     'technicus grondwateranalyse',
+    'technik monitoringu podzemních vod',
+    'technička monitoringu podzemních vod',
   ]),
   OccupationLabels('5113', [
     'guide',
@@ -15992,6 +18046,9 @@ const escoOccupations = <OccupationLabels>[
     'fremdenführer',
     'fremdenführerin',
     'gids',
+    'průvodce',
+    'průvodkyně',
+    'turistická průvodkyně',
   ]),
   OccupationLabels('5164', [
     'guide dog instructor',
@@ -16012,6 +18069,8 @@ const escoOccupations = <OccupationLabels>[
     'éducateur de chiens guides',
     'éducatrice de chiens guides',
     'éducateur de chiens d\'aveugle',
+    'cvičitel vodicích psů',
+    'cvičitelka vodicích psů',
   ]),
   OccupationLabels('7312', [
     'guitar maker',
@@ -16027,6 +18086,8 @@ const escoOccupations = <OccupationLabels>[
     'gitaarbouwer',
     'facteur de guitares',
     'factrice de guitares',
+    'výrobce kytar',
+    'výrobkyně kytar',
   ]),
   OccupationLabels('7222', [
     'gunsmith',
@@ -16041,6 +18102,8 @@ const escoOccupations = <OccupationLabels>[
     'artistiek wapensmid',
     'armurier',
     'armurière',
+    'puškař',
+    'puškařka',
   ]),
   OccupationLabels('5142', [
     'hair removal technician',
@@ -16054,6 +18117,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist definitieve ontharing',
     'épileur',
     'épileuse',
+    'specialista na depilaci',
+    'specialistka na depilaci',
   ]),
   OccupationLabels('5141', [
     'hair stylist',
@@ -16066,6 +18131,8 @@ const escoOccupations = <OccupationLabels>[
     'hårstylist',
     'coiffeur styliste',
     'coiffeuse styliste',
+    'vlasový stylista',
+    'vlasová stylistka',
   ]),
   OccupationLabels('5141', [
     'hairdresser',
@@ -16085,6 +18152,8 @@ const escoOccupations = <OccupationLabels>[
     'haarkapper',
     'coiffeur',
     'coiffeuse',
+    'kadeřník',
+    'kadeřnice',
   ]),
   OccupationLabels('5141', [
     'hairdresser assistant',
@@ -16098,6 +18167,8 @@ const escoOccupations = <OccupationLabels>[
     'kappershulp',
     'assistant coiffeur',
     'assistante coiffeuse',
+    'asistent kadeřníka',
+    'asistentka kadeřníka',
   ]),
   OccupationLabels('2320', [
     'hairdressing vocational teacher',
@@ -16109,6 +18180,9 @@ const escoOccupations = <OccupationLabels>[
     'vakdocent haartooi beroepsonderwijs',
     'professeur de coiffure',
     'professeure de coiffure',
+    'učitel vlasové stylistiky',
+    'učitelka vlasové stylistiky',
+    'učitel holičství',
   ]),
   OccupationLabels('7511', [
     'halal butcher',
@@ -16127,6 +18201,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker islamitische slagerij',
     'boucher en boucherie halal',
     'bouchère en boucherie halal',
+    'řezník halal',
+    'řeznice halal',
   ]),
   OccupationLabels('7511', [
     'halal slaughterer',
@@ -16142,6 +18218,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker islamitische slachterij',
     'abatteur en abattage halal',
     'abatteuse en abattage halal',
+    'porážeč halal',
+    'porážečka halal',
   ]),
   OccupationLabels('7314', [
     'hand brick moulder',
@@ -16152,6 +18230,8 @@ const escoOccupations = <OccupationLabels>[
     'handziegelmacherin',
     'baksteenvormer',
     'baksteenvormster',
+    'formíř ručně vyráběných cihel',
+    'formířka ručně vyráběných cihel',
   ]),
   OccupationLabels('7536', [
     'hand lasting operator',
@@ -16163,6 +18243,7 @@ const escoOccupations = <OccupationLabels>[
     'productiemedewerkster leest',
     'monteur à la main',
     'monteuse à la main',
+    'obsluha manuálního obuvnického stroje',
   ]),
   OccupationLabels('3351', [
     'hand luggage inspector',
@@ -16174,6 +18255,9 @@ const escoOccupations = <OccupationLabels>[
     'bagage-inspecteur',
     'agent de sûreté fret',
     'agente de sûreté fret',
+    'kontrolor příručních zavazadel',
+    'kontrolorka příručních zavazadel',
+    'kontrolorka zavazadel',
   ]),
   OccupationLabels('9321', [
     'hand packer',
@@ -16187,6 +18271,8 @@ const escoOccupations = <OccupationLabels>[
     'inpakker met de hand',
     'opérateur d\'emballage manuel',
     'opératrice d\'emballage manuel',
+    'ruční balič',
+    'ruční balička',
   ]),
   OccupationLabels('9622', [
     'handyman',
@@ -16202,6 +18288,8 @@ const escoOccupations = <OccupationLabels>[
     'klusjesman',
     'homme à tout faire',
     'femme à tout faire',
+    'údržbář',
+    'údržbářka',
   ]),
   OccupationLabels('1420', [
     'hardware shop manager',
@@ -16213,6 +18301,7 @@ const escoOccupations = <OccupationLabels>[
     'manager ijzerwinkel',
     'gérant de quincaillerie',
     'gérante de quincaillerie',
+    'vedoucí železářství',
   ]),
   OccupationLabels('5223', [
     'hardware specialised seller',
@@ -16222,6 +18311,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist ijzerwaren en gereedschappen',
     'vendeur en bricolage',
     'vendeuse en bricolage',
+    'prodavačka v železářství',
+    'prodavačka domácích potřeb',
+    'prodavač v železářství',
   ]),
   OccupationLabels('7122', [
     'hardwood floor layer',
@@ -16237,6 +18329,8 @@ const escoOccupations = <OccupationLabels>[
     'parqueteur',
     'parqueteuse',
     'parqueteuse menuisière',
+    'pokladač dřevěných podlah',
+    'pokladačka dřevěných podlah',
   ]),
   OccupationLabels('7312', [
     'harp maker',
@@ -16252,6 +18346,8 @@ const escoOccupations = <OccupationLabels>[
     'pedaalharpbouwer',
     'facteur de harpes',
     'factrice de harpes',
+    'výrobce harf',
+    'výrobkyně harf',
   ]),
   OccupationLabels('7312', [
     'harpsichord maker',
@@ -16264,6 +18360,9 @@ const escoOccupations = <OccupationLabels>[
     'bouwer van klavecimbels',
     'facteur de clavecins',
     'factrice de clavecins',
+    'výrobce clavicembal',
+    'výrobkyně clavicembal',
+    'výrobce cembal',
   ]),
   OccupationLabels('7541', [
     'harvest diver',
@@ -16279,6 +18378,8 @@ const escoOccupations = <OccupationLabels>[
     'pêcheur en plongée',
     'pêcheuse en plongée',
     'pêcheuse sous-marine',
+    'potápěč-sběrač',
+    'potápěčka-sběračka',
   ]),
   OccupationLabels('9520', [
     'hawker',
@@ -16295,6 +18396,8 @@ const escoOccupations = <OccupationLabels>[
     'markt- en straatverkoper',
     'vendeur ambulant',
     'vendeuse ambulante',
+    'pouliční prodavač',
+    'pouliční prodavačka',
   ]),
   OccupationLabels('3257', [
     'hazardous materials inspector',
@@ -16308,6 +18411,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur szw',
     'inspecteur federale milieu-inspectie',
     'inspecteur gevaarlijke stoffen',
+    'inspektor nebezpečných materiálů',
+    'inspektorka nebezpečných materiálů',
   ]),
   OccupationLabels('3257', [
     'hazardous waste inspector',
@@ -16320,6 +18425,8 @@ const escoOccupations = <OccupationLabels>[
     'inspektor gefährliche abfälle',
     'inspektorin gefährliche abfälle',
     'inspecteur gevaarlijke afvalstoffen',
+    'inspektor nebezpečného odpadu',
+    'inspektorka nebezpečného odpadu',
   ]),
   OccupationLabels('3116', [
     'hazardous waste technician',
@@ -16338,6 +18445,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus stortplaatsen',
     'technicien en déchets dangereux',
     'technicienne en déchets dangereux',
+    'technik zpracování nebezpečného odpadu',
+    'technička zpracování nebezpečného odpadu',
   ]),
   OccupationLabels('3434', [
     'head chef',
@@ -16352,6 +18461,8 @@ const escoOccupations = <OccupationLabels>[
     'chef cuisinier',
     'cheffe cuisinière',
     'cheffe de cuisine',
+    'vrchní šéfkuchař',
+    'vrchní šéfkuchařka',
   ]),
   OccupationLabels('1345', [
     'leiter einer höheren lehranstalt',
@@ -16363,6 +18474,8 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directeur hogeschool',
     'directeur d\'établissement d\'enseignement supérieur',
     'directrice d\'établissement d\'enseignement supérieur',
+    'ředitel instituce vysokoškolského vzdělávání',
+    'ředitelka instituce vysokoškolského vzdělávání',
   ]),
   OccupationLabels('3435', [
     'head of workshop',
@@ -16373,6 +18486,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinator theateratelier',
     'coördinatrice van het theateratelier',
     'coördinator decor- en kostuumatelier',
+    'vedoucí dílny',
+    'vedoucí dekoračních dílen',
   ]),
   OccupationLabels('3434', [
     'head pastry chef',
@@ -16389,6 +18504,8 @@ const escoOccupations = <OccupationLabels>[
     'maître pâtissier',
     'maîtresse pâtissière',
     'maîtresse pâtissier',
+    'vrchní šéfcukrář',
+    'vrchní šéfcukrářka',
   ]),
   OccupationLabels('5131', [
     'head sommelier',
@@ -16404,6 +18521,9 @@ const escoOccupations = <OccupationLabels>[
     'sommelier en chef',
     'sommelière en chef',
     'chef sommelier',
+    'hlavní someliér',
+    'hlavní someliérka',
+    'hlavní číšník pro víno',
   ]),
   OccupationLabels('5131', [
     'head waiter',
@@ -16421,6 +18541,9 @@ const escoOccupations = <OccupationLabels>[
     'maître',
     'maître d’hôtel',
     'maîtresse d’hôtel',
+    'vrchní číšník',
+    'vrchní číšnice',
+    'vrchní',
   ]),
   OccupationLabels('1345', [
     'headteacher',
@@ -16432,6 +18555,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur',
     'schooldirecteur',
     'chef d\'établissement scolaire',
+    'ředitel školy',
+    'ředitelka školy',
   ]),
   OccupationLabels('2149', [
     'health and safety engineer',
@@ -16468,6 +18593,8 @@ const escoOccupations = <OccupationLabels>[
     'arbetsmiljöingenjör',
     'arbeidshygiënist',
     'arbeidshygiëniste',
+    'referent bozp',
+    'referentka bozp',
   ]),
   OccupationLabels('2634', [
     'health psychologist',
@@ -16484,6 +18611,8 @@ const escoOccupations = <OccupationLabels>[
     'gezondheidszorgpsycholoog',
     'gezondheidszorgpsychologe',
     'psychologue de la santé',
+    'psycholog zdraví',
+    'psycholožka zdraví',
   ]),
   OccupationLabels('5321', [
     'healthcare assistant',
@@ -16496,6 +18625,8 @@ const escoOccupations = <OccupationLabels>[
     'zorghulp',
     'aide-soignant en institution',
     'aide-soignante en institution',
+    'asistent zdravotní péče',
+    'asistentka zdravotní péče',
   ]),
   OccupationLabels('2422', [
     'healthcare consultant',
@@ -16511,6 +18642,8 @@ const escoOccupations = <OccupationLabels>[
     'consulente gezondheidsvoorlichting en -opvoeding',
     'consultant en santé publique',
     'consultante en santé publique',
+    'poradce pro zdravotnictví',
+    'poradkyně pro zdravotnictví',
   ]),
   OccupationLabels('3257', [
     'healthcare inspector',
@@ -16527,6 +18660,9 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur van de gezondheidsdienst',
     'inspecteur de santé publique',
     'inspectrice de santé publique',
+    'inspektor zdravotní péče',
+    'inspektorka zdravotní péče',
+    'inspektor zdravotnických zařízení',
   ]),
   OccupationLabels('1342', [
     'healthcare institution manager',
@@ -16541,6 +18677,8 @@ const escoOccupations = <OccupationLabels>[
     'manager zorginstelling',
     'manager revalidatiecentrum',
     'responsable d\'établissement de santé',
+    'manažer zdravotnického zařízení',
+    'manažerka zdravotnického zařízení',
   ]),
   OccupationLabels('2310', [
     'healthcare specialist lecturer',
@@ -16552,6 +18690,9 @@ const escoOccupations = <OccupationLabels>[
     'docent gezondheidszorg hoger onderwijs',
     'docent gezondheidswetenschappen hoger onderwijs',
     'docente gezondheidswetenschappen hoger onderwijs',
+    'přednášející v oboru embryologie',
+    'přednášející v oboru geriatrie',
+    'přednášející v oboru dietetiky',
   ]),
   OccupationLabels('8322', [
     'hearse driver',
@@ -16567,6 +18708,9 @@ const escoOccupations = <OccupationLabels>[
     'chauffeur de corbillard',
     'chauffeuse de corbillard',
     'porteuse-chauffeuse',
+    'řidič pohřební služby',
+    'řidička pohřební služby',
+    'řidička pohřebního vozu',
   ]),
   OccupationLabels('8183', [
     'heat sealing machine operator',
@@ -16591,6 +18735,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin im bereich wärmebehandlung',
     'operator warmtebehandelingsoven',
     'operator warmtebehandeling',
+    'operátor zařízení tepelného zpracování',
+    'operátorka zařízení tepelného zpracování',
   ]),
   OccupationLabels('7126', [
     'heating engineer',
@@ -16606,6 +18752,8 @@ const escoOccupations = <OccupationLabels>[
     'verwarmingsmonteuse',
     'verwarmingstechnicus',
     'chauffagiste',
+    'topenář',
+    'topenářka',
   ]),
   OccupationLabels('3118', [
     'diseñador técnico industrial',
@@ -16667,6 +18815,9 @@ const escoOccupations = <OccupationLabels>[
     'helikopterpiloot',
     'helikopterpilote',
     'pilote d’hélicoptère',
+    'pilot vrtulníku',
+    'pilotka vrtulníku',
+    'pilotka komerčního vrtulníku',
   ]),
   OccupationLabels('3152', [
     'helmsman',
@@ -16682,6 +18833,8 @@ const escoOccupations = <OccupationLabels>[
     'roerganger visserij',
     'timonier',
     'timonière',
+    'kormidelník',
+    'kormidelnice',
   ]),
   OccupationLabels('3230', [
     'herbal therapist',
@@ -16698,6 +18851,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en herboristerie',
     'conseillère en herboristerie',
     'conseillère en naturopathie',
+    'bylinkář',
+    'bylinkářka',
   ]),
   OccupationLabels('7531', [
     'hide grader',
@@ -16709,6 +18864,8 @@ const escoOccupations = <OccupationLabels>[
     'klasseerder van huiden',
     'trieur classeur de peaux',
     'trieuse classeuse de peaux',
+    'klasifikátor usní',
+    'klasifikátorka usní',
   ]),
   OccupationLabels('7215', [
     'high rigger',
@@ -16718,6 +18875,8 @@ const escoOccupations = <OccupationLabels>[
     'takriggare',
     'klimmende rigger',
     'cordiste',
+    'výškový montér',
+    'výšková montérka',
   ]),
   OccupationLabels('2310', [
     'higher education lecturer',
@@ -16738,6 +18897,8 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur',
     'enseignante-chercheuse',
     'enseignant en université',
+    'vysokoškolský učitel',
+    'vysokoškolská učitelka',
   ]),
   OccupationLabels('2633', [
     'historian',
@@ -16754,6 +18915,8 @@ const escoOccupations = <OccupationLabels>[
     'historien',
     'historienne',
     'historienne d\'art',
+    'historik',
+    'historička',
   ]),
   OccupationLabels('2310', [
     'history lecturer',
@@ -16771,6 +18934,7 @@ const escoOccupations = <OccupationLabels>[
     'docente geschiedenis hoger onderwijs',
     'enseignant-chercheur en histoire',
     'enseignante-chercheuse en histoire',
+    'přednášející v oboru historie',
   ]),
   OccupationLabels('2330', [
     'history teacher secondary school',
@@ -16782,6 +18946,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur d’histoire',
     'professeure d’histoire',
     'professeur d’histoire géographie',
+    'učitel dějepisu',
+    'středoškolský učitel dějepisu',
+    'středoškolská učitelka dějepisu',
   ]),
   OccupationLabels('5322', [
     'home care aide',
@@ -16794,6 +18961,8 @@ const escoOccupations = <OccupationLabels>[
     'zorghulp thuiszorg',
     'assistant de vie',
     'assistante de vie',
+    'domácí ošetřovatel',
+    'domácí ošetřovatelka',
   ]),
   OccupationLabels('2635', [
     'homelessness worker',
@@ -16804,6 +18973,8 @@ const escoOccupations = <OccupationLabels>[
     'thuislozenwerker',
     'maraudeur',
     'maraudeuse',
+    'pracovník v oblasti bezdomovectví',
+    'pracovnice v oblasti bezdomovectví',
   ]),
   OccupationLabels('2230', [
     'homeopath',
@@ -16816,6 +18987,8 @@ const escoOccupations = <OccupationLabels>[
     'homeopat',
     'homeopaat',
     'homéopathe',
+    'homeopatka',
+    'homeopatický poradce',
   ]),
   OccupationLabels('8160', [
     'honey extractor',
@@ -16830,6 +19003,8 @@ const escoOccupations = <OccupationLabels>[
     'honingextractor',
     'extracteur de miel',
     'extracteur à miel',
+    'pracovník pro získání medu',
+    'pracovnice pro získání medu',
   ]),
   OccupationLabels('6112', [
     'hop farmer',
@@ -16843,6 +19018,8 @@ const escoOccupations = <OccupationLabels>[
     'hopteler',
     'producteur de houblon',
     'productrice de houblon',
+    'pěstitel chmele',
+    'pěstitelka chmele',
   ]),
   OccupationLabels('6121', [
     'horse breeder',
@@ -16862,6 +19039,8 @@ const escoOccupations = <OccupationLabels>[
     'éleveur de chevaux',
     'éleveuse de chevaux',
     'éleveuse équestre',
+    'chovatel koní',
+    'chovatelka koní',
   ]),
   OccupationLabels('3423', [
     'horse riding instructor',
@@ -16880,6 +19059,8 @@ const escoOccupations = <OccupationLabels>[
     'moniteur d’activités équestres',
     'monitrice d’activités équestres',
     'moniteur d\'activités équestres',
+    'instruktor jezdectví',
+    'instruktorka jezdectví',
   ]),
   OccupationLabels('5164', [
     'horse trainer',
@@ -16897,6 +19078,8 @@ const escoOccupations = <OccupationLabels>[
     'dresseur de chevaux',
     'dresseuse de chevaux',
     'dresseuse équestre',
+    'trenér koní',
+    'trenérka koní',
   ]),
   OccupationLabels('6113', [
     'horticulture production manager',
@@ -16916,6 +19099,8 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleider kas',
     'responsable de production horticole',
     'responsable horticole',
+    'manažer zahradnické produkce',
+    'manažerka zahradnické produkce',
   ]),
   OccupationLabels('6113', [
     'horticulture production team leader',
@@ -16926,6 +19111,7 @@ const escoOccupations = <OccupationLabels>[
     'gruppledare inom trädgårdsodling',
     'gruppledare för trädgård',
     'voorman tuinbouw',
+    'vedoucí zahradnického týmu',
   ]),
   OccupationLabels('6113', [
     'horticulture worker',
@@ -16947,6 +19133,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker tuinbouw',
     'ouvrier horticole',
     'ouvrière horticole',
+    'pracovník v zahradnictví',
+    'pracovnice v zahradnictví',
   ]),
   OccupationLabels('2262', [
     'hospital pharmacist',
@@ -16964,6 +19152,8 @@ const escoOccupations = <OccupationLabels>[
     'pharmacien hospitalier',
     'pharmacienne hospitalière',
     'pharmacien hygiéniste',
+    'klinický farmaceut',
+    'klinická farmaceutka',
   ]),
   OccupationLabels('5329', [
     'hospital porter',
@@ -16993,6 +19183,8 @@ const escoOccupations = <OccupationLabels>[
     'maatschappelijk werker ziekenhuis',
     'medisch maatschappelijk werkster ziekenhuis',
     'maatschappelijk werkster ziekenhuis',
+    'nemocniční sociální pracovník',
+    'nemocniční sociální pracovnice',
   ]),
   OccupationLabels('3339', [
     'hospitality entertainment manager',
@@ -17020,6 +19212,7 @@ const escoOccupations = <OccupationLabels>[
     'empfangsmitarbeiter',
     'horecavestigingsreceptionist',
     'réceptionniste d’établissement hôtelier',
+    'recepční pohostinského zařízení',
   ]),
   OccupationLabels('5414', [
     'hospitality establishment security officer',
@@ -17034,6 +19227,9 @@ const escoOccupations = <OccupationLabels>[
     'säkerhetschefer på hotellanläggning',
     'securityfunctionaris',
     'security officer',
+    'pracovník bezpečnosti pohostinského zařízení',
+    'pracovnice bezpečnosti pohostinského zařízení',
+    'bezpečnostní pracovník',
   ]),
   OccupationLabels('2431', [
     'hospitality revenue manager',
@@ -17049,6 +19245,8 @@ const escoOccupations = <OccupationLabels>[
     'revenue managers för hotell',
     'revenue manager',
     'gestionnaire des revenus hôteliers',
+    'manažerka pro otázky příjmů',
+    'manažer pro otázky příjmů',
   ]),
   OccupationLabels('2320', [
     'hospitality vocational teacher',
@@ -17059,6 +19257,8 @@ const escoOccupations = <OccupationLabels>[
     'vakdocente onthaal beroepsonderwijs',
     'professeur en hôtellerie',
     'professeure en hôtellerie',
+    'učitel v oboru pohostinství',
+    'učitelka v oboru pohostinství',
   ]),
   OccupationLabels('7322', [
     'hot foil operator',
@@ -17084,6 +19284,7 @@ const escoOccupations = <OccupationLabels>[
     'hotellbutlern',
     'hotelbutler',
     'majordome en hôtellerie',
+    'hotelový zřízenec',
   ]),
   OccupationLabels('4229', [
     'hotel concierge',
@@ -17096,6 +19297,8 @@ const escoOccupations = <OccupationLabels>[
     'hotellconcierge',
     'hotelconciërge',
     'concierge d’hôtel',
+    'hotelový concierge',
+    'hotelová concierge',
   ]),
   OccupationLabels('9621', [
     'hotel porter',
@@ -17107,6 +19310,9 @@ const escoOccupations = <OccupationLabels>[
     'hotelportière',
     'hotellvaktmästare',
     'chasseur-bagagiste',
+    'hotelový portýr',
+    'hotelová portýrka',
+    'hotelový vrátný',
   ]),
   OccupationLabels('7111', [
     'house builder',
@@ -17125,6 +19331,8 @@ const escoOccupations = <OccupationLabels>[
     'aannemer huizenbouw',
     'constructeur de maisons individuelles',
     'constructrice de maisons individuelles',
+    'stavitel domů',
+    'stavitelka domů',
   ]),
   OccupationLabels('5153', [
     'house sitter',
@@ -17154,6 +19362,8 @@ const escoOccupations = <OccupationLabels>[
     'reparateur van wasmachines',
     'réparateur d’électroménagers',
     'réparatrice d’électroménagers',
+    'opravář domácích spotřebičů',
+    'opravářka domácích spotřebičů',
   ]),
   OccupationLabels('1324', [
     'household goods distribution manager',
@@ -17164,6 +19374,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager huishoudartikelen',
     'chef distributie consumentenartikelen',
     'hoofd distributie consumentenartikelen',
+    'manažer distribuce domácích potřeb',
+    'manažerka distribuce domácích potřeb',
   ]),
   OccupationLabels('5151', [
     'housekeeping supervisor',
@@ -17182,6 +19394,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur de l’entretien ménager',
     'directrice de l’entretien ménager',
     'directrice des services ménagers',
+    'manažer pro každodenní provoz',
+    'manažerka pro každodenní provoz',
   ]),
   OccupationLabels('3334', [
     'housing manager',
@@ -17200,6 +19414,8 @@ const escoOccupations = <OccupationLabels>[
     'beheerder van vastgoed',
     'gestionnaire de logements',
     'gestionnaire de copropriété',
+    'správce bytových domů',
+    'správkyně bytových domů',
   ]),
   OccupationLabels('2422', [
     'housing policy officer',
@@ -17212,6 +19428,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker huisvesting',
     'chargé de mission logement',
     'chargée de mission logement',
+    'referent odboru politiky bydlení',
+    'referentka odboru politiky bydlení',
   ]),
   OccupationLabels('3412', [
     'housing support worker',
@@ -17225,6 +19443,8 @@ const escoOccupations = <OccupationLabels>[
     'woonbegeleider',
     'woonbegeleider huisvesting statushouder',
     'woonbegeleider huisvesting',
+    'pracovník služeb podpory bydlení',
+    'pracovnice služeb podpory bydlení',
   ]),
   OccupationLabels('4416', [
     'human resources assistant',
@@ -17241,6 +19461,8 @@ const escoOccupations = <OccupationLabels>[
     'personeelsmedewerker',
     'assistant ressources humaines',
     'assistante ressources humaines',
+    'asistent oddělení lidských zdrojů',
+    'asistentka oddělení lidských zdrojů',
   ]),
   OccupationLabels('1212', [
     'human resources manager',
@@ -17260,6 +19482,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofd personeel en organisatie',
     'directeur des ressources humaines',
     'directrice des ressources humaines',
+    'manažer lidských zdrojů',
+    'manažerka lidských zdrojů',
+    'hr manažerka',
   ]),
   OccupationLabels('2423', [
     'human resources officer',
@@ -17285,6 +19510,8 @@ const escoOccupations = <OccupationLabels>[
     'mensenrechtenfunctionaris',
     'mensenrechtenactiviste',
     'mensenrechtenadvocaat',
+    'referent pro lidská práva',
+    'referentka pro lidská práva',
   ]),
   OccupationLabels('2422', [
     'humanitarian advisor',
@@ -17296,6 +19523,9 @@ const escoOccupations = <OccupationLabels>[
     'humanitair adviseur',
     'conseiller humanitaire',
     'conseillère humanitaire',
+    'humanitární poradce',
+    'humanitární poradkyně',
+    'koordinátor humanitární pomoci',
   ]),
   OccupationLabels('6224', [
     'hunter',
@@ -17311,6 +19541,8 @@ const escoOccupations = <OccupationLabels>[
     'jager',
     'chasseur',
     'chasseuse',
+    'myslivec',
+    'myslivkyně',
   ]),
   OccupationLabels('7221', [
     'hydraulic forging press worker',
@@ -17322,6 +19554,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin für hydraulische schmiedepresse',
     'pressmed',
     'bediener hydraulische smeedpers',
+    'kovář hydraulického kovacího lisu',
+    'kovářka hydraulického kovacího lisu',
   ]),
   OccupationLabels('3131', [
     'hydroelectric plant operator',
@@ -17336,6 +19570,8 @@ const escoOccupations = <OccupationLabels>[
     'exploitatietechnicus waterkrachtcentrale',
     'verantwoordelijke waterkrachtexploitatie',
     'conducteur',
+    'operátor velínu vodní elektrárny',
+    'operátorka velínu vodní elektrárny',
   ]),
   OccupationLabels('8160', [
     'hydrogenation machine operator',
@@ -17350,6 +19586,8 @@ const escoOccupations = <OccupationLabels>[
     'hydrogeneermachinebediener',
     'hydrogenatietechnicus',
     'hydrogenatietechnoloog',
+    'operátor hydrogenačního stroje',
+    'operátorka hydrogenačního stroje',
   ]),
   OccupationLabels('2114', [
     'hydrogeologist',
@@ -17364,6 +19602,7 @@ const escoOccupations = <OccupationLabels>[
     'hydrogeologisch adviseuse',
     'raadgevend hydrogeologe',
     'hydrogéologue',
+    'hydrogeoložka',
   ]),
   OccupationLabels('3111', [
     'hydrographic surveying technician',
@@ -17380,6 +19619,7 @@ const escoOccupations = <OccupationLabels>[
     'technicien de levés hydrographiques',
     'technicienne de levés hydrographiques',
     'technicienne de levés océanographiques',
+    'hydrografický zeměměřič',
   ]),
   OccupationLabels('2165', [
     'hydrographic surveyor',
@@ -17395,6 +19635,8 @@ const escoOccupations = <OccupationLabels>[
     'hydrographe',
     'ingénieur hydrographe',
     'ingénieure hydrographe',
+    'odborník na hydrografii',
+    'odbornice na hydrografii',
   ]),
   OccupationLabels('2114', [
     'hydrologist',
@@ -17412,6 +19654,7 @@ const escoOccupations = <OccupationLabels>[
     'hydrologue',
     'ingénieure hydrologue',
     'ingénieur hydrologue',
+    'hydroložka',
   ]),
   OccupationLabels('2142', [
     'hydropower engineer',
@@ -17420,6 +19663,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur waterkrachtcentrales',
     'ingénieur en hydroélectricité',
     'ingénieure en hydroélectricité',
+    'inženýr vodních elektráren',
+    'inženýrka vodních elektráren',
   ]),
   OccupationLabels('3113', [
     'hydropower technician',
@@ -17440,6 +19685,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien en hydroélectricité',
     'technicienne en hydroélectricité',
     'technicienne en énergie marémotrice',
+    'technik vodních elektráren',
+    'technička vodních elektráren',
   ]),
   OccupationLabels('3422', [
     'ice-skating coach',
@@ -17450,6 +19697,8 @@ const escoOccupations = <OccupationLabels>[
     'skridskoinstruktör',
     'skridskolärare',
     'schaatscoach',
+    'trenér bruslení',
+    'trenérka bruslení',
   ]),
   OccupationLabels('2519', [
     'ict accessibility tester',
@@ -17465,6 +19714,9 @@ const escoOccupations = <OccupationLabels>[
     'testeur d’accessibilité',
     'testeuse d’accessibilité',
     'testeuse accessibilité',
+    'tester přístupnosti ict',
+    'testerka přístupnosti ict',
+    'tester dostupnosti',
   ]),
   OccupationLabels('2434', [
     'ict account manager',
@@ -17477,6 +19729,9 @@ const escoOccupations = <OccupationLabels>[
     'ikt-kundansvarig',
     'chargé de compte tic',
     'chargée de compte tic',
+    'account manažer pro ict',
+    'account manažerka pro ict',
+    'it account manažerka',
   ]),
   OccupationLabels('2514', [
     'ict application configurator',
@@ -17493,6 +19748,9 @@ const escoOccupations = <OccupationLabels>[
     'configurateur d’applications',
     'configuratrice d’applications',
     'configuratrice logiciel',
+    'konfigurátor aplikací ict',
+    'konfigurátorka aplikací ict',
+    'konfigurátorka systémových aplikací',
   ]),
   OccupationLabels('2514', [
     'ict application developer',
@@ -17507,6 +19765,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de logiciels d’application',
     'conceptrice de logiciels d’application',
     'concepteur de logiciels d\'application',
+    'vývojář aplikací ict',
+    'vývojářka aplikací ict',
+    'vývojářka softwaru',
   ]),
   OccupationLabels('2519', [
     'ict auditor manager',
@@ -17522,6 +19783,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable de l’audit informatique',
     'responsable audits informatiques',
     'responsable-auditeur informatique',
+    'hlavní auditor pro ict',
+    'hlavní auditorka pro ict',
+    'hlavní auditorka it systémů',
   ]),
   OccupationLabels('2511', [
     'ict business analysis manager',
@@ -17541,6 +19805,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste d’étude en tic',
     'analyste métier en tic',
     'analyste fonctionnel',
+    'analytik podnikových ict',
+    'analytička podnikových ict',
+    'analytik firemních it systémů',
   ]),
   OccupationLabels('2434', [
     'ict business development manager',
@@ -17563,6 +19830,8 @@ const escoOccupations = <OccupationLabels>[
     'ikt-käuferin',
     'it-inköpare',
     'responsable des acquisitions informatiques',
+    'nákupčí ict',
+    'nákupčí it systémů',
   ]),
   OccupationLabels('2523', [
     'ict capacity planner',
@@ -17570,6 +19839,9 @@ const escoOccupations = <OccupationLabels>[
     'it-kapazitätsplanerin',
     'ikt-kapacitetsplanerare',
     'ict capaciteitsplanner',
+    'plánovač kapacity ict',
+    'plánovačka kapacity ict',
+    'plánovačka kapacity it systémů',
   ]),
   OccupationLabels('2511', [
     'ict consultant',
@@ -17584,6 +19856,9 @@ const escoOccupations = <OccupationLabels>[
     'consultant informatique',
     'consultante informatique',
     'consultant en tic',
+    'konzultant v oblasti ict',
+    'konzultantka v oblasti ict',
+    'it konzultantka',
   ]),
   OccupationLabels('2519', [
     'ict disaster recovery analyst',
@@ -17598,6 +19873,9 @@ const escoOccupations = <OccupationLabels>[
     'analytiker för verksamhetskontinuitet',
     'analist ict-noodherstel',
     'ict resilience analist',
+    'analytik spolehlivosti ict',
+    'analytička odolnosti ict',
+    'analytik odolnosti ict',
   ]),
   OccupationLabels('1330', [
     'ict documentation manager',
@@ -17613,6 +19891,9 @@ const escoOccupations = <OccupationLabels>[
     'ict-documentatiemanager',
     'responsable des documents informatiques',
     'responsable des documents tic',
+    'manažer dokumentace ict',
+    'manažerka dokumentace ict',
+    'manažer dokumentace informačních systémů',
   ]),
   OccupationLabels('2143', [
     'ict environmental manager',
@@ -17629,6 +19910,9 @@ const escoOccupations = <OccupationLabels>[
     'ict-omgevingsmanager',
     'responsable de l\'environnement informatique',
     'responsable de l\'environnement tic',
+    'manažer prostředí ict',
+    'manažerka prostředí ict',
+    'manažer it prostředí',
   ]),
   OccupationLabels('3512', [
     'ict help desk agent',
@@ -17644,6 +19928,9 @@ const escoOccupations = <OccupationLabels>[
     'helpdeskmedewerker',
     'agent help desk informatique',
     'agente help desk informatique',
+    'pracovník it podpory',
+    'pracovnice it podpory',
+    'pracovník podpory ict',
   ]),
   OccupationLabels('3512', [
     'ict help desk manager',
@@ -17657,6 +19944,9 @@ const escoOccupations = <OccupationLabels>[
     'ict-helpdeskmanager',
     'coördinator ict-helpdesk',
     'responsable help desk informatique',
+    'manažer it podpory',
+    'manažerka it podpory',
+    'manažer helpdesku',
   ]),
   OccupationLabels('1330', [
     'gestor de conhecimento informático',
@@ -17679,6 +19969,9 @@ const escoOccupations = <OccupationLabels>[
     'testare av integration',
     'responsable des tests d’intégration',
     'responsable intégration',
+    'tester integrace ict',
+    'testerka integrace ict',
+    'testerka programové integrace',
   ]),
   OccupationLabels('2511', [
     'ict intelligent systems designer',
@@ -17693,6 +19986,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de systèmes intelligents',
     'conceptrice de systèmes intelligents',
     'concepteur de si',
+    'designér inteligentních systémů ict',
+    'designérka inteligentních systémů ict',
+    'designérka systémů umělé inteligence',
   ]),
   OccupationLabels('2522', [
     'ict network administrator',
@@ -17709,6 +20005,9 @@ const escoOccupations = <OccupationLabels>[
     'administrateur de réseau informatique',
     'administratrice de réseau informatique',
     'administratrice de réseau',
+    'správce sítě ict',
+    'správkyně sítě ict',
+    'správce sítě',
   ]),
   OccupationLabels('2523', [
     'ict network architect',
@@ -17724,6 +20023,9 @@ const escoOccupations = <OccupationLabels>[
     'architecte de réseau',
     'architecte de réseaux',
     'architecte réseaux',
+    'síťový architekt ict',
+    'síťová architektka ict',
+    'síťový architekt',
   ]),
   OccupationLabels('2523', [
     'ict network engineer',
@@ -17741,6 +20043,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur de réseaux informatiques',
     'ingénieure de réseaux informatiques',
     'ingénieur de réseaux',
+    'síťový inženýr ict',
+    'síťová inženýrka ict',
+    'síťová inženýrka',
   ]),
   OccupationLabels('3513', [
     'ict network technician',
@@ -17758,6 +20063,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien de réseau informatique',
     'technicienne de réseau informatique',
     'technicien réseau',
+    'síťový technik ikt',
+    'síťová technička ikt',
+    'síťový technik',
   ]),
   OccupationLabels('1330', [
     'ict operations manager',
@@ -17772,6 +20080,9 @@ const escoOccupations = <OccupationLabels>[
     'ict-operationsmanager',
     'responsable des activités informatiques',
     'responsable des opérations informatiques',
+    'manažer operací ict',
+    'manažerka operací ict',
+    'manažerka it operací',
   ]),
   OccupationLabels('2434', [
     'ict presales engineer',
@@ -17783,6 +20094,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur informatique avant-vente',
     'ingénieure informatique avant-vente',
     'ingénieure informatique pré-ventes',
+    'předprodejní it technik',
+    'předprodejní it technička',
+    'předprodejní technik pro ikt',
   ]),
   OccupationLabels('1330', [
     'ict product manager',
@@ -17795,6 +20109,9 @@ const escoOccupations = <OccupationLabels>[
     'ikt-produktansvarig',
     'ict-productmanager',
     'responsable des produits informatiques',
+    'produktový manažer pro ict',
+    'produktová manažerka pro ict',
+    'produktová manažerka pro it',
   ]),
   OccupationLabels('1330', [
     'ict project manager',
@@ -17810,6 +20127,9 @@ const escoOccupations = <OccupationLabels>[
     'ict-projectmanager',
     'gestionnaire de projet informatique',
     'gestionnaire de projet tic',
+    'projektový manažer pro ict',
+    'projektová manažerka pro ict',
+    'it projektová manažerka',
   ]),
   OccupationLabels('2519', [
     'ict quality assurance manager',
@@ -17822,6 +20142,9 @@ const escoOccupations = <OccupationLabels>[
     'ict quality manager',
     'quality manager it',
     'responsable aq informatique',
+    'manažer zajištění kvality ict',
+    'manažerka zajištění kvality ict',
+    'manažer zajištění it kvality',
   ]),
   OccupationLabels('2511', [
     'ict research consultant',
@@ -17845,6 +20168,9 @@ const escoOccupations = <OccupationLabels>[
     'ikt-forskningschef',
     'it-forskningschef',
     'ict-researchmanager',
+    'manažer výzkumu ict',
+    'manažerka výzkumu ict',
+    'manažerka technologických inovací',
   ]),
   OccupationLabels('2529', [
     'ict resilience manager',
@@ -17857,6 +20183,9 @@ const escoOccupations = <OccupationLabels>[
     'specialist inom ikt-motståndskraft',
     'ikt-motståndskraftsspecialist',
     'specialist inom it-motståndskraft',
+    'manažer odolnosti ict',
+    'manažerka odolnosti ict',
+    'manažer obnovy systémů',
   ]),
   OccupationLabels('2529', [
     'ict security administrator',
@@ -17867,6 +20196,9 @@ const escoOccupations = <OccupationLabels>[
     'it-säkerhetsadministratör',
     'administrateur sécurité informatique',
     'administratrice sécurité informatique',
+    'správce zabezpečení ict',
+    'správkyně zabezpečení ict',
+    'správkyně zabezpečení it systémů',
   ]),
   OccupationLabels('2529', [
     'ict security consultant',
@@ -17881,6 +20213,8 @@ const escoOccupations = <OccupationLabels>[
     'it-säkerhetsrådgivare',
     'consultant en sécurité informatique',
     'consultante en sécurité informatique',
+    'bezpečnostní konzultant pro ict',
+    'bezpečnostní konzultantka pro ict',
   ]),
   OccupationLabels('2529', [
     'ict security manager',
@@ -17892,6 +20226,9 @@ const escoOccupations = <OccupationLabels>[
     'it-sicherheitsmanagerin',
     'it-säkerhetsanalytiker',
     'it-säkerhetssamordnare',
+    'manažer bezpečnosti ict',
+    'manažerka bezpečnosti ict',
+    'manažer bezpečnosti it systémů',
   ]),
   OccupationLabels('3512', [
     'ict security technician',
@@ -17907,6 +20244,9 @@ const escoOccupations = <OccupationLabels>[
     'specialist ict-beveiliging',
     'technicien en sécurité informatique',
     'technicienne en sécurité informatique',
+    'bezpečnostní technik pro ikt',
+    'bezpečnostní technička pro ikt',
+    'bezpečnostní technik pro ict',
   ]),
   OccupationLabels('2522', [
     'ict system administrator',
@@ -17923,6 +20263,9 @@ const escoOccupations = <OccupationLabels>[
     'administrateur de systèmes informatiques',
     'administratrice de systèmes informatiques',
     'administrateur de systèmes tic',
+    'správce systémů ict',
+    'správkyně systémů ict',
+    'správce počítačových sítí',
   ]),
   OccupationLabels('2511', [
     'ict system analyst',
@@ -17938,6 +20281,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste de système informatique',
     'analyste système tic',
     'analyste système',
+    'analytik systémů ict',
+    'analytička systémů ict',
+    'analytička it systémů',
   ]),
   OccupationLabels('2511', [
     'ict system architect',
@@ -17954,6 +20300,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de systèmes informatiques',
     'conceptrice de systèmes informatiques',
     'conceptrice de système',
+    'architekt systémů ict',
+    'architektka systémů ict',
+    'architektka it systémů',
   ]),
   OccupationLabels('2511', [
     'ict system developer',
@@ -17973,6 +20322,9 @@ const escoOccupations = <OccupationLabels>[
     'développeur de systèmes informatiques',
     'développeuse de systèmes informatiques',
     'développeuse système tic',
+    'vývojář systémů ict',
+    'vývojářka systémů ict',
+    'vývojář informačních systémů',
   ]),
   OccupationLabels('2511', [
     'ict system integration consultant',
@@ -17998,6 +20350,9 @@ const escoOccupations = <OccupationLabels>[
     'testeur de systèmes informatiques',
     'testeuse de systèmes informatiques',
     'testeuse de systèmes tic',
+    'tester systémů ict',
+    'testerka systémů ict',
+    'tester it systémů',
   ]),
   OccupationLabels('2330', [
     'ict teacher secondary school',
@@ -18006,6 +20361,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht informatica secundair onderwijs',
     'professeur d’informatique',
     'professeure d’informatique',
+    'středoškolská učitelka ikt',
+    'středoškolský učitel ikt',
+    'učitelka výpočetní techniky',
   ]),
   OccupationLabels('3512', [
     'ict technician',
@@ -18021,6 +20379,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien informatique',
     'technicienne informatique',
     'technicienne en tic',
+    'technik ikt',
+    'technička ikt',
+    'it technička',
   ]),
   OccupationLabels('2519', [
     'ict test analyst',
@@ -18033,6 +20394,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste-testeur informatique',
     'analyste-testeuse informatique',
     'analyste-testeur en informatique',
+    'zkušební analytik pro ict',
+    'zkušební analytička pro ict',
+    'zkušební analytik pro ikt',
   ]),
   OccupationLabels('2356', [
     'ict trainer',
@@ -18049,6 +20413,9 @@ const escoOccupations = <OccupationLabels>[
     'formatrice en informatique',
     'formateur aux tic',
     'formatrice aux tic',
+    'školitel v oblasti ict',
+    'školitelka v oblasti ict',
+    'it školitel',
   ]),
   OccupationLabels('2519', [
     'ict usability tester',
@@ -18063,6 +20430,9 @@ const escoOccupations = <OccupationLabels>[
     'testeur d’utilisabilité',
     'testeuse d’utilisabilité',
     'testeur utilisabilité',
+    'tester použitelnosti systémů ict',
+    'testerka použitelnosti systémů ict',
+    'testerka použitelnosti systémů',
   ]),
   OccupationLabels('1330', [
     'ict vendor relationship manager',
@@ -18081,6 +20451,8 @@ const escoOccupations = <OccupationLabels>[
     'bouwer van idiofonen',
     'bouwer van percussie-idiofonen',
     'bouwer van concussie-idiofonen',
+    'výrobce samozvučných hudebních nástrojů',
+    'výrobkyně samozvučných hudebních nástrojů',
   ]),
   OccupationLabels('2166', [
     'illustrator',
@@ -18095,6 +20467,8 @@ const escoOccupations = <OccupationLabels>[
     'illustratietekenares',
     'illustrateur',
     'illustratrice',
+    'ilustrátor',
+    'ilustrátorka',
   ]),
   OccupationLabels('7321', [
     'imagesetter',
@@ -18111,6 +20485,8 @@ const escoOccupations = <OccupationLabels>[
     'grafisch zetster',
     'photocompositeur',
     'photocompositrice',
+    'sazeč grafiky',
+    'sazečka grafiky',
   ]),
   OccupationLabels('3354', [
     'immigration adviser',
@@ -18125,6 +20501,8 @@ const escoOccupations = <OccupationLabels>[
     'consultant immigratie',
     'conseiller en immigration',
     'conseillère en immigration',
+    'imigrační poradce',
+    'imigrační poradkyně',
   ]),
   OccupationLabels('3351', [
     'immigration officer',
@@ -18140,6 +20518,9 @@ const escoOccupations = <OccupationLabels>[
     'immigratiebeambte',
     'policier aux frontières',
     'policière aux frontières',
+    'imigrační úředník',
+    'imigrační úřednice',
+    'imigračník úředník',
   ]),
   OccupationLabels('2422', [
     'immigration policy officer',
@@ -18147,6 +20528,8 @@ const escoOccupations = <OccupationLabels>[
     'referent für migrationsfragen',
     'referentin für migrationsfragen',
     'beleidsmedewerker immigratie',
+    'referent pro migrační politiku',
+    'referentka pro migrační politiku',
   ]),
   OccupationLabels('2131', [
     'immunologist',
@@ -18165,6 +20548,8 @@ const escoOccupations = <OccupationLabels>[
     'medisch laboratoriumtechnologe immunologie',
     'immunologiste',
     'immunologue',
+    'imunolog',
+    'imunoložka',
   ]),
   OccupationLabels('1324', [
     'import export manager',
@@ -18179,6 +20564,8 @@ const escoOccupations = <OccupationLabels>[
     'manager import-exportbedrijf',
     'manager import-export',
     'responsable import-export',
+    'manažer dovozu a vývozu',
+    'manažerka dovozu a vývozu',
   ]),
   OccupationLabels('1324', [
     'exportmanager für getränke',
@@ -18281,6 +20668,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist import-export',
     'specialist im- en export',
     'spécialiste en import-export',
+    'specialista zahraničního obchodu',
+    'specialistka zahraničního obchodu',
   ]),
   OccupationLabels('3331', [
     'exportsachbearbeiter für getränke',
@@ -18338,6 +20727,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d’incinérateurs',
     'conductrice d’incinérateurs',
     'conductrice d\'incinérateurs',
+    'operátor velínu spalovny',
+    'operátorka velínu spalovny',
   ]),
   OccupationLabels('2320', [
     'industrial arts vocational teacher',
@@ -18360,6 +20751,8 @@ const escoOccupations = <OccupationLabels>[
     'superviseur assemblage en industrie',
     'superviseuse assemblage en industrie',
     'superviseuse en assemblage industriel',
+    'vedoucí průmyslové montáže',
+    'vedoucí montáže',
   ]),
   OccupationLabels('5120', [
     'industrial cook',
@@ -18375,6 +20768,9 @@ const escoOccupations = <OccupationLabels>[
     'cuisinier industriel',
     'cuisinière industrielle',
     'cuisinière en industrie',
+    'průmyslový kuchař',
+    'průmyslová kuchařka',
+    'kuchařka v průmyslovém provozu',
   ]),
   OccupationLabels('2163', [
     'industrial designer',
@@ -18393,6 +20789,8 @@ const escoOccupations = <OccupationLabels>[
     'industrieel productontwerper',
     'designer industriel',
     'designeuse industrielle',
+    'designér průmyslových výrobků',
+    'designérka průmyslových výrobků',
   ]),
   OccupationLabels('7411', [
     'industrial electrician',
@@ -18408,6 +20806,8 @@ const escoOccupations = <OccupationLabels>[
     'elektromonteur utiliteitsbouw',
     'électricien d’équipements industriels',
     'électricienne d’équipements industriels',
+    'elektromontér pro průmyslové objekty',
+    'elektromontérka pro průmyslové objekty',
   ]),
   OccupationLabels('2141', [
     'industrial engineer',
@@ -18441,6 +20841,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus werktuigmachines',
     'technicien en génie industriel',
     'technicienne en génie industriel',
+    'technik v průmyslovém inženýrství',
+    'technička v průmyslovém inženýrství',
   ]),
   OccupationLabels('5411', [
     'industrial firefighter',
@@ -18458,6 +20860,9 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsbrandweerwacht',
     'pompier industriel',
     'pompière industrielle',
+    'hasič podnikového sboru',
+    'hasička podnikového sboru',
+    'podnikový hasič',
   ]),
   OccupationLabels('8211', [
     'industrial machinery assembler',
@@ -18474,6 +20879,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur de machines industrielles',
     'monteuse de machines industrielles',
     'monteur qualifié d’équipements industriels',
+    'montážní dělník průmyslových strojů',
+    'montážní dělnice průmyslových strojů',
   ]),
   OccupationLabels('7233', [
     'industrial machinery mechanic',
@@ -18527,6 +20934,8 @@ const escoOccupations = <OccupationLabels>[
     'pharmacien dans l’industrie',
     'pharmacienne dans l’industrie',
     'pharmacien industriel',
+    'farmaceut specialista',
+    'farmaceutka specialistka',
   ]),
   OccupationLabels('1321', [
     'industrial production manager',
@@ -18540,6 +20949,7 @@ const escoOccupations = <OccupationLabels>[
     'industrieel productiemanager',
     'directeur de production industrielle',
     'directrice de production industrielle',
+    'vedoucí průmyslové výroby',
   ]),
   OccupationLabels('1321', [
     'industrial quality manager',
@@ -18557,6 +20967,9 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager procesindustrie',
     'responsable en qualité industrielle',
     'responsable qualité en industrie',
+    'manažer průmyslové kvality',
+    'manažerka průmyslové kvality',
+    'manažer průmyslové jakosti',
   ]),
   OccupationLabels('3139', [
     'industrial robot controller',
@@ -18572,6 +20985,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d’installations robotisées',
     'conductrice d’installations robotisées',
     'conductrice d\'installation robotisée',
+    'kontrolor průmyslových robotů',
+    'kontrolorka průmyslových robotů',
   ]),
   OccupationLabels('2144', [
     'industrial tool design engineer',
@@ -18597,6 +21012,8 @@ const escoOccupations = <OccupationLabels>[
     'inspektor industrieabfälle',
     'inspektorin industrieabfälle',
     'controleur bedrijfsafval',
+    'inspektor průmyslového odpadu',
+    'inspektorka průmyslového odpadu',
   ]),
   OccupationLabels('0310', [
     'infantry soldier',
@@ -18613,6 +21030,8 @@ const escoOccupations = <OccupationLabels>[
     'soldat manœuvre',
     'soldate manœuvre',
     'soldat manoeuvre',
+    'příslušník pěchoty',
+    'příslušnice pěchoty',
   ]),
   OccupationLabels('2622', [
     'information manager',
@@ -18626,6 +21045,8 @@ const escoOccupations = <OccupationLabels>[
     'informationsansvarig',
     'informatiemanager',
     'gestionnaire d’information',
+    'manažer záznamů',
+    'manažerka záznamů',
   ]),
   OccupationLabels('8142', [
     'injection moulding operator',
@@ -18635,6 +21056,7 @@ const escoOccupations = <OccupationLabels>[
     'kunststoffspritzerin',
     'kunststoffspritzmaschineneinsteller',
     'operator spuitgietmachine',
+    'obsluha vstřikovacích lisů',
   ]),
   OccupationLabels('1324', [
     'inland waterway transport manager',
@@ -18645,6 +21067,9 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directeur vrachtvervoer binnenvaart',
     'algemeen directrice vrachtvervoer binnenvaart',
     'responsable d\'exploitation transport fluvial',
+    'ředitel vnitrozemské vodní dopravy',
+    'ředitelka vnitrozemské vodní dopravy',
+    'ředitel plavební správy',
   ]),
   OccupationLabels('2149', [
     'installation engineer',
@@ -18661,6 +21086,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur installatietechniek',
     'ingénieur montage',
     'ingénieure montage',
+    'inženýr elektroinstalací',
+    'inženýrka elektroinstalací',
   ]),
   OccupationLabels('2359', [
     'instructional designer',
@@ -18678,6 +21105,8 @@ const escoOccupations = <OccupationLabels>[
     'concepteur pédagogique',
     'conceptrice pédagogique',
     'conceptrice de formation',
+    'designér instruktážních materiálů',
+    'designérka instruktážních materiálů',
   ]),
   OccupationLabels('7312', [
     'instrument technician',
@@ -18690,6 +21119,8 @@ const escoOccupations = <OccupationLabels>[
     'roadie',
     'technicien en instruments',
     'technicienne en instruments',
+    'nástrojář',
+    'nástrojářka',
   ]),
   OccupationLabels('2152', [
     'instrumentation engineer',
@@ -18727,6 +21158,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’études en instrumentation-régulation',
     'technicienne d’études en instrumentation-régulation',
     'technicienne d’études instrumentaliste',
+    'technik v oboru instrumentace',
+    'technička v oboru instrumentace',
   ]),
   OccupationLabels('8142', [
     'insulating tube winder',
@@ -18749,6 +21182,8 @@ const escoOccupations = <OccupationLabels>[
     'polierin dämmarbeiten',
     'teamleider isolatie',
     'teamleider isolatieplaatsing',
+    'vedoucí montáže izolačních materiálů',
+    'vedoucí montér izolací',
   ]),
   OccupationLabels('7124', [
     'insulation worker',
@@ -18770,6 +21205,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur en isolation',
     'monteuse en isolation',
     'monteuse en isolation thermique',
+    'izolatér',
+    'izolatérka',
   ]),
   OccupationLabels('1346', [
     'insurance agency manager',
@@ -18782,6 +21219,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd verzekeringskantoor',
     'responsable d\'agence en assurances',
     'responsable de bureau d\'assurances',
+    'vedoucí pojišťovny',
+    'vedoucí pobočky pojišťovny',
   ]),
   OccupationLabels('3321', [
     'insurance broker',
@@ -18801,6 +21240,9 @@ const escoOccupations = <OccupationLabels>[
     'verzekeringsbemiddelaarster',
     'courtier en assurances',
     'courtière en assurances',
+    'pojišťovací makléř',
+    'pojišťovací makléřka',
+    'pojišťovací agent',
   ]),
   OccupationLabels('3315', [
     'insurance claims handler',
@@ -18818,6 +21260,8 @@ const escoOccupations = <OccupationLabels>[
     'chargé d’indemnisation en assurances',
     'chargée d’indemnisation en assurances',
     'chargé d\'indemnisation en assurances',
+    'likvidátor pojistných událostí',
+    'likvidátorka pojistných událostí',
   ]),
   OccupationLabels('1346', [
     'insurance claims manager',
@@ -18843,6 +21287,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerkster verzekeringen',
     'agent administratif d’assurances',
     'agente administrative d’assurances',
+    'administrativní pracovník pojišťovny',
+    'administrativní pracovnice pojišťovny',
   ]),
   OccupationLabels('4214', [
     'insurance collector',
@@ -18856,6 +21302,8 @@ const escoOccupations = <OccupationLabels>[
     'incassomedewerker verzekeringen',
     'incassomedewerkster voor verzekeringen',
     'incassomedewerkster verzekeringen',
+    'inkasista pojištění',
+    'inkasistka pojištění',
   ]),
   OccupationLabels('3315', [
     'insurance fraud investigator',
@@ -18870,6 +21318,9 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur enquêteur d’assurances',
     'inspectrice enquêteuse d’assurances',
     'inspecteur enquêteur d\'assurances',
+    'vyšetřovatel v pojišťovnictví',
+    'vyšetřovatelka v pojišťovnictví',
+    'vyšetřovatel pojistných podvodů',
   ]),
   OccupationLabels('1223', [
     'insurance product manager',
@@ -18879,6 +21330,8 @@ const escoOccupations = <OccupationLabels>[
     'versicherungsmanagerin',
     'versicherungsdirektor',
     'productmanager verzekeringen',
+    'produktový manažer v pojišťovnictví',
+    'produktová manažerka v pojišťovnictví',
   ]),
   OccupationLabels('2413', [
     'insurance rating analyst',
@@ -18891,6 +21344,9 @@ const escoOccupations = <OccupationLabels>[
     'actuarieel analist',
     'verzekeringsanalist',
     'analyste notation en assurances',
+    'analytik pojistného rizika',
+    'analytička pojistného rizika',
+    'pojistná analytička',
   ]),
   OccupationLabels('3321', [
     'insurance risk consultant',
@@ -18906,6 +21362,9 @@ const escoOccupations = <OccupationLabels>[
     'assistent acceptant',
     'expert risques en assurances',
     'experte risques en assurances',
+    'poradce pro pojistná rizika',
+    'poradkyně pro pojistná rizika',
+    'pojišťovací poradkyně',
   ]),
   OccupationLabels('3321', [
     'insurance underwriter',
@@ -18919,6 +21378,9 @@ const escoOccupations = <OccupationLabels>[
     'acceptante pensioenen',
     'souscripteur en assurances',
     'souscriptrice en assurances',
+    'upisovatel pojištění',
+    'upisovatelka pojištění',
+    'upisovatelka požárního rizika',
   ]),
   OccupationLabels('2152', [
     'integrated circuit design engineer',
@@ -18927,6 +21389,8 @@ const escoOccupations = <OccupationLabels>[
     'ic-designer',
     'ic-designerin',
     'ontwerpingenieur geïntegreerde schakelingen',
+    'návrhář integrovaných obvodů',
+    'návrhářka integrovaných obvodů',
   ]),
   OccupationLabels('2511', [
     'integration engineer',
@@ -18947,6 +21411,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur intégration',
     'ingénieure intégration',
     'ingénieure informatique',
+    'inženýr integrace',
+    'inženýrka integrace',
+    'inženýrka integrace ict',
   ]),
   OccupationLabels('3339', [
     'intellectual property consultant',
@@ -18975,6 +21442,8 @@ const escoOccupations = <OccupationLabels>[
     'signalspaningsoperatör',
     'officier inlichtingen en veiligheid',
     'spécialiste renseignement d\'origine électromagnétique',
+    'operátor zachycování zpravodajské komunikace',
+    'operátorka zachycování zpravodajské komunikace',
   ]),
   OccupationLabels('2422', [
     'intelligence officer',
@@ -18989,6 +21458,9 @@ const escoOccupations = <OccupationLabels>[
     'inlichtingenofficier',
     'agent du renseignement',
     'agente du renseignement',
+    'zpravodajský pracovník',
+    'zpravodajská pracovnice',
+    'zpravodajský analytik',
   ]),
   OccupationLabels('3435', [
     'intelligent lighting engineer',
@@ -19005,6 +21477,9 @@ const escoOccupations = <OccupationLabels>[
     'technicus computergestuurd licht',
     'technicien lumières automatisées',
     'technicienne lumières automatisées',
+    'technik inteligentního osvětlování',
+    'technička inteligentního osvětlování',
+    'technik automatizovaného osvětlení',
   ]),
   OccupationLabels('2432', [
     'intercultural communication consultant',
@@ -19034,6 +21509,8 @@ const escoOccupations = <OccupationLabels>[
     'interieurarchitect',
     'interieurarchitecte',
     'architecte d’intérieur',
+    'interiérový architekt',
+    'interiérová architektka',
   ]),
   OccupationLabels('3432', [
     'interior designer',
@@ -19052,6 +21529,8 @@ const escoOccupations = <OccupationLabels>[
     'décorateur d’intérieur',
     'décoratrice d’intérieur',
     'architecte décoratrice',
+    'návrhář interiérů',
+    'návrhářka interiérů',
   ]),
   OccupationLabels('6113', [
     'interior landscaper',
@@ -19083,6 +21562,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en architecture d’intérieur',
     'conseillère en architecture d’intérieur',
     'conseillère en architecture d\'intérieur',
+    'bytový architekt',
+    'bytová architektka',
   ]),
   OccupationLabels('1324', [
     'intermodal logistics manager',
@@ -19096,6 +21577,8 @@ const escoOccupations = <OccupationLabels>[
     'manager multimodale logistiek',
     'manager op- en overslagbedrijf',
     'responsable logistique intermodale',
+    'manažer pro intermodální logistiku',
+    'manažerka pro intermodální logistiku',
   ]),
   OccupationLabels('3331', [
     'international forwarding operations coordinator',
@@ -19110,6 +21593,8 @@ const escoOccupations = <OccupationLabels>[
     'coordonnateur d’opérations d’affrètement international',
     'coordonnatrice d’opérations d’affrètement international',
     'coordonnatrice d\'opérations d\'affrètement international',
+    'koordinátor mezinárodních spedičních operací',
+    'koordinátorka mezinárodních spedičních operací',
   ]),
   OccupationLabels('2422', [
     'international relations officer',
@@ -19119,6 +21604,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker internationale zaken',
     'chargé des relations internationales',
     'chargée des relations internationales',
+    'referent pro mezinárodní vztahy',
+    'referentka pro mezinárodní vztahy',
   ]),
   OccupationLabels('3343', [
     'international student exchange coordinator',
@@ -19134,6 +21621,8 @@ const escoOccupations = <OccupationLabels>[
     'coordonnateur international',
     'coordonnatrice internationale',
     'coordonnatrice mobilité',
+    'koordinátor mezinárodní výměny studentů',
+    'koordinátorka mezinárodní výměny studentů',
   ]),
   OccupationLabels('1349', [
     'interpretation agency manager',
@@ -19147,6 +21636,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur d\'agence d\'interprétation',
     'directrice d\'agence d\'interprétation',
     'directrice d\'agence d\'interprètes',
+    'ředitel tlumočnické agentury',
+    'ředitelka tlumočnické agentury',
   ]),
   OccupationLabels('2643', [
     'interpreter',
@@ -19161,6 +21652,8 @@ const escoOccupations = <OccupationLabels>[
     'simultandolmetscher',
     'tolk',
     'interprète',
+    'tlumočník',
+    'tlumočnice',
   ]),
   OccupationLabels('4321', [
     'inventory coordinator',
@@ -19179,6 +21672,8 @@ const escoOccupations = <OccupationLabels>[
     'coordinateur d’inventaire',
     'coordinatrice d’inventaire',
     'coordinateur d\'inventaire',
+    'hlavní skladník',
+    'hlavní skladnice',
   ]),
   OccupationLabels('2412', [
     'investment adviser',
@@ -19193,6 +21688,8 @@ const escoOccupations = <OccupationLabels>[
     'investeringsspecialist',
     'conseiller en investissements',
     'conseillère en investissements',
+    'investiční poradce',
+    'investiční poradkyně',
   ]),
   OccupationLabels('2413', [
     'investment analyst',
@@ -19204,6 +21701,8 @@ const escoOccupations = <OccupationLabels>[
     'beleggingsanalist',
     'registerbeleggingsanalist',
     'analyste en investissements',
+    'investiční analytik',
+    'investiční analytička',
   ]),
   OccupationLabels('4312', [
     'investment clerk',
@@ -19216,6 +21715,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerkster investeringen',
     'assistant en investissements financiers',
     'assistante en investissements financiers',
+    'pracovník investičního oddělení',
+    'pracovnice investičního oddělení',
   ]),
   OccupationLabels('2412', [
     'investment fund management assistant',
@@ -19226,6 +21727,9 @@ const escoOccupations = <OccupationLabels>[
     'assistent beheer beleggingsfondsen',
     'assistant gérant de portefeuille',
     'assistante gérante de portefeuille',
+    'asistent správy investičního fondu',
+    'asistentka správy investičního fondu',
+    'asistent managementu investičního fondu',
   ]),
   OccupationLabels('2412', [
     'investment fund manager',
@@ -19240,6 +21744,8 @@ const escoOccupations = <OccupationLabels>[
     'fondsmanager',
     'gérant de portefeuille',
     'gérante de portefeuille',
+    'správce investičního fondu',
+    'správkyně investičního fondu',
   ]),
   OccupationLabels('2412', [
     'investment manager',
@@ -19255,6 +21761,8 @@ const escoOccupations = <OccupationLabels>[
     'beleggingsbeheerder',
     'directeur des investissements',
     'directrice des investissements',
+    'investiční manažer',
+    'investiční manažerka',
   ]),
   OccupationLabels('2412', [
     'investor relations manager',
@@ -19264,6 +21772,8 @@ const escoOccupations = <OccupationLabels>[
     'investor-relations-managerin',
     'relatiebeheerder beleggingen',
     'relatiebeheerder investeringen',
+    'manažer investičních strategií',
+    'manažerka investičních strategií',
   ]),
   OccupationLabels('7126', [
     'irrigation system installer',
@@ -19293,6 +21803,8 @@ const escoOccupations = <OccupationLabels>[
     'technica irrigatiesystemen',
     'technicien en irrigation',
     'technicienne en irrigation',
+    'montér zavlažovacích systémů',
+    'montérka zavlažovacích systémů',
   ]),
   OccupationLabels('2511', [
     'it auditor',
@@ -19307,6 +21819,8 @@ const escoOccupations = <OccupationLabels>[
     'auditeur des systèmes d’information',
     'auditrice des systèmes d’information',
     'auditrice informatique',
+    'auditor informačních technologií',
+    'auditorka informačních technologií',
   ]),
   OccupationLabels('7313', [
     'jeweller',
@@ -19321,6 +21835,8 @@ const escoOccupations = <OccupationLabels>[
     'juvelerare',
     'bijoutier',
     'bijoutière',
+    'klenotník',
+    'klenotnice',
   ]),
   OccupationLabels('1420', [
     'jewellery shop manager',
@@ -19332,6 +21848,7 @@ const escoOccupations = <OccupationLabels>[
     'afdelingsmanager sieraden en horloges',
     'gérant de magasin bijouterie-horlogerie',
     'gérante de magasin bijouterie-horlogerie',
+    'vedoucí klenotnictví',
   ]),
   OccupationLabels('5223', [
     'jewellery salesperson',
@@ -19343,6 +21860,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en bijouterie',
     'vendeuse en bijouterie',
     'vendeuse en horlogerie',
+    'prodavač klenotů a hodinek',
+    'prodavačka klenotů a hodinek',
+    'prodavačka šperků',
   ]),
   OccupationLabels('8219', [
     'jewellery assembler',
@@ -19359,6 +21879,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur en orfèvrerie',
     'monteuse en orfèvrerie',
     'monteur en bijouterie',
+    'šperkař',
+    'šperkařka',
   ]),
   OccupationLabels('2163', [
     'jewellery designer',
@@ -19375,6 +21897,8 @@ const escoOccupations = <OccupationLabels>[
     'juwelenontwerpster',
     'designer en bijouterie',
     'designeuse en bijouterie',
+    'návrhář šperků',
+    'návrhářka šperků',
   ]),
   OccupationLabels('7313', [
     'jewellery engraver',
@@ -19391,6 +21915,8 @@ const escoOccupations = <OccupationLabels>[
     'handgraveerder',
     'graveur sur bijou',
     'graveuse sur bijou',
+    'umělecký rytec a leptař',
+    'umělecká rytkyně a leptařka',
   ]),
   OccupationLabels('7313', [
     'jewellery mounter',
@@ -19403,6 +21929,8 @@ const escoOccupations = <OccupationLabels>[
     'schmuckherstellerin',
     'juweelzetter',
     'juweelzetster',
+    'klenotník',
+    'klenotnice',
   ]),
   OccupationLabels('7313', [
     'jewellery polisher',
@@ -19418,6 +21946,8 @@ const escoOccupations = <OccupationLabels>[
     'specialiste juwelenreiniging',
     'polisseur de bijou',
     'polisseuse de bijou',
+    'leštič šperků',
+    'leštička šperků',
   ]),
   OccupationLabels('7313', [
     'jewellery repairer',
@@ -19433,6 +21963,8 @@ const escoOccupations = <OccupationLabels>[
     'reparateur van juwelen',
     'réparateur de bijou',
     'réparatrice de bijou',
+    'opravář klenotů',
+    'opravářka klenotů',
   ]),
   OccupationLabels('2310', [
     'journalism lecturer',
@@ -19450,6 +21982,7 @@ const escoOccupations = <OccupationLabels>[
     'docente journalistiek hoger onderwijs',
     'enseignant-chercheur en journalisme',
     'enseignante-chercheuse en journalisme',
+    'přednášející v oboru žurnalistika',
   ]),
   OccupationLabels('2642', [
     'journalist',
@@ -19457,6 +21990,9 @@ const escoOccupations = <OccupationLabels>[
     'periodista',
     'journalistin',
     'journaliste',
+    'novinář',
+    'novinářka',
+    'investigativní novinář',
   ]),
   OccupationLabels('2612', [
     'judge',
@@ -19473,6 +22009,9 @@ const escoOccupations = <OccupationLabels>[
     'rechter',
     'kinderrechter',
     'juge',
+    'soudce',
+    'soudkyně',
+    'soudkyně obecných soudů',
   ]),
   OccupationLabels('2612', [
     'justice of the peace',
@@ -19484,6 +22023,8 @@ const escoOccupations = <OccupationLabels>[
     'fredsdomare',
     'vrederechter',
     'juge d’instance',
+    'smírčí soudce',
+    'smírčí soudkyně',
   ]),
   OccupationLabels('5413', [
     'juvenile correctional officer',
@@ -19538,6 +22079,9 @@ const escoOccupations = <OccupationLabels>[
     'tuggummiproduktionsansvarig',
     'ansvariga för tuggummiproduktion',
     'keteloperator',
+    'operátor výroby žvýkaček',
+    'operátorka výroby žvýkaček',
+    'operátoři výroby žvýkaček',
   ]),
   OccupationLabels('7312', [
     'keyboard musical instrument maker',
@@ -19550,6 +22094,8 @@ const escoOccupations = <OccupationLabels>[
     'bouwer van toetsinstrumenten',
     'klavierinstrumentenbouwer',
     'bouwer van klavieren',
+    'výrobce klávesových hudebních nástrojů',
+    'výrobkyně klávesových hudebních nástrojů',
   ]),
   OccupationLabels('8181', [
     'kiln firer',
@@ -19574,12 +22120,17 @@ const escoOccupations = <OccupationLabels>[
     'kinésiologue',
     'intervenant en kinésiologie',
     'intervenante en kinésiologie',
+    'kineziolog',
+    'kinezioložka',
   ]),
   OccupationLabels('1420', [
     'kitchen shop manager',
     'kitchen superstore manager',
     'kitchen showroom manager',
     'verkoopmanager keukens en badkamers',
+    'vedoucí interiérového studia',
+    'vedoucí koupelnového studia',
+    'vedoucí kuchyňského studia',
   ]),
   OccupationLabels('9412', [
     'kitchen assistant',
@@ -19595,6 +22146,8 @@ const escoOccupations = <OccupationLabels>[
     'keukenhulp',
     'aide-cuisinier',
     'aide-cuisinière',
+    'pomocný kuchař',
+    'pomocná kuchařka',
   ]),
   OccupationLabels('9412', [
     'kitchen porter',
@@ -19612,6 +22165,7 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster keuken',
     'plongeur',
     'plongeuse',
+    'pomocná síla v kuchyni',
   ]),
   OccupationLabels('7115', [
     'kitchen unit installer',
@@ -19628,6 +22182,9 @@ const escoOccupations = <OccupationLabels>[
     'keukenmonteuse',
     'installateur de cuisines',
     'installatrice de cuisines',
+    'montér kuchyní',
+    'montérka kuchyní',
+    'montérka pro rekonstrukce kuchyní',
   ]),
   OccupationLabels('7318', [
     'knitter',
@@ -19642,6 +22199,8 @@ const escoOccupations = <OccupationLabels>[
     'breister',
     'tricoteur',
     'tricoteuse',
+    'pletař',
+    'pletařka',
   ]),
   OccupationLabels('8152', [
     'knitting machine operator',
@@ -19656,6 +22215,7 @@ const escoOccupations = <OccupationLabels>[
     'stickmaskinoperatör',
     'operator breimachine',
     'operator breierij',
+    'obsluha pletacích strojů',
   ]),
   OccupationLabels('8152', [
     'knitting machine supervisor',
@@ -19668,6 +22228,8 @@ const escoOccupations = <OccupationLabels>[
     'automatenstrickerin',
     'stickmaskinförman',
     'supervisor breimachine',
+    'mechanik pletacích strojů',
+    'mechanička pletacích strojů',
   ]),
   OccupationLabels('8152', [
     'knitting textile technician',
@@ -19685,6 +22247,9 @@ const escoOccupations = <OccupationLabels>[
     'breitechnica',
     'technicien en tricotage',
     'technicienne en tricotage',
+    'technik výroby pletenin',
+    'technička výroby pletenin',
+    'technik pletařských procesů',
   ]),
   OccupationLabels('2529', [
     'knowledge engineer',
@@ -19704,6 +22269,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur de la connaissance',
     'ingénieure de la connaissance',
     'ingénieur du savoir',
+    'znalostní inženýr',
+    'znalostní inženýrka',
   ]),
   OccupationLabels('7511', [
     'kosher butcher',
@@ -19720,6 +22287,8 @@ const escoOccupations = <OccupationLabels>[
     'joodse slager',
     'boucher en boucherie casher',
     'bouchère en boucherie casher',
+    'řezník košer',
+    'řeznice košer',
   ]),
   OccupationLabels('7511', [
     'kosher slaughterer',
@@ -19734,6 +22303,8 @@ const escoOccupations = <OccupationLabels>[
     'joodse slachter',
     'abatteur en abattage casher',
     'abatteuse en abattage casher',
+    'porážeč košer',
+    'porážečka košer',
   ]),
   OccupationLabels('2422', [
     'labour market policy officer',
@@ -19743,6 +22314,8 @@ const escoOccupations = <OccupationLabels>[
     'referentin für arbeitsmarktpolitik',
     'arbeitsmarktreferent',
     'beleidsmedewerker arbeidsmarkt',
+    'referent trhu práce',
+    'referentka trhu práce',
   ]),
   OccupationLabels('2423', [
     'labour relations officer',
@@ -19764,6 +22337,8 @@ const escoOccupations = <OccupationLabels>[
     'lakmaler',
     'préparateur de laques',
     'préparatrice de laques',
+    'výrobce laků',
+    'výrobkyně laků',
   ]),
   OccupationLabels('7132', [
     'lacquer spray gun operator',
@@ -19776,6 +22351,7 @@ const escoOccupations = <OccupationLabels>[
     'laqueur au pistolet',
     'laqueuse au pistolet',
     'peintre thermo-laqueuse',
+    'obsluha lakýrnické stříkací pistole',
   ]),
   OccupationLabels('8171', [
     'laminating machine operator',
@@ -19789,6 +22365,7 @@ const escoOccupations = <OccupationLabels>[
     'operator strijkmachine',
     'operator coater',
     'operator coatingmachine',
+    'obsluha laminovacích strojů',
   ]),
   OccupationLabels('2164', [
     'land planner',
@@ -19800,6 +22377,8 @@ const escoOccupations = <OccupationLabels>[
     'markplanerare',
     'planoloog',
     'chef de projet aménagement',
+    'územní plánovač',
+    'územní plánovačka',
   ]),
   OccupationLabels('2165', [
     'land surveyor',
@@ -19812,6 +22391,8 @@ const escoOccupations = <OccupationLabels>[
     'landmeter',
     'landmeter-expert',
     'géomètre-topographe',
+    'geodet specialista',
+    'geodetka specialistka',
   ]),
   OccupationLabels('8341', [
     'land-based machinery operator',
@@ -19832,6 +22413,7 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d\'engins agricoles',
     'conductrice d\'engins agricoles',
     'conductrice d\'engins d\'exploitation agricole',
+    'obsluha zemědělských strojů',
   ]),
   OccupationLabels('8341', [
     'land-based machinery supervisor',
@@ -19849,6 +22431,9 @@ const escoOccupations = <OccupationLabels>[
     'superviseur d\'engins agricoles',
     'superviseure d\'engins agricoles',
     'superviseure d\'engins d\'exploitation agricole',
+    'správce zemědělských strojů',
+    'správkyně zemědělských strojů',
+    'správkyně zemědělské techniky',
   ]),
   OccupationLabels('7233', [
     'land-based machinery technician',
@@ -19865,6 +22450,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’engins agricoles',
     'technicienne d’engins agricoles',
     'technicien d\'engins agricoles',
+    'opravář zemědělských strojů',
+    'opravářka zemědělských strojů',
+    'opravář zemědělské techniky',
   ]),
   OccupationLabels('3112', [
     'landfill supervisor',
@@ -19879,6 +22467,7 @@ const escoOccupations = <OccupationLabels>[
     'opzichter vuilnisbelt',
     'opzichter afvalsortering',
     'opzichter stortplaats',
+    'vedoucí skládky odpadů',
   ]),
   OccupationLabels('2162', [
     'landscape architect',
@@ -19894,6 +22483,8 @@ const escoOccupations = <OccupationLabels>[
     'tuinarchitect',
     'tuinarchitecte',
     'architecte paysagiste',
+    'zahradní a krajinný architekt',
+    'zahradní a krajinná architektka',
   ]),
   OccupationLabels('2162', [
     'landscape designer',
@@ -19932,6 +22523,8 @@ const escoOccupations = <OccupationLabels>[
     'jardinier paysagiste',
     'jardinière paysagiste',
     'jardinière-paysagiste',
+    'krajinář',
+    'krajinářka',
   ]),
   OccupationLabels('2152', [
     'language engineer',
@@ -19947,6 +22540,8 @@ const escoOccupations = <OccupationLabels>[
     'taaltechnoloog',
     'linguiste informaticien',
     'linguiste informaticienne',
+    'komputační lingvistik',
+    'komputační lingvistka',
   ]),
   OccupationLabels('2353', [
     'language school teacher',
@@ -19956,6 +22551,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar talenschool',
     'formateur linguistique',
     'formatrice linguistique',
+    'učitel jazykové školy',
+    'učitelka jazykové školy',
   ]),
   OccupationLabels('7212', [
     'laser beam welder',
@@ -19971,6 +22568,7 @@ const escoOccupations = <OccupationLabels>[
     'bediener laserlasmachine',
     'soudeur laser',
     'soudeuse laser',
+    'laserový svářeč',
   ]),
   OccupationLabels('7223', [
     'laser cutting machine operator',
@@ -19984,6 +22582,8 @@ const escoOccupations = <OccupationLabels>[
     'laseroperatör',
     'operator lasersnijmachine',
     'operator cnc-lasersnijmachine',
+    'seřizovač laserového řezacího stroje',
+    'seřizovačka laserového řezacího stroje',
   ]),
   OccupationLabels('7223', [
     'laser marking machine operator',
@@ -19998,6 +22598,8 @@ const escoOccupations = <OccupationLabels>[
     'operator lasermarkeermachine',
     'operator lasergraveermachine',
     'operator cnc-lasermarkeermachine',
+    'seřizovač laserového značicího stroje',
+    'seřizovačka laserového značicího stroje',
   ]),
   OccupationLabels('8156', [
     'lasting machine operator',
@@ -20011,6 +22613,7 @@ const escoOccupations = <OccupationLabels>[
     'operator schoenmakersleest',
     'monteur en chaussures',
     'monteuse en chaussures',
+    'obsluha napínacích strojů',
   ]),
   OccupationLabels('7223', [
     'cnc tool lathe',
@@ -20023,6 +22626,8 @@ const escoOccupations = <OccupationLabels>[
     'operator cnc-draaibank',
     'tourneur',
     'tourneuse',
+    'seřizovač soustruhu',
+    'seřizovačka soustruhu',
   ]),
   OccupationLabels('9629', [
     'laundromat attendant',
@@ -20039,6 +22644,8 @@ const escoOccupations = <OccupationLabels>[
     'wasserettemedewerkster',
     'employé de laverie automatique',
     'employée de laverie automatique',
+    'pracovník provozu samoobslužné prádelny',
+    'pracovnice provozu samoobslužné prádelny',
   ]),
   OccupationLabels('1439', [
     'dry-cleaning and laundry supervisor',
@@ -20050,6 +22657,8 @@ const escoOccupations = <OccupationLabels>[
     'tvätterichef',
     'verantwoordelijke industriële wasserij',
     'verantwoordelijke bedrijfswasserij',
+    'manažer prádelen a čistíren',
+    'manažerka prádelen a čistíren',
   ]),
   OccupationLabels('8157', [
     'laundry ironer',
@@ -20065,6 +22674,7 @@ const escoOccupations = <OccupationLabels>[
     'repasseur en blanchisserie industrielle',
     'repasseuse en blanchisserie industrielle',
     'repasseuse',
+    'obsluha strojů v žehlírně',
   ]),
   OccupationLabels('8157', [
     'laundry worker',
@@ -20081,6 +22691,8 @@ const escoOccupations = <OccupationLabels>[
     'blanchisseur industriel',
     'blanchisseuse industrielle',
     'ouvrière spécialisée en blanchisserie',
+    'pracovník provozu prádelny',
+    'pracovnice provozu prádelny',
   ]),
   OccupationLabels('8157', [
     'laundry workers supervisor',
@@ -20091,6 +22703,9 @@ const escoOccupations = <OccupationLabels>[
     'voorman wasserij',
     'meewerkend voorman wasserij',
     'voorman wassalon',
+    'vedoucí provozu prádelny-čistírny',
+    'vedoucí provozu prádelny',
+    'vedoucí provozu čistírny',
   ]),
   OccupationLabels('2310', [
     'law lecturer',
@@ -20105,6 +22720,7 @@ const escoOccupations = <OccupationLabels>[
     'docent rechten hoger onderwijs',
     'enseignant-chercheur en droit',
     'enseignante-chercheuse en droit',
+    'přednášející v oboru právo',
   ]),
   OccupationLabels('2611', [
     'lawyer',
@@ -20121,6 +22737,8 @@ const escoOccupations = <OccupationLabels>[
     'avocat',
     'avocate',
     'avocat pénaliste',
+    'právník',
+    'právnička',
   ]),
   OccupationLabels('2643', [
     'lawyer linguist',
@@ -20134,6 +22752,8 @@ const escoOccupations = <OccupationLabels>[
     'juridisch vertaler',
     'juridisch vertaalster',
     'juriste-linguiste',
+    'právník-lingvista',
+    'právnička-lingvistka',
   ]),
   OccupationLabels('7516', [
     'leaf sorter',
@@ -20146,6 +22766,9 @@ const escoOccupations = <OccupationLabels>[
     'sorteerder van bladeren',
     'tabaksbladsorteerder',
     'sorteerders van tabaksbladeren',
+    'třídič listů',
+    'třídička listů',
+    'třídička tabákových listů',
   ]),
   OccupationLabels('7516', [
     'leaf tier',
@@ -20159,6 +22782,9 @@ const escoOccupations = <OccupationLabels>[
     'bindare av tobaksblad',
     'binder van bladeren',
     'tabaksbladbinder',
+    'vazač listů',
+    'vazačka listů',
+    'vazač tabákových listů',
   ]),
   OccupationLabels('9510', [
     'leaflet distributor',
@@ -20174,6 +22800,8 @@ const escoOccupations = <OccupationLabels>[
     'distributeur de prospectus',
     'distributrice de prospectus',
     'distributeur de flyers',
+    'distributor letáků',
+    'distributorka letáků',
   ]),
   OccupationLabels('2359', [
     'learning mentor',
@@ -20184,6 +22812,8 @@ const escoOccupations = <OccupationLabels>[
     'remedial teacher',
     'assistant pédagogique',
     'assistante pédagogique',
+    'speciální pedagog',
+    'speciální pedagožka',
   ]),
   OccupationLabels('2352', [
     'learning support teacher',
@@ -20212,6 +22842,7 @@ const escoOccupations = <OccupationLabels>[
     'lederappreteurin',
     'afwerker leder',
     'afwerker leer',
+    'obsluha apretovacích strojů',
   ]),
   OccupationLabels('7318', [
     'leather goods artisanal worker',
@@ -20228,6 +22859,8 @@ const escoOccupations = <OccupationLabels>[
     'artisan',
     'artisane sur cuir',
     'artisan gainier',
+    'řemeslník manuální kožedělné výroby',
+    'řemeslnice manuální kožedělné výroby',
   ]),
   OccupationLabels('7532', [
     'leather goods cad patternmaker',
@@ -20254,6 +22887,8 @@ const escoOccupations = <OccupationLabels>[
     'lederwarenontwerper',
     'ontwerper',
     'styliste maroquinerie',
+    'návrhář koženého zboží',
+    'návrhářka koženého zboží',
   ]),
   OccupationLabels('7536', [
     'leather goods finishing operator',
@@ -20282,6 +22917,8 @@ const escoOccupations = <OccupationLabels>[
     'lederstikker',
     'piqueur main en chaussures',
     'piqueuse main en chaussures',
+    'manuální sešívač kožedělných výrobků',
+    'manuální sešívačka kožedělných výrobků',
   ]),
   OccupationLabels('2141', [
     'leather goods industrial engineer',
@@ -20291,6 +22928,8 @@ const escoOccupations = <OccupationLabels>[
     'industrieel ingenieur lederwaren',
     'ingénieure industrielle en maroquinerie',
     'ingénieur industriel en maroquinerie',
+    'kožařský specialista technolog',
+    'kožařská specialistka technoložka',
   ]),
   OccupationLabels('8156', [
     'leather goods machine operator',
@@ -20305,6 +22944,8 @@ const escoOccupations = <OccupationLabels>[
     'wartungstechnikerin in der lederwarenherstellung',
     'onderhoudstechnicus machines voor lederwarenproductie',
     'onderhoudstechnica machines voor lederwarenproductie',
+    'technik údržby kožedělných strojů',
+    'technička údržby kožedělných strojů',
   ]),
   OccupationLabels('7536', [
     'leather goods manual operator',
@@ -20316,6 +22957,8 @@ const escoOccupations = <OccupationLabels>[
     'lederwarenvoorbereider',
     'monteur d’articles en cuir',
     'monteuse d’articles en cuir',
+    'dělník v kožedělném průmyslu',
+    'dělnice v kožedělném průmyslu',
   ]),
   OccupationLabels('3119', [
     'leather goods manufacturing technician',
@@ -20325,6 +22968,8 @@ const escoOccupations = <OccupationLabels>[
     'produktionstechnikerin lederwaren',
     'lädervaruarbetare',
     'lederwarenmaker',
+    'technik kožedělné výroby',
+    'technička kožedělné výroby',
   ]),
   OccupationLabels('8183', [
     'leather goods packing operator',
@@ -20350,6 +22995,8 @@ const escoOccupations = <OccupationLabels>[
     'patronnier d’articles en cuir',
     'patronnière d’articles en cuir',
     'patronnière en maroquinerie',
+    'konstruktér střihů kožedělných výrobků',
+    'konstruktérka střihů kožedělných výrobků',
   ]),
   OccupationLabels('3119', [
     'leather goods product developer',
@@ -20361,6 +23008,9 @@ const escoOccupations = <OccupationLabels>[
     'productontwikkelaar lederwaren',
     'productontwerper lederwaren',
     'productontwikkelaar',
+    'kožařský vývojový pracovník',
+    'kožařská vývojová pracovnice',
+    'kožařská specialistka',
   ]),
   OccupationLabels('1223', [
     'leather goods product manager',
@@ -20373,11 +23023,14 @@ const escoOccupations = <OccupationLabels>[
     'manager preproductie lederwaren',
     'directrice de collection maroquinerie',
     'directeur de collection maroquinerie',
+    'vedoucí vývoje koženého zboží',
   ]),
   OccupationLabels('1321', [
     'leather goods production manager',
     'productiemanager lederwaren',
     'productiemanager leerwaren',
+    'vedoucí výroby koženého zboží',
+    'vedoucí výroby kožedělných produktů',
   ]),
   OccupationLabels('3122', [
     'leather goods production supervisor',
@@ -20388,6 +23041,9 @@ const escoOccupations = <OccupationLabels>[
     'productieleider lederwaren',
     'chef productie lederwaren',
     'productiechef lederwaren',
+    'vedoucí výroby koženého zboží',
+    'vedoucí vysekávací kožedělné dílny',
+    'vedoucí šicí kožedělné dílny',
   ]),
   OccupationLabels('3119', [
     'leather goods qa',
@@ -20407,6 +23063,8 @@ const escoOccupations = <OccupationLabels>[
     'qualitätskontrolleur - lederwaren',
     'qualitätskontrolleurin - lederwaren',
     'kwaliteitscontroleur lederwaren',
+    'kontrolor kvality kožedělných výrobků',
+    'kontrolorka kvality kožedělných výrobků',
   ]),
   OccupationLabels('1321', [
     'leather goods quality manager',
@@ -20418,6 +23076,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager lederwaren',
     'kwaliteitscoördinator in de lederindustrie',
     'hoofd kwaliteitsmanagement lederwaren',
+    'manažerka jakosti kožedělných výrobků',
+    'manažer jakosti kožedělných výrobků',
   ]),
   OccupationLabels('3119', [
     'leather goods quality technician',
@@ -20429,12 +23089,16 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitstechnoloog',
     'technicien qualité en maroquinerie',
     'technicienne qualité en maroquinerie',
+    'kožařský technik kontrolor kvality',
+    'kožařská technička kontrolorka kvality',
   ]),
   OccupationLabels('8153', [
     'ledersteppmaschinenbediener',
     'ledersteppmaschinenbedienerin',
     'operator stikmachine lederwaren',
     'operator stikmachine',
+    'obsluha vícejehlového šicího stroje',
+    'obsluha dvoujehlového šicího stroje',
   ]),
   OccupationLabels('4321', [
     'leather goods warehouse operator',
@@ -20469,6 +23133,9 @@ const escoOccupations = <OccupationLabels>[
     'facharbeiterin in der lederherstellung',
     'machineoperator lederproductie',
     'machineoperator leerproductie',
+    'obsluha koželužských natíracích strojů',
+    'obsluha mízdřicích strojů',
+    'obsluha koželužských lešticích strojů',
   ]),
   OccupationLabels('1321', [
     'leather production manager',
@@ -20497,6 +23164,7 @@ const escoOccupations = <OccupationLabels>[
     'leather raw materials buyer',
     'einkaufsleiter für lederrohstoffe',
     'einkaufsleiterin für lederrohstoffe',
+    'vedoucí nákupu kožařských surovin',
   ]),
   OccupationLabels('7535', [
     'leather sorter',
@@ -20508,6 +23176,9 @@ const escoOccupations = <OccupationLabels>[
     'sorteerder van leder',
     'sorteerder van leer',
     'leersorteerder',
+    'třídič usní',
+    'třídička usní',
+    'třidič usní',
   ]),
   OccupationLabels('1321', [
     'leather wet processing manager',
@@ -20515,6 +23186,7 @@ const escoOccupations = <OccupationLabels>[
     'manager afdeling natte bewerking',
     'manager natte bewerking',
     'responsable travail de rivière',
+    'vedoucí činicí dílny',
   ]),
   OccupationLabels('3342', [
     'legal administrative assistant',
@@ -20527,6 +23199,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerker juridisch secretariaat',
     'administratief medewerkster juridisch secretariaat',
     'auxiliaire juridique',
+    'asistent v právní administrativě',
+    'asistentka v právní administrativě',
   ]),
   OccupationLabels('3411', [
     'legal assistant',
@@ -20546,6 +23220,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant de cabinet juridique',
     'assistante de cabinet juridique',
     'assistant juridique',
+    'právní asistent',
+    'právní asistentka',
   ]),
   OccupationLabels('2619', [
     'legal consultant',
@@ -20562,6 +23238,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller juridique',
     'conseillère juridique',
     'conseiller en droit',
+    'právní poradce',
+    'právní poradkyně',
   ]),
   OccupationLabels('3412', [
     'legal guardian',
@@ -20577,6 +23255,8 @@ const escoOccupations = <OccupationLabels>[
     'jeugdvoogd',
     'tuteur',
     'tutrice',
+    'zákonný opatrovník',
+    'zákonná opatrovnice',
   ]),
   OccupationLabels('2422', [
     'legal policy officer',
@@ -20588,6 +23268,8 @@ const escoOccupations = <OccupationLabels>[
     'rechtsreferentin',
     'beleidsmedewerker juridische zaken',
     'beleidsmedewerker justitie',
+    'referent právního oddělení',
+    'referentka právního oddělení',
   ]),
   OccupationLabels('1349', [
     'legal service manager',
@@ -20601,6 +23283,7 @@ const escoOccupations = <OccupationLabels>[
     'manager juridische dienstverlening',
     'manager juridisch adviesbureau',
     'responsable de service juridique',
+    'vedoucí právní služby',
   ]),
   OccupationLabels('2619', [
     'legislative drafter',
@@ -20614,6 +23297,8 @@ const escoOccupations = <OccupationLabels>[
     'rédacteur juridique',
     'rédactrice juridique',
     'rédactrice législative',
+    'tvůrce právních předpisů',
+    'tvůrkyně právních předpisů',
   ]),
   OccupationLabels('3423', [
     'leisure attendant',
@@ -20627,6 +23312,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker fitnesscentrum',
     'animateur sportif polyvalent',
     'animatrice sportive polyvalente',
+    'obsluha ve fitcentru',
+    'obsluha ve fitness centru',
   ]),
   OccupationLabels('3334', [
     'letting agent',
@@ -20642,6 +23329,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker verhuur',
     'agent de location immobilière',
     'agente de location immobilière',
+    'zprostředkovatel pronájmů',
+    'zprostředkovatelka pronájmů',
   ]),
   OccupationLabels('8312', [
     'level crossing signalperson',
@@ -20653,6 +23342,9 @@ const escoOccupations = <OccupationLabels>[
     'overwegwachter',
     'overwegwachteres',
     'garde barrière',
+    'signalista železničního přejezdu',
+    'signalistka železničního přejezdu',
+    'signalista',
   ]),
   OccupationLabels('2643', [
     'lexicographer',
@@ -20665,6 +23357,7 @@ const escoOccupations = <OccupationLabels>[
     'lexicograaf',
     'lexicografe',
     'lexicographe',
+    'lexikografka',
   ]),
   OccupationLabels('2622', [
     'librarian',
@@ -20681,6 +23374,8 @@ const escoOccupations = <OccupationLabels>[
     'bibliothecaris',
     'bibliothecaresse',
     'bibliothécaire',
+    'knihovník',
+    'knihovnice',
   ]),
   OccupationLabels('4411', [
     'library assistant',
@@ -20696,6 +23391,8 @@ const escoOccupations = <OccupationLabels>[
     'bibliotheekmedewerkster',
     'medewerker openbare bibliotheek',
     'aide-bibliothécaire',
+    'pomocný knihovník',
+    'pomocná knihovnice',
   ]),
   OccupationLabels('1349', [
     'library manager',
@@ -20713,6 +23410,7 @@ const escoOccupations = <OccupationLabels>[
     'hoofd bedrijfsbibliotheek',
     'directeur de bibliothèque',
     'directrice de bibliothèque',
+    'vedoucí knihovny',
   ]),
   OccupationLabels('1221', [
     'licensing manager',
@@ -20729,6 +23427,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur des licences',
     'directrices des licences',
     'directrice des lciences',
+    'licenční manažer',
+    'licenční manažerka',
   ]),
   OccupationLabels('3354', [
     'licensing officer',
@@ -20755,6 +23455,8 @@ const escoOccupations = <OccupationLabels>[
     'eerste luitenant',
     'onderluitenant',
     'lieutenante',
+    'poručík',
+    'poručice',
   ]),
   OccupationLabels('3412', [
     'life coach',
@@ -20767,6 +23469,8 @@ const escoOccupations = <OccupationLabels>[
     'livscoach',
     'conseiller en développement personnel',
     'conseillère en développement personnel',
+    'životní kouč',
+    'životní koučka',
   ]),
   OccupationLabels('5419', [
     'life guard',
@@ -20782,6 +23486,9 @@ const escoOccupations = <OccupationLabels>[
     'sauveteur',
     'sauveteuse',
     'sauveteuse en mer',
+    'plavčík',
+    'plavčice',
+    'plavčice-záchranářka',
   ]),
   OccupationLabels('3422', [
     'lifeguard instructor',
@@ -20801,6 +23508,9 @@ const escoOccupations = <OccupationLabels>[
     'instructeur reddersopleiding',
     'instructeur de maîtres-nageurs sauveteurs',
     'instructrice de maîtres-nageurs sauveteurs',
+    'instruktor vodních záchranářů',
+    'instruktorka vodních záchranářů',
+    'instruktorka plavčíků',
   ]),
   OccupationLabels('7412', [
     'lift engineer',
@@ -20816,6 +23526,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus liftmontage',
     'monteur d’ascenseurs',
     'monteuse d’ascenseurs',
+    'elektromechanik pro výtahy',
+    'elektromechanička pro výtahy',
   ]),
   OccupationLabels('3123', [
     'lift installation supervisor',
@@ -20825,6 +23537,7 @@ const escoOccupations = <OccupationLabels>[
     'superviseur de monteurs d’ascenseurs',
     'superviseuse de monteurs d’ascenseurs',
     'superviseuse de monteurs d\'ascenseurs',
+    'vedoucí montáže výtahů',
   ]),
   OccupationLabels('3435', [
     'light board operator',
@@ -20842,6 +23555,7 @@ const escoOccupations = <OccupationLabels>[
     'bediener lichtconsole',
     'pupitreur régie lumière',
     'pupitreuse régie lumière',
+    'obsluha osvětlovacích pultů',
   ]),
   OccupationLabels('3435', [
     'lighting designer',
@@ -20857,6 +23571,8 @@ const escoOccupations = <OccupationLabels>[
     'lichtontwerpster',
     'concepteur lumière',
     'conceptrice lumière',
+    'světelný designér',
+    'světelná designérka',
   ]),
   OccupationLabels('2166', [
     'lighting director',
@@ -20872,6 +23588,8 @@ const escoOccupations = <OccupationLabels>[
     'ljussättare',
     'lichtregisseur',
     'chef éclairagiste',
+    'vrchní osvětlovač',
+    'vrchní osvětlovačka',
   ]),
   OccupationLabels('3435', [
     'lighting technician',
@@ -20888,6 +23606,9 @@ const escoOccupations = <OccupationLabels>[
     'lichttechnicus',
     'technicien lumière',
     'technicienne lumière',
+    'osvětlovač',
+    'osvětlovačka',
+    'technička osvětlování',
   ]),
   OccupationLabels('8131', [
     'lime kiln operator',
@@ -20898,6 +23619,8 @@ const escoOccupations = <OccupationLabels>[
     'kalkbrennerin',
     'mesabrännare',
     'kalkbrander',
+    'obsluha vápenné pece',
+    'obsluha vápenické pece',
   ]),
   OccupationLabels('9121', [
     'linen room attendant',
@@ -20930,6 +23653,8 @@ const escoOccupations = <OccupationLabels>[
     'lingvist',
     'taalkundige',
     'linguiste',
+    'jazykovědec',
+    'jazykovědkyně',
   ]),
   OccupationLabels('2310', [
     'linguistics lecturer',
@@ -20972,6 +23697,9 @@ const escoOccupations = <OccupationLabels>[
     'blandare av spritdryck',
     'spritdrycksblandare',
     'likeurmenger',
+    'míchač',
+    'míchačka likérů',
+    'míchač likérů',
   ]),
   OccupationLabels('8160', [
     'liquor grinding mill operator',
@@ -20979,6 +23707,8 @@ const escoOccupations = <OccupationLabels>[
     'spirituosenschleifmühlenbedienerin',
     'spirituosenreibmühlenbediener',
     'procesoperator in een likeurfabriek',
+    'operátorka rozmělňovacího stroje',
+    'operátor rozmělňovacího stroje',
   ]),
   OccupationLabels('2641', [
     'literary scholar',
@@ -21004,6 +23734,8 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht literatuur secundair onderwijs',
     'professeur de matières littéraires',
     'professeure de matières littéraires',
+    'učitelka literatury střední školy',
+    'učitel literatury střední školy',
   ]),
   OccupationLabels('7321', [
     'lithographer',
@@ -21030,6 +23762,8 @@ const escoOccupations = <OccupationLabels>[
     'transporteur d\'animaux vivants',
     'transporteuse d\'animaux vivants',
     'transporteur animalier',
+    'přepravce živých zvířat',
+    'přepravkyně živých zvířat',
   ]),
   OccupationLabels('1324', [
     'live animals distribution manager',
@@ -21038,6 +23772,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager levende dieren',
     'distributiechef levende dieren',
     'chef distributie levende dieren',
+    'manažer distribuce živých zvířat',
+    'manažerka distribuce živých zvířat',
   ]),
   OccupationLabels('4222', [
     'live chat operator',
@@ -21051,6 +23787,8 @@ const escoOccupations = <OccupationLabels>[
     'chatmedewerkster',
     'conseiller en ligne',
     'conseillère en ligne',
+    'operátor live chatu',
+    'operátorka live chatu',
   ]),
   OccupationLabels('2132', [
     'livestock advisor',
@@ -21082,6 +23820,9 @@ const escoOccupations = <OccupationLabels>[
     'medewerker veeteelt',
     'stalmedewerker',
     'aide d\'élevage',
+    'ošetřovatel hospodářských zvířat',
+    'ošetřovatelka hospodářských zvířat',
+    'ošetřovatelka dobytka',
   ]),
   OccupationLabels('3312', [
     'loan officer',
@@ -21093,6 +23834,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerker hypotheken',
     'agent de prêts',
     'agente de prêts',
+    'úvěrový pracovník',
+    'úvěrová pracovnice',
   ]),
   OccupationLabels('2643', [
     'localiser',
@@ -21108,6 +23851,9 @@ const escoOccupations = <OccupationLabels>[
     'lokalisator',
     'adaptateur',
     'adaptatrice',
+    'lokalizátor',
+    'lokalizátorka',
+    'lokalizační tester her',
   ]),
   OccupationLabels('3435', [
     'location manager',
@@ -21124,6 +23870,9 @@ const escoOccupations = <OccupationLabels>[
     'filmlocatiemanager',
     'repéreur de décors',
     'repéreuse de décors',
+    'lokační manažer',
+    'lokační manažerka',
+    'lokační scout',
   ]),
   OccupationLabels('9629', [
     'locker room attendant',
@@ -21159,6 +23908,8 @@ const escoOccupations = <OccupationLabels>[
     'serrurier',
     'serrurière',
     'serrurier du bâtiment',
+    'zámkař',
+    'zámkařka',
   ]),
   OccupationLabels('2141', [
     'logistics analyst',
@@ -21172,6 +23923,8 @@ const escoOccupations = <OccupationLabels>[
     'logistiek deskundige',
     'expert voorraadlogistiek',
     'analyste logistique',
+    'logistický analytik',
+    'logistická analytička',
   ]),
   OccupationLabels('1324', [
     'logistics and distribution manager',
@@ -21184,6 +23937,9 @@ const escoOccupations = <OccupationLabels>[
     'logistikchef',
     'manager logistiek en distributie',
     'responsable logistique et distribution',
+    'manažer logistiky a distribuce',
+    'manažerka logistiky a distribuce',
+    'manažer logistiky',
   ]),
   OccupationLabels('2149', [
     'logistics engineer',
@@ -21201,6 +23957,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur logistiek',
     'ingénieur logistique',
     'ingénieure logistique',
+    'specialista logistiky',
+    'specialistka logistiky',
   ]),
   OccupationLabels('3315', [
     'loss adjuster',
@@ -21211,6 +23969,8 @@ const escoOccupations = <OccupationLabels>[
     'schadensbegutachterin',
     'schadecorrespondent',
     'schadecorrespondente',
+    'likvidátor škod',
+    'likvidátorka škod',
   ]),
   OccupationLabels('5230', [
     'lottery cashier',
@@ -21224,6 +23984,7 @@ const escoOccupations = <OccupationLabels>[
     'verkoopmedewerkster staatsloterij',
     'verkoopmedewerker staatsloterij',
     'vendeur',
+    'prodejce loterie',
   ]),
   OccupationLabels('1431', [
     'lottery manager',
@@ -21238,6 +23999,8 @@ const escoOccupations = <OccupationLabels>[
     'loterijmanager',
     'directeur d\'agence de loterie',
     'directrice d\'agence de loterie',
+    'ředitel loterijní společnosti',
+    'ředitelka loterijní společnosti',
   ]),
   OccupationLabels('4212', [
     'lottery operator',
@@ -21250,6 +24013,8 @@ const escoOccupations = <OccupationLabels>[
     'loterijmedewerkster',
     'agent de loterie',
     'agente de loterie',
+    'pracovník loterie',
+    'pracovnice loterie',
   ]),
   OccupationLabels('7543', [
     'lumber grader',
@@ -21264,6 +24029,8 @@ const escoOccupations = <OccupationLabels>[
     'classeur de bois',
     'classeuse de bois',
     'trieur-classeur de bois',
+    'třídič dřeva',
+    'třídička dřeva',
   ]),
   OccupationLabels('2641', [
     'lyricist',
@@ -21276,6 +24043,8 @@ const escoOccupations = <OccupationLabels>[
     'tekstdichter',
     'parolier',
     'parolière',
+    'textař',
+    'textařka',
   ]),
   OccupationLabels('3122', [
     'machine operator supervisor',
@@ -21297,6 +24066,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinatrice machineassemblage',
     'coordinateur assemblage de machines',
     'coordinatrice assemblage de machines',
+    'koordinátor strojírenské výroby',
+    'koordinátorka strojírenské výroby',
   ]),
   OccupationLabels('3122', [
     'machinery assembly supervisor',
@@ -21316,6 +24087,8 @@ const escoOccupations = <OccupationLabels>[
     'fabricant d’articles textiles confectionnés',
     'fabricante d’articles textiles confectionnés',
     'fabricante d\'articles textiles façonnés',
+    'výrobce konfekčních textilních výrobků',
+    'výrobkyně konfekčních textilních výrobků',
   ]),
   OccupationLabels('2642', [
     'magazine editor',
@@ -21332,6 +24105,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofdredacteur tijdschrift',
     'hoofdredacteur weekblad',
     'hoofdredacteur maandblad',
+    'redaktor časopisu',
+    'redaktorka časopisu',
+    'redaktorka novinové přílohy',
   ]),
   OccupationLabels('4412', [
     'mail clerk',
@@ -21348,6 +24124,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker postkamer',
     'employé au courrier',
     'employée au courrier',
+    'pracovník vnitřní poštovní služby',
+    'pracovnice vnitřní poštovní služby',
   ]),
   OccupationLabels('2141', [
     'maintenance and repair engineer',
@@ -21362,6 +24140,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur maintenance',
     'ingénieure maintenance',
     'ingénieur maintenance aéronautique',
+    'inženýr údržby a oprav',
+    'inženýrka údržby a oprav',
   ]),
   OccupationLabels('5142', [
     'make-up and hair designer',
@@ -21393,6 +24173,8 @@ const escoOccupations = <OccupationLabels>[
     'grimeur-kapper',
     'maquilleur',
     'maquilleuse',
+    'odborník na líčení',
+    'odbornice na líčení',
   ]),
   OccupationLabels('3122', [
     'malt house supervisor',
@@ -21409,6 +24191,9 @@ const escoOccupations = <OccupationLabels>[
     'mouterijbeheerder',
     'superviseur de malterie',
     'superviseuse de malterie',
+    'vedoucí pracovník sladovny',
+    'vedoucí pracovnice sladovny',
+    'vedoucí sladovny',
   ]),
   OccupationLabels('8160', [
     'malt kiln operator',
@@ -21417,6 +24202,8 @@ const escoOccupations = <OccupationLabels>[
     'procesoperator moutoven',
     'opératrice de touraille',
     'opérateur de touraille',
+    'operátorka sušičky sladu',
+    'operátor sušičky skladu',
   ]),
   OccupationLabels('7515', [
     'malt master',
@@ -21431,6 +24218,8 @@ const escoOccupations = <OccupationLabels>[
     'whiskeymoutmeester',
     'expert en malt',
     'experte en malt',
+    'mistr sladovník',
+    'mistrová sladovnice',
   ]),
   OccupationLabels('8151', [
     'man-made fiber spinner',
@@ -21441,6 +24230,8 @@ const escoOccupations = <OccupationLabels>[
     'konstfiberspinnare',
     'spinner kunstvezel',
     'spinner synthetische vezel',
+    'přadlák umělých vláken',
+    'přadlena umělých vláken',
   ]),
   OccupationLabels('3343', [
     'management assistant',
@@ -21456,6 +24247,9 @@ const escoOccupations = <OccupationLabels>[
     'managementassistent',
     'attaché de direction',
     'attachée de direction',
+    'asistent vedení',
+    'asistentka vedení',
+    'asistentka vedoucího',
   ]),
   OccupationLabels('5142', [
     'manicurist',
@@ -21467,6 +24261,8 @@ const escoOccupations = <OccupationLabels>[
     'nagelterapeut',
     'manicure',
     'manucure',
+    'manikér',
+    'manikérka',
   ]),
   OccupationLabels('7119', [
     'manufactured wooden building assembler',
@@ -21483,6 +24279,8 @@ const escoOccupations = <OccupationLabels>[
     'monteuse houtskeletbouw',
     'assembleur d’ouvrages en bois',
     'assembleuse d’ouvrages en bois',
+    'stavitel prefabrikovaných dřevostaveb',
+    'stavitelka prefabrikovaných dřevostaveb',
   ]),
   OccupationLabels('2421', [
     'manufacturing cost estimator',
@@ -21494,6 +24292,8 @@ const escoOccupations = <OccupationLabels>[
     'productiekostenramer',
     'calculator productiekosten',
     'ramer productiekosten',
+    'odhadce výrobních nákladů',
+    'odhadkyně výrobních nákladů',
   ]),
   OccupationLabels('2141', [
     'manufacturing engineer',
@@ -21512,6 +24312,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur-hoofd van de productieproceslijn',
     'ingénieur de fabrication',
     'ingénieure de fabrication',
+    'specialista výrobních postupů',
+    'specialistka výrobních postupů',
   ]),
   OccupationLabels('1219', [
     'manufacturing facility manager',
@@ -21525,6 +24327,7 @@ const escoOccupations = <OccupationLabels>[
     'manager productiefaciliteit',
     'fabrieksmanager',
     'responsable d\'atelier de production',
+    'vedoucí výrobního zařízení',
   ]),
   OccupationLabels('1321', [
     'manufacturing manager',
@@ -21542,6 +24345,8 @@ const escoOccupations = <OccupationLabels>[
     'manager productie',
     'directeur de fabrication',
     'directrice de fabrication',
+    'vedoucí výroby',
+    'vedoucí výrobního oddělení',
   ]),
   OccupationLabels('3359', [
     'marine cargo inspector',
@@ -21552,6 +24357,8 @@ const escoOccupations = <OccupationLabels>[
     'ilt-inspecteur scheepvaart',
     'administrateur des affaires maritimes',
     'administratrice des affaires maritimes',
+    'přístavní inspektor',
+    'přístavní inspektorka',
   ]),
   OccupationLabels('3151', [
     'marine chief engineer',
@@ -21565,6 +24372,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofdwerktuigkundige binnenvaart',
     'hoofdwerktuigkundige',
     'chef mécanicien',
+    'hlavní inženýr lodi',
+    'hlavní inženýrka lodi',
+    'hlavní lodní inženýr',
   ]),
   OccupationLabels('7412', [
     'marine electrician',
@@ -21580,6 +24390,8 @@ const escoOccupations = <OccupationLabels>[
     'scheepselektricien',
     'électricien de marine',
     'électricienne de marine',
+    'lodní elektrikář',
+    'lodní elektrikářka',
   ]),
   OccupationLabels('7421', [
     'marine electronics technician',
@@ -21593,6 +24405,8 @@ const escoOccupations = <OccupationLabels>[
     'schiffselektrotechnikerin',
     'monteur scheepselektronica',
     'monteur scheepvaartelektronica',
+    'lodní elektrotechnik elektronických zařízení',
+    'lodní elektrotechnička elektronických zařízení',
   ]),
   OccupationLabels('2144', [
     'marine engineer',
@@ -21612,6 +24426,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en construction navale',
     'ingénieure en construction navale',
     'ingénieur naval',
+    'námořní inženýr',
+    'námořní inženýrka',
   ]),
   OccupationLabels('3118', [
     'marine engineering drafter',
@@ -21646,6 +24462,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien en ingénierie marine',
     'technicienne en ingénierie marine',
     'technicienne en génie maritime',
+    'technik v lodním stavitelství',
+    'technička v lodním stavitelství',
   ]),
   OccupationLabels('5411', [
     'marine firefighter',
@@ -21662,6 +24480,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker marinebrandweerkorps',
     'marin-pompier',
     'marin-pompière',
+    'hasič v námořní dopravě',
+    'hasička v námořní dopravě',
   ]),
   OccupationLabels('7233', [
     'marine mechanic',
@@ -21676,6 +24496,9 @@ const escoOccupations = <OccupationLabels>[
     'monteur scheepsmotoren',
     'mécanicien de marine',
     'mécanicienne de marine',
+    'lodní mechanik',
+    'lodní mechanička',
+    'lodní strojník',
   ]),
   OccupationLabels('3115', [
     'marine surveyor',
@@ -21691,6 +24514,8 @@ const escoOccupations = <OccupationLabels>[
     'schiffsinspektorin',
     'fartygsinspektör',
     'scheepsinspecteur',
+    'námořní inspektor',
+    'námořní inspektorka',
   ]),
   OccupationLabels('7534', [
     'marine upholsterer',
@@ -21707,6 +24532,8 @@ const escoOccupations = <OccupationLabels>[
     'scheepsstoffeerster',
     'sellier-garnisseur en construction navale',
     'sellière-garnisseuse en construction navale',
+    'čalouník plavidel',
+    'čalounice plavidel',
   ]),
   OccupationLabels('2320', [
     'maritime instructor',
@@ -21723,6 +24550,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice maritieme techniek',
     'instructeur maritime',
     'instructrice maritime',
+    'lodní instruktor',
+    'lodní instruktorka',
   ]),
   OccupationLabels('3152', [
     'maritime pilot',
@@ -21740,6 +24569,8 @@ const escoOccupations = <OccupationLabels>[
     'pilote de port',
     'pilote fluvial',
     'pilote hauturier',
+    'lodivod',
+    'lodivodka',
   ]),
   OccupationLabels('1324', [
     'maritime transportation managing director',
@@ -21752,6 +24583,8 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directrice vrachtvervoer zeevaart',
     'algemeen directeur vrachtvervoer zeevaart',
     'responsable d\'exploitation transport maritime',
+    'ředitel námořní vodní dopravy',
+    'ředitelka námořní vodní dopravy',
   ]),
   OccupationLabels('2431', [
     'market research analyst',
@@ -21765,6 +24598,9 @@ const escoOccupations = <OccupationLabels>[
     'chargé d’études de marché',
     'chargée d’études de marché',
     'chargé d\'études de marché',
+    'analytik pro výzkum trhu',
+    'analytička pro výzkum trhu',
+    'analytička trhu',
   ]),
   OccupationLabels('4227', [
     'market research interviewer',
@@ -21778,6 +24614,8 @@ const escoOccupations = <OccupationLabels>[
     'agent d’enquêtes',
     'agente d’enquêtes',
     'agente d\'enquêtes',
+    'tazatel průzkumu',
+    'tazatelka průzkumu',
   ]),
   OccupationLabels('5211', [
     'market vendor',
@@ -21792,6 +24630,8 @@ const escoOccupations = <OccupationLabels>[
     'marktverkoopster',
     'vendeur sur les marchés',
     'vendeuse sur les marchés',
+    'prodavač na trhu',
+    'prodavačka na trhu',
   ]),
   OccupationLabels('2431', [
     'marketeer',
@@ -21804,6 +24644,8 @@ const escoOccupations = <OccupationLabels>[
     'marknadsföringsspecialist',
     'chargé du marketing',
     'chargée du marketing',
+    'pracovník v marketingu',
+    'pracovnice v marketingu',
   ]),
   OccupationLabels('2431', [
     'marketing assistant',
@@ -21819,6 +24661,8 @@ const escoOccupations = <OccupationLabels>[
     'marketingassistente',
     'assistant marketing',
     'assistante marketing',
+    'marketingový asistent',
+    'marketingová asistentka',
   ]),
   OccupationLabels('1221', [
     'marketing manager',
@@ -21835,6 +24679,9 @@ const escoOccupations = <OccupationLabels>[
     'marketingdirecteur',
     'responsable du marketing',
     'responsable marketing',
+    'marketingový manažer',
+    'marketingová manažerka',
+    'manažerka prodeje a marketingu',
   ]),
   OccupationLabels('2635', [
     'marriage counsellor',
@@ -21852,6 +24699,9 @@ const escoOccupations = <OccupationLabels>[
     'conseiller conjugal',
     'conseillère conjugale',
     'conseiller conjugal et familial',
+    'manželský poradce',
+    'manželská poradkyně',
+    'manželský a rodinný poradce',
   ]),
   OccupationLabels('2651', [
     'mask maker',
@@ -21865,6 +24715,8 @@ const escoOccupations = <OccupationLabels>[
     'maskerbouwster',
     'fabricant de masques',
     'fabricante de masques',
+    'výrobce masek',
+    'výrobkyně masek',
   ]),
   OccupationLabels('3255', [
     'massage therapist',
@@ -21881,6 +24733,8 @@ const escoOccupations = <OccupationLabels>[
     'massagetherapeute',
     'masseur kinésithérapeute',
     'masseuse kinésithérapeute',
+    'masér – terapeut',
+    'masérka – terapeutka',
   ]),
   OccupationLabels('5142', [
     'masseur',
@@ -21894,6 +24748,8 @@ const escoOccupations = <OccupationLabels>[
     'massös',
     'stoelmasseur',
     'sportmasseur',
+    'masér',
+    'masérka',
   ]),
   OccupationLabels('7515', [
     'master coffee roaster',
@@ -21904,6 +24760,8 @@ const escoOccupations = <OccupationLabels>[
     'meester-koffiebrander',
     'torréfacteur',
     'torréfactrice',
+    'mistr pražírny kakaových bobů',
+    'mistrová pražírny kakaových bobů',
   ]),
   OccupationLabels('3521', [
     'mastering engineer',
@@ -21920,6 +24778,8 @@ const escoOccupations = <OccupationLabels>[
     'audio mastering technicus',
     'ingénieur son mastering',
     'ingénieure son mastering',
+    'masteringový inženýr',
+    'masteringová inženýrka',
   ]),
   OccupationLabels('3115', [
     'material stress analyst',
@@ -21930,6 +24790,9 @@ const escoOccupations = <OccupationLabels>[
     'materiaalkundige',
     'ingenieur materiaalkunde',
     'technicus materiaalkunde',
+    'analytik pnutí materiálů',
+    'analytička pnutí materiálů',
+    'analytik pnutí',
   ]),
   OccupationLabels('3111', [
     'material testing technician',
@@ -21942,6 +24805,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus materiaaltests',
     'technicien d’essais matériaux',
     'technicienne d’essais matériaux',
+    'zkušební technik',
+    'zkušební technička',
   ]),
   OccupationLabels('2149', [
     'materials engineer',
@@ -21959,6 +24824,8 @@ const escoOccupations = <OccupationLabels>[
     'materiaaltechnologe',
     'ingénieur matériaux',
     'ingénieure matériaux',
+    'materiálový inženýr',
+    'materiálová inženýrka',
   ]),
   OccupationLabels('9333', [
     'materials handler',
@@ -21985,6 +24852,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant en maternité',
     'assistante en maternité',
     'assistante sage-femme',
+    'zdravotnický asistent v porodnici',
+    'zdravotnická asistentka v porodnici',
   ]),
   OccupationLabels('2120', [
     'mathematician',
@@ -21999,6 +24868,8 @@ const escoOccupations = <OccupationLabels>[
     'mathématicien',
     'mathématicienne',
     'ingénieure en mathématiques appliquées',
+    'matematik',
+    'matematička',
   ]),
   OccupationLabels('2310', [
     'mathematics lecturer',
@@ -22014,6 +24885,7 @@ const escoOccupations = <OccupationLabels>[
     'docente wiskunde hoger onderwijs',
     'enseignant-chercheur en mathématiques',
     'enseignante-chercheuse en mathématiques',
+    'přednášející v oboru matematika',
   ]),
   OccupationLabels('2330', [
     'mathematics teacher secondary school',
@@ -22024,6 +24896,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht wiskunde secundair onderwijs',
     'professeur de mathématiques',
     'professeure de mathématiques',
+    'středoškolský učitel matematiky',
+    'učitelka matematiky',
+    'středoškolská učitelka matematiky',
   ]),
   OccupationLabels('8350', [
     'matrose',
@@ -22037,6 +24912,8 @@ const escoOccupations = <OccupationLabels>[
     'matroos binnenvaart',
     'matelot',
     'matelot de navigation intérieure',
+    'lodník říční lodi',
+    'lodnice říční lodi',
   ]),
   OccupationLabels('7534', [
     'mattress maker',
@@ -22055,6 +24932,8 @@ const escoOccupations = <OccupationLabels>[
     'matrassenmaakster',
     'matelassier',
     'matelassière',
+    'výrobce matrací',
+    'výrobkyně matrací',
   ]),
   OccupationLabels('8159', [
     'mattress making machine operator',
@@ -22076,6 +24955,8 @@ const escoOccupations = <OccupationLabels>[
     'burgemeester',
     'maire',
     'mairesse',
+    'starosta',
+    'starostka',
   ]),
   OccupationLabels('1324', [
     'distributiemanager vlees en vleesproducten',
@@ -22089,6 +24970,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopmanager vlees en vleeswaren',
     'gérant de boucherie',
     'gérante de boucherie',
+    'vedoucí masny',
+    'vedoucí řeznictví',
   ]),
   OccupationLabels('5223', [
     'fleischfachverkäufer',
@@ -22099,6 +24982,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en boucherie',
     'vendeuse en boucherie',
     'vendeuse en tripperie',
+    'prodavač v řeznictví',
+    'prodavačka v masně',
+    'prodavač v masně',
   ]),
   OccupationLabels('7511', [
     'meat cutter',
@@ -22110,6 +24996,8 @@ const escoOccupations = <OccupationLabels>[
     'vleessnijder',
     'désosseur-pareur',
     'désosseuse-pareuse',
+    'bourač masa',
+    'bouračka masa',
   ]),
   OccupationLabels('7511', [
     'meat preparations operator',
@@ -22122,6 +25010,9 @@ const escoOccupations = <OccupationLabels>[
     'köttbearbetningsansvarig',
     'ansvariga för köttbearbetning',
     'operator vleesbereiding',
+    'operátor procesu úpravy masa',
+    'operátorka procesu úpravy masa',
+    'operátoři procesu úpravy masa',
   ]),
   OccupationLabels('2144', [
     'mechanical engineer',
@@ -22139,6 +25030,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur mécanicien',
     'ingénieure mécanicienne',
     'ingénieur en mécanique',
+    'strojní inženýr',
+    'strojní inženýrka',
   ]),
   OccupationLabels('3118', [
     'mechanical engineering drafter',
@@ -22153,6 +25046,8 @@ const escoOccupations = <OccupationLabels>[
     'dessinateur en génie mécanique',
     'dessinatrice en génie mécanique',
     'dessinatrice en mécanique',
+    'technik konstruktér ve strojírenství',
+    'technička konstruktérka ve strojírenství',
   ]),
   OccupationLabels('3115', [
     'mechanical engineering technician',
@@ -22169,6 +25064,9 @@ const escoOccupations = <OccupationLabels>[
     'technisch ingenieur mechanica',
     'technicien en ingénierie mécanique',
     'technicienne en ingénierie mécanique',
+    'strojírenský technik',
+    'strojírenská technička',
+    'technik ve strojírenství',
   ]),
   OccupationLabels('7221', [
     'mechanical forging press worker',
@@ -22178,6 +25076,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin für mechanische schmiedepresse',
     'smidesmekaniker',
     'bediener mechanische smeedpers',
+    'kovář mechanického kovacího lisu',
+    'kovářka mechanického kovacího lisu',
   ]),
   OccupationLabels('8211', [
     'mechatronics assembler',
@@ -22196,6 +25096,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur en mécatronique',
     'monteuse en mécatronique',
     'monteuse-régleuse en mécatronique',
+    'montážní dělník mechatroniky',
+    'montážní dělnice mechatroniky',
   ]),
   OccupationLabels('2144', [
     'mechatronics engineer',
@@ -22213,6 +25115,9 @@ const escoOccupations = <OccupationLabels>[
     'mechatronica-ingenieur',
     'ingénieur mécatronicien',
     'ingénieure mécatronicienne',
+    'inženýr mechatroniky',
+    'inženýrka mechatroniky',
+    'inženýr kybernetiky',
   ]),
   OccupationLabels('3115', [
     'mechatronics engineering technician',
@@ -22230,6 +25135,8 @@ const escoOccupations = <OccupationLabels>[
     'maintenance engineer mechatronica',
     'technicien mécatronique',
     'technicienne mécatronique',
+    'mechatronik',
+    'mechatronička',
   ]),
   OccupationLabels('2632', [
     'media scientist',
@@ -22252,6 +25159,9 @@ const escoOccupations = <OccupationLabels>[
     'animateur du patrimoine',
     'animatrice du patrimoine',
     'animateur pédagogique',
+    'programový vedoucí',
+    'programová vedoucí',
+    'programový ředitel',
   ]),
   OccupationLabels('2619', [
     'mediator',
@@ -22269,6 +25179,8 @@ const escoOccupations = <OccupationLabels>[
     'bemiddelares',
     'médiateur de justice',
     'médiatrice de justice',
+    'mediátor',
+    'mediátorka',
   ]),
   OccupationLabels('3344', [
     'medical administrative assistant',
@@ -22303,6 +25215,8 @@ const escoOccupations = <OccupationLabels>[
     'assembleur-monteur d’instruments médicaux',
     'assembleuse-monteuse d’instruments médicaux',
     'assembleuse de dispositifs médicaux',
+    'montážní dělník zdravotnických prostředků',
+    'montážní dělnice zdravotnických prostředků',
   ]),
   OccupationLabels('2152', [
     'medical device engineer',
@@ -22332,6 +25246,8 @@ const escoOccupations = <OccupationLabels>[
     'medicintekniker',
     'sjukhustekniker',
     'technisch ingenieur medische apparatuur',
+    'biomedicínský technik',
+    'biomedicínská technička',
   ]),
   OccupationLabels('1420', [
     'medical goods shop manager',
@@ -22343,6 +25259,7 @@ const escoOccupations = <OccupationLabels>[
     'verkoopmanager medische hulpmiddelen',
     'gérant de pharmacie',
     'gérante de pharmacie',
+    'vedoucí prodejny zdravotnických potřeb',
   ]),
   OccupationLabels('5223', [
     'medical goods specialised seller',
@@ -22358,6 +25275,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en pharmacie',
     'vendeuse en pharmacie',
     'vendeur en parapharmacie',
+    'prodavač zdravotnického zboží',
+    'prodavačka zdravotnického zboží',
+    'prodavačka drogistického zboží',
   ]),
   OccupationLabels('3212', [
     'medical laboratory assistant',
@@ -22372,6 +25292,8 @@ const escoOccupations = <OccupationLabels>[
     'aide-laborantin d’analyses médicales',
     'aide-laborantine d’analyses médicales',
     'aide-laborantine d\'analyses médicales',
+    'zdravotní laborant',
+    'zdravotní laborantka',
   ]),
   OccupationLabels('1349', [
     'medical laboratory manager',
@@ -22384,6 +25306,7 @@ const escoOccupations = <OccupationLabels>[
     'leiter eines medizinischen labors',
     'leiterin eines medizinischen labors',
     'manager medisch laboratorium',
+    'vedoucí lékařské laboratoře',
   ]),
   OccupationLabels('2320', [
     'medical laboratory technology educator',
@@ -22393,6 +25316,8 @@ const escoOccupations = <OccupationLabels>[
     'vakdocent medische laboratoriumtechnologie beroepsonderwijs',
     'vakdocent biomedische laboratoriumtechnologie beroepsonderwijs',
     'vakdocente biomedische laboratoriumtechnologie beroepsonderwijs',
+    'učitelka zdravotnických laboratorních technologií',
+    'učitel zdravotnických laboratorních technologií',
   ]),
   OccupationLabels('3344', [
     'medical practice manager',
@@ -22407,6 +25332,7 @@ const escoOccupations = <OccupationLabels>[
     'manager huisartsenpraktijk',
     'praktijkmanager tandarstenpraktijk',
     'responsable de cabinet médical',
+    'vedoucí ordinace',
   ]),
   OccupationLabels('3252', [
     'medical records clerk',
@@ -22420,6 +25346,8 @@ const escoOccupations = <OccupationLabels>[
     'krankheitsregister-dokumentarin',
     'patientadministratör',
     'medisch-archiefmedewerker',
+    'pracovník správy lékařské dokumentace',
+    'pracovnice správy lékařské dokumentace',
   ]),
   OccupationLabels('3252', [
     'medical records manager',
@@ -22433,6 +25361,8 @@ const escoOccupations = <OccupationLabels>[
     'patientjournalansvarig',
     'beheerder medisch archief',
     'medisch-archiefbeheerder',
+    'správce lékařské dokumentace',
+    'správkyně lékařské dokumentace',
   ]),
   OccupationLabels('2433', [
     'medical sales representative',
@@ -22449,6 +25379,8 @@ const escoOccupations = <OccupationLabels>[
     'artsenbezoekster',
     'visiteur médical',
     'visiteuse médicale',
+    'medicínský reprezentant',
+    'medicínská reprezentantka',
   ]),
   OccupationLabels('3344', [
     'medical transcriptionist',
@@ -22467,6 +25399,8 @@ const escoOccupations = <OccupationLabels>[
     'medisch transcriptiemedewerker',
     'audiotypiste médical',
     'audiotypiste médicale',
+    'písař zdravotnické dokumentace',
+    'písařka zdravotnické dokumentace',
   ]),
   OccupationLabels('2310', [
     'medicine lecturer',
@@ -22484,6 +25418,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en médecine',
     'enseignante-chercheuse en médecine',
     'enseignant-chercheur en médecine générale',
+    'přednášející v oboru lékařství',
   ]),
   OccupationLabels('5161', ['medium', 'médium', 'engelenmedium']),
   OccupationLabels('1111', [
@@ -22502,6 +25437,9 @@ const escoOccupations = <OccupationLabels>[
     'parlementariër',
     'député',
     'députée',
+    'poslanec',
+    'poslankyně',
+    'poslankyně evropského parlamentu',
   ]),
   OccupationLabels('4110', [
     'membership administrator',
@@ -22514,6 +25452,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster ledenadministratie',
     'medewerker ledenadministratie',
     'gestionnaire des adhérents',
+    'správce členství',
+    'správkyně členství',
   ]),
   OccupationLabels('2431', [
     'membership manager',
@@ -22525,6 +25465,8 @@ const escoOccupations = <OccupationLabels>[
     'medlemskapsansvarig',
     'manager ledenadministratie',
     'gestionnaire des adhésions',
+    'manažer členstva',
+    'manažerka členstva',
   ]),
   OccupationLabels('7312', [
     'membranophone musical instruments maker',
@@ -22536,6 +25478,8 @@ const escoOccupations = <OccupationLabels>[
     'bouwer van membranofonen',
     'muziekdozenbouwer',
     'slagwerkbouwer',
+    'výrobce blanozvučných hudebních nástrojů',
+    'výrobkyně blanozvučných hudebních nástrojů',
   ]),
   OccupationLabels('2635', [
     'mental health social worker',
@@ -22569,6 +25513,8 @@ const escoOccupations = <OccupationLabels>[
     'agenceur d’intérieur de magasin',
     'agenceuse d’intérieur de magasin',
     'agenceuse d\'intérieur de magasin',
+    'specialista pro merchandising',
+    'specialistka pro merchandising',
   ]),
   OccupationLabels('2413', [
     'mergers and acquisitions analyst',
@@ -22580,6 +25526,8 @@ const escoOccupations = <OccupationLabels>[
     'analist fusies en overnames',
     'conseiller en fusions-acquisitions',
     'conseillère en fusions-acquisitions',
+    'analytik fúzí a akvizic',
+    'analytička fúzí a akvizic',
   ]),
   OccupationLabels('8121', [
     'metal annealer',
@@ -22606,6 +25554,7 @@ const escoOccupations = <OccupationLabels>[
     'operator draadtrekkerij',
     'opérateur de tréfilerie',
     'opératrice de tréfilerie',
+    'obsluha lisů',
   ]),
   OccupationLabels('7316', [
     'metal engraver',
@@ -22622,6 +25571,9 @@ const escoOccupations = <OccupationLabels>[
     'metaalgraveerder',
     'graveur sur métal',
     'graveuse sur métal',
+    'rytec kovů',
+    'rytečka kovů',
+    'rytec',
   ]),
   OccupationLabels('3135', [
     'metal furnace operator',
@@ -22632,6 +25584,7 @@ const escoOccupations = <OccupationLabels>[
     'schmelzofensteuerin',
     'bediener hoogovens',
     'bediener voorverwarmingsoven',
+    'obsluha tavicí pece',
   ]),
   OccupationLabels('8219', [
     'metal furniture machine operator',
@@ -22684,6 +25637,8 @@ const escoOccupations = <OccupationLabels>[
     'polisseur de métaux',
     'polisseuse de métaux',
     'polisseur industriel',
+    'brusič kovů',
+    'brusička kovů',
   ]),
   OccupationLabels('7543', [
     'metal quality control superintendent',
@@ -22691,6 +25646,8 @@ const escoOccupations = <OccupationLabels>[
     'qualitätsprüfer - metallprodukte',
     'qualitätsprüferin - metallprodukte',
     'kwaliteitscontroleur metaalproducten',
+    'kontrolor kvality kovových výrobků',
+    'kontrolorka kvality kovových výrobků',
   ]),
   OccupationLabels('1321', [
     'metal production manager',
@@ -22702,6 +25659,7 @@ const escoOccupations = <OccupationLabels>[
     'operations manager metaalproductie',
     'manager metaalsmelterij',
     'responsable en production métallurgique',
+    'vedoucí kovovýroby',
   ]),
   OccupationLabels('3122', [
     'metal production supervisor',
@@ -22712,6 +25670,7 @@ const escoOccupations = <OccupationLabels>[
     'leidinggevende metaalproductie',
     'superviseur en production métallique',
     'superviseuse en production métallique',
+    'vedoucí hutní výroby',
   ]),
   OccupationLabels('8219', [
     'metal products assembler',
@@ -22741,6 +25700,7 @@ const escoOccupations = <OccupationLabels>[
     'metaalwalser',
     'opérateur de laminoir',
     'opératrice de laminoir',
+    'obsluha válcovacího stroje',
   ]),
   OccupationLabels('7223', [
     'metal sawing machine operator',
@@ -22752,6 +25712,8 @@ const escoOccupations = <OccupationLabels>[
     'metaalzager',
     'bediener metaalzaagmachine',
     'metaalzaagster',
+    'seřizovač pily na kov',
+    'seřizovačka pily na kov',
   ]),
   OccupationLabels('1321', [
     'metallurgical manager',
@@ -22765,6 +25727,9 @@ const escoOccupations = <OccupationLabels>[
     'leiterin in der metallindustrie',
     'productiemanager metallurgie',
     'verantwoordelijke productieafdeling metallurgie',
+    'manažer v hutní výrobě',
+    'manažerka v hutní výrobě',
+    'manažer v metalurgické výrobě',
   ]),
   OccupationLabels('3117', [
     'metallurgical technician',
@@ -22780,6 +25745,8 @@ const escoOccupations = <OccupationLabels>[
     'laboratoriumtechnicus metallurgie',
     'technicien métallurgiste',
     'technicienne métallurgiste',
+    'hutní technik',
+    'hutní technička',
   ]),
   OccupationLabels('2146', [
     'metallurgist',
@@ -22795,6 +25762,9 @@ const escoOccupations = <OccupationLabels>[
     'metallurg',
     'ingénieur métallurgiste',
     'ingénieure métallurgiste',
+    'metalurg',
+    'metaluržka',
+    'hutní inženýrka metaluržka',
   ]),
   OccupationLabels('1324', [
     'distributiemanager metaal en metaalertsen',
@@ -22829,6 +25799,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur meteorologische wetenschappen',
     'météorologiste',
     'metéorologue',
+    'meteorolog',
+    'meteoroložka',
   ]),
   OccupationLabels('3111', [
     'meteorology technician',
@@ -22847,6 +25819,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus meteorologie-oceanografie',
     'technicien de la météorologie',
     'technicienne de la météorologie',
+    'technik v oblasti meteorologie',
+    'technička v oblasti meteorologie',
   ]),
   OccupationLabels('9623', [
     'meter reader',
@@ -22864,6 +25838,8 @@ const escoOccupations = <OccupationLabels>[
     'gasmeteropnemer',
     'releveur de compteurs',
     'releveuse de compteurs',
+    'pracovník provádějící odečet měřidel',
+    'pracovnice provádějící odečet měřidel',
   ]),
   OccupationLabels('2112', [
     'metrologist',
@@ -22881,6 +25857,7 @@ const escoOccupations = <OccupationLabels>[
     'métrologue',
     'experte métrologue',
     'expert métrologue',
+    'metroložka',
   ]),
   OccupationLabels('3111', [
     'metrology technician',
@@ -22898,6 +25875,8 @@ const escoOccupations = <OccupationLabels>[
     'kalibratietechnicus meet- en regeltechniek',
     'technicien métrologie',
     'technicienne métrologie',
+    'technik v oblasti metrologie',
+    'technička v oblasti metrologie',
   ]),
   OccupationLabels('2131', [
     'microbiologist',
@@ -22915,6 +25894,7 @@ const escoOccupations = <OccupationLabels>[
     'microbiologiste',
     'chercheur en microbiologie',
     'chercheuse en microbiologie',
+    'mikrobioložka',
   ]),
   OccupationLabels('2152', [
     'microelectronics engineer',
@@ -22930,6 +25910,9 @@ const escoOccupations = <OccupationLabels>[
     'micro-elektronica-ingenieur',
     'ingénieur en microélectronique',
     'ingénieure en microélectronique',
+    'inženýr v oboru mikroelektronika',
+    'inženýrka v oboru mikroelektronika',
+    'inženýrka mikroelektronických technologií',
   ]),
   OccupationLabels('3114', [
     'microelectronics engineering technician',
@@ -22945,6 +25928,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch ingenieur micro-elektronica',
     'technicien en microélectronique',
     'technicienne en microélectronique',
+    'technik v oboru mikroelektroniky',
+    'technička v oboru mikroelektroniky',
   ]),
   OccupationLabels('2152', [
     'microsystem engineer',
@@ -22960,6 +25945,9 @@ const escoOccupations = <OccupationLabels>[
     'microsysteemingenieur',
     'ingénieur microsystèmes',
     'ingénieure microsystèmes',
+    'inženýr v oboru mikrosystémů',
+    'inženýrka v oboru mikrosystémů',
+    'inženýrka mikroelektromechanických systémů',
   ]),
   OccupationLabels('3114', [
     'microsystem engineering technician',
@@ -22977,6 +25965,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus microsystemen',
     'technicus micro-elektromechanische systemen',
     'onderhoudstechnicus microsystemen informatica',
+    'inženýr v oblasti mikrosystémů',
+    'inženýrka v oblasti mikrosystémů',
   ]),
   OccupationLabels('2413', [
     'middle office analyst',
@@ -22989,6 +25979,8 @@ const escoOccupations = <OccupationLabels>[
     'midoffice medewerker',
     'midofficemedewerkster',
     'analyste middle-office',
+    'analytik middle office',
+    'analytička middle office',
   ]),
   OccupationLabels('2222', [
     'midwife',
@@ -23006,6 +25998,8 @@ const escoOccupations = <OccupationLabels>[
     'maïeuticien',
     'sage-femme',
     'homme sage-femme',
+    'porodní asistent',
+    'porodní asistentka',
   ]),
   OccupationLabels('2635', [
     'migrant social worker',
@@ -23029,6 +26023,8 @@ const escoOccupations = <OccupationLabels>[
     'militair ingenieur',
     'ingénieur militaire',
     'ingénieure militaire',
+    'ženista',
+    'ženistka',
   ]),
   OccupationLabels('2635', [
     'military welfare worker',
@@ -23045,6 +26041,8 @@ const escoOccupations = <OccupationLabels>[
     'milchwärmebehandlungsverfahrenstechnikerin',
     'milchwärmebehandlungsprozesstechniker',
     'procesoperator warmtebehandeling van melk',
+    'operátor pasterační stanice',
+    'operátorka pasterační stanice',
   ]),
   OccupationLabels('7513', [
     'milk reception operator',
@@ -23054,6 +26052,8 @@ const escoOccupations = <OccupationLabels>[
     'milchannahmemitarbeiterin',
     'medewerker melkontvangst',
     'logistiek medewerker melkontvangst',
+    'operátor příjmu mléka',
+    'operátorka příjmu mléka',
   ]),
   OccupationLabels('8160', [
     'miller',
@@ -23070,6 +26070,8 @@ const escoOccupations = <OccupationLabels>[
     'molenaar',
     'meunier',
     'meunière',
+    'mlynář',
+    'mlynářka',
   ]),
   OccupationLabels('7531', [
     'milliner',
@@ -23083,6 +26085,8 @@ const escoOccupations = <OccupationLabels>[
     'hoedenmaakster',
     'modiste chapelier',
     'modiste chapelière',
+    'kloboučník',
+    'modistka',
   ]),
   OccupationLabels('7223', [
     'milling machine operator',
@@ -23097,6 +26101,8 @@ const escoOccupations = <OccupationLabels>[
     'cnc-frezer',
     'fraiseur',
     'fraiseuse',
+    'frézař',
+    'frézařka',
   ]),
   OccupationLabels('8131', [
     'mine control room operator',
@@ -23104,6 +26110,8 @@ const escoOccupations = <OccupationLabels>[
     'aufseherin im bergbau',
     'grubenaufseher',
     'operator controlekamer mijnbouw',
+    'pracovník kontrolního střediska dolu',
+    'pracovnice kontrolního střediska dolu',
   ]),
   OccupationLabels('2146', [
     'mine development engineer',
@@ -23111,6 +26119,8 @@ const escoOccupations = <OccupationLabels>[
     'bergbauingenieurin',
     'mijnbouwkundig ingenieur',
     'mijnbouwkundig manager',
+    'důlní technik přípravy výroby',
+    'důlní technička přípravy výroby',
   ]),
   OccupationLabels('2151', [
     'mine electrical engineer',
@@ -23122,6 +26132,8 @@ const escoOccupations = <OccupationLabels>[
     'elektrotechnisch mijningenieur',
     'ingénieur électricien des mines',
     'ingénieure électricienne des mines',
+    'důlní elektroinženýr',
+    'důlní elektroinženýrka',
   ]),
   OccupationLabels('2114', [
     'mine geologist',
@@ -23134,11 +26146,15 @@ const escoOccupations = <OccupationLabels>[
     'delfstofkundige',
     'géologue minier',
     'géologue minière',
+    'důlní geolog',
+    'důlní geoložka',
   ]),
   OccupationLabels('2146', [
     'ingenieur arbeitsschutz im bergbau',
     'ingenieurin arbeitsschutz im bergbau',
     'arbo-ingenieur mijnbouw',
+    'důlní bezpečnostní technik',
+    'důlní bezpečnostní technička',
   ]),
   OccupationLabels('1322', [
     'mine manager',
@@ -23152,6 +26168,8 @@ const escoOccupations = <OccupationLabels>[
     'mijndirectrice',
     'directeur de mine',
     'directrice de mine',
+    'manažer dolu',
+    'manažerka dolu',
   ]),
   OccupationLabels('2144', [
     'mine mechanical engineer',
@@ -23166,6 +26184,8 @@ const escoOccupations = <OccupationLabels>[
     'werktuigbouwkundige',
     'ingénieur mécanicien des mines',
     'ingénieure mécanicienne des mines',
+    'důlní strojní inženýr',
+    'důlní strojní inženýrka',
   ]),
   OccupationLabels('2146', [
     'mine planning engineer',
@@ -23176,6 +26196,8 @@ const escoOccupations = <OccupationLabels>[
     'projectingenieur mijnbouw',
     'ingénieur planification minière',
     'ingénieure planification minière',
+    'důlní plánovač výroby',
+    'důlní plánovačka výroby',
   ]),
   OccupationLabels('1322', [
     'mine production manager',
@@ -23189,6 +26211,7 @@ const escoOccupations = <OccupationLabels>[
     'productie-ingenieur mijnbouw',
     'mijnproductiemanager',
     'responsable d\'exploitation minière',
+    'vedoucí důlní výroby',
   ]),
   OccupationLabels('5411', [
     'mine rescue officer',
@@ -23212,6 +26235,9 @@ const escoOccupations = <OccupationLabels>[
     'sicherheitssteigerin',
     'gruvsäkerhetsansvarig',
     'veiligheidsinspecteur mijnbouw',
+    'báňský bezpečnostní pracovník',
+    'báňská bezpečnostní pracovnice',
+    'báňský inspektor',
   ]),
   OccupationLabels('3121', [
     'mine shift manager',
@@ -23220,6 +26246,8 @@ const escoOccupations = <OccupationLabels>[
     'in bergbau',
     'schichtleiter bergbau',
     'teamleider in een mijn',
+    'vedoucí důlní směny',
+    'vedoucí báňské směny',
   ]),
   OccupationLabels('3121', [
     'mine supervisor',
@@ -23233,6 +26261,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofdmijnopzichter',
     'superviseur de mine',
     'superviseuse de mine',
+    'důlní dozorce',
+    'důlní dozorkyně',
   ]),
   OccupationLabels('3117', [
     'mine surveying technician',
@@ -23245,6 +26275,9 @@ const escoOccupations = <OccupationLabels>[
     'landmeter-technicus mijnbouw',
     'technicien de levés miniers',
     'technicienne de levés miniers',
+    'báňský projektant',
+    'báňská projektantka',
+    'báňská technička',
   ]),
   OccupationLabels('2165', [
     'mine surveyor',
@@ -23257,6 +26290,8 @@ const escoOccupations = <OccupationLabels>[
     'géomètre minier',
     'géomètre minière',
     'géomètre des mines',
+    'důlní měřič',
+    'důlní měřička',
   ]),
   OccupationLabels('2144', [
     'mine ventilation engineer',
@@ -23268,6 +26303,8 @@ const escoOccupations = <OccupationLabels>[
     'mijnventilatie-ingenieur',
     'ingénieur en ventilation minière',
     'ingénieure en ventilation minière',
+    'důlní technik větrání',
+    'důlní technička větrání',
   ]),
   OccupationLabels('8112', [
     'mineral crushing operator',
@@ -23280,6 +26317,7 @@ const escoOccupations = <OccupationLabels>[
     'opérateur de broyeur',
     'opératrice de broyeur',
     'opérateur de concasseur',
+    'obsluha drtičů nerostů',
   ]),
   OccupationLabels('2146', [
     'mineral processing engineer',
@@ -23292,6 +26330,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur metallurgie',
     'procestechnisch ingenieur',
     'minérallurgiste',
+    'technik zpracování nerostných surovin',
+    'technička zpracování nerostných surovin',
   ]),
   OccupationLabels('8112', [
     'mineral processing operator',
@@ -23318,6 +26358,7 @@ const escoOccupations = <OccupationLabels>[
     'wetenschappelijk onderzoeker mineralogie',
     'wetenschappelijk onderzoekster mineralogie',
     'minéralogiste',
+    'mineraložka',
   ]),
   OccupationLabels('3432', [
     'miniature set designer',
@@ -23333,6 +26374,9 @@ const escoOccupations = <OccupationLabels>[
     'ontwerper miniatuurfilmdecors- en rekwisieten',
     'decorontwerper miniatuur',
     'maquettiste de cinéma',
+    'návrhář zmenšených modelů',
+    'návrhářka zmenšených modelů',
+    'návrhář modelů a maket',
   ]),
   OccupationLabels('9311', [
     'mining assistant',
@@ -23345,6 +26389,8 @@ const escoOccupations = <OccupationLabels>[
     'mijnarbeider',
     'aide-mineur',
     'aide-mineuse',
+    'pomocný pracovník v dole',
+    'pomocná pracovnice v dole',
   ]),
   OccupationLabels('7412', [
     'mining electrician',
@@ -23359,6 +26405,8 @@ const escoOccupations = <OccupationLabels>[
     'électricien d’exploitation minière',
     'électricienne d’exploitation minière',
     'électricienne minière',
+    'důlní elektrikář',
+    'důlní elektrikářka',
   ]),
   OccupationLabels('7233', [
     'mining equipment mechanic',
@@ -23373,6 +26421,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur mijnbouwuitrusting',
     'mécanicien d’engins de mine',
     'mécanicienne d’engins de mine',
+    'mechanik důlních zařízení',
+    'mechanička důlních zařízení',
   ]),
   OccupationLabels('2142', [
     'mining geotechnical engineer',
@@ -23390,6 +26440,8 @@ const escoOccupations = <OccupationLabels>[
     'geotechnisch mijningenieur',
     'ingénieur géotechnicien des mines',
     'ingénieure géotechnicienne des mines',
+    'důlní inženýr geotechnik',
+    'důlní inženýrka geotechnička',
   ]),
   OccupationLabels('2636', [
     'minister of religion',
@@ -23407,6 +26459,7 @@ const escoOccupations = <OccupationLabels>[
     'ministre du culte',
     'ministre religieux',
     'ministre religieuse',
+    'duchovní',
   ]),
   OccupationLabels('2636', [
     'missionary',
@@ -23421,6 +26474,8 @@ const escoOccupations = <OccupationLabels>[
     'missionär',
     'missionaris',
     'missionnaire',
+    'misionář',
+    'misionářka',
   ]),
   OccupationLabels('6130', [
     'mixed farmer',
@@ -23434,6 +26489,8 @@ const escoOccupations = <OccupationLabels>[
     'landbouwer gemengd bedrijf',
     'polyculteur éleveur',
     'polycultrice éleveuse',
+    'pracovník ve smíšeném zemědělství',
+    'pracovnice ve smíšeném zemědělství',
   ]),
   OccupationLabels('2514', [
     'mobile application developer',
@@ -23452,6 +26509,9 @@ const escoOccupations = <OccupationLabels>[
     'développeur d’applications mobiles',
     'développeuse d’applications mobiles',
     'développeuse d\'applications pour mobile',
+    'vývojář mobilních aplikací',
+    'vývojářka mobilních aplikací',
+    'vývojářka aplikací',
   ]),
   OccupationLabels('8343', [
     'mobile crane operator',
@@ -23470,6 +26530,9 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de grue mobile',
     'conductrice de grue mobile',
     'conductrice d’auto-grue',
+    'obsluha pojízdného jeřábu',
+    'obsluha samojízdného jeřábu',
+    'obsluha autojeřábu',
   ]),
   OccupationLabels('7422', [
     'mobile devices technician',
@@ -23489,6 +26552,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien des appareils mobiles',
     'technicienne des appareils mobiles',
     'technicien des appareils portables',
+    'technik pro mobilní zařízení',
+    'technička pro mobilní zařízení',
+    'technička oddělení mobilních zařízení',
   ]),
   OccupationLabels('7422', [
     'mobile phone repair technician',
@@ -23507,6 +26573,8 @@ const escoOccupations = <OccupationLabels>[
     'réparateur de téléphones portables',
     'réparatrice de téléphones portables',
     'réparateur de téléphones mobiles',
+    'opravář mobilních telefonů',
+    'opravářka mobilních telefonů',
   ]),
   OccupationLabels('2163', [
     'model maker',
@@ -23523,6 +26591,9 @@ const escoOccupations = <OccupationLabels>[
     'maker van schaalmodellen',
     'modeleur',
     'modeleuse',
+    'modelář',
+    'modelářka',
+    'odborný modelář',
   ]),
   OccupationLabels('2310', [
     'modern languages lecturer',
@@ -23533,12 +26604,16 @@ const escoOccupations = <OccupationLabels>[
     'hochschullehrkraft für moderne sprachen',
     'enseignant-chercheur en langues étrangères',
     'enseignante-chercheuse en langues étrangères',
+    'přednášející moderních jazyků',
   ]),
   OccupationLabels('2330', [
     'modern languages teacher',
     'språklärare',
     'professeur de langues vivantes',
     'professeure de langues vivantes',
+    'středoškolský učitel moderních jazyků',
+    'učitel moderních jazyků',
+    'učitelka moderních jazyků',
   ]),
   OccupationLabels('3413', [
     'monk',
@@ -23553,6 +26628,8 @@ const escoOccupations = <OccupationLabels>[
     'monnik',
     'moine',
     'moniale',
+    'řeholník',
+    'řeholnice',
   ]),
   OccupationLabels('2342', [
     'montessori school teacher',
@@ -23569,6 +26646,8 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht montessorischool',
     'éducateur montessori',
     'éducatrice montessori',
+    'učitel montessoriovské školy',
+    'učitelka montessoriovské školy',
   ]),
   OccupationLabels('3311', [
     'mortgage broker',
@@ -23586,6 +26665,8 @@ const escoOccupations = <OccupationLabels>[
     'hypotheekspecialist',
     'courtier en prêts immobiliers',
     'courtière en prêts immobiliers',
+    'hypoteční makléř',
+    'hypoteční makléřka',
   ]),
   OccupationLabels('3312', [
     'mortgage loan underwriter',
@@ -23601,6 +26682,8 @@ const escoOccupations = <OccupationLabels>[
     'hypotheekverzekeraar',
     'rédacteur crédits bancaires',
     'rédactrice crédits bancaires',
+    'hypoteční upisovatel',
+    'hypoteční upisovatelka',
   ]),
   OccupationLabels('8132', [
     'motion picture film developer',
@@ -23614,6 +26697,9 @@ const escoOccupations = <OccupationLabels>[
     'filmontwikkelaar',
     'opérateur de laboratoire cinématographique',
     'opératrice de laboratoire cinématographique',
+    'technik filmové laboratoře',
+    'technička filmové laboratoře',
+    'filmový technik',
   ]),
   OccupationLabels('1221', [
     'motor vehicle aftersales manager',
@@ -23640,6 +26726,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagetechnicus voertuigen',
     'assemblagemonteur voertuigen',
     'chassismonteur auto-assemblage',
+    'montážní dělník motorových vozidel',
+    'montážní dělnice motorových vozidel',
   ]),
   OccupationLabels('7543', [
     'motor vehicle assembly inspector',
@@ -23659,6 +26747,8 @@ const escoOccupations = <OccupationLabels>[
     'montageleiterin kraftfahrzeugbau',
     'kfz-montageleiterin',
     'montageleider voertuigassemblage',
+    'mistr montáže motorových vozidel',
+    'mistrová montáže motorových vozidel',
   ]),
   OccupationLabels('8211', [
     'motor vehicle body assembler',
@@ -23689,6 +26779,8 @@ const escoOccupations = <OccupationLabels>[
     'kfz-motoreninspektorin',
     'inspecteur verbrandingsmotoren motorvoertuigen',
     'inspecteur verbrandingsmotoren',
+    'inspektor motorů motorových vozidel',
+    'inspektorka motorů motorových vozidel',
   ]),
   OccupationLabels('3115', [
     'motor vehicle engine tester',
@@ -23717,6 +26809,7 @@ const escoOccupations = <OccupationLabels>[
     'afdelingsmanager verkoop motorvoertuigen',
     'directeur de concession automobile',
     'directrice de concession automobile',
+    'vedoucí prodejny motorových vozidel',
   ]),
   OccupationLabels('7534', [
     'motor vehicle upholsterer',
@@ -23737,6 +26830,8 @@ const escoOccupations = <OccupationLabels>[
     'sellier-garnisseur',
     'sellière-garnisseuse en automobile',
     'sellier-garnisseur en automobile',
+    'čalouník motorových vozidel',
+    'čalounice motorových vozidel',
   ]),
   OccupationLabels('5223', [
     'motor vehicles parts advisor',
@@ -23760,6 +26855,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur automobile',
     'vendeuse automobile',
     'vendeur de véhicules d\'occasion',
+    'prodavač v prodejně automobilů',
+    'prodavačka v prodejně automobilů',
+    'prodavačka v autobazaru',
   ]),
   OccupationLabels('8211', [
     'motorcycle assembler',
@@ -23776,6 +26874,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerker motorfietsen',
     'monteur-assembleur secteur motocycles',
     'monteuse-assembleuse secteur motocycles',
+    'montážní dělník motocyklů',
+    'montážní dělnice motocyklů',
   ]),
   OccupationLabels('8321', [
     'motorcycle delivery person',
@@ -23790,6 +26890,9 @@ const escoOccupations = <OccupationLabels>[
     'coursière livreuse de pizzas',
     'coursier',
     'coursière',
+    'doručovatel na motocyklu',
+    'doručovatelka na motocyklu',
+    'doručovatel',
   ]),
   OccupationLabels('5165', [
     'motorcycle instructor',
@@ -23805,6 +26908,8 @@ const escoOccupations = <OccupationLabels>[
     'moniteur moto',
     'monitrice moto',
     'moniteur motocycle',
+    'instruktor řízení motocyklů',
+    'instruktorka řízení motocyklů',
   ]),
   OccupationLabels('7223', [
     'moulding machine operator',
@@ -23824,6 +26929,7 @@ const escoOccupations = <OccupationLabels>[
     'mouleur',
     'mouleuse',
     'opérateur sur mouleuse',
+    'obsluha tvářecího stroje',
   ]),
   OccupationLabels('7233', [
     'moulding machine technician',
@@ -23837,6 +26943,9 @@ const escoOccupations = <OccupationLabels>[
     'formmaskintekniker',
     'monteur vormautomaten',
     'servicemonteur vormautomaten',
+    'mechanik tvářecích strojů',
+    'mechanička tvářecích strojů',
+    'mechanička tvarovacích strojů',
   ]),
   OccupationLabels('7211', [
     'mouldmaker',
@@ -23849,6 +26958,8 @@ const escoOccupations = <OccupationLabels>[
     'handvormer gieterij',
     'mouleur noyauteur',
     'mouleuse noyauteuse',
+    'formíř-jádrař',
+    'formířka-jádrařka',
   ]),
   OccupationLabels('3423', [
     'mountain guide',
@@ -23861,6 +26972,8 @@ const escoOccupations = <OccupationLabels>[
     'bergsguide',
     'berggids',
     'guide de montagne',
+    'horský vůdce',
+    'horská vůdkyně',
   ]),
   OccupationLabels('4323', [
     'move coordinator',
@@ -23875,6 +26988,8 @@ const escoOccupations = <OccupationLabels>[
     'verhuiscoördinatrice',
     'coordinateur déménagement',
     'coordinatrice déménagement',
+    'koordinátor stěhování',
+    'koordinátorka stěhování',
   ]),
   OccupationLabels('1324', [
     'move manager',
@@ -23887,6 +27002,7 @@ const escoOccupations = <OccupationLabels>[
     'flyttchef',
     'projectmanager verhuizingen',
     'chef de service déménagement',
+    'vedoucí stěhovací společnosti',
   ]),
   OccupationLabels('9333', [
     'mover',
@@ -23902,6 +27018,8 @@ const escoOccupations = <OccupationLabels>[
     'verhuizer',
     'déménageur',
     'déménageuse',
+    'pracovník stěhovací služby',
+    'pracovnice stěhovací služby',
   ]),
   OccupationLabels('1324', [
     'movie distributor',
@@ -23917,6 +27035,9 @@ const escoOccupations = <OccupationLabels>[
     'filmdistributeur',
     'distributeur de films',
     'distributrice de films',
+    'distributor filmů',
+    'distributorka filmů',
+    'distributorka televizních pořadů',
   ]),
   OccupationLabels('8332', [
     'moving truck driver',
@@ -23928,6 +27049,8 @@ const escoOccupations = <OccupationLabels>[
     'chauffeur',
     'verhuizer',
     'chauffeur verhuiswagen',
+    'řidič stěhovacích vozidel',
+    'řidička stěhovacích vozidel',
   ]),
   OccupationLabels('2114', [
     'mud logger',
@@ -23939,6 +27062,8 @@ const escoOccupations = <OccupationLabels>[
     'analytikerin bohrspülung',
     'technicien des boues',
     'technicienne des boues',
+    'vrtný technik',
+    'vrtná technička',
   ]),
   OccupationLabels('1349', [
     'museum director',
@@ -23955,6 +27080,8 @@ const escoOccupations = <OccupationLabels>[
     'museumdirectrice',
     'directeur de musée',
     'directrice de musée',
+    'ředitel muzea',
+    'ředitelka muzea',
   ]),
   OccupationLabels('2621', [
     'museum scientist',
@@ -23968,6 +27095,8 @@ const escoOccupations = <OccupationLabels>[
     'museoloog',
     'conservateur du patrimoine',
     'conservatrice du patrimoine',
+    'vědecký pracovník v muzeu',
+    'vědecká pracovnice v muzeu',
   ]),
   OccupationLabels('1420', [
     'music superstore manager',
@@ -23985,6 +27114,9 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist beeld- en geluidsdragers',
     'verkoopspecialist cd\'s en dvd\'s',
     'disquaire',
+    'prodavačka hudebních nástrojů',
+    'prodavač hudebních nástrojů',
+    'prodavač hudebnin',
   ]),
   OccupationLabels('2652', [
     'music arranger',
@@ -24000,6 +27132,8 @@ const escoOccupations = <OccupationLabels>[
     'arrangeur',
     'arrangeur musical',
     'arrangeuse musicale',
+    'hudební aranžér',
+    'hudební aranžérka',
   ]),
   OccupationLabels('2652', [
     'music director',
@@ -24015,6 +27149,8 @@ const escoOccupations = <OccupationLabels>[
     'muziekdirecteur',
     'directeur musical',
     'directrice musicale',
+    'hudební ředitel',
+    'hudební ředitelka',
   ]),
   OccupationLabels('2310', [
     'music instructor',
@@ -24029,6 +27165,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de musique',
     'professeure de musique',
     'professeur d’instrument de musique',
+    'učitel hudby',
+    'učitelka hudby',
+    'učitelka na hudební konzervatoři',
   ]),
   OccupationLabels('2654', [
     'music producer',
@@ -24047,6 +27186,8 @@ const escoOccupations = <OccupationLabels>[
     'muziekproducent',
     'producteur de musique',
     'productrice de musique',
+    'hudební producent',
+    'hudební producentka',
   ]),
   OccupationLabels('2354', [
     'music teacher',
@@ -24064,6 +27205,9 @@ const escoOccupations = <OccupationLabels>[
     'muziekleerkracht',
     'animateur d’atelier musical',
     'animatrice d’atelier musical',
+    'učitel hudby',
+    'učitelka hudby',
+    'učitelka hudební výchovy',
   ]),
   OccupationLabels('2330', [
     'music teacher secondary school',
@@ -24074,6 +27218,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht muziek secundair onderwijs',
     'professeur d’éducation musicale',
     'professeure d’éducation musicale',
+    'středoškolská učitelka hudby',
+    'středoškolský učitel hudby',
+    'středoškolská učitelka hudební výchovy',
   ]),
   OccupationLabels('2269', [
     'music therapist',
@@ -24085,6 +27232,8 @@ const escoOccupations = <OccupationLabels>[
     'muziektherapeut',
     'muziektherapeute',
     'musicothérapeute',
+    'muzikoterapeut',
+    'muzikoterapeutka',
   ]),
   OccupationLabels('2652', [
     'musical conductor',
@@ -24100,6 +27249,8 @@ const escoOccupations = <OccupationLabels>[
     'chefdirigentin',
     'dirigente',
     'chef d’orchestre',
+    'dirigentka',
+    'vedoucí dirigentka',
   ]),
   OccupationLabels('7312', [
     'musical instrument technician',
@@ -24113,6 +27264,8 @@ const escoOccupations = <OccupationLabels>[
     'reparateur van muziekinstrumenten',
     'pianoreparateur',
     'orgelreparateur',
+    'mechanik hudebních nástrojů',
+    'mechanička hudebních nástrojů',
   ]),
   OccupationLabels('2652', [
     'musician',
@@ -24128,6 +27281,8 @@ const escoOccupations = <OccupationLabels>[
     'beroepsmuzikant',
     'musicien',
     'musicienne',
+    'hudebník',
+    'hudebnice',
   ]),
   OccupationLabels('3311', [
     'mutual fund broker',
@@ -24139,6 +27294,9 @@ const escoOccupations = <OccupationLabels>[
     'investmentfondskauffrau',
     'fondförvaltare',
     'makelaar in beleggingsfondsen',
+    'makléř investičních fondů',
+    'makléřka investičních fondů',
+    'makléř vzájemného fondu',
   ]),
   OccupationLabels('7523', [
     'nailing machine operator',
@@ -24160,6 +27318,7 @@ const escoOccupations = <OccupationLabels>[
     'barnflicka',
     'assistant maternel à domicile',
     'assistante maternelle à domicile',
+    'chůva',
   ]),
   OccupationLabels('2149', [
     'nanoengineer',
@@ -24175,6 +27334,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur nanotechnologie',
     'ingénieur en nanotechnologie',
     'ingénieure en nanotechnologie',
+    'inženýr v oboru nanotechnologie',
+    'inženýrka v oboru nanotechnologie',
   ]),
   OccupationLabels('2133', [
     'natural resources consultant',
@@ -24190,6 +27351,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en environnement',
     'conseillère en environnement',
     'écoconseiller',
+    'poradce řízení přírodních zdrojů',
+    'poradkyně řízení přírodních zdrojů',
   ]),
   OccupationLabels('2133', [
     'nature conservation officer',
@@ -24199,6 +27362,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker milieubescherming',
     'medewerkster milieubescherming',
     'beleidsmedewerker milieubeheer',
+    'referent ochrany přírody',
+    'referentka ochrany přírody',
   ]),
   OccupationLabels('2144', [
     'naval architect',
@@ -24214,6 +27379,8 @@ const escoOccupations = <OccupationLabels>[
     'architecte naval',
     'architecte navale',
     'ingénieur architecture navale',
+    'lodní architekt',
+    'lodní architektka',
   ]),
   OccupationLabels('0110', [
     'navy officer',
@@ -24229,6 +27396,8 @@ const escoOccupations = <OccupationLabels>[
     'officier onderzeedienst',
     'officier de marine',
     'officière de marine',
+    'námořní důstojník',
+    'námořní důstojnice',
   ]),
   OccupationLabels('2431', [
     'network marketer',
@@ -24238,6 +27407,8 @@ const escoOccupations = <OccupationLabels>[
     'netzwerk-marketingexpertin',
     'netwerkmarketeer',
     'ondernemer netwerkmarketing',
+    'zaměstnanec v síťovém marketingu',
+    'zaměstnankyně v síťovém marketingu',
   ]),
   OccupationLabels('2656', [
     'news anchor',
@@ -24252,6 +27423,9 @@ const escoOccupations = <OccupationLabels>[
     'présentateur de journal',
     'présentatrice de journal',
     'journaliste présentateur',
+    'moderátor zpravodajské relace',
+    'moderátorka zpravodajské relace',
+    'moderátorka',
   ]),
   OccupationLabels('2642', [
     'newspaper editor',
@@ -24269,6 +27443,9 @@ const escoOccupations = <OccupationLabels>[
     'hoofdredacteur dagblad',
     'rédacteur en chef',
     'rédactrice en chef',
+    'redaktor novin',
+    'redaktorka novin',
+    'redaktor novinář',
   ]),
   OccupationLabels('4226', [
     'night auditor',
@@ -24286,6 +27463,8 @@ const escoOccupations = <OccupationLabels>[
     'nachtportier',
     'veilleur de nuit',
     'veilleuse de nuit',
+    'kontrolor nočního provozu',
+    'kontrolorka nočního provozu',
   ]),
   OccupationLabels('8131', [
     'nitrator operator',
@@ -24298,6 +27477,7 @@ const escoOccupations = <OccupationLabels>[
     'sprengstoffarbeiter',
     'sprengstoffarbeiterin',
     'operator nitreerinstallatie',
+    'obsluha nitrátoru',
   ]),
   OccupationLabels('8131', [
     'nitroglycerin neutraliser',
@@ -24305,12 +27485,16 @@ const escoOccupations = <OccupationLabels>[
     'nitroglycerin production worker',
     'procesoperator neutralisatie van nitroglycerine',
     'procesoperator nitroglycerineproductie',
+    'neutralizátor nitroglycerinu',
+    'neutralizátorka nitroglycerinu',
   ]),
   OccupationLabels('8131', [
     'nitroglycerin separator operator',
     'nitroglycerin- separator operative',
     'nitroglycerin gravity separator',
     'operator nitroglycerineseparator',
+    'obsluha separátoru nitroglycerinu',
+    'obsluha gravitačního separátoru nitroglycerinu',
   ]),
   OccupationLabels('7543', [
     'non-destructive testing specialist',
@@ -24324,6 +27508,8 @@ const escoOccupations = <OccupationLabels>[
     'specialist niet-destructief onderzoek',
     'ndo-specialiste',
     'specialiste niet-destructief onderzoek',
+    'specialista na nedestruktivní zkoušky',
+    'specialistka na nedestruktivní zkoušky',
   ]),
   OccupationLabels('3324', [
     'non-vessel operating common carrier',
@@ -24335,6 +27521,8 @@ const escoOccupations = <OccupationLabels>[
     'groupage-expediteur',
     'transporteur non exploitant',
     'commissionnaire de transport',
+    'operátor nvocc',
+    'operátorka nvocc',
   ]),
   OccupationLabels('8131', [
     'nonwoven filament machine operator',
@@ -24352,6 +27540,8 @@ const escoOccupations = <OccupationLabels>[
     'operator non-wovens',
     'operator vliesstofvervaardiging',
     'operator non-wovenproductielijn',
+    'strojník výroby netkaných textilií',
+    'strojnice výroby netkaných textilií',
   ]),
   OccupationLabels('8159', [
     'nonwoven textile technician',
@@ -24362,6 +27552,8 @@ const escoOccupations = <OccupationLabels>[
     'textieltechnicus non-wovens',
     'textieltechnica vlies',
     'textieltechnicus vlies',
+    'technik výroby netkaných textilií',
+    'technička výroby netkaných textilií',
   ]),
   OccupationLabels('2619', [
     'notary',
@@ -24376,6 +27568,8 @@ const escoOccupations = <OccupationLabels>[
     'notarius publicus',
     'notaris',
     'notaire',
+    'notář',
+    'notářka',
   ]),
   OccupationLabels('2149', [
     'nuclear engineer',
@@ -24393,6 +27587,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur nucleaire wetenschappen',
     'ingénieur nucléaire',
     'ingénieure nucléaire',
+    'jaderný inženýr',
+    'jaderná inženýrka',
   ]),
   OccupationLabels('2269', [
     'nuclear medicine radiographer',
@@ -24402,6 +27598,8 @@ const escoOccupations = <OccupationLabels>[
     'medisch nucleair werker',
     'medisch nucleair medewerker',
     'technologue en médecine nucléaire',
+    'radiolog nukleární medicíny',
+    'radioložka nukleární medicíny',
   ]),
   OccupationLabels('3131', [
     'nuclear reactor operator',
@@ -24414,6 +27612,8 @@ const escoOccupations = <OccupationLabels>[
     'steuerer von kernkraftwerken',
     'steuerin von kernkraftwerken',
     'exploitatietechnicus kerncentrale',
+    'operátor jaderného reaktoru',
+    'operátorka jaderného reaktoru',
   ]),
   OccupationLabels('3111', [
     'nuclear technician',
@@ -24431,6 +27631,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus nucleaire controle',
     'technicien en industrie nucléaire',
     'technicienne en industrie nucléaire',
+    'technik jaderných zařízení',
+    'technička jaderných zařízení',
   ]),
   OccupationLabels('2514', [
     'numerical process control operator',
@@ -24458,6 +27660,7 @@ const escoOccupations = <OccupationLabels>[
     'verpleegkundig assistent',
     'aide-soignant',
     'aide-soignante',
+    'pomocná sestra',
   ]),
   OccupationLabels('2221', [
     'district nurse',
@@ -24472,6 +27675,7 @@ const escoOccupations = <OccupationLabels>[
     'infirmier de soins généraux',
     'infirmière de soins généraux',
     'infirmier en soins généraux',
+    'všeobecná sestra',
   ]),
   OccupationLabels('1341', [
     'nursery school head teacher',
@@ -24489,6 +27693,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur d\'école maternelle',
     'directrice d\'école maternelle',
     'directeur d\'école gardienne',
+    'ředitel předškolního zařízení',
+    'ředitelka předškolního zařízení',
+    'ředitelka mateřské školy',
   ]),
   OccupationLabels('2310', [
     'nursing lecturer',
@@ -24501,6 +27708,7 @@ const escoOccupations = <OccupationLabels>[
     'docente verpleegkunde hoger onderwijs',
     'enseignant-chercheur en soins infirmiers',
     'enseignante-chercheuse en soins infirmiers',
+    'přednášející v oboru ošetřovatelství',
   ]),
   OccupationLabels('2423', [
     'occupational analyst',
@@ -24514,6 +27722,8 @@ const escoOccupations = <OccupationLabels>[
     'yrkesanalytiker',
     'arbeidsanalist',
     'analyste professionnel',
+    'specialista rozvoje pracovních sil',
+    'specialistka rozvoje pracovních sil',
   ]),
   OccupationLabels('2320', [
     'occupational driving instructor',
@@ -24529,6 +27739,8 @@ const escoOccupations = <OccupationLabels>[
     'instructeur beroepschauffeurs',
     'rijinstructrice beroepschauffeurs',
     'rijinstructeur beroepsbestuurders',
+    'školitel řidičů profesionálů',
+    'školitelka řidičů profesionálů',
   ]),
   OccupationLabels('3257', [
     'arbeitsplatzgesundheits- und -sicherheitsinspektor',
@@ -24548,6 +27760,9 @@ const escoOccupations = <OccupationLabels>[
     'instructrice treinbestuurders',
     'formateur de conducteurs ferroviaires',
     'formatrice de conducteurs ferroviaires',
+    'instruktor řízení kolejových vozidel',
+    'instruktorka řízení kolejových vozidel',
+    'strojvedoucí instruktor',
   ]),
   OccupationLabels('2269', [
     'occupational therapist',
@@ -24560,6 +27775,9 @@ const escoOccupations = <OccupationLabels>[
     'arbetsterapeut',
     'ergotherapeute',
     'ergothérapeute',
+    'ergoterapeut',
+    'ergoterapeutka',
+    'ergoterapeutka se specializací',
   ]),
   OccupationLabels('2269', [
     'occupational therapy assistant',
@@ -24576,6 +27794,9 @@ const escoOccupations = <OccupationLabels>[
     'assistant ergothérapeute',
     'assistante ergothérapeute',
     'assistant en ergothérapie',
+    'ergoterapeutický asistent',
+    'ergoterapeutická asistentka',
+    'technička ergoterapie',
   ]),
   OccupationLabels('2114', [
     'oceanographer',
@@ -24591,6 +27812,8 @@ const escoOccupations = <OccupationLabels>[
     'oceanografisch onderzoekster',
     'meteoroloog-oceanograaf',
     'océanographe',
+    'oceánograf',
+    'oceánografka',
   ]),
   OccupationLabels('4212', [
     'odds compiler',
@@ -24602,6 +27825,8 @@ const escoOccupations = <OccupationLabels>[
     'oddssättare',
     'coteur',
     'coteuse',
+    'pracovník vypisující sázkové kurzy',
+    'pracovnice vypisující sázkové kurzy',
   ]),
   OccupationLabels('2145', [
     'oenologist',
@@ -24613,6 +27838,8 @@ const escoOccupations = <OccupationLabels>[
     'oenologer',
     'oenoloog',
     'œnologue',
+    'enolog',
+    'enoložka',
   ]),
   OccupationLabels('4110', [
     'office clerk',
@@ -24626,6 +27853,8 @@ const escoOccupations = <OccupationLabels>[
     'kantoorbediende',
     'employé de bureau',
     'employée de bureau',
+    'administrativní pracovník',
+    'administrativní pracovnice',
   ]),
   OccupationLabels('7421', [
     'office equipment repair technician',
@@ -24637,6 +27866,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur kantoormachines',
     'servicemonteur kantoormachines',
     'onderhoudsmonteur kantoormachines',
+    'opravář kancelářského vybavení',
+    'opravářka kancelářského vybavení',
   ]),
   OccupationLabels('3341', [
     'office manager',
@@ -24648,6 +27879,7 @@ const escoOccupations = <OccupationLabels>[
     'kontorschef',
     'coordonnateur du bureau préposé',
     'coordonnatrice du bureau préposée',
+    'vedoucí kanceláře',
   ]),
   OccupationLabels('2250', [
     'official veterinarian',
@@ -24666,6 +27898,9 @@ const escoOccupations = <OccupationLabels>[
     'officiële dierenarts',
     'officiële veterinair',
     'inspecteur vétérinaire',
+    'atestovaný zvěrolékař',
+    'atestovaná zvěrolékařka',
+    'atestovaný veterinář',
   ]),
   OccupationLabels('7322', [
     'offset printer',
@@ -24701,6 +27936,8 @@ const escoOccupations = <OccupationLabels>[
     'opérateur d’huilerie',
     'opérateur d’usine de trituration',
     'opératrice d’huilerie',
+    'operátor olejového mlýna',
+    'operátorka olejového mlýna',
   ]),
   OccupationLabels('3134', [
     'steuerer leitstand erdölraffinationsanlagen',
@@ -24726,6 +27963,8 @@ const escoOccupations = <OccupationLabels>[
     'oliezaadperser',
     'oliezaadpletter',
     'oliezaadslager',
+    'pracovník lisovny olejových semen',
+    'pracovnice lisovny olejových semen',
   ]),
   OccupationLabels('2619', [
     'ombudsman',
@@ -24741,6 +27980,7 @@ const escoOccupations = <OccupationLabels>[
     'médiateur',
     'médiatrice',
     'médiateur administratif',
+    'ombudsmanka',
   ]),
   OccupationLabels('9216', [
     'apanhador de marisco',
@@ -24764,6 +28004,9 @@ const escoOccupations = <OccupationLabels>[
     'communityansvarig',
     'ansvarig för community',
     'responsable des médias sociaux',
+    'manažer on-line komunity',
+    'manažerka on-line komunity',
+    'manažerka sociálních médií',
   ]),
   OccupationLabels('2431', [
     'online marketer',
@@ -24773,6 +28016,8 @@ const escoOccupations = <OccupationLabels>[
     'online-marketingspezialist',
     'online-marketingspezialistin',
     'online marketeer',
+    'on-line marketér',
+    'on-line marketérka',
   ]),
   OccupationLabels('1221', [
     'online sales channel manager',
@@ -24786,6 +28031,8 @@ const escoOccupations = <OccupationLabels>[
     'webshopmanager',
     'responsable e-commerce',
     'responsable e-business',
+    'manažer online prodeje',
+    'manažerka online prodeje',
   ]),
   OccupationLabels('1321', [
     'operations manager',
@@ -24805,6 +28052,7 @@ const escoOccupations = <OccupationLabels>[
     'directeur des opérations',
     'directrice des opérations',
     'directeur de l\'exploitation',
+    'vedoucí provozu',
   ]),
   OccupationLabels('8142', [
     'optical molding machine operator',
@@ -24829,6 +28077,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur opticien',
     'ingénieure opticienne',
     'ingénieur en optique',
+    'inženýr optiky',
+    'inženýrka optiky',
+    'optická inženýrka',
   ]),
   OccupationLabels('7311', [
     'optical instrument assembler',
@@ -24843,6 +28094,8 @@ const escoOccupations = <OccupationLabels>[
     'instrumentmaker optisch',
     'monteur régleur d’instruments d’optique',
     'monteuse régleuse d’instruments d’optique',
+    'mechanik optických přístrojů',
+    'mechanička optických přístrojů',
   ]),
   OccupationLabels('3122', [
     'optical instrument production supervisor',
@@ -24853,6 +28106,7 @@ const escoOccupations = <OccupationLabels>[
     'productieleider optische instrumenten',
     'productiechef optische instrumenten',
     'productiemanager optische instrumenten',
+    'vedoucí výroby optických přístrojů',
   ]),
   OccupationLabels('7311', [
     'optical instrument repairer',
@@ -24865,6 +28119,8 @@ const escoOccupations = <OccupationLabels>[
     'instrumentenreparateur optisch',
     'réparateur d’instruments d’optique',
     'réparatrice d’instruments d’optique',
+    'opravář optických přístrojů',
+    'opravářka optických přístrojů',
   ]),
   OccupationLabels('3254', [
     'optical technician',
@@ -24881,6 +28137,8 @@ const escoOccupations = <OccupationLabels>[
     'vakkracht opticienbedrijf',
     'technicien en optique',
     'technicienne en optique',
+    'oční technik',
+    'oční technička',
   ]),
   OccupationLabels('3254', [
     'optician',
@@ -24897,6 +28155,9 @@ const escoOccupations = <OccupationLabels>[
     'opticien',
     'opticienne',
     'opticienne-lunetière',
+    'optik',
+    'optička',
+    'oční optik',
   ]),
   OccupationLabels('2152', [
     'optoelectronic engineer',
@@ -24911,6 +28172,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en optoélectronique',
     'ingénieure en optoélectronique',
     'ingénieure optoélectronique',
+    'inženýr v oboru optoelektroniky',
+    'inženýrka v oboru optoelektroniky',
   ]),
   OccupationLabels('3114', [
     'optoelectronic engineering technician',
@@ -24928,6 +28191,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudstechnicus voor opto-elektronisch materieel',
     'technicien en génie optoélectronique',
     'technicienne en génie optoélectronique',
+    'technik v oboru optoelektroniky',
+    'technička v oboru optoelektroniky',
   ]),
   OccupationLabels('2144', [
     'optomechanical engineer',
@@ -24943,6 +28208,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur optomécanique',
     'ingénieure optomécanique',
     'ingénieure opto-mécanique',
+    'inženýr optomechaniky',
+    'inženýrka optomechaniky',
   ]),
   OccupationLabels('3115', [
     'optomechanical engineering technician',
@@ -24959,6 +28226,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch ingenieur optomechanica',
     'technicien en ingénierie optomécanique',
     'technicienne en ingénierie optomécanique',
+    'technik v oblasti optomechaniky',
+    'technička v oblasti optomechaniky',
   ]),
   OccupationLabels('2267', [
     'optometrist',
@@ -24971,6 +28240,8 @@ const escoOccupations = <OccupationLabels>[
     'optométriste',
     'opticien-optométriste',
     'opticienne-optométriste',
+    'optometristka',
+    'specializovaný optometrista',
   ]),
   OccupationLabels('8350', [
     'ordinary seaman',
@@ -24986,6 +28257,8 @@ const escoOccupations = <OccupationLabels>[
     'lichtmatroos',
     'lichtmatroos zeevaart',
     'lichtmatroos binnenvaart',
+    'řadový námořník',
+    'řadová námořnice',
   ]),
   OccupationLabels('7312', [
     'organ builder',
@@ -25000,6 +28273,8 @@ const escoOccupations = <OccupationLabels>[
     'pijporgelbouwer',
     'facteur d’orgues',
     'factrice d’orgues',
+    'výrobce varhan',
+    'výrobkyně varhan',
   ]),
   OccupationLabels('7223', [
     'ornamental metal worker',
@@ -25035,6 +28310,8 @@ const escoOccupations = <OccupationLabels>[
     'orthopedisch schoentechnicus',
     'technicien podo-orthésiste',
     'technicienne podo-orthésiste',
+    'technik výroby ortopedické obuvi',
+    'technička výroby ortopedické obuvi',
   ]),
   OccupationLabels('5223', [
     'orthopaedic supplies specialised seller',
@@ -25051,6 +28328,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur de matériel orthopédique',
     'vendeuse de matériel orthopédique',
     'vendeuse en bandagisterie',
+    'prodavač ortopedických potřeb',
+    'prodavačka ortopedických potřeb',
+    'prodavač ortopedických pomůcek',
   ]),
   OccupationLabels('1420', [
     'orthopaedic supply shop manager',
@@ -25059,6 +28339,7 @@ const escoOccupations = <OccupationLabels>[
     'manager verkoop orthopedische hulpmiddelen',
     'verkoopmanager orthopedie',
     'filiaalmanager orthopedische hulpmiddelen',
+    'vedoucí prodejny ortopedických potřeb',
   ]),
   OccupationLabels('2267', [
     'orthoptist',
@@ -25070,6 +28351,9 @@ const escoOccupations = <OccupationLabels>[
     'orthoptistin',
     'ortoptist',
     'orthoptiste',
+    'ortoptista',
+    'ortoptistka',
+    'specializovaná ortoptistka',
   ]),
   OccupationLabels('3259', [
     'osteopath',
@@ -25080,6 +28364,7 @@ const escoOccupations = <OccupationLabels>[
     'osteopaat',
     'kinesitherapeut-osteopaat',
     'ostéopathe',
+    'osteopatka',
   ]),
   OccupationLabels('3423', [
     'outdoor activities coordinator',
@@ -25090,6 +28375,8 @@ const escoOccupations = <OccupationLabels>[
     'samordnare av friluftsaktiviteter',
     'outdoorcoördinator',
     'outdoorcoördinatrice',
+    'koordinátor outdoorových aktivit',
+    'koordinátorka outdoorových aktivit',
   ]),
   OccupationLabels('3423', [
     'outdoor activities instructor',
@@ -25099,6 +28386,8 @@ const escoOccupations = <OccupationLabels>[
     'instruktorin für outdoor-aktivitäten',
     'outdoorinstructeur',
     'outdoorinstructrice',
+    'instruktor outdoorových aktivit',
+    'instruktorka outdoorových aktivit',
   ]),
   OccupationLabels('3423', [
     'outdoor animator',
@@ -25110,6 +28399,8 @@ const escoOccupations = <OccupationLabels>[
     'outdooranimator',
     'animatrice outdooractiviteiten',
     'recreatiemedewerkster outdooractiviteiten',
+    'outdoor animátor',
+    'outdoor animátorka',
   ]),
   OccupationLabels('7413', [
     'overhead line worker',
@@ -25123,6 +28414,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur bovengrondse leidingen',
     'monteur de lignes aériennes',
     'monteuse de lignes aériennes',
+    'montér závěsného elektrického vedení',
+    'montérka závěsného elektrického vedení',
   ]),
   OccupationLabels('7223', [
     'operador de máquina oxicortadora',
@@ -25155,6 +28448,7 @@ const escoOccupations = <OccupationLabels>[
     'productiemanager verpakkingen',
     'ingénieur recherche développement packaging',
     'ingénieure recherche développement packaging',
+    'vedoucí výroby obalů',
   ]),
   OccupationLabels('2144', [
     'packing machinery engineer',
@@ -25190,6 +28484,7 @@ const escoOccupations = <OccupationLabels>[
     'micropaleontoloog',
     'micropaleontologe',
     'paléontologue',
+    'paleontoložka',
   ]),
   OccupationLabels('2635', [
     'palliative care social worker',
@@ -25249,6 +28544,8 @@ const escoOccupations = <OccupationLabels>[
     'procesingenieur papierindustrie',
     'ingénieur papetier',
     'ingénieure papetière',
+    'papírenský inženýr',
+    'papírenská inženýrka',
   ]),
   OccupationLabels('8171', [
     'paper machine operator',
@@ -25261,6 +28558,7 @@ const escoOccupations = <OccupationLabels>[
     'operator papiermachine',
     'operator papierproductie',
     'machineoperator papiermachine',
+    'obsluha papírenských strojů',
   ]),
   OccupationLabels('3122', [
     'paper mill supervisor',
@@ -25271,6 +28569,7 @@ const escoOccupations = <OccupationLabels>[
     'produktionsleiter papier',
     'produktionsleiterin papier',
     'verantwoordelijke papierfabriek',
+    'vedoucí papírenské výroby',
   ]),
   OccupationLabels('8171', [
     'paper pulp moulding operator',
@@ -25316,6 +28615,8 @@ const escoOccupations = <OccupationLabels>[
     'behanger-decorateur',
     'poseur de papiers peints',
     'poseuse de papiers peints',
+    'tapetář',
+    'tapetářka',
   ]),
   OccupationLabels('3123', [
     'paperhanger supervisor',
@@ -25324,6 +28625,7 @@ const escoOccupations = <OccupationLabels>[
     'polier tapezierarbeiten',
     'polierin tapezierarbeiten',
     'teamleider behangers',
+    'mistr tapetář',
   ]),
   OccupationLabels('3258', [
     'paramedic in emergency responses',
@@ -25337,6 +28639,8 @@ const escoOccupations = <OccupationLabels>[
     'ambulanceverpleegkundige',
     'ambulanceverpleegster',
     'ambulanceverpleger',
+    'zdravotnický záchranář',
+    'zdravotnická záchranářka',
   ]),
   OccupationLabels('5113', [
     'park guide',
@@ -25357,6 +28661,8 @@ const escoOccupations = <OccupationLabels>[
     'chauffeur valetparking',
     'voiturier',
     'voiturière',
+    'pomocná pracovnice parkoviště',
+    'pomocný pracovník parkoviště',
   ]),
   OccupationLabels('2422', [
     'parliamentary assistant',
@@ -25375,6 +28681,9 @@ const escoOccupations = <OccupationLabels>[
     'parlementair assistente',
     'assistant parlementaire',
     'assistante parlementaire',
+    'asistent poslance parlamentu',
+    'asistentka poslance parlamentu',
+    'asistentka poslance evropského parlamentu',
   ]),
   OccupationLabels('5112', [
     'passenger fare controller',
@@ -25388,6 +28697,8 @@ const escoOccupations = <OccupationLabels>[
     'biljettkontrollant',
     'kaartjescontroleur',
     'kaartjescontroleuse',
+    'kontrolor jízdenek',
+    'kontrolorka jízdenek',
   ]),
   OccupationLabels('3354', [
     'passport officer',
@@ -25398,6 +28709,8 @@ const escoOccupations = <OccupationLabels>[
     'passamtssachbearbeiterin',
     'passhandläggare',
     'functionaris burgerzaken',
+    'pracovník oddělení cestovních dokladů',
+    'pracovnice oddělení cestovních dokladů',
   ]),
   OccupationLabels('7512', [
     'pasta maker',
@@ -25412,6 +28725,8 @@ const escoOccupations = <OccupationLabels>[
     'pastamaker',
     'fabricant de pâtes',
     'fabricante de pâtes',
+    'pracovník výroby těstovin',
+    'pracovnice výroby těstovin',
   ]),
   OccupationLabels('8160', [
     'pasta operator',
@@ -25424,6 +28739,8 @@ const escoOccupations = <OccupationLabels>[
     'operator pastamaker',
     'pastamakeroperator',
     'operator van pastamaker',
+    'operátor výroby těstovin',
+    'operátorka výroby těstovin',
   ]),
   OccupationLabels('3413', [
     'pastoral worker',
@@ -25439,6 +28756,7 @@ const escoOccupations = <OccupationLabels>[
     'pastoraal werker',
     'laïc en mission ecclésiale',
     'laïque en mission ecclésiale',
+    'pastor',
   ]),
   OccupationLabels('3434', [
     'pastry chef',
@@ -25453,6 +28771,8 @@ const escoOccupations = <OccupationLabels>[
     'banketbakker',
     'chef banketbakker',
     'chef de partie pâtisserie',
+    'šéfcukrář',
+    'šéfcukrářka',
   ]),
   OccupationLabels('7512', [
     'pastry maker',
@@ -25471,6 +28791,8 @@ const escoOccupations = <OccupationLabels>[
     'pâtissier',
     'pâtissière',
     'pâtissière de restaurant',
+    'cukrář',
+    'cukrářka',
   ]),
   OccupationLabels('2149', [
     'patent engineer',
@@ -25489,6 +28811,8 @@ const escoOccupations = <OccupationLabels>[
     'octrooi-onderzoeker',
     'ingénieur brevets',
     'ingénieure brevets',
+    'patentový inženýr',
+    'patentová inženýrka',
   ]),
   OccupationLabels('8322', [
     'patient transport services driver',
@@ -25501,6 +28825,8 @@ const escoOccupations = <OccupationLabels>[
     'patiëntenvervoerster',
     'conducteur-accompagnateur',
     'conductrice-accompagnatrice',
+    'řidič přepravy pacientů',
+    'řidička přepravy pacientů',
   ]),
   OccupationLabels('4213', [
     'pawnbroker',
@@ -25515,6 +28841,8 @@ const escoOccupations = <OccupationLabels>[
     'pandhuishouder',
     'prêteur sur gages',
     'prêteuse sur gages',
+    'zastavárník',
+    'zastavárnice',
   ]),
   OccupationLabels('4313', [
     'payroll clerk',
@@ -25529,6 +28857,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerkster salarisadministratie',
     'salarisadministratrice',
     'responsable paie',
+    'mzdový účetní',
+    'mzdová účetní',
   ]),
   OccupationLabels('5142', [
     'pedicurist',
@@ -25539,6 +28869,8 @@ const escoOccupations = <OccupationLabels>[
     'pedikyrist',
     'pedicure',
     'pédicure',
+    'pedikér',
+    'pedikérka',
   ]),
   OccupationLabels('1346', [
     'pension scheme manager',
@@ -25550,6 +28882,8 @@ const escoOccupations = <OccupationLabels>[
     'manager pensioenverzekeringen',
     'manager pensioenbeheer',
     'manager pensioenfonds',
+    'manažer penzijního fondu',
+    'manažerka penzijního fondu',
   ]),
   OccupationLabels('3353', [
     'pensions administrator',
@@ -25566,6 +28900,8 @@ const escoOccupations = <OccupationLabels>[
     'administrateur d’organismes de pension',
     'administratrice d’organismes de pension',
     'administrateur d\'organismes de pension',
+    'referent důchodového pojištění',
+    'referentka důchodového pojištění',
   ]),
   OccupationLabels('2659', [
     'performance artist',
@@ -25581,6 +28917,9 @@ const escoOccupations = <OccupationLabels>[
     'uitvoerend kunstenaar',
     'artiste d’art-performance',
     'multiartiste',
+    'umělec performer',
+    'umělkyně performerka',
+    'umělkyně performérka',
   ]),
   OccupationLabels('5141', [
     'performance hairdresser',
@@ -25594,6 +28933,8 @@ const escoOccupations = <OccupationLabels>[
     'toneelkapster',
     'coiffeur spectacle',
     'coiffeuse spectacle',
+    'umělecký kadeřník',
+    'umělecká kadeřnice',
   ]),
   OccupationLabels('1431', [
     'performance production manager',
@@ -25607,6 +28948,9 @@ const escoOccupations = <OccupationLabels>[
     'produktionsansvarig',
     'uitvoerend producent',
     'uitvoerend producente',
+    'vedoucí produkce',
+    'vedoucí filmové produkce',
+    'vedoucí divadelní produkce',
   ]),
   OccupationLabels('3521', [
     'performance rental technician',
@@ -25617,6 +28961,8 @@ const escoOccupations = <OccupationLabels>[
     'audiovisueel technisch assistente',
     'technicien matériel de location',
     'technicienne matériel de location',
+    'provozně technický pracovník',
+    'provozně technická pracovnice',
   ]),
   OccupationLabels('2310', [
     'performing arts dancing instructor',
@@ -25625,6 +28971,9 @@ const escoOccupations = <OccupationLabels>[
     'docente dans hoger onderwijs',
     'professeur de danse',
     'professeure de danse',
+    'učitel na taneční fakultě',
+    'učitelka na taneční konzervatoři',
+    'učitel na taneční konzervatoři',
   ]),
   OccupationLabels('2310', [
     'performing arts theatre instructor',
@@ -25635,6 +28984,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de théâtre',
     'professeure de théâtre',
     'professeur d’art dramatique',
+    'učitel divadelního herectví',
+    'učitelka divadelního herectví',
+    'učitel na herecké konzervatoři',
   ]),
   OccupationLabels('8131', [
     'perfume production machine operator',
@@ -25659,6 +29011,8 @@ const escoOccupations = <OccupationLabels>[
     'antiektaxateur',
     'estimateur de biens mobiliers',
     'estimatrice de biens mobiliers',
+    'odhadce majetku',
+    'odhadkyně majetku',
   ]),
   OccupationLabels('5223', [
     'personal shopper',
@@ -25668,6 +29022,7 @@ const escoOccupations = <OccupationLabels>[
     'personlig shoppare',
     'acheteur personnel',
     'acheteuse personnelle',
+    'osobní nákupčí',
   ]),
   OccupationLabels('5142', [
     'personal stylist',
@@ -25680,6 +29035,8 @@ const escoOccupations = <OccupationLabels>[
     'persoonlijk styliste',
     'styliste personnel',
     'styliste personnelle',
+    'osobní stylista',
+    'osobní stylistka',
   ]),
   OccupationLabels('3423', [
     'personal trainer',
@@ -25695,6 +29052,8 @@ const escoOccupations = <OccupationLabels>[
     'personal coach',
     'entraîneur personnel',
     'entraîneuse personnelle',
+    'osobní trenér ve fitness',
+    'osobní trenérka ve fitness',
   ]),
   OccupationLabels('2412', [
     'personal trust officer',
@@ -25709,6 +29068,8 @@ const escoOccupations = <OccupationLabels>[
     'privater vermögensverwalter',
     'private vermögensverwalterin',
     'trustbeheerder',
+    'správce soukromého svěřenského fondu',
+    'správkyně soukromého svěřenského fondu',
   ]),
   OccupationLabels('7544', [
     'pest management worker',
@@ -25724,6 +29085,8 @@ const escoOccupations = <OccupationLabels>[
     'ongediertebestrijder',
     'technicien hygiéniste',
     'technicienne hygiéniste',
+    'pracovník deratizace a dezinfekce',
+    'pracovnice deratizace a dezinfekce',
   ]),
   OccupationLabels('8131', [
     'pesticide mixer',
@@ -25750,6 +29113,7 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster onkruidbestrijding',
     'applicateur de pesticides',
     'applicatrice de pesticides',
+    'obsluha postřikovače pesticidů',
   ]),
   OccupationLabels('1420', [
     'bedrijfsleider dierenwinkel',
@@ -25758,6 +29122,8 @@ const escoOccupations = <OccupationLabels>[
     'gérant d\'animalerie',
     'gérante d\'animalerie',
     'gérante de magasin d\'animalerie',
+    'vedoucí prodejny chovatelských potřeb',
+    'vedoucí zverimexu',
   ]),
   OccupationLabels('5223', [
     'zoofachverkäufer',
@@ -25766,6 +29132,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist dierenspeciaalzaak',
     'vendeur en animalerie',
     'vendeuse en animalerie',
+    'prodavač ve zverimexu',
+    'prodavačka ve zverimexu',
   ]),
   OccupationLabels('5164', [
     'pet sitter',
@@ -25780,6 +29148,8 @@ const escoOccupations = <OccupationLabels>[
     'gardien d’animaux de compagnie',
     'gardienne d’animaux de compagnie',
     'gardien d\'animaux familiers',
+    'hlídač domácích mazlíčků',
+    'hlídačka domácích mazlíčků',
   ]),
   OccupationLabels('2146', [
     'petroleum engineer',
@@ -25798,6 +29168,8 @@ const escoOccupations = <OccupationLabels>[
     'booringenieur',
     'ingénieur pétrolier',
     'ingénieure pétrolière',
+    'ropný inženýr',
+    'ropná inženýrka',
   ]),
   OccupationLabels('3134', [
     'petroleum pump system operator',
@@ -25822,6 +29194,9 @@ const escoOccupations = <OccupationLabels>[
     'procesingenieur farmaceutische industrie',
     'ingénieur procédés pharmaceutiques',
     'ingénieure procédés pharmaceutiques',
+    'inženýr farmaceutických technologií',
+    'inženýrka farmaceutických technologií',
+    'inženýr farmaceutických postupů',
   ]),
   OccupationLabels('1324', [
     'pharmaceutical goods distribution manager',
@@ -25832,6 +29207,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager farmaceutische producten',
     'chef distributie farmaceutische producten',
     'distributiechef farmaceutische producten',
+    'manažer distribuce farmaceutických výrobků',
+    'manažerka distribuce farmaceutických výrobků',
   ]),
   OccupationLabels('2262', [
     'pharmaceutical quality specialist',
@@ -25846,6 +29223,8 @@ const escoOccupations = <OccupationLabels>[
     'pharmacien en pharmacovigilance',
     'pharmacienne en pharmacovigilance',
     'pharmacien chargé de pharmacovigilance',
+    'farmaceut specialista kvality',
+    'farmaceutka specialistka kvality',
   ]),
   OccupationLabels('2262', [
     'pharmacist',
@@ -25862,6 +29241,7 @@ const escoOccupations = <OccupationLabels>[
     'pharmacien',
     'pharmacienne',
     'pharmacien en officine',
+    'farmaceutka',
   ]),
   OccupationLabels('2131', [
     'pharmacologist',
@@ -25879,6 +29259,7 @@ const escoOccupations = <OccupationLabels>[
     'pharmacologue',
     'pharmacologiste',
     'pharmacologue de l’industrie',
+    'farmakoložka',
   ]),
   OccupationLabels('3213', [
     'pharmacy assistant',
@@ -25895,6 +29276,8 @@ const escoOccupations = <OccupationLabels>[
     'apothekersassistente',
     'pharmacien assistant',
     'pharmacienne assistante',
+    'lékárník asistent',
+    'lékárnice asistentka',
   ]),
   OccupationLabels('2310', [
     'pharmacy lecturer',
@@ -25911,6 +29294,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en pharmacie',
     'enseignante-chercheuse en pharmacie',
     'pharmacien enseignant-chercheur discipline pharmaceutique',
+    'vyučující v oboru farmacie',
   ]),
   OccupationLabels('3213', [
     'pharmacy technician',
@@ -25931,6 +29315,9 @@ const escoOccupations = <OccupationLabels>[
     'préparateur en pharmacie',
     'préparatrice en pharmacie',
     'préparatrice en pharmacie d\'officine',
+    'farmaceutický technik',
+    'farmaceutická technička',
+    'farmaceutka technička',
   ]),
   OccupationLabels('2633', [
     'philosopher',
@@ -25943,6 +29330,8 @@ const escoOccupations = <OccupationLabels>[
     'filosof',
     'filosoof',
     'philosophe',
+    'filozof',
+    'filozofka',
   ]),
   OccupationLabels('2310', [
     'philosophy lecturer',
@@ -25960,6 +29349,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en philosophie',
     'enseignante-chercheuse en philosophie',
     'enseignante-chercheuse en philosophie politique',
+    'přednášející v oboru filozofie',
   ]),
   OccupationLabels('2330', [
     'philosophy teacher secondary school',
@@ -25971,6 +29361,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht filosofie secundair onderwijs',
     'professeur de philosophie',
     'professeure de philosophie',
+    'učitel filosofie střední školy',
+    'učitelka filosofie střední školy',
+    'středoškolský učitel filosofie',
   ]),
   OccupationLabels('5329', [
     'phlebotomist',
@@ -26005,6 +29398,8 @@ const escoOccupations = <OccupationLabels>[
     'photographe',
     'photographe aérienne',
     'photographe filmeuse',
+    'fotografka',
+    'portrétní fotograf',
   ]),
   OccupationLabels('8132', [
     'photographic developer',
@@ -26019,6 +29414,8 @@ const escoOccupations = <OccupationLabels>[
     'fotolaboratoriumbediende',
     'développeur de photographies',
     'développeuse de photographies',
+    'fotolaborantka',
+    'pracovnice fotolaboratoře',
   ]),
   OccupationLabels('8212', [
     'photographic equipment assembler',
@@ -26033,6 +29430,8 @@ const escoOccupations = <OccupationLabels>[
     'fotoausrüstungsmonteurin',
     'maker van fotografieapparatuur',
     'maker van fotografische apparatuur',
+    'montážní dělník fotografických zařízení',
+    'montážní dělnice fotografických zařízení',
   ]),
   OccupationLabels('1420', [
     'photography shop manager',
@@ -26043,6 +29442,8 @@ const escoOccupations = <OccupationLabels>[
     'manager fotowinkel',
     'manager fotozaak',
     'afdelingsmanager fotografie',
+    'vedoucí fotoprodejny',
+    'vedoucí prodejny fotoaparátů',
   ]),
   OccupationLabels('2355', [
     'photography teacher',
@@ -26057,6 +29458,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar fotografie',
     'formateur en photographie',
     'formatrice en photographie',
+    'učitel fotografování',
+    'učitelka fotografování',
   ]),
   OccupationLabels('3431', [
     'photojournalist',
@@ -26066,6 +29469,8 @@ const escoOccupations = <OccupationLabels>[
     'fotojournalistin',
     'fotojournaliste',
     'reporter-photographe',
+    'fotoreportér',
+    'fotoreportérka',
   ]),
   OccupationLabels('2149', [
     'photonics engineer',
@@ -26083,6 +29488,9 @@ const escoOccupations = <OccupationLabels>[
     'burgerlijk ingenieur fotonica',
     'ingénieur en photonique',
     'ingénieure en photonique',
+    'inženýr fotoniky',
+    'inženýrka fotoniky',
+    'inženýrka fotonických systémů',
   ]),
   OccupationLabels('3119', [
     'photonics engineering technician',
@@ -26109,6 +29517,9 @@ const escoOccupations = <OccupationLabels>[
     'lehrkraft für sport sekundarstufe',
     'professeur d’eps',
     'professeure d’eps',
+    'učitel tělesné výchovy',
+    'učitel tělocviku',
+    'středoškolská učitelka tělocviku',
   ]),
   OccupationLabels('2320', [
     'physical education vocational teacher',
@@ -26119,6 +29530,9 @@ const escoOccupations = <OccupationLabels>[
     'vakdocente lichamelijke opvoeding beroepsonderwijs',
     'enseignant d’éducation physique',
     'enseignante d’éducation physique',
+    'učitel tělesné výchovy',
+    'učitel tělocviku',
+    'učitelka tělocviku',
   ]),
   OccupationLabels('2111', [
     'physicist',
@@ -26135,6 +29549,7 @@ const escoOccupations = <OccupationLabels>[
     'wetenschappelijk onderzoeker natuurkunde',
     'physicien',
     'physicienne',
+    'fyzik',
   ]),
   OccupationLabels('2310', [
     'physics lecturer',
@@ -26152,6 +29567,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en physique',
     'enseignante-chercheuse en physique',
     'enseignant-chercheur en physique-chimie',
+    'přednášející v oboru fyzika',
   ]),
   OccupationLabels('2330', [
     'physics teacher secondary school',
@@ -26164,6 +29580,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de physique',
     'professeure de physique',
     'professeur de physique-chimie',
+    'učitel fyziky',
+    'středoškolský učitel fyziky',
+    'středoškolská učitelka fyziky',
   ]),
   OccupationLabels('3111', [
     'physics technician',
@@ -26181,6 +29600,8 @@ const escoOccupations = <OccupationLabels>[
     'fysisch laborant',
     'technicien en physique',
     'technicienne en physique',
+    'fyzikální technik',
+    'fyzikální technička',
   ]),
   OccupationLabels('2131', [
     'physiologist',
@@ -26197,6 +29618,8 @@ const escoOccupations = <OccupationLabels>[
     'sportfysioloog',
     'physiologiste',
     'physiologue',
+    'fyziolog',
+    'fyzioložka',
   ]),
   OccupationLabels('2264', [
     'physiotherapist',
@@ -26211,6 +29634,9 @@ const escoOccupations = <OccupationLabels>[
     'fysiotherapeute',
     'bedrijfsfysiotherapeut',
     'physiothérapeute',
+    'fyzioterapeut',
+    'fyzioterapeutka',
+    'sportovní fyzioterapeutka',
   ]),
   OccupationLabels('3255', [
     'physiotherapy assistant',
@@ -26226,6 +29652,9 @@ const escoOccupations = <OccupationLabels>[
     'kinésithérapeute',
     'masseuse kinésithérapeute rééducatrice',
     'kinésithérapeute chiropraticienne',
+    'fyzioterapeutický asistent',
+    'fyzioterapeutická asistentka',
+    'pomocná fyzioterapeutka',
   ]),
   OccupationLabels('7312', [
     'piano maker',
@@ -26238,6 +29667,9 @@ const escoOccupations = <OccupationLabels>[
     'pianobouwer',
     'facteur de pianos',
     'factrice de pianos',
+    'výrobce klavírů',
+    'výrobkyně klavírů',
+    'výrobce pián',
   ]),
   OccupationLabels('3252', [
     'administradora de sistemas',
@@ -26261,6 +29693,8 @@ const escoOccupations = <OccupationLabels>[
     'bildredaktör',
     'beeldredacteur',
     'iconographe',
+    'obrazový redaktor',
+    'obrazová redaktorka',
   ]),
   OccupationLabels('6121', [
     'pig breeder',
@@ -26277,6 +29711,8 @@ const escoOccupations = <OccupationLabels>[
     'éleveur de porcs',
     'éleveuse de porcs',
     'éleveur en production porcine',
+    'chovatel prasat',
+    'chovatelka prasat',
   ]),
   OccupationLabels('3423', [
     'pilates teacher',
@@ -26292,6 +29728,8 @@ const escoOccupations = <OccupationLabels>[
     'trainer pilates',
     'moniteur de pilates',
     'monitrice de pilates',
+    'cvičitel pilates',
+    'cvičitelka pilates',
   ]),
   OccupationLabels('8342', [
     'pile driving hammer operator',
@@ -26305,6 +29743,7 @@ const escoOccupations = <OccupationLabels>[
     'heier',
     'conducteur de sonnette',
     'conductrice de sonnette',
+    'obsluha beranění',
   ]),
   OccupationLabels('8131', [
     'pill maker operator',
@@ -26314,6 +29753,7 @@ const escoOccupations = <OccupationLabels>[
     'pillermaskinoperatör',
     'operator tabletteermachine',
     'tabletteermachineoperator',
+    'obsluha tabletovacího stroje',
   ]),
   OccupationLabels('7212', [
     'pipe welder',
@@ -26329,6 +29769,7 @@ const escoOccupations = <OccupationLabels>[
     'pijplasster',
     'soudeur de tuyaux',
     'soudeuse de tuyaux',
+    'svářeč potrubí',
   ]),
   OccupationLabels('3119', [
     'pipeline compliance coordinator',
@@ -26338,6 +29779,8 @@ const escoOccupations = <OccupationLabels>[
     'compliance-koordinatorin rohrleitungen',
     'compliance-koordinator rohrnetz',
     'coördinator conformiteit pijpleidingen',
+    'koordinátor bezpečnosti ropovodu',
+    'koordinátorka bezpečnosti ropovodu',
   ]),
   OccupationLabels('2142', [
     'pipeline engineer',
@@ -26352,6 +29795,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur canalisations',
     'ingénieure canalisations',
     'ingénieure travaux canalisations',
+    'inženýr pro potrubní dopravu',
+    'inženýrka pro potrubní dopravu',
   ]),
   OccupationLabels('2133', [
     'pipeline environmental project manager',
@@ -26372,6 +29817,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudsmonteuse pijpleidingen',
     'ouvrier de maintenance tuyauterie',
     'ouvrière de maintenance tuyauterie',
+    'údržbář potrubí',
+    'údržbářka potrubí',
   ]),
   OccupationLabels('8113', [
     'pipeline pump operator',
@@ -26383,6 +29830,9 @@ const escoOccupations = <OccupationLabels>[
     'pijpleidingoperator',
     'technicus pijpleidingen',
     'pijpleidingwerkster',
+    'obsluha čerpacího potrubí',
+    'obsluha plynovodu',
+    'obsluha ropovodu',
   ]),
   OccupationLabels('4323', [
     'pipeline route manager',
@@ -26391,6 +29841,8 @@ const escoOccupations = <OccupationLabels>[
     'fachkraft rohrleitungstransport',
     'manager transport via pijpleidingen',
     'manager pijpleidingtransport',
+    'správce potrubních tras',
+    'správkyně potrubních tras',
   ]),
   OccupationLabels('1324', [
     'pipeline superintendent',
@@ -26402,6 +29854,7 @@ const escoOccupations = <OccupationLabels>[
     'manager netbeheer',
     'responsable conduites de transport',
     'responsable canalisations de transport',
+    'vedoucí distribuční sítě',
   ]),
   OccupationLabels('9411', [
     'pizzaiolo',
@@ -26412,6 +29865,8 @@ const escoOccupations = <OccupationLabels>[
     'pizzabäckerin',
     'pizzabagare',
     'pizzabagaren',
+    'pekař pizzy',
+    'pekařka pizzy',
   ]),
   OccupationLabels('8172', [
     'planer thicknesser operator',
@@ -26447,6 +29902,8 @@ const escoOccupations = <OccupationLabels>[
     'stukadoor',
     'plâtrier',
     'plâtrière',
+    'zedník-omítkář',
+    'zednice-omítkářka',
   ]),
   OccupationLabels('3123', [
     'plastering supervisor',
@@ -26457,6 +29914,7 @@ const escoOccupations = <OccupationLabels>[
     'meewerkend voorman stukadoor',
     'superviseur de plâtriers',
     'superviseuse de plâtriers',
+    'mistr štukatér',
   ]),
   OccupationLabels('3122', [
     'plastics products manufacturing supervisor',
@@ -26521,6 +29979,9 @@ const escoOccupations = <OccupationLabels>[
     'glasmonteuse',
     'monteur techniverrier',
     'monteuse techniverrière',
+    'sklenář',
+    'sklenářka',
+    'stavební sklenář',
   ]),
   OccupationLabels('8131', [
     'plodder operator',
@@ -26546,6 +30007,8 @@ const escoOccupations = <OccupationLabels>[
     'plombier',
     'plombière',
     'plombier chauffagiste',
+    'instalatér',
+    'instalatérka',
   ]),
   OccupationLabels('3123', [
     'plumbing supervisor',
@@ -26559,6 +30022,9 @@ const escoOccupations = <OccupationLabels>[
     'teamleider-loodgieter',
     'superviseur de plombiers',
     'superviseuse de plombiers',
+    'instalatérský mistr',
+    'instalatérská mistrová',
+    'mistr instalatér',
   ]),
   OccupationLabels('3115', [
     'pneumatic engineering technician',
@@ -26573,6 +30039,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch ingenieur pneumatica',
     'technicien en génie pneumatique',
     'technicienne en génie pneumatique',
+    'inženýr pneumatických zařízení',
+    'inženýrka pneumatických zařízení',
   ]),
   OccupationLabels('7233', [
     'pneumatic systems technician',
@@ -26590,6 +30058,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteur pneumatische systemen',
     'technicien en systèmes pneumatiques',
     'technicienne en systèmes pneumatiques',
+    'mechanik pneumatických systémů',
+    'mechanička pneumatických systémů',
   ]),
   OccupationLabels('2269', [
     'podiatrist',
@@ -26605,6 +30075,9 @@ const escoOccupations = <OccupationLabels>[
     'podologue',
     'pédicure podologue posturopodiste',
     'pédicure-podologue',
+    'podiatr',
+    'podiatrička',
+    'podiatrický lékař',
   ]),
   OccupationLabels('2269', [
     'podiatry assistant',
@@ -26621,6 +30094,9 @@ const escoOccupations = <OccupationLabels>[
     'assistant podologue',
     'assistante podologue',
     'assistant en podologie',
+    'podiatrický asistent',
+    'podiatrická asistentka',
+    'asistent podiatrie',
   ]),
   OccupationLabels('1112', [
     'police commissioner',
@@ -26635,6 +30111,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofdcommissaris',
     'commissaire de police',
     'commissaire principal de police',
+    'policejní komisař',
+    'policejní komisařka',
   ]),
   OccupationLabels('3355', [
     'police detective',
@@ -26649,6 +30127,7 @@ const escoOccupations = <OccupationLabels>[
     'tactisch recherchekundige',
     'gardien de la paix',
     'gardienne de la paix',
+    'policejní detektiv',
   ]),
   OccupationLabels('3355', [
     'police inspector',
@@ -26664,6 +30143,8 @@ const escoOccupations = <OccupationLabels>[
     'polisinspektör',
     'hoofdinspecteur',
     'commissaire divisionnaire de police',
+    'policejní inspektor',
+    'policejní inspektorka',
   ]),
   OccupationLabels('5412', [
     'police officer',
@@ -26682,6 +30163,8 @@ const escoOccupations = <OccupationLabels>[
     'politieagente',
     'agente de police',
     'agent de police',
+    'policista',
+    'policistka',
   ]),
   OccupationLabels('2320', [
     'police trainer',
@@ -26697,6 +30180,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice politieinspecteurs',
     'formateur en sécurité intérieure',
     'formatrice en sécurité intérieure',
+    'policejní instruktor',
+    'policejní instruktorka',
   ]),
   OccupationLabels('1213', [
     'policy manager',
@@ -26710,6 +30195,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsverantwoordelijke',
     'directeur stratégique',
     'directrice stratégique',
+    'manažer politiky organizace',
+    'manažerka politiky organizace',
   ]),
   OccupationLabels('2422', [
     'policy officer',
@@ -26723,6 +30210,9 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerkster',
     'chargé de mission',
     'chargée de mission',
+    'referent politiky',
+    'referentka politiky',
+    'referentka politiky regionálního rozvoje',
   ]),
   OccupationLabels('2422', [
     'political affairs officer',
@@ -26735,6 +30225,8 @@ const escoOccupations = <OccupationLabels>[
     'politikreferentin',
     'medewerker politieke zaken',
     'spécialiste des questions politiques',
+    'referent pro politické záležitosti',
+    'referentka pro politické záležitosti',
   ]),
   OccupationLabels('2432', [
     'political campaign officer',
@@ -26752,6 +30244,9 @@ const escoOccupations = <OccupationLabels>[
     'medewerker verkiezingscampagne',
     'chargé de campagne politique',
     'chargée de campagne politique',
+    'poradce pro politické kampaně',
+    'poradkyně pro politické kampaně',
+    'politická poradkyně',
   ]),
   OccupationLabels('2642', [
     'political journalist',
@@ -26782,6 +30277,9 @@ const escoOccupations = <OccupationLabels>[
     'partifunktionär',
     'medewerker politieke partij',
     'medewerkster politieke partij',
+    'funkcionář politické strany',
+    'funkcionářka politické strany',
+    'stranická funkcionářka',
   ]),
   OccupationLabels('2633', [
     'political scientist',
@@ -26795,6 +30293,8 @@ const escoOccupations = <OccupationLabels>[
     'politicoloog',
     'politicologe',
     'politologue',
+    'politolog',
+    'politoložka',
   ]),
   OccupationLabels('2310', [
     'politics lecturer',
@@ -26808,6 +30308,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en science politique',
     'enseignante-chercheuse en science politique',
     'enseignante-chercheuse en sciences politiques',
+    'přednášející v oboru politologie',
   ]),
   OccupationLabels('2634', [
     'polygraph examiner',
@@ -26837,6 +30338,8 @@ const escoOccupations = <OccupationLabels>[
     'porseleinschilderes',
     'schilder op porselein',
     'peintre sur porcelaine',
+    'dekoratér porcelánu',
+    'dekoratérka porcelánu',
   ]),
   OccupationLabels('4323', [
     'port coordinator',
@@ -26853,6 +30356,8 @@ const escoOccupations = <OccupationLabels>[
     'middelbare havenmeester',
     'directeur des opérations portuaires',
     'directrice des opérations portuaires',
+    'přístavní koordinátor',
+    'přístavní koordinátorka',
   ]),
   OccupationLabels('4211', [
     'post office counter clerk',
@@ -26862,6 +30367,8 @@ const escoOccupations = <OccupationLabels>[
     'postkassörska',
     'verkoopmedewerker postkantoor',
     'verkoopmedewerkster postkantoor',
+    'přepážkový pracovník na poště',
+    'přepážková pracovnice na poště',
   ]),
   OccupationLabels('2654', [
     'post-production supervisor',
@@ -26881,6 +30388,7 @@ const escoOccupations = <OccupationLabels>[
     'postproductieleider',
     'chargé de postproduction',
     'chargée de postproduction',
+    'vedoucí supervize postprodukce',
   ]),
   OccupationLabels('4412', [
     'postman',
@@ -26895,6 +30403,8 @@ const escoOccupations = <OccupationLabels>[
     'postbode',
     'facteur',
     'factrice',
+    'poštovní doručovatel',
+    'poštovní doručovatelka',
   ]),
   OccupationLabels('8181', [
     'pottery and porcelain caster',
@@ -26911,6 +30421,8 @@ const escoOccupations = <OccupationLabels>[
     'couleur en céramique',
     'couleuse en céramique',
     'couleur-finisseur en céramique',
+    'vylévač keramiky a porcelánu',
+    'vylévačka keramiky a porcelánu',
   ]),
   OccupationLabels('6122', [
     'poultry breeder',
@@ -26929,6 +30441,8 @@ const escoOccupations = <OccupationLabels>[
     'pluimveeteler',
     'aviculteur',
     'avicultrice',
+    'chovatel drůbeže',
+    'chovatelka drůbeže',
   ]),
   OccupationLabels('6122', [
     'poultry sexer',
@@ -26948,6 +30462,8 @@ const escoOccupations = <OccupationLabels>[
     'pluimveesekser',
     'sexeur de volailles',
     'sexeuse de volailles',
+    'specialista na pohlaví drůbeže',
+    'specialistka na pohlaví drůbeže',
   ]),
   OccupationLabels('2151', [
     'power distribution engineer',
@@ -26959,6 +30475,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur energie',
     'ingénieur études transport-distribution',
     'ingénieure études transport-distribution',
+    'projektant elektroenergetických sítí',
+    'projektantka elektroenergetických sítí',
   ]),
   OccupationLabels('3123', [
     'power lines supervisor',
@@ -26970,6 +30488,7 @@ const escoOccupations = <OccupationLabels>[
     'supervisora de tendido eléctrico',
     'aufsichtskraft energietechnik',
     'teamleider kabelleggers',
+    'dozor výstavby elektrického vedení',
   ]),
   OccupationLabels('3131', [
     'electric power station worker',
@@ -26981,6 +30500,8 @@ const escoOccupations = <OccupationLabels>[
     'operator controlekamer energieproductie',
     'operator controlekamer energie',
     'beeldschermoperator energieproductie',
+    'operátor řídícího centra elektrárny',
+    'operátorka řídícího centra elektrárny',
   ]),
   OccupationLabels('1219', [
     'power plant manager',
@@ -27000,6 +30521,8 @@ const escoOccupations = <OccupationLabels>[
     'manager krachtcentrale',
     'directeur de centrale électrique',
     'directrice de centrale électrique',
+    'ředitel elektrárny',
+    'ředitelka elektrárny',
   ]),
   OccupationLabels('3131', [
     'power production plant operator',
@@ -27013,6 +30536,7 @@ const escoOccupations = <OccupationLabels>[
     'operator energieproductie',
     'operator biomassacentrale',
     'operator productielijn elektriciteit',
+    'operátor velínu elektrárny',
   ]),
   OccupationLabels('7412', [
     'power tool repair technician',
@@ -27022,6 +30546,9 @@ const escoOccupations = <OccupationLabels>[
     'reparateur van elektrische gereedschappen',
     'réparateur d’outils électriques',
     'réparatrice d’outils électriques',
+    'opravář elektrických nástrojů',
+    'opravářka elektrických nástrojů',
+    'opravář elektrického náčiní',
   ]),
   OccupationLabels('8156', [
     'pre-lasting operator',
@@ -27039,6 +30566,9 @@ const escoOccupations = <OccupationLabels>[
     'voorbereider schoenen en lederwaren',
     'préparateur piquage en chaussures',
     'préparatrice piquage en chaussures',
+    'obsluha štípacích strojů',
+    'obsluha ořezávacích strojů',
+    'obsluha kosicích strojů',
   ]),
   OccupationLabels('8114', [
     'precast moulder',
@@ -27046,6 +30576,8 @@ const escoOccupations = <OccupationLabels>[
     'formengießer',
     'formengießerin',
     'handvormer betonelementen',
+    'odlévač betonových stavebních výrobků',
+    'odlévačka betonových stavebních výrobků',
   ]),
   OccupationLabels('7313', [
     'precious stone cutter',
@@ -27061,6 +30593,8 @@ const escoOccupations = <OccupationLabels>[
     'edelsteenbewerker',
     'edelsteenslijpster',
     'lapidaire diamant',
+    'řezač drahých kamenů',
+    'řezač drahokamů',
   ]),
   OccupationLabels('7313', [
     'precious stone setter',
@@ -27077,6 +30611,9 @@ const escoOccupations = <OccupationLabels>[
     'edelsteenzetster',
     'sertisseur',
     'sertisseuse',
+    'zasazovač drahých kamenů',
+    'zasazovačka drahých kamenů',
+    'zasazovač drahokamů',
   ]),
   OccupationLabels('7543', [
     'precision device inspector',
@@ -27086,6 +30623,9 @@ const escoOccupations = <OccupationLabels>[
     'präzisionsinstrumentenprüferin',
     'inspecteur precisie-instrumenten',
     'kwaliteitsinspecteur precisie-instrumenten',
+    'kontrolor přesných zařízení',
+    'kontrolorka přesných zařízení',
+    'kontrolorka přesných přístrojů',
   ]),
   OccupationLabels('2144', [
     'precision engineer',
@@ -27115,6 +30655,8 @@ const escoOccupations = <OccupationLabels>[
     'assembleur d’instruments de précision',
     'assembleuse d’instruments de précision',
     'assembleur d\'instruments de précision',
+    'montér přesných přístrojů',
+    'montérka přesných přístrojů',
   ]),
   OccupationLabels('7222', [
     'precision mechanic',
@@ -27128,6 +30670,8 @@ const escoOccupations = <OccupationLabels>[
     'fijnmechanisch monteur',
     'mécanicien de précision',
     'mécanicienne de précision',
+    'jemný mechanik',
+    'jemná mechanička',
   ]),
   OccupationLabels('3122', [
     'precision mechanics supervisor',
@@ -27136,6 +30680,7 @@ const escoOccupations = <OccupationLabels>[
     'produktionsleiter feinwerkmechanik',
     'produktionsleiterin feinwerkmechanik',
     'leidinggevende precisiemechanica',
+    'vedoucí výroby přesné mechaniky',
   ]),
   OccupationLabels('2265', [
     'prepared meals nutritionist',
@@ -27145,6 +30690,8 @@ const escoOccupations = <OccupationLabels>[
     'voedingsdeskundige bereide maaltijden',
     'voedingsdeskundige kant-en-klare maaltijden',
     'voedingsspecialist bereide maaltijden',
+    'odborník na výživu',
+    'odbornice na výživu',
   ]),
   OccupationLabels('8160', [
     'prepared meat operator',
@@ -27178,6 +30725,8 @@ const escoOccupations = <OccupationLabels>[
     'prepressmedewerkster',
     'opérateur de prépresse',
     'opératrice de prépresse',
+    'operátor přípravy tisku',
+    'operátorka přípravy tisku',
   ]),
   OccupationLabels('7321', [
     'prepress technician',
@@ -27193,6 +30742,8 @@ const escoOccupations = <OccupationLabels>[
     'prepresstechnica',
     'technicien de prépresse',
     'technicienne de prépresse',
+    'technik přípravy tisku',
+    'technička přípravy tisku',
   ]),
   OccupationLabels('2656', [
     'presenter',
@@ -27211,6 +30762,8 @@ const escoOccupations = <OccupationLabels>[
     'animateur',
     'animatrice',
     'animateur de spectacles',
+    'hlasatel',
+    'hlasatelka',
   ]),
   OccupationLabels('1420', [
     'gerente de papelaria',
@@ -27224,7 +30777,13 @@ const escoOccupations = <OccupationLabels>[
     'gérant de librairie papeterie',
     'gérante de librairie papeterie',
   ]),
-  OccupationLabels('5223', ['vendeur en papeterie', 'vendeuse en papeterie']),
+  OccupationLabels('5223', [
+    'vendeur en papeterie',
+    'vendeuse en papeterie',
+    'prodavač ve stánku pns',
+    'prodavačka v papírnictví',
+    'prodavač v papírnictví',
+  ]),
   OccupationLabels('2431', [
     'pricing specialist',
     'assistant pricing specialist',
@@ -27237,6 +30796,8 @@ const escoOccupations = <OccupationLabels>[
     'prijsstellingsanalist',
     'analyste prix',
     'analyste pricing',
+    'cenový specialista',
+    'cenová specialistka',
   ]),
   OccupationLabels('1345', [
     'primary school head teacher',
@@ -27253,6 +30814,8 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directeur basisonderwijs',
     'directeur d\'école primaire',
     'directrice d\'école primaire',
+    'ředitel základní školy',
+    'ředitelka základní školy',
   ]),
   OccupationLabels('2341', [
     'primary school teacher',
@@ -27269,6 +30832,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar lager onderwijs',
     'instituteur d’école primaire',
     'institutrice d’école primaire',
+    'učitel na základní škole',
+    'učitelka na základní škole',
   ]),
   OccupationLabels('5312', [
     'primary school teaching assistant',
@@ -27296,6 +30861,8 @@ const escoOccupations = <OccupationLabels>[
     'operator vouwmachine',
     'opérateur sur plieuse',
     'opératrice sur plieuse',
+    'falcíř',
+    'falcířka',
   ]),
   OccupationLabels('3122', [
     'print studio supervisor',
@@ -27307,6 +30874,7 @@ const escoOccupations = <OccupationLabels>[
     'produktionsleiter druck',
     'produktionsleiterin druck',
     'manager drukkerij',
+    'vedoucí tiskového studia',
   ]),
   OccupationLabels('8212', [
     'printed circuit board assembler',
@@ -27327,6 +30895,8 @@ const escoOccupations = <OccupationLabels>[
     'pcb-ontwerper',
     'implanteur de cartes électroniques',
     'implanteuse de cartes électroniques',
+    'návrhář desek plošných spojů',
+    'návrhářka desek plošných spojů',
   ]),
   OccupationLabels('7543', [
     'printed circuit board tester',
@@ -27352,6 +30922,8 @@ const escoOccupations = <OccupationLabels>[
     'textildrucktechnikerin',
     'textiltryckstekniker',
     'technicus textieldruk',
+    'technik potiskovaného textilu',
+    'technička potiskovaného textilu',
   ]),
   OccupationLabels('2651', [
     'printmaker',
@@ -27366,6 +30938,8 @@ const escoOccupations = <OccupationLabels>[
     'drukvormvervaardiger',
     'graveur',
     'graveuse',
+    'grafik',
+    'grafička',
   ]),
   OccupationLabels('2359', [
     'prison instructor',
@@ -27381,6 +30955,8 @@ const escoOccupations = <OccupationLabels>[
     'gevangenisdocente',
     'instructeur technique pénitentiaire',
     'instructrice technique pénitentiaire',
+    'pedagogický pracovník ve vězeňství',
+    'pedagogická pracovnice ve vězeňství',
   ]),
   OccupationLabels('5413', [
     'prison officer',
@@ -27398,6 +30974,8 @@ const escoOccupations = <OccupationLabels>[
     'surveillant pénitentiaire',
     'surveillante pénitentiaire',
     'surveillante de centre pénitentiaire',
+    'vězeňský dozorce',
+    'vězeňská dozorkyně',
   ]),
   OccupationLabels('8322', [
     'private chauffeur',
@@ -27415,6 +30993,9 @@ const escoOccupations = <OccupationLabels>[
     'chauffeur de maître',
     'chauffeuse de maître',
     'chauffeur de direction',
+    'osobní řidič',
+    'osobní řidička',
+    'osobní šofér',
   ]),
   OccupationLabels('3434', [
     'private chef',
@@ -27430,6 +31011,8 @@ const escoOccupations = <OccupationLabels>[
     'privékokkin',
     'chef privé',
     'chef privée',
+    'osobní kuchař',
+    'osobní kuchařka',
   ]),
   OccupationLabels('3411', [
     'private detective',
@@ -27444,6 +31027,7 @@ const escoOccupations = <OccupationLabels>[
     'privédetective',
     'détective privé',
     'détective privée',
+    'soukromý detektiv',
   ]),
   OccupationLabels('3153', [
     'private pilot',
@@ -27457,6 +31041,8 @@ const escoOccupations = <OccupationLabels>[
     'privépiloot',
     'privépilote',
     'pilote d’avion privé',
+    'soukromý pilot',
+    'soukromá pilotka',
   ]),
   OccupationLabels('2635', [
     'probation officer',
@@ -27470,6 +31056,8 @@ const escoOccupations = <OccupationLabels>[
     'reclasseringsmedewerker',
     'agent de probation',
     'agente de probation',
+    'probační úředník',
+    'probační úřednice',
   ]),
   OccupationLabels('2141', [
     'process engineer',
@@ -27489,6 +31077,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur process',
     'ingénieure process',
     'ingénieure étude process',
+    'inženýr výrobních procesů',
+    'inženýrka výrobních procesů',
   ]),
   OccupationLabels('3119', [
     'process engineering technician',
@@ -27501,6 +31091,9 @@ const escoOccupations = <OccupationLabels>[
     'processtekniker',
     'procestechnicus',
     'procestechnoloog',
+    'technik výrobního procesu',
+    'technička výrobního procesu',
+    'procesní technička',
   ]),
   OccupationLabels('2146', [
     'process metallurgist',
@@ -27511,6 +31104,9 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur prozessmetallurgie',
     'ingenieurin prozessmetallurgie',
     'metaalkundige',
+    'slévárenský technik metalurg',
+    'slévárenská technička metaluržka',
+    'slévárenská technička metalurg',
   ]),
   OccupationLabels('2654', [
     'producer',
@@ -27525,6 +31121,7 @@ const escoOccupations = <OccupationLabels>[
     'producent',
     'producteur',
     'productrice',
+    'produkční',
   ]),
   OccupationLabels('2431', [
     'product and services manager',
@@ -27533,6 +31130,8 @@ const escoOccupations = <OccupationLabels>[
     'produkt- und dienstleistungsmanagerin',
     'manager producten en diensten',
     'chef de produits marketing',
+    'manažer produktů a služeb',
+    'manažerka produktů a služeb',
   ]),
   OccupationLabels('7543', [
     'product assembly inspector',
@@ -27545,6 +31144,8 @@ const escoOccupations = <OccupationLabels>[
     'productiecontroleur',
     'productie-inspectrice',
     'productie-inspecteur',
+    'montážní inspektor',
+    'montážní inspektorka',
   ]),
   OccupationLabels('3118', [
     'product development engineering drafter',
@@ -27555,6 +31156,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch tekenaar productontwikkeling',
     'dessinatrice produits industriels',
     'dessinateur produits industriels',
+    'vývojový inženýr',
+    'vývojová inženýrka',
   ]),
   OccupationLabels('3119', [
     'product development engineering technician',
@@ -27564,6 +31167,8 @@ const escoOccupations = <OccupationLabels>[
     'produktentwicklungstechnikerin',
     'produktutvecklingstekniker',
     'technicus productontwikkeling',
+    'vývojový technik',
+    'vývojová technička',
   ]),
   OccupationLabels('1223', [
     'product development manager',
@@ -27580,6 +31185,9 @@ const escoOccupations = <OccupationLabels>[
     'directrice développement produits',
     'directeur développement produits',
     'directeur de développement produits',
+    'manažer vývoje produktů',
+    'manažerka vývoje produktů',
+    'manažerka oddělení inovací',
   ]),
   OccupationLabels('7543', [
     'product grader',
@@ -27596,6 +31204,8 @@ const escoOccupations = <OccupationLabels>[
     'classeur de produits',
     'classeuse de produits',
     'trieuse-classeuse de produits',
+    'kvalitář výrobků',
+    'kvalitářka výrobků',
   ]),
   OccupationLabels('1223', [
     'product manager',
@@ -27611,6 +31221,8 @@ const escoOccupations = <OccupationLabels>[
     'produktchef',
     'productmanager',
     'chef de produit',
+    'produktový manažer',
+    'produktová manažerka',
   ]),
   OccupationLabels('7543', [
     'product quality controller',
@@ -27622,6 +31234,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur',
     'contrôleur qualité de produits',
     'contrôleuse qualité de produits',
+    'kontrolor kvality výrobků',
+    'kontrolorka kvality výrobků',
   ]),
   OccupationLabels('7543', [
     'product quality inspector',
@@ -27632,6 +31246,8 @@ const escoOccupations = <OccupationLabels>[
     'kvalitetsansvarig',
     'kwaliteitsinspecteur',
     'kwaliteitsinspectrice',
+    'kontrolor jakosti výrobků',
+    'kontrolorka jakosti výrobků',
   ]),
   OccupationLabels('2166', [
     'production designer',
@@ -27646,6 +31262,9 @@ const escoOccupations = <OccupationLabels>[
     'chef décorateur',
     'décoratrice spectacle',
     'cheffe décoratrice spectacle',
+    'designér produkce',
+    'designérka produkce',
+    'designér televizní produkce',
   ]),
   OccupationLabels('2141', [
     'production engineer',
@@ -27663,6 +31282,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur-hoofd van de productieproceslijn',
     'ingénieur de production',
     'ingénieure de production',
+    'technolog výroby',
+    'technoložka výroby',
   ]),
   OccupationLabels('3115', [
     'production engineering technician',
@@ -27677,6 +31298,9 @@ const escoOccupations = <OccupationLabels>[
     'productietechnicus',
     'technisch productieleider',
     'ingenieur productie',
+    'technik výroby',
+    'technička výroby',
+    'výrobní technik',
   ]),
   OccupationLabels('8343', [
     'production plant crane operator',
@@ -27708,6 +31332,8 @@ const escoOccupations = <OccupationLabels>[
     'potier',
     'potière',
     'potière céramiste',
+    'hrnčíř',
+    'hrnčířka',
   ]),
   OccupationLabels('3122', [
     'production supervisor',
@@ -27724,6 +31350,8 @@ const escoOccupations = <OccupationLabels>[
     'chef productie',
     'superviseur de production',
     'superviseuse de production',
+    'kontrolor výrobního procesu',
+    'kontrolorka výrobního procesu',
   ]),
   OccupationLabels('3421', [
     'professional athlete',
@@ -27741,6 +31369,8 @@ const escoOccupations = <OccupationLabels>[
     'sportif professionnel',
     'sportive professionnelle',
     'sportive de haut niveau',
+    'profesionální sportovec',
+    'profesionální sportovkyně',
   ]),
   OccupationLabels('2412', [
     'programme funding manager',
@@ -27749,6 +31379,8 @@ const escoOccupations = <OccupationLabels>[
     'programmfinanzierungsmanager',
     'programmfinanzierungsmanagerin',
     'verantwoordelijke projectfinanciering',
+    'manažer programového financování',
+    'manažerka programového financování',
   ]),
   OccupationLabels('1213', [
     'programme manager',
@@ -27767,6 +31399,9 @@ const escoOccupations = <OccupationLabels>[
     'programmacoördinatrice',
     'directeur de projets',
     'directrice de projets',
+    'programový manažer',
+    'programová manažerka',
+    'programový koordinátor',
   ]),
   OccupationLabels('1219', [
     'project manager',
@@ -27780,6 +31415,9 @@ const escoOccupations = <OccupationLabels>[
     'projektledare',
     'projectmanager',
     'chef de projet',
+    'projektový manažer',
+    'projektová manažerka',
+    'projektová koordinátorka',
   ]),
   OccupationLabels('3521', [
     'projectionist',
@@ -27795,6 +31433,8 @@ const escoOccupations = <OccupationLabels>[
     'projectionniste',
     'opérateur de projection',
     'cheffe opératrice de projection',
+    'promítač',
+    'obsluha promítacího zařízení',
   ]),
   OccupationLabels('3339', [
     'promoter',
@@ -27813,6 +31453,8 @@ const escoOccupations = <OccupationLabels>[
     'evenementenpromotor',
     'promoteur',
     'promotrice',
+    'promotér',
+    'promotérka',
   ]),
   OccupationLabels('2431', [
     'promotion assistant',
@@ -27824,6 +31466,8 @@ const escoOccupations = <OccupationLabels>[
     'marknadskoordinator',
     'promotieassistent',
     'promotiemedewerkster',
+    'asistent při propagačních akcích',
+    'asistentka při propagačních akcích',
   ]),
   OccupationLabels('1221', [
     'promotion manager',
@@ -27836,6 +31480,9 @@ const escoOccupations = <OccupationLabels>[
     'manager retailpromoties',
     'manager pos-marketing',
     'salesmanager promoties',
+    'manažer propagace',
+    'manažerka propagace',
+    'manažerka propagace a marketingu',
   ]),
   OccupationLabels('5242', [
     'promotions demonstrator',
@@ -27854,6 +31501,8 @@ const escoOccupations = <OccupationLabels>[
     'démonstrateur',
     'démonstratrice',
     'animateur-démonstrateur',
+    'předváděč zboží',
+    'předváděčka zboží',
   ]),
   OccupationLabels('3435', [
     'prompter',
@@ -27867,6 +31516,8 @@ const escoOccupations = <OccupationLabels>[
     'sufflör',
     'technicien prompteur',
     'technicienne prompteur',
+    'suflér',
+    'suflérka',
   ]),
   OccupationLabels('4413', [
     'proofreader',
@@ -27882,6 +31533,8 @@ const escoOccupations = <OccupationLabels>[
     'correcteur',
     'correctrice',
     'correcteur d\'épreuves',
+    'korektor textu před zveřejněním',
+    'korektorka textu před zveřejněním',
   ]),
   OccupationLabels('3435', [
     'prop maker',
@@ -27895,6 +31548,9 @@ const escoOccupations = <OccupationLabels>[
     'rekwisietenmaker',
     'maker van de rekwisieten',
     'accessoiriste',
+    'výrobce rekvizit',
+    'výrobkyně rekvizit',
+    'výrobkyně rekvizit a dekorací',
   ]),
   OccupationLabels('3435', [
     'prop master',
@@ -27907,6 +31563,8 @@ const escoOccupations = <OccupationLabels>[
     'attributör',
     'rekwisiteur',
     'chef accessoiriste',
+    'rekvizitář',
+    'rekvizitářka',
   ]),
   OccupationLabels('3334', [
     'property acquisitions manager',
@@ -27919,6 +31577,8 @@ const escoOccupations = <OccupationLabels>[
     'manager van eigendomsverwerving',
     'directeur des investissements immobiliers',
     'directrice des investissements immobiliers',
+    'manažer akvizic nemovitostí',
+    'manažerka akvizic nemovitostí',
   ]),
   OccupationLabels('3315', [
     'property appraiser',
@@ -27937,6 +31597,8 @@ const escoOccupations = <OccupationLabels>[
     'taxateur onroerende goederen',
     'estimateur de biens immobiliers',
     'estimatrice de biens immobiliers',
+    'odhadce nemovitostí',
+    'odhadkyně nemovitostí',
   ]),
   OccupationLabels('4312', [
     'property assistant',
@@ -27952,6 +31614,9 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerker immobiliën',
     'assistant de gestion immobilière',
     'assistante de gestion immobilière',
+    'asistent realitní kanceláře',
+    'asistentka realitní kanceláře',
+    'asistentka realitního makléře',
   ]),
   OccupationLabels('1323', [
     'property developer',
@@ -27968,6 +31633,9 @@ const escoOccupations = <OccupationLabels>[
     'bouwkundig ontwikkelingsmanager',
     'directeur de développement immobilier',
     'directrice de développement immobilier',
+    'developer',
+    'developerka',
+    'developer komerčních nemovitostí',
   ]),
   OccupationLabels('3321', [
     'property insurance underwriter',
@@ -27986,6 +31654,8 @@ const escoOccupations = <OccupationLabels>[
     'souscripteur iard',
     'souscriptrice iard',
     'souscriptrice non vie',
+    'upisovatel majetkového pojištění',
+    'upisovatelka majetkového pojištění',
   ]),
   OccupationLabels('2611', [
     'prosecutor',
@@ -28004,6 +31674,8 @@ const escoOccupations = <OccupationLabels>[
     'procureur',
     'procureure',
     'procureur de la république',
+    'státní zástupce',
+    'státní zástupkyně',
   ]),
   OccupationLabels('3214', [
     'prosthetic-orthotics technician',
@@ -28021,6 +31693,8 @@ const escoOccupations = <OccupationLabels>[
     'orthopedisch technica',
     'technicien podo-orthésiste prothésiste',
     'technicienne podo-orthésiste prothésiste',
+    'ortoticko-protetický technik',
+    'ortoticko-protetická technička',
   ]),
   OccupationLabels('3214', [
     'prosthetist-orthotist',
@@ -28038,6 +31712,8 @@ const escoOccupations = <OccupationLabels>[
     'orthopedisch arts',
     'orthopedisch chirurg',
     'orthoprothésiste',
+    'ortotik-protetik',
+    'ortotička-protetička',
   ]),
   OccupationLabels('8153', [
     'protective clothing apparel manufacturer',
@@ -28048,6 +31724,9 @@ const escoOccupations = <OccupationLabels>[
     'productiemedewerker beschermende kleding',
     'productiemedewerkster beschermkledij',
     'productiemedewerker beschermkledij',
+    'výrobce ochranných oděvů',
+    'výrobkyně ochranných oděvů',
+    'výrobkyně osobních ochranných oděvů',
   ]),
   OccupationLabels('1111', [
     'provincial governor',
@@ -28064,6 +31743,8 @@ const escoOccupations = <OccupationLabels>[
     'provinciegouverneur',
     'gouverneure',
     'gouverneur de province',
+    'krajský hejtman',
+    'krajská hejtmanka',
   ]),
   OccupationLabels('5161', [
     'psychic',
@@ -28077,6 +31758,8 @@ const escoOccupations = <OccupationLabels>[
     'medial vägledare',
     'helderziende',
     'télépathe',
+    'věštec',
+    'věštkyně',
   ]),
   OccupationLabels('2634', [
     'psychologist',
@@ -28090,6 +31773,9 @@ const escoOccupations = <OccupationLabels>[
     'psykolog',
     'psycholoog',
     'psychologue',
+    'psycholog',
+    'psycholožka',
+    'sportovní psycholog',
   ]),
   OccupationLabels('2310', [
     'psychology lecturer',
@@ -28107,6 +31793,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en psychologie',
     'enseignante-chercheuse en psychologie',
     'enseignant-chercheur en psychologie clinique',
+    'přednášející v oboru psychologie',
   ]),
   OccupationLabels('2634', [
     'psychotherapist',
@@ -28121,6 +31808,9 @@ const escoOccupations = <OccupationLabels>[
     'psykoterapeut',
     'psychotherapeute',
     'psychothérapeute',
+    'psychoterapeut',
+    'psychoterapeutka',
+    'skupinová psychoterapeutka',
   ]),
   OccupationLabels('1112', [
     'public administration manager',
@@ -28135,6 +31825,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofdambtenaar',
     'administratrice civile',
     'administrateur civil',
+    'vedoucí úřadu veřejné správy',
+    'vedoucí úřadu',
   ]),
   OccupationLabels('2432', [
     'public affairs consultant',
@@ -28155,6 +31847,7 @@ const escoOccupations = <OccupationLabels>[
     'arbeitsamtleiter',
     'manager arbeidsbureau',
     'manager arbeidsbemiddelingsbureau',
+    'vedoucí útvaru služeb zaměstnanosti',
   ]),
   OccupationLabels('2411', [
     'public finance accountant',
@@ -28168,6 +31861,7 @@ const escoOccupations = <OccupationLabels>[
     'agent comptable',
     'agente comptable',
     'agent de gestion comptable',
+    'účetní veřejných financí',
   ]),
   OccupationLabels('2412', [
     'public funding advisor',
@@ -28181,6 +31875,8 @@ const escoOccupations = <OccupationLabels>[
     'financieel adviseur subsidies',
     'conseiller en financements publics',
     'conseillère en financements publics',
+    'poradce pro veřejné financování',
+    'poradkyně pro veřejné financování',
   ]),
   OccupationLabels('2422', [
     'public health policy officer',
@@ -28189,6 +31885,8 @@ const escoOccupations = <OccupationLabels>[
     'public-health-referentin',
     'beleidsmedewerker volksgezondheid',
     'beleidsmedewerker gezondheidszorg',
+    'referent ochrany veřejného zdraví',
+    'referentka ochrany veřejného zdraví',
   ]),
   OccupationLabels('1344', [
     'public housing manager',
@@ -28202,6 +31900,8 @@ const escoOccupations = <OccupationLabels>[
     'manager ontwikkeling sociale huisvesting',
     'directrice d\'organisme hlm',
     'directeur d\'organisme hlm',
+    'manažer obecní bytové politiky',
+    'manažerka obecní bytové politiky',
   ]),
   OccupationLabels('1222', [
     'public relations manager',
@@ -28216,6 +31916,9 @@ const escoOccupations = <OccupationLabels>[
     'pr-chef',
     'public-relationsmanager',
     'responsable des relations publiques',
+    'manažer vztahů s veřejností',
+    'manažerka vztahů s veřejností',
+    'pr manažer',
   ]),
   OccupationLabels('2432', [
     'public relations officer',
@@ -28232,6 +31935,8 @@ const escoOccupations = <OccupationLabels>[
     'chargé des relations publiques',
     'chargée des relations publiques',
     'chargé de communication',
+    'pr specialista',
+    'pr specialistka',
   ]),
   OccupationLabels('2359', [
     'public speaking coach',
@@ -28239,6 +31944,9 @@ const escoOccupations = <OccupationLabels>[
     'public speaking tutor',
     'rede-coach',
     'coach en communication orale',
+    'lektor mluveného projevu',
+    'lektorka mluveného projevu',
+    'lektor rétoriky',
   ]),
   OccupationLabels('1349', [
     'publications coordinator',
@@ -28256,6 +31964,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd publicaties en presentaties',
     'directeur des publications',
     'directrice des publications',
+    'ředitel nakladatelství',
+    'ředitelka nakladatelství',
   ]),
   OccupationLabels('3339', [
     'publishing rights manager',
@@ -28265,6 +31975,7 @@ const escoOccupations = <OccupationLabels>[
     'verlagssachbearbeiterin',
     'manager uitgeefrechten',
     'manager publicatierechten',
+    'vedoucí pro vydavatelská práva',
   ]),
   OccupationLabels('3139', [
     'pulp control operator',
@@ -28272,6 +31983,8 @@ const escoOccupations = <OccupationLabels>[
     'steuerin von zellstoffanlagen',
     'bediener van een pulpmachine',
     'bediener van een pulppers',
+    'celulózař',
+    'celulózařka',
   ]),
   OccupationLabels('7543', [
     'pulp grader',
@@ -28282,6 +31995,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitscontroleur pulp',
     'kwaliteitscontroleur papierpulp',
     'kwaliteitscontroleur pulp en papier',
+    'třídič v papírenském průmyslu',
+    'třídička v papírenském průmyslu',
   ]),
   OccupationLabels('8171', [
     'pulp technician',
@@ -28291,6 +32006,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch operator pulpproductie',
     'technisch medewerker pulpproductie',
     'technisch operator papierproductie',
+    'technik výroby buničiny',
+    'technička výroby buničiny',
   ]),
   OccupationLabels('8142', [
     'pultrusion machine operator',
@@ -28306,6 +32023,8 @@ const escoOccupations = <OccupationLabels>[
     'operator profieltrekken',
     'mouleur-stratifieur par pultrusion',
     'mouleuse-stratifieuse par pultrusion',
+    'obsluha pultruzních strojů',
+    'obsluha pultruzní linky',
   ]),
   OccupationLabels('5411', [
     'pump operator',
@@ -28320,6 +32039,8 @@ const escoOccupations = <OccupationLabels>[
     'pompbediener brandweer',
     'opérateur de pompe',
     'opératrice de pompe',
+    'obsluha hasičského čerpadla',
+    'obsluha požárního čerpadla',
   ]),
   OccupationLabels('7223', [
     'punch press operator',
@@ -28335,6 +32056,8 @@ const escoOccupations = <OccupationLabels>[
     'operator ponsmachine',
     'operator cnc-ponsmachine',
     'operator stansmachine',
+    'seřizovač děrovacího lisu',
+    'seřizovačka děrovacího lisu',
   ]),
   OccupationLabels('2163', [
     'puppet designer',
@@ -28352,6 +32075,8 @@ const escoOccupations = <OccupationLabels>[
     'créateur de marionnette',
     'créatrice de marionnette',
     'créateur de marionnettes',
+    'loutkář',
+    'loutkářka',
   ]),
   OccupationLabels('2659', [
     'puppeteer',
@@ -28365,6 +32090,8 @@ const escoOccupations = <OccupationLabels>[
     'marionettspelare',
     'poppenspeler',
     'marionnettiste',
+    'loutkoherec',
+    'loutkoherečka',
   ]),
   OccupationLabels('3323', [
     'purchase planner',
@@ -28382,6 +32109,8 @@ const escoOccupations = <OccupationLabels>[
     'approvisionneur',
     'approvisionneuse',
     'acheteuse-approvisionneuse',
+    'plánovač nákupů',
+    'plánovačka nákupů',
   ]),
   OccupationLabels('3323', [
     'purchaser',
@@ -28400,6 +32129,7 @@ const escoOccupations = <OccupationLabels>[
     'acheteur',
     'acheteuse',
     'acheteur de commerce',
+    'nákupčí',
   ]),
   OccupationLabels('1324', [
     'purchasing manager',
@@ -28417,6 +32147,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd inkoop',
     'hoofd afdeling inkoop',
     'responsable des achats',
+    'manažer nákupu',
+    'manažerka nákupu',
   ]),
   OccupationLabels('3435', [
     'pyrotechnic designer',
@@ -28433,6 +32165,7 @@ const escoOccupations = <OccupationLabels>[
     'pyrotechnisch ontwerpster',
     'artificier spectacles pyrotechniques',
     'artificière spectacles pyrotechniques',
+    'ohňostrůjce',
   ]),
   OccupationLabels('3435', [
     'pyrotechnician',
@@ -28449,6 +32182,8 @@ const escoOccupations = <OccupationLabels>[
     'pyrotechnicus theater',
     'pyrotechnicien',
     'pyrotechnicienne',
+    'pyrotechnik',
+    'pyrotechnička',
   ]),
   OccupationLabels('2149', [
     'quality engineer',
@@ -28464,6 +32199,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur kwaliteitszorg',
     'ingénieur qualité',
     'ingénieure qualité',
+    'inženýr řízení jakosti',
+    'inženýrka řízení jakosti',
   ]),
   OccupationLabels('3119', [
     'quality engineering technician',
@@ -28476,6 +32213,8 @@ const escoOccupations = <OccupationLabels>[
     'kvalitetstekniker',
     'kwaliteitstechnicus',
     'technicus kwaliteitscontrole',
+    'technik řízení jakosti',
+    'technička řízení jakosti',
   ]),
   OccupationLabels('1219', [
     'quality services manager',
@@ -28490,6 +32229,9 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsmanager',
     'manager kwaliteit dienstverlening',
     'responsable qualité services',
+    'manažer kvality',
+    'manažerka kvality',
+    'manažer jakosti',
   ]),
   OccupationLabels('2149', [
     'quantity surveyor',
@@ -28500,6 +32242,8 @@ const escoOccupations = <OccupationLabels>[
     'byggekonom',
     'bouwkostenadviseur',
     'économiste de la construction',
+    'rozpočtář staveb',
+    'rozpočtářka staveb',
   ]),
   OccupationLabels('2146', [
     'quarry engineer',
@@ -28512,6 +32256,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur carrières',
     'ingénieure carrières',
     'ingénieur carrières et matériaux',
+    'technik lomu',
+    'technička lomu',
   ]),
   OccupationLabels('1322', [
     'quarry manager',
@@ -28524,6 +32270,8 @@ const escoOccupations = <OccupationLabels>[
     'leiterin eines steinbruchs',
     'manager steengroeve',
     'chef de carrière',
+    'manažer lomu',
+    'manažerka lomu',
   ]),
   OccupationLabels('9411', [
     'quick service crew member',
@@ -28536,6 +32284,9 @@ const escoOccupations = <OccupationLabels>[
     'équipière de restauration rapide',
     'équipier dans un fast-food',
     'équipière dans un fast-food',
+    'pracovník restaurace rychlého občerstvení',
+    'pracovnice restaurace rychlého občerstvení',
+    'pracovnice rychlého občerstvení',
   ]),
   OccupationLabels('5246', [
     'schnellrestaurantteamleiter',
@@ -28545,6 +32296,9 @@ const escoOccupations = <OccupationLabels>[
     'manager en restauration rapide',
     'manageuse en restauration rapide',
     'manageuse en reastauration rapide',
+    'vedoucí týmu rychlého občerstvení',
+    'vedoucí týmu fast-foodu',
+    'vedoucí týmů rychlého občerstvení',
   ]),
   OccupationLabels('2263', [
     'radiation protection officer',
@@ -28562,6 +32316,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en radioprotection',
     'ingénieure en radioprotection',
     'ingénieure sécurité nucléaire',
+    'referent protiradiační ochrany',
+    'referentka protiradiační ochrany',
   ]),
   OccupationLabels('3111', [
     'radiation protection technician',
@@ -28580,6 +32336,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus radioprotectie',
     'technicien en radioprotection',
     'technicienne en radioprotection',
+    'technik radiační ochrany',
+    'technička radiační ochrany',
   ]),
   OccupationLabels('2654', [
     'radio producer',
@@ -28595,6 +32353,9 @@ const escoOccupations = <OccupationLabels>[
     'productieleider radio',
     'producteur radio',
     'productrice radio',
+    'rozhlasový produkční',
+    'rozhlasová produkční',
+    'zástupkyně rozhlasového produkčního',
   ]),
   OccupationLabels('7422', [
     'radio technician',
@@ -28613,6 +32374,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien radio',
     'technicienne radio',
     'technicienne en diffusion radio',
+    'radiotechnik',
+    'radiotechnička',
   ]),
   OccupationLabels('2269', [
     'radiographer',
@@ -28630,6 +32393,8 @@ const escoOccupations = <OccupationLabels>[
     'medisch beeldvormer radiologie',
     'technicien en imagerie médicale',
     'technicienne en imagerie médicale',
+    'rentgenolog',
+    'rentgenoložka',
   ]),
   OccupationLabels('3123', [
     'rail construction supervisor',
@@ -28639,6 +32404,7 @@ const escoOccupations = <OccupationLabels>[
     'gleisbaupolier',
     'gleisbaupolierin',
     'voorman spoorlegger',
+    'stavební dozor železničních staveb',
   ]),
   OccupationLabels('9333', [
     'rail intermodal equipment operator',
@@ -28657,6 +32423,8 @@ const escoOccupations = <OccupationLabels>[
     'spoorlegger-wisselbouwer',
     'poseur de voies ferrées',
     'poseuse de voies ferrées',
+    'traťový dělník',
+    'traťová dělnice',
   ]),
   OccupationLabels('4323', [
     'rail logistics coordinator',
@@ -28669,6 +32437,8 @@ const escoOccupations = <OccupationLabels>[
     'logistiek coördinator goederenvervoer',
     'coordinateur logistique ferroviaire',
     'coordinatrice logistique ferroviaire',
+    'logistický koordinátor železniční dopravy',
+    'logistická koordinátorka železniční dopravy',
   ]),
   OccupationLabels('3112', [
     'rail maintenance technician',
@@ -28681,6 +32451,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudsmedewerker spoorwegen',
     'technicien entretien infrastructure ferroviaire',
     'technicienne entretien infrastructure ferroviaire',
+    'technik údržby železničních tratí',
+    'technička údržby železničních tratí',
   ]),
   OccupationLabels('1324', [
     'rail operations manager',
@@ -28692,6 +32464,8 @@ const escoOccupations = <OccupationLabels>[
     'eisenbahnbetriebsleiterin',
     'manager railvervoer',
     'capaciteitsmanager',
+    'vedoucí železničního provozu',
+    'vedoucí úseku železniční dopravy',
   ]),
   OccupationLabels('2142', [
     'rail project engineer',
@@ -28704,6 +32478,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieure ferroviaire',
     'ingénieure d’études ferroviaire',
     'ingénieur d’études ferroviaire',
+    'železniční projektový inženýr',
+    'železniční projektová inženýrka',
   ]),
   OccupationLabels('8312', [
     'rail switchperson',
@@ -28717,6 +32493,9 @@ const escoOccupations = <OccupationLabels>[
     'seingever',
     'aiguilleur du réseau ferré',
     'aiguilleuse du réseau ferré',
+    'výhybkář',
+    'výhybkářka',
+    'výhybkář – točnář',
   ]),
   OccupationLabels('4323', [
     'rail traffic controller',
@@ -28729,6 +32508,8 @@ const escoOccupations = <OccupationLabels>[
     'fahrdienstleiterin bahn',
     'treindienstleider',
     'treindienstleidster',
+    'dispečer železniční dopravy',
+    'dispečerka železniční dopravy',
   ]),
   OccupationLabels('7534', [
     'railway car upholsterer',
@@ -28740,6 +32521,8 @@ const escoOccupations = <OccupationLabels>[
     'rijtuigbekleedster',
     'sellier-garnisseur en construction ferroviaire',
     'sellière-garnisseuse en construction ferroviaire',
+    'čalouník kolejových vozidel',
+    'čalounice kolejových vozidel',
   ]),
   OccupationLabels('7421', [
     'railway electronic technician',
@@ -28753,6 +32536,9 @@ const escoOccupations = <OccupationLabels>[
     'elektronikerin für schienenfahrzeuge',
     'monteur treinelektronica',
     'monteur spoorwegelektronica',
+    'technik železničních elektrických zařízení',
+    'technička železničních elektrických zařízení',
+    'technik železničních elektronických zařízení',
   ]),
   OccupationLabels('3112', [
     'railway infrastructure inspector',
@@ -28767,6 +32553,8 @@ const escoOccupations = <OccupationLabels>[
     'ilt-inspecteur treinvervoer',
     'inspecteur infrastructures ferroviaires',
     'inspectrice infrastructures ferroviaires',
+    'inspektor železniční infrastruktury',
+    'inspektorka železniční infrastruktury',
   ]),
   OccupationLabels('5112', [
     'railway passenger service agent',
@@ -28778,6 +32566,8 @@ const escoOccupations = <OccupationLabels>[
     'bediende klantendienst spoorwegen',
     'agent commercial ferroviaire',
     'agente commerciale ferroviaire',
+    'informátor v železniční dopravě',
+    'informátorka v železniční dopravě',
   ]),
   OccupationLabels('4221', [
     'railway sales agent',
@@ -28792,6 +32582,8 @@ const escoOccupations = <OccupationLabels>[
     'commercieel bediende station',
     'agent commercial en gare',
     'agente commerciale en gare',
+    'osobní pokladník železniční dopravy',
+    'osobní pokladní železniční dopravy',
   ]),
   OccupationLabels('1324', [
     'railway station manager',
@@ -28805,6 +32597,9 @@ const escoOccupations = <OccupationLabels>[
     'manager treinstation',
     'capaciteitsmanager',
     'responsable entretien infrastructure ferroviaire',
+    'přednosta železniční stanice',
+    'přednostka železniční stanice',
+    'přednostkyně železniční stanice',
   ]),
   OccupationLabels('4321', [
     'raw material reception operator',
@@ -28814,6 +32609,8 @@ const escoOccupations = <OccupationLabels>[
     'rohstoffannahmeleiterin',
     'medewerker grondstoffenontvangst',
     'medewerker goedereninslag',
+    'operátor příjmu surovin',
+    'operátorka příjmu surovin',
   ]),
   OccupationLabels('4321', [
     'raw materials warehouse specialist',
@@ -28822,6 +32619,8 @@ const escoOccupations = <OccupationLabels>[
     'voorraadadministratrice opslagplaats voor grondstoffen',
     'voorraadcoördinatrice opslagplaats voor grondstoffen',
     'réceptionnaire de matières premières',
+    'skladník ve skladu surovin',
+    'skladnice ve skladu surovin',
   ]),
   OccupationLabels('3334', [
     'real estate agent',
@@ -28838,6 +32637,9 @@ const escoOccupations = <OccupationLabels>[
     'vastgoedadviseuse',
     'agent immobilier',
     'agente immobilier',
+    'obchodník s realitami',
+    'obchodnice s realitami',
+    'obchodník s nemovitostmi',
   ]),
   OccupationLabels('3334', [
     'real estate investor',
@@ -28853,6 +32655,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur d’opérations immobilières',
     'monteuse d’opérations immobilières',
     'monteuse d\'opérations immobilières',
+    'realitní investor',
+    'realitní investorka',
   ]),
   OccupationLabels('3334', [
     'real estate leasing manager',
@@ -28866,6 +32670,8 @@ const escoOccupations = <OccupationLabels>[
     'manager verhuur vastgoed',
     'manager verhuur onroerend goed',
     'manager verhuur van vastgoed',
+    'manažer pro leasing nemovitostí',
+    'manažerka pro leasing nemovitostí',
   ]),
   OccupationLabels('3334', [
     'real estate manager',
@@ -28897,6 +32703,8 @@ const escoOccupations = <OccupationLabels>[
     'woz-taxateur',
     'évaluateur de propriétés bâties',
     'évaluatrice de propriétés bâties',
+    'daňový odhadce nemovitostí',
+    'daňová odhadkyně nemovitostí',
   ]),
   OccupationLabels('4226', [
     'receptionist',
@@ -28911,6 +32719,7 @@ const escoOccupations = <OccupationLabels>[
     'hotelreceptioniste',
     'réceptionniste',
     'réceptionniste standardiste',
+    'recepční',
   ]),
   OccupationLabels('8142', [
     'record press operator',
@@ -28931,6 +32740,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien en studio d’enregistrement',
     'technicienne en studio d’enregistrement',
     'technicien en studio d\'enregistrement',
+    'zvukový technik',
+    'zvuková technička',
   ]),
   OccupationLabels('7522', [
     'recreation model maker',
@@ -28968,6 +32779,7 @@ const escoOccupations = <OccupationLabels>[
     'manager recreatiecentrum',
     'directeur d\'équipement de loisirs',
     'directrice d\'équipement de loisirs',
+    'vedoucí rekreačního zařízení',
   ]),
   OccupationLabels('2269', [
     'recreational therapist',
@@ -28984,6 +32796,8 @@ const escoOccupations = <OccupationLabels>[
     'creatief therapeut',
     'creatief therapeute',
     'ludothérapeute',
+    'rekreační terapeut',
+    'rekreační terapeutka',
   ]),
   OccupationLabels('2423', [
     'recruitment consultant',
@@ -28994,6 +32808,8 @@ const escoOccupations = <OccupationLabels>[
     'recruiter',
     'consultant en recrutement',
     'consultante en recrutement',
+    'specialista náboru pracovních sil',
+    'specialistka náboru pracovních sil',
   ]),
   OccupationLabels('2143', [
     'recycling specialist',
@@ -29009,6 +32825,8 @@ const escoOccupations = <OccupationLabels>[
     'rudologue',
     'ingénieur rudologue',
     'ingénieure rudologue',
+    'specialista v oblasti recyklace',
+    'specialistka v oblasti recyklace',
   ]),
   OccupationLabels('9612', [
     'recycling worker',
@@ -29025,6 +32843,8 @@ const escoOccupations = <OccupationLabels>[
     'recyclingmedewerkster',
     'recycleur',
     'recycleuse',
+    'pracovník pro recyklaci',
+    'pracovnice pro recyklaci',
   ]),
   OccupationLabels('3134', [
     'refinery shift manager',
@@ -29034,6 +32854,7 @@ const escoOccupations = <OccupationLabels>[
     'schichtleiter raffinerie',
     'schichtleiterin raffinerie',
     'shiftmanager raffinaderij',
+    'vedoucí směny rafinérie',
   ]),
   OccupationLabels('8160', [
     'refining machine operator',
@@ -29044,6 +32865,8 @@ const escoOccupations = <OccupationLabels>[
     'raffinationsmaschinenbedienerin',
     'medewerker raffinaderij',
     'medewerker raffinage-machine',
+    'operátorka čisticího stroje',
+    'operátor čisticího stroje',
   ]),
   OccupationLabels('7231', [
     'refurbishing technician',
@@ -29059,6 +32882,8 @@ const escoOccupations = <OccupationLabels>[
     'revisietechnicus',
     'revisietechnica verbrandingsmotoren',
     'revisietechnicus motoren',
+    'technik renovátor',
+    'technička renovátorka',
   ]),
   OccupationLabels('9611', [
     'refuse collector',
@@ -29083,6 +32908,8 @@ const escoOccupations = <OccupationLabels>[
     'vuilniswagenchauffeur',
     'conducteur enlèvement de déchets',
     'conductrice enlèvement de déchets',
+    'řidič popelářského vozu',
+    'řidička popelářského vozu',
   ]),
   OccupationLabels('2422', [
     'regional development policy officer',
@@ -29092,6 +32919,8 @@ const escoOccupations = <OccupationLabels>[
     'referentin für regionalentwicklung',
     'referentin für regionale entwicklung',
     'beleidsmedewerker regionale ontwikkeling',
+    'referent regionálního rozvoje',
+    'referentka regionálního rozvoje',
   ]),
   OccupationLabels('2619', [
     'regulatory affairs manager',
@@ -29104,6 +32933,8 @@ const escoOccupations = <OccupationLabels>[
     'förvaltningsjurist',
     'regulatory affairs officer',
     'chef de service juridique',
+    'manažer pro dodržování předpisů',
+    'manažerka pro dodržování předpisů',
   ]),
   OccupationLabels('2635', [
     'rehabilitation support worker',
@@ -29127,6 +32958,8 @@ const escoOccupations = <OccupationLabels>[
     'private banker',
     'chargé de clientèle banque',
     'chargée de clientèle banque',
+    'specialista úseku vztahového bankovnictví',
+    'specialistka úseku vztahového bankovnictví',
   ]),
   OccupationLabels('2636', [
     'religion scientific researcher',
@@ -29140,6 +32973,8 @@ const escoOccupations = <OccupationLabels>[
     'godsdienstwetenschapper',
     'théologien',
     'théologienne',
+    'specialista v oblasti religionistiky',
+    'specialistka v oblasti religionistiky',
   ]),
   OccupationLabels('2330', [
     'religious education teacher',
@@ -29150,6 +32985,9 @@ const escoOccupations = <OccupationLabels>[
     'professeur de religion',
     'professeure de religion',
     'professeur de religion orthodoxe',
+    'středoškolský učitel náboženství',
+    'středoškolská učitelka náboženství',
+    'učitelka náboženství',
   ]),
   OccupationLabels('2310', [
     'religious studies lecturer',
@@ -29167,6 +33005,7 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en théologie',
     'enseignante-chercheuse en théologie',
     'enseignant-chercheur en théologie pratique',
+    'přednášející v oboru religionistika',
   ]),
   OccupationLabels('3339', [
     'relocation officer',
@@ -29183,6 +33022,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster bedrijfsverplaatsing',
     'agent au relogement',
     'agente au relogement',
+    'pracovník relokační služby',
+    'pracovnice relokační služby',
   ]),
   OccupationLabels('3111', [
     'remote sensing technician',
@@ -29198,6 +33039,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus remote sensing',
     'technicien en télédétection',
     'technicienne en télédétection',
+    'technik dálkového průzkumu země',
+    'technička dálkového průzkumu země',
   ]),
   OccupationLabels('2433', [
     'renewable energy consultant',
@@ -29246,6 +33089,7 @@ const escoOccupations = <OccupationLabels>[
     'uthyrningschef',
     'verhuurmanager',
     'responsable d\'agence de location',
+    'vedoucí půjčovny',
   ]),
   OccupationLabels('5249', [
     'rental service representative',
@@ -29256,6 +33100,8 @@ const escoOccupations = <OccupationLabels>[
     'uthyrare',
     'verhuurmedewerker',
     'verhuurmedewerkster',
+    'pracovník půjčovny',
+    'pracovnice půjčovny',
   ]),
   OccupationLabels('5249', [
     'vermietassistent landmaschinen',
@@ -29315,6 +33161,8 @@ const escoOccupations = <OccupationLabels>[
     'verhuurmedewerker vrachtwagens',
     'verhuurmedewerker transportwagens',
     'verhuurmedewerkster camions',
+    'pracovník půjčovny nákladních automobilů',
+    'pracovnice půjčovny nákladních automobilů',
   ]),
   OccupationLabels('5249', [
     'dependiente de videoclub',
@@ -29345,6 +33193,9 @@ const escoOccupations = <OccupationLabels>[
     'correpetitor',
     'directeur de répétition',
     'directrice de répétition',
+    'korepetitor',
+    'korepetitorka',
+    'hudební korepetitorka',
   ]),
   OccupationLabels('7322', [
     'reprographics technician',
@@ -29361,6 +33212,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus digitale reprografie',
     'technicien en reprographie',
     'technicienne en reprographie',
+    'reprografický technik',
+    'reprografická technička',
   ]),
   OccupationLabels('1349', [
     'rescue centre manager',
@@ -29372,6 +33225,9 @@ const escoOccupations = <OccupationLabels>[
     'manager reddingscentrum',
     'manager reddingstation',
     'manager reddingsstation',
+    'vedoucí záchranného centra',
+    'vedoucí útvaru krizového managementu',
+    'vedoucí záchranného střediska',
   ]),
   OccupationLabels('7541', [
     'rescue diver',
@@ -29388,6 +33244,8 @@ const escoOccupations = <OccupationLabels>[
     'plongeur secouriste',
     'plongeuse secouriste',
     'plongeuse sécurité civile',
+    'potápěč záchranář',
+    'potápěčka záchranářka',
   ]),
   OccupationLabels('1223', [
     'research and development manager',
@@ -29399,6 +33257,8 @@ const escoOccupations = <OccupationLabels>[
     'manager onderzoek en ontwikkeling',
     'directrice r&d',
     'directeur r&d',
+    'manažer výzkumu a vývoje',
+    'manažerka výzkumu a vývoje',
   ]),
   OccupationLabels('2149', [
     'research engineer',
@@ -29412,6 +33272,8 @@ const escoOccupations = <OccupationLabels>[
     'onderzoeksingenieur',
     'ingénieur de recherche',
     'ingénieure de recherche',
+    'výzkumný inženýr',
+    'výzkumná inženýrka',
   ]),
   OccupationLabels('1223', [
     'research manager',
@@ -29430,6 +33292,8 @@ const escoOccupations = <OccupationLabels>[
     'directrice onderzoek',
     'directeur de recherche',
     'directrice de recherche',
+    'vedoucí výzkumu',
+    'vedoucí laboratoře',
   ]),
   OccupationLabels('3412', [
     'residential care home worker',
@@ -29478,6 +33342,8 @@ const escoOccupations = <OccupationLabels>[
     'vloerenlegster verende vloerbedekking',
     'poseur de linoléum',
     'poseuse de linoléum',
+    'pokladač podlahových krytin',
+    'pokladačka podlahových krytin',
   ]),
   OccupationLabels('1324', [
     'resource manager',
@@ -29493,6 +33359,8 @@ const escoOccupations = <OccupationLabels>[
     'operationeel manager resources',
     'resourcemanager',
     'gestionnaire des ressources matérielles',
+    'manažer zdrojů',
+    'manažerka zdrojů',
   ]),
   OccupationLabels('3259', [
     'respiratory therapy technician',
@@ -29507,6 +33375,8 @@ const escoOccupations = <OccupationLabels>[
     'atemtherapietechnikerin',
     'beademingstechnicus',
     'beademingsverpleegkundige',
+    'technik respirační léčby',
+    'technička respirační léčby',
   ]),
   OccupationLabels('5131', [
     'restaurant host',
@@ -29521,6 +33391,8 @@ const escoOccupations = <OccupationLabels>[
     'gastheer',
     'gastvrouw',
     'hôtesse de restaurant',
+    'pracovník přijímající hosty restaurace',
+    'pracovnice přijímající hosty restaurace',
   ]),
   OccupationLabels('1412', [
     'restaurant manager',
@@ -29533,6 +33405,8 @@ const escoOccupations = <OccupationLabels>[
     'restaurangchef',
     'gérant de restaurant',
     'gérante de restaurant',
+    'manažer restaurace',
+    'manažerka restaurace',
   ]),
   OccupationLabels('7231', [
     'restoration technician',
@@ -29548,6 +33422,8 @@ const escoOccupations = <OccupationLabels>[
     'fordonsrenoverare',
     'monteur oldtimers',
     'monteur classic cars',
+    'restaurátor historických vozidel',
+    'restaurátorka historických vozidel',
   ]),
   OccupationLabels('1420', [
     'retail department manager',
@@ -29559,6 +33435,7 @@ const escoOccupations = <OccupationLabels>[
     'afdelingshoofd in een hypermarkt',
     'directeur van hypermarktafdelingen',
     'chef de rayon',
+    'vedoucí oddělení obchodního domu',
   ]),
   OccupationLabels('5221', [
     'retail entrepreneur',
@@ -29576,6 +33453,8 @@ const escoOccupations = <OccupationLabels>[
     'detailhandelaarster',
     'détaillant indépendant',
     'détaillante indépendante',
+    'provozovatel maloobchodní prodejny',
+    'provozovatelka maloobchodní prodejny',
   ]),
   OccupationLabels('7412', [
     'ride technician',
@@ -29584,6 +33463,8 @@ const escoOccupations = <OccupationLabels>[
     'attraktionstekniker',
     'onderhoudsmonteur pretpark',
     'onderhoudsmonteur attracties',
+    'údržbář zařízení zábavních parků',
+    'údržbářka zařízení zábavních parků',
   ]),
   OccupationLabels('7215', [
     'rigger',
@@ -29597,6 +33478,8 @@ const escoOccupations = <OccupationLabels>[
     'takelaar',
     'monteur',
     'monteuse',
+    'montér-vazač břemen',
+    'montérka-vazačka břemen',
   ]),
   OccupationLabels('7215', [
     'rigging supervisor',
@@ -29605,6 +33488,8 @@ const escoOccupations = <OccupationLabels>[
     'supervisor de izaje',
     'supervisora de izaje',
     'chef d’équipe de gréement',
+    'pracovník dozoru vrtných prací',
+    'pracovnice dozoru vrtných prací',
   ]),
   OccupationLabels('2412', [
     'risk manager',
@@ -29614,6 +33499,8 @@ const escoOccupations = <OccupationLabels>[
     'risikomanagerin',
     'risicobeheerder',
     'analyste de risques',
+    'manažer řízení rizik',
+    'manažerka řízení rizik',
   ]),
   OccupationLabels('7214', [
     'riveter',
@@ -29630,6 +33517,8 @@ const escoOccupations = <OccupationLabels>[
     'arbeider klinkwerk',
     'riveteur',
     'riveteuse',
+    'nýtař',
+    'nýtařka',
   ]),
   OccupationLabels('3123', [
     'road construction supervisor',
@@ -29640,6 +33529,7 @@ const escoOccupations = <OccupationLabels>[
     'polierin straßenbau',
     'teamleider wegenwerken',
     'teamleider gemeentelijke wegenwerken',
+    'stavební dozor silničních staveb',
   ]),
   OccupationLabels('8342', [
     'road construction worker',
@@ -29654,6 +33544,8 @@ const escoOccupations = <OccupationLabels>[
     'ouvrier en voiries',
     'ouvrière en voiries',
     'ouvrière de voirie',
+    'silničář',
+    'silničářka',
   ]),
   OccupationLabels('3112', [
     'road maintenance technician',
@@ -29661,6 +33553,8 @@ const escoOccupations = <OccupationLabels>[
     'straßeninstandhaltungstechnikerin',
     'drift- och vägunderhållsarbetare',
     'inspecteur wegen',
+    'silničář',
+    'silničářka',
   ]),
   OccupationLabels('9312', [
     'road maintenance worker',
@@ -29671,6 +33565,8 @@ const escoOccupations = <OccupationLabels>[
     'vägunderhållsarbetare',
     'vägunderhållare',
     'wegwerker',
+    'pracovník údržby silnic',
+    'pracovnice údržby silnic',
   ]),
   OccupationLabels('9312', [
     'road marker',
@@ -29690,6 +33586,7 @@ const escoOccupations = <OccupationLabels>[
     'manager wegtransport',
     'manager transportbedrijf wegtransport',
     'responsable d\'exploitation transport routier',
+    'vedoucí silničního provozu',
   ]),
   OccupationLabels('8342', [
     'road roller operator',
@@ -29707,6 +33604,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de compacteurs',
     'conductrice de compacteurs',
     'conducteur d’engins de compactage',
+    'obsluha silničního válce',
+    'obsluha vibračního válce',
   ]),
   OccupationLabels('9312', [
     'road sign installer',
@@ -29721,6 +33620,8 @@ const escoOccupations = <OccupationLabels>[
     'plaatser van verkeersborden',
     'plaatser van verkeerssignalisatie',
     'plaatser van verkeerstekens',
+    'montér dopravního značení',
+    'montérka dopravního značení',
   ]),
   OccupationLabels('1324', [
     'road transport division manager',
@@ -29731,6 +33632,7 @@ const escoOccupations = <OccupationLabels>[
     'manager divisie wegtransport',
     'afdelingsmanager wegtransport',
     'manager afdeling wegtransport',
+    'vedoucí úseku silniční dopravy',
   ]),
   OccupationLabels('4323', [
     'road transport maintenance scheduler',
@@ -29740,6 +33642,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinator onderhoud van trams',
     'coördinator onderhoud van treinen',
     'onderhoudscoördinator openbaar vervoer',
+    'provozní technik silniční dopravy',
+    'provozní technička silniční dopravy',
   ]),
   OccupationLabels('7231', [
     'roadside vehicle technician',
@@ -29755,6 +33659,8 @@ const escoOccupations = <OccupationLabels>[
     'dépanneur de véhicules',
     'dépanneuse de véhicules',
     'dépanneuse-remorqueuse de véhicules',
+    'automechanik havarijní služby',
+    'automechanička havarijní služby',
   ]),
   OccupationLabels('2149', [
     'robotics engineer',
@@ -29772,6 +33678,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur en robotique',
     'ingénieure en robotique',
     'ingénieure robotique',
+    'inženýr robotiky',
+    'inženýrka robotiky',
+    'inženýrka robotických systémů',
   ]),
   OccupationLabels('3119', [
     'robotics engineering technician',
@@ -29788,6 +33697,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudstechnicus robotica',
     'technicien en robotique',
     'technicienne en robotique',
+    'technik v oboru robotiky',
+    'technička v oboru robotiky',
   ]),
   OccupationLabels('8211', [
     'rolling stock assembler',
@@ -29803,6 +33714,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagetechnicus rollend materieel',
     'assemblagemedewerker treinmaterieel',
     'assemblagemonteur rollend materieel',
+    'montážní dělník kolejových vozidel',
+    'montážní dělnice kolejových vozidel',
   ]),
   OccupationLabels('7543', [
     'rolling stock assembly inspector',
@@ -29820,6 +33733,8 @@ const escoOccupations = <OccupationLabels>[
     'montageleider assemblage rollend materieel',
     'superviseur assemblage matériel roulant',
     'superviseuse assemblage matériel roulant',
+    'mistr montáže kolejových vozidel',
+    'mistrová montáže kolejových vozidel',
   ]),
   OccupationLabels('7412', [
     'rolling stock electrician',
@@ -29831,6 +33746,8 @@ const escoOccupations = <OccupationLabels>[
     'schienenfahrzeug-elektriker',
     'schienenfahrzeug-elektrikerin',
     'elektromonteur rollend materieel',
+    'provozní elektrikář železniční dopravy',
+    'provozní elektrikářka železniční dopravy',
   ]),
   OccupationLabels('3115', [
     'rolling stock engine inspector',
@@ -29841,6 +33758,8 @@ const escoOccupations = <OccupationLabels>[
     'inspektorin lokomotivenantriebe',
     'triebfahrzeugmotoren-inspektor',
     'inspecteur motoren rollend materieel',
+    'inspektor motorů kolejových vozidel',
+    'inspektorka motorů kolejových vozidel',
   ]),
   OccupationLabels('3115', [
     'rolling stock engine tester',
@@ -29876,6 +33795,8 @@ const escoOccupations = <OccupationLabels>[
     'technisch tekenaar rollend materieel',
     'dessinateur technique matériel roulant',
     'dessinatrice technique matériel roulant',
+    'projektant kolejových vozidel',
+    'projektantka kolejových vozidel',
   ]),
   OccupationLabels('3115', [
     'rolling stock engineering technician',
@@ -29888,6 +33809,8 @@ const escoOccupations = <OccupationLabels>[
     'techniker schienenfahrzeugbau',
     'technicus rollend materieel',
     'technicus spoorwegmateriaal',
+    'technik kolejových vozidel',
+    'technička kolejových vozidel',
   ]),
   OccupationLabels('3115', [
     'rolling stock inspector',
@@ -29905,6 +33828,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur rails',
     'inspecteur de matériel roulant',
     'inspectrice de matériel roulant',
+    'kontrolor kolejových vozidel',
+    'kontrolorka kolejových vozidel',
   ]),
   OccupationLabels('7121', [
     'roofer',
@@ -29921,6 +33846,8 @@ const escoOccupations = <OccupationLabels>[
     'couvreur',
     'couvreuse',
     'couvreur en monuments historiques',
+    'pokrývač',
+    'pokrývačka',
   ]),
   OccupationLabels('3123', [
     'roofing supervisor',
@@ -29937,6 +33864,7 @@ const escoOccupations = <OccupationLabels>[
     'meewerkend voorman dakdekker',
     'voorman dakwerk',
     'chef d’équipe de couvreurs',
+    'mistr pokrývač',
   ]),
   OccupationLabels('9112', [
     'room attendant',
@@ -29950,6 +33878,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker housekeeping',
     'valet de chambre',
     'femme de chambre',
+    'pokojský',
+    'pokojská',
   ]),
   OccupationLabels('1411', [
     'rooms division manager',
@@ -29965,6 +33895,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable de l’hébergement',
     'responsable des services d’hébergement',
     'responsable des chambres',
+    'manažer pro rezervace pokojů',
+    'manažer recepce',
+    'manažerka pro rezervace pokojů',
   ]),
   OccupationLabels('2144', [
     'rotating equipment engineer',
@@ -29976,6 +33909,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur turbomachines',
     'ingénieur machines tournantes',
     'ingénieure machines tournantes',
+    'inženýr rotačních strojů',
+    'inženýrka rotačních strojů',
   ]),
   OccupationLabels('7233', [
     'rotating equipment mechanic',
@@ -29991,6 +33926,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteur compressoren',
     'mécanicien sur engins rotatifs',
     'mécanicienne sur engins rotatifs',
+    'servisní mechanik točivých strojů',
+    'servisní mechanička točivých strojů',
   ]),
   OccupationLabels('8113', [
     'roughneck',
@@ -30003,6 +33940,8 @@ const escoOccupations = <OccupationLabels>[
     'grovjobbare vid oljeborrtorn',
     'ouvrier de plancher',
     'ouvrière de plancher',
+    'obsluha vrtného zařízení',
+    'obsluha vrtné věže',
   ]),
   OccupationLabels('8113', [
     'roustabout',
@@ -30028,6 +33967,8 @@ const escoOccupations = <OccupationLabels>[
     'operator cnc-router',
     'mortaiseur',
     'mortaiseuse',
+    'seřizovač a obsluha frézky',
+    'seřizovačka a obsluha frézky',
   ]),
   OccupationLabels('8141', [
     'rubber cutting machine tender',
@@ -30059,6 +34000,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerkster rubberproducten',
     'conducteur-assembleur en caoutchouc industriel',
     'conductrice-assembleuse en caoutchouc industriel',
+    'montážní dělník pryžových výrobků',
+    'montážní dělnice pryžových výrobků',
   ]),
   OccupationLabels('8141', [
     'rubber products machine operator',
@@ -30086,6 +34029,8 @@ const escoOccupations = <OccupationLabels>[
     'metaalspuiter oppervlaktebehandeling',
     'opérateur de peinture industrielle',
     'opératrice de peinture industrielle',
+    'dělník protikorozní ochrany',
+    'dělnice protikorozní ochrany',
   ]),
   OccupationLabels('8350', [
     'sailor',
@@ -30098,6 +34043,8 @@ const escoOccupations = <OccupationLabels>[
     'zeeman',
     'matelot polyvalent navigation maritime',
     'matelot polyvalente navigation maritime',
+    'námořník',
+    'námořnice',
   ]),
   OccupationLabels('1420', [
     'sales account manager',
@@ -30112,6 +34059,7 @@ const escoOccupations = <OccupationLabels>[
     'accountmanager',
     'internationaal accountmanager',
     'winkelaccountmanager',
+    'vedoucí odbytu',
   ]),
   OccupationLabels('5223', [
     'sales assistant',
@@ -30131,6 +34079,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur',
     'vendeuse',
     'conseiller-vendeur',
+    'prodavač',
+    'prodavačka',
+    'prodavač v supermarketu',
   ]),
   OccupationLabels('2433', [
     'sales engineer',
@@ -30149,6 +34100,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur technico-commercial',
     'ingénieure technico-commerciale',
     'ingénieur des ventes',
+    'prodejní technik',
+    'prodejní technička',
   ]),
   OccupationLabels('1221', [
     'sales manager',
@@ -30163,6 +34116,8 @@ const escoOccupations = <OccupationLabels>[
     'salesmanager',
     'directeur des ventes',
     'directrice des ventes',
+    'manažer prodeje',
+    'manažerka prodeje',
   ]),
   OccupationLabels('5223', [
     'sales processor',
@@ -30179,6 +34134,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker verkoopadministratie',
     'medewerker verkoopsadministratie',
     'medewerkster verkoopsadministratie',
+    'pracovník oddělení prodeje',
+    'pracovnice oddělení prodeje',
   ]),
   OccupationLabels('4311', [
     'sales support assistant',
@@ -30191,6 +34148,8 @@ const escoOccupations = <OccupationLabels>[
     'sales support medewerkster',
     'assistant des ventes',
     'assistante des ventes',
+    'asistent podpory prodeje',
+    'asistentka podpory prodeje',
   ]),
   OccupationLabels('2152', [
     'satellite engineer',
@@ -30205,6 +34164,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur des satellites',
     'ingénieure des satellites',
     'ingénieur contrôle de satellites',
+    'satelitní inženýr',
+    'satelitní inženýrka',
   ]),
   OccupationLabels('8160', [
     'sauce production operator',
@@ -30213,6 +34174,8 @@ const escoOccupations = <OccupationLabels>[
     'saucenmacher',
     'saucenmacherin',
     'sausbereider',
+    'pracovník výroby omáček',
+    'pracovnice výroby omáček',
   ]),
   OccupationLabels('8172', [
     'sawmill operator',
@@ -30229,6 +34192,7 @@ const escoOccupations = <OccupationLabels>[
     'operator houtkloofmachine',
     'conducteur opérateur de scierie',
     'conductrice opératrice de scierie',
+    'obsluha zařízení na pile',
   ]),
   OccupationLabels('7321', [
     'scanning operator',
@@ -30244,6 +34208,7 @@ const escoOccupations = <OccupationLabels>[
     'scanoperator',
     'opérateur de numérisation',
     'opératrice de numérisation',
+    'obsluha skeneru',
   ]),
   OccupationLabels('3435', [
     'scenery technician',
@@ -30258,6 +34223,8 @@ const escoOccupations = <OccupationLabels>[
     'decortechnicus',
     'technicien montage de scène',
     'technicienne montage de scène',
+    'pracovník techniky scény',
+    'pracovnice techniky scény',
   ]),
   OccupationLabels('3432', [
     'scenic painter',
@@ -30274,6 +34241,8 @@ const escoOccupations = <OccupationLabels>[
     'decorschilderes',
     'peintre scénique',
     'peintre-scénographe',
+    'jevištní malíř',
+    'jevištní malířka',
   ]),
   OccupationLabels('5311', [
     'school bus attendant',
@@ -30299,6 +34268,9 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht natuurwetenschappen secundair onderwijs',
     'professeur de matières scientifiques',
     'professeure de matières scientifiques',
+    'učitelka chemie střední školy',
+    'učitel vědy střední školy',
+    'středoškolská učitelka vědy',
   ]),
   OccupationLabels('3141', [
     'scientific laboratory technician',
@@ -30313,6 +34285,8 @@ const escoOccupations = <OccupationLabels>[
     'labotechnicus',
     'technicien de laboratoire scientifique',
     'technicienne de laboratoire scientifique',
+    'laboratorní technik',
+    'laboratorní technička',
   ]),
   OccupationLabels('3343', [
     'scopist',
@@ -30324,6 +34298,8 @@ const escoOccupations = <OccupationLabels>[
     'gerichtsschriftführer',
     'corrector van gerechtelijke notulen',
     'scopiste',
+    'soudní zapisovatel',
+    'soudní zapisovatelka',
   ]),
   OccupationLabels('7223', [
     'scrap metal operative',
@@ -30337,6 +34313,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin in der schrottzerkleinerung',
     'operator metaalversnipperaar',
     'operator metaalshredder',
+    'pracovník kovošrotu',
+    'pracovnice kovošrotu',
   ]),
   OccupationLabels('8342', [
     'scraper operator',
@@ -30356,6 +34334,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de décapeuses',
     'conductrice de décapeuses',
     'conductrice de scraper',
+    'obsluha skrejpru',
+    'obsluha škrabače',
   ]),
   OccupationLabels('7321', [
     'screen making technician',
@@ -30370,6 +34350,8 @@ const escoOccupations = <OccupationLabels>[
     'drukvormvervaardiger zeefdruk',
     'technicien en sérigraphie',
     'technicienne en sérigraphie',
+    'rytec v textilním průmyslu',
+    'rytkyně v textilním průmyslu',
   ]),
   OccupationLabels('7322', [
     'screen printer',
@@ -30418,6 +34400,8 @@ const escoOccupations = <OccupationLabels>[
     'scripte',
     'assistante scripte',
     'assistant scripte',
+    'skript',
+    'skriptka',
   ]),
   OccupationLabels('2641', [
     'script writer',
@@ -30431,6 +34415,8 @@ const escoOccupations = <OccupationLabels>[
     'scenarioschrijver',
     'scenarioschrijfster',
     'scénariste',
+    'scénárista',
+    'scénáristka',
   ]),
   OccupationLabels('2651', [
     'sculptor',
@@ -30446,6 +34432,8 @@ const escoOccupations = <OccupationLabels>[
     'beeldhouwster',
     'sculpteur',
     'sculptrice',
+    'sochař',
+    'sochařka',
   ]),
   OccupationLabels('2513', [
     'search engine optimisation expert',
@@ -30461,6 +34449,8 @@ const escoOccupations = <OccupationLabels>[
     'sökmotorsoptimeringsexpert',
     'sökmotorsoptimerare',
     'search engine optimisation consultant',
+    'odborník na optimalizaci vyhledávačů',
+    'odbornice na optimalizaci vyhledávačů',
   ]),
   OccupationLabels('3153', [
     'second officer',
@@ -30472,6 +34462,8 @@ const escoOccupations = <OccupationLabels>[
     'tweede copiloot',
     'tweede officier',
     'tweede copilote',
+    'druhý důstojník',
+    'druhá důstojnice',
   ]),
   OccupationLabels('5223', [
     'second-hand goods specialised seller',
@@ -30485,6 +34477,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist kringloopwinkel',
     'vendeur en friperie',
     'vendeuse en friperie',
+    'prodavačka v second-handu',
+    'prodavač v second-handu',
   ]),
   OccupationLabels('1420', [
     'second-hand shop manager',
@@ -30499,6 +34493,8 @@ const escoOccupations = <OccupationLabels>[
     'bedrijfsleidster verkoop tweedehandsartikelen',
     'gérant de magasin d\'occasion',
     'gérante de magasin d\'occasion',
+    'vedoucí prodejny second hand',
+    'vedoucí second handu',
   ]),
   OccupationLabels('1345', [
     'secondary school department head',
@@ -30507,6 +34503,7 @@ const escoOccupations = <OccupationLabels>[
     'coördinator secundair onderwijs',
     'vakcoördinatrice',
     'coördinatrice secundair onderwijs',
+    'vedoucí kabinetu',
   ]),
   OccupationLabels('1345', [
     'secondary school head teacher',
@@ -30522,6 +34519,9 @@ const escoOccupations = <OccupationLabels>[
     'algemeen directeur secundair onderwijs',
     'schooldirecteur',
     'chef d\'établissement secondaire',
+    'ředitel střední školy',
+    'ředitelka střední školy',
+    'ředitelka gymnázia',
   ]),
   OccupationLabels('2330', [
     'secondary school teacher',
@@ -30534,6 +34534,8 @@ const escoOccupations = <OccupationLabels>[
     'leerkracht voortgezet onderwijs',
     'leerkracht secundair onderwijs',
     'chargé',
+    'učitel střední školy',
+    'učitelka střední školy',
   ]),
   OccupationLabels('5312', [
     'secondary school teaching assistant',
@@ -30566,6 +34568,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerker secretariaat',
     'administratief medewerkster secretariaat',
     'secrétaire',
+    'sekretář',
+    'sekretářka',
   ]),
   OccupationLabels('1112', [
     'secretary general',
@@ -30582,6 +34586,8 @@ const escoOccupations = <OccupationLabels>[
     'algemeen secretaris',
     'secrétaire général',
     'secrétaire générale',
+    'generální tajemník',
+    'generální tajemnice',
   ]),
   OccupationLabels('1111', [
     'secretary of state',
@@ -30599,6 +34605,8 @@ const escoOccupations = <OccupationLabels>[
     'secrétaire d\'état',
     'secrétaire général de ministère',
     'sous-secrétaire d\'état',
+    'náměstek ministra',
+    'náměstkyně ministra',
   ]),
   OccupationLabels('8141', [
     'sectional belt mould assembler',
@@ -30621,6 +34629,9 @@ const escoOccupations = <OccupationLabels>[
     'aandelenanalist',
     'conseiller en valeurs mobilières',
     'conseillère en valeurs mobilières',
+    'analytik cenných papírů',
+    'analytička cenných papírů',
+    'analytik dluhopisů',
   ]),
   OccupationLabels('3311', [
     'securities broker',
@@ -30638,6 +34649,8 @@ const escoOccupations = <OccupationLabels>[
     'bankmedewerkster effectenadministratie',
     'négociateur en valeurs mobilières',
     'négociatrice en valeurs mobilières',
+    'makléř',
+    'makléřka',
   ]),
   OccupationLabels('3311', [
     'securities trader',
@@ -30654,6 +34667,8 @@ const escoOccupations = <OccupationLabels>[
     'dealer effecten',
     'vendeur en valeurs mobilières',
     'vendeuse en valeurs mobilières',
+    'obchodník s cennými papíry',
+    'obchodnice s cennými papíry',
   ]),
   OccupationLabels('3311', [
     'securities underwriter',
@@ -30669,6 +34684,8 @@ const escoOccupations = <OccupationLabels>[
     'emissionsgarant',
     'emittent van effecten',
     'emittent van aandelen',
+    'upisovatel akcií',
+    'upisovatelka akcií',
   ]),
   OccupationLabels('5414', [
     'security alarm investigator',
@@ -30689,6 +34706,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus alarmsystemen',
     'onderhoudstechnicus alarmsystemen',
     'technicus inbraakbeveiligingssystemen',
+    'technik zabezpečovacích systémů',
+    'technička zabezpečovacích systémů',
   ]),
   OccupationLabels('5414', [
     'security consultant',
@@ -30704,6 +34723,8 @@ const escoOccupations = <OccupationLabels>[
     'conseiller en sécurité',
     'conseillère en sécurité',
     'conseiller en sûreté',
+    'bezpečnostní konzultant',
+    'bezpečnostní konzultantka',
   ]),
   OccupationLabels('5414', [
     'security guard',
@@ -30719,6 +34740,8 @@ const escoOccupations = <OccupationLabels>[
     'agent de sécurité',
     'agente de sécurité',
     'agente de sûreté',
+    'pracovník bezpečnostní služby',
+    'pracovnice bezpečnostní služby',
   ]),
   OccupationLabels('5414', [
     'security guard supervisor',
@@ -30730,6 +34753,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinatrice bewaking',
     'coördinatrice beveiliging',
     'responsable de la sécurité',
+    'supervizor bezpečnostní služby',
+    'supervizorka bezpečnostní služby',
   ]),
   OccupationLabels('1219', [
     'security manager',
@@ -30748,6 +34773,9 @@ const escoOccupations = <OccupationLabels>[
     'veiligheidsdeskundige',
     'veiligheidsfunctionaris',
     'responsable de sécurité',
+    'bezpečnostní manažer',
+    'bezpečnostní manažerka',
+    'manažer bezpečnostních systémů',
   ]),
   OccupationLabels('2114', [
     'seismologist',
@@ -30763,6 +34791,7 @@ const escoOccupations = <OccupationLabels>[
     'seismologisch onderzoekster',
     'seismologisch onderzoeker',
     'sismologue',
+    'seismoložka',
   ]),
   OccupationLabels('8212', [
     'semiconductor processor',
@@ -30774,6 +34803,8 @@ const escoOccupations = <OccupationLabels>[
     'halbleiterfertiger',
     'halbleiterfertigerin',
     'technicus halfgeleiderindustrie',
+    'technik integrovaných obvodů',
+    'technička integrovaných obvodů',
   ]),
   OccupationLabels('1111', [
     'senator',
@@ -30795,6 +34826,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieurin sensortechnik',
     'ingenieur sensortechniek',
     'ingenieur sensortechnologie',
+    'inženýr senzorových technologií',
+    'inženýrka senzorových technologií',
   ]),
   OccupationLabels('3114', [
     'sensor engineering technician',
@@ -30835,6 +34868,8 @@ const escoOccupations = <OccupationLabels>[
     'onderhoudsmedewerker septische tanks',
     'onderhoudsmedewerkster septische putten',
     'onderhoudsmedewerkster septictanks',
+    'údržbář septiku',
+    'údržbářka septiku',
   ]),
   OccupationLabels('0210', [
     'sergeant',
@@ -30853,6 +34888,8 @@ const escoOccupations = <OccupationLabels>[
     'eerste sergeant',
     'sergent-chef',
     'premier sergent-chef',
+    'četař',
+    'četařka',
   ]),
   OccupationLabels('1349', [
     'service manager',
@@ -30868,6 +34905,8 @@ const escoOccupations = <OccupationLabels>[
     'manager facilitaire diensten',
     'servicemanager',
     'responsable service clients',
+    'manažer služeb',
+    'manažerka služeb',
   ]),
   OccupationLabels('3432', [
     'set builder',
@@ -30882,6 +34921,9 @@ const escoOccupations = <OccupationLabels>[
     'decorbouwer',
     'chef constructeur en décors',
     'chef constructrice en décors',
+    'stavěč dekorací',
+    'stavěčka dekorací',
+    'stavěčka scénických dekorací',
   ]),
   OccupationLabels('3323', [
     'set buyer',
@@ -30892,6 +34934,7 @@ const escoOccupations = <OccupationLabels>[
     'inkoper decorstukken',
     'acheteur-décorateur',
     'acheteuse-décoratrice',
+    'nákupčí dekorací',
   ]),
   OccupationLabels('3432', [
     'set designer',
@@ -30906,6 +34949,8 @@ const escoOccupations = <OccupationLabels>[
     'decorontwerpster tentoonstellingen',
     'decorontwerper theater',
     'scénographe',
+    'scénograf',
+    'scénografka',
   ]),
   OccupationLabels('3123', [
     'sewer construction supervisor',
@@ -30938,6 +34983,8 @@ const escoOccupations = <OccupationLabels>[
     'rioolreiniger',
     'égoutier',
     'égoutière',
+    'čistič kanalizací',
+    'čistička kanalizací',
   ]),
   OccupationLabels('3112', [
     'sewerage maintenance technician',
@@ -30946,6 +34993,8 @@ const escoOccupations = <OccupationLabels>[
     'abwasseranlagen-techniker',
     'abwasseranlagen-technikerin',
     'onderhoudstechnicus riolering',
+    'technik údržby kanalizace',
+    'technička údržby kanalizace',
   ]),
   OccupationLabels('7126', [
     'sewerage network operative',
@@ -30958,6 +35007,8 @@ const escoOccupations = <OccupationLabels>[
     'rioolwerkster',
     'opérateur de réseau d’assainissement',
     'opératrice de réseau d’assainissement',
+    'technik kanalizačních sítí',
+    'technička kanalizačních sítí',
   ]),
   OccupationLabels('1321', [
     'sewerage systems manager',
@@ -30969,6 +35020,7 @@ const escoOccupations = <OccupationLabels>[
     'vatten- och avloppschef',
     'manager riolering en waterhuishouding',
     'responsable de réseaux d\'assainissement',
+    'vedoucí provozu kanalizací',
   ]),
   OccupationLabels('8153', [
     'sewing machine operator',
@@ -30982,6 +35034,9 @@ const escoOccupations = <OccupationLabels>[
     'operator platte naaimachine',
     'opérateur en confection',
     'opératrice en confection',
+    'obsluha šicích strojů',
+    'obsluha zapošívacích strojů',
+    'obsluha závorovacích strojů',
   ]),
   OccupationLabels('7533', [
     'sewing machinist',
@@ -30994,6 +35049,7 @@ const escoOccupations = <OccupationLabels>[
     'confectienaaister',
     'couseur à la machine',
     'couseuse à la machine',
+    'šička',
   ]),
   OccupationLabels('2635', [
     'sexual violence counsellor',
@@ -31022,6 +35078,8 @@ const escoOccupations = <OccupationLabels>[
     'éleveur d’ovins',
     'éleveuse d’ovins',
     'éleveur d\'ovins',
+    'chovatel ovcí',
+    'chovatelka ovcí',
   ]),
   OccupationLabels('7213', [
     'sheet metal worker',
@@ -31036,6 +35094,8 @@ const escoOccupations = <OccupationLabels>[
     'metaalplaatwerker',
     'tôlier',
     'tôlière',
+    'pracovník na zpracování plechu',
+    'pracovnice na zpracování plechu',
   ]),
   OccupationLabels('9334', [
     'shelf filler',
@@ -31053,6 +35113,7 @@ const escoOccupations = <OccupationLabels>[
     'schappenvulster',
     'employé de rayon',
     'employée de rayon',
+    'obsluha regálových zakladačů',
   ]),
   OccupationLabels('6121', [
     'shepherd',
@@ -31069,6 +35130,8 @@ const escoOccupations = <OccupationLabels>[
     'berger',
     'bergère',
     'employée de bergerie',
+    'pastevec',
+    'pastevkyně',
   ]),
   OccupationLabels('3255', [
     'shiatsu practitioner',
@@ -31084,6 +35147,8 @@ const escoOccupations = <OccupationLabels>[
     'shiatsubeoefenaar',
     'praticien en shiatsu',
     'praticienne en shiatsu',
+    'poskytovatel masáží shiatsu',
+    'poskytovatelka masáží shiatsu',
   ]),
   OccupationLabels('3151', [
     'ship assistant engineer',
@@ -31098,6 +35163,9 @@ const escoOccupations = <OccupationLabels>[
     'werktuigkundige',
     'second mécanicien',
     'seconde mécanicienne',
+    'pomocný lodní strojník',
+    'pomocná lodní strojnice',
+    'pomocný lodník',
   ]),
   OccupationLabels('3152', [
     'ship captain',
@@ -31112,6 +35180,9 @@ const escoOccupations = <OccupationLabels>[
     'kapitein rondvaarten',
     'kapitein roll-on',
     'capitaine marine marchande',
+    'kapitán plavidla',
+    'kapitánka plavidla',
+    'lodní kapitán',
   ]),
   OccupationLabels('3151', [
     'ship duty engineer',
@@ -31125,6 +35196,8 @@ const escoOccupations = <OccupationLabels>[
     'wachtwerktuigkundige',
     'lieutenant mécanicien',
     'lieutenante mécanicienne',
+    'hlavní lodní strojník',
+    'hlavní lodní strojnice',
   ]),
   OccupationLabels('4323', [
     'ship pilot dispatcher',
@@ -31134,6 +35207,8 @@ const escoOccupations = <OccupationLabels>[
     'loodsdienstcoördinator',
     'loodsdienstregelaar',
     'loodsdienstcoördinatrice',
+    'dispečer pro lodivody',
+    'dispečerka pro lodivody',
   ]),
   OccupationLabels('4323', [
     'ship planner',
@@ -31147,6 +35222,8 @@ const escoOccupations = <OccupationLabels>[
     'cargadoor wilde vaart',
     'planificateur de navire',
     'planificatrice de navire',
+    'plánovač nákladního lodního provozu',
+    'plánovačka nákladního lodního provozu',
   ]),
   OccupationLabels('5111', [
     'ship steward',
@@ -31162,6 +35239,8 @@ const escoOccupations = <OccupationLabels>[
     'steward op een schip',
     'hôte de croisière',
     'hôtesse de croisière',
+    'lodní stevard',
+    'lodní stevardka',
   ]),
   OccupationLabels('3324', [
     'shipbroker',
@@ -31173,6 +35252,8 @@ const escoOccupations = <OccupationLabels>[
     'scheepsmakelaar',
     'courtier affrètement maritime',
     'courtière affrètement maritime',
+    'lodní zprostředkovatel',
+    'lodní zprostředkovatelka',
   ]),
   OccupationLabels('3331', [
     'shipping agent',
@@ -31190,6 +35271,8 @@ const escoOccupations = <OccupationLabels>[
     'agent maritime',
     'agente maritime',
     'agent de transit maritime',
+    'převodní zprostředkovatel',
+    'převodní zprostředkovatelka',
   ]),
   OccupationLabels('7214', [
     'shipwright',
@@ -31208,6 +35291,8 @@ const escoOccupations = <OccupationLabels>[
     'scheepsbouwarbeidster',
     'charpentier de marine',
     'charpentière de marine',
+    'lodní stavitel',
+    'lodní stavitelka',
   ]),
   OccupationLabels('1420', [
     'gerente de marroquinaria',
@@ -31222,6 +35307,9 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en chaussures',
     'vendeuse en chaussures',
     'vendeuse-chausseuse',
+    'prodavačka kožených doplňků',
+    'prodavačka obuvi',
+    'prodavač kožených doplňků',
   ]),
   OccupationLabels('7536', [
     'shoe repairer',
@@ -31239,6 +35327,8 @@ const escoOccupations = <OccupationLabels>[
     'réparateur en chaussures',
     'réparatrice en chaussures',
     'cordonnière réparatrice',
+    'opravář obuvi',
+    'opravářka obuvi',
   ]),
   OccupationLabels('7536', [
     'shoemaker',
@@ -31256,6 +35346,8 @@ const escoOccupations = <OccupationLabels>[
     'cordonnier',
     'cordonnière',
     'cordonnière réparatrice',
+    'výrobce obuvi',
+    'výrobkyně obuvi',
   ]),
   OccupationLabels('5223', [
     'shop assistant',
@@ -31270,6 +35362,9 @@ const escoOccupations = <OccupationLabels>[
     'employé de magasin',
     'employée de magasin',
     'employé de boutique',
+    'prodavač v obchodě',
+    'prodavačka v obchodě',
+    'prodavač v muzejním obchodě',
   ]),
   OccupationLabels('1420', [
     'shop manager',
@@ -31283,6 +35378,9 @@ const escoOccupations = <OccupationLabels>[
     'assistent-winkelmanager',
     'directeur de magasin',
     'directrice de magasin',
+    'vedoucí prodejny',
+    'vedoucí maloobchodní prodejny',
+    'vedoucí prodeje',
   ]),
   OccupationLabels('5222', [
     'shop supervisor',
@@ -31295,6 +35393,7 @@ const escoOccupations = <OccupationLabels>[
     'toezichthouder in winkel',
     'responsable de magasin',
     'responsable de boutique',
+    'vedoucí provozu prodejny',
   ]),
   OccupationLabels('7542', [
     'shotfirer',
@@ -31310,6 +35409,8 @@ const escoOccupations = <OccupationLabels>[
     'artificier en bâtiment',
     'artificière en bâtiment',
     'artificière de carrière',
+    'střelmistr',
+    'střelmistryně',
   ]),
   OccupationLabels('8312', [
     'shunter',
@@ -31321,6 +35422,9 @@ const escoOccupations = <OccupationLabels>[
     'rangiererin',
     'rangerare',
     'rangeerder',
+    'posunovač',
+    'posunovačka',
+    'řidička posunovací lokomotivy',
   ]),
   OccupationLabels('2643', [
     'sign language interpreter',
@@ -31329,6 +35433,8 @@ const escoOccupations = <OccupationLabels>[
     'gebärdensprachdolmetscherin',
     'teckenspråkstolk',
     'tolk gebarentaal',
+    'tlumočník znakové řeči',
+    'tlumočnice znakové řeči',
   ]),
   OccupationLabels('2353', [
     'sign language teacher',
@@ -31337,6 +35443,8 @@ const escoOccupations = <OccupationLabels>[
     'lehrkraft für gebärdensprache',
     'teckenspråkslärare',
     'leraar gebarentaal',
+    'učitel znakového jazyka',
+    'učitelka znakového jazyka',
   ]),
   OccupationLabels('7316', [
     'sign maker',
@@ -31347,6 +35455,8 @@ const escoOccupations = <OccupationLabels>[
     'allround signmaker',
     'fabricant de signalétique',
     'fabricante de signalétique',
+    'výrobce značení',
+    'výrobkyně značení',
   ]),
   OccupationLabels('7313', [
     'silversmith',
@@ -31362,6 +35472,8 @@ const escoOccupations = <OccupationLabels>[
     'silversmed',
     'zilversmid',
     'orfèvre sur argent',
+    'stříbrník',
+    'stříbrnice',
   ]),
   OccupationLabels('2652', [
     'singer',
@@ -31382,6 +35494,8 @@ const escoOccupations = <OccupationLabels>[
     'operazangeres',
     'chanteur',
     'chanteuse',
+    'zpěvák',
+    'zpěvačka',
   ]),
   OccupationLabels('3422', [
     'ski instructor',
@@ -31396,6 +35510,8 @@ const escoOccupations = <OccupationLabels>[
     'skileraar',
     'moniteur de ski',
     'monitrice de ski',
+    'instruktor lyžování',
+    'instruktorka lyžování',
   ]),
   OccupationLabels('3152', [
     'skipper',
@@ -31410,6 +35526,8 @@ const escoOccupations = <OccupationLabels>[
     'schipper fiets- en voetveer',
     'commandant',
     'commandante',
+    'velitel lodi',
+    'velitelka lodi',
   ]),
   OccupationLabels('8114', [
     'slate mixer',
@@ -31437,6 +35555,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker slachterij',
     'sacrificateur',
     'sacrificatrice',
+    'řezník porážeč',
+    'řeznice porážečka',
   ]),
   OccupationLabels('8189', [
     'slitter operator',
@@ -31452,6 +35572,7 @@ const escoOccupations = <OccupationLabels>[
     'snijder',
     'metaalprofielsnijder',
     'planosnijder',
+    'obsluha podélné řezačky',
   ]),
   OccupationLabels('8342', [
     'snow-clearing worker',
@@ -31467,6 +35588,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur d’engin de déneigement',
     'conductrice d’engin de déneigement',
     'conducteur de chasse-neige',
+    'dělník pro odklízení sněhu',
+    'dělnice pro odklízení sněhu',
   ]),
   OccupationLabels('3422', [
     'snowboard instructor',
@@ -31484,6 +35607,8 @@ const escoOccupations = <OccupationLabels>[
     'snowboardlärare',
     'snowboardleraar',
     'snowboardinstructrice',
+    'instruktor snowboardingu',
+    'instruktorka snowboardingu',
   ]),
   OccupationLabels('8131', [
     'soap chipper',
@@ -31531,6 +35656,8 @@ const escoOccupations = <OccupationLabels>[
     'maatschappelijk werkster gezinnen',
     'maatschappelijk werker volwassenen',
     'auxiliaire de vie sociale',
+    'pracovník sociální péče',
+    'pracovnice sociální péče',
   ]),
   OccupationLabels('2635', [
     'social counsellor',
@@ -31548,6 +35675,9 @@ const escoOccupations = <OccupationLabels>[
     'assistant de service social',
     'assistante de service social',
     'assistante sociale',
+    'sociální poradce',
+    'sociální poradkyně',
+    'sociální psycholog',
   ]),
   OccupationLabels('2635', [
     'social pedagogue',
@@ -31563,6 +35693,8 @@ const escoOccupations = <OccupationLabels>[
     'sociaalpedagogisch begeleider',
     'éducateur social',
     'éducatrice sociale',
+    'sociální pedagog',
+    'sociální pedagožka',
   ]),
   OccupationLabels('1213', [
     'social security administrator',
@@ -31576,6 +35708,8 @@ const escoOccupations = <OccupationLabels>[
     'administrateur sécurité sociale',
     'administratrice sécurité sociale',
     'administratrice de sécurité sociale',
+    'správce sociálního zabezpečení',
+    'správkyně sociálního zabezpečení',
   ]),
   OccupationLabels('3353', [
     'social security inspector',
@@ -31589,6 +35723,9 @@ const escoOccupations = <OccupationLabels>[
     'contrôleur des situations individuelles',
     'contrôleuse des situations individuelles',
     'contrôleur allocataires',
+    'inspektor sociálního zabezpečení',
+    'inspektorka sociálního zabezpečení',
+    'inspektor práce',
   ]),
   OccupationLabels('3353', [
     'social security officer',
@@ -31623,6 +35760,8 @@ const escoOccupations = <OccupationLabels>[
     'consulent sociale diensten',
     'consultant en action sociale',
     'consultante en action sociale',
+    'referent plánování sociálních služeb',
+    'referentka plánování sociálních služeb',
   ]),
   OccupationLabels('1344', [
     'social services manager',
@@ -31638,6 +35777,8 @@ const escoOccupations = <OccupationLabels>[
     'manager maatschappelijke diensten',
     'responsable de service social',
     'responsable de services sociaux',
+    'manažer sociálních služeb',
+    'manažerka sociálních služeb',
   ]),
   OccupationLabels('2422', [
     'social services policy officer',
@@ -31649,6 +35790,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsmedewerker sociale voorzieningen',
     'beleidsmedewerker sociale dienstverlening',
     'beleidsmedewerker sociale diensten',
+    'referent oddělení sociálních služeb',
+    'referentka oddělení sociálních služeb',
   ]),
   OccupationLabels('3412', [
     'social work assistant',
@@ -31665,6 +35808,8 @@ const escoOccupations = <OccupationLabels>[
     'intervenant d’action sociale',
     'intervenante d’action sociale',
     'intervenant d\'action sociale',
+    'asistent sociální péče',
+    'asistentka sociální péče',
   ]),
   OccupationLabels('2310', [
     'social work lecturer',
@@ -31685,6 +35830,8 @@ const escoOccupations = <OccupationLabels>[
     'praktijklector sociaal werk',
     'praktijkbegeleider maatschappelijk werk',
     'praktijklector maatschappelijk werk',
+    'instruktor sociální práce',
+    'instruktorka sociální práce',
   ]),
   OccupationLabels('2632', [
     'social work researcher',
@@ -31711,6 +35858,8 @@ const escoOccupations = <OccupationLabels>[
     'teamleiterin im bereich sozialarbeit',
     'gruppledare inom socialtjänst',
     'teamleider instelling maatschappelijk werk',
+    'vedoucí sociální pracovník',
+    'vedoucí sociální pracovnice',
   ]),
   OccupationLabels('2635', [
     'social worker',
@@ -31727,6 +35876,8 @@ const escoOccupations = <OccupationLabels>[
     'sociaal-cultureel werker',
     'travailleur social',
     'travailleuse sociale',
+    'sociální pracovník',
+    'sociální pracovnice',
   ]),
   OccupationLabels('2632', [
     'sociologist',
@@ -31740,6 +35891,7 @@ const escoOccupations = <OccupationLabels>[
     'sociolog',
     'socioloog',
     'sociologue',
+    'socioložka',
   ]),
   OccupationLabels('2310', [
     'sociology lecturer',
@@ -31757,6 +35909,7 @@ const escoOccupations = <OccupationLabels>[
     'docent maatschappijleer hoger onderwijs',
     'enseignant-chercheur en sociologie',
     'enseignante-chercheuse en sociologie',
+    'přednášející v oboru sociologie',
   ]),
   OccupationLabels('2512', [
     'software analyst',
@@ -31776,6 +35929,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste logiciel',
     'analyste software',
     'analyste de logiciels',
+    'softwarový analytik',
+    'softwarová analytička',
+    'analytička softwarových požadavků',
   ]),
   OccupationLabels('2512', [
     'software architect',
@@ -31795,6 +35951,9 @@ const escoOccupations = <OccupationLabels>[
     'concepteur de logiciels',
     'conceptrice de logiciels',
     'concepteur-architecte logiciel',
+    'softwarový architekt',
+    'softwarová architektka',
+    'softwarový designér',
   ]),
   OccupationLabels('2512', [
     'software developer',
@@ -31816,6 +35975,8 @@ const escoOccupations = <OccupationLabels>[
     'développeur de logiciels',
     'développeuse de logiciels',
     'développeur logiciels',
+    'softwarový vývojář',
+    'softwarová vývojářka',
   ]),
   OccupationLabels('1330', [
     'software manager',
@@ -31834,6 +35995,8 @@ const escoOccupations = <OccupationLabels>[
     'responsable des logiciels',
     'responsable des applications',
     'responsable des applications informatiques',
+    'softwarový manažer',
+    'softwarová manažerka',
   ]),
   OccupationLabels('2519', [
     'software tester',
@@ -31852,6 +36015,9 @@ const escoOccupations = <OccupationLabels>[
     'testeur de logiciels',
     'testeuse de logiciels',
     'testeur d\'applications',
+    'tester softwaru',
+    'testerka softwaru',
+    'tester programů',
   ]),
   OccupationLabels('2133', [
     'soil scientist',
@@ -31875,6 +36041,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus bodemonderzoek',
     'technicien pédologue',
     'technicienne pédologue',
+    'půdní technik',
+    'půdní technička',
   ]),
   OccupationLabels('2149', [
     'solar energy engineer',
@@ -31921,6 +36089,8 @@ const escoOccupations = <OccupationLabels>[
     'elektromonteur zonnepanelen',
     'électricien photovoltaïque',
     'électricienne photovoltaïque',
+    'elektromontér fotovoltaických systémů',
+    'elektromontérka fotovoltaických systémů',
   ]),
   OccupationLabels('3131', [
     'solar power plant operator',
@@ -31938,6 +36108,8 @@ const escoOccupations = <OccupationLabels>[
     'exploitatietechnicus zonnepark',
     'opérateur de centrale solaire',
     'opératrice de centrale solaire',
+    'operátor velínu solární elektrárny',
+    'operátorka velínu solární elektrárny',
   ]),
   OccupationLabels('7212', [
     'solderer',
@@ -31955,6 +36127,8 @@ const escoOccupations = <OccupationLabels>[
     'soldeerder',
     'braseur brasage tendre',
     'braseuse brasage tendre',
+    'pracovník pro měkké pájení',
+    'pracovnice pro měkké pájení',
   ]),
   OccupationLabels('8156', [
     'sole and heel operator',
@@ -31984,6 +36158,9 @@ const escoOccupations = <OccupationLabels>[
     'restaurantsommelier',
     'sommelierer på restaurang',
     'maître-sommelier',
+    'someliér',
+    'someliérka',
+    'restaurační someliér',
   ]),
   OccupationLabels('3255', [
     'sophrologist',
@@ -31998,6 +36175,8 @@ const escoOccupations = <OccupationLabels>[
     'sofrologiterapeut',
     'sofroloog',
     'sophrologue',
+    'sophrolog',
+    'sophroložka',
   ]),
   OccupationLabels('9612', [
     'sorter labourer',
@@ -32010,6 +36189,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker afvalsortering',
     'opérateur de tri',
     'opératrice de tri',
+    'dělník pro recyklaci',
+    'dělnice pro recyklaci',
   ]),
   OccupationLabels('3521', [
     'sound artist',
@@ -32024,6 +36205,8 @@ const escoOccupations = <OccupationLabels>[
     'geluidskunstenaar',
     'geluidskunstenares',
     'artiste sonore',
+    'zvukový umělec',
+    'zvuková umělkyně',
   ]),
   OccupationLabels('3521', [
     'sound designer',
@@ -32038,6 +36221,8 @@ const escoOccupations = <OccupationLabels>[
     'sounddesignerin',
     'ljuddesigner',
     'designer sonore',
+    'zvukový designér',
+    'zvuková designérka',
   ]),
   OccupationLabels('3521', [
     'sound editor',
@@ -32052,6 +36237,8 @@ const escoOccupations = <OccupationLabels>[
     'geluidseditor',
     'mixeur',
     'mixeuse',
+    'zvukař',
+    'zvukařka',
   ]),
   OccupationLabels('3521', [
     'sound operator',
@@ -32068,6 +36255,9 @@ const escoOccupations = <OccupationLabels>[
     'opérateur du son',
     'opératrice du son',
     'chef opérateur du son',
+    'technik zvuku',
+    'technička zvuku',
+    'technik scénického zvuku',
   ]),
   OccupationLabels('5142', [
     'spa attendant',
@@ -32085,6 +36275,8 @@ const escoOccupations = <OccupationLabels>[
     'employé d’un centre d’hydrothérapie',
     'employée d’un centre d’hydrothérapie',
     'employé d\'un centre d\'hydrothérapie',
+    'lázeňský pracovník',
+    'lázeňská pracovnice',
   ]),
   OccupationLabels('1431', [
     'spa manager',
@@ -32101,6 +36293,9 @@ const escoOccupations = <OccupationLabels>[
     'vitaliteitsmanager',
     'directeur d\'établissement thermal',
     'directrice d\'établissement thermal',
+    'ředitel lázní',
+    'ředitelka lázní',
+    'ředitelka wellness centra',
   ]),
   OccupationLabels('2310', [
     'space science lecturer',
@@ -32129,6 +36324,8 @@ const escoOccupations = <OccupationLabels>[
     'operator edm',
     'étinceleur en électroérosion',
     'étinceleuse en électroérosion',
+    'seřizovač elektroerozivního obráběcího stroje',
+    'seřizovačka elektroerozivního obráběcího stroje',
   ]),
   OccupationLabels('5312', [
     'special educational needs assistant',
@@ -32156,6 +36353,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinatrice speciaal onderwijs',
     'enseignant référent',
     'enseignante référente',
+    'koordinátor speciálních vzdělávacích potřeb',
+    'koordinátorka speciálních vzdělávacích potřeb',
   ]),
   OccupationLabels('1345', [
     'special educational needs headmaster',
@@ -32168,12 +36367,17 @@ const escoOccupations = <OccupationLabels>[
     'directeur bijzonder onderwijs',
     'directeur d\'établissement d\'enseignement spécialisé',
     'directrice d\'établissement d\'enseignement spécialisé',
+    'ředitelka základní školy praktické',
+    'ředitelka základní školy speciální',
+    'ředitel základní školy praktické',
   ]),
   OccupationLabels('2352', [
     'special needs peripatetic teacher',
     'mobiler sonderpädagoge',
     'mobile sonderpädagogin',
     'mobile heilpädagogin',
+    'domácí učitelka',
+    'domácí učitel',
   ]),
   OccupationLabels('2352', [
     'special educational needs teacher',
@@ -32221,6 +36425,8 @@ const escoOccupations = <OccupationLabels>[
     'specialiste special effects',
     'infographiste effets spéciaux',
     'infographiste des effets spéciaux',
+    'tvůrce zvláštních efektů',
+    'tvůrkyně zvláštních efektů',
   ]),
   OccupationLabels('0210', [
     'special forces officer',
@@ -32238,6 +36444,9 @@ const escoOccupations = <OccupationLabels>[
     'maritiem officier',
     'officier des forces spéciales',
     'officière des forces spéciales',
+    'příslušník speciálních sil',
+    'příslušnice speciálních sil',
+    'příslušnice výsadkových sil',
   ]),
   OccupationLabels('1114', [
     'special-interest groups\' official',
@@ -32268,6 +36477,9 @@ const escoOccupations = <OccupationLabels>[
     'fachverkäuferin im antiquitätenhandel',
     'antiquair',
     'antiquaire',
+    'prodavač ve starožitnictví',
+    'prodavačka ve starožitnictví',
+    'prodavačka starožitností',
   ]),
   OccupationLabels('2212', [
     'specialised doctor',
@@ -32278,6 +36490,8 @@ const escoOccupations = <OccupationLabels>[
     'specialistläkare',
     'medisch specialist',
     'médecin spécialiste',
+    'odborný lékař',
+    'odborná lékařka',
   ]),
   OccupationLabels('1324', [
     'specialised goods distribution manager',
@@ -32287,6 +36501,8 @@ const escoOccupations = <OccupationLabels>[
     'hoofd distributie gespecialiseerde artikelen',
     'manager distributie gespecialiseerde artikelen',
     'responsable distribution marchandises spécialisées',
+    'manažer distribuce speciálního zboží',
+    'manažerka distribuce speciálního zboží',
   ]),
   OccupationLabels('3423', [
     'specialised outdoor animator',
@@ -32296,6 +36512,8 @@ const escoOccupations = <OccupationLabels>[
     'gespecialiseerde outdooranimator',
     'gespecialiseerd animatrice outdooractiviteiten',
     'gespecialiseerd animatrice buitenactiviteiten',
+    'outdoor animátor se specializací',
+    'outdoor animátorka se specializací',
   ]),
   OccupationLabels('5223', [
     'specialised seller',
@@ -32333,6 +36551,9 @@ const escoOccupations = <OccupationLabels>[
     'vétérinaire spécialisé',
     'vétérinaire spécialiste',
     'nutritionniste comparatif vétérinaire',
+    'veterinární specialista',
+    'veterinární specialistka',
+    'veterinární parazitoložka',
   ]),
   OccupationLabels('2131', [
     'specialist biomedical scientist',
@@ -32361,6 +36582,9 @@ const escoOccupations = <OccupationLabels>[
     'gespecialiseerd chiropractor',
     'chiropracteur spécialiste',
     'chiropractrice spécialiste',
+    'specializovaný chiropraktik',
+    'specializovaná chiropraktička',
+    'specializovaný osteopat',
   ]),
   OccupationLabels('2261', [
     'specialist dentist',
@@ -32379,6 +36603,8 @@ const escoOccupations = <OccupationLabels>[
     'kindertandarts',
     'forensisch tandarts',
     'dentiste spécialiste',
+    'zubní lékař specialista',
+    'zubní lékařka specialista',
   ]),
   OccupationLabels('2221', [
     'specialist nurse',
@@ -32399,6 +36625,7 @@ const escoOccupations = <OccupationLabels>[
     'infirmier spécialiste',
     'infirmière spécialiste',
     'infirmier spécialiste clinique',
+    'všeobecná sestra se specializací',
   ]),
   OccupationLabels('2262', [
     'specialist pharmacist',
@@ -32414,6 +36641,8 @@ const escoOccupations = <OccupationLabels>[
     'pharmacien spécialiste',
     'pharmacienne spécialiste',
     'pharmacien affaires réglementaires',
+    'farmaceut se specializací',
+    'farmaceutka se specializací',
   ]),
   OccupationLabels('2266', [
     'speech and language therapist',
@@ -32426,6 +36655,7 @@ const escoOccupations = <OccupationLabels>[
     'logopedist',
     'logopediste',
     'orthophoniste',
+    'logopedka',
   ]),
   OccupationLabels('2641', [
     'speechwriter',
@@ -32442,6 +36672,8 @@ const escoOccupations = <OccupationLabels>[
     'speechschrijver',
     'rédacteur de discours',
     'rédactrice de discours',
+    'profesionální autor projevů',
+    'profesionální autorka projevů',
   ]),
   OccupationLabels('8151', [
     'spinning machine operator',
@@ -32455,6 +36687,7 @@ const escoOccupations = <OccupationLabels>[
     'bediener von spinnmaschinen',
     'spinnmaskinoperatör',
     'operator spinmachine',
+    'obsluha spřádacího stroje',
   ]),
   OccupationLabels('8151', [
     'spinning textile technician',
@@ -32470,6 +36703,9 @@ const escoOccupations = <OccupationLabels>[
     'technicus textielspinnerij',
     'technicien en filature',
     'technicienne en filature',
+    'technik výroby přízí',
+    'technička výroby přízí',
+    'technik spřádání textilních vláken',
   ]),
   OccupationLabels('2432', [
     'spokesperson',
@@ -32482,6 +36718,7 @@ const escoOccupations = <OccupationLabels>[
     'woordvoerder',
     'woordvoerster',
     'porte-parole',
+    'mluvčí',
   ]),
   OccupationLabels('1349', [
     'sport administrator',
@@ -32499,6 +36736,9 @@ const escoOccupations = <OccupationLabels>[
     'topsportmanager',
     'administrateur sportif',
     'administratrice sportive',
+    'sportovní manažer',
+    'sportovní manažerka',
+    'manažer sportovní organizace',
   ]),
   OccupationLabels('1431', [
     'sport facility manager',
@@ -32517,6 +36757,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur d\'équipement sportif',
     'directrice d\'équipement sportif',
     'directrice de centre sportif',
+    'vedoucí sportovního zařízení',
+    'vedoucí plaveckého bazénu',
+    'vedoucí fitness centra',
   ]),
   OccupationLabels('3422', [
     'sport official',
@@ -32528,6 +36771,8 @@ const escoOccupations = <OccupationLabels>[
     'schiedsrichterin',
     'idrottsfunktionär',
     'scheidsrechter',
+    'sportovní funkcionář',
+    'sportovní funkcionářka',
   ]),
   OccupationLabels('3423', [
     'sport therapist',
@@ -32542,6 +36787,8 @@ const escoOccupations = <OccupationLabels>[
     'idrottsterapeut',
     'sport- en bewegingsleider',
     'sport- en bewegingsleidster',
+    'sportovní terapeut',
+    'sportovní terapeutka',
   ]),
   OccupationLabels('5223', [
     'sporting accessories specialised seller',
@@ -32555,6 +36802,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialsit sportartikelen',
     'verkoopspecialist kampeerartikelen',
     'vendeur',
+    'prodavač sportovních potřeb',
+    'prodavačka sportovních potřeb',
   ]),
   OccupationLabels('1420', [
     'sporting accessories shop manager',
@@ -32574,6 +36823,8 @@ const escoOccupations = <OccupationLabels>[
     'idrottstränare',
     'sportcoach',
     'coach sportif',
+    'sportovní trenér',
+    'sportovní trenérka',
   ]),
   OccupationLabels('7319', [
     'sports equipment repair technician',
@@ -32583,6 +36834,8 @@ const escoOccupations = <OccupationLabels>[
     'sportutrustningsreparatör',
     'reparateur sportuitrusting',
     'reparateur kampeeruitrusting',
+    'opravář sportovního vybavení',
+    'opravářka sportovního vybavení',
   ]),
   OccupationLabels('3422', [
     'sports instructor',
@@ -32600,6 +36853,8 @@ const escoOccupations = <OccupationLabels>[
     'sportinstructrice',
     'instructeur sportif',
     'instructrice sportive',
+    'sportovní instruktor',
+    'sportovní instruktorka',
   ]),
   OccupationLabels('2642', [
     'sports journalist',
@@ -32614,6 +36869,9 @@ const escoOccupations = <OccupationLabels>[
     'sportjournaliste',
     'journaliste sportif',
     'journaliste sportive',
+    'sportovní novinář',
+    'sportovní novinářka',
+    'sportovní žurnalista',
   ]),
   OccupationLabels('2422', [
     'sports programme coordinator',
@@ -32626,6 +36884,9 @@ const escoOccupations = <OccupationLabels>[
     'sportcoördinator',
     'coordinateurs de programmes sportifs',
     'coordinatrices de programmes sportifs',
+    'koordinátor sportovních programů',
+    'koordinátorka sportovních programů',
+    'koordinátor rekreačních aktivit',
   ]),
   OccupationLabels('7212', [
     'spot welder',
@@ -32640,6 +36901,7 @@ const escoOccupations = <OccupationLabels>[
     'puntlasster',
     'soudeur par point',
     'soudeuse par point',
+    'bodový svářeč',
   ]),
   OccupationLabels('8121', [
     'spring maker',
@@ -32657,6 +36919,8 @@ const escoOccupations = <OccupationLabels>[
     'trekverenmaker',
     'ressortier',
     'ressortière',
+    'výrobce pružin',
+    'výrobkyně pružin',
   ]),
   OccupationLabels('7126', [
     'sprinkler fitter',
@@ -32672,6 +36936,8 @@ const escoOccupations = <OccupationLabels>[
     'sprinklermonteuse',
     'installateur de sprinkler',
     'installatrice de sprinkler',
+    'montér protipožárních systémů',
+    'montérka protipožárních systémů',
   ]),
   OccupationLabels('0110', [
     'squadron leader',
@@ -32685,6 +36951,8 @@ const escoOccupations = <OccupationLabels>[
     'eskadronscommandant',
     'capitaine-commandant',
     'capitaine-commandante',
+    'velitel střední jednotky',
+    'velitelka střední jednotky',
   ]),
   OccupationLabels('2166', [
     'stage director',
@@ -32705,6 +36973,8 @@ const escoOccupations = <OccupationLabels>[
     'metteur en scène',
     'metteuse en scène',
     'metteuse en scène théâtre',
+    'divadelní režisér',
+    'divadelní režisérka',
   ]),
   OccupationLabels('3435', [
     'stage machinist',
@@ -32722,6 +36992,9 @@ const escoOccupations = <OccupationLabels>[
     'machiniste scène',
     'machiniste théâtre',
     'machiniste spectacle',
+    'mechanik jevištní technologie',
+    'mechanička jevištní technologie',
+    'jevištní mechanik',
   ]),
   OccupationLabels('3435', [
     'stage manager',
@@ -32737,6 +37010,7 @@ const escoOccupations = <OccupationLabels>[
     'inspicient',
     'régisseur de plateau',
     'régisseuse de plateau',
+    'inspicientka',
   ]),
   OccupationLabels('3435', [
     'stage technician',
@@ -32755,6 +37029,8 @@ const escoOccupations = <OccupationLabels>[
     'podiumtechnicus geluid',
     'technicien plateau',
     'technicienne plateau',
+    'pódiový technik',
+    'pódiová technička',
   ]),
   OccupationLabels('7215', [
     'stagehand',
@@ -32768,6 +37044,8 @@ const escoOccupations = <OccupationLabels>[
     'podiumassistent',
     'podiumassistente',
     'machiniste',
+    'jevištní technik',
+    'jevištní technička',
   ]),
   OccupationLabels('7115', [
     'staircase installer',
@@ -32784,6 +37062,9 @@ const escoOccupations = <OccupationLabels>[
     'trappensteller',
     'installateur d’escalier',
     'installatrice d’escalier',
+    'montér schodišť',
+    'montérka schodišť',
+    'montér schodišť a zábradlí',
   ]),
   OccupationLabels('7223', [
     'stamping press operator',
@@ -32811,6 +37092,7 @@ const escoOccupations = <OccupationLabels>[
     'doublure',
     'doublure cascadeuse',
     'doublure cascadeur',
+    'záskok',
   ]),
   OccupationLabels('2659', [
     'stand-up comedian',
@@ -32824,6 +37106,8 @@ const escoOccupations = <OccupationLabels>[
     'ståuppkomiker',
     'stand-upcomedian',
     'humoriste',
+    'sólový komik',
+    'sólová komička',
   ]),
   OccupationLabels('8160', [
     'starch converting operator',
@@ -32834,6 +37118,8 @@ const escoOccupations = <OccupationLabels>[
     'speisestärkeverarbeitungsanlagenfahrerin',
     'stärkelsekonverteringsansvarig',
     'procesoperator zetmeel',
+    'operátorka provádějící přeměnu škrobu',
+    'operátor provádějící přeměnu škrobu',
   ]),
   OccupationLabels('8160', [
     'starch extraction operator',
@@ -32846,6 +37132,9 @@ const escoOccupations = <OccupationLabels>[
     'procesoperator zetmeelextractie',
     'opérateur d’extraction d’amidon',
     'opératrice d’extraction d’amidon',
+    'pracovník pro extrakci škrobu',
+    'pracovnice pro extrakci škrobu',
+    'pracovnice provádějící přeměnu škrobu',
   ]),
   OccupationLabels('3314', [
     'statistical assistant',
@@ -32864,6 +37153,8 @@ const escoOccupations = <OccupationLabels>[
     'assistant statisticien',
     'assistante statisticienne',
     'assistante chargée d\'études socio-économiques',
+    'statistik referent',
+    'statistička referentka',
   ]),
   OccupationLabels('2120', [
     'statistician',
@@ -32882,6 +37173,8 @@ const escoOccupations = <OccupationLabels>[
     'statisticien',
     'statisticienne',
     'chargée d\'études statistiques',
+    'statistik',
+    'statistička',
   ]),
   OccupationLabels('2144', [
     'steam engineer',
@@ -32906,6 +37199,9 @@ const escoOccupations = <OccupationLabels>[
     'procesoperator stoomcentrale',
     'procesoperator warmtekrachtcentrale',
     'procesoperator warmtekrachtkoppelingsinstallaties',
+    'obsluha zařízení produkujících páru',
+    'obsluha výrobny páry',
+    'obsluha parního vytápění',
   ]),
   OccupationLabels('3131', [
     'steam turbine operator',
@@ -32916,6 +37212,7 @@ const escoOccupations = <OccupationLabels>[
     'steuerer von dampfturbinen',
     'steuerin von dampfturbinen',
     'exploitatietechnicus stoomturbine',
+    'obsluha parních turbín',
   ]),
   OccupationLabels('7119', [
     'steeplejack',
@@ -32927,6 +37224,8 @@ const escoOccupations = <OccupationLabels>[
     'ställningsbyggare',
     'industrieel klimmer',
     'industrieel klimster',
+    'výškový specialista',
+    'výšková specialistka',
   ]),
   OccupationLabels('2341', [
     'steiner school teacher',
@@ -32943,6 +37242,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar steinerschool',
     'professeur des écoles steiner-waldorf',
     'professeure des écoles steiner-waldorf',
+    'učitel waldorfské školy',
+    'učitelka waldorfské školy',
   ]),
   OccupationLabels('5329', [
     'sterile services technician',
@@ -32958,6 +37259,8 @@ const escoOccupations = <OccupationLabels>[
     'centrale-sterilisatiemedewerker',
     'agent de stérilisation',
     'agente de stérilisation',
+    'technik sterilizační jednotky',
+    'technička sterilizační jednotky',
   ]),
   OccupationLabels('9333', [
     'stevedore',
@@ -32973,6 +37276,8 @@ const escoOccupations = <OccupationLabels>[
     'stuwadoor',
     'chargeur déchargeur manutentionnaire',
     'chargeuse déchargeuse manutentionnaire',
+    'přístavní dělník',
+    'přístavní dělnice',
   ]),
   OccupationLabels('9333', [
     'stevedore superintendent',
@@ -32989,6 +37294,8 @@ const escoOccupations = <OccupationLabels>[
     'terminal manager',
     'manager havenlogistiek',
     'chef de manutention portuaire',
+    'předák',
+    'předačka přístavních dělníků',
   ]),
   OccupationLabels('5111', [
     'steward',
@@ -33000,6 +37307,8 @@ const escoOccupations = <OccupationLabels>[
     'grondstewardess',
     'hôtesse',
     'hôtesse de l’air',
+    'stevard',
+    'stevardka',
   ]),
   OccupationLabels('3311', [
     'stock broker',
@@ -33015,6 +37324,8 @@ const escoOccupations = <OccupationLabels>[
     'aandelenmakelaar',
     'négociateur en actions',
     'négociatrice en actions',
+    'burzovní makléř',
+    'burzovní makléřka',
   ]),
   OccupationLabels('3311', [
     'stock trader',
@@ -33031,6 +37342,8 @@ const escoOccupations = <OccupationLabels>[
     'toezichthouder beurshandel',
     'vendeur en actions',
     'vendeuse en actions',
+    'obchodník s akciemi',
+    'obchodnice s akciemi',
   ]),
   OccupationLabels('8112', [
     'stone driller',
@@ -33047,6 +37360,7 @@ const escoOccupations = <OccupationLabels>[
     'operator steenboormachine',
     'débiteur de pierre',
     'débitrice de pierre',
+    'obsluha vrtačky na kámen',
   ]),
   OccupationLabels('7113', [
     'stone engraver',
@@ -33061,6 +37375,8 @@ const escoOccupations = <OccupationLabels>[
     'steenkapster',
     'graveur sur pierre',
     'graveuse sur pierre',
+    'písmák',
+    'písmačka',
   ]),
   OccupationLabels('8112', [
     'stone planer',
@@ -33076,6 +37392,8 @@ const escoOccupations = <OccupationLabels>[
     'operator natuursteenschuurmachine',
     'tailleur de pierre',
     'tailleuse de pierre',
+    'frézař kamene',
+    'frézařka kamene',
   ]),
   OccupationLabels('8114', [
     'stone polisher',
@@ -33093,6 +37411,8 @@ const escoOccupations = <OccupationLabels>[
     'steenpolijster',
     'polisseur de pierre',
     'polisseuse de pierre',
+    'brusič kamene',
+    'brusička kamene',
   ]),
   OccupationLabels('8114', [
     'stone splitter',
@@ -33105,6 +37425,8 @@ const escoOccupations = <OccupationLabels>[
     'steensplijter',
     'carrier fendeur de fond',
     'carrière fendeuse de fond',
+    'štípač kamene',
+    'štípačka kamene',
   ]),
   OccupationLabels('7113', [
     'stonemason',
@@ -33122,6 +37444,8 @@ const escoOccupations = <OccupationLabels>[
     'steenhouwster',
     'maçon pierre',
     'maçonne pierre',
+    'kameník',
+    'kamenice',
   ]),
   OccupationLabels('2166', [
     'stop-motion animator',
@@ -33139,6 +37463,8 @@ const escoOccupations = <OccupationLabels>[
     'animateur stop motion',
     'animatrice stop motion',
     'animatrice stop-motion',
+    'loutkový animátor',
+    'loutková animátorka',
   ]),
   OccupationLabels('3411', [
     'store detective',
@@ -33148,6 +37474,8 @@ const escoOccupations = <OccupationLabels>[
     'winkeldetective',
     'agent de sécurité magasin',
     'agente de sécurité magasin',
+    'pracovník ostrahy v obchodě',
+    'pracovnice ostrahy v obchodě',
   ]),
   OccupationLabels('2651', [
     'storyboard artist',
@@ -33164,6 +37492,8 @@ const escoOccupations = <OccupationLabels>[
     'storyboardtekenaar',
     'storyboarder',
     'scénarimagiste',
+    'výtvarník obrázkového scénáře',
+    'výtvarnice obrázkového scénáře',
   ]),
   OccupationLabels('7223', [
     'straightening machine operator',
@@ -33178,6 +37508,8 @@ const escoOccupations = <OccupationLabels>[
     'operator vlakmachine',
     'dresseur',
     'dresseuse',
+    'seřizovač rovnacího stroje',
+    'seřizovačka rovnacího stroje',
   ]),
   OccupationLabels('1213', [
     'strategic planning manager',
@@ -33194,6 +37526,9 @@ const escoOccupations = <OccupationLabels>[
     'strategisch directeur',
     'directeur du planning stratégique',
     'directrice du planning stratégique',
+    'manažer strategického plánování',
+    'manažerka strategického plánování',
+    'strategická manažerka',
   ]),
   OccupationLabels('2659', [
     'street artist',
@@ -33209,6 +37544,8 @@ const escoOccupations = <OccupationLabels>[
     'straatkunstenaar',
     'artiste urbain',
     'artiste urbaine',
+    'pouliční umělec',
+    'pouliční umělkyně',
   ]),
   OccupationLabels('5212', [
     'street food vendor',
@@ -33239,6 +37576,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur openbare verlichting',
     'électricien d’éclairage public',
     'électricienne d’éclairage public',
+    'elektrikář pouličního osvětlení',
+    'elektrikářka pouličního osvětlení',
   ]),
   OccupationLabels('2659', [
     'street performer',
@@ -33253,6 +37592,8 @@ const escoOccupations = <OccupationLabels>[
     'straatartiest',
     'straatartieste',
     'artiste de rue',
+    'pouliční performer',
+    'pouliční performerka',
   ]),
   OccupationLabels('9613', [
     'street sweeper',
@@ -33270,6 +37611,8 @@ const escoOccupations = <OccupationLabels>[
     'balayeur',
     'balayeuse',
     'balayeur urbain',
+    'pracovník pro údržbu ulic',
+    'pracovnice pro údržbu ulic',
   ]),
   OccupationLabels('5419', [
     'street warden',
@@ -33286,6 +37629,7 @@ const escoOccupations = <OccupationLabels>[
     'gemeentelijk handhaver',
     'steward urbain',
     'hôtesse urbaine',
+    'obecní strážník',
   ]),
   OccupationLabels('7312', [
     'stringed musical instrument maker',
@@ -33298,6 +37642,8 @@ const escoOccupations = <OccupationLabels>[
     'snaarinstrumentenbouwer',
     'snaarinstrumentenmaker',
     'snaarinstrumentenmaakster',
+    'výrobce strunných hudebních nástrojů',
+    'výrobkyně strunných hudebních nástrojů',
   ]),
   OccupationLabels('3123', [
     'structural ironwork supervisor',
@@ -33309,6 +37655,7 @@ const escoOccupations = <OccupationLabels>[
     'polierin metallarbeiten',
     'polier stahlbau',
     'opzichter metaalconstructiewerken',
+    'vedoucí výroby železných konstrukcí',
   ]),
   OccupationLabels('7214', [
     'structural ironworker',
@@ -33324,6 +37671,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur metaalconstructies',
     'charpentier en structures métalliques',
     'charpentière en structures métalliques',
+    'montér kovových konstrukcí',
+    'montérka kovových konstrukcí',
   ]),
   OccupationLabels('3312', [
     'student financial support coordinator',
@@ -33336,6 +37685,8 @@ const escoOccupations = <OccupationLabels>[
     'studiefinansieringshandläggare',
     'adviseur studentenleningen',
     'adviseur subsidies',
+    'koordinátor finanční pomoci',
+    'koordinátorka finanční pomoci',
   ]),
   OccupationLabels('3435', [
     'stunt performer',
@@ -33347,6 +37698,8 @@ const escoOccupations = <OccupationLabels>[
     'stuntman',
     'cascadeur',
     'cascadeuse',
+    'kaskadér',
+    'kaskadérka',
   ]),
   OccupationLabels('2635', [
     'substance misuse worker',
@@ -33372,6 +37725,8 @@ const escoOccupations = <OccupationLabels>[
     'ingenieur onderstation',
     'ingénieur sous-stations électriques',
     'ingénieure sous-stations électriques',
+    'projektant elektrorozvoden',
+    'projektantka elektrorozvoden',
   ]),
   OccupationLabels('2643', [
     'subtitler',
@@ -33386,6 +37741,8 @@ const escoOccupations = <OccupationLabels>[
     'ondertitelaar',
     'sous-titreur',
     'sous-titreuse',
+    'titulkář',
+    'titulkářka',
   ]),
   OccupationLabels('8160', [
     'sugar refinery operator',
@@ -33400,6 +37757,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker op een suikerraffinaderij',
     'opérateur de sucrerie',
     'opératrice de sucrerie',
+    'operátorka cukrovaru',
+    'operátor cukrovaru',
   ]),
   OccupationLabels('1420', [
     'supermarket manager',
@@ -33415,6 +37774,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur de supermarché',
     'directrice de supermarché',
     'directrice d\'hypermarché',
+    'vedoucí supermarketu',
+    'vedoucí samoobsluhy',
+    'vedoucí hypermarketu',
   ]),
   OccupationLabels('3343', [
     'supply chain assistant',
@@ -33429,6 +37791,8 @@ const escoOccupations = <OccupationLabels>[
     'logistiek medewerkster',
     'assistant logistique',
     'assistante logistique',
+    'asistent řízení dodavatelského řetězce',
+    'asistentka řízení dodavatelského řetězce',
   ]),
   OccupationLabels('1324', [
     'supply chain manager',
@@ -33443,6 +37807,8 @@ const escoOccupations = <OccupationLabels>[
     'logistiek manager',
     'logistiek verantwoordelijke',
     'logistiek planner',
+    'manažer dodavatelského řetězce',
+    'manažerka dodavatelského řetězce',
   ]),
   OccupationLabels('2612', [
     'supreme court judge',
@@ -33453,6 +37819,8 @@ const escoOccupations = <OccupationLabels>[
     'oberrichter',
     'domare i högsta domstolen',
     'rechter in het hooggerechtshof',
+    'soudce nejvyššího soudu',
+    'soudkyně nejvyššího soudu',
   ]),
   OccupationLabels('2141', [
     'surface engineer',
@@ -33468,6 +37836,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur traitement de surface',
     'ingénieure traitement de surface',
     'ingénieur traitements de surfaces',
+    'inženýr v oboru obrábění',
+    'inženýrka v oboru obrábění',
+    'inženýrka povrchových úprav',
   ]),
   OccupationLabels('8122', [
     'surface grinding machine operator',
@@ -33477,6 +37848,7 @@ const escoOccupations = <OccupationLabels>[
     'flachschleiferin',
     'planslipmaskinoperatör',
     'vlakslijper',
+    'obsluha povrchových brusek',
   ]),
   OccupationLabels('8342', [
     'surface mine plant operator',
@@ -33503,6 +37875,9 @@ const escoOccupations = <OccupationLabels>[
     'mineur de surface',
     'mineuse de surface',
     'mineuse',
+    'horník',
+    'hornice povrchové těžby',
+    'horník povrchové těžby uhlí',
   ]),
   OccupationLabels('7132', [
     'surface treatment operator',
@@ -33517,6 +37892,8 @@ const escoOccupations = <OccupationLabels>[
     'oppervlaktebehandelaar',
     'medewerker oppervlaktebehandeling',
     'oppervlaktebehandelaar schepen',
+    'pracovník pro povrchovou úpravu',
+    'pracovnice pro povrchovou úpravu',
   ]),
   OccupationLabels('8212', [
     'surface-mount technology machine operator',
@@ -33546,6 +37923,9 @@ const escoOccupations = <OccupationLabels>[
     'fabricant d’instruments chirurgicaux',
     'fabricante d’instruments chirurgicaux',
     'fabricant d’instruments de chirurgie',
+    'výrobce chirurgického vybavení',
+    'výrobkyně chirurgického vybavení',
+    'výrobce chirurgických nástrojů',
   ]),
   OccupationLabels('4227', [
     'survey enumerator',
@@ -33560,6 +37940,8 @@ const escoOccupations = <OccupationLabels>[
     'enquêteur',
     'agent recenseur',
     'agente recenseuse',
+    'sčítací komisař',
+    'sčítací komisařka',
   ]),
   OccupationLabels('3112', [
     'surveying technician',
@@ -33574,6 +37956,8 @@ const escoOccupations = <OccupationLabels>[
     'technicus-landmeter',
     'technicien géomètre',
     'technicienne géomètre',
+    'zeměměřičský technik',
+    'zeměměřičská technička',
   ]),
   OccupationLabels('3423', [
     'survival instructor',
@@ -33586,6 +37970,8 @@ const escoOccupations = <OccupationLabels>[
     'survivaltrainer',
     'moniteur de survie',
     'monitrice de survie',
+    'instruktor kurzů přežití',
+    'instruktorka kurzů přežití',
   ]),
   OccupationLabels('7223', [
     'swaging machine operator',
@@ -33597,6 +37983,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin für gesenkschmiedeanlage',
     'trycksvarvare',
     'operator persmachine',
+    'seřizovač rotačního kovacího stroje',
+    'seřizovačka rotačního kovacího stroje',
   ]),
   OccupationLabels('9129', [
     'swimming facility attendant',
@@ -33608,6 +37996,7 @@ const escoOccupations = <OccupationLabels>[
     'badmeester',
     'agent d\'entretien en piscine',
     'agente d\'entretien en piscine',
+    'obsluha plaveckého areálu',
   ]),
   OccupationLabels('3422', [
     'swimming teacher',
@@ -33622,6 +38011,8 @@ const escoOccupations = <OccupationLabels>[
     'simlärare',
     'zweminstructeur',
     'zweminstructrice',
+    'trenér plavání',
+    'trenérka plavání',
   ]),
   OccupationLabels('2145', [
     'synthetic materials engineer',
@@ -33641,6 +38032,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur matériaux synthétiques',
     'ingénieure matériaux synthétiques',
     'ingénieur plasturgiste',
+    'inženýr syntetických materiálů',
+    'inženýrka syntetických materiálů',
+    'inženýr plastů',
   ]),
   OccupationLabels('2522', [
     'system configurator',
@@ -33655,6 +38049,9 @@ const escoOccupations = <OccupationLabels>[
     'configurateur de systèmes',
     'configuratrice de systèmes',
     'configuratrice systèmes',
+    'systémový konfigurátor',
+    'systémová konfigurátorka',
+    'systémová vývojářka',
   ]),
   OccupationLabels('8172', [
     'table saw operator',
@@ -33671,6 +38068,8 @@ const escoOccupations = <OccupationLabels>[
     'opérateur de sciage bois',
     'opératrice de sciage bois',
     'opérateur de scie circulaire',
+    'obsluha stolní pily',
+    'obsluha stolní kotoučové pily',
   ]),
   OccupationLabels('7531', [
     'tailor',
@@ -33688,6 +38087,8 @@ const escoOccupations = <OccupationLabels>[
     'herenkleermaakster',
     'tailleur',
     'tailleuse',
+    'krejčí',
+    'krejčová',
   ]),
   OccupationLabels('3339', [
     'talent agent',
@@ -33708,6 +38109,8 @@ const escoOccupations = <OccupationLabels>[
     'agent de talents',
     'agente de talents',
     'agent de mannequin',
+    'hledač talentů',
+    'hledačka talentů',
   ]),
   OccupationLabels('8155', [
     'tanner',
@@ -33726,6 +38129,8 @@ const escoOccupations = <OccupationLabels>[
     'ouvrier tanneur',
     'ouvrière tanneuse',
     'ouvrier mégissier',
+    'koželuh',
+    'koželužka',
   ]),
   OccupationLabels('5142', [
     'tanning consultant',
@@ -33741,6 +38146,8 @@ const escoOccupations = <OccupationLabels>[
     'zonneconsulente',
     'conseiller en bronzage',
     'conseillère en bronzage',
+    'poradce v soláriu',
+    'poradkyně v soláriu',
   ]),
   OccupationLabels('2411', [
     'tax advisor',
@@ -33755,6 +38162,9 @@ const escoOccupations = <OccupationLabels>[
     'belastingexpert',
     'belastingconsulent',
     'fiscaliste',
+    'daňový poradce',
+    'daňová poradkyně',
+    'daňový konzultant',
   ]),
   OccupationLabels('4312', [
     'tax clerk',
@@ -33769,6 +38179,8 @@ const escoOccupations = <OccupationLabels>[
     'administratief medewerker belastingen',
     'administratief medewerkster belastingen',
     'aide-comptable fiscaliste',
+    'pracovník v oblasti daní',
+    'pracovnice v oblasti daní',
   ]),
   OccupationLabels('3352', [
     'tax compliance officer',
@@ -33801,6 +38213,9 @@ const escoOccupations = <OccupationLabels>[
     'agent d’assiette des impôts',
     'agente d’assiette des impôts',
     'agente d\'assiette des impôts',
+    'daňový inspektor',
+    'daňová inspektorka',
+    'daňový analytik',
   ]),
   OccupationLabels('2631', [
     'tax policy analyst',
@@ -33812,6 +38227,8 @@ const escoOccupations = <OccupationLabels>[
     'analytikerin steuerpolitik',
     'skattepolitisk analytiker',
     'analist fiscaal beleid',
+    'daňový specialista',
+    'daňová specialistka',
   ]),
   OccupationLabels('4323', [
     'taxi controller',
@@ -33819,6 +38236,8 @@ const escoOccupations = <OccupationLabels>[
     'funkbediener im taxibetrieb',
     'funkbedienerin im taxibetrieb',
     'taxiplanner',
+    'dispečer taxislužby',
+    'dispečerka taxislužby',
   ]),
   OccupationLabels('8322', [
     'taxi driver',
@@ -33830,6 +38249,8 @@ const escoOccupations = <OccupationLabels>[
     'taxichauffeur',
     'chauffeur de taxi',
     'chauffeuse de taxi',
+    'taxikář',
+    'taxikářka',
   ]),
   OccupationLabels('3433', [
     'taxidermist',
@@ -33840,6 +38261,8 @@ const escoOccupations = <OccupationLabels>[
     'tierpräparatorin',
     'taxidermiste',
     'naturaliste-taxidermiste',
+    'preparátor',
+    'preparátorka',
   ]),
   OccupationLabels('2352', [
     'teacher for talented pupils',
@@ -33849,6 +38272,9 @@ const escoOccupations = <OccupationLabels>[
     'profesor de alumnos superdotados',
     'lehrkraft für begabtenförderung',
     'leraar hoogbegaafde leerlingen',
+    'učitelka nadaných studentů',
+    'učitel nadaných studentů',
+    'učitel talentovaných studentů',
   ]),
   OccupationLabels('2641', [
     'technical communicator',
@@ -33870,6 +38296,9 @@ const escoOccupations = <OccupationLabels>[
     'rédacteur de documentation technique',
     'rédactrice de documentation technique',
     'conceptrice-rédactrice',
+    'technický dokumentarista',
+    'technická dokumentaristka',
+    'technický editor',
   ]),
   OccupationLabels('2166', [
     'technical director',
@@ -33885,6 +38314,8 @@ const escoOccupations = <OccupationLabels>[
     'inspiciënte',
     'directeur technique',
     'directrice technique',
+    'vedoucí techniky',
+    'vedoucí technického oddělení',
   ]),
   OccupationLabels('2433', [
     'technical sales representative',
@@ -33898,6 +38329,9 @@ const escoOccupations = <OccupationLabels>[
     'technisch verkoper',
     'attaché technico-commercial',
     'attachée technico-commerciale',
+    'technický obchodní zástupce',
+    'technická obchodní zástupkyně',
+    'technická prodejkyně',
   ]),
   OccupationLabels('2433', [
     'vertegenwoordiger landbouwmachines en -uitrusting',
@@ -33906,6 +38340,7 @@ const escoOccupations = <OccupationLabels>[
   OccupationLabels('2433', [
     'vertegenwoordiger chemische producten',
     'handelsvertegenwoordiger chemische producten',
+    'technický prodejce chemických výrobků',
   ]),
   OccupationLabels('2434', [
     'vertegenwoordiger elektronische en telecommunicatieapparatuur',
@@ -33924,6 +38359,8 @@ const escoOccupations = <OccupationLabels>[
     'fachkraft technischer vertrieb textilmaschinenindustrie',
     'vertegenwoordiger textielmachine-industrie',
     'handelsvertegenwoordiger textielmachine-industrie',
+    'technická prodejkyně textilních strojů',
+    'technický prodejce textilních strojů',
   ]),
   OccupationLabels('1420', [
     'telecommunication equipment shop manager',
@@ -33931,6 +38368,7 @@ const escoOccupations = <OccupationLabels>[
     'leiterin eines telefonladens',
     'leiter eines telefongeschäftes',
     'winkelmanager telecom',
+    'vedoucí prodejny telekomunikačních zařízení',
   ]),
   OccupationLabels('2153', [
     'telecommunications analyst',
@@ -33949,6 +38387,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste des télécommunications',
     'analyste télécom',
     'analyste télécommunications',
+    'telekomunikační analytik',
+    'telekomunikační analytička',
+    'analytička telekomunikačních prostředků',
   ]),
   OccupationLabels('2153', [
     'telecommunications engineer',
@@ -33972,6 +38413,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur de télécommunications',
     'ingénieure de télécommunications',
     'ingénieur télécom',
+    'telekomunikační inženýr',
+    'telekomunikační inženýrka',
+    'designérka telekomunikačních systémů',
   ]),
   OccupationLabels('3522', [
     'telecommunications engineering technician',
@@ -33986,6 +38430,8 @@ const escoOccupations = <OccupationLabels>[
     'netwerk en telecommunicatie administrator',
     'technicien en télécommunications',
     'technicienne en télécommunications',
+    'technik telekomunikačních systémů',
+    'technička telekomunikačních systémů',
   ]),
   OccupationLabels('7422', [
     'telecommunications equipment maintainer',
@@ -33997,6 +38443,9 @@ const escoOccupations = <OccupationLabels>[
     'telekommunikationsutrustningsansvarig',
     'ansvariga för telekommunikationsutrustning',
     'onderhoudsmonteur telecommunicatieapparatuur',
+    'pracovník údržby telekomunikačních zařízení',
+    'pracovnice údržby telekomunikačních zařízení',
+    'pracovnice údržby telekomunikačních systémů',
   ]),
   OccupationLabels('5223', [
     'telecommunications equipment specialised seller',
@@ -34007,6 +38456,8 @@ const escoOccupations = <OccupationLabels>[
     'vendeur en téléphonie',
     'vendeuse en téléphonie',
     'vendeur en téléphonie mobile',
+    'prodavač telekomunikačních přístrojů',
+    'prodavačka telekomunikačních přístrojů',
   ]),
   OccupationLabels('1330', [
     'telecommunications manager',
@@ -34026,6 +38477,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable des télécommunications',
     'responsable réseau et télécommunications',
     'responsable des télécoms',
+    'manažer pro telekomunikační řešení',
+    'manažerka pro telekomunikační řešení',
+    'manažerka telekomunikačních zařízení',
   ]),
   OccupationLabels('7422', [
     'telecommunications technician',
@@ -34048,6 +38502,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien des télécommunications',
     'technicienne des télécommunications',
     'technicien télécommunications',
+    'telekomunikační technik',
+    'telekomunikační technička',
+    'telekomunikační technická pracovnice',
   ]),
   OccupationLabels('4223', [
     'telephone switchboard operator',
@@ -34063,6 +38520,8 @@ const escoOccupations = <OccupationLabels>[
     'telefonist',
     'telefoniste',
     'standardiste',
+    'operátor telefonní ústředny',
+    'operátorka telefonní ústředny',
   ]),
   OccupationLabels('3422', [
     'tennis coach',
@@ -34079,6 +38538,8 @@ const escoOccupations = <OccupationLabels>[
     'tennislerares',
     'professeur de tennis',
     'professeure de tennis',
+    'trenér tenisu',
+    'trenérka tenisu',
   ]),
   OccupationLabels('7215', [
     'tent installer',
@@ -34094,6 +38555,8 @@ const escoOccupations = <OccupationLabels>[
     'monteuse tentenbouw',
     'monteur de chapiteau',
     'monteuse de chapiteau',
+    'stavěč stanů',
+    'stavěčka stanů',
   ]),
   OccupationLabels('7114', [
     'terrazzo setter',
@@ -34113,6 +38576,8 @@ const escoOccupations = <OccupationLabels>[
     'carreleur spécialisé en terrazzo',
     'carreleuse spécialisée en terrazzo',
     'carreleur spécialisé en granito',
+    'podlahář',
+    'podlahářka',
   ]),
   OccupationLabels('3123', [
     'terrazzo setter supervisor',
@@ -34123,6 +38588,7 @@ const escoOccupations = <OccupationLabels>[
     'teamleider terrazzovloerenlegger',
     'teamleider gietvloerlegger',
     'teamleider granitovloerenlegger',
+    'mistr podlahář',
   ]),
   OccupationLabels('2149', [
     'test engineer',
@@ -34137,6 +38603,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur d’essais',
     'ingénieure d’essais',
     'ingénieur essais',
+    'zkušební inženýr',
+    'zkušební inženýrka',
   ]),
   OccupationLabels('3119', [
     'textile chemical quality technician',
@@ -34161,6 +38629,8 @@ const escoOccupations = <OccupationLabels>[
     'textielchemicus',
     'ingénieur en chimie textile',
     'ingénieure en chimie textile',
+    'textilní chemik',
+    'textilní chemička',
   ]),
   OccupationLabels('2163', [
     'textile colourist',
@@ -34174,6 +38644,8 @@ const escoOccupations = <OccupationLabels>[
     'coloriste textile',
     'coloriste sur textiles',
     'coloriste en impression textile',
+    'technolog barvení textilií',
+    'technoložka barvení textilií',
   ]),
   OccupationLabels('2163', [
     'textile designer',
@@ -34189,6 +38661,9 @@ const escoOccupations = <OccupationLabels>[
     'textielontwerpster',
     'designer textile',
     'designeuse textile',
+    'textilní návrhář',
+    'textilní návrhářka',
+    'textilní designér',
   ]),
   OccupationLabels('8154', [
     'textile dyeing technician',
@@ -34203,6 +38678,8 @@ const escoOccupations = <OccupationLabels>[
     'färbereitechnikerin',
     'textilfärgningstekniker',
     'technicus verven van textiel',
+    'technik barvení textilií',
+    'technička barvení textilií',
   ]),
   OccupationLabels('8154', [
     'textile dyer',
@@ -34221,6 +38698,8 @@ const escoOccupations = <OccupationLabels>[
     'textielverfster',
     'teinturier en industrie textile',
     'teinturière en industrie textile',
+    'barvíř textilií',
+    'barvířka textilií',
   ]),
   OccupationLabels('8154', [
     'textile finishing machine operator',
@@ -34233,6 +38712,8 @@ const escoOccupations = <OccupationLabels>[
   OccupationLabels('1324', [
     'vertriebsleiter für textilindustriemaschinen',
     'vertriebsleiterin für textilindustriemaschinen',
+    'manažer distribuce textilních strojů',
+    'manažerka distribuce textilních strojů',
   ]),
   OccupationLabels('8152', [
     'textile machine operator',
@@ -34249,6 +38730,7 @@ const escoOccupations = <OccupationLabels>[
     'textilmaskinoperatör',
     'operator textielmachines',
     'operator textiel',
+    'obsluha textilních strojů',
   ]),
   OccupationLabels('7233', [
     'textile machinery technician',
@@ -34265,6 +38747,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteur textielmachines',
     'technicien de machines textiles',
     'technicienne de machines textiles',
+    'mechanik textilních strojů',
+    'mechanička textilních strojů',
   ]),
   OccupationLabels('3122', [
     'textile operations manager',
@@ -34275,6 +38759,8 @@ const escoOccupations = <OccupationLabels>[
     'productieleider textielindustrie',
     'productiecoördinator textiel',
     'afdelingshoofd textielproductie',
+    'manažer textilního provozu',
+    'manažerka textilního provozu',
   ]),
   OccupationLabels('8159', [
     'textile pattern making operator',
@@ -34301,6 +38787,8 @@ const escoOccupations = <OccupationLabels>[
     'textieldrukker',
     'imprimeur en industrie textile',
     'imprimeuse en industrie textile',
+    'textilní tiskař',
+    'textilní tiskařka',
   ]),
   OccupationLabels('3119', [
     'textile process controller',
@@ -34322,6 +38810,8 @@ const escoOccupations = <OccupationLabels>[
     'entwickler von textilprodukten',
     'entwicklerin von textilprodukten',
     'productontwikkelaar textiel',
+    'vývojář textilních výrobků',
+    'vývojářka textilních výrobků',
   ]),
   OccupationLabels('7543', [
     'textile quality inspector',
@@ -34339,6 +38829,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsinspectrice textiel',
     'contrôleur qualité des textiles',
     'contrôleuse qualité des textiles',
+    'inspektor kvality textilu',
+    'inspektorka kvality textilu',
   ]),
   OccupationLabels('1321', [
     'textile quality manager',
@@ -34354,6 +38846,8 @@ const escoOccupations = <OccupationLabels>[
     'kwaliteitsverantwoordelijke textiel',
     'responsable qualité habillement',
     'responsable qualité textile',
+    'manažer kvality textilních výrobků',
+    'manažerka kvality textilních výrobků',
   ]),
   OccupationLabels('3119', [
     'textile quality technician',
@@ -34374,6 +38868,7 @@ const escoOccupations = <OccupationLabels>[
     'manager stoffenwinkel',
     'floormanager verkoop textiel',
     'afdelingsmanager verkoop textiel',
+    'vedoucí prodejny textilu',
   ]),
   OccupationLabels('3323', [
     'textile sourcing merchandiser',
@@ -34385,6 +38880,7 @@ const escoOccupations = <OccupationLabels>[
     'textielinkoopster',
     'acheteur sourcing textile',
     'acheteuse sourcing textile',
+    'nákupčí textilu',
   ]),
   OccupationLabels('5223', [
     'textile specialised seller',
@@ -34397,6 +38893,8 @@ const escoOccupations = <OccupationLabels>[
     'stoffenverkoopster',
     'vendeur en tissus',
     'vendeuse en tissus',
+    'prodavač textilního zboží',
+    'prodavačka textilního zboží',
   ]),
   OccupationLabels('2141', [
     'textile technologist',
@@ -34412,6 +38910,9 @@ const escoOccupations = <OccupationLabels>[
     'textieltechnologe',
     'ingénieur textile',
     'ingénieure textile',
+    'textilní technik technolog',
+    'textilní technička technoložka',
+    'textilní technička manažerka',
   ]),
   OccupationLabels('2149', [
     'ingénieur matériaux souples',
@@ -34454,6 +38955,8 @@ const escoOccupations = <OccupationLabels>[
     'theatertechnicus licht',
     'technicien de théâtre',
     'technicienne de théâtre',
+    'divadelní technik',
+    'divadelní technička',
   ]),
   OccupationLabels('2269', [
     'therapeutic radiographer',
@@ -34472,6 +38975,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien en radiothérapie',
     'technicienne en radiothérapie',
     'technicienne en radiologie thérapeutique',
+    'radiolog',
+    'radioložka',
   ]),
   OccupationLabels('2149', [
     'thermal engineer',
@@ -34526,6 +39031,8 @@ const escoOccupations = <OccupationLabels>[
     'ticketverkoper',
     'agent de réservation',
     'agente de réservation',
+    'rezervační pracovník',
+    'rezervační pracovnice',
   ]),
   OccupationLabels('7122', [
     'tile fitter',
@@ -34539,6 +39046,7 @@ const escoOccupations = <OccupationLabels>[
     'carreleur',
     'carreleuse',
     'carreleur chef d\'équipe',
+    'obkladač',
   ]),
   OccupationLabels('3123', [
     'tiling supervisor',
@@ -34550,6 +39058,7 @@ const escoOccupations = <OccupationLabels>[
     'teamleider vloerenlegger',
     'superviseur de carreleurs',
     'superviseuse de carreleurs',
+    'mistr obkladač',
   ]),
   OccupationLabels('3323', [
     'timber trader',
@@ -34563,6 +39072,8 @@ const escoOccupations = <OccupationLabels>[
     'houthandelaar',
     'négociant en bois',
     'négociante en bois',
+    'obchodník se dřevem',
+    'obchodnice se dřevem',
   ]),
   OccupationLabels('8143', [
     'perforierer in der papierwarenerzeugung',
@@ -34590,6 +39101,8 @@ const escoOccupations = <OccupationLabels>[
     'distributiemanager tabaksproducten',
     'distributiechef tabaksproducten',
     'hoofd distributie tabaksproducten',
+    'manažer distribuce tabákových výrobků',
+    'manažerka distribuce tabákových výrobků',
   ]),
   OccupationLabels('1420', [
     'tobacco shop manager',
@@ -34603,6 +39116,8 @@ const escoOccupations = <OccupationLabels>[
     'manager tabakswinkel',
     'débitant de tabac',
     'débitante de tabac',
+    'vedoucí prodejny tabákových výrobků',
+    'vedoucí trafiky',
   ]),
   OccupationLabels('5223', [
     'tobacco specialised seller',
@@ -34615,6 +39130,8 @@ const escoOccupations = <OccupationLabels>[
     'verkoopspecialist tabaksproducten',
     'sigarenverkoopster',
     'verkoopspecialist rookwaren',
+    'prodavač tabákových výrobků',
+    'prodavačka tabákových výrobků',
   ]),
   OccupationLabels('9112', [
     'toilet attendant',
@@ -34627,6 +39144,8 @@ const escoOccupations = <OccupationLabels>[
     'toiletmedewerkster',
     'gardien de toilettes',
     'gardienne de toilettes',
+    'toaletář',
+    'toaletářka',
   ]),
   OccupationLabels('7222', [
     'tool and die maker',
@@ -34661,6 +39180,8 @@ const escoOccupations = <OccupationLabels>[
     'affûteur d’outils',
     'affûteuse d’outils',
     'affûteuse d\'outils',
+    'brusič nářadí',
+    'brusička nářadí',
   ]),
   OccupationLabels('8113', [
     'tool pusher',
@@ -34672,6 +39193,7 @@ const escoOccupations = <OccupationLabels>[
     'oberbohrmeisterin',
     'borrtekniker',
     'toolpusher',
+    'provozní ropné plošiny',
   ]),
   OccupationLabels('2144', [
     'tooling engineer',
@@ -34689,6 +39211,9 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur outillage',
     'ingénieure outillage',
     'ingénieur outillages',
+    'strojní inženýr nástrojář',
+    'strojní inženýrka nástrojařka',
+    'strojní inženýrka nástrojářka',
   ]),
   OccupationLabels('4212', [
     'tote operator',
@@ -34700,6 +39225,8 @@ const escoOccupations = <OccupationLabels>[
     'totalisatormedewerker',
     'totalisatormedewerker op paardenrace',
     'totalisatormedewerkster',
+    'pracovník dostihové sázkové kanceláře',
+    'pracovnice dostihové sázkové kanceláře',
   ]),
   OccupationLabels('4221', [
     'tour operator representative',
@@ -34714,6 +39241,8 @@ const escoOccupations = <OccupationLabels>[
     'représentant à destination',
     'représentante à destination',
     'représentant de voyagiste',
+    'delegát cestovní kanceláře',
+    'delegátka cestovní kanceláře',
   ]),
   OccupationLabels('3339', [
     'tour operators manager',
@@ -34728,6 +39257,8 @@ const escoOccupations = <OccupationLabels>[
     'responsable d’organisateurs de voyages',
     'responsable de voyagistes',
     'responsable de tour-opérateurs',
+    'manažer cestovní kanceláře',
+    'manažerka cestovní kanceláře',
   ]),
   OccupationLabels('4221', [
     'tour organiser',
@@ -34742,6 +39273,8 @@ const escoOccupations = <OccupationLabels>[
     'reisleider',
     'guide accompagnateur',
     'guide accompagnatrice',
+    'organizátor zájezdu',
+    'organizátorka zájezdu',
   ]),
   OccupationLabels('3339', [
     'tourism contract negotiator',
@@ -34758,6 +39291,9 @@ const escoOccupations = <OccupationLabels>[
     'négociateur des contrats touristiques',
     'négociatrice des contrats touristiques',
     'négociateur de contrats touristiques',
+    'vyjednávač cestovních smluv',
+    'vyjednávačka cestovních smluv',
+    'vyjednávač smluv',
   ]),
   OccupationLabels('1213', [
     'tourism policy director',
@@ -34771,6 +39307,8 @@ const escoOccupations = <OccupationLabels>[
     'beleidsdirecteur toerisme',
     'beleidsdirectrice recreatie en toerisme',
     'responsable des politiques touristiques',
+    'manažer rozvoje cestovního ruchu',
+    'manažerka rozvoje cestovního ruchu',
   ]),
   OccupationLabels('1221', [
     'tourism product manager',
@@ -34787,6 +39325,8 @@ const escoOccupations = <OccupationLabels>[
     'produktchefer inom turism',
     'productmanager toerisme',
     'chef de produit tourisme',
+    'manažer cestovních produktů',
+    'manažerka cestovních produktů',
   ]),
   OccupationLabels('2659', [
     'tourist animator',
@@ -34803,6 +39343,8 @@ const escoOccupations = <OccupationLabels>[
     'animateur touristique',
     'animatrice touristique',
     'animateur d\'accueil de loisirs',
+    'animační pracovník',
+    'animační pracovnice',
   ]),
   OccupationLabels('1439', [
     'tourist information centre manager',
@@ -34818,6 +39360,9 @@ const escoOccupations = <OccupationLabels>[
     'vvv-manager',
     'directeur d’office de tourisme',
     'directrice d’office de tourisme',
+    'manažer turistického informačního centra',
+    'manažerka turistického informačního centra',
+    'manažerka turistického infocentra',
   ]),
   OccupationLabels('4221', [
     'tourist information officer',
@@ -34835,6 +39380,9 @@ const escoOccupations = <OccupationLabels>[
     'baliemedewerker vvv',
     'agent d\'office touristique',
     'agente d\'office touristique',
+    'pracovník turistické informační služby',
+    'pracovnice turistické informační služby',
+    'pracovnice turistického informačního centra',
   ]),
   OccupationLabels('8343', [
     'tower crane operator',
@@ -34851,6 +39399,7 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de grue marteau',
     'conductrice de grue marteau',
     'conductrice de grue pylône',
+    'obsluha věžového jeřábu',
   ]),
   OccupationLabels('2131', [
     'toxicologist',
@@ -34868,6 +39417,7 @@ const escoOccupations = <OccupationLabels>[
     'toxicologue',
     'toxicologue de l’industrie',
     'toxicologiste',
+    'toxikoložka',
   ]),
   OccupationLabels('7317', [
     'toymaker',
@@ -34884,6 +39434,8 @@ const escoOccupations = <OccupationLabels>[
     'maakster van plastic speelgoed',
     'fabricant de jouets',
     'fabricante de jouets',
+    'výrobce hraček',
+    'výrobkyně hraček',
   ]),
   OccupationLabels('1420', [
     'gerente de juguetería',
@@ -34891,6 +39443,9 @@ const escoOccupations = <OccupationLabels>[
     'leiter eines spielzeugladens',
     'bedrijfsleider speelgoedwinkel',
     'bedrijfsleidster speelgoedwinkel',
+    'vedoucí prodejny hraček',
+    'vedoucí hračkářství',
+    'vedoucí hračkárny',
   ]),
   OccupationLabels('5223', [
     'vendedor de prinquedos',
@@ -34903,6 +39458,9 @@ const escoOccupations = <OccupationLabels>[
     'speelgoedverkoopster',
     'marchand de jouets',
     'marchande de jouets',
+    'prodavač v hračkářství',
+    'prodavačka v hračkářství',
+    'prodavačka hraček a her',
   ]),
   OccupationLabels('8131', [
     'tracer powder blender',
@@ -34927,6 +39485,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerker handel',
     'medewerker handelsontwikkeling',
     'medewerker ontwikkeling commerciële relaties',
+    'obchodní referent',
+    'obchodní referentka',
   ]),
   OccupationLabels('1420', [
     'trade regional manager',
@@ -34944,6 +39504,9 @@ const escoOccupations = <OccupationLabels>[
     'directeur régional des ventes',
     'directrice régionale des ventes',
     'directeur commercial régional',
+    'regionální obchodní manažer',
+    'regionální obchodní manažerka',
+    'regionální vedoucí prodeje',
   ]),
   OccupationLabels('2230', [
     'traditional chinese medicine therapist',
@@ -34959,6 +39522,8 @@ const escoOccupations = <OccupationLabels>[
     'tcm-therapeute',
     'intervenant en médecine chinoise',
     'intervenante en médecine chinoise',
+    'terapeut tradiční čínské medicíny',
+    'terapeutka tradiční čínské medicíny',
   ]),
   OccupationLabels('5111', [
     'train attendant',
@@ -34970,6 +39535,7 @@ const escoOccupations = <OccupationLabels>[
     'treinstewardess',
     'steward ferroviaire',
     'hôtesse ferroviaire',
+    'průvodčí vlaku',
   ]),
   OccupationLabels('9112', [
     'train cleaner',
@@ -34983,6 +39549,8 @@ const escoOccupations = <OccupationLabels>[
     'schoonmaker treininterieur',
     'nettoyeur de trains',
     'nettoyeuse de trains',
+    'pracovník pro úklid vlaků',
+    'pracovnice pro úklid vlaků',
   ]),
   OccupationLabels('5112', [
     'train conductor',
@@ -34998,6 +39566,7 @@ const escoOccupations = <OccupationLabels>[
     'contrôleur de train',
     'contrôleuse de train',
     'contrôleuse',
+    'průvodčí osobní přepravy',
   ]),
   OccupationLabels('8312', [
     'train dispatcher',
@@ -35014,6 +39583,9 @@ const escoOccupations = <OccupationLabels>[
     'dispatcher van treinen',
     'régulateur du réseau ferré',
     'régulatrice du réseau ferré',
+    'výpravčí',
+    'vlaková výpravčí',
+    'vlakový výpravčí',
   ]),
   OccupationLabels('8311', [
     'train driver',
@@ -35031,6 +39603,9 @@ const escoOccupations = <OccupationLabels>[
     'treinmachiniste beperkt bevoegd',
     'conducteur de train',
     'conductrice de train',
+    'strojvedoucí',
+    'strojvedoucí metra',
+    'strojvedoucí lokomotiv',
   ]),
   OccupationLabels('8312', [
     'train preparer',
@@ -35042,6 +39617,9 @@ const escoOccupations = <OccupationLabels>[
     'bangårdsoperatör',
     'treinvoorbereider',
     'treinvoorbereidster',
+    'tranzitér přípravář',
+    'tranzitérka přípravářka',
+    'tranzitér',
   ]),
   OccupationLabels('4323', [
     'tram controller',
@@ -35050,6 +39628,8 @@ const escoOccupations = <OccupationLabels>[
     'verkeersleider tram',
     'verkeersleidster tram',
     'responsable transport en tramway',
+    'dispečer tramvajové dopravy',
+    'dispečerka tramvajové dopravy',
   ]),
   OccupationLabels('8331', [
     'tram driver',
@@ -35064,6 +39644,9 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de tramway',
     'conductrice de tramway',
     'conductrice de métro-rer',
+    'řidič tramvají',
+    'řidička tramvají',
+    'řidič metra',
   ]),
   OccupationLabels('1349', [
     'translation agency manager',
@@ -35074,6 +39657,8 @@ const escoOccupations = <OccupationLabels>[
     'manager vertaalbureau',
     'directeur d\'agence de traduction',
     'directrice d\'agence de traduction',
+    'ředitel překladatelské agentury',
+    'ředitelka překladatelské agentury',
   ]),
   OccupationLabels('2643', [
     'translator',
@@ -35094,6 +39679,8 @@ const escoOccupations = <OccupationLabels>[
     'vertaler-tolk',
     'traducteur',
     'traductrice',
+    'překladatel',
+    'překladatelka',
   ]),
   OccupationLabels('2142', [
     'transport engineer',
@@ -35111,6 +39698,8 @@ const escoOccupations = <OccupationLabels>[
     'exploitatie-ingenieur wegen',
     'ingénieur infrastructures de transport',
     'ingénieure infrastructures de transport',
+    'projektant dopravní infrastruktury',
+    'projektantka dopravní infrastruktury',
   ]),
   OccupationLabels('7132', [
     'transport equipment painter',
@@ -35122,6 +39711,9 @@ const escoOccupations = <OccupationLabels>[
     'fordonslackerare',
     'voertuiglakker',
     'voertuigschilder',
+    'lakýrník dopravních prostředků',
+    'lakýrnice dopravních prostředků',
+    'lakýrník dopravních prostředů',
   ]),
   OccupationLabels('3257', [
     'transportation safety manager',
@@ -35144,6 +39736,9 @@ const escoOccupations = <OccupationLabels>[
     'verkeersplanologe',
     'adviseuse verkeerskunde',
     'responsable des déplacements',
+    'plánovač dopravy',
+    'plánovačka dopravy',
+    'plánovač dopravního provozu',
   ]),
   OccupationLabels('2320', [
     'transport technology vocational teacher',
@@ -35169,6 +39764,9 @@ const escoOccupations = <OccupationLabels>[
     'manager reisbureau',
     'directeur d\'agence de voyage',
     'directrice d’agence de voyage',
+    'manažer cestovní agentury',
+    'manažerka cestovní agentury',
+    'manažer prodeje zájezdů',
   ]),
   OccupationLabels('4221', [
     'travel agent',
@@ -35188,6 +39786,9 @@ const escoOccupations = <OccupationLabels>[
     'agent de voyage',
     'agente de voyage',
     'agent de voyages',
+    'pracovník cestovní kanceláře',
+    'pracovnice cestovní kanceláře',
+    'rezervační pracovník',
   ]),
   OccupationLabels('2320', [
     'travel and tourism trainer',
@@ -35215,6 +39816,9 @@ const escoOccupations = <OccupationLabels>[
     'conseiller voyage',
     'conseillère voyage',
     'conseillère des voyages',
+    'konzultant cestovní kanceláře',
+    'konzultantka cestovní kanceláře',
+    'konzultantka pro služební cesty',
   ]),
   OccupationLabels('6113', [
     'tree surgeon',
@@ -35245,6 +39849,8 @@ const escoOccupations = <OccupationLabels>[
     'conducteur de trolleybus',
     'conductrice de trolleybus',
     'conducteur de bus guidé',
+    'řidič trolejbusu',
+    'řidička trolejbusu',
   ]),
   OccupationLabels('5165', [
     'truck driving instructor',
@@ -35257,6 +39863,8 @@ const escoOccupations = <OccupationLabels>[
     'moniteur poids lourds',
     'monitrice poids lourds',
     'monitrice de camion-école',
+    'instruktor řízení nákladních automobilů',
+    'instruktorka řízení nákladních automobilů',
   ]),
   OccupationLabels('8152', [
     'tufting operator',
@@ -35268,6 +39876,7 @@ const escoOccupations = <OccupationLabels>[
     'tufterin',
     'operator tuften',
     'operator tuftmachine',
+    'obsluha všívacího stroje',
   ]),
   OccupationLabels('8122', [
     'tumbling machine operator',
@@ -35277,6 +39886,8 @@ const escoOccupations = <OccupationLabels>[
     'trommelaar',
     'opérateur de tribofinition',
     'opératrice de tribofinition',
+    'obsluha bubnu',
+    'obsluha lakovacích bubnů',
   ]),
   OccupationLabels('8113', [
     'tunnel boring machine operator',
@@ -35307,6 +39918,7 @@ const escoOccupations = <OccupationLabels>[
     'operator tunneldroger',
     'opérateur de four-tunnel',
     'opératrice de four-tunnel',
+    'obsluha tunelové pece',
   ]),
   OccupationLabels('2359', [
     'tutor',
@@ -35323,6 +39935,8 @@ const escoOccupations = <OccupationLabels>[
     'privélerares',
     'répétiteur',
     'répétitrice',
+    'soukromý učitel',
+    'soukromá učitelka',
   ]),
   OccupationLabels('8151', [
     'twisting machine operator',
@@ -35338,6 +39952,7 @@ const escoOccupations = <OccupationLabels>[
     'operator twijnen',
     'retordeur',
     'retordeuse',
+    'obsluha skacích strojů',
   ]),
   OccupationLabels('7321', [
     'typesetter',
@@ -35353,6 +39968,8 @@ const escoOccupations = <OccupationLabels>[
     'zetter-desktoppublisher',
     'letterzetter',
     'typographe',
+    'sazeč',
+    'sazečka',
   ]),
   OccupationLabels('4131', [
     'typist',
@@ -35368,6 +39985,8 @@ const escoOccupations = <OccupationLabels>[
     'teletypist',
     'teletypiste',
     'dactylographe',
+    'písař',
+    'písařka',
   ]),
   OccupationLabels('8141', [
     'tyre builder',
@@ -35383,6 +40002,8 @@ const escoOccupations = <OccupationLabels>[
     'bandenmaakster',
     'confectionneur de pneumatiques',
     'confectionneuse de pneumatiques',
+    'konfekcionér pneumatik',
+    'konfekcionérka pneumatik',
   ]),
   OccupationLabels('7231', [
     'tyre fitter',
@@ -35395,6 +40016,8 @@ const escoOccupations = <OccupationLabels>[
     'autobandenmonteur',
     'monteur en pneumatique',
     'monteuse en pneumatique',
+    'mechanik pneuservisu',
+    'mechanička pneuservisu',
   ]),
   OccupationLabels('8141', [
     'tyre vulcaniser',
@@ -35408,6 +40031,8 @@ const escoOccupations = <OccupationLabels>[
     'réparateur de pneus',
     'réparatrice de pneus',
     'poseur réparateur de pneus',
+    'vulkanizér pneumatik',
+    'vulkanizérka pneumatik',
   ]),
   OccupationLabels('8111', [
     'underground heavy equipment operator',
@@ -35423,6 +40048,9 @@ const escoOccupations = <OccupationLabels>[
     'opérateur d’équipement lourd souterrain',
     'opératrice d’équipement lourd souterrain',
     'opératrice d\'équipement lourd souterrain',
+    'obsluha důlních těžkých zařízení',
+    'obsluha důlních zařízení',
+    'obsluha těžkých zařízení',
   ]),
   OccupationLabels('8111', [
     'underground miner',
@@ -35442,6 +40070,9 @@ const escoOccupations = <OccupationLabels>[
     'mineur de fond',
     'mineuse de fond',
     'mineuse',
+    'horník',
+    'hornice hlubinné těžby',
+    'horník v uhelných dolech',
   ]),
   OccupationLabels('3123', [
     'underwater construction supervisor',
@@ -35473,6 +40104,8 @@ const escoOccupations = <OccupationLabels>[
     'directeur de département d\'université',
     'directrice de département d\'université',
     'directeur de faculté',
+    'vedoucí katedry',
+    'vedoucí ústavu',
   ]),
   OccupationLabels('2310', [
     'university literature lecturer',
@@ -35490,6 +40123,8 @@ const escoOccupations = <OccupationLabels>[
     'enseignant-chercheur en littérature',
     'enseignante-chercheuse en littérature',
     'enseignant-chercheur en littérature comparée',
+    'vysokoškolský učitel literatury',
+    'vysokoškolská učitelka literatury',
   ]),
   OccupationLabels('2310', [
     'university research assistant',
@@ -35532,6 +40167,8 @@ const escoOccupations = <OccupationLabels>[
     'garnisseur',
     'garnisseuse',
     'tapissière garnisseuse',
+    'čalouník',
+    'čalounice',
   ]),
   OccupationLabels('7223', [
     'upsetting machine operator',
@@ -35542,6 +40179,8 @@ const escoOccupations = <OccupationLabels>[
     'maschinenbedienerin für stauchanlage',
     'verktygsuppsättare',
     'operator stuikmachine',
+    'seřizovač pěchovacího lisu',
+    'seřizovačka pěchovacího lisu',
   ]),
   OccupationLabels('2164', [
     'urban planner',
@@ -35556,6 +40195,7 @@ const escoOccupations = <OccupationLabels>[
     'stedenbouwkundig planologe',
     'stedenbouwkundig ontwerpster',
     'urbaniste',
+    'urbanistka',
   ]),
   OccupationLabels('2511', [
     'user experience analyst',
@@ -35567,6 +40207,9 @@ const escoOccupations = <OccupationLabels>[
     'analyste d’expérience utilisateur',
     'analyste expérience utilisateur',
     'analyste d\'expérience d\'utilisateur',
+    'analytik uživatelských zkušeností',
+    'analytička uživatelských zkušeností',
+    'analytik použitelnosti systémů',
   ]),
   OccupationLabels('2513', [
     'user interface designer',
@@ -35585,6 +40228,8 @@ const escoOccupations = <OccupationLabels>[
     'concepteur d’interface utilisateur',
     'conceptrice d’interface utilisatrice',
     'conceptrice d\'interface',
+    'designér uživatelského rozhraní',
+    'designérka uživatelského rozhraní',
   ]),
   OccupationLabels('2512', [
     'user interface developer',
@@ -35601,6 +40246,8 @@ const escoOccupations = <OccupationLabels>[
     'développeur d’interface utilisateur',
     'développeuse d’interface utilisatrice',
     'développeuse d\'interface utilisatrices',
+    'vývojář uživatelského rozhraní',
+    'vývojářka uživatelského rozhraní',
   ]),
   OccupationLabels('9629', [
     'usher',
@@ -35611,6 +40258,8 @@ const escoOccupations = <OccupationLabels>[
     'platzanweiser',
     'platzanweiserin',
     'publikvärd',
+    'biletář',
+    'biletářka',
   ]),
   OccupationLabels('3119', [
     'utilities inspector',
@@ -35624,6 +40273,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur nutsvoorzieningen',
     'inspecteur utiliteit',
     'inspecteur utiliteitsbouw',
+    'inspektor sítí technické infrastruktury',
+    'inspektorka sítí technické infrastruktury',
   ]),
   OccupationLabels('8141', [
     'v-belt builder',
@@ -35639,6 +40290,8 @@ const escoOccupations = <OccupationLabels>[
     'productiemedewerker v-riemen',
     'productiemedewerkster v-riemen',
     'productiemedewerkster v-snaren',
+    'konfekcionér klínových řemenů',
+    'konfekcionérka klínových řemenů',
   ]),
   OccupationLabels('8141', [
     'v-belt coverer',
@@ -35673,6 +40326,8 @@ const escoOccupations = <OccupationLabels>[
     'operator thermovormmachine',
     'thermoformeur',
     'thermoformeuse',
+    'obsluha vakuových strojů',
+    'obsluha vakuových tvářecích strojů',
   ]),
   OccupationLabels('2659', [
     'variety artist',
@@ -35687,6 +40342,8 @@ const escoOccupations = <OccupationLabels>[
     'variétéartieste',
     'artiste de variétés',
     'artiste fantaisiste',
+    'varietní umělec',
+    'varietní umělkyně',
   ]),
   OccupationLabels('8131', [
     'varnish maker',
@@ -35698,6 +40355,8 @@ const escoOccupations = <OccupationLabels>[
     'vernismaker',
     'préparateur de vernis',
     'préparatrice de vernis',
+    'výrobce nátěrů',
+    'výrobkyně nátěrů',
   ]),
   OccupationLabels('9122', [
     'vehicle cleaner',
@@ -35710,6 +40369,8 @@ const escoOccupations = <OccupationLabels>[
     'autopoetser',
     'laveur de véhicules',
     'laveuse de véhicules',
+    'pracovník pro úklid automobilů',
+    'pracovnice pro úklid automobilů',
   ]),
   OccupationLabels('7421', [
     'vehicle electronics installer',
@@ -35723,6 +40384,9 @@ const escoOccupations = <OccupationLabels>[
     'monteur auto-elektronica',
     'technicien en électronique automobile',
     'technicienne en électronique automobile',
+    'mechanik elektronických přístrojů vozidel',
+    'mechanička elektronických přístrojů vozidel',
+    'mechanička elektronických zařízení vozidel',
   ]),
   OccupationLabels('7125', [
     'vehicle glazier',
@@ -35737,6 +40401,8 @@ const escoOccupations = <OccupationLabels>[
     'servicemonteuse autoruiten',
     'vitrier automobile',
     'vitrière automobile',
+    'automechanik-specialista na skla',
+    'automechanička-specialistka na skla',
   ]),
   OccupationLabels('7231', [
     'vehicle maintenance attendant',
@@ -35752,6 +40418,8 @@ const escoOccupations = <OccupationLabels>[
     'mécanicien d’entretien en automobile',
     'mécanicienne d’entretien en automobile',
     'mécanicienne d\'entretien en automobile',
+    'pracovník servisu motorových vozidel',
+    'pracovnice servisu motorových vozidel',
   ]),
   OccupationLabels('7231', [
     'vehicle maintenance supervisor',
@@ -35764,6 +40432,7 @@ const escoOccupations = <OccupationLabels>[
     'eerste automonteur',
     'eerste autotechnicus',
     'eerste automonteuse',
+    'vedoucí údržby motorových vozidel',
   ]),
   OccupationLabels('5249', [
     'vehicle rental agent',
@@ -35775,6 +40444,8 @@ const escoOccupations = <OccupationLabels>[
     'verhuurmedewerker autoverhuurbedrijf',
     'verhuurmedewerkster bij een autoverhuurbedrijf',
     'verhuurmedewerkster autoverhuurbedrijf',
+    'pracovník půjčovny vozidel',
+    'pracovnice půjčovny vozidel',
   ]),
   OccupationLabels('7231', [
     'vehicle technician',
@@ -35791,6 +40462,8 @@ const escoOccupations = <OccupationLabels>[
     'automonteuse',
     'technicien de véhicules',
     'technicienne de véhicules',
+    'automechanik',
+    'automechanička',
   ]),
   OccupationLabels('9623', [
     'vending machine operator',
@@ -35804,6 +40477,8 @@ const escoOccupations = <OccupationLabels>[
     'automatenarbeiterin',
     'automatskötare',
     'operator cateringautomaten',
+    'operátor prodejních automatů',
+    'operátorka prodejních automatů',
   ]),
   OccupationLabels('7543', [
     'veneer grader',
@@ -35840,6 +40515,9 @@ const escoOccupations = <OccupationLabels>[
     'risicokapitaalinvesteerder',
     'investisseur en capital risque',
     'investisseuse en capital risque',
+    'investor rizikového kapitálu',
+    'investorka rizikového kapitálu',
+    'investorka počátečního kapitálu',
   ]),
   OccupationLabels('3332', [
     'venue director',
@@ -35855,6 +40533,9 @@ const escoOccupations = <OccupationLabels>[
     'responsable des réceptions',
     'responsable des activités évènementielles',
     'responsable évènementiel',
+    'manažer pro akce',
+    'manažerka pro akce',
+    'manažerka pro bankety',
   ]),
   OccupationLabels('3339', [
     'venue programmer',
@@ -35868,6 +40549,8 @@ const escoOccupations = <OccupationLabels>[
     'programmgestalterin im kulturbereich',
     'evenemangsarrangör',
     'cultureel programmeur',
+    'programový pracovník',
+    'programová pracovnice',
   ]),
   OccupationLabels('5153', [
     'verger',
@@ -35886,6 +40569,8 @@ const escoOccupations = <OccupationLabels>[
     'kosteres',
     'bedeau',
     'bedelle',
+    'kostelník',
+    'kostelnice',
   ]),
   OccupationLabels('8160', [
     'vermouth manufacturer',
@@ -35899,6 +40584,9 @@ const escoOccupations = <OccupationLabels>[
     'vermoutproducent',
     'vermoutproductiemedewerker',
     'medewerkers vermoutproductie',
+    'pracovník výroby vermutu',
+    'pracovnice výroby vermutu',
+    'pracovníci výroby vermutu',
   ]),
   OccupationLabels('7543', [
     'vessel assembly inspector',
@@ -35910,6 +40598,8 @@ const escoOccupations = <OccupationLabels>[
     'qualitätsprüfer schiffsbau',
     'qualitätsprüferin schiffsbau',
     'controleur scheepsbouw',
+    'kontrolor výstupní kvality plavidel',
+    'kontrolorka výstupní kvality plavidel',
   ]),
   OccupationLabels('3122', [
     'vessel assembly supervisor',
@@ -35920,6 +40610,8 @@ const escoOccupations = <OccupationLabels>[
     'montageleider vaartuigassemblage',
     'superviseur assemblage naval',
     'superviseuse assemblage naval',
+    'mistr montáže lodí',
+    'mistrová montáže lodí',
   ]),
   OccupationLabels('8211', [
     'vessel engine assembler',
@@ -35934,6 +40626,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur de moteurs marins',
     'monteuse de moteurs marins',
     'monteuse-assembleuse moteurs marins',
+    'montážní dělník lodních motorů',
+    'montážní dělnice lodních motorů',
   ]),
   OccupationLabels('3115', [
     'vessel engine inspector',
@@ -35947,6 +40641,8 @@ const escoOccupations = <OccupationLabels>[
     'inspecteur motoren vaartuigen',
     'inspecteur de moteurs marins',
     'inspectrice de moteurs marins',
+    'inspektor lodních motorů',
+    'inspektorka lodních motorů',
   ]),
   OccupationLabels('3115', [
     'vessel engine tester',
@@ -35956,6 +40652,8 @@ const escoOccupations = <OccupationLabels>[
     'tester scheepsmotoren',
     'testeur de moteurs marins',
     'testeuse de moteurs marins',
+    'zkušební technik lodních motorů',
+    'zkušební technička lodních motorů',
   ]),
   OccupationLabels('4323', [
     'vessel operations coordinator',
@@ -35970,6 +40668,8 @@ const escoOccupations = <OccupationLabels>[
     'coordinateur d’opérations navires',
     'coordinatrice d’opérations navires',
     'coordinatrice d\'opérations navires',
+    'dispečer lodní dopravy',
+    'dispečerka lodní dopravy',
   ]),
   OccupationLabels('3423', [
     'vessel steering instructor',
@@ -35987,6 +40687,8 @@ const escoOccupations = <OccupationLabels>[
     'instructrice vaartuig',
     'moniteur de bateau-école',
     'monitrice de bateau-école',
+    'instruktor řízení plavidel',
+    'instruktorka řízení plavidel',
   ]),
   OccupationLabels('2310', [
     'veterinary medicine lecturer',
@@ -36019,6 +40721,8 @@ const escoOccupations = <OccupationLabels>[
     'infirmier vétérinaire',
     'infirmière vétérinaire',
     'infirmière animalière',
+    'veterinární zdravotní bratr',
+    'veterinární zdravotní sestra',
   ]),
   OccupationLabels('4226', [
     'veterinary receptionist',
@@ -36037,6 +40741,8 @@ const escoOccupations = <OccupationLabels>[
     'agent d’accueil vétérinaire',
     'agente d’accueil vétérinaire',
     'agente d\'accueil vétérinaire',
+    'recepční na veterinární klinice',
+    'recepční u zvěrolékaře',
   ]),
   OccupationLabels('3240', [
     'veterinary technician',
@@ -36057,6 +40763,9 @@ const escoOccupations = <OccupationLabels>[
     'technicien vétérinaire',
     'technicienne vétérinaire',
     'technicien animalier',
+    'veterinární technik',
+    'veterinární technička',
+    'veterinární asistent',
   ]),
   OccupationLabels('2635', [
     'victim support officer',
@@ -36068,6 +40777,8 @@ const escoOccupations = <OccupationLabels>[
     'intervenant d’aide aux victimes',
     'intervenante d’aide aux victimes',
     'intervenante d\'aide aux victimes',
+    'úředník pro pomoc obětem',
+    'úřednice pro pomoc obětem',
   ]),
   OccupationLabels('2166', [
     'video director',
@@ -36079,6 +40790,8 @@ const escoOccupations = <OccupationLabels>[
     'video- och filmproduktionsledare',
     'regisseur video- en bioscoopfilms',
     'filmregisseur',
+    'filmový režisér',
+    'filmová režisérka',
   ]),
   OccupationLabels('2654', [
     'film and video editor',
@@ -36093,6 +40806,8 @@ const escoOccupations = <OccupationLabels>[
     'monteur audiovisuel',
     'monteuse audiovisuelle',
     'chef monteur',
+    'filmový střihač',
+    'filmová střihačka',
   ]),
   OccupationLabels('2654', [
     'video producer',
@@ -36107,6 +40822,8 @@ const escoOccupations = <OccupationLabels>[
     'filmproducent',
     'producteur cinéma et vidéo',
     'productrice cinéma et vidéo',
+    'filmový producent',
+    'filmová producentka',
   ]),
   OccupationLabels('2651', [
     'video artist',
@@ -36119,6 +40836,8 @@ const escoOccupations = <OccupationLabels>[
     'videokonstnär',
     'videokunstenaar',
     'infographiste vidéo',
+    'tvůrce videoinstalací',
+    'tvůrkyně videoinstalací',
   ]),
   OccupationLabels('2166', [
     'video designer',
@@ -36130,6 +40849,8 @@ const escoOccupations = <OccupationLabels>[
     'videodesignerin',
     'concepteur vidéo',
     'conceptrice vidéo',
+    'video designér',
+    'video designérka',
   ]),
   OccupationLabels('3521', [
     'video operator',
@@ -36143,6 +40864,8 @@ const escoOccupations = <OccupationLabels>[
     'video-operatrice',
     'opérateur vidéo',
     'opératrice vidéo',
+    'operátor videoprojekcí',
+    'operátorka videoprojekcí',
   ]),
   OccupationLabels('3521', [
     'video technician',
@@ -36156,6 +40879,9 @@ const escoOccupations = <OccupationLabels>[
     'beeldtechnicus',
     'technicien vidéo',
     'technicienne vidéo',
+    'technik obrazu',
+    'technička obrazu',
+    'technik audiovize',
   ]),
   OccupationLabels('6112', [
     'vineyard cellar master',
@@ -36170,6 +40896,8 @@ const escoOccupations = <OccupationLabels>[
     'wijnmaker',
     'maître de chai',
     'maîtresse de chai',
+    'vinař',
+    'vinařka',
   ]),
   OccupationLabels('6112', [
     'vineyard machinery operator',
@@ -36197,6 +40925,7 @@ const escoOccupations = <OccupationLabels>[
     'directeur d’exploitation viticole',
     'directrice d’exploitation viticole',
     'directrice d\'exploitation viticole',
+    'vedoucí vinice',
   ]),
   OccupationLabels('6112', [
     'vineyard supervisor',
@@ -36228,6 +40957,8 @@ const escoOccupations = <OccupationLabels>[
     'medewerkster wijnbouw',
     'ouvrier viticole',
     'ouvrière viticole',
+    'dělník ve vinohradu',
+    'dělnice ve vinohradu',
   ]),
   OccupationLabels('7312', [
     'violin maker',
@@ -36242,6 +40973,8 @@ const escoOccupations = <OccupationLabels>[
     'altvioolbouwer',
     'facteur de violons',
     'factrice de violons',
+    'výrobce houslí',
+    'výrobkyně houslí',
   ]),
   OccupationLabels('2355', [
     'visual arts teacher',
@@ -36258,6 +40991,8 @@ const escoOccupations = <OccupationLabels>[
     'leraar beeldende kunst',
     'intervenant en arts visuels',
     'intervenante en arts visuels',
+    'učitel výtvarných umění',
+    'učitelka výtvarných umění',
   ]),
   OccupationLabels('3432', [
     'visual merchandiser',
@@ -36269,6 +41004,8 @@ const escoOccupations = <OccupationLabels>[
     'dekoratör',
     'marchandiseur visuel',
     'marchandiseuse visuel',
+    'aranžér',
+    'aranžérka',
   ]),
   OccupationLabels('3142', [
     'viticulture adviser',
@@ -36297,6 +41034,9 @@ const escoOccupations = <OccupationLabels>[
     'blogueur vidéo',
     'blogueuse vidéo',
     'vidéoblogueuse',
+    'videobloger',
+    'videoblogerka',
+    'videoblogerka zaměřená na módu',
   ]),
   OccupationLabels('2320', [
     'vocational teacher',
@@ -36347,6 +41087,8 @@ const escoOccupations = <OccupationLabels>[
     'serveur',
     'serveuse',
     'serveuse en restauration',
+    'číšník',
+    'číšnice',
   ]),
   OccupationLabels('3252', [
     'waiting list coordinator',
@@ -36361,6 +41103,8 @@ const escoOccupations = <OccupationLabels>[
     'coordonnateur de liste d’attente',
     'coordonnatrice de liste d’attente',
     'coordonnatrice de liste d\'attente',
+    'koordinátor čekací listiny',
+    'koordinátorka čekací listiny',
   ]),
   OccupationLabels('1324', [
     'warehouse manager',
@@ -36376,6 +41120,8 @@ const escoOccupations = <OccupationLabels>[
     'magazijncheffin',
     'hoofd magazijn',
     'responsable d\'entrepôt',
+    'vedoucí skladu',
+    'vedoucí inventáře',
   ]),
   OccupationLabels('4321', [
     'warehouse operator for clothing',
@@ -36388,6 +41134,8 @@ const escoOccupations = <OccupationLabels>[
     'magazijnmedewerker kleding',
     'magazijnhulp kleding',
     'magazijnmedewerkster kleding',
+    'pracovník ve skladu textilu',
+    'pracovnice ve skladu textilu',
   ]),
   OccupationLabels('9333', [
     'warehouse order picker',
@@ -36417,6 +41165,8 @@ const escoOccupations = <OccupationLabels>[
     'magazijnmedewerkster',
     'magasinier',
     'magasinière',
+    'skladník',
+    'skladnice',
   ]),
   OccupationLabels('0210', [
     'warfare specialist',
@@ -36433,6 +41183,9 @@ const escoOccupations = <OccupationLabels>[
     'militair analist',
     'informatieanalist militaire inlichtingendienst',
     'spécialiste des opérations militaires',
+    'specialista na bojovou činnost',
+    'specialistka na bojovou činnost',
+    'specialista na obranu',
   ]),
   OccupationLabels('8171', [
     'wash deinking operator',
@@ -36455,6 +41208,8 @@ const escoOccupations = <OccupationLabels>[
     'abfallmaklerin',
     'avfallsmäklare',
     'afvalstoffenmakelaar',
+    'zprostředkovatel nakládání s odpady',
+    'zprostředkovatelka nakládání s odpady',
   ]),
   OccupationLabels('1321', [
     'waste management officer',
@@ -36467,6 +41222,8 @@ const escoOccupations = <OccupationLabels>[
     'avfallschef',
     'beleidsmedewerker afvalverwerking',
     'beleidsmedewerkster afvalverwerking',
+    'manažer odpadového hospodářství',
+    'manažerka odpadového hospodářství',
   ]),
   OccupationLabels('3122', [
     'waste management supervisor',
@@ -36474,6 +41231,8 @@ const escoOccupations = <OccupationLabels>[
     'verantwoordelijke afvalbehandelingssite',
     'afvalverantwoordelijke',
     'verantwoordelijke opslaginstallaties voor afval',
+    'technik odpadového hospodářství',
+    'technička odpadového hospodářství',
   ]),
   OccupationLabels('2143', [
     'waste treatment engineer',
@@ -36516,6 +41275,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien de station d’épuration',
     'technicienne de station d’épuration',
     'technicienne de stations d\'épuration',
+    'technik čistírny odpadních vod',
+    'technička čistírny odpadních vod',
   ]),
   OccupationLabels('7311', [
     'watch and clock repairer',
@@ -36528,6 +41289,8 @@ const escoOccupations = <OccupationLabels>[
     'horloge- en klokkenreparateur',
     'réparateur de systèmes horlogers',
     'réparatrice de systèmes horlogers',
+    'opravář hodin',
+    'opravářka hodin',
   ]),
   OccupationLabels('1324', [
     'distributiemanager uurwerken en sieraden',
@@ -36607,6 +41370,9 @@ const escoOccupations = <OccupationLabels>[
     'agent de réseau d’eau',
     'agente de réseau d’eau',
     'agente de réseau d\'eau',
+    'technik vodovodních sítí',
+    'technička vodovodních sítí',
+    'vodárenský technik vodovodních sítí',
   ]),
   OccupationLabels('3132', [
     'water plant technician',
@@ -36620,6 +41386,8 @@ const escoOccupations = <OccupationLabels>[
     'technicien d’exploitation eau potable',
     'technicienne d’exploitation eau potable',
     'technicien d\'exploitation eau potable',
+    'vodárenský technik',
+    'vodárenská technička',
   ]),
   OccupationLabels('2133', [
     'water quality analyst',
@@ -36629,6 +41397,8 @@ const escoOccupations = <OccupationLabels>[
     'wasserqualitätsanalytikerin',
     'vattenanalytiker',
     'analist waterkwaliteit',
+    'analytik jakosti vody',
+    'analytička jakosti vody',
   ]),
   OccupationLabels('4323', [
     'water traffic coordinator',
@@ -36643,6 +41413,9 @@ const escoOccupations = <OccupationLabels>[
     'verkehrsplanerin schiffsverkehr',
     'havenverkeersleider',
     'havenverkeersleidster',
+    'koordinátor vodní dopravy',
+    'koordinátorka vodní dopravy',
+    'koordinátorka lodní dopravy',
   ]),
   OccupationLabels('1219', [
     'water treatment plant manager',
@@ -36653,6 +41426,8 @@ const escoOccupations = <OccupationLabels>[
     'vattenverkschef',
     'manager afvalwaterzuiveringsinstallatie',
     'manager waterzuiveringsinstallatie',
+    'ředitel čistírny odpadních vod',
+    'ředitelka čistírny odpadních vod',
   ]),
   OccupationLabels('3132', [
     'water treatment systems operator',
@@ -36661,6 +41436,8 @@ const escoOccupations = <OccupationLabels>[
     'steuerer von wasserbehandlungsanlagen',
     'steuerin von wasserbehandlungsanlagen',
     'exploitatietechnicus systemen voor waterbehandeling',
+    'operátor velínu vodárny',
+    'operátorka velínu vodárny',
   ]),
   OccupationLabels('6221', [
     'water-based aquaculture technician',
@@ -36709,6 +41486,8 @@ const escoOccupations = <OccupationLabels>[
     'patroontekenaar confectie',
     'patronnier d’articles d’habillement',
     'patronnière d’articles d’habillement',
+    'konstruktér oděvních střihů',
+    'konstruktérka oděvních střihů',
   ]),
   OccupationLabels('9121', [
     'wearing apparel presser',
@@ -36721,6 +41500,8 @@ const escoOccupations = <OccupationLabels>[
     'perser',
     'kledingperser wasserij',
     'confectieperser',
+    'obsluha žehlícího lisu',
+    'obsluha žehlicího lisu',
   ]),
   OccupationLabels('2112', [
     'weather forecaster',
@@ -36738,6 +41519,8 @@ const escoOccupations = <OccupationLabels>[
     'météorologue présentateur',
     'météorologue présentatrice',
     'présentateur météorologue',
+    'hlasatel počasí',
+    'hlasatelka počasí',
   ]),
   OccupationLabels('7318', [
     'weaver',
@@ -36752,6 +41535,8 @@ const escoOccupations = <OccupationLabels>[
     'handwever',
     'tisseur',
     'tisseuse',
+    'tkadlec',
+    'tkadlena',
   ]),
   OccupationLabels('8152', [
     'weaving machine operator',
@@ -36766,6 +41551,8 @@ const escoOccupations = <OccupationLabels>[
     'operator weefmachine',
     'operator weverij',
     'operator textielproductiemachines',
+    'obsluha tkalcovských',
+    'pletařských strojů',
   ]),
   OccupationLabels('8152', [
     'weaving machine supervisor',
@@ -36778,6 +41565,8 @@ const escoOccupations = <OccupationLabels>[
     'vävmaskinförman',
     'supervisor weven',
     'responsable d’atelier de tissage',
+    'mechanik tkalcovských strojů',
+    'mechanička tkalcovských strojů',
   ]),
   OccupationLabels('8152', [
     'weaving textile technician',
@@ -36795,6 +41584,9 @@ const escoOccupations = <OccupationLabels>[
     'textieltechnica weverij',
     'technicien tissage',
     'technicienne tissage',
+    'technik výroby tkaných textilií',
+    'technička výroby tkaných textilií',
+    'technička výroby tkanin',
   ]),
   OccupationLabels('2513', [
     'web content manager',
@@ -36810,6 +41602,8 @@ const escoOccupations = <OccupationLabels>[
     'administrateur de contenu web',
     'administratrice de contenu web',
     'administrateur du contenu internet',
+    'správce webového obsahu',
+    'správkyně webového obsahu',
   ]),
   OccupationLabels('2513', [
     'web developer',
@@ -36825,6 +41619,9 @@ const escoOccupations = <OccupationLabels>[
     'développeur web',
     'développeuse web',
     'développeuse internet',
+    'webový vývojář',
+    'webová vývojářka',
+    'webový programátor',
   ]),
   OccupationLabels('3514', [
     'webmaster',
@@ -36836,6 +41633,7 @@ const escoOccupations = <OccupationLabels>[
     'webbadministratör',
     'webbadministratörer',
     'webmestre',
+    'webmasterka',
   ]),
   OccupationLabels('3332', [
     'wedding planner',
@@ -36853,6 +41651,8 @@ const escoOccupations = <OccupationLabels>[
     'bröllopsplanerare',
     'bröllopssamordnare',
     'weddingplanner',
+    'svatební organizátor',
+    'svatební organizátorka',
   ]),
   OccupationLabels('5142', [
     'weight loss consultant',
@@ -36877,6 +41677,8 @@ const escoOccupations = <OccupationLabels>[
     'gewichte- und maßekontrolleurin',
     'mått- och viktinspektör',
     'toezichtsmedewerker metrologiewet',
+    'inspektor hmotnosti a rozměrů',
+    'inspektorka hmotnosti a rozměrů',
   ]),
   OccupationLabels('7212', [
     'welder',
@@ -36896,6 +41698,9 @@ const escoOccupations = <OccupationLabels>[
     'gaslasser',
     'soudeur',
     'soudeuse',
+    'svářeč',
+    'svářeč konstrukcí',
+    'svářeč oceli',
   ]),
   OccupationLabels('7212', [
     'welding coordinator',
@@ -36912,6 +41717,9 @@ const escoOccupations = <OccupationLabels>[
     'lascoördinatrice',
     'coordinateur en soudage',
     'coordinatrice en soudage',
+    'koordinátor svářeč',
+    'koordinátorka svářečka',
+    'koordinátorka v oboru sváření',
   ]),
   OccupationLabels('2144', [
     'welding engineer',
@@ -36930,6 +41738,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur soudeur',
     'ingénieure soudeuse',
     'ingénieur de soudage',
+    'svářečský inženýr',
+    'svářečská inženýrka',
   ]),
   OccupationLabels('3115', [
     'welding inspector',
@@ -36945,6 +41755,8 @@ const escoOccupations = <OccupationLabels>[
     'lasinspecteur',
     'contrôleur de soudures',
     'contrôleuse de soudures',
+    'svářečský inspektor',
+    'svářečská inspektorka',
   ]),
   OccupationLabels('8113', [
     'well-digger',
@@ -36959,6 +41771,8 @@ const escoOccupations = <OccupationLabels>[
     'boorverantwoordelijke',
     'puisatier',
     'puisatière',
+    'vrtač studní',
+    'vrtačka studní',
   ]),
   OccupationLabels('3324', [
     'wholesale merchant',
@@ -36973,6 +41787,8 @@ const escoOccupations = <OccupationLabels>[
     'groothandelaar',
     'négociant grossiste',
     'négociante grossiste',
+    'velkoobchodník',
+    'velkoobchodnice',
   ]),
   OccupationLabels('3324', [
     'wholesale merchant in beverages',
@@ -36986,6 +41802,8 @@ const escoOccupations = <OccupationLabels>[
     'groothandelaar in dranken',
     'négociant grossiste en boissons',
     'négociante grossiste en boissons',
+    'velkoobchodník s nápoji',
+    'velkoobchodnice s nápoji',
   ]),
   OccupationLabels('3324', [
     'wholesaler in chemical products',
@@ -36994,6 +41812,8 @@ const escoOccupations = <OccupationLabels>[
     'großhändlerin für chemieerzeugnisse',
     'chemikalienhändlerin im großhandel',
     'groothandelaar in chemische producten',
+    'velkoobchodník s chemickými výrobky',
+    'velkoobchodnice s chemickými výrobky',
   ]),
   OccupationLabels('3324', [
     'comerciante grossista de eletrodomésticos',
@@ -37025,6 +41845,8 @@ const escoOccupations = <OccupationLabels>[
     'groothandelaar in levende dieren',
     'groothandelaar in vee',
     'groothandelaar in pluimvee',
+    'velkoobchodník se živými zvířaty',
+    'velkoobchodnice se živými zvířaty',
   ]),
   OccupationLabels('3324', [
     'wholesaler in machine tools',
@@ -37035,12 +41857,16 @@ const escoOccupations = <OccupationLabels>[
     'groothandelaar in werktuigmachines',
     'négociant grossiste en machines-outils',
     'négociante grossiste en machines-outils',
+    'velkoobchodník s obráběcími stroji',
+    'velkoobchodnice s obráběcími stroji',
   ]),
   OccupationLabels('3324', [
     'großhändler für büromöbel',
     'großhändlerin für büromöbel',
     'groothandelaar in kantoormeubilair',
     'groothandelaar in kantoormeubelen',
+    'velkoobchodník s kancelářským nábytkem',
+    'velkoobchodnice s kancelářským nábytkem',
   ]),
   OccupationLabels('3324', [
     'wholesaler in pharmaceutical goods',
@@ -37049,6 +41875,8 @@ const escoOccupations = <OccupationLabels>[
     'großhändlerin für pharmazeutische produkte',
     'groothandelaar in farmaceutische producten',
     'groothandelaar in geneesmiddelen',
+    'velkoobchodník s farmaceutickými výrobky',
+    'velkoobchodnice s farmaceutickými výrobky',
   ]),
   OccupationLabels('3324', [
     'großhändler für textilmaschinen',
@@ -37061,6 +41889,8 @@ const escoOccupations = <OccupationLabels>[
     'großhändlerin für tabakerzeugnisse',
     'tabakwarenhändler im großhandel',
     'groothandelaar in tabaksproducten',
+    'velkoobchodník s tabákovými výrobky',
+    'velkoobchodnice s tabákovými výrobky',
   ]),
   OccupationLabels('7317', [
     'wicker furniture maker',
@@ -37073,6 +41903,8 @@ const escoOccupations = <OccupationLabels>[
     'rotanmeubelmaakster',
     'vannier spécialiste du mobilier',
     'vannière spécialiste du mobilier',
+    'košíkář a pletař',
+    'košíkářka a pletařka',
   ]),
   OccupationLabels('7531', [
     'wig and hairpiece maker',
@@ -37084,6 +41916,8 @@ const escoOccupations = <OccupationLabels>[
     'pruikenmaakster film en televisie',
     'perruquier',
     'perruquière',
+    'výrobce paruk a příčesků',
+    'výrobkyně paruk a příčesků',
   ]),
   OccupationLabels('2149', [
     'wind energy engineer',
@@ -37104,6 +41938,8 @@ const escoOccupations = <OccupationLabels>[
     'blaasinstrumentenbouwer',
     'blaasinstrumentmaker',
     'blaasinstrumentmaakster',
+    'výrobce dechových hudebních nástrojů',
+    'výrobkyně dechových hudebních nástrojů',
   ]),
   OccupationLabels('7412', [
     'wind turbine technician',
@@ -37114,6 +41950,8 @@ const escoOccupations = <OccupationLabels>[
     'technikerin - windenergietechnik',
     'vindkrafttekniker',
     'servicetechnicus windturbines',
+    'technik větrných turbín',
+    'technička větrných turbín',
   ]),
   OccupationLabels('8151', [
     'winding machine operator',
@@ -37140,6 +41978,8 @@ const escoOccupations = <OccupationLabels>[
     'glazenwasser',
     'laveur de vitres',
     'laveuse de vitres',
+    'pracovník pro mytí oken',
+    'pracovnice pro mytí oken',
   ]),
   OccupationLabels('7115', [
     'window installer',
@@ -37156,6 +41996,8 @@ const escoOccupations = <OccupationLabels>[
     'ramenmonteuse',
     'installateur de fenêtres',
     'installatrice de fenêtres',
+    'montér oken',
+    'montérka oken',
   ]),
   OccupationLabels('8160', [
     'wine fermenter',
@@ -37165,6 +42007,9 @@ const escoOccupations = <OccupationLabels>[
     'bediener eines weinfermenters',
     'bedienerin eines weinfermenters',
     'wijnvergister',
+    'pracovník',
+    'pracovnice fermentace vína',
+    'pracovník fermentace vína',
   ]),
   OccupationLabels('5131', [
     'wine sommelier',
@@ -37188,6 +42033,8 @@ const escoOccupations = <OccupationLabels>[
     'assemblagemedewerker kabelbomen',
     'medewerkster draad- en kabelassemblage',
     'medewerker draad- en kabelassemblage',
+    'montážní dělník kabelových svazků',
+    'montážní dělnice kabelových svazků',
   ]),
   OccupationLabels('8121', [
     'wire weaving machine operator',
@@ -37206,6 +42053,8 @@ const escoOccupations = <OccupationLabels>[
     'industriemeister holz',
     'industriemeisterin holz',
     'montageleider houtmontage',
+    'vedoucí výroby dřevěných výrobků',
+    'vedoucí montáže dřevěných výrobků',
   ]),
   OccupationLabels('7523', [
     'wood boring machine operator',
@@ -37240,6 +42089,8 @@ const escoOccupations = <OccupationLabels>[
     'manager in de houtindustrie',
     'productiemanager houtindustrie',
     'responsable de scierie',
+    'vedoucí dřevozpracujícího podniku',
+    'vedoucí pily',
   ]),
   OccupationLabels('8172', [
     'wood fuel pelletiser',
@@ -37262,6 +42113,8 @@ const escoOccupations = <OccupationLabels>[
     'trädekoratör',
     'decoratieschilder hout',
     'peintre sur bois',
+    'dekoratér dřeva',
+    'dekoratérka dřeva',
   ]),
   OccupationLabels('7523', [
     'wood pallet maker',
@@ -37271,12 +42124,15 @@ const escoOccupations = <OccupationLabels>[
     'lastpallsbyggare',
     'palletmaker',
     'palletmaakster',
+    'výrobce dřevěných palet',
+    'výrobkyně dřevěných palet',
   ]),
   OccupationLabels('3122', [
     'wood production supervisor',
     'produktionsleiter holz',
     'produktionsleiterin holz',
     'productieleider houtindustrie',
+    'vedoucí dřevařské výroby',
   ]),
   OccupationLabels('8219', [
     'wood products assembler',
@@ -37295,6 +42151,7 @@ const escoOccupations = <OccupationLabels>[
     'holzfräser',
     'operator bovenfreesmachine',
     'operator bovenfrees',
+    'obsluha dřevoobráběcích frézek',
   ]),
   OccupationLabels('7523', [
     'wood sander',
@@ -37320,6 +42177,8 @@ const escoOccupations = <OccupationLabels>[
     'ingénieur du bois',
     'ingénieure du bois',
     'ingénieure bois',
+    'inženýr dřevařských technologií',
+    'inženýrka dřevařských technologií',
   ]),
   OccupationLabels('7521', [
     'wood treater',
@@ -37328,6 +42187,8 @@ const escoOccupations = <OccupationLabels>[
     'fachkraft für holzbearbeitung',
     'houtverduurzamer',
     'operator houtverduurzaming',
+    'specialista na ošetřování dřeva',
+    'specialistka na ošetřování dřeva',
   ]),
   OccupationLabels('7317', [
     'woodcarver',
@@ -37345,6 +42206,8 @@ const escoOccupations = <OccupationLabels>[
     'artisanaal houtsnijder',
     'sculpteur sur bois',
     'sculptrice sur bois',
+    'řezbář',
+    'řezbářka',
   ]),
   OccupationLabels('7523', [
     'wooden furniture machine operator',
@@ -37380,6 +42243,8 @@ const escoOccupations = <OccupationLabels>[
     'schrijver',
     'écrivain',
     'écrivaine',
+    'spisovatel',
+    'spisovatelka',
   ]),
   OccupationLabels('8151', [
     'yarn spinner',
@@ -37409,6 +42274,8 @@ const escoOccupations = <OccupationLabels>[
     'destillatör av jäst',
     'destillatörer',
     'gistdistilleerder',
+    'lihovarník',
+    'lihovarnice',
   ]),
   OccupationLabels('1344', [
     'youth centre manager',
@@ -37425,6 +42292,9 @@ const escoOccupations = <OccupationLabels>[
     'manager jeugdzorg',
     'directeur d\'équipement socioculturel',
     'directrice d\'équipement socioculturel',
+    'vedoucí centra pro mládež',
+    'vedoucí střediska pro mládež',
+    'vedoucí zařízení pro mládež',
   ]),
   OccupationLabels('2635', [
     'youth offending team worker',
@@ -37445,6 +42315,8 @@ const escoOccupations = <OccupationLabels>[
     'coördinator jeugdwerk',
     'coördinatrice jongerenwerk',
     'coördinatrice jeugdwerk',
+    'ředitel programů pro mládež',
+    'ředitelka programů pro mládež',
   ]),
   OccupationLabels('2635', [
     'youth worker',
@@ -37456,6 +42328,8 @@ const escoOccupations = <OccupationLabels>[
     'chargé d’information jeunesse',
     'chargée d’information jeunesse',
     'chargé d\'information jeunesse',
+    'referent pro mládež',
+    'referentka pro mládež',
   ]),
   OccupationLabels('1431', [
     'zoo curator',
@@ -37473,6 +42347,9 @@ const escoOccupations = <OccupationLabels>[
     'conservateur de zoo',
     'conservatrice de zoo',
     'conservatrice animalière',
+    'kurátor zoo',
+    'kurátorka zoo',
+    'kurátor chovu zvířat',
   ]),
   OccupationLabels('5113', [
     'zoo educator',
@@ -37487,12 +42364,17 @@ const escoOccupations = <OccupationLabels>[
     'educatief medewerkster dierentuin',
     'animateur en parc zoologique',
     'animatrice en parc zoologique',
+    'vzdělávací pracovník zoologické zahrady',
+    'vzdělávací pracovnice zoologické zahrady',
   ]),
   OccupationLabels('2621', [
     'zoo registrar',
     'conservador de zoológico',
     'conservadora de zoológico',
     'registrator dierentuin',
+    'registrátor v zoo',
+    'registrátorka v zoo',
+    'registrátorka zvířat v zoo',
   ]),
   OccupationLabels('5164', [
     'zoo section leader',
@@ -37512,6 +42394,8 @@ const escoOccupations = <OccupationLabels>[
     'dierenverzorgster dierentuin',
     'gardien de zoo',
     'gardienne de zoo',
+    'ošetřovatel zvířat v zoo',
+    'ošetřovatelka zvířat v zoo',
   ]),
   OccupationLabels('3141', [
     'zoology technician',
@@ -37528,5 +42412,7 @@ const escoOccupations = <OccupationLabels>[
     'zoölogisch analist',
     'technicien zoologiste',
     'technicienne zoologiste',
+    'technik zoolog',
+    'technička zooložka',
   ]),
 ];

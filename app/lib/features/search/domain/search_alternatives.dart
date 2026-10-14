@@ -159,7 +159,12 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
       ? const <String>[]
       : [
           for (final w in _words(t.replaceAll('-', ' ')))
-            if (!consumed.any(w.contains) && !_noise.contains(w)) w,
+            // a word of the matched name itself is not a qualifier ("trabalhador de armazém" is one name)
+            if (!consumed.any(
+                  (c) => w.contains(c) || c.split(' ').contains(w),
+                ) &&
+                !_noise.contains(w))
+              w,
         ];
   // one choice per matched group; the combination made only of the term's own fragments is the term itself
   var combos = <List<String>>[[]];
@@ -189,8 +194,9 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
 // --- ESCO -----------------------------------------------------------------------------------------------------------------------------
 
 String _fold(String s) {
-  const from = 'àáâãäåçèéêëìíîïñòóôõöùúûüýÿ';
-  const to = 'aaaaaaceeeeiiiinooooouuuuyy';
+  // Latin letters with marks, incl. Czech, Polish and Nordic ones (č ř š ž ě ů ł ø ...), so "kuchar" finds "kuchař"
+  const from = 'àáâãäåçèéêëìíîïñòóôõöùúûüýÿčďěňřšťůžľĺŕłśźżćńąęøő';
+  const to = 'aaaaaaceeeeiiiinooooouuuuyycdenrstuzllrlszzcnaeoo';
   final b = StringBuffer();
   for (final r in s.toLowerCase().runes) {
     final c = String.fromCharCode(r);
@@ -238,8 +244,12 @@ List<List<String>> _fromEsco(String t) {
     for (final l in escoOccupations[i].labels) {
       if (_fold(l) == f) continue;
       final parts = _words(l);
-      // a short single word ("lasser", "cook") is too likely to sit inside another word of a title
-      if (parts.isNotEmpty && (parts.length > 1 || parts.first.length >= 6)) {
+      // a short single word ("lasser", "cook") is too likely to sit inside another word of a title; five letters are enough when one of
+      // them carries a mark ("řidič"), which almost never happens by chance
+      final w = parts.isEmpty ? '' : parts.first;
+      final marked = w.runes.any((r) => r > 127);
+      if (parts.isNotEmpty &&
+          (parts.length > 1 || w.length >= 6 || (w.length >= 5 && marked))) {
         out.add(parts);
       }
     }
