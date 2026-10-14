@@ -789,5 +789,42 @@
   "ntKindInterview": "Entrevista",
   "ntKindFollowUp": "Retorno",
   "searchSuggestTitle": "Tente em vez disso",
-  "searchSuggestHint": "Profissões mais amplas ou com grafia parecida. São só sugestões: os resultados são o que o catálogo tem."
+  "searchSuggestHint": "Profissões mais amplas ou com grafia parecida. São só sugestões: os resultados são o que o catálogo tem.",
+  "pdTitle": "Seus dados",
+  "pdIntro": "Leve uma cópia de tudo o que o app guarda sobre você ou apague sua conta de vez.",
+  "pdSignInHint": "Entre na sua conta para exportar ou excluir seus dados.",
+  "pdExportTitle": "Exportar meus dados",
+  "pdExportBody": "Um ZIP com seu perfil, favoritos, buscas salvas, candidaturas, anotações e os PDFs de currículo que você enviou. Senhas e tokens de notificação nunca são incluídos.",
+  "pdExportAction": "Exportar meus dados",
+  "pdExportWorking": "Preparando sua exportação…",
+  "pdExportDone": "Exportação criada. Salve onde preferir.",
+  "pdExportMissing": "{count, plural, =1{1 arquivo de currículo não pôde ser incluído; ele consta no arquivo de dados.} other{{count} arquivos de currículo não puderam ser incluídos; eles constam no arquivo de dados.}}",
+  "@pdExportMissing": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pdExportFailed": "Não foi possível preparar a exportação. Verifique a conexão e tente de novo.",
+  "pdDeleteTitle": "Excluir minha conta",
+  "pdDeleteBody": "Exclui de forma permanente sua conta e tudo o que está ligado a ela. Isso não pode ser desfeito.",
+  "pdDeleteWhatTitle": "O que é excluído",
+  "pdDelete1": "Seu perfil, experiências, formação, competências e idiomas",
+  "pdDelete2": "Os PDFs de currículo que você enviou",
+  "pdDelete3": "Favoritos, vagas ocultas, buscas salvas e alertas",
+  "pdDelete4": "Candidaturas, anotações, lembretes e notificações",
+  "pdDelete5": "O registro de notificações push dos seus aparelhos",
+  "pdDeleteKeeps": "As vagas são públicas e continuam no catálogo. Se quiser uma cópia dos seus dados, exporte antes.",
+  "pdDeletePassword": "Senha atual",
+  "pdDeleteConfirmCheck": "Entendo que isso não pode ser desfeito",
+  "pdDeleteAction": "Excluir permanentemente",
+  "pdDeleteWrongPassword": "Essa senha não está correta. Nada foi excluído.",
+  "pdDeleteFailed": "Não foi possível excluir a conta agora. Nada foi perdido; tente novamente em instantes.",
+  "pdDeleted": "Sua conta foi excluída",
+  "pdLinkPrivacy": "Política de privacidade",
+  "pdLinkTerms": "Termos de uso",
+  "pdLinkDeletion": "Exclusão de conta e dados",
+  "pdDeletedBody": "Sua conta e todos os dados ligados a ela foram excluídos de forma permanente. Você será desconectado neste aparelho.",
+  "pdDeletedAction": "OK"
 }

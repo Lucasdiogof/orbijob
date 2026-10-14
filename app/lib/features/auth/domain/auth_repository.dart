@@ -21,4 +21,9 @@ abstract class AuthRepository {
   Future<void> sendPasswordReset(String email);
   Future<void> updatePassword(String newPassword);
   Future<void> signOut();
+
+  /// Permanently deletes the signed-in account and everything private that belongs to it. The password is asked again (the server
+  /// checks it) so a stolen unlocked phone cannot erase an account. The session on this device is NOT ended here (the caller
+  /// confirms to the person first, then calls [signOut]); a wrong password fails with [AuthFailureKind.invalidCredentials] and nothing is deleted.
+  Future<void> deleteAccount(String password);
 }

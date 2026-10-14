@@ -73,7 +73,10 @@ class AuthCubit extends Cubit<AuthState> {
   /// Device clean-up that needs the session (the push token row), run before it ends.
   final Future<void> Function()? beforeSignOut;
 
-  AuthCubit(this._repo, {this.beforeSignOut})
+  /// Device clean-up after the account was deleted (recent searches, translation cache): nothing of the person may stay on the phone.
+  final Future<void> Function()? afterAccountDeleted;
+
+  AuthCubit(this._repo, {this.beforeSignOut, this.afterAccountDeleted})
     : super(AuthState(available: _repo.isAvailable, user: _repo.currentUser)) {
     _sub = _repo.userChanges.listen(_onUser, onError: _onStreamError);
     _recovery = _repo.recoveryLinks.listen(
@@ -165,6 +168,34 @@ class AuthCubit extends Cubit<AuthState> {
         await _repo.signOut();
         return AuthNotice.none;
       });
+    } finally {
+      _signingOut = false;
+    }
+  }
+
+  /// Permanent deletion; [password] is checked again by the server. The account and its data are gone on success, but the person stays
+  /// "signed in" on screen until [finishAccountDeletion]: the confirmation must be shown before the account scope is torn down (a snack
+  /// bar shown after that is lost). A failure keeps everything and sets [AuthState.failure].
+  Future<void> deleteAccount(String password) async {
+    await _run(() async {
+      await _repo.deleteAccount(password);
+      for (final cleanup in [beforeSignOut, afterAccountDeleted]) {
+        try {
+          await cleanup?.call();
+        } catch (_) {}
+      }
+      return AuthNotice.none;
+    });
+  }
+
+  /// Ends the session of the deleted account on this device (the server no longer knows it, so a refusal is ignored).
+  Future<void> finishAccountDeletion() async {
+    _signingOut = true;
+    try {
+      try {
+        await _repo.signOut();
+      } catch (_) {}
+      if (state.signedIn) emit(state.copyWith(clearUser: true, busy: false));
     } finally {
       _signingOut = false;
     }

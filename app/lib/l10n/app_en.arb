@@ -1197,5 +1197,42 @@
   "ntKindInterview": "Interview",
   "ntKindFollowUp": "Follow-up",
   "searchSuggestTitle": "Try instead",
-  "searchSuggestHint": "Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds."
+  "searchSuggestHint": "Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds.",
+  "pdTitle": "Your data",
+  "pdIntro": "Take a copy of everything the app keeps about you, or erase your account for good.",
+  "pdSignInHint": "Sign in to export or delete your data.",
+  "pdExportTitle": "Export my data",
+  "pdExportBody": "One ZIP with your profile, favorites, saved searches, applications, notes and the resume PDFs you uploaded. Passwords and push tokens are never included.",
+  "pdExportAction": "Export my data",
+  "pdExportWorking": "Preparing your export…",
+  "pdExportDone": "Export created. Save it where you want.",
+  "pdExportMissing": "{count, plural, =1{1 resume file could not be included; it is listed in the data file.} other{{count} resume files could not be included; they are listed in the data file.}}",
+  "@pdExportMissing": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pdExportFailed": "Could not prepare your export. Check your connection and try again.",
+  "pdDeleteTitle": "Delete my account",
+  "pdDeleteBody": "Permanently deletes your account and everything linked to it. This cannot be undone.",
+  "pdDeleteWhatTitle": "What is deleted",
+  "pdDelete1": "Your profile, experiences, education, skills and languages",
+  "pdDelete2": "The resume PDFs you uploaded",
+  "pdDelete3": "Favorites, hidden jobs, saved searches and alerts",
+  "pdDelete4": "Applications, notes, reminders and notifications",
+  "pdDelete5": "The push-notification registration of your devices",
+  "pdDeleteKeeps": "Job listings are public and stay in the catalogue. If you want a copy of your data, export it first.",
+  "pdDeletePassword": "Current password",
+  "pdDeleteConfirmCheck": "I understand this cannot be undone",
+  "pdDeleteAction": "Delete permanently",
+  "pdDeleteWrongPassword": "That password is not correct. Nothing was deleted.",
+  "pdDeleteFailed": "Could not delete the account right now. Nothing was lost; try again in a moment.",
+  "pdDeleted": "Your account was deleted",
+  "pdLinkPrivacy": "Privacy policy",
+  "pdLinkTerms": "Terms of use",
+  "pdLinkDeletion": "Account and data deletion",
+  "pdDeletedBody": "Your account and all the data linked to it were permanently deleted. You will now be signed out on this device.",
+  "pdDeletedAction": "OK"
 }

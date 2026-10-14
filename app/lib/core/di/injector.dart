@@ -54,6 +54,8 @@ import '../../features/search/presentation/cubit/search_cubit.dart';
 import '../../features/shell/shell_cubit.dart';
 import '../locale_cubit.dart';
 import '../theme_cubit.dart';
+import '../../features/privacy/data/supabase_account_data_repository.dart';
+import '../../features/privacy/domain/account_data_repository.dart';
 import '../../features/push/data/supabase_push_devices_repository.dart';
 import '../../features/push/domain/push_messaging.dart';
 import '../../features/push/push_registrar.dart';
@@ -118,6 +120,10 @@ void configureDependencies({
       () => AuthCubit(
         sl<AuthRepository>(),
         beforeSignOut: sl<PushRegistrar>().beforeSignOut,
+        afterAccountDeleted: () async {
+          sl<RecentSearchesCubit>().clear();
+          await sl<TranslationService>().cache.clear();
+        },
       ),
     )
     ..registerLazySingleton<RecentSearchesCubit>(
@@ -232,6 +238,9 @@ void registerSupabaseRepositories(SupabaseClient client) {
     )
     ..registerLazySingleton<NotificationsRepository>(
       () => SupabaseNotificationsRepository(client),
+    )
+    ..registerLazySingleton<AccountDataRepository>(
+      () => SupabaseAccountDataRepository(client),
     )
     ..registerLazySingleton<AccountSettingsRepository>(
       () => SupabaseAccountSettingsRepository(client),

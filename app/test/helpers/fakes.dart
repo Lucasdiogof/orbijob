@@ -611,4 +611,11 @@ class FakeAuth implements AuthRepository {
 
   @override
   Future<void> signOut() async => emit(null);
+
+  String? deletedWith;
+  @override
+  Future<void> deleteAccount(String password) async {
+    if (error != null) throw error!;
+    deletedWith = password;
+  }
 }

@@ -789,5 +789,42 @@
   "ntKindInterview": "Entrevista",
   "ntKindFollowUp": "Seguimiento",
   "searchSuggestTitle": "Prueba en su lugar",
-  "searchSuggestHint": "Profesiones más amplias o de grafía parecida. Son solo sugerencias: los resultados son lo que tiene el catálogo."
+  "searchSuggestHint": "Profesiones más amplias o de grafía parecida. Son solo sugerencias: los resultados son lo que tiene el catálogo.",
+  "pdTitle": "Tus datos",
+  "pdIntro": "Llévate una copia de todo lo que la app guarda sobre ti o elimina tu cuenta definitivamente.",
+  "pdSignInHint": "Inicia sesión para exportar o eliminar tus datos.",
+  "pdExportTitle": "Exportar mis datos",
+  "pdExportBody": "Un ZIP con tu perfil, favoritos, búsquedas guardadas, postulaciones, notas y los PDF de currículum que subiste. Nunca se incluyen contraseñas ni tokens de notificaciones.",
+  "pdExportAction": "Exportar mis datos",
+  "pdExportWorking": "Preparando tu exportación…",
+  "pdExportDone": "Exportación creada. Guárdala donde prefieras.",
+  "pdExportMissing": "{count, plural, =1{1 archivo de currículum no pudo incluirse; figura en el archivo de datos.} other{{count} archivos de currículum no pudieron incluirse; figuran en el archivo de datos.}}",
+  "@pdExportMissing": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pdExportFailed": "No se pudo preparar la exportación. Revisa tu conexión e inténtalo de nuevo.",
+  "pdDeleteTitle": "Eliminar mi cuenta",
+  "pdDeleteBody": "Elimina de forma permanente tu cuenta y todo lo vinculado a ella. No se puede deshacer.",
+  "pdDeleteWhatTitle": "Qué se elimina",
+  "pdDelete1": "Tu perfil, experiencias, formación, competencias e idiomas",
+  "pdDelete2": "Los PDF de currículum que subiste",
+  "pdDelete3": "Favoritos, vacantes ocultas, búsquedas guardadas y alertas",
+  "pdDelete4": "Postulaciones, notas, recordatorios y notificaciones",
+  "pdDelete5": "El registro de notificaciones push de tus dispositivos",
+  "pdDeleteKeeps": "Las vacantes son públicas y siguen en el catálogo. Si quieres una copia de tus datos, expórtalos antes.",
+  "pdDeletePassword": "Contraseña actual",
+  "pdDeleteConfirmCheck": "Entiendo que no se puede deshacer",
+  "pdDeleteAction": "Eliminar definitivamente",
+  "pdDeleteWrongPassword": "Esa contraseña no es correcta. No se eliminó nada.",
+  "pdDeleteFailed": "No se pudo eliminar la cuenta ahora. No se perdió nada; inténtalo de nuevo en un momento.",
+  "pdDeleted": "Tu cuenta fue eliminada",
+  "pdLinkPrivacy": "Política de privacidad",
+  "pdLinkTerms": "Términos de uso",
+  "pdLinkDeletion": "Eliminación de cuenta y datos",
+  "pdDeletedBody": "Tu cuenta y todos los datos vinculados a ella se eliminaron de forma permanente. Se cerrará tu sesión en este dispositivo.",
+  "pdDeletedAction": "Aceptar"
 }

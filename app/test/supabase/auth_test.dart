@@ -55,9 +55,100 @@ class _FakeAuth implements AuthRepository {
     currentUser = null;
     _c.add(null);
   }
+
+  String? deletedWith;
+  @override
+  Future<void> deleteAccount(String password) async {
+    if (error != null) throw error!;
+    deletedWith = password;
+  }
 }
 
 void main() {
+  group('account deletion', () {
+    test('maps the server answer to what the person must see', () {
+      expect(
+        mapDeleteAccountStatus(401, {'error': 'reauth_failed'}).kind,
+        AuthFailureKind.invalidCredentials,
+      );
+      expect(
+        mapDeleteAccountStatus(401, {'error': 'unauthorised'}).kind,
+        AuthFailureKind.unknown,
+      );
+      expect(
+        mapDeleteAccountStatus(429, null).kind,
+        AuthFailureKind.rateLimited,
+      );
+      expect(
+        mapDeleteAccountStatus(502, {'error': 'storage_failed'}).kind,
+        AuthFailureKind.unavailable,
+      );
+      expect(
+        mapDeleteAccountStatus(500, 'x').kind,
+        AuthFailureKind.unavailable,
+      );
+      expect(mapDeleteAccountStatus(400, null).kind, AuthFailureKind.unknown);
+    });
+
+    test('success deletes and cleans up, keeps the screen signed in until finishAccountDeletion, then signs out without "session expired"', () async {
+      final repo = _FakeAuth()
+        ..currentUser = const AuthUser(id: 'u', email: 'a@b.co');
+      final order = <String>[];
+      final c = AuthCubit(
+        repo,
+        beforeSignOut: () async => order.add('push'),
+        afterAccountDeleted: () async => order.add('device'),
+      );
+      await c.deleteAccount('secret');
+      await Future<void>.delayed(Duration.zero);
+      expect(repo.deletedWith, 'secret');
+      expect(
+        c.state.signedIn,
+        isTrue,
+        reason: 'the confirmation is shown first',
+      );
+      expect(c.state.failure, isNull);
+      expect(order, ['push', 'device']);
+      await c.finishAccountDeletion();
+      await Future<void>.delayed(Duration.zero);
+      expect(c.state.signedIn, isFalse);
+      expect(c.state.notice, isNot(AuthNotice.sessionExpired));
+      await c.close();
+    });
+
+    test('a wrong password keeps the person signed in, with the failure, and cleans nothing', () async {
+      final repo = _FakeAuth()
+        ..currentUser = const AuthUser(id: 'u', email: 'a@b.co')
+        ..error = const AuthFailure(AuthFailureKind.invalidCredentials);
+      var cleaned = false;
+      final c = AuthCubit(
+        repo,
+        afterAccountDeleted: () async => cleaned = true,
+      );
+      await c.deleteAccount('nope');
+      expect(c.state.signedIn, isTrue);
+      expect(c.state.failure, AuthFailureKind.invalidCredentials);
+      expect(cleaned, isFalse);
+      await c.close();
+    });
+
+    test('a clean-up that throws never blocks the deletion', () async {
+      final repo = _FakeAuth()
+        ..currentUser = const AuthUser(id: 'u', email: 'a@b.co');
+      final c = AuthCubit(
+        repo,
+        beforeSignOut: () async => throw StateError('x'),
+        afterAccountDeleted: () async => throw StateError('y'),
+      );
+      await c.deleteAccount('secret');
+      await c.finishAccountDeletion();
+      await Future<void>.delayed(Duration.zero);
+      expect(c.state.signedIn, isFalse);
+      expect(c.state.failure, isNull);
+      await c.close();
+    });
+  });
+
   group('mapAuthError', () {
     AuthFailureKind k(Object e) => mapAuthError(e).kind;
     test('by error code', () {

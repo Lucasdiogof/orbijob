@@ -30,4 +30,6 @@ class UnconfiguredAuthRepository implements AuthRepository {
   Future<void> updatePassword(String newPassword) async => _off();
   @override
   Future<void> signOut() async {}
+  @override
+  Future<void> deleteAccount(String password) async => _off();
 }

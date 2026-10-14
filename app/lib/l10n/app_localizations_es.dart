@@ -2459,4 +2459,116 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get searchSuggestHint =>
       'Profesiones más amplias o de grafía parecida. Son solo sugerencias: los resultados son lo que tiene el catálogo.';
+
+  @override
+  String get pdTitle => 'Tus datos';
+
+  @override
+  String get pdIntro =>
+      'Llévate una copia de todo lo que la app guarda sobre ti o elimina tu cuenta definitivamente.';
+
+  @override
+  String get pdSignInHint =>
+      'Inicia sesión para exportar o eliminar tus datos.';
+
+  @override
+  String get pdExportTitle => 'Exportar mis datos';
+
+  @override
+  String get pdExportBody =>
+      'Un ZIP con tu perfil, favoritos, búsquedas guardadas, postulaciones, notas y los PDF de currículum que subiste. Nunca se incluyen contraseñas ni tokens de notificaciones.';
+
+  @override
+  String get pdExportAction => 'Exportar mis datos';
+
+  @override
+  String get pdExportWorking => 'Preparando tu exportación…';
+
+  @override
+  String get pdExportDone => 'Exportación creada. Guárdala donde prefieras.';
+
+  @override
+  String pdExportMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count archivos de currículum no pudieron incluirse; figuran en el archivo de datos.',
+      one: '1 archivo de currículum no pudo incluirse; figura en el archivo de datos.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pdExportFailed =>
+      'No se pudo preparar la exportación. Revisa tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get pdDeleteTitle => 'Eliminar mi cuenta';
+
+  @override
+  String get pdDeleteBody =>
+      'Elimina de forma permanente tu cuenta y todo lo vinculado a ella. No se puede deshacer.';
+
+  @override
+  String get pdDeleteWhatTitle => 'Qué se elimina';
+
+  @override
+  String get pdDelete1 =>
+      'Tu perfil, experiencias, formación, competencias e idiomas';
+
+  @override
+  String get pdDelete2 => 'Los PDF de currículum que subiste';
+
+  @override
+  String get pdDelete3 =>
+      'Favoritos, vacantes ocultas, búsquedas guardadas y alertas';
+
+  @override
+  String get pdDelete4 =>
+      'Postulaciones, notas, recordatorios y notificaciones';
+
+  @override
+  String get pdDelete5 =>
+      'El registro de notificaciones push de tus dispositivos';
+
+  @override
+  String get pdDeleteKeeps =>
+      'Las vacantes son públicas y siguen en el catálogo. Si quieres una copia de tus datos, expórtalos antes.';
+
+  @override
+  String get pdDeletePassword => 'Contraseña actual';
+
+  @override
+  String get pdDeleteConfirmCheck => 'Entiendo que no se puede deshacer';
+
+  @override
+  String get pdDeleteAction => 'Eliminar definitivamente';
+
+  @override
+  String get pdDeleteWrongPassword =>
+      'Esa contraseña no es correcta. No se eliminó nada.';
+
+  @override
+  String get pdDeleteFailed =>
+      'No se pudo eliminar la cuenta ahora. No se perdió nada; inténtalo de nuevo en un momento.';
+
+  @override
+  String get pdDeleted => 'Tu cuenta fue eliminada';
+
+  @override
+  String get pdLinkPrivacy => 'Política de privacidad';
+
+  @override
+  String get pdLinkTerms => 'Términos de uso';
+
+  @override
+  String get pdLinkDeletion => 'Eliminación de cuenta y datos';
+
+  @override
+  String get pdDeletedBody =>
+      'Tu cuenta y todos los datos vinculados a ella se eliminaron de forma permanente. Se cerrará tu sesión en este dispositivo.';
+
+  @override
+  String get pdDeletedAction => 'Aceptar';
 }

@@ -2455,4 +2455,113 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get searchSuggestHint =>
       'Profissões mais amplas ou com grafia parecida. São só sugestões: os resultados são o que o catálogo tem.';
+
+  @override
+  String get pdTitle => 'Seus dados';
+
+  @override
+  String get pdIntro =>
+      'Leve uma cópia de tudo o que o app guarda sobre você ou apague sua conta de vez.';
+
+  @override
+  String get pdSignInHint =>
+      'Entre na sua conta para exportar ou excluir seus dados.';
+
+  @override
+  String get pdExportTitle => 'Exportar meus dados';
+
+  @override
+  String get pdExportBody =>
+      'Um ZIP com seu perfil, favoritos, buscas salvas, candidaturas, anotações e os PDFs de currículo que você enviou. Senhas e tokens de notificação nunca são incluídos.';
+
+  @override
+  String get pdExportAction => 'Exportar meus dados';
+
+  @override
+  String get pdExportWorking => 'Preparando sua exportação…';
+
+  @override
+  String get pdExportDone => 'Exportação criada. Salve onde preferir.';
+
+  @override
+  String pdExportMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count arquivos de currículo não puderam ser incluídos; eles constam no arquivo de dados.',
+      one: '1 arquivo de currículo não pôde ser incluído; ele consta no arquivo de dados.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pdExportFailed =>
+      'Não foi possível preparar a exportação. Verifique a conexão e tente de novo.';
+
+  @override
+  String get pdDeleteTitle => 'Excluir minha conta';
+
+  @override
+  String get pdDeleteBody =>
+      'Exclui de forma permanente sua conta e tudo o que está ligado a ela. Isso não pode ser desfeito.';
+
+  @override
+  String get pdDeleteWhatTitle => 'O que é excluído';
+
+  @override
+  String get pdDelete1 =>
+      'Seu perfil, experiências, formação, competências e idiomas';
+
+  @override
+  String get pdDelete2 => 'Os PDFs de currículo que você enviou';
+
+  @override
+  String get pdDelete3 => 'Favoritos, vagas ocultas, buscas salvas e alertas';
+
+  @override
+  String get pdDelete4 => 'Candidaturas, anotações, lembretes e notificações';
+
+  @override
+  String get pdDelete5 => 'O registro de notificações push dos seus aparelhos';
+
+  @override
+  String get pdDeleteKeeps =>
+      'As vagas são públicas e continuam no catálogo. Se quiser uma cópia dos seus dados, exporte antes.';
+
+  @override
+  String get pdDeletePassword => 'Senha atual';
+
+  @override
+  String get pdDeleteConfirmCheck => 'Entendo que isso não pode ser desfeito';
+
+  @override
+  String get pdDeleteAction => 'Excluir permanentemente';
+
+  @override
+  String get pdDeleteWrongPassword =>
+      'Essa senha não está correta. Nada foi excluído.';
+
+  @override
+  String get pdDeleteFailed =>
+      'Não foi possível excluir a conta agora. Nada foi perdido; tente novamente em instantes.';
+
+  @override
+  String get pdDeleted => 'Sua conta foi excluída';
+
+  @override
+  String get pdLinkPrivacy => 'Política de privacidade';
+
+  @override
+  String get pdLinkTerms => 'Termos de uso';
+
+  @override
+  String get pdLinkDeletion => 'Exclusão de conta e dados';
+
+  @override
+  String get pdDeletedBody =>
+      'Sua conta e todos os dados ligados a ela foram excluídos de forma permanente. Você será desconectado neste aparelho.';
+
+  @override
+  String get pdDeletedAction => 'OK';
 }

@@ -4317,6 +4317,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds.'**
   String get searchSuggestHint;
+
+  /// No description provided for @pdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get pdTitle;
+
+  /// No description provided for @pdIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a copy of everything the app keeps about you, or erase your account for good.'**
+  String get pdIntro;
+
+  /// No description provided for @pdSignInHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to export or delete your data.'**
+  String get pdSignInHint;
+
+  /// No description provided for @pdExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get pdExportTitle;
+
+  /// No description provided for @pdExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'One ZIP with your profile, favorites, saved searches, applications, notes and the resume PDFs you uploaded. Passwords and push tokens are never included.'**
+  String get pdExportBody;
+
+  /// No description provided for @pdExportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get pdExportAction;
+
+  /// No description provided for @pdExportWorking.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your export…'**
+  String get pdExportWorking;
+
+  /// No description provided for @pdExportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Export created. Save it where you want.'**
+  String get pdExportDone;
+
+  /// No description provided for @pdExportMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 resume file could not be included; it is listed in the data file.} other{{count} resume files could not be included; they are listed in the data file.}}'**
+  String pdExportMissing(int count);
+
+  /// No description provided for @pdExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not prepare your export. Check your connection and try again.'**
+  String get pdExportFailed;
+
+  /// No description provided for @pdDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get pdDeleteTitle;
+
+  /// No description provided for @pdDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently deletes your account and everything linked to it. This cannot be undone.'**
+  String get pdDeleteBody;
+
+  /// No description provided for @pdDeleteWhatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is deleted'**
+  String get pdDeleteWhatTitle;
+
+  /// No description provided for @pdDelete1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile, experiences, education, skills and languages'**
+  String get pdDelete1;
+
+  /// No description provided for @pdDelete2.
+  ///
+  /// In en, this message translates to:
+  /// **'The resume PDFs you uploaded'**
+  String get pdDelete2;
+
+  /// No description provided for @pdDelete3.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites, hidden jobs, saved searches and alerts'**
+  String get pdDelete3;
+
+  /// No description provided for @pdDelete4.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications, notes, reminders and notifications'**
+  String get pdDelete4;
+
+  /// No description provided for @pdDelete5.
+  ///
+  /// In en, this message translates to:
+  /// **'The push-notification registration of your devices'**
+  String get pdDelete5;
+
+  /// No description provided for @pdDeleteKeeps.
+  ///
+  /// In en, this message translates to:
+  /// **'Job listings are public and stay in the catalogue. If you want a copy of your data, export it first.'**
+  String get pdDeleteKeeps;
+
+  /// No description provided for @pdDeletePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get pdDeletePassword;
+
+  /// No description provided for @pdDeleteConfirmCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand this cannot be undone'**
+  String get pdDeleteConfirmCheck;
+
+  /// No description provided for @pdDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete permanently'**
+  String get pdDeleteAction;
+
+  /// No description provided for @pdDeleteWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'That password is not correct. Nothing was deleted.'**
+  String get pdDeleteWrongPassword;
+
+  /// No description provided for @pdDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the account right now. Nothing was lost; try again in a moment.'**
+  String get pdDeleteFailed;
+
+  /// No description provided for @pdDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account was deleted'**
+  String get pdDeleted;
+
+  /// No description provided for @pdLinkPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get pdLinkPrivacy;
+
+  /// No description provided for @pdLinkTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get pdLinkTerms;
+
+  /// No description provided for @pdLinkDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Account and data deletion'**
+  String get pdLinkDeletion;
+
+  /// No description provided for @pdDeletedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account and all the data linked to it were permanently deleted. You will now be signed out on this device.'**
+  String get pdDeletedBody;
+
+  /// No description provided for @pdDeletedAction.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get pdDeletedAction;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../domain/auth_failure.dart';
@@ -55,7 +56,7 @@ AuthFailure mapAuthError(Object error) {
       }
     }
   }
-  if (error is TimeoutException) {
+  if (error is TimeoutException || error is http.ClientException) {
     return const AuthFailure(AuthFailureKind.network);
   }
   return const AuthFailure(AuthFailureKind.unknown);
@@ -130,4 +131,27 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() => _guard(() => _client.auth.signOut());
+
+  @override
+  Future<void> deleteAccount(String password) => _guard(() async {
+    try {
+      await _client.functions.invoke(
+        'account-delete',
+        body: {'password': password, 'confirm': true},
+      );
+    } on sb.FunctionException catch (e) {
+      throw mapDeleteAccountStatus(e.status, e.details);
+    }
+  });
+}
+
+/// What a failed `account-delete` call means to the person. Pure and tested.
+AuthFailure mapDeleteAccountStatus(int status, Object? details) {
+  final code = details is Map ? details['error'] : null;
+  if (status == 401 && code == 'reauth_failed') {
+    return const AuthFailure(AuthFailureKind.invalidCredentials);
+  }
+  if (status == 429) return const AuthFailure(AuthFailureKind.rateLimited);
+  if (status >= 500) return const AuthFailure(AuthFailureKind.unavailable);
+  return const AuthFailure(AuthFailureKind.unknown);
 }

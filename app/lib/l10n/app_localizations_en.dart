@@ -2447,4 +2447,113 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get searchSuggestHint =>
       'Broader or similarly spelled professions. These are only suggestions: the results are whatever the catalogue holds.';
+
+  @override
+  String get pdTitle => 'Your data';
+
+  @override
+  String get pdIntro =>
+      'Take a copy of everything the app keeps about you, or erase your account for good.';
+
+  @override
+  String get pdSignInHint => 'Sign in to export or delete your data.';
+
+  @override
+  String get pdExportTitle => 'Export my data';
+
+  @override
+  String get pdExportBody =>
+      'One ZIP with your profile, favorites, saved searches, applications, notes and the resume PDFs you uploaded. Passwords and push tokens are never included.';
+
+  @override
+  String get pdExportAction => 'Export my data';
+
+  @override
+  String get pdExportWorking => 'Preparing your export…';
+
+  @override
+  String get pdExportDone => 'Export created. Save it where you want.';
+
+  @override
+  String pdExportMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count resume files could not be included; they are listed in the data file.',
+      one:
+          '1 resume file could not be included; it is listed in the data file.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pdExportFailed =>
+      'Could not prepare your export. Check your connection and try again.';
+
+  @override
+  String get pdDeleteTitle => 'Delete my account';
+
+  @override
+  String get pdDeleteBody =>
+      'Permanently deletes your account and everything linked to it. This cannot be undone.';
+
+  @override
+  String get pdDeleteWhatTitle => 'What is deleted';
+
+  @override
+  String get pdDelete1 =>
+      'Your profile, experiences, education, skills and languages';
+
+  @override
+  String get pdDelete2 => 'The resume PDFs you uploaded';
+
+  @override
+  String get pdDelete3 => 'Favorites, hidden jobs, saved searches and alerts';
+
+  @override
+  String get pdDelete4 => 'Applications, notes, reminders and notifications';
+
+  @override
+  String get pdDelete5 => 'The push-notification registration of your devices';
+
+  @override
+  String get pdDeleteKeeps =>
+      'Job listings are public and stay in the catalogue. If you want a copy of your data, export it first.';
+
+  @override
+  String get pdDeletePassword => 'Current password';
+
+  @override
+  String get pdDeleteConfirmCheck => 'I understand this cannot be undone';
+
+  @override
+  String get pdDeleteAction => 'Delete permanently';
+
+  @override
+  String get pdDeleteWrongPassword =>
+      'That password is not correct. Nothing was deleted.';
+
+  @override
+  String get pdDeleteFailed =>
+      'Could not delete the account right now. Nothing was lost; try again in a moment.';
+
+  @override
+  String get pdDeleted => 'Your account was deleted';
+
+  @override
+  String get pdLinkPrivacy => 'Privacy policy';
+
+  @override
+  String get pdLinkTerms => 'Terms of use';
+
+  @override
+  String get pdLinkDeletion => 'Account and data deletion';
+
+  @override
+  String get pdDeletedBody =>
+      'Your account and all the data linked to it were permanently deleted. You will now be signed out on this device.';
+
+  @override
+  String get pdDeletedAction => 'OK';
 }

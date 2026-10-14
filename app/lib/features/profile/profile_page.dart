@@ -8,6 +8,7 @@ import '../auth/presentation/auth_cubit.dart';
 import '../auth/presentation/auth_page.dart';
 import '../hidden/presentation/hidden_jobs_page.dart';
 import '../preferences/presentation/preferences_section.dart';
+import '../privacy/presentation/your_data_section.dart';
 import '../searches/presentation/saved_searches_page.dart';
 import 'presentation/profile_cubit.dart';
 import 'presentation/widgets/profile_completeness.dart';
@@ -418,6 +419,8 @@ class _PrivacyView extends StatelessWidget {
           l.privacyNever2,
           l.privacyNever3,
         ]),
+        const SizedBox(height: AppSpace.s5),
+        const YourDataSection(),
       ],
     );
   }
