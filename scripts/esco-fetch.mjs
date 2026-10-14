@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const API = 'https://ec.europa.eu/esco/api';
-const LANGS = ['en', 'pt', 'es', 'de', 'sv', 'nl', 'fr', 'it', 'da', 'no', 'fi', 'pl'];
+const LANGS = ['en', 'pt', 'es', 'de', 'sv', 'nl', 'fr', 'it', 'da', 'no', 'fi', 'pl', 'cs'];
 const dir = process.argv[2];
 if (!dir) {
   console.error('usage: node scripts/esco-fetch.mjs <out-dir>');
