@@ -5,7 +5,7 @@
 --
 -- O arquivo se recusa a rodar sozinho. Exige, na MESMA sessao e antes do script, a fonte e a frase de autorizacao:
 --     set orbijob.publish_source = 'arbeitnow:EU-REVISEI-OS-REGISTROS-E-AUTORIZO';
--- (troque arbeitnow por remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce ou forem). So publica quando TODAS as condicoes valem:
+-- (troque arbeitnow por remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem ou mpsvcz). So publica quando TODAS as condicoes valem:
 --   1. a fonte existe, esta CONDITIONAL, ainda nao esta publicada e tem texto de atribuicao;
 --   2. existe ao menos uma passada de descoberta (scope 'discover') com status 'ok', e NENHUMA passada failed, running ou partial;
 --   3. ha vagas da fonte no banco e TODA original_url e https no dominio da propria fonte;
@@ -34,6 +34,7 @@ begin
     when 'karrierenrw' then '^https://([a-z0-9-]+\.)*karriere\.nrw(/|$)'
     when 'bpce' then '^https://([a-z0-9-]+\.)*bpce\.fr(/|$)'
     when 'forem' then '^https://([a-z0-9-]+\.)*leforem\.be(/|$)'
+    when 'mpsvcz' then '^https://up\.gov\.cz(/|$)'
     when 'jobtech'   then '^https://([a-z0-9-]+\.)*arbetsformedlingen\.se(/|$)'
     else null end;
   if host_re is null then raise exception 'publicacao bloqueada: fonte % nao e publicavel por este arquivo', sid; end if;

@@ -6,6 +6,7 @@ import { jobicyConnector } from './connectors/jobicy';
 import { jobsCoNzConnector } from './connectors/jobsconz';
 import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './connectors/teachingvacancies';
 import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
+import { mpsvCzConnector } from './connectors/mpsvcz';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -114,6 +115,13 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'leforem.be',
     maxPages: FOREM_MAX_PAGES, pageWindow: true, newCap: 1000, catalogue: 2000,
     make: (f, n, origin) => foremConnector(f, n, { origin }),
+  },
+  mpsvcz: {
+    id: 'mpsvcz',
+    attribution: 'Jobs via Úřad práce České republiky / MPSV, Czech public employment service (https://up.gov.cz), open data "Volná pracovní místa" (https://data.mpsv.cz/od/soubory/volna-mista/), published without copyright, database or personal-data restrictions (https://data.mpsv.cz/web/data/podminky-uziti)',
+    host: 'up.gov.cz',
+    maxPages: 1, newCap: 1000, catalogue: 3500,
+    make: (f, n, origin) => mpsvCzConnector(f, n, { origin }),
   },
 };
 

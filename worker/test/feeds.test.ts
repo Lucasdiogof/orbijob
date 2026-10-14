@@ -153,7 +153,7 @@ describe('Remotive normalizer and connector (real payloads)', () => {
 
 describe('source registry', () => {
   it('every source names itself and links to its own host (their terms ask for a link back), and has sane caps', () => {
-    expect(SOURCE_IDS.sort()).toEqual(['arbeitnow', 'bpce', 'forem', 'getonboard', 'jobicy', 'jobsconz', 'jobtech', 'karrierenrw', 'nycjobs', 'remoteok', 'remotive', 'teachingvacancies', 'twjobs']);
+    expect(SOURCE_IDS.sort()).toEqual(['arbeitnow', 'bpce', 'forem', 'getonboard', 'jobicy', 'jobsconz', 'jobtech', 'karrierenrw', 'mpsvcz', 'nycjobs', 'remoteok', 'remotive', 'teachingvacancies', 'twjobs']);
     for (const s of Object.values(SOURCES)) {
       expect(s.attribution).toContain(`https://`);
       expect(s.attribution).toContain(s.host.replace(/^www\./, ''));

@@ -56,6 +56,11 @@ describe('dedupe', () => {
   it('canonicalUrl drops tracking params', () => {
     expect(canonicalUrl('https://A.com/x/?utm_medium=z&id=3#f')).toBe('https://a.com/x?id=3');
   });
+  it('canonicalUrl keeps a single-page-app route fragment, so listings of such a site stay different URLs', () => {
+    expect(canonicalUrl('https://up.gov.cz/volna-mista-v-cr#/volna-mista-detail/67287507')).toBe('https://up.gov.cz/volna-mista-v-cr#/volna-mista-detail/67287507');
+    expect(canonicalUrl('https://up.gov.cz/volna-mista-v-cr#/volna-mista-detail/1')).not.toBe(canonicalUrl('https://up.gov.cz/volna-mista-v-cr#/volna-mista-detail/2'));
+    expect(canonicalUrl('https://a.com/x#section-2')).toBe('https://a.com/x');
+  });
 });
 
 describe('closure rule', () => {

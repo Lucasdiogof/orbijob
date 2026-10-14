@@ -8,15 +8,19 @@ const norm = (s: string) =>
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
 
-/** Canonical URL: lowercase host, no tracking params, no fragment, no trailing slash. */
+/**
+ * Canonical URL: lowercase host, no tracking params, no trailing slash, and no fragment, EXCEPT a single-page-app route (`#/volna-mista-detail/123`):
+ * there the fragment IS the page, and dropping it would make every listing of such a site the same URL.
+ */
 export function canonicalUrl(raw: string): string {
   try {
     const u = new URL(raw);
+    const route = /^#!?\//.test(u.hash) ? u.hash : '';
     u.hash = '';
     for (const k of [...u.searchParams.keys()]) {
       if (/^(utm_|gh_src|lever-source|ref$|source$)/i.test(k)) u.searchParams.delete(k);
     }
-    return (u.origin + u.pathname.replace(/\/+$/, '') + u.search).toLowerCase();
+    return (u.origin + u.pathname.replace(/\/+$/, '') + u.search + route).toLowerCase();
   } catch {
     return raw.trim().toLowerCase();
   }

@@ -1,0 +1,183 @@
+{
+ "obce": {
+  "polozky": [
+   {
+    "id": "Obec/554782",
+    "kod": "554782",
+    "nazev": {
+     "cs": "Praha"
+    },
+    "okres": "Okres/9999"
+   },
+   {
+    "id": "Obec/598267",
+    "kod": "598267",
+    "nazev": {
+     "cs": "Modletice"
+    },
+    "okres": "Okres/3209"
+   },
+   {
+    "id": "Obec/548111",
+    "kod": "548111",
+    "nazev": {
+     "cs": "Kamenice nad Lipou"
+    },
+    "okres": "Okres/3304"
+   },
+   {
+    "id": "Obec/563889",
+    "kod": "563889",
+    "nazev": {
+     "cs": "Liberec"
+    },
+    "okres": "Okres/3505"
+   },
+   {
+    "id": "Obec/578444",
+    "kod": "578444",
+    "nazev": {
+     "cs": "Moravská Třebová"
+    },
+    "okres": "Okres/3609"
+   },
+   {
+    "id": "Obec/585939",
+    "kod": "585939",
+    "nazev": {
+     "cs": "Vizovice"
+    },
+    "okres": "Okres/3705"
+   },
+   {
+    "id": "Obec/593818",
+    "kod": "593818",
+    "nazev": {
+     "cs": "Boskovštejn"
+    },
+    "okres": "Okres/3713"
+   },
+   {
+    "id": "Obec/596973",
+    "kod": "596973",
+    "nazev": {
+     "cs": "Velká Bíteš"
+    },
+    "okres": "Okres/3714"
+   }
+  ]
+ },
+ "smennosti": {
+  "polozky": [
+   {
+    "id": "Smennost/jednoSm",
+    "kod": "jednoSm",
+    "nazev": {
+     "cs": "Jednosměnný provoz"
+    }
+   },
+   {
+    "id": "Smennost/dvouSm",
+    "kod": "dvouSm",
+    "nazev": {
+     "cs": "Dvousměnný provoz"
+    }
+   },
+   {
+    "id": "Smennost/triSm",
+    "kod": "triSm",
+    "nazev": {
+     "cs": "Třísměnný provoz"
+    }
+   },
+   {
+    "id": "Smennost/ctyrSm",
+    "kod": "ctyrSm",
+    "nazev": {
+     "cs": "Čtyřsměnný provoz"
+    }
+   },
+   {
+    "id": "Smennost/deleneSm",
+    "kod": "deleneSm",
+    "nazev": {
+     "cs": "Dělené směny"
+    }
+   },
+   {
+    "id": "Smennost/nepretrzity",
+    "kod": "nepretrzity",
+    "nazev": {
+     "cs": "Nepřetržitý provoz"
+    }
+   },
+   {
+    "id": "Smennost/nocni",
+    "kod": "nocni",
+    "nazev": {
+     "cs": "Noční provoz"
+    }
+   },
+   {
+    "id": "Smennost/pruznaPd",
+    "kod": "pruznaPd",
+    "nazev": {
+     "cs": "Pružná pracovní doba"
+    }
+   },
+   {
+    "id": "Smennost/turnus",
+    "kod": "turnus",
+    "nazev": {
+     "cs": "Turnusové služby"
+    }
+   },
+   {
+    "id": "Smennost/neurceno",
+    "kod": "neurceno",
+    "nazev": {
+     "cs": "Neurčeno"
+    }
+   }
+  ]
+ },
+ "pracovnepravni-vztahy": {
+  "polozky": [
+   {
+    "id": "PracovnepravniVztah/dpc",
+    "kod": "dpc",
+    "nazev": {
+     "cs": "Dohoda o pracovní činnosti"
+    }
+   },
+   {
+    "id": "PracovnepravniVztah/dpp",
+    "kod": "dpp",
+    "nazev": {
+     "cs": "Dohoda o provedení práce"
+    }
+   },
+   {
+    "id": "PracovnepravniVztah/plny",
+    "kod": "plny",
+    "nazev": {
+     "cs": "Pracovní poměr - plný úvazek"
+    }
+   },
+   {
+    "id": "PracovnepravniVztah/sluzebni",
+    "kod": "sluzebni",
+    "nazev": {
+     "cs": "Služební poměr"
+    }
+   },
+   {
+    "id": "PracovnepravniVztah/zkraceny",
+    "kod": "zkraceny",
+    "nazev": {
+     "cs": "Pracovní poměr - zkrácený úvazek"
+    }
+   }
+  ]
+ }
+}

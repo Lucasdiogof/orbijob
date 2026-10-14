@@ -308,6 +308,7 @@ const _sourceNames = {
   'karrierenrw': 'Karriere.NRW',
   'bpce': 'Groupe BPCE',
   'forem': 'Le Forem',
+  'mpsvcz': 'Úřad práce ČR',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

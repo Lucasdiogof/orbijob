@@ -556,6 +556,7 @@ void main() {
         ('karrierenrw', 'Karriere.NRW', 'karriere.nrw'),
         ('bpce', 'Groupe BPCE', 'recrutement.bpce.fr'),
         ('forem', 'Le Forem', 'www.leforem.be'),
+        ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
       ]) {
         final j = jobFromCatalogRow(
           row(
