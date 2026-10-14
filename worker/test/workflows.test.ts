@@ -170,7 +170,7 @@ describe('jobicy-discover.yml', () => {
 describe('every workflow file is valid YAML in the places a plain scalar breaks it', () => {
   // GitHub rejects the whole file ("workflow file issue": no trigger, no run) when a plain scalar contains ": " or " #".
   // This caught nothing before because the other tests read the files as text. No YAML parser is installed, so the known failure class is checked directly.
-  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'sources-discover.yml', 'sources-revalidate.yml', 'windows-bootstrap.yml']) {
+  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'sources-discover.yml', 'sources-revalidate.yml', 'ops-health.yml', 'windows-bootstrap.yml']) {
     it(`${f}: unquoted name/description/if values contain no ': ' and no ' #'`, () => {
       const bad = read(f).split(/\r?\n/).filter((l) => /^\s*(- )?(name|description|if):\s+/.test(l))
         .map((l) => /^\s*(?:- )?(?:name|description|if):\s+(.*)$/.exec(l)![1]!)

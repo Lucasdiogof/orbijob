@@ -1,0 +1,39 @@
+# Daily operational health check, READ-ONLY and free. Reads, with the Worker's own key (the secret the revalidation workflow already uses), what that key may
+# read (job_sources, jobs, sync_runs) and turns it into OK / WARN / ALERT rows: how fresh each published source is, passes that failed or hit the
+# catalogue ceiling, and how many listings the app can show. An ALERT makes the run fail, so GitHub e-mails the owner: the free plan has no pager.
+# pg_cron and database size need a database login and stay in scripts/supabase/diagnostics/ops-health.sql (run by hand).
+name: Ops health
+
+on:
+  schedule:
+    - cron: '33 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    name: ops health (read-only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: jobicy-revalidation
+    defaults:
+      run:
+        working-directory: worker
+        shell: bash
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Check
+        env:
+          ORBIJOB_WORKER_KEY: ${{ secrets.ORBIJOB_SYNC_WORKER_KEY }}
+        run: node scripts/ops-health-remote.mjs
