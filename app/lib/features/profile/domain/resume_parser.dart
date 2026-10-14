@@ -127,6 +127,9 @@ const _headings = <_Section, List<String>>{
     'resumen profesional',
     'sobre mi',
     'perfil personal',
+    'profil',
+    'berufsprofil',
+    'kurzprofil',
   ],
   _Section.experience: [
     'experiencia',
@@ -144,6 +147,10 @@ const _headings = <_Section, List<String>>{
     'work history',
     'career history',
     'relevant experience',
+    'atividades profissionais',
+    'berufserfahrung',
+    'beruflicher werdegang',
+    'werdegang',
   ],
   _Section.education: [
     'formacao',
@@ -159,6 +166,10 @@ const _headings = <_Section, List<String>>{
     'formacion academica',
     'educacion',
     'estudios',
+    'formacao academica e cursos',
+    'ausbildung',
+    'schulbildung',
+    'bildungsweg',
   ],
   _Section.skills: [
     'habilidades',
@@ -176,6 +187,12 @@ const _headings = <_Section, List<String>>{
     'aptitudes',
     'conocimientos',
     'competencias clave',
+    'qualificacoes',
+    'qualificacoes profissionais',
+    'habilidades e competencias',
+    'fahigkeiten',
+    'kenntnisse',
+    'kenntnisse und fahigkeiten',
   ],
   _Section.languages: [
     'idiomas',
@@ -183,6 +200,8 @@ const _headings = <_Section, List<String>>{
     'lenguas',
     'linguas',
     'language skills',
+    'sprachen',
+    'sprachkenntnisse',
   ],
   _Section.other: [
     'cursos',
@@ -221,6 +240,16 @@ const _headings = <_Section, List<String>>{
     'licencas',
     'licenses',
     'atividades extracurriculares',
+    'cursos complementares',
+    'cursos e treinamentos',
+    'treinamentos',
+    'certificacoes e cursos',
+    'capacitacoes',
+    'informacoes complementares',
+    'outras informacoes',
+    'weiterbildung',
+    'zertifikate',
+    'zusatzqualifikationen',
   ],
 };
 
@@ -242,6 +271,7 @@ const _months = <String, int>{
   'jan': 1,
   'january': 1,
   'janeiro': 1,
+  'januar': 1,
   'enero': 1,
   'ene': 1,
   'feb': 2,
@@ -252,6 +282,7 @@ const _months = <String, int>{
   'mar': 3,
   'march': 3,
   'marco': 3,
+  'marz': 3,
   'marzo': 3,
   'apr': 4,
   'april': 4,
@@ -298,13 +329,13 @@ const _months = <String, int>{
 };
 
 const _presentWords =
-    r'(?:present|presente|current|currently|now|ongoing|atual|atualmente|hoje|actual|actualidad|actualmente|la fecha|o momento)\w*';
+    r'(?:present|presente|current|currently|now|ongoing|atual|atualmente|hoje|actual|actualidad|actualmente|la fecha|o momento|heute|aktuell|derzeit|gegenwart)\w*';
 
 final _datePart =
-    r'(?:(?:\d{1,2}[\/\-.]\d{4})|(?:[A-Za-zÀ-ÿ]{3,10}\.?\s+\d{4})|(?:\d{4}))';
+    r'(?:(?:\d{1,2}[\/\-.]\d{4})|(?:[A-Za-zÀ-ÿ]{3,10}\.?[\s\/\-]*\d{4})|(?:\d{4}))';
 
 final _rangeRe = RegExp(
-  '($_datePart)\\s*(?:-|–|—|to|a|até|ate|hasta|al)\\s*($_datePart|$_presentWords)',
+  '($_datePart)\\s*(?:-|–|—|to|a|até|ate|hasta|al|bis)\\s*($_datePart|$_presentWords)',
   caseSensitive: false,
 );
 
@@ -316,7 +347,7 @@ DateTime? _parseDate(String raw) {
     if (m >= 1 && m <= 12) return DateTime(int.parse(num1.group(2)!), m);
     return null;
   }
-  final named = RegExp(r'^([a-z]{3,10})\s+(\d{4})$').firstMatch(t);
+  final named = RegExp(r'^([a-z]{3,10})[\s/\-]*(\d{4})$').firstMatch(t);
   if (named != null) {
     final m = _months[named.group(1)!];
     if (m != null) return DateTime(int.parse(named.group(2)!), m);
@@ -482,6 +513,11 @@ const _languageNames = <String, String>{
   'aleman': 'de',
   'german': 'de',
   'deutsch': 'de',
+  'englisch': 'en',
+  'spanisch': 'es',
+  'franzosisch': 'fr',
+  'portugiesisch': 'pt',
+  'italienisch': 'it',
   'italiano': 'it',
   'italian': 'it',
   'chines': 'zh',
@@ -568,7 +604,7 @@ final _companyHint = RegExp(
 );
 
 final _schoolHint = RegExp(
-  r'\b(universidade|university|universidad|faculdade|facultad|college|instituto|institute|escola|school|senai|senac|centro universit|politecnico|polytechnic|academy|academia|hogeschool|universit[aä]t|uni)\b',
+  r'\b(universidade|university|universidad|faculdade|facultad|college|instituto|institute|escola|school|senai|senac|ihk|berufsschule|gymnasium|hochschule|fachhochschule|realschule|centro universit|politecnico|polytechnic|academy|academia|hogeschool|universit[aä]t|uni)\b',
   caseSensitive: false,
 );
 
@@ -666,8 +702,13 @@ ResumeSuggestion parseResumeText(String text) {
   String? headline;
   var nameIdx = -1;
   for (var i = 0; i < head.length && i < 6; i++) {
-    if (_looksLikeName(head[i])) {
-      name = head[i];
+    // "Priya Nair, RN": a short professional credential after a comma is not part of the name
+    final cand = head[i].replaceFirst(
+      RegExp(r',\s*[A-Za-z][A-Za-z.]{1,7}(?:\s*,\s*[A-Za-z][A-Za-z.]{1,7})*$'),
+      '',
+    );
+    if (_looksLikeName(cand)) {
+      name = cand;
       nameIdx = i;
       break;
     }
@@ -686,6 +727,8 @@ ResumeSuggestion parseResumeText(String text) {
   String? city;
   String? country;
   for (var i = 0; i < head.length; i++) {
+    if (i == nameIdx)
+      continue; // the name line ("Priya Nair, RN") is never a place
     // a contact line may be wrapped by the page width: also try it joined with the next line
     final alone = _locationIn(head[i]);
     final joined = i + 1 < head.length && head[i].endsWith(',')
@@ -737,12 +780,25 @@ bool _looksLikeLocation(String l) =>
   final parts = line
       .split(RegExp(r'\s*[·|•]\s*|\s+[–—-]\s+'))
       .map((e) => e.trim())
-      .where((e) => e.isNotEmpty);
-  for (final p in parts) {
+      .where((e) => e.isNotEmpty)
+      .toList();
+  for (var pi = 0; pi < parts.length; pi++) {
+    final p = parts[pi];
     if (_emailRe.hasMatch(p) || _urlRe.hasMatch(p) || _phoneIn(p) != null) {
       continue;
     }
+    // "Belo Horizonte - MG": the dash separated the city from its two-letter state code
+    if (pi > 0 &&
+        RegExp(r'^[A-Z]{2}$').hasMatch(p) &&
+        RegExp(r"^[A-Za-zÀ-ÿ .'-]{2,40}$").hasMatch(parts[pi - 1]) &&
+        !_emailRe.hasMatch(parts[pi - 1])) {
+      return (parts[pi - 1], null);
+    }
     if (RegExp(r'\d').hasMatch(p)) continue;
+    // "Santo André/SP" or "Belo Horizonte - MG" (the dash splits it into two parts, handled below): a city and its state code
+    final cityUf = RegExp(r"^([A-Za-zÀ-ÿ .'-]{2,40}?)\s*/\s*[A-Z]{2}$")
+        .firstMatch(p);
+    if (cityUf != null) return (cityUf.group(1)!.trim(), null);
     final segs = p
         .split(',')
         .map((e) => e.trim())
@@ -806,6 +862,12 @@ List<SuggestedLanguage> _languages(List<String> lines) {
 
 // A header line (title, company, degree) is short and is not a sentence; a trailing period is fine only after an abbreviation
 // such as "Inc." or "Ltda.".
+bool _isWholeHeader(String l) {
+  if (_split2(l) != null) return true;
+  final c = l.split(',').map((e) => e.trim()).toList();
+  return c.length >= 2 && c[0].isNotEmpty && c[1].length > 5;
+}
+
 bool _isHeaderish(String l) =>
     !_isBullet(l) &&
     l.length <= 110 &&
@@ -813,7 +875,9 @@ bool _isHeaderish(String l) =>
         RegExp(
           r'\b(inc|ltd|ltda|llc|corp|co|sa|s\.a|gmbh|pty|bv|ab|plc|jr|sr|eireli|me)\.$',
           caseSensitive: false,
-        ).hasMatch(l));
+        ).hasMatch(l) ||
+        // dotted abbreviations such as "S.A. de C.V." or "S.R.L."
+        RegExp(r'(?:\b\p{L}\.){2,}$', unicode: true).hasMatch(l));
 
 List<SuggestedExperience> _experiences(List<String> lines) {
   final anchors = <int>[];
@@ -846,6 +910,8 @@ List<SuggestedExperience> _experiences(List<String> lines) {
         .replaceRange(r.match.start, r.match.end, ' ')
         .replaceAll(RegExp(r'[()\[\]|]'), ' ')
         .replaceAll(RegExp(r'\s[–—-]\s*$'), '')
+        .trim()
+        .replaceAll(RegExp(r'[,;]+$'), '')
         .trim();
     final inlineUseful = RegExp(r'\p{L}{3,}', unicode: true).hasMatch(inline);
 
@@ -867,6 +933,8 @@ List<SuggestedExperience> _experiences(List<String> lines) {
       while (j > prevEnd && before.length < 2 && _isHeaderish(lines[j])) {
         before.insert(0, lines[j]);
         j--;
+        // "Kraftfahrer, Spedition Müller KG" is a whole header: the line above it belongs to the previous entry's description
+        if (before.length == 1 && _isWholeHeader(before.first)) break;
       }
       header.insertAll(0, before);
       // the description is everything after the anchor up to the next entry's header
@@ -877,6 +945,7 @@ List<SuggestedExperience> _experiences(List<String> lines) {
         while (h > a && taken < 2 && _isHeaderish(lines[h])) {
           h--;
           taken++;
+          if (taken == 1 && _isWholeHeader(lines[h + 1])) break;
         }
         end = h + 1;
       }
@@ -989,6 +1058,8 @@ List<SuggestedEducation> _education(List<String> lines) {
       final inline = lines[a]
           .replaceRange(r.match.start, r.match.end, ' ')
           .replaceAll(RegExp(r'[()\[\]|]'), ' ')
+          .trim()
+          .replaceAll(RegExp(r'[,;]+$'), '')
           .trim();
       final header = <String>[];
       var j = a - 1;
