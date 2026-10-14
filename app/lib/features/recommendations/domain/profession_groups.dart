@@ -188,8 +188,6 @@ final Set<String> _curatedKeys = {
 /// A single word that appears in the names of this many different occupation groups or more ("assistant", "manager", "charge", "agent") is a
 /// role word, not a profession: alone it says nothing and is not read as a name.
 const _genericSpread = 12;
-Map<String, Set<String>> _spread = {};
-
 Map<String, Set<String>> _labels() {
   final cached = _index;
   if (cached != null) return cached;
@@ -205,7 +203,6 @@ Map<String, Set<String>> _labels() {
       }
     }
   }
-  _spread = spread;
   // single generic words are removed from the index (curated entries below can still name them)
   map.removeWhere(
     (k, _) => !k.contains(' ') && (spread[k]?.length ?? 0) >= _genericSpread,
