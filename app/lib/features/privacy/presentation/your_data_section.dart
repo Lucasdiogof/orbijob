@@ -347,9 +347,9 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
 }
 
 /// Public documents of the product (published on the company site).
-const orbiPrivacyUrl = 'https://lucksrei.com/orbijob/privacy';
-const orbiTermsUrl = 'https://lucksrei.com/orbijob/terms';
-const orbiDeletionUrl = 'https://lucksrei.com/orbijob/delete-account';
+const orbiPrivacyUrl = 'https://lucksrei.com/projects/orbijob/privacy/';
+const orbiTermsUrl = 'https://lucksrei.com/projects/orbijob/terms/';
+const orbiDeletionUrl = 'https://lucksrei.com/projects/orbijob/data-deletion/';
 
 class _Documents extends StatelessWidget {
   const _Documents();
