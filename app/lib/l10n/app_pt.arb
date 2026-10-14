@@ -725,7 +725,7 @@
   "rcReasonProfessionExact": "O título menciona sua profissão: {profession}",
   "rcReasonProfessionClose": "Próxima da sua profissão: {profession}",
   "rcReasonProfessionSynonym": "Mesma profissão em outro idioma: {profession}",
-  "rcReasonSameField": "Mesma área profissional: {area}",
+  "rcReasonSameField": "Apenas a mesma área geral: {area}",
   "rcReasonSkills": "Menciona suas competências: {skills}",
   "rcReasonCountryInterest": "Em {country}, um dos seus países de interesse",
   "rcReasonCountryResidence": "Em {country}, onde você mora",
@@ -837,5 +837,7 @@
   "pdLinkTerms": "Termos de uso",
   "pdLinkDeletion": "Exclusão de conta e dados",
   "pdDeletedBody": "Sua conta e todos os dados ligados a ela foram excluídos de forma permanente. Você será desconectado neste aparelho.",
-  "pdDeletedAction": "OK"
+  "pdDeletedAction": "OK",
+  "rcReasonProfessionGroup": "Mesmo grupo ocupacional da sua profissão: {profession}",
+  "rcReasonProfessionRelated": "Profissão relacionada, não a mesma: {profession}"
 }

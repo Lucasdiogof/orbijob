@@ -14,7 +14,14 @@ enum ReasonKind {
   /// The same profession under its name in another language ("Fisioterapeuta" / "Physiotherapist"). [Reason.text] = the profession.
   professionSynonym,
 
-  /// Same professional field (the area the title belongs to), not the same title. [Reason.text] = area name key.
+  /// The title names an occupation of the same ISCO unit group as the person's profession, in other words ("Software Engineer" for "Software
+  /// Developer"); the specialty or qualifier may differ. [Reason.text] = the profession.
+  professionGroup,
+
+  /// A neighbouring occupation (software and application developers), related and NOT the same. [Reason.text] = the profession.
+  professionRelated,
+
+  /// Only the general area agrees (both "health"): shown as an extra, never as a reason on its own. [Reason.text] = area name key.
   sameField,
 
   /// The listing mentions skills of the profile. [Reason.items] = the skills.

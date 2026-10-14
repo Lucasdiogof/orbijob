@@ -370,8 +370,20 @@
   "authRecoveryResend": "Send a new code",
   "authRecoveryResendIn": "Send a new code in {seconds}s",
   "authRecoveryChangeEmail": "Use another e-mail",
-  "@authRecoveryEnterCode": {"placeholders": {"email": {"type": "String"}}},
-  "@authRecoveryResendIn": {"placeholders": {"seconds": {"type": "int"}}},
+  "@authRecoveryEnterCode": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authRecoveryResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "authCancelRecovery": "Cancel",
   "commonLoading": "Loading",
   "filtersButton": "Filters",
@@ -1017,7 +1029,7 @@
       }
     }
   },
-  "rcReasonSameField": "Same professional field: {area}",
+  "rcReasonSameField": "Same general area only: {area}",
   "@rcReasonSameField": {
     "placeholders": {
       "area": {
@@ -1247,5 +1259,21 @@
   "pdLinkTerms": "Terms of use",
   "pdLinkDeletion": "Account and data deletion",
   "pdDeletedBody": "Your account and all the data linked to it were permanently deleted. You will now be signed out on this device.",
-  "pdDeletedAction": "OK"
+  "pdDeletedAction": "OK",
+  "rcReasonProfessionGroup": "Same occupation group as your profession: {profession}",
+  "rcReasonProfessionRelated": "Related profession, not the same: {profession}",
+  "@rcReasonProfessionGroup": {
+    "placeholders": {
+      "profession": {
+        "type": "String"
+      }
+    }
+  },
+  "@rcReasonProfessionRelated": {
+    "placeholders": {
+      "profession": {
+        "type": "String"
+      }
+    }
+  }
 }

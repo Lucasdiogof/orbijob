@@ -3,46 +3,11 @@ import '../../profile/domain/professional_profile.dart';
 import '../../search/domain/entities/job_posting.dart';
 import '../../search/domain/job_area.dart';
 import '../../search/domain/search_alternatives.dart';
+import 'match_text.dart';
+import 'profession_groups.dart';
 import 'recommendation.dart';
 
-/// Lower case, accents removed, anything that is not a letter or digit turned into a single space. Used to compare words, never to show them.
-const _accents = {
-  'a': 'àáâãäåāăą',
-  'c': 'çćč',
-  'd': 'ď',
-  'e': 'èéêëēėęě',
-  'i': 'ìíîïīį',
-  'l': 'ł',
-  'n': 'ñńň',
-  'o': 'òóôõöøōő',
-  'r': 'ř',
-  's': 'śšş',
-  't': 'ť',
-  'u': 'ùúûüūůűų',
-  'y': 'ýÿ',
-  'z': 'źżž',
-};
-final Map<String, String> _plain = {
-  for (final e in _accents.entries)
-    for (final ch in e.value.split('')) ch: e.key,
-  'ß': 'ss',
-};
-
-String normalizeForMatch(String input) {
-  final b = StringBuffer();
-  for (final r in input.toLowerCase().runes) {
-    final ch = String.fromCharCode(r);
-    final plain = _plain[ch];
-    if (plain != null) {
-      b.write(plain);
-    } else if (RegExp(r'[\p{L}\p{N}]', unicode: true).hasMatch(ch)) {
-      b.write(ch);
-    } else {
-      b.write(' ');
-    }
-  }
-  return b.toString().replaceAll(RegExp(r'\s+'), ' ').trim();
-}
+export 'match_text.dart' show normalizeForMatch;
 
 /// What the recommender knows about the person, reduced to what matters for ranking. Anything missing simply is not evaluated.
 class RecommendationProfile {
@@ -215,7 +180,6 @@ class Recommender {
     var available = 0.0;
     var signals = 0;
     var relevant = false; // a profession or skill match
-    var weakField = false; // only the professional field agrees
 
     final title = normalizeForMatch(j.title);
 
@@ -227,12 +191,8 @@ class Recommender {
       if (m != null) {
         earned += m.$1;
         reasons.add((m.$1, m.$2));
-        // the same field is a hint, not a match: it needs something else to agree (see the gate below)
-        if (m.$2.kind == ReasonKind.sameField) {
-          weakField = true;
-        } else {
-          relevant = true;
-        }
+        // the general area is a hint, not a match: it never makes a listing relevant on its own
+        if (m.$2.kind != ReasonKind.sameField) relevant = true;
       }
     }
 
@@ -375,21 +335,11 @@ class Recommender {
       return null;
     }
 
-    // ── relevance gate
+    // ── relevance gate: a profession or skill agrees. The general area alone never makes a listing relevant (a physiotherapist is not
+    // offered doctors' jobs because both are "health"); it is only shown as an extra reason when something real already agrees.
     if (p.isEmpty) return null;
     if (p.hasProfession || p.skills.isNotEmpty) {
-      if (!relevant) {
-        const placeLike = {
-          ReasonKind.countryOfInterest,
-          ReasonKind.countryOfResidence,
-          ReasonKind.remoteEligible,
-          ReasonKind.remoteAnywhere,
-          ReasonKind.city,
-        };
-        if (!(weakField && reasons.any((r) => placeLike.contains(r.$2.kind)))) {
-          return null;
-        }
-      }
+      if (!relevant) return null;
     } else if (!reasons.any((r) => r.$2.kind != ReasonKind.recent)) {
       // nothing professional on the profile: something besides "published recently" must agree with the listing
       return null;
@@ -438,42 +388,89 @@ class Recommender {
     for (final phrase in phrases) {
       final n = normalizeForMatch(phrase);
       if (n.length < 3) continue;
+      final person = occupationOf(phrase);
+
+      // 1) the words of the profession are in the title (same wording, a close form, or the same name in another language)
+      Reason? text;
+      double textPts = 0;
       if (' $normalizedTitle '.contains(' $n ')) {
-        offer(_pProfession, Reason(ReasonKind.professionExact, text: phrase));
-        continue;
-      }
-      final tokens = n.split(' ').where((t) => t.length >= 4).toList();
-      if (tokens.isNotEmpty) {
-        var matched = 0;
-        for (final t in tokens) {
-          final stem = t.length > 6 ? t.substring(0, 6) : t;
-          if (titleTokens.any(
-            (x) =>
-                (x.length > 6 ? x.substring(0, 6) : x) == stem &&
-                (x.length >= 5 || x == t),
-          )) {
-            matched++;
+        text = Reason(ReasonKind.professionExact, text: phrase);
+        textPts = _pProfession;
+      } else {
+        final tokens = n.split(' ').where((t) => t.length >= 4).toList();
+        if (tokens.isNotEmpty) {
+          var matched = 0;
+          for (final t in tokens) {
+            final stem = t.length > 6 ? t.substring(0, 6) : t;
+            if (titleTokens.any(
+              (x) =>
+                  (x.length > 6 ? x.substring(0, 6) : x) == stem &&
+                  (x.length >= 5 || x == t),
+            )) {
+              matched++;
+            }
+          }
+          final share = matched / tokens.length;
+          if (matched > 0 && (tokens.length == 1 || share >= 0.67)) {
+            text = Reason(ReasonKind.professionClose, text: phrase);
+            textPts = 42;
           }
         }
-        final share = matched / tokens.length;
-        if (matched > 0 && (tokens.length == 1 || share >= 0.67)) {
-          offer(42, Reason(ReasonKind.professionClose, text: phrase));
+        if (text == null) {
+          final syn = titleAlternatives(phrase);
+          if (syn.isNotEmpty && titleHasAlternative(rawTitle, syn)) {
+            text = Reason(ReasonKind.professionSynonym, text: phrase);
+            textPts = 38;
+          }
+        }
+      }
+      if (text != null) {
+        // ...unless the title names ANOTHER occupation in which those words are only a modifier ("Engenheiro Eletricista" is not an
+        // "Eletricista", "Auxiliar de enfermagem" is not an "Enfermeiro"): only when ESCO/ISCO knows both sides
+        if (titleNamesOtherOccupation(
+          person,
+          rawTitle,
+          minWords: text.kind == ReasonKind.professionSynonym ? 2 : 1,
+        )) {
+          continue;
+        }
+        offer(textPts, text);
+        continue;
+      }
+
+      // 2) no shared words, but the title names an occupation of the person's own group, or of a close neighbour
+      if (person.known) {
+        var rel = Relation.none;
+        for (final m in mentionsIn(rawTitle)) {
+          final r = relationOf(person.codes, m.codes);
+          if (r == Relation.sameGroup) {
+            rel = r;
+            break;
+          }
+          if (r == Relation.related ||
+              (r == Relation.areaOnly && rel == Relation.none)) {
+            rel = r;
+          }
+        }
+        if (rel == Relation.sameGroup) {
+          offer(34, Reason(ReasonKind.professionGroup, text: phrase));
+          continue;
+        }
+        if (rel == Relation.related) {
+          offer(24, Reason(ReasonKind.professionRelated, text: phrase));
           continue;
         }
       }
-      final syn = titleAlternatives(phrase);
-      if (syn.isNotEmpty && titleHasAlternative(rawTitle, syn)) {
-        offer(38, Reason(ReasonKind.professionSynonym, text: phrase));
-        continue;
-      }
+
+      // 3) only the general area agrees: a hint at most, never a recommendation by itself
       final mine = JobArea.of(phrase);
       final theirs = JobArea.of(rawTitle);
       final shared = [
         for (final a in mine)
           if (theirs.contains(a)) a,
       ];
-      if (shared.isNotEmpty) {
-        offer(18, Reason(ReasonKind.sameField, text: shared.first.name));
+      if (shared.isNotEmpty && !titleNamesOtherOccupation(person, rawTitle)) {
+        offer(6, Reason(ReasonKind.sameField, text: shared.first.name));
       }
     }
     return best;

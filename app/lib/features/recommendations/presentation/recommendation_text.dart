@@ -19,6 +19,8 @@ String reasonText(Reason r, AppLocalizations l, String lang, {DateTime? now}) =>
       ReasonKind.professionExact => l.rcReasonProfessionExact(r.text ?? ''),
       ReasonKind.professionClose => l.rcReasonProfessionClose(r.text ?? ''),
       ReasonKind.professionSynonym => l.rcReasonProfessionSynonym(r.text ?? ''),
+      ReasonKind.professionGroup => l.rcReasonProfessionGroup(r.text ?? ''),
+      ReasonKind.professionRelated => l.rcReasonProfessionRelated(r.text ?? ''),
       ReasonKind.sameField => l.rcReasonSameField(
         areaLabel(
           JobArea.values.firstWhere(

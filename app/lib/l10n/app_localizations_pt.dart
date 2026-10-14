@@ -2220,7 +2220,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String rcReasonSameField(String area) {
-    return 'Mesma área profissional: $area';
+    return 'Apenas a mesma área geral: $area';
   }
 
   @override
@@ -2603,4 +2603,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get pdDeletedAction => 'OK';
+
+  @override
+  String rcReasonProfessionGroup(String profession) {
+    return 'Mesmo grupo ocupacional da sua profissão: $profession';
+  }
+
+  @override
+  String rcReasonProfessionRelated(String profession) {
+    return 'Profissão relacionada, não a mesma: $profession';
+  }
 }

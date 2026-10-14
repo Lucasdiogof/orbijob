@@ -3931,7 +3931,7 @@ abstract class AppLocalizations {
   /// No description provided for @rcReasonSameField.
   ///
   /// In en, this message translates to:
-  /// **'Same professional field: {area}'**
+  /// **'Same general area only: {area}'**
   String rcReasonSameField(String area);
 
   /// No description provided for @rcReasonSkills.
@@ -4563,6 +4563,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get pdDeletedAction;
+
+  /// No description provided for @rcReasonProfessionGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Same occupation group as your profession: {profession}'**
+  String rcReasonProfessionGroup(String profession);
+
+  /// No description provided for @rcReasonProfessionRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'Related profession, not the same: {profession}'**
+  String rcReasonProfessionRelated(String profession);
 }
 
 class _AppLocalizationsDelegate

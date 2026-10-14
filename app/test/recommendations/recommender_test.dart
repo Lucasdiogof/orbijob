@@ -151,15 +151,20 @@ void main() {
       );
     });
 
-    test('the same field with another title is a hint: listed only when something else agrees, and labelled', () {
+    test('another title of the same ESCO occupation group is said so ("same occupation group"), and scores below the profession itself', () {
       final p = profile(professions: ['Accountant'], interest: {'DE'});
-      expect(one(p, job('0', 'Financial Controller')), isNull);
       final r = one(p, job('1', 'Financial Controller', country: 'DE'));
-      expect(r!.reasons.map((e) => e.kind), contains(ReasonKind.sameField));
+      expect(r!.reasons.first.kind, ReasonKind.professionGroup);
       expect(
         r.score,
         lessThan(one(p, job('2', 'Accountant', country: 'DE'))!.score),
       );
+    });
+
+    test('a title that only shares the general area is not recommended, with or without a country of interest', () {
+      final p = profile(professions: ['Accountant'], interest: {'DE'});
+      expect(one(p, job('0', 'Marketing Manager')), isNull);
+      expect(one(p, job('1', 'Marketing Manager', country: 'DE')), isNull);
     });
 
     test('accents and capitals do not matter', () {
