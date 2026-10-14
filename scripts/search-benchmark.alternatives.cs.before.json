@@ -1,0 +1,2082 @@
+{
+ "cozinheiro": {
+  "before": [],
+  "after": [
+   [
+    "cocinero"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "cook"
+   ]
+  ]
+ },
+ "cook": {
+  "before": [],
+  "after": [
+   [
+    "cozinheir"
+   ],
+   [
+    "cocinero"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "cocinero": {
+  "before": [],
+  "after": [
+   [
+    "cozinheir"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "cook"
+   ],
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "kuchař": {
+  "before": [],
+  "after": []
+ },
+ "koch": {
+  "before": [],
+  "after": [
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinero"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "kock": {
+  "before": [],
+  "after": [
+   [
+    "chefkoch"
+   ],
+   [
+    "chefköchin"
+   ],
+   [
+    "chef",
+    "cuisine"
+   ]
+  ]
+ },
+ "cuisinier": {
+  "before": [],
+  "after": [
+   [
+    "cozinheir"
+   ],
+   [
+    "cocinero"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "cook"
+   ],
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "garçom": {
+  "before": [],
+  "after": []
+ },
+ "waiter": {
+  "before": [],
+  "after": [
+   [
+    "waitress"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ]
+  ]
+ },
+ "camarero": {
+  "before": [],
+  "after": [
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ]
+  ]
+ },
+ "číšník": {
+  "before": [],
+  "after": []
+ },
+ "kellner": {
+  "before": [],
+  "after": [
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ]
+  ]
+ },
+ "servitör": {
+  "before": [],
+  "after": [
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ]
+  ]
+ },
+ "serveur": {
+  "before": [],
+  "after": [
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "serveuse"
+   ]
+  ]
+ },
+ "motorista": {
+  "before": [
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ],
+  "after": [
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ]
+ },
+ "driver": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ]
+ },
+ "conductor": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ]
+  ]
+ },
+ "řidič": {
+  "before": [],
+  "after": []
+ },
+ "fahrer": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "chaufför"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "chaufför"
+   ]
+  ]
+ },
+ "chaufför": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ]
+  ]
+ },
+ "chauffeur": {
+  "before": [],
+  "after": [
+   [
+    "moving",
+    "driver"
+   ],
+   [
+    "umzugsfahrer"
+   ],
+   [
+    "bohags-",
+    "flyttbilsförare"
+   ],
+   [
+    "verhuizer"
+   ]
+  ]
+ },
+ "trabalhador de armazém": {
+  "before": [],
+  "after": []
+ },
+ "warehouse worker": {
+  "before": [],
+  "after": [
+   [
+    "warehouse",
+    "operative"
+   ],
+   [
+    "warehouse",
+    "picker"
+   ],
+   [
+    "fiel",
+    "armazém"
+   ],
+   [
+    "mozo",
+    "almacén"
+   ],
+   [
+    "moza",
+    "almacén"
+   ],
+   [
+    "lagerarbeiter"
+   ],
+   [
+    "lagerarbetare"
+   ],
+   [
+    "magazijnmedewerker"
+   ],
+   [
+    "pakhuis-",
+    "magazijnknecht"
+   ],
+   [
+    "magazijnmedewerkster"
+   ],
+   [
+    "magasinier"
+   ],
+   [
+    "magasinière"
+   ]
+  ]
+ },
+ "skladník": {
+  "before": [],
+  "after": []
+ },
+ "lagerarbeiter": {
+  "before": [],
+  "after": [
+   [
+    "warehouse",
+    "worker"
+   ],
+   [
+    "warehouse",
+    "operative"
+   ],
+   [
+    "warehouse",
+    "picker"
+   ],
+   [
+    "fiel",
+    "armazém"
+   ],
+   [
+    "mozo",
+    "almacén"
+   ],
+   [
+    "moza",
+    "almacén"
+   ],
+   [
+    "lagerarbetare"
+   ],
+   [
+    "magazijnmedewerker"
+   ],
+   [
+    "pakhuis-",
+    "magazijnknecht"
+   ],
+   [
+    "magazijnmedewerkster"
+   ],
+   [
+    "magasinier"
+   ],
+   [
+    "magasinière"
+   ]
+  ]
+ },
+ "lagerarbetare": {
+  "before": [],
+  "after": [
+   [
+    "warehouse",
+    "worker"
+   ],
+   [
+    "warehouse",
+    "operative"
+   ],
+   [
+    "warehouse",
+    "picker"
+   ],
+   [
+    "fiel",
+    "armazém"
+   ],
+   [
+    "mozo",
+    "almacén"
+   ],
+   [
+    "moza",
+    "almacén"
+   ],
+   [
+    "lagerarbeiter"
+   ],
+   [
+    "magazijnmedewerker"
+   ],
+   [
+    "pakhuis-",
+    "magazijnknecht"
+   ],
+   [
+    "magazijnmedewerkster"
+   ],
+   [
+    "magasinier"
+   ],
+   [
+    "magasinière"
+   ]
+  ]
+ },
+ "magasinier": {
+  "before": [],
+  "after": [
+   [
+    "warehouse",
+    "worker"
+   ],
+   [
+    "warehouse",
+    "operative"
+   ],
+   [
+    "warehouse",
+    "picker"
+   ],
+   [
+    "fiel",
+    "armazém"
+   ],
+   [
+    "mozo",
+    "almacén"
+   ],
+   [
+    "moza",
+    "almacén"
+   ],
+   [
+    "lagerarbeiter"
+   ],
+   [
+    "lagerarbetare"
+   ],
+   [
+    "magazijnmedewerker"
+   ],
+   [
+    "pakhuis-",
+    "magazijnknecht"
+   ],
+   [
+    "magazijnmedewerkster"
+   ],
+   [
+    "magasinière"
+   ]
+  ]
+ },
+ "trabalhador de construção": {
+  "before": [],
+  "after": []
+ },
+ "construction worker": {
+  "before": [],
+  "after": []
+ },
+ "stavební dělník": {
+  "before": [],
+  "after": []
+ },
+ "bauarbeiter": {
+  "before": [],
+  "after": []
+ },
+ "byggnadsarbetare": {
+  "before": [],
+  "after": [
+   [
+    "building",
+    "construction",
+    "worker"
+   ],
+   [
+    "building",
+    "construction",
+    "labourer"
+   ],
+   [
+    "building",
+    "site",
+    "labourer"
+   ],
+   [
+    "obrero",
+    "construcción"
+   ],
+   [
+    "obrera",
+    "construcción"
+   ],
+   [
+    "hochbauhelfer"
+   ],
+   [
+    "opperman",
+    "bouw"
+   ],
+   [
+    "opperman",
+    "metselwerk"
+   ],
+   [
+    "ouvrier",
+    "chantier"
+   ],
+   [
+    "ouvrière",
+    "chantier"
+   ],
+   [
+    "ouvrier",
+    "bâtiment"
+   ]
+  ]
+ },
+ "eletricista": {
+  "before": [],
+  "after": [
+   [
+    "electricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "electrician": {
+  "before": [],
+  "after": [
+   [
+    "eletricista"
+   ],
+   [
+    "electricista"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "electricista": {
+  "before": [],
+  "after": [
+   [
+    "eletricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "elektrikář": {
+  "before": [],
+  "after": []
+ },
+ "elektriker": {
+  "before": [],
+  "after": [
+   [
+    "eletricista"
+   ],
+   [
+    "electricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ]
+  ]
+ },
+ "électricien": {
+  "before": [],
+  "after": [
+   [
+    "eletricista"
+   ],
+   [
+    "electricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "soldador": {
+  "before": [],
+  "after": [
+   [
+    "welder"
+   ],
+   [
+    "schweißer"
+   ],
+   [
+    "schweisser"
+   ],
+   [
+    "svetsare"
+   ],
+   [
+    "soudeur"
+   ],
+   [
+    "ketellasser"
+   ],
+   [
+    "gaslasser"
+   ],
+   [
+    "soudeuse"
+   ]
+  ]
+ },
+ "welder": {
+  "before": [],
+  "after": [
+   [
+    "soldador"
+   ],
+   [
+    "schweißer"
+   ],
+   [
+    "schweisser"
+   ],
+   [
+    "svetsare"
+   ],
+   [
+    "soudeur"
+   ],
+   [
+    "ketellasser"
+   ],
+   [
+    "gaslasser"
+   ],
+   [
+    "soudeuse"
+   ]
+  ]
+ },
+ "svářeč": {
+  "before": [],
+  "after": []
+ },
+ "schweißer": {
+  "before": [],
+  "after": [
+   [
+    "soldador"
+   ],
+   [
+    "welder"
+   ],
+   [
+    "schweisser"
+   ],
+   [
+    "svetsare"
+   ],
+   [
+    "soudeur"
+   ],
+   [
+    "ketellasser"
+   ],
+   [
+    "gaslasser"
+   ],
+   [
+    "soudeuse"
+   ]
+  ]
+ },
+ "svetsare": {
+  "before": [],
+  "after": [
+   [
+    "soldador"
+   ],
+   [
+    "welder"
+   ],
+   [
+    "schweißer"
+   ],
+   [
+    "schweisser"
+   ],
+   [
+    "soudeur"
+   ]
+  ]
+ },
+ "soudeur": {
+  "before": [],
+  "after": [
+   [
+    "soldador"
+   ],
+   [
+    "welder"
+   ],
+   [
+    "schweißer"
+   ],
+   [
+    "schweisser"
+   ],
+   [
+    "svetsare"
+   ],
+   [
+    "ketellasser"
+   ],
+   [
+    "gaslasser"
+   ],
+   [
+    "soudeuse"
+   ]
+  ]
+ },
+ "enfermeiro": {
+  "before": [
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "nurse": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "enfermero": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ],
+   [
+    "phlebotomist"
+   ],
+   [
+    "phlebotomy",
+    "technician"
+   ],
+   [
+    "practitioner",
+    "phlebotomy"
+   ],
+   [
+    "flebotomista"
+   ],
+   [
+    "enfermera"
+   ],
+   [
+    "blutabnehmer"
+   ],
+   [
+    "blodprovtagare"
+   ],
+   [
+    "blodprovtagningspersonal"
+   ],
+   [
+    "bloedafnameassistent"
+   ],
+   [
+    "medewerker",
+    "bloedafname"
+   ],
+   [
+    "infirmier",
+    "préleveur"
+   ],
+   [
+    "infirmière",
+    "préleveuse"
+   ],
+   [
+    "infirmier",
+    "prise",
+    "sang"
+   ]
+  ]
+ },
+ "zdravotní sestra": {
+  "before": [],
+  "after": []
+ },
+ "krankenpfleger": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "sjuksköterska": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "infirmier": {
+  "before": [],
+  "after": []
+ },
+ "fisioterapeuta": {
+  "before": [
+   [
+    "physiotherap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ]
+  ],
+  "after": [
+   [
+    "physiotherap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ],
+   [
+    "fysiotherapeut"
+   ],
+   [
+    "physiothérapeute"
+   ]
+  ]
+ },
+ "physiotherapist": {
+  "before": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ]
+  ],
+  "after": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ],
+   [
+    "physiotherapeut"
+   ],
+   [
+    "fysiotherapeut"
+   ],
+   [
+    "physiothérapeute"
+   ]
+  ]
+ },
+ "fyzioterapeut": {
+  "before": [],
+  "after": []
+ },
+ "physiotherapeut": {
+  "before": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ]
+  ],
+  "after": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "fysioterapeut"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ],
+   [
+    "physiotherapist"
+   ],
+   [
+    "fysiotherapeut"
+   ],
+   [
+    "physiothérapeute"
+   ]
+  ]
+ },
+ "fysioterapeut": {
+  "before": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physiotherap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ]
+  ],
+  "after": [
+   [
+    "fisioterap"
+   ],
+   [
+    "physiotherap"
+   ],
+   [
+    "physical therap"
+   ],
+   [
+    "kinesiolog"
+   ],
+   [
+    "sjukgymnast"
+   ],
+   [
+    "物理治療"
+   ],
+   [
+    "fysiotherapeut"
+   ],
+   [
+    "physiothérapeute"
+   ]
+  ]
+ },
+ "kinésithérapeute": {
+  "before": [],
+  "after": [
+   [
+    "physiotherapy",
+    "assistant"
+   ],
+   [
+    "physiotherapist",
+    "assistant"
+   ],
+   [
+    "assistente",
+    "fisioterapia"
+   ],
+   [
+    "auxiliar",
+    "fisioterapia"
+   ],
+   [
+    "physiotherapieassistent"
+   ],
+   [
+    "fysioterapiassistent"
+   ],
+   [
+    "fysiotherapieassistent"
+   ]
+  ]
+ },
+ "professor": {
+  "before": [
+   [
+    "professora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "teacher": {
+  "before": [
+   [
+    "professor"
+   ],
+   [
+    "professora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "professor"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "učitel": {
+  "before": [],
+  "after": []
+ },
+ "lehrer": {
+  "before": [
+   [
+    "professor"
+   ],
+   [
+    "professora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "professor"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "lärare": {
+  "before": [
+   [
+    "professor"
+   ],
+   [
+    "professora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "professor"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "enseignant": {
+  "before": [],
+  "after": []
+ },
+ "desenvolvedor flutter": {
+  "before": [
+   [
+    "desarrollador"
+   ],
+   [
+    "developer"
+   ],
+   [
+    "entwickler"
+   ],
+   [
+    "utvecklare"
+   ]
+  ],
+  "after": [
+   [
+    "flutter",
+    "desarrollador"
+   ],
+   [
+    "flutter",
+    "developer"
+   ],
+   [
+    "flutter",
+    "entwickler"
+   ],
+   [
+    "flutter",
+    "utvecklare"
+   ]
+  ]
+ },
+ "flutter developer": {
+  "before": [
+   [
+    "desenvolvedor"
+   ],
+   [
+    "desarrollador"
+   ],
+   [
+    "entwickler"
+   ],
+   [
+    "utvecklare"
+   ]
+  ],
+  "after": [
+   [
+    "flutter",
+    "desenvolvedor"
+   ],
+   [
+    "flutter",
+    "desarrollador"
+   ],
+   [
+    "flutter",
+    "entwickler"
+   ],
+   [
+    "flutter",
+    "utvecklare"
+   ]
+  ]
+ },
+ "flutter-entwickler": {
+  "before": [
+   [
+    "desenvolvedor"
+   ],
+   [
+    "desarrollador"
+   ],
+   [
+    "developer"
+   ],
+   [
+    "utvecklare"
+   ]
+  ],
+  "after": [
+   [
+    "flutter",
+    "desenvolvedor"
+   ],
+   [
+    "flutter",
+    "desarrollador"
+   ],
+   [
+    "flutter",
+    "developer"
+   ],
+   [
+    "flutter",
+    "utvecklare"
+   ]
+  ]
+ },
+ "vývojář flutter": {
+  "before": [],
+  "after": []
+ }
+}

@@ -1,0 +1,68 @@
+query,by_term,with_alternatives,samples
+cozinheiro,0,0,NULL
+cook,0,0,NULL
+cocinero,0,0,NULL
+kuchař,65,65,[Kuchař/kuchařka studené kuchyně Pomocní kuchaři Pomocní kuchaři]
+koch,0,0,NULL
+kock,0,0,NULL
+cuisinier,0,0,NULL
+garçom,0,0,NULL
+waiter,0,0,NULL
+camarero,0,0,NULL
+číšník,13,13,[ČÍŠNÍK/SERVÍRKA Číšník (m/ž) ČÍŠNÍK/SERVÍRKA]
+kellner,0,0,NULL
+servitör,0,0,NULL
+serveur,0,0,NULL
+motorista,0,0,NULL
+driver,0,0,NULL
+conductor,0,0,NULL
+řidič,64,64,"[Řidič/ka tahače + návěsu Řidič / řidička čelního nakkladače Řidiči nákladních automobilů, tahačů a speciálních vozidel]"
+fahrer,0,0,NULL
+chaufför,0,0,NULL
+chauffeur,0,0,NULL
+trabalhador de armazém,0,0,NULL
+warehouse worker,0,0,NULL
+skladník,22,22,"[Řidiče motorového vozidla C+E s hydraulickou rukou a skladník ve stavebninách v Klenčí pod Čerchovem skladník, obsluha manipulačních vozíků Skladník/ice]"
+lagerarbeiter,0,0,NULL
+lagerarbetare,0,0,NULL
+magasinier,0,0,NULL
+trabalhador de construção,0,0,NULL
+construction worker,0,0,NULL
+stavební dělník,9,9,[Pomocný stavební dělník/dělnice stavební dělník STAVEBNÍ DĚLNÍK (M/Ž)]
+bauarbeiter,0,0,NULL
+byggnadsarbetare,0,0,NULL
+eletricista,0,0,NULL
+electrician,0,0,NULL
+electricista,0,0,NULL
+elektrikář,7,7,"[AUTOMECHANIK- AUTOELEKTRIKÁŘ (m/ž) Elektrikář/domovník (DPP, DPČ, muži, ženy) autoelektrikář/ka - elektronik/elektronička]"
+elektriker,0,0,NULL
+électricien,0,0,NULL
+soldador,0,0,NULL
+welder,0,0,NULL
+svářeč,14,14,[Svářeč - svářečka Svářeč - svářečka pro svařování laserem Svářeč - svářečka tlakových nádob]
+schweißer,0,0,NULL
+svetsare,0,0,NULL
+soudeur,0,0,NULL
+enfermeiro,0,0,NULL
+nurse,0,0,NULL
+enfermero,0,0,NULL
+zdravotní sestra,2,2,[Úseková (staniční) zdravotní sestra Všeobecná zdravotní sestra]
+krankenpfleger,0,0,NULL
+sjuksköterska,0,0,NULL
+infirmier,0,0,NULL
+fisioterapeuta,0,0,NULL
+physiotherapist,0,0,NULL
+fyzioterapeut,0,0,NULL
+physiotherapeut,0,0,NULL
+fysioterapeut,0,0,NULL
+kinésithérapeute,0,0,NULL
+professor,0,1,[Lektor/ka angličtiny - rodilý mluvčí / English teacher - Native Speaker]
+teacher,1,1,[Lektor/ka angličtiny - rodilý mluvčí / English teacher - Native Speaker]
+učitel,19,19,"[Učitel střední školy, aprobace anglický jazyk ve vhodné kombinaci pečující osoba/chůva/učitelka (m+ž) UČITEL - UČITELKA MŠ]"
+lehrer,0,1,[Lektor/ka angličtiny - rodilý mluvčí / English teacher - Native Speaker]
+lärare,0,1,[Lektor/ka angličtiny - rodilý mluvčí / English teacher - Native Speaker]
+enseignant,0,0,NULL
+desenvolvedor flutter,0,0,NULL
+flutter developer,0,0,NULL
+flutter-entwickler,0,0,NULL
+vývojář flutter,0,0,NULL

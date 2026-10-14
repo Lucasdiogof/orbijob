@@ -12,8 +12,8 @@ import { readFileSync } from 'node:fs';
 
 const URL_ = 'https://rpmlfxwebnlxnwadyvle.supabase.co/rest/v1/jobs';
 const KEY = process.env.SUPABASE_PUBLISHABLE_KEY ?? JSON.parse(readFileSync(new URL('../app/dart_defines.web.json', import.meta.url), 'utf8')).SUPABASE_PUBLISHABLE_KEY;
-const queries = JSON.parse(readFileSync(new URL('./search-benchmark.queries.json', import.meta.url), 'utf8'));
-const table = JSON.parse(readFileSync(new URL('./search-benchmark.alternatives.json', import.meta.url), 'utf8'));
+const queries = JSON.parse(readFileSync(process.env.BENCH_QUERIES ?? new URL('./search-benchmark.queries.json', import.meta.url), 'utf8'));
+const table = JSON.parse(readFileSync(process.env.BENCH_ALTS ?? new URL('./search-benchmark.alternatives.json', import.meta.url), 'utf8'));
 const label = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : '';
 const samples = process.argv.includes('--samples');
 

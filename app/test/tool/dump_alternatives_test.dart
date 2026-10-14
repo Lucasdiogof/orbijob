@@ -23,7 +23,10 @@ void main() {
   test('dump the alternatives of the benchmark queries', () {
     if (Platform.environment['DUMP_ALTS'] != '1') return;
     final queries = (jsonDecode(
-      File('../scripts/search-benchmark.queries.json').readAsStringSync(),
+      File(
+        Platform.environment['BENCH_QUERIES'] ??
+            '../scripts/search-benchmark.queries.json',
+      ).readAsStringSync(),
     ) as List).cast<String>();
     final out = {
       for (final q in queries)
@@ -35,7 +38,8 @@ void main() {
         },
     };
     File(
-      '../scripts/search-benchmark.alternatives.json',
+      Platform.environment['BENCH_ALTS'] ??
+          '../scripts/search-benchmark.alternatives.json',
     ).writeAsStringSync('${const JsonEncoder.withIndent(' ').convert(out)}\n');
   });
 }
