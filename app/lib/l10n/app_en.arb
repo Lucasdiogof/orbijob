@@ -1275,5 +1275,14 @@
         "type": "String"
       }
     }
-  }
+  },
+  "officialPortalEmptyBody": "OrbiJob has no listings for {country} for these filters. That country's own public employment service lists vacancies itself; OrbiJob does not copy them, the button opens the service.",
+  "@officialPortalEmptyBody": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "officialPortalButton": "Official employment service"
 }

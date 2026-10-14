@@ -16,6 +16,9 @@ import '../../../searches/presentation/save_search_sheet.dart';
 import '../../../searches/presentation/saved_searches_cubit.dart';
 import '../../../searches/presentation/saved_searches_page.dart';
 import '../../../shell/shell_cubit.dart';
+import '../../../browser/open_in_app.dart';
+import '../../../../core/format/country_names.dart';
+import '../../domain/country_portals.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../cubit/search_cubit.dart';
@@ -425,6 +428,14 @@ class _Results extends StatelessWidget {
         title: l.emptyTitle,
         body: filters.specialty != null
             ? l.specialtyEmpty
+            : officialPortalFor(filters.countryCode) != null
+            ? l.officialPortalEmptyBody(
+                countryName(
+                      filters.countryCode!,
+                      Localizations.localeOf(context).languageCode,
+                    ) ??
+                    filters.countryCode!,
+              )
             : filters.isActive
             ? l.emptyFiltersBody
             : l.emptyBody,
@@ -434,6 +445,15 @@ class _Results extends StatelessWidget {
                 icon: Icons.open_in_new,
                 onPressed: () =>
                     showSpecialtyPortals(context, filters.specialty),
+              )
+            : officialPortalFor(filters.countryCode) != null
+            ? OrbiSecondaryButton(
+                label: l.officialPortalButton,
+                icon: Icons.open_in_new,
+                onPressed: () => openInApp(
+                  context,
+                  officialPortalFor(filters.countryCode)!.url,
+                ),
               )
             : filters.isActive
             ? OrbiSecondaryButton(

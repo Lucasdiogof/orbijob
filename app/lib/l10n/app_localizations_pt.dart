@@ -2613,4 +2613,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String rcReasonProfessionRelated(String profession) {
     return 'Profissão relacionada, não a mesma: $profession';
   }
+
+  @override
+  String officialPortalEmptyBody(String country) {
+    return 'O OrbiJob não tem vagas em $country para estes filtros. O serviço público de emprego do próprio país divulga as vagas dele; o OrbiJob não as copia, o botão abre o serviço.';
+  }
+
+  @override
+  String get officialPortalButton => 'Serviço oficial de emprego';
 }

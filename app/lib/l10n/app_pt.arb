@@ -839,5 +839,7 @@
   "pdDeletedBody": "Sua conta e todos os dados ligados a ela foram excluídos de forma permanente. Você será desconectado neste aparelho.",
   "pdDeletedAction": "OK",
   "rcReasonProfessionGroup": "Mesmo grupo ocupacional da sua profissão: {profession}",
-  "rcReasonProfessionRelated": "Profissão relacionada, não a mesma: {profession}"
+  "rcReasonProfessionRelated": "Profissão relacionada, não a mesma: {profession}",
+  "officialPortalEmptyBody": "O OrbiJob não tem vagas em {country} para estes filtros. O serviço público de emprego do próprio país divulga as vagas dele; o OrbiJob não as copia, o botão abre o serviço.",
+  "officialPortalButton": "Serviço oficial de emprego"
 }

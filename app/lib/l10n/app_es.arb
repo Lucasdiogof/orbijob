@@ -839,5 +839,7 @@
   "pdDeletedBody": "Tu cuenta y todos los datos vinculados a ella se eliminaron de forma permanente. Se cerrará tu sesión en este dispositivo.",
   "pdDeletedAction": "Aceptar",
   "rcReasonProfessionGroup": "Mismo grupo ocupacional que tu profesión: {profession}",
-  "rcReasonProfessionRelated": "Profesión relacionada, no la misma: {profession}"
+  "rcReasonProfessionRelated": "Profesión relacionada, no la misma: {profession}",
+  "officialPortalEmptyBody": "OrbiJob no tiene vacantes en {country} con estos filtros. El servicio público de empleo del propio país publica sus vacantes; OrbiJob no las copia, el botón abre el servicio.",
+  "officialPortalButton": "Servicio oficial de empleo"
 }

@@ -1,0 +1,3 @@
+# Sources evaluated in OrbiJob 12.0 (2026-10-14)
+Evidence and classes are in `docs/ORBIJOB_12_0_PROGRESS.md`. Rule applied: an API that answers without a key is **not** a grant to store and republish; a source is integrated only with a stated licence, or a stated permission, for storage and display.
+Terms read: Lever postings-api README ("published jobs may be scraped by third parties"; no licence), Greenhouse Job Board API ("publicly available, no authentication for GET"; no terms), Ashby public posting API (no terms; "if you host your own careers page you can use this data"), SmartRecruiters Public Posting API (API key/OAuth; terms not covered), Himalayas API page + Terms of Service (see progress file), Get on Board (unchanged from 8.0).

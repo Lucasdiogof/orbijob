@@ -4575,6 +4575,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Related profession, not the same: {profession}'**
   String rcReasonProfessionRelated(String profession);
+
+  /// No description provided for @officialPortalEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'OrbiJob has no listings for {country} for these filters. That country\'s own public employment service lists vacancies itself; OrbiJob does not copy them, the button opens the service.'**
+  String officialPortalEmptyBody(String country);
+
+  /// No description provided for @officialPortalButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Official employment service'**
+  String get officialPortalButton;
 }
 
 class _AppLocalizationsDelegate
