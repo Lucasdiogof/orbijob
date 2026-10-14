@@ -2,12 +2,19 @@
 // Downloads the ESCO occupations (names in every language) into one JSON file that scripts/build-occupations.mjs turns into the app's table.
 // European Skills, Competences, Qualifications and Occupations, © European Union, https://esco.ec.europa.eu, CC BY 4.0.
 //   node scripts/esco-fetch.mjs <out-dir>
-// Resumable: the list (occupations.json) and the details (details.json) are checkpointed every 200 occupations, and what is already saved
-// is never requested again. Polite on purpose: 4 workers, a pause after every request, retries with growing waits on 429/5xx.
+// Resumable: the list (occupations.json) and the details (details.json) are checkpointed every 200 occupations. A saved occupation is
+// requested again only when it lacks one of the languages in LANGS (each entry records the languages it was fetched with), so adding a
+// language re-reads exactly the occupations that need it.
+//
+// Pagination (checked against the live API on 2026-10-14): `offset` is a PAGE INDEX, not a row offset (offset=1 is the second page of
+// `limit` rows; past the last page the API answers 0 rows), and every page carries `_links.next` until the last. The list follows
+// `_links.next` (falling back to offset+1), drops repeated URIs, stops on a page that adds nothing new, and REFUSES to save a list shorter
+// than the `total` the API announced: a truncated list never replaces a complete one. Polite on purpose: 4 workers, a pause after every request, retries with growing waits on 429/5xx.
 // A handful of occupations answer 500 ("More than one value found for field 'hasSkillType'") on the current version; the same request pinned
 // to selectedVersion=v1.1.1 works, so a failure falls back to it.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { listOccupations } from './lib/esco-list.mjs';
 
 const API = 'https://ec.europa.eu/esco/api';
 const LANGS = ['en', 'pt', 'es', 'de', 'sv', 'nl', 'fr', 'it', 'da', 'no', 'fi', 'pl', 'cs'];
@@ -39,20 +46,14 @@ async function getJson(url) {
 
 let occupations = existsSync(listFile) ? JSON.parse(readFileSync(listFile, 'utf8')) : null;
 if (!occupations) {
-  occupations = [];
-  for (let off = 0; ; off += 100) {
-    const j = await getJson(`${API}/search?type=occupation&language=en&limit=100&offset=${off}&full=false`);
-    const res = j._embedded?.results ?? [];
-    for (const x of res) occupations.push({ uri: x.uri, title: x.title });
-    if (res.length < 100) break;
-    await sleep(400);
-  }
+  occupations = await listOccupations(API, getJson, () => sleep(400));
   writeFileSync(listFile, JSON.stringify(occupations));
 }
 console.log(`occupations listed: ${occupations.length}`);
 
 const out = existsSync(detailFile) ? JSON.parse(readFileSync(detailFile, 'utf8')) : {};
-const todo = occupations.filter((o) => !out[o.uri]);
+const complete = (e) => e && Array.isArray(e.langs) && LANGS.every((l) => e.langs.includes(l));
+const todo = occupations.filter((o) => !complete(out[o.uri]));
 console.log(`already saved: ${Object.keys(out).length}, to fetch: ${todo.length}`);
 const pick = (m) => Object.fromEntries(LANGS.filter((l) => m?.[l]).map((l) => [l, m[l]]));
 const failed = [];
@@ -72,6 +73,7 @@ async function one(o) {
     alt: pick(j.alternativeLabel),
     isco: (j._links?.broaderIscoGroup ?? []).map((g) => g.code || g.title).filter(Boolean),
     code: j.code,
+    langs: LANGS,
   };
 }
 

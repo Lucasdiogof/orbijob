@@ -98,7 +98,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: State classifier and remote end-to-end script (against in-memory models, no network)
-        run: node --test scripts/supabase/*.test.mjs
+        run: node --test scripts/supabase/*.test.mjs scripts/lib/*.test.mjs
       - name: Gating logic of apply.sh (fake CLI binaries)
         run: scripts/supabase/apply.test.sh
   supabase-sql:
