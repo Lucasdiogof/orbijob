@@ -45,7 +45,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   arbeitnow: {
     id: 'arbeitnow', attribution: 'Jobs via Arbeitnow (https://www.arbeitnow.com)', host: 'arbeitnow.com', hosts: ARBEITNOW_HOSTS,
-    maxPages: 8, pageWindow: true, newCap: 300, catalogue: 2500,
+    maxPages: 8, pageWindow: true, newCap: 300, catalogue: 3200,
     make: (f, n, origin) => arbeitnowConnector(f, n, { origin }),
   },
   remoteok: {
@@ -60,7 +60,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   jobtech: {
     id: 'jobtech', attribution: 'Jobs via Arbetsförmedlingen / Platsbanken (https://arbetsformedlingen.se), open data CC0 from JobTech Dev', host: 'arbetsformedlingen.se',
-    maxPages: JOBTECH_PASS_PAGES, pageWindow: true, newCap: 600, catalogue: 3500,
+    maxPages: JOBTECH_PASS_PAGES, pageWindow: true, newCap: 600, catalogue: 4200,
     make: (f, n, origin) => jobtechConnector(f, n, { origin }),
   },
   twjobs: {
