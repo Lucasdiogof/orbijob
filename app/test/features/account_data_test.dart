@@ -305,6 +305,58 @@ void main() {
       },
     );
 
+    for (final lang in ['en', 'pt', 'es']) {
+      testWidgets(
+        'delete ($lang): ticking first and then typing a SHORT current password enables the button; the server judges it; no recovery form after',
+        (t) async {
+          final auth = FakeAuth()
+            ..currentUser = _user
+            ..accountPassword = 'abc';
+          await pumpApp(
+            t,
+            size: const Size(430, 2400),
+            fakes: Fakes(auth: auth),
+            auth: auth,
+            locale: Locale(lang),
+          );
+          final l = _l(t);
+          await t.tap(find.byTooltip(l.profile));
+          await t.pumpAndSettle();
+          await _goPrivacy(t, l);
+          await t.scrollUntilVisible(
+            find.widgetWithText(OrbiSecondaryButton, l.pdDeleteTitle),
+            200,
+            scrollable: find.byType(Scrollable).last,
+          );
+          await t.tap(
+            find.widgetWithText(OrbiSecondaryButton, l.pdDeleteTitle),
+          );
+          await t.pumpAndSettle();
+          // the order that left the button off: the box first, then the password
+          await t.tap(find.byType(CheckboxListTile));
+          await t.pumpAndSettle();
+          await t.enterText(orbiField(l.pdDeletePassword), 'xy');
+          await t.pump();
+          await t.tap(find.text(l.pdDeleteAction));
+          await t.pumpAndSettle();
+          expect(find.text(l.pdDeleteWrongPassword), findsOneWidget);
+          expect(auth.deletedWith, isNull);
+
+          await t.enterText(orbiField(l.pdDeletePassword), 'abc');
+          await t.pump();
+          await t.tap(find.text(l.pdDeleteAction));
+          await t.pumpAndSettle();
+          expect(auth.deletedWith, 'abc');
+          await t.tap(find.text(l.pdDeletedAction));
+          await t.pumpAndSettle();
+          expect(auth.currentUser, isNull);
+          // nothing of an earlier recovery comes back after the deletion
+          expect(find.text(l.authNewPasswordTitle), findsNothing);
+          expect(find.text(l.pdDeleted), findsNothing);
+        },
+      );
+    }
+
     testWidgets('delete: cancelling leaves everything as it was', (t) async {
       final auth = FakeAuth()..currentUser = _user;
       await pumpApp(

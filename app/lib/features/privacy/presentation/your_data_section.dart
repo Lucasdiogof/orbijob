@@ -187,7 +187,17 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
   AuthFailureKind? _failure;
 
   @override
+  void initState() {
+    super.initState();
+    // the button follows the field as the person types (it is the CURRENT password: any non-empty value may be tried; the server checks it)
+    _password.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() => setState(() {});
+
+  @override
   void dispose() {
+    _password.removeListener(_onPasswordChanged);
     _password.dispose();
     super.dispose();
   }
