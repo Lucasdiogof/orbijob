@@ -33,6 +33,10 @@ Git: main carries `7a9aaa7` (password recovery by code, separated from the share
 Done: recovery by code integrated; recommendations classify same profession / same occupation group / related / general area only / incompatible with ESCO-ISCO (+curated generic words); ops-health daily workflow with the Worker's existing key; benchmarks re-run; accessibility and layout nets for recovery and delete-account screens; the site i18n test fixed.
 **Owner action:** Supabase "Reset Password" e-mail template must contain `{{ .Token }}` (docs/auth/RECOVERY_CODE.md), otherwise recovery by code has no code to type.
 
+## Phase 12.0 - in progress (docs/ORBIJOB_12_0_PROGRESS.md)
+* Urgent auth fix (recovery explicit state, deletion button): done, `docs/auth/RECOVERY_FLOW_FIX.md`.
+* ESCO pagination fixed, Czech in the taxonomy (36,702 names), Czech search benchmark 219 → 1,405; Czech source `mpsvcz` stored (1,000), **not published (owner SQL ready)**.
+
 ## Open items / next steps
 1. CI of the latest commits (`e2188d1`, `06d7403`): check `gh run list`.
 2. Owner: legal review of privacy/terms; Get on Board answer (or run the unpublish SQL); NAV/USAJOBS/Jooble keys; a scheduled GitHub workflow for ops-health needs a database access secret.

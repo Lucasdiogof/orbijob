@@ -41,6 +41,39 @@ Three bugs from a manual test fixed at the root, with regression tests (984 Flut
 longer reaches the Home before the new password, the stale new-password form no longer appears after deleting the account, and the delete
 button enables for any non-empty current password. Root causes and tests: `docs/auth/RECOVERY_FLOW_FIX.md`. Commits df302f5, 43be697.
 
+## Czech search and the Czech source (2026-10-14, second part)
+
+**ESCO download fixed.** Live contract checked: `offset` is a page index, `total` = 2,942, the last page (29) holds 42 rows, and every page
+links `_links.next`. The list now follows `next`, removes repeated URIs and refuses to save a list shorter than `total`
+(`scripts/lib/esco-list.mjs`, 4 tests in CI). Details are re-fetched only for occupations missing a language. A bulk mode reads 50 whole
+occupations per request (`full=true`): about 15 minutes instead of about 3 hours. It uses curl, because Node 24's fetch aborted the process
+on 2 MB responses. Pages that answer 500 (4 of 59) fall back to one request per occupation.
+Result: **2,942 of 2,942 occupations with a Czech name**, the same URIs as the previous download, 0 failures.
+
+**Taxonomy.** `cs` added to `build-occupations.mjs`: 2,853 occupations (unchanged), **36,702 names** (31,824 before; +4,878 Czech).
+Curated groups gained the Czech forms seen in real titles (řidič, svářeč, elektrikář, kuchař, učitel, zdravotní sestr…), two new groups
+(waiting staff incl. Brazilian "garçom", which is not an ESCO label; construction labour; warehouse work, specific names only) and French forms
+(chauffeur, infirmier, enseignant, kinésithérapeute). Letters with marks are folded for Czech, Polish and Nordic text, and a five-letter word
+with a mark ("řidič") is accepted. Bug fixed: the words of a matched multi-word name ("trabalhador de armazém") were being added as required
+parts. No migration is needed: alerts receive the alternatives compiled by the app, and the Dart ↔ SQL golden parity passed (843 Worker tests).
+
+**Benchmark against the real Czech titles** (owner read of the unpublished source, `scripts/search-benchmark-source.mjs`, files
+`scripts/search-benchmark.cs.{before,after}.csv`): summed over 70 queries in 7 languages, Czech listings reached went **219 → 1,405**.
+Examples: cozinheiro/cook/koch/cuisinier 0 → 65; garçom/waiter/kellner 0 → 16; motorista/driver/fahrer 0 → 64; soldador/welder 0 → 14;
+eletricista/electrician 0 → 7; professor/teacher/lehrer 0 → 20; enfermeiro/nurse 0 → 4; warehouse 0 → 22. Still 0 for physiotherapist and
+Flutter, where the Czech source has no such job: even the exact Czech word finds none. Regression tests: `app/test/search/czech_alternatives_test.dart`
+(equivalences in 7 languages, unaccented Czech, and the incompatible pairs that must not match).
+
+**mpsvcz quality.** 1,000 stored (one pass so far; the daily schedules fill toward 3,000), all CZ, 931 with town, 992 with salary
+(908 monthly, 84 hourly, CZK), 0 without employer, 1,000 deep links in the expected form, 0 duplicate URLs. E-mails left in free text are role
+addresses only. **One phone glued to the country code had escaped the mask**: regex fixed (3cf7165) and the stored row corrected (undo in
+`_aplicar/`). Licence re-read on 2026-10-14: no copyright, no database or sui generis right, no personal data
+(https://data.mpsv.cz/web/data/podminky-uziti). Database 186 MB of 500 MB.
+
+**Publication: BLOCKED on the owner.** The source meets every condition of `publish_source.sql`. The ready file is
+`_aplicar/2026-10-14_publicar_mpsvcz.sql` (to run in the SQL editor of project `rpmlfxwebnlxnwadyvle`). Until then the 1,000 Czech
+listings are stored but not visible in the app.
+
 ## NEXT STEPS (for the next account)
 1. **Publish `mpsvcz`** when the stored set looks right: owner runs `scripts/supabase/ops/publish_source.sql` with the usual guard phrase (I do not compose or run it). Before that, re-check coverage with `scripts/supabase/diagnostics/coverage.sql` and sample titles.
 2. **Czech search**: Czech titles are not matched by profession names (ESCO table has 7 languages). `scripts/esco-fetch.mjs` now lists `cs` in LANGS but **the ESCO API changed: `offset` is now a PAGE index (offset=1 is the second page of 100), so the script's `off += 100` loop only listed 100 occupations. Fix the loop (`off += 1`), run `node scripts/esco-fetch.mjs <dir>` (~3,000 requests, ~10 min), add `'cs'` to LANGS in `scripts/build-occupations.mjs`, regenerate `occupation_labels.g.dart`, re-run `flutter test` + `scripts/search-benchmark.mjs`.
