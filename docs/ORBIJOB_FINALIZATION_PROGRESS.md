@@ -20,13 +20,20 @@ Do NOT re-run the six 6.0 publish SQLs. No store/build/device work (out of scope
   `docs/SECURITY.md` and master checklist rows 8/20 updated.
 - Edge Functions published: push-send (v5), account-delete (v1), account-export (v1). No migrations applied in 7.0.
 
-## Phase 8.0 (not started)
-Brazil/LatAm and other regions: new sources (classify PERSIST/FEDERATED/LINK_ONLY/PENDING/BLOCKED); Get on Board licence (prepare the request, do not send; recommend a reversible
-unpublish if no permission); data quality (1,393 without country, 326 short descriptions, remote geo restriction); profession coverage (Flutter, pelvic physio, nursing, teachers,
-electricians, welders…); monitoring metrics. Pattern for adding a source is in `docs/SOURCES_6_0.md` / memory note orbijob-6-0-estado.
+## Phase 8.0 - DONE as far as viable (docs/ORBIJOB_8_0.md)
+Measured 13,491 visible listings (1,390 without a country, mostly remote with no stated country). Evaluated Canada Job Bank (no per-listing URL: unusable), Edmonton/Calgary (about 97 listings, optional), Brazil/Mexico/Colombia/Chile/Argentina/Uruguay (nothing licensed or exposed), Latvia (unchanged). Get on Board: growth frozen at 600, request drafted, reversible unpublish documented (`docs/GETONBOARD_PERMISSION.md`).
+Search benchmark saved (`docs/evidence/search-benchmark-2026-10-14.txt`). Pelvic-health physiotherapy stays at 0 (no source lists it).
 
-## Phase 9.0 / 10.0 (not started)
-Resume extraction audit, profile structure, explainable recommendations, UX pass; Flutter/backend performance measurements, monitoring views, full automated quality run.
+## Phase 9.0 / 10.0 - DONE as far as viable (docs/ORBIJOB_9_10.md)
+Resume parser fixed for 6 real defects found with non-technology CVs (+German); recommender reviewed (limitation noted: health area is one bucket); backend latency measured (no change justified);
+`scripts/supabase/diagnostics/ops-health.sql` added; Arbeitnow/Jobtech ceilings raised (scheduled run was red with exit 7).
+
+## Open items / next steps
+1. CI of the latest commits (`e2188d1`, `06d7403`): check `gh run list`.
+2. Owner: legal review of privacy/terms; Get on Board answer (or run the unpublish SQL); NAV/USAJOBS/Jooble keys; a scheduled GitHub workflow for ops-health needs a database access secret.
+3. Optional: Edmonton+Calgary connector (about 97 listings); finer health taxonomy for recommendations (physiotherapist vs doctors); native-speaker review of the new `pd*` strings and legal pages; device validation of export (share sheet) and deletion.
+4. The `orbijob-otp` session still has uncommitted work in `C:\Users\lucas\orbijob` (see top of this file); the worktree `C:\Users\lucas\orbijob-wt7` (branch `wt7`) can be removed with `git worktree remove` once that session is done.
+5. `lucksrei` site: `tests/i18n.test.js` fails on "34 apps vs 35" (pre-existing, from the portfolio commit), not part of this work.
 
 ## Environment notes
 - Flutter: `export PATH="/c/Users/lucas/AppData/Local/Temp/fl3477/bin:$PATH"` (3.47.7) inside `orbijob/app`; repo files are CRLF (use scripts that preserve it).
