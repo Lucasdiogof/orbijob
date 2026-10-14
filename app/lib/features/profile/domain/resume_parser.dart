@@ -727,8 +727,8 @@ ResumeSuggestion parseResumeText(String text) {
   String? city;
   String? country;
   for (var i = 0; i < head.length; i++) {
-    if (i == nameIdx)
-      continue; // the name line ("Priya Nair, RN") is never a place
+    // the name line ("Priya Nair, RN") is never a place
+    if (i == nameIdx) continue;
     // a contact line may be wrapped by the page width: also try it joined with the next line
     final alone = _locationIn(head[i]);
     final joined = i + 1 < head.length && head[i].endsWith(',')
