@@ -1,0 +1,39 @@
+# 2026-10-14 (2026-10-14T01:59:13.358Z)
+query | 4.0 results | 4.0 description-only | 5.0 results | 5.0 found only via other names | alternatives
+fisioterapia pélvica | 221 | 0 | 0 | 0 | 25
+pelvic health physiotherapist | 220 | 0 | 0 | 0 | 23
+beckenbodenphysiotherapie | 220 | 0 | 0 | 0 | 23
+fisioterapeuta | 221 | 0 | 221 | 221 | 8
+physiotherapist | 221 | 1 | 220 | 220 | 9
+desenvolvedor flutter | 370 | 0 | 4 | 4 | 4
+flutter developer | 194 | 9 | 1 | 1 | 4
+flutter-entwickler | 341 | 0 | 4 | 4 | 4
+enfermeiro | 175 | 0 | 175 | 175 | 13
+nurse | 197 | 22 | 175 | 151 | 13
+krankenpfleger | 176 | 1 | 175 | 171 | 13
+pflegefachkraft | 175 | 0 | 175 | 173 | 13
+sjuksköterska | 285 | 110 | 175 | 39 | 13
+engenheiro civil | 1427 | 0 | 43 | 43 | 10
+civil engineer | 337 | 99 | 42 | 37 | 11
+bauingenieur | 1382 | 2 | 43 | 6 | 9
+professor | 449 | 40 | 409 | 405 | 5
+teacher | 530 | 121 | 409 | 205 | 5
+lehrer | 413 | 4 | 409 | 404 | 5
+motorista | 91 | 0 | 91 | 91 | 4
+truck driver | 78 | 18 | 2 | 0 | 4
+cozinheiro | 0 | 0 | 14 | 14 | 4
+chef | 745 | 486 | 745 | 0 | 0
+eletricista | 0 | 0 | 27 | 27 | 7
+electrician | 10 | 5 | 27 | 22 | 7
+elektriker | 54 | 40 | 27 | 13 | 5
+contador | 30 | 2 | 28 | 28 | 2
+accountant | 52 | 24 | 60 | 41 | 6
+vendedor | 410 | 0 | 438 | 438 | 10
+farmacêutico | 1 | 0 | 10 | 10 | 7
+psicólogo | 33 | 0 | 34 | 34 | 5
+soldador | 0 | 0 | 39 | 39 | 8
+welder | 0 | 0 | 39 | 39 | 8
+schweißer | 0 | 0 | 39 | 39 | 8
+recepcionista | 0 | 0 | 23 | 23 | 5
+advogado | 81 | 0 | 81 | 81 | 10
+TOTAL | 9139 | 984 | 4404 | 3198 | -
