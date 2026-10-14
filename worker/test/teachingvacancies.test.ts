@@ -122,7 +122,9 @@ describe('Teaching Vacancies connector', () => {
     expect(s).toMatchObject({ id: 'teachingvacancies', host: 'teaching-vacancies.service.gov.uk' });
     expect(s.attribution).toMatch(/Open Government Licence/);
     expect(s.attribution).toMatch(/https:\/\/teaching-vacancies\.service\.gov\.uk/);
-    expect(s.catalogue).toBeLessThanOrEqual(2000);
+    // never the biggest source of the catalogue: its ceiling stays below the largest ceiling of the other sources
+    const others = Object.values(SOURCES).filter((o) => o.id !== 'teachingvacancies').map((o) => o.catalogue);
+    expect(s.catalogue).toBeLessThan(Math.max(...others));
     expect(s.make(fetch, nowFn).id).toBe('teachingvacancies');
   });
 });
