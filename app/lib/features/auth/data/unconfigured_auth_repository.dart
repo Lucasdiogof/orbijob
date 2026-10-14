@@ -27,6 +27,11 @@ class UnconfiguredAuthRepository implements AuthRepository {
   @override
   Future<void> sendPasswordReset(String email) async => _off();
   @override
+  Future<void> verifyRecoveryCode({
+    required String email,
+    required String code,
+  }) async => _off();
+  @override
   Future<void> updatePassword(String newPassword) async => _off();
   @override
   Future<void> signOut() async {}

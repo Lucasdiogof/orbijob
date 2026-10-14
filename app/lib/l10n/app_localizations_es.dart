@@ -394,7 +394,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authResetSent =>
-      'Si la dirección tiene cuenta, se envió un enlace de restablecimiento.';
+      'Si la dirección tiene cuenta, se envió un código de 6 dígitos.';
 
   @override
   String get authErrorInvalidCredentials => 'Correo o contraseña incorrectos.';
@@ -849,6 +849,45 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get authErrorSamePassword =>
       'Elige una contraseña distinta de la actual.';
+
+  @override
+  String get authErrorCodeInvalid =>
+      'El código es incorrecto o caducó. Revisa el correo o pide un código nuevo.';
+
+  @override
+  String get authRecoveryTitle => 'Restablecer contraseña';
+
+  @override
+  String get authRecoverySubtitle =>
+      'Escribe tu correo y te enviaremos un código de 6 dígitos.';
+
+  @override
+  String get authRecoverySendCode => 'Enviar código';
+
+  @override
+  String authRecoveryEnterCode(String email) {
+    return 'Escribe el código de 6 dígitos enviado a $email.';
+  }
+
+  @override
+  String get authRecoveryCodeLabel => 'Código de 6 dígitos';
+
+  @override
+  String get authRecoveryCodeShort => 'Escribe los 6 dígitos';
+
+  @override
+  String get authRecoveryVerify => 'Continuar';
+
+  @override
+  String get authRecoveryResend => 'Enviar un código nuevo';
+
+  @override
+  String authRecoveryResendIn(int seconds) {
+    return 'Enviar un código nuevo en ${seconds}s';
+  }
+
+  @override
+  String get authRecoveryChangeEmail => 'Usar otro correo';
 
   @override
   String get authCancelRecovery => 'Cancelar';

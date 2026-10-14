@@ -603,6 +603,17 @@ class FakeAuth implements AuthRepository {
     if (error != null) throw error!;
   }
 
+  String? verifiedCode;
+  @override
+  Future<void> verifyRecoveryCode({
+    required String email,
+    required String code,
+  }) async {
+    if (error != null) throw error!;
+    verifiedCode = code;
+    emit(AuthUser(id: 'user-${email.split('@').first}', email: email));
+  }
+
   @override
   Future<void> updatePassword(String newPassword) async {
     if (error != null) throw error!;

@@ -138,6 +138,15 @@ class AuthCubit extends Cubit<AuthState> {
     return AuthNotice.resetSent;
   });
 
+  /// Checks the 6-digit code; success opens the temporary recovery session (the new-password screen follows).
+  Future<void> verifyRecoveryCode(String email, String code) async {
+    await _run(() async {
+      await _repo.verifyRecoveryCode(email: email, code: code);
+      return AuthNotice.none;
+    });
+    if (state.failure == null) emit(state.copyWith(recovering: true));
+  }
+
   Future<void> updatePassword(String newPassword) async {
     await _run(() async {
       await _repo.updatePassword(newPassword);

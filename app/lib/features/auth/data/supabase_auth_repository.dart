@@ -117,12 +117,28 @@ class SupabaseAuthRepository implements AuthRepository {
   });
 
   @override
-  Future<void> sendPasswordReset(String email) => _guard(
-    () => _client.auth.resetPasswordForEmail(
-      email.trim(),
-      redirectTo: redirectTo,
-    ),
-  );
+  Future<void> sendPasswordReset(String email) =>
+      _guard(() => _client.auth.resetPasswordForEmail(email.trim()));
+
+  @override
+  Future<void> verifyRecoveryCode({
+    required String email,
+    required String code,
+  }) => _guard(() async {
+    try {
+      await _client.auth.verifyOTP(
+        type: sb.OtpType.recovery,
+        email: email.trim(),
+        token: code.trim(),
+      );
+    } catch (e) {
+      final f = mapAuthError(e);
+      // Any "expired / invalid token" answer to a typed code means the code, not a link.
+      throw f.kind == AuthFailureKind.linkInvalid
+          ? const AuthFailure(AuthFailureKind.codeInvalid)
+          : f;
+    }
+  });
 
   @override
   Future<void> updatePassword(String newPassword) => _guard(

@@ -6,6 +6,7 @@ import '../../../core/orbi/orbi.dart';
 import '../../../l10n/app_localizations.dart';
 import '../domain/auth_failure.dart';
 import 'auth_cubit.dart';
+import 'recovery_code_page.dart';
 
 /// Localised message for a failure kind (never the raw server text).
 String authFailureText(AppLocalizations l, AuthFailureKind k) => switch (k) {
@@ -19,6 +20,7 @@ String authFailureText(AppLocalizations l, AuthFailureKind k) => switch (k) {
   AuthFailureKind.unavailable => l.authErrorUnavailable,
   AuthFailureKind.samePassword => l.authErrorSamePassword,
   AuthFailureKind.linkInvalid => l.authErrorLinkInvalid,
+  AuthFailureKind.codeInvalid => l.authErrorCodeInvalid,
   AuthFailureKind.unknown => l.authErrorUnknown,
 };
 
@@ -195,7 +197,13 @@ class _AuthPageState extends State<AuthPage> {
     final l = AppLocalizations.of(context);
     return BlocConsumer<AuthCubit, AuthState>(
       listenWhen: (a, b) => !a.signedIn && b.signedIn,
-      listener: (context, s) => Navigator.of(context).maybePop(),
+      // Remove this route only: the new-password screen may already be on top after a code recovery.
+      listener: (context, s) {
+        final route = ModalRoute.of(context);
+        if (route != null && route.isActive) {
+          Navigator.of(context).removeRoute(route);
+        }
+      },
       builder: (context, s) => Scaffold(
         appBar: AppBar(
           title: Text(_signUp ? l.authSignUpTitle : l.authSignInTitle),
@@ -247,13 +255,14 @@ class _AuthPageState extends State<AuthPage> {
                         onPressed: s.busy
                             ? null
                             : () {
-                                if (_validEmail(_email.text)) {
-                                  context.read<AuthCubit>().resetPassword(
-                                    _email.text,
-                                  );
-                                } else {
-                                  _form.currentState?.validate();
-                                }
+                                context.read<AuthCubit>().dismissMessage();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => RecoveryCodePage(
+                                      initialEmail: _email.text.trim(),
+                                    ),
+                                  ),
+                                );
                               },
                       ),
                     ),

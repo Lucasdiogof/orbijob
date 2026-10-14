@@ -763,7 +763,7 @@ abstract class AppLocalizations {
   /// No description provided for @authResetSent.
   ///
   /// In en, this message translates to:
-  /// **'If the address has an account, a reset link is on its way.'**
+  /// **'If the address has an account, a 6-digit code is on its way.'**
   String get authResetSent;
 
   /// No description provided for @authErrorInvalidCredentials.
@@ -1581,6 +1581,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a password different from the current one.'**
   String get authErrorSamePassword;
+
+  /// No description provided for @authErrorCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That code is wrong or has expired. Check the e-mail or request a new code.'**
+  String get authErrorCodeInvalid;
+
+  /// No description provided for @authRecoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get authRecoveryTitle;
+
+  /// No description provided for @authRecoverySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your e-mail and we will send you a 6-digit code.'**
+  String get authRecoverySubtitle;
+
+  /// No description provided for @authRecoverySendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get authRecoverySendCode;
+
+  /// No description provided for @authRecoveryEnterCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code sent to {email}.'**
+  String authRecoveryEnterCode(String email);
+
+  /// No description provided for @authRecoveryCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get authRecoveryCodeLabel;
+
+  /// No description provided for @authRecoveryCodeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6 digits'**
+  String get authRecoveryCodeShort;
+
+  /// No description provided for @authRecoveryVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get authRecoveryVerify;
+
+  /// No description provided for @authRecoveryResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code'**
+  String get authRecoveryResend;
+
+  /// No description provided for @authRecoveryResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code in {seconds}s'**
+  String authRecoveryResendIn(int seconds);
+
+  /// No description provided for @authRecoveryChangeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use another e-mail'**
+  String get authRecoveryChangeEmail;
 
   /// No description provided for @authCancelRecovery.
   ///

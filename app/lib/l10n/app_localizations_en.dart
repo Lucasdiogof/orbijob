@@ -392,7 +392,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authResetSent =>
-      'If the address has an account, a reset link is on its way.';
+      'If the address has an account, a 6-digit code is on its way.';
 
   @override
   String get authErrorInvalidCredentials => 'E-mail or password is incorrect.';
@@ -843,6 +843,45 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authErrorSamePassword =>
       'Choose a password different from the current one.';
+
+  @override
+  String get authErrorCodeInvalid =>
+      'That code is wrong or has expired. Check the e-mail or request a new code.';
+
+  @override
+  String get authRecoveryTitle => 'Reset password';
+
+  @override
+  String get authRecoverySubtitle =>
+      'Enter your e-mail and we will send you a 6-digit code.';
+
+  @override
+  String get authRecoverySendCode => 'Send code';
+
+  @override
+  String authRecoveryEnterCode(String email) {
+    return 'Enter the 6-digit code sent to $email.';
+  }
+
+  @override
+  String get authRecoveryCodeLabel => '6-digit code';
+
+  @override
+  String get authRecoveryCodeShort => 'Enter the 6 digits';
+
+  @override
+  String get authRecoveryVerify => 'Continue';
+
+  @override
+  String get authRecoveryResend => 'Send a new code';
+
+  @override
+  String authRecoveryResendIn(int seconds) {
+    return 'Send a new code in ${seconds}s';
+  }
+
+  @override
+  String get authRecoveryChangeEmail => 'Use another e-mail';
 
   @override
   String get authCancelRecovery => 'Cancel';

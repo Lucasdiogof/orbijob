@@ -18,7 +18,16 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
+  /// Sends a 6-digit recovery code to [email] (no link, no deep link).
   Future<void> sendPasswordReset(String email);
+
+  /// Checks the code from the e-mail. On success a temporary session exists and [recoveryLinks] emits, so the
+  /// new-password screen opens; a wrong or expired code fails with [AuthFailureKind.codeInvalid].
+  Future<void> verifyRecoveryCode({
+    required String email,
+    required String code,
+  });
   Future<void> updatePassword(String newPassword);
   Future<void> signOut();
 

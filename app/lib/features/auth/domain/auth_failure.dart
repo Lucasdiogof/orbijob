@@ -8,6 +8,9 @@ enum AuthFailureKind {
   weakPassword,
   samePassword,
   linkInvalid,
+
+  /// The 6-digit recovery code is wrong, expired or already used.
+  codeInvalid,
   rateLimited,
   network,
   unavailable,
