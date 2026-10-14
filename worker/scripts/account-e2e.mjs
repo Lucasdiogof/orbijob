@@ -97,6 +97,33 @@ try {
   })());
   check('export never includes a push token or password', !/"token"|password/.test(JSON.stringify(body.data)));
 
+  // ── isolation between accounts (IDOR) ──
+  const asA = (path, init = {}) => fetch(`${URL_}${path}`, { ...init, headers: { apikey: PUB, authorization: `Bearer ${a.token}`, ...(init.headers ?? {}) } });
+  const peek = await j('GET', `/rest/v1/professional_profiles?select=id&user_id=eq.${b.id}`, { token: a.token });
+  check('A cannot read B’s profile rows', Array.isArray(peek.json) && peek.json.length === 0, peek.text.slice(0, 80));
+  const peekApp = await j('GET', `/rest/v1/applications?select=id&id=eq.${sb.appId}`, { token: a.token });
+  check('A cannot read B’s application by id', Array.isArray(peekApp.json) && peekApp.json.length === 0);
+  const dl = await asA(`/storage/v1/object/authenticated/resumes/${sb.path}`);
+  check('A cannot download B’s resume file', dl.status >= 400, String(dl.status));
+  const sign = await j('POST', `/storage/v1/object/sign/resumes/${sb.path}`, { token: a.token, body: { expiresIn: 60 } });
+  check('A cannot get a signed link for B’s resume', sign.status >= 400 || !sign.json?.signedURL, String(sign.status));
+  const ls = await j('POST', '/storage/v1/object/list/resumes', { token: a.token, body: { prefix: `${b.id}/`, limit: 10 } });
+  check('A cannot list B’s folder', Array.isArray(ls.json) && ls.json.length === 0);
+  const up = await fetch(`${URL_}/storage/v1/object/resumes/${b.id}/${randomUUID()}.pdf`, { method: 'POST', headers: { apikey: PUB, authorization: `Bearer ${a.token}`, 'content-type': 'application/pdf' }, body: Buffer.from('%PDF-1.4 x') });
+  check('A cannot upload into B’s folder', up.status >= 400, String(up.status));
+  const forged = await j('POST', '/rest/v1/resumes', { token: a.token, body: { user_id: a.id, profile_id: sa.pid, storage_path: sb.path }, headers: { prefer: 'return=minimal' } });
+  check('A cannot register B’s file path as its own resume', forged.status >= 400, String(forged.status));
+  const writeB = await j('PATCH', `/rest/v1/professional_profiles?id=eq.${sb.pid}`, { token: a.token, body: { name: 'hijacked' }, headers: { prefer: 'return=representation' } });
+  check('A cannot modify B’s profile', Array.isArray(writeB.json) && writeB.json.length === 0);
+  const asOwner = await j('GET', `/rest/v1/professional_profiles?select=name&id=eq.${sb.pid}`, { token: b.token });
+  check('B’s profile is untouched', asOwner.json?.[0]?.name === 'E2E Test Profile');
+  const anon = await j('GET', '/rest/v1/professional_profiles?select=id', { key: PUB });
+  check('anonymous visitors see no profile rows', (Array.isArray(anon.json) && anon.json.length === 0) || anon.status >= 400);
+  const anonUsers = await j('GET', '/auth/v1/admin/users', { key: PUB });
+  check('the admin user list is closed to the publishable key', anonUsers.status >= 400, String(anonUsers.status));
+  const push = await j('POST', '/functions/v1/push-send', { token: a.token, body: {} });
+  check('push-send refuses a signed-in user without the shared secret', push.status === 401, String(push.status));
+
   // ── deletion refusals (nothing may be deleted) ──
   const bad1 = await j('POST', '/functions/v1/account-delete', { token: a.token, body: { password: 'wrong-password', confirm: true } });
   check('delete refuses a wrong password', bad1.status === 401, String(bad1.status));
