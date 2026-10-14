@@ -70,6 +70,14 @@ describe('MPSV Czech vacancies normalizer (real vacancies)', () => {
     for (const r of recs.filter((x) => x.portalId !== 67301123)) expect(JSON.stringify(ok(normalizeMpsvJob(r, NOW, codes)))).not.toContain('kontakt@example.cz');
   });
 
+  it('a phone glued to the country code is masked too; a vacancy number is not a phone (found in production 2026-10-14)', () => {
+    const raw = { ...byId(67287507), upresnujiciInformace: { cs: 'Kontakt: email info@firma.cz, telefon +420721983270 nebo 00420602111222. Číslo volného místa 33171700713.' } };
+    const d = ok(normalizeMpsvJob(raw, NOW, codes)).description ?? '';
+    expect(d).not.toMatch(/721983270|602111222/);
+    expect(d.match(/\[telefon\]/g)).toHaveLength(2);
+    expect(d).toContain('33171700713');
+  });
+
   it('the window: published, changed in the last 14 days, not in the future', () => {
     const now = Date.parse(NOW);
     expect(inWindow(fresh(byId(67287507)), now)).toBe(true);

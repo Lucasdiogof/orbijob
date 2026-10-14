@@ -26,8 +26,11 @@ export const MPSVCZ_HOST = 'up.gov.cz';
 export const MPSVCZ_MAX = 3000;
 export const MPSVCZ_CHANGED_DAYS = 14;
 const MAX_DESCRIPTION = 6000;
-/** Czech and international telephone numbers written in groups (`777 123 456`, `+420 777 123 456`, `777-123-456`, `777123456`). */
-const PHONE = /(?:\+|00)?(?:420[\s.-]?)?\b\d{3}[\s.-]?\d{3}[\s.-]?\d{3}\b/g;
+/**
+ * Czech and international telephone numbers written in groups (`777 123 456`, `+420 777 123 456`, `777-123-456`, `777123456`) or glued to
+ * the country code (`+420721983270`, `00420721983270`). Longer digit runs (vacancy numbers such as `33171700713`) are not phones.
+ */
+export const PHONE = /(?:(?:\+|\b00)420[\s.-]?|\b)\d{3}[\s.-]?\d{3}[\s.-]?\d{3}\b/g;
 const DATA_ORIGIN = 'https://data.mpsv.cz';
 const DAY = 86_400_000;
 
