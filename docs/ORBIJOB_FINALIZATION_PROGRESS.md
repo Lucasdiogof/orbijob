@@ -28,6 +28,11 @@ Search benchmark saved (`docs/evidence/search-benchmark-2026-10-14.txt`). Pelvic
 Resume parser fixed for 6 real defects found with non-technology CVs (+German); recommender reviewed (limitation noted: health area is one bucket); backend latency measured (no change justified);
 `scripts/supabase/diagnostics/ops-health.sql` added; Arbeitnow/Jobtech ceilings raised (scheduled run was red with exit 7).
 
+## Phase 11.0 - DONE (docs/ORBIJOB_11_0.md)
+Git: main carries `7a9aaa7` (password recovery by code, separated from the shared tree by a 3-way merge), `ad98ead` (relevance levels), `a034bda` (ops-health workflow), `47d8c45` (a11y/layout nets), `0e5c00c` (docs). Site: `725c20b`. The shared tree `C:\Users\lucas\orbijob` is clean at main; its old uncommitted state is in two `git stash` entries and in `C:\Users\lucas\orbijob-backups\otp-tree-2026-10-14`. The worktree `orbijob-wt7` is still the working copy for app changes.
+Done: recovery by code integrated; recommendations classify same profession / same occupation group / related / general area only / incompatible with ESCO-ISCO (+curated generic words); ops-health daily workflow with the Worker's existing key; benchmarks re-run; accessibility and layout nets for recovery and delete-account screens; the site i18n test fixed.
+**Owner action:** Supabase "Reset Password" e-mail template must contain `{{ .Token }}` (docs/auth/RECOVERY_CODE.md), otherwise recovery by code has no code to type.
+
 ## Open items / next steps
 1. CI of the latest commits (`e2188d1`, `06d7403`): check `gh run list`.
 2. Owner: legal review of privacy/terms; Get on Board answer (or run the unpublish SQL); NAV/USAJOBS/Jooble keys; a scheduled GitHub workflow for ops-health needs a database access secret.
