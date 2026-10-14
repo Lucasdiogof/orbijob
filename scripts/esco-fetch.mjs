@@ -13,6 +13,7 @@
 // A handful of occupations answer 500 ("More than one value found for field 'hasSkillType'") on the current version; the same request pinned
 // to selectedVersion=v1.1.1 works, so a failure falls back to it.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { listOccupations } from './lib/esco-list.mjs';
 
@@ -44,6 +45,22 @@ async function getJson(url) {
   throw new Error(`${last} ${url}`);
 }
 
+// Large pages (~2 MB) through curl: Node 24's built-in fetch (undici) aborted the whole process on such responses
+// ("assert(!this.paused)" in Parser.finish, not catchable) on 2026-10-14. Same retries and waits as getJson.
+async function getJsonLarge(url) {
+  let last = '';
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      const body = execFileSync('curl', ['-sS', '--fail', '--max-time', '120', url], { maxBuffer: 64 * 1024 * 1024 });
+      return JSON.parse(body.toString('utf8'));
+    } catch (e) {
+      last = String(e).slice(0, 120);
+    }
+    await sleep(3000 * (attempt + 1));
+  }
+  throw new Error(`${last} ${url}`);
+}
+
 let occupations = existsSync(listFile) ? JSON.parse(readFileSync(listFile, 'utf8')) : null;
 if (!occupations) {
   occupations = await listOccupations(API, getJson, () => sleep(400));
@@ -53,9 +70,46 @@ console.log(`occupations listed: ${occupations.length}`);
 
 const out = existsSync(detailFile) ? JSON.parse(readFileSync(detailFile, 'utf8')) : {};
 const complete = (e) => e && Array.isArray(e.langs) && LANGS.every((l) => e.langs.includes(l));
-const todo = occupations.filter((o) => !complete(out[o.uri]));
-console.log(`already saved: ${Object.keys(out).length}, to fetch: ${todo.length}`);
 const pick = (m) => Object.fromEntries(LANGS.filter((l) => m?.[l]).map((l) => [l, m[l]]));
+const entry = (j, title) => ({
+  en: title ?? j.title,
+  pref: pick(j.preferredLabel),
+  alt: pick(j.alternativeLabel),
+  isco: (j._links?.broaderIscoGroup ?? []).map((g) => g.code || g.title).filter(Boolean),
+  code: j.code,
+  langs: LANGS,
+});
+
+// Bulk pass (2026-10-14): the search endpoint with `full=true` returns whole occupations (every language, the ISCO link) for a page of
+// results, so 50 occupations cost one request (~12 s) instead of 50 (~2.5 s each). Pages of 50: the client failed on a 100-row page (~4 MB).
+// Only occupations of the list that still lack a language are taken from it; anything the pages miss falls back to one request each below.
+const known = new Set(occupations.map((o) => o.uri));
+if (occupations.some((o) => !complete(out[o.uri]))) {
+  const title = new Map(occupations.map((o) => [o.uri, o.title]));
+  let bulkFailures = 0;
+  for (let page = 0; page < 200; page++) {
+    let j;
+    try {
+      j = await getJsonLarge(`${API}/search?type=occupation&language=en&limit=50&offset=${page}&full=true`);
+    } catch (e) {
+      // one bad occupation makes the whole page answer 500 on the current ESCO version: skip the page, its occupations are fetched one by
+      // one below (with the v1.1.1 fallback); stop only after several failures in a row
+      console.log(`bulk page ${page} failed (${String(e).slice(0, 60)}): its occupations will be fetched one by one`);
+      if (++bulkFailures >= 4) break;
+      continue;
+    }
+    const res = j._embedded?.results ?? [];
+    if (res.length === 0) break;
+    bulkFailures = 0;
+    for (const x of res) if (known.has(x.uri) && !complete(out[x.uri])) out[x.uri] = entry(x, title.get(x.uri));
+    writeFileSync(detailFile, JSON.stringify(out));
+    console.log(`bulk page ${page}: ${occupations.filter((o) => complete(out[o.uri])).length} of ${occupations.length} complete`);
+    await sleep(500);
+  }
+}
+
+const todo = occupations.filter((o) => !complete(out[o.uri]));
+console.log(`already saved: ${Object.keys(out).length}, to fetch one by one: ${todo.length}`);
 const failed = [];
 let done = 0;
 
