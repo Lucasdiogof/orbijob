@@ -7,7 +7,11 @@ import 'app.dart';
 import 'core/design/design.dart';
 import 'core/di/injector.dart';
 import 'l10n/app_localizations.dart';
-import 'main.dart' show registerEscoAttribution, registerFontLicenses;
+import 'main.dart'
+    show
+        registerEscoAttribution,
+        registerFontLicenses,
+        registerJobSourceAttributions;
 import 'preview/in_memory_favorites.dart';
 import 'preview/preview_fixtures.dart';
 
@@ -15,6 +19,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
   registerEscoAttribution();
+  registerJobSourceAttributions();
   // ?delay=ms (web) makes the "loading" state observable in screenshots.
   final delay = int.tryParse(Uri.base.queryParameters['delay'] ?? '') ?? 0;
   configureDependencies(
