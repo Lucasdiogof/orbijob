@@ -18,7 +18,9 @@ void main() {
       final c = AuthCubit(repo);
       repo.recoveryLink(a);
       await tick();
-      expect(c.state.signedIn, isTrue);
+      // the temporary session is not a sign-in: no account screens, no account data
+      expect(c.state.signedIn, isFalse);
+      expect(c.state.accountUser, isNull);
       expect(c.state.recovering, isTrue);
       await c.close();
     },
@@ -33,7 +35,9 @@ void main() {
     expect(repo.passwordUpdates, 1);
     expect(c.state.recovering, isFalse);
     expect(c.state.notice, AuthNotice.passwordChanged);
-    expect(c.state.signedIn, isTrue);
+    // the recovery session is closed: the person signs in with the new password
+    expect(c.state.user, isNull);
+    expect(c.state.signedIn, isFalse);
     await c.close();
   });
 

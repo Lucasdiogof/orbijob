@@ -160,7 +160,14 @@ class AuthMessage extends StatelessWidget {
 
 /// Sign in / create account. Closes itself when a session appears.
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, this.startAsSignUp = false});
+  const AuthPage({
+    super.key,
+    this.startAsSignUp = false,
+    this.initialNotice = AuthNotice.none,
+  });
+
+  /// A message to show when the screen opens (after a recovery: the password was changed, sign in with it).
+  final AuthNotice initialNotice;
 
   /// Opens on the "create account" form (from a gate that says "Create account").
   final bool startAsSignUp;
@@ -173,6 +180,7 @@ class _AuthPageState extends State<AuthPage> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   late bool _signUp = widget.startAsSignUp;
+  late final AuthNotice _opening = widget.initialNotice;
 
   @override
   void dispose() {
@@ -274,6 +282,9 @@ class _AuthPageState extends State<AuthPage> {
                           ? authFailureText(l, s.failure!)
                           : authNoticeText(l, s.notice),
                     ),
+                  ] else if (_opening == AuthNotice.passwordChanged) ...[
+                    const SizedBox(height: AppSpace.s3),
+                    AuthMessage(text: l.authPasswordChangedSignIn),
                   ],
                   const SizedBox(height: AppSpace.s5),
                   OrbiPrimaryButton(

@@ -4587,6 +4587,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Official employment service'**
   String get officialPortalButton;
+
+  /// No description provided for @authNewPasswordRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat the new password'**
+  String get authNewPasswordRepeat;
+
+  /// No description provided for @authPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The passwords do not match'**
+  String get authPasswordMismatch;
+
+  /// No description provided for @authPasswordChangedSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed. Sign in with your new password.'**
+  String get authPasswordChangedSignIn;
 }
 
 class _AppLocalizationsDelegate

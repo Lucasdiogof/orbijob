@@ -2628,4 +2628,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get officialPortalButton => 'Servicio oficial de empleo';
+
+  @override
+  String get authNewPasswordRepeat => 'Repite la nueva contraseña';
+
+  @override
+  String get authPasswordMismatch => 'Las contraseñas no coinciden';
+
+  @override
+  String get authPasswordChangedSignIn =>
+      'Contraseña cambiada. Inicia sesión con la nueva contraseña.';
 }

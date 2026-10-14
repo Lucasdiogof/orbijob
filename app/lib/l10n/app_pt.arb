@@ -841,5 +841,8 @@
   "rcReasonProfessionGroup": "Mesmo grupo ocupacional da sua profissão: {profession}",
   "rcReasonProfessionRelated": "Profissão relacionada, não a mesma: {profession}",
   "officialPortalEmptyBody": "O OrbiJob não tem vagas em {country} para estes filtros. O serviço público de emprego do próprio país divulga as vagas dele; o OrbiJob não as copia, o botão abre o serviço.",
-  "officialPortalButton": "Serviço oficial de emprego"
+  "officialPortalButton": "Serviço oficial de emprego",
+  "authNewPasswordRepeat": "Repita a nova senha",
+  "authPasswordMismatch": "As senhas não coincidem",
+  "authPasswordChangedSignIn": "Senha alterada. Entre com a nova senha."
 }

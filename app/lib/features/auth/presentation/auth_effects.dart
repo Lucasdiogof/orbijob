@@ -5,51 +5,25 @@ import '../../../l10n/app_localizations.dart';
 import '../domain/auth_failure.dart';
 import 'auth_cubit.dart';
 import 'auth_page.dart';
-import 'new_password_page.dart';
 
-/// Reacts to session events with UI: opens the new-password screen after a recovery link and reports a session
-/// that ended or a password that changed. Mounted once, around the signed-in shell.
-class AuthEffects extends StatefulWidget {
+/// Reacts to session events with UI, once per event: a session that ended on its own, an expired e-mail link, and a password that was
+/// changed by a recovery (the login screen opens with the confirmation). It never opens the recovery form: that is [AuthGate]'s job, driven by
+/// the state, so no later state change (a busy flag during an account deletion, a late callback) can bring an old recovery back.
+///
+/// Mounted by [AuthGate] on the first route, which is never popped and survives every change of account.
+class AuthEffects extends StatelessWidget {
   const AuthEffects({super.key, required this.child});
   final Widget child;
-  @override
-  State<AuthEffects> createState() => _AuthEffectsState();
-}
-
-class _AuthEffectsState extends State<AuthEffects> {
-  bool _recoveryOpen = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // A recovery link restores a session, which rebuilds the app: the flag may already be set on first build.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && context.read<AuthCubit>().state.recovering) {
-        _openRecovery();
-      }
-    });
-  }
-
-  void _openRecovery() {
-    if (_recoveryOpen) return;
-    _recoveryOpen = true;
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const NewPasswordPage()))
-        .whenComplete(() => _recoveryOpen = false);
-  }
 
   @override
   Widget build(BuildContext context) => BlocListener<AuthCubit, AuthState>(
+    // only transitions: the same notice or failure emitted again with another field is not a new event
+    listenWhen: (a, b) =>
+        (a.notice != b.notice && b.notice != AuthNotice.none) ||
+        (a.failure != b.failure && b.failure == AuthFailureKind.linkInvalid),
     listener: (context, s) {
-      if (s.recovering) {
-        _openRecovery();
-        return;
-      }
-      if (_recoveryOpen) {
-        _recoveryOpen = false;
-        Navigator.of(context).pop();
-      }
       final l = AppLocalizations.of(context);
+      final cubit = context.read<AuthCubit>();
       // An expired / reused e-mail link arrives outside any form: say so instead of leaving it for later.
       if (s.failure == AuthFailureKind.linkInvalid) {
         ScaffoldMessenger.maybeOf(context)
@@ -57,17 +31,27 @@ class _AuthEffectsState extends State<AuthEffects> {
           ..showSnackBar(
             SnackBar(content: Text(authFailureText(l, s.failure!))),
           );
-        context.read<AuthCubit>().dismissMessage();
+        cubit.dismissMessage();
         return;
       }
-      if (s.notice == AuthNotice.sessionExpired ||
-          s.notice == AuthNotice.passwordChanged) {
+      if (s.notice == AuthNotice.sessionExpired) {
         ScaffoldMessenger.maybeOf(context)
           ?..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text(authNoticeText(l, s.notice))));
-        context.read<AuthCubit>().dismissMessage();
+        cubit.dismissMessage();
+        return;
+      }
+      if (s.notice == AuthNotice.passwordChanged && !s.signedIn) {
+        // the recovery ended with the new password saved and its temporary session closed: sign in with the new password
+        cubit.dismissMessage();
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) =>
+                const AuthPage(initialNotice: AuthNotice.passwordChanged),
+          ),
+        );
       }
     },
-    child: widget.child,
+    child: child,
   );
 }

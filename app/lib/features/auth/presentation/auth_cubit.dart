@@ -34,10 +34,15 @@ class AuthState extends Equatable {
   final AuthFailureKind? failure;
   final AuthNotice notice;
 
-  /// A password-recovery link was opened: the only thing this session may do is choose a new password.
+  /// A recovery code (or link) was accepted: the session that exists now is the TEMPORARY recovery session. The only thing it may do is
+  /// choose a new password; it is not a sign-in (no Home, no account data) until the password is saved, and it ends with a sign-out.
   final bool recovering;
 
-  bool get signedIn => user != null;
+  /// Signed in to use the account: a recovery session does not count.
+  bool get signedIn => user != null && !recovering;
+
+  /// The person whose account screens and data may be shown (null while recovering).
+  AuthUser? get accountUser => recovering ? null : user;
 
   AuthState copyWith({
     AuthUser? user,
@@ -67,6 +72,13 @@ class AuthState extends Equatable {
   ];
 }
 
+/// Remembers on the device that a recovery session is waiting for its new password, so a restart of the app in the middle of the recovery
+/// returns to the new-password screen instead of treating the temporary session as a sign-in.
+abstract class RecoveryMarker {
+  String? read();
+  Future<void> write(String? userId);
+}
+
 /// Session state for the whole app. It follows the repository's user stream, so a restored session, a token
 /// refresh failure or a sign-out elsewhere is reflected without extra code in the UI.
 class AuthCubit extends Cubit<AuthState> {
@@ -76,13 +88,43 @@ class AuthCubit extends Cubit<AuthState> {
   /// Device clean-up after the account was deleted (recent searches, translation cache): nothing of the person may stay on the phone.
   final Future<void> Function()? afterAccountDeleted;
 
-  AuthCubit(this._repo, {this.beforeSignOut, this.afterAccountDeleted})
-    : super(AuthState(available: _repo.isAvailable, user: _repo.currentUser)) {
+  AuthCubit(
+    this._repo, {
+    this.beforeSignOut,
+    this.afterAccountDeleted,
+    RecoveryMarker? recoveryMarker,
+  }) : _marker = recoveryMarker,
+       super(
+         AuthState(
+           available: _repo.isAvailable,
+           user: _repo.currentUser,
+           // the app was closed while a recovery session waited for its new password: it is still not a sign-in
+           recovering:
+               _repo.currentUser != null &&
+               recoveryMarker?.read() == _repo.currentUser!.id,
+         ),
+       ) {
     _sub = _repo.userChanges.listen(_onUser, onError: _onStreamError);
     _recovery = _repo.recoveryLinks.listen(
-      (_) => emit(state.copyWith(recovering: true)),
+      (_) => _enterRecovery(),
       onError: _onStreamError,
     );
+  }
+
+  final RecoveryMarker? _marker;
+
+  /// Between the code being sent to the server and its answer: a session that appears now IS the recovery session.
+  bool _verifyingCode = false;
+
+  void _enterRecovery() {
+    final u = _repo.currentUser ?? state.user;
+    emit(state.copyWith(user: u, recovering: true));
+    _marker?.write(u?.id);
+  }
+
+  void _leaveRecovery() {
+    if (state.recovering) emit(state.copyWith(recovering: false));
+    _marker?.write(null);
   }
 
   final AuthRepository _repo;
@@ -91,20 +133,27 @@ class AuthCubit extends Cubit<AuthState> {
   bool _signingOut = false;
 
   void _onUser(AuthUser? u) {
-    final wasSignedIn = state.user != null;
+    final wasSignedIn = state.signedIn;
     // Signed in -> signed out that the user did not ask for: say so instead of silently dropping to signed out.
     final ended = u == null && wasSignedIn && !_signingOut;
+    // The session created by verifyOTP(recovery) arrives here as an ordinary sign-in, possibly before verifyRecoveryCode returns: it is the
+    // recovery session. A session of ANOTHER person, or no session, ends any recovery.
+    final recovering = u == null
+        ? false
+        : _verifyingCode || (state.recovering && state.user?.id == u.id);
+    if (!recovering) _marker?.write(null);
     emit(
       state.copyWith(
         user: u,
         clearUser: u == null,
-        busy: false,
+        busy: _verifyingCode ? state.busy : false,
         // A new session supersedes an old link error (e.g. a duplicate callback that failed after the first worked).
         clearFailure: u != null,
-        recovering: u == null ? false : state.recovering,
+        recovering: recovering,
         notice: ended ? AuthNotice.sessionExpired : AuthNotice.none,
       ),
     );
+    if (recovering) _marker?.write(u.id);
   }
 
   // Invalid or expired e-mail links surface as errors on the auth stream.
@@ -140,11 +189,19 @@ class AuthCubit extends Cubit<AuthState> {
 
   /// Checks the 6-digit code; success opens the temporary recovery session (the new-password screen follows).
   Future<void> verifyRecoveryCode(String email, String code) async {
-    await _run(() async {
-      await _repo.verifyRecoveryCode(email: email, code: code);
-      return AuthNotice.none;
-    });
-    if (state.failure == null) emit(state.copyWith(recovering: true));
+    _verifyingCode = true;
+    try {
+      await _run(() async {
+        await _repo.verifyRecoveryCode(email: email, code: code);
+        return AuthNotice.none;
+      });
+    } finally {
+      _verifyingCode = false;
+    }
+    // the session exists as soon as verifyOTP returns, even when its SIGNED_IN event has not arrived yet
+    if (state.failure == null && (_repo.currentUser ?? state.user) != null) {
+      _enterRecovery();
+    }
   }
 
   Future<void> updatePassword(String newPassword) async {
@@ -152,21 +209,36 @@ class AuthCubit extends Cubit<AuthState> {
       await _repo.updatePassword(newPassword);
       return AuthNotice.passwordChanged;
     });
-    // Success: the recovery session becomes an ordinary one and the new-password screen can close.
-    if (state.failure == null) {
+    // Success: the recovery is over. Its temporary session is closed and the person signs in with the new password (the login screen
+    // opens with the confirmation). A failure keeps the recovery session so the person can try again.
+    if (state.failure != null) return;
+    _marker?.write(null);
+    _signingOut = true;
+    try {
+      try {
+        await _repo.signOut();
+      } catch (_) {}
       emit(
-        state.copyWith(recovering: false, notice: AuthNotice.passwordChanged),
+        state.copyWith(
+          clearUser: true,
+          recovering: false,
+          busy: false,
+          notice: AuthNotice.passwordChanged,
+        ),
       );
+    } finally {
+      _signingOut = false;
     }
   }
 
   /// Leaves the recovery screen without choosing a new password: the temporary session is closed.
   Future<void> cancelRecovery() async {
-    emit(state.copyWith(recovering: false));
+    _leaveRecovery();
     await signOut();
   }
 
   Future<void> signOut() async {
+    _leaveRecovery();
     _signingOut = true;
     try {
       await _run(() async {
@@ -186,6 +258,7 @@ class AuthCubit extends Cubit<AuthState> {
   /// "signed in" on screen until [finishAccountDeletion]: the confirmation must be shown before the account scope is torn down (a snack
   /// bar shown after that is lost). A failure keeps everything and sets [AuthState.failure].
   Future<void> deleteAccount(String password) async {
+    _leaveRecovery();
     await _run(() async {
       await _repo.deleteAccount(password);
       for (final cleanup in [beforeSignOut, afterAccountDeleted]) {
@@ -199,12 +272,15 @@ class AuthCubit extends Cubit<AuthState> {
 
   /// Ends the session of the deleted account on this device (the server no longer knows it, so a refusal is ignored).
   Future<void> finishAccountDeletion() async {
+    _leaveRecovery();
     _signingOut = true;
     try {
       try {
         await _repo.signOut();
       } catch (_) {}
-      if (state.signedIn) emit(state.copyWith(clearUser: true, busy: false));
+      if (state.user != null) {
+        emit(state.copyWith(clearUser: true, busy: false, recovering: false));
+      }
     } finally {
       _signingOut = false;
     }
@@ -212,9 +288,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void dismissMessage() =>
       emit(state.copyWith(clearFailure: true, notice: AuthNotice.none));
-
-  /// The new-password screen has been shown / handled.
-  void recoveryHandled() => emit(state.copyWith(recovering: false));
 
   @override
   Future<void> close() async {

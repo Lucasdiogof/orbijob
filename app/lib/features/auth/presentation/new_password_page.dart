@@ -7,8 +7,9 @@ import '../../../l10n/app_localizations.dart';
 import 'auth_cubit.dart';
 import 'auth_page.dart';
 
-/// Shown after the user opens a password-recovery link. It cannot be dismissed except by choosing a new
-/// password or cancelling (which closes the temporary session), so the recovery session is never used as a login.
+/// The only screen while a recovery session waits for its new password ([AuthGate]). It cannot be left except by saving a new password
+/// (then the temporary session is closed and the login opens) or cancelling (which closes the temporary session): the recovery session is
+/// never used as a sign-in.
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});
   @override
@@ -18,10 +19,12 @@ class NewPasswordPage extends StatefulWidget {
 class _NewPasswordPageState extends State<NewPasswordPage> {
   final _form = GlobalKey<FormState>();
   final _password = TextEditingController();
+  final _repeat = TextEditingController();
 
   @override
   void dispose() {
     _password.dispose();
+    _repeat.dispose();
     super.dispose();
   }
 
@@ -56,9 +59,19 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       controller: _password,
                       enabled: !s.busy,
                       newPassword: true,
-                      onSubmitted: (_) => _submit(context),
+                      textInputAction: TextInputAction.next,
                       validator: (v) =>
                           (v ?? '').length >= 8 ? null : l.authPasswordShort,
+                    ),
+                    const SizedBox(height: AppSpace.s3),
+                    PasswordField(
+                      label: l.authNewPasswordRepeat,
+                      controller: _repeat,
+                      enabled: !s.busy,
+                      newPassword: true,
+                      onSubmitted: (_) => _submit(context),
+                      validator: (v) =>
+                          v == _password.text ? null : l.authPasswordMismatch,
                     ),
                     if (s.failure != null) ...[
                       const SizedBox(height: AppSpace.s3),

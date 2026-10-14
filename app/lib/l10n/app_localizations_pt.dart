@@ -2621,4 +2621,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get officialPortalButton => 'Serviço oficial de emprego';
+
+  @override
+  String get authNewPasswordRepeat => 'Repita a nova senha';
+
+  @override
+  String get authPasswordMismatch => 'As senhas não coincidem';
+
+  @override
+  String get authPasswordChangedSignIn =>
+      'Senha alterada. Entre com a nova senha.';
 }

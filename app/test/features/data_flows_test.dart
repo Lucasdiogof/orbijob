@@ -173,17 +173,25 @@ void main() {
     await t.pumpAndSettle();
     expect(find.text('Choose a new password'), findsWidgets);
 
-    await t.enterText(find.byType(TextFormField), 'short');
+    // the Home is not shown behind or before the form
+    expect(find.text('Choose a new password'), findsWidgets);
+    final fields = find.byType(TextFormField);
+    await t.enterText(fields.at(0), 'short');
+    await t.enterText(fields.at(1), 'short');
     await t.tap(find.text('Save new password'));
     await t.pumpAndSettle();
     expect(auth.passwordUpdates, 0);
 
-    await t.enterText(find.byType(TextFormField), 'a-long-enough-pass');
+    await t.enterText(fields.at(0), 'a-long-enough-pass');
+    await t.enterText(fields.at(1), 'a-long-enough-pass');
     await t.tap(find.text('Save new password'));
     await t.pumpAndSettle();
     expect(auth.passwordUpdates, 1);
     expect(find.text('Choose a new password'), findsNothing);
-    expect(find.text('Password updated.'), findsOneWidget);
+    expect(
+      find.text('Password changed. Sign in with your new password.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('cancelling recovery closes the temporary session', (t) async {

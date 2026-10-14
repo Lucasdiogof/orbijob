@@ -1,4 +1,7 @@
 import 'dart:async';
+
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
+
 import 'dart:typed_data';
 
 import 'package:orbijob/core/data/data_failure.dart';
@@ -604,6 +607,13 @@ class FakeAuth implements AuthRepository {
   }
 
   String? verifiedCode;
+
+  /// The server's SIGNED_IN event arrives only AFTER verifyOTP returned (the other order Supabase may use).
+  bool signedInAfterVerify = false;
+
+  /// Password of the account for [deleteAccount] (null = any password is accepted).
+  String? accountPassword;
+
   @override
   Future<void> verifyRecoveryCode({
     required String email,
@@ -611,12 +621,21 @@ class FakeAuth implements AuthRepository {
   }) async {
     if (error != null) throw error!;
     verifiedCode = code;
-    emit(AuthUser(id: 'user-${email.split('@').first}', email: email));
+    final u = AuthUser(id: 'user-${email.split('@').first}', email: email);
+    if (signedInAfterVerify) {
+      currentUser = u;
+      scheduleMicrotask(() => _c.add(u));
+    } else {
+      emit(u);
+    }
   }
+
+  void Function()? onUpdatePassword;
 
   @override
   Future<void> updatePassword(String newPassword) async {
     if (error != null) throw error!;
+    onUpdatePassword?.call();
     passwordUpdates++;
   }
 
@@ -627,6 +646,13 @@ class FakeAuth implements AuthRepository {
   @override
   Future<void> deleteAccount(String password) async {
     if (error != null) throw error!;
+    if (accountPassword != null && password != accountPassword) {
+      throw const sb.AuthApiException(
+        'Invalid login credentials',
+        statusCode: '400',
+        code: 'invalid_credentials',
+      );
+    }
     deletedWith = password;
   }
 }

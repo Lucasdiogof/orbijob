@@ -18,6 +18,7 @@ import '../../features/applications/domain/application_record.dart';
 import '../../features/auth/data/unconfigured_auth_repository.dart';
 import '../../features/auth/domain/auth_repository.dart';
 import '../../features/auth/presentation/auth_cubit.dart';
+import '../../features/auth/data/prefs_recovery_marker.dart';
 import '../../features/favorites/data/supabase_favorites_repository.dart';
 import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
@@ -119,6 +120,9 @@ void configureDependencies({
     ..registerFactory<AuthCubit>(
       () => AuthCubit(
         sl<AuthRepository>(),
+        recoveryMarker: preferences == null
+            ? null
+            : PrefsRecoveryMarker(preferences),
         beforeSignOut: sl<PushRegistrar>().beforeSignOut,
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();

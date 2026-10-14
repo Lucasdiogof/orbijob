@@ -6,7 +6,6 @@ import '../../core/orbi/orbi.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/applications_page.dart';
 import '../auth/presentation/auth_cubit.dart';
-import '../auth/presentation/auth_effects.dart';
 import '../compare/compare_page.dart';
 import '../favorites/favorites_page.dart';
 import '../home/home_page.dart';
@@ -56,86 +55,84 @@ class ShellPage extends StatelessWidget {
         label: l.navApplications,
       ),
     ];
-    return AuthEffects(
-      child: BlocBuilder<ShellCubit, ShellState>(
-        builder: (context, shell) {
-          final size = MediaQuery.sizeOf(context);
-          final window = WindowClass.of(size.width);
-          final auth = context.watch<AuthCubit>().state;
-          final initial = auth.user?.email?.isNotEmpty == true
-              ? auth.user!.email!.substring(0, 1)
-              : null;
-          final body = IndexedStack(index: shell.index, children: _pages);
-          if (window == WindowClass.compact) {
-            return Scaffold(
-              appBar: OrbiTopBar(
-                brand: const BrandLogo(height: 24),
-                actions: [
-                  const NotificationsBell(),
-                  OrbiProfileButton(
-                    tooltip: l.profile,
-                    initial: initial,
-                    onPressed: () => _openProfile(context),
-                  ),
-                ],
-              ),
-              body: body,
-              bottomNavigationBar: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CompareBar(),
-                  OrbiNavigationBar(
-                    destinations: destinations,
-                    selectedIndex: shell.index,
-                    onSelected: context.read<ShellCubit>().goTo,
-                    semanticLabel: l.navMain,
-                  ),
-                ],
-              ),
-            );
-          }
-          final extended = window == WindowClass.expanded;
-          final shortLandscape = size.height < 480;
+    return BlocBuilder<ShellCubit, ShellState>(
+      builder: (context, shell) {
+        final size = MediaQuery.sizeOf(context);
+        final window = WindowClass.of(size.width);
+        final auth = context.watch<AuthCubit>().state;
+        final initial = auth.user?.email?.isNotEmpty == true
+            ? auth.user!.email!.substring(0, 1)
+            : null;
+        final body = IndexedStack(index: shell.index, children: _pages);
+        if (window == WindowClass.compact) {
           return Scaffold(
-            body: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            appBar: OrbiTopBar(
+              brand: const BrandLogo(height: 24),
+              actions: [
+                const NotificationsBell(),
+                OrbiProfileButton(
+                  tooltip: l.profile,
+                  initial: initial,
+                  onPressed: () => _openProfile(context),
+                ),
+              ],
+            ),
+            body: body,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                OrbiSideNav(
+                const CompareBar(),
+                OrbiNavigationBar(
                   destinations: destinations,
                   selectedIndex: shell.index,
                   onSelected: context.read<ShellCubit>().goTo,
-                  extended: extended,
-                  showLabels: !shortLandscape,
                   semanticLabel: l.navMain,
-                  leading: extended
-                      ? const BrandLogo(height: 26)
-                      : const BrandSymbol(size: 32),
-                  trailing: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const NotificationsBell(),
-                      OrbiProfileButton(
-                        tooltip: l.profile,
-                        initial: initial,
-                        extendedLabel: extended ? l.profile : null,
-                        onPressed: () => _openProfile(context),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(child: SafeArea(left: false, child: body)),
-                      const CompareBar(),
-                    ],
-                  ),
                 ),
               ],
             ),
           );
-        },
-      ),
+        }
+        final extended = window == WindowClass.expanded;
+        final shortLandscape = size.height < 480;
+        return Scaffold(
+          body: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              OrbiSideNav(
+                destinations: destinations,
+                selectedIndex: shell.index,
+                onSelected: context.read<ShellCubit>().goTo,
+                extended: extended,
+                showLabels: !shortLandscape,
+                semanticLabel: l.navMain,
+                leading: extended
+                    ? const BrandLogo(height: 26)
+                    : const BrandSymbol(size: 32),
+                trailing: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const NotificationsBell(),
+                    OrbiProfileButton(
+                      tooltip: l.profile,
+                      initial: initial,
+                      extendedLabel: extended ? l.profile : null,
+                      onPressed: () => _openProfile(context),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Expanded(child: SafeArea(left: false, child: body)),
+                    const CompareBar(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

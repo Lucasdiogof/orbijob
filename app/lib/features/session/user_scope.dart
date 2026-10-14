@@ -39,12 +39,12 @@ class UserScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocListener<AuthCubit, AuthState>(
-    listenWhen: (a, b) => a.user?.id != b.user?.id,
+    listenWhen: (a, b) => a.accountUser?.id != b.accountUser?.id,
     listener: (_, _) => navigator.currentState?.popUntil((r) => r.isFirst),
     child: BlocBuilder<AuthCubit, AuthState>(
-      buildWhen: (a, b) => a.user?.id != b.user?.id,
+      buildWhen: (a, b) => a.accountUser?.id != b.accountUser?.id,
       builder: (context, auth) => KeyedSubtree(
-        key: ValueKey(auth.user?.id ?? 'anonymous'),
+        key: ValueKey(auth.accountUser?.id ?? 'anonymous'),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (_) => sl<FavoritesCubit>()..load()),
@@ -57,7 +57,7 @@ class UserScope extends StatelessWidget {
             BlocProvider(create: (_) => sl<RecommendationsCubit>()),
           ],
           child: _ScopeEffects(
-            userId: auth.user?.id,
+            userId: auth.accountUser?.id,
             navigator: navigator,
             child: child,
           ),

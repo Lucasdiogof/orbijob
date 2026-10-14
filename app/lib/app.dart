@@ -18,7 +18,7 @@ import 'features/search/presentation/cubit/areas_cubit.dart';
 import 'features/search/presentation/cubit/specialties_cubit.dart';
 import 'features/search/presentation/cubit/search_cubit.dart';
 import 'features/shell/shell_cubit.dart';
-import 'features/shell/shell_page.dart';
+import 'features/auth/presentation/auth_gate.dart';
 import 'l10n/app_localizations.dart';
 
 class OrbiJobApp extends StatefulWidget {
@@ -75,7 +75,7 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
               ),
             );
           },
-          home: const ShellPage(),
+          home: const AuthGate(),
         ),
       ),
     ),

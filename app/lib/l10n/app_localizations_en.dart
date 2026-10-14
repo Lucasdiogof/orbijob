@@ -2613,4 +2613,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get officialPortalButton => 'Official employment service';
+
+  @override
+  String get authNewPasswordRepeat => 'Repeat the new password';
+
+  @override
+  String get authPasswordMismatch => 'The passwords do not match';
+
+  @override
+  String get authPasswordChangedSignIn =>
+      'Password changed. Sign in with your new password.';
 }

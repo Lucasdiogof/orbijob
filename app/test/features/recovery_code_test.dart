@@ -5,7 +5,7 @@ import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/features/auth/data/supabase_auth_repository.dart';
 import 'package:orbijob/features/auth/domain/auth_failure.dart';
 import 'package:orbijob/features/auth/presentation/auth_cubit.dart';
-import 'package:orbijob/features/auth/presentation/auth_effects.dart';
+import 'package:orbijob/features/auth/presentation/auth_gate.dart';
 import 'package:orbijob/features/auth/presentation/auth_page.dart';
 import 'package:orbijob/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -23,8 +23,8 @@ Future<AuthCubit> _pump(WidgetTester t, FakeAuth auth) async {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
-        home: AuthEffects(
-          child: Builder(
+        home: AuthGate(
+          home: Builder(
             builder: (context) => Scaffold(
               body: TextButton(
                 onPressed: () => Navigator.of(context).push(
@@ -75,15 +75,30 @@ void main() {
     expect(auth.verifiedCode, '123456');
     expect(find.text('Choose a new password'), findsWidgets);
 
-    await t.enterText(find.byType(TextFormField), 'a-long-enough-pass');
+    // the code screen and the login under it are gone: only the new-password form, never the app behind it
+    expect(find.text('Send code'), findsNothing);
+    expect(find.text('open'), findsNothing);
+
+    final fields = find.byType(TextFormField);
+    await t.enterText(fields.at(0), 'a-long-enough-pass');
+    await t.enterText(fields.at(1), 'a-different-pass');
+    await t.tap(find.text('Save new password'));
+    await t.pumpAndSettle();
+    expect(find.text('The passwords do not match'), findsOneWidget);
+    expect(auth.passwordUpdates, 0);
+
+    await t.enterText(fields.at(1), 'a-long-enough-pass');
     await t.tap(find.text('Save new password'));
     await t.pumpAndSettle();
     expect(auth.passwordUpdates, 1);
     expect(find.text('Choose a new password'), findsNothing);
-    expect(find.text('Password updated.'), findsOneWidget);
-    // Neither the code screen nor the sign-in screen is left behind.
+    // the recovery session was closed; the login opens with the confirmation
+    expect(auth.currentUser, isNull);
+    expect(
+      find.text('Password changed. Sign in with your new password.'),
+      findsOneWidget,
+    );
     expect(find.text('Send code'), findsNothing);
-    expect(find.text('open'), findsOneWidget);
   });
 
   testWidgets('a wrong code says so and stays on the code step', (t) async {
