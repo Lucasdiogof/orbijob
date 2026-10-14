@@ -35,7 +35,7 @@ Done: recovery by code integrated; recommendations classify same profession / sa
 
 ## Phase 12.0 - in progress (docs/ORBIJOB_12_0_PROGRESS.md)
 * Urgent auth fix (recovery explicit state, deletion button): done, `docs/auth/RECOVERY_FLOW_FIX.md`.
-* ESCO pagination fixed, Czech in the taxonomy (36,702 names), Czech search benchmark 219 → 1,405; Czech source `mpsvcz` stored (1,000), **not published (owner SQL ready)**.
+* ESCO pagination fixed, Czech in the taxonomy (36,702 names), Czech search benchmark 219 → 1,405; Czech source `mpsvcz` **published by the owner** (1,000 visible, growing to 3,000).
 
 ## Open items / next steps
 1. CI of the latest commits (`e2188d1`, `06d7403`): check `gh run list`.

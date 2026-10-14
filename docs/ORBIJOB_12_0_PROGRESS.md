@@ -70,9 +70,14 @@ addresses only. **One phone glued to the country code had escaped the mask**: re
 `_aplicar/`). Licence re-read on 2026-10-14: no copyright, no database or sui generis right, no personal data
 (https://data.mpsv.cz/web/data/podminky-uziti). Database 186 MB of 500 MB.
 
-**Publication: BLOCKED on the owner.** The source meets every condition of `publish_source.sql`. The ready file is
+**Publication: DONE by the owner (confirmed 2026-10-14 with the app's public key: 1,000 open Czech listings visible).** Before that: The source meets every condition of `publish_source.sql`. The ready file is
 `_aplicar/2026-10-14_publicar_mpsvcz.sql` (to run in the SQL editor of project `rpmlfxwebnlxnwadyvle`). Until then the 1,000 Czech
 listings are stored but not visible in the app.
+
+## Later on 2026-10-14
+* Teaching Vacancies (England, education) was full at 2,000 and its pass reported `catalogue_full`: ceiling raised to 3,500 (89133a8); database 206 MB of 500, all ceilings together ~29,300 rows. The dominance test now says "below the largest ceiling of the other sources".
+* Public benchmark with the Czech source visible: 70 queries in 7 languages, 10,484 results (title or city matches only), 8,776 of them found through another language's name.
+* Coverage (`coverage.sql`): 17,320 visible listings in 14 sources; 0 without employer; 1,000 undated = Groupe BPCE by design (its feed has no publication date, only the last edit, which is not used as one); 800 open listings over 60 days old, all still confirmed by their source.
 
 ## NEXT STEPS (for the next account)
 1. **Publish `mpsvcz`** when the stored set looks right: owner runs `scripts/supabase/ops/publish_source.sql` with the usual guard phrase (I do not compose or run it). Before that, re-check coverage with `scripts/supabase/diagnostics/coverage.sql` and sample titles.
