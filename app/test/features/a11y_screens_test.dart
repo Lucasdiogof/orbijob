@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
 import 'package:orbijob/l10n/app_localizations.dart';
@@ -96,6 +97,39 @@ final _scenes = <String, Future<void> Function(WidgetTester, AppLocalizations)>{
     await t.tap(find.text(l.accountSignIn).last);
     await t.pumpAndSettle();
   },
+  'sign in · recovery': (t, l) async {
+    await t.tap(find.byTooltip(l.profile));
+    await t.pumpAndSettle();
+    await t.tap(find.text(l.accountSignIn).last);
+    await t.pumpAndSettle();
+    await t.tap(find.text(l.authForgotPassword));
+    await t.pumpAndSettle();
+  },
+  'sign in · recovery code': (t, l) async {
+    await t.tap(find.byTooltip(l.profile));
+    await t.pumpAndSettle();
+    await t.tap(find.text(l.accountSignIn).last);
+    await t.pumpAndSettle();
+    await t.tap(find.text(l.authForgotPassword));
+    await t.pumpAndSettle();
+    await t.enterText(find.byType(TextFormField).first, 'maria@example.com');
+    await t.tap(find.text(l.authRecoverySendCode));
+    await t.pump(const Duration(milliseconds: 300));
+    await t.pump(const Duration(milliseconds: 300));
+  },
+  'delete account': (t, l) async {
+    await t.tap(find.byTooltip(l.profile));
+    await t.pumpAndSettle();
+    await _tap(t, l.privacyTitle);
+    final del = find.widgetWithText(OrbiSecondaryButton, l.pdDeleteTitle);
+    await t.scrollUntilVisible(
+      del,
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await t.tap(del);
+    await t.pumpAndSettle();
+  },
   'new application': (t, l) async {
     await _tap(t, l.navApplications);
     await _tap(t, l.applicationsAdd);
@@ -110,9 +144,9 @@ void main() {
       ) async {
         final h = t.ensureSemantics();
         final auth = FakeAuth();
-        if (e.key != 'sign in') auth.currentUser = _user;
+        if (!e.key.startsWith('sign in')) auth.currentUser = _user;
         final fakes = Fakes(auth: auth);
-        if (e.key != 'sign in') {
+        if (!e.key.startsWith('sign in')) {
           final p = await fakes.profiles.save(
             const ProfessionalProfile(
               name: 'Maria Souza',

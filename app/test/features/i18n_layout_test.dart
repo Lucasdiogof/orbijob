@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/compare/compare_cubit.dart';
@@ -199,13 +200,65 @@ final _scenes = <String, _Go>{
     await t.pumpAndSettle();
     await _tap(t, l.accountSignIn);
   },
+  'sign in · recovery': (t, l) async {
+    await t.tap(find.byTooltip(l.profile));
+    await t.pumpAndSettle();
+    final signIn = find.widgetWithText(OrbiPrimaryButton, l.accountSignIn);
+    await t.ensureVisible(signIn);
+    await t.pumpAndSettle();
+    await t.tap(signIn);
+    await t.pumpAndSettle();
+    await _tap(t, l.authForgotPassword);
+  },
+  'sign in · recovery code': (t, l) async {
+    await t.tap(find.byTooltip(l.profile));
+    await t.pumpAndSettle();
+    final signIn = find.widgetWithText(OrbiPrimaryButton, l.accountSignIn);
+    await t.ensureVisible(signIn);
+    await t.pumpAndSettle();
+    await t.tap(signIn);
+    await t.pumpAndSettle();
+    await _tap(t, l.authForgotPassword);
+    // at 200 % text on a small phone the form is below the fold of a lazy list
+    for (
+      var i = 0;
+      i < 8 && find.byType(TextFormField).evaluate().isEmpty;
+      i++
+    ) {
+      await t.drag(
+        find
+            .byWidgetPredicate(
+              (w) => w is Scrollable && w.axis == Axis.vertical,
+            )
+            .last,
+        const Offset(0, -300),
+      );
+      await t.pumpAndSettle();
+    }
+    await t.enterText(find.byType(TextFormField).first, 'maria@example.com');
+    await _tap(t, l.authRecoverySendCode);
+    await t.pump(const Duration(milliseconds: 300));
+    await t.pump(const Duration(milliseconds: 300));
+  },
+  'delete account': (t, l) async {
+    await _profile(t, l);
+    await _tap(t, l.privacyTitle);
+    final del = find.widgetWithText(OrbiSecondaryButton, l.pdDeleteTitle);
+    await t.scrollUntilVisible(
+      del,
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await t.tap(del);
+    await t.pumpAndSettle();
+  },
 };
 
 void main() {
   for (final locale in const ['en', 'pt', 'es']) {
     for (final scale in const [1.0, 2.0]) {
       for (final e in _scenes.entries) {
-        final guest = e.key == 'sign in' || e.key == 'favorites';
+        final guest = e.key.startsWith('sign in') || e.key == 'favorites';
         testWidgets(
           '$locale · text x$scale · ${e.key}: no overflow, nothing throws',
           (t) async {
