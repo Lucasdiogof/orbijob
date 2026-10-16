@@ -73,3 +73,18 @@ back. A request template that the owner can send is in `docs/EMPLOYER_FEED_PERMI
 43 / 243 / 1,000 / 850 / 600 stored, all open; 0 mojibake; 0 duplicate URLs; links sampled (6 per source for four sources, all HTTP 200; Lanbide's host is not reachable from the owner's machine but answers from GitHub);
 short descriptions (< 150 characters): ECYL 213 of 850 (the offices write one-liners), Lanbide 15, Feina Activa 2, SEF Murcia 0; offers older than 60 days: Feina Activa 822 (the portal keeps offers for months and
 the feed has no end date; refused at 90 days), ECYL 112, SEF Murcia 17.
+
+## Production validation after publication (2026-10-16, publishable key)
+| Source | Visible | Country / place | Employer | Personal data left | Links | Notes |
+|---|---:|---|---|---|---|---|
+| csp | 43 | FR 43; 38 with a town (postal address) | named by the offer, or the authority its title names | 0 e-mails, 0 phones | 43 on choisirleservicepublic.gouv.fr | every offer confirmed on its own page before storing; one real revalidation (43 confirmed); fills ≈ 80 asked per pass |
+| sefmurcia | 243 | ES 243, all with a town | empty (the SEF does not name it; attribution says so) | 0 / 0 | sefoficinavirtual.carm.es | 17 older than 60 days; 7 pairs with the same title and town (distinct offer ids) |
+| feinaactiva | 1,000 | ES 1,000, all with a town | 996 named; 4 empty (a person's name is never republished) | 0 / 0 | feinaactiva.gencat.cat | 822 older than 60 days (the portal keeps them open); salary range not mapped (no unit) |
+| ecyl | 850 | ES 814 → 829 after the fix; 21 EURES offers name no country | empty (the ECYL does not name it) | role addresses only (`info@`, `job@`); **3 foreign phones found and masked (fix ab65c1c + stored rows)** | empleo.jcyl.es (public host, never gestorcontenidos) | 11 identical title+town+text pairs with different ids (published twice by the office); 112 older than 60 days |
+| lanbide | 600 | ES 600, all with a town | empty (Lanbide does not name it) | 0 / 0 | web.lanbide.eus | 0 mojibake (Latin-1 decoded); 3 short descriptions |
+
+The licence page of the app names each of them with its real licence (Licence Ouverte 2.0; Llicència oberta d'ús d'informació - Catalunya; CC BY 4.0 for ECYL and Lanbide;
+Murcia's legal notice), guarded by `app/test/features/licences_attribution_test.dart`.
+
+**Czech source (12.0), found in this round:** since 2026-10-16 the publisher serves only `volna-mista.json.gz` (the uncompressed file answers 404); the connector reads the `.gz`
+(fix 6122fb1). The file's `Last-Modified` was 2026-10-14 23:02 when read on 16/10: watch whether the publisher resumes the daily refresh.

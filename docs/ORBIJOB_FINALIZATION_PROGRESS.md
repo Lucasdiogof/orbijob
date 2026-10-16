@@ -51,6 +51,6 @@ Done: recovery by code integrated; recommendations classify same profession / sa
 - Commit messages in English, no AI mentions; `git pull --rebase origin main` before pushing (another session pushes iOS changes).
 
 ## Phase 13.0 (2026-10-16) - see docs/ORBIJOB_13_0_PROGRESS.md and docs/SOURCES_13_0.md
-Five sources imported and waiting for the owner's publication (csp, sefmurcia, feinaactiva, ecyl, lanbide; pack in `_aplicar/2026-10-16_13_0_fontes/`, guard rehearsed in a rolled-back transaction: passes for all five).
+Five sources (csp, sefmurcia, feinaactiva, ecyl, lanbide) published by the owner on 16/10 and verified through the public key: 19 sources, 25,336 visible listings, Spain 22 → 2,682. Closing round: AT_CAPACITY state for sources at their planned ceiling (green with a notice; real failures stay red), Czech feed moved to `.json.gz` (was failing with 404), foreign phones masked and title-stated countries for ECYL EURES offers, licence page completed, public benchmark of 74 queries; database 265 MB of 500 MB.
 Shared connector shell (`snapshot.ts`, `spain.ts`); Spanish/Catalan search equivalences; benchmark of 73 queries; ATS boards investigated and not integrated (no licence; employer permission request drafted, not sent);
-USAJOBS needs only the owner's free API key. Worker 896 tests, Flutter 994 tests, CI green on every code commit of the phase.
+USAJOBS needs only the owner's free API key. Worker 905 tests, Flutter 995 tests, `flutter analyze` and `tsc` clean, CI green.
