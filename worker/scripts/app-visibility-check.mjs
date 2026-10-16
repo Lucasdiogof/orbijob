@@ -44,7 +44,7 @@ for (const sc of golden.scenarios) {
 }
 
 // 2. per source: stored vs visible
-const sources = ['jobicy', 'jobtech', 'arbeitnow', 'remoteok', 'remotive', 'twjobs', 'jobsconz', 'getonboard', 'teachingvacancies', 'nycjobs', 'karrierenrw', 'bpce', 'forem', 'mpsvcz', 'csp'];
+const sources = ['jobicy', 'jobtech', 'arbeitnow', 'remoteok', 'remotive', 'twjobs', 'jobsconz', 'getonboard', 'teachingvacancies', 'nycjobs', 'karrierenrw', 'bpce', 'forem', 'mpsvcz', 'csp', 'sefmurcia'];
 const stored = {};
 for (const s of sources) {
   stored[s] = (await get(`select=id&source_id=eq.${s}&status=eq.open`, { range: '0-0' })).total;
@@ -91,7 +91,7 @@ results.push({ name: 'pagination: last page size', status: last.status, visible:
 
 // 7. links and attribution of what is visible
 const sample = await get(`select=${enc(SELECT)}&${VISIBLE}&limit=1000`, { range: '0-999' });
-const hostOk = { jobicy: /(^|\.)jobicy\.com$/, jobtech: /(^|\.)arbetsformedlingen\.se$/, arbeitnow: /(^|\.)arbeitnow\.(com|co\.uk|fr|ch)$/, remoteok: /(^|\.)remoteok\.com$/, remotive: /(^|\.)remotive\.com$/, twjobs: /(^|\.)taiwanjobs\.gov\.tw$/, jobsconz: /(^|\.)jobs\.co\.nz$/, getonboard: /(^|\.)getonbrd\.com$/, teachingvacancies: /(^|\.)teaching-vacancies\.service\.gov\.uk$/, nycjobs: /(^|\.)cityjobs\.nyc\.gov$/, karrierenrw: /(^|\.)karriere\.nrw$/, bpce: /(^|\.)bpce\.fr$/, forem: /(^|\.)leforem\.be$/, mpsvcz: /(^|\.)up\.gov\.cz$/, csp: /(^|\.)choisirleservicepublic\.gouv\.fr$/ };
+const hostOk = { jobicy: /(^|\.)jobicy\.com$/, jobtech: /(^|\.)arbetsformedlingen\.se$/, arbeitnow: /(^|\.)arbeitnow\.(com|co\.uk|fr|ch)$/, remoteok: /(^|\.)remoteok\.com$/, remotive: /(^|\.)remotive\.com$/, twjobs: /(^|\.)taiwanjobs\.gov\.tw$/, jobsconz: /(^|\.)jobs\.co\.nz$/, getonboard: /(^|\.)getonbrd\.com$/, teachingvacancies: /(^|\.)teaching-vacancies\.service\.gov\.uk$/, nycjobs: /(^|\.)cityjobs\.nyc\.gov$/, karrierenrw: /(^|\.)karriere\.nrw$/, bpce: /(^|\.)bpce\.fr$/, forem: /(^|\.)leforem\.be$/, mpsvcz: /(^|\.)up\.gov\.cz$/, csp: /(^|\.)choisirleservicepublic\.gouv\.fr$/, sefmurcia: /(^|\.)carm\.es$/ };
 let badUrl = 0, noAttr = 0;
 for (const r of sample.rows) {
   try { const u = new URL(r.original_url); if (u.protocol !== 'https:' || !hostOk[r.source_id]?.test(u.hostname)) badUrl++; } catch { badUrl++; }

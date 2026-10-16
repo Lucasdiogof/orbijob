@@ -558,6 +558,7 @@ void main() {
         ('forem', 'Le Forem', 'www.leforem.be'),
         ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
         ('csp', 'Choisir le Service Public', 'choisirleservicepublic.gouv.fr'),
+        ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
       ]) {
         final j = jobFromCatalogRow(
           row(

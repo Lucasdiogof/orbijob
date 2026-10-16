@@ -8,6 +8,7 @@ import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './conne
 import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
 import { mpsvCzConnector } from './connectors/mpsvcz';
 import { cspConnector } from './connectors/csp';
+import { sefMurciaConnector } from './connectors/sefmurcia';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -132,6 +133,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // offer must be re-confirmed within 72 h (the app hides older confirmations): 4 revalidations a day of ~450 pages cover 2,000
     maxPages: 1, newCap: 80, catalogue: 2000,
     make: (f, n, origin) => cspConnector(f, n, origin ? { api: origin } : {}),
+  },
+  sefmurcia: {
+    id: 'sefmurcia',
+    attribution: 'Jobs via SEF, Servicio de Empleo y Formación de la Región de Murcia (https://sefoficinavirtual.carm.es), open data of the Región de Murcia "Ofertas de empleo activas en la Región de Murcia" (https://datosabiertos.regiondemurcia.es), reuse authorised by its legal notice (https://datosabiertos.regiondemurcia.es/avisolegal); origin of the data: Región de Murcia. The SEF does not name the employer',
+    host: 'carm.es',
+    // one request returns every active offer (≈ 250): no cap is needed, the ceiling only keeps the source in proportion
+    maxPages: 1, newCap: 500, catalogue: 1000,
+    make: (f, n, origin) => sefMurciaConnector(f, n, { origin }),
   },
 };
 

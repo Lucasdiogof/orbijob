@@ -310,6 +310,7 @@ const _sourceNames = {
   'forem': 'Le Forem',
   'mpsvcz': 'Úřad práce ČR',
   'csp': 'Choisir le Service Public',
+  'sefmurcia': 'SEF Murcia',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
