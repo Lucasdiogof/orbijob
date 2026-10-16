@@ -147,7 +147,7 @@ export const SOURCES: Record<string, SourceProfile> = {
   },
   feinaactiva: {
     id: 'feinaactiva',
-    attribution: 'Jobs via Feina Activa, Servei Públic d\'Ocupació de Catalunya (SOC) (https://feinaactiva.gencat.cat), open data of the Generalitat de Catalunya "Portal Feina Activa. Ofertes de feina", Llicència oberta d\'ús d\'informació - Catalunya (https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies); origin of the data: Generalitat de Catalunya, Departament d\'Empresa i Treball, Servei Públic d\'Ocupació de Catalunya',
+    attribution: 'Jobs via Feina Activa, Servei Públic d\'Ocupació de Catalunya (SOC) (https://feinaactiva.gencat.cat), open data of the Generalitat de Catalunya "Portal Feina Activa. Ofertes de feina", Llicència oberta d\'ús d\'informació - Catalunya (https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies); origin of the data: Generalitat de Catalunya, Departament d\'Empresa i Treball, Servei Públic d\'Ocupació de Catalunya. Some offers show no employer name (a person\'s name is not republished)',
     host: 'feinaactiva.gencat.cat',
     // one 7 MB XML read returns every published offer (≈ 4,600); at most 1,000 new ones per pass, 3,000 in the catalogue (the portal keeps offers for months)
     maxPages: 1, newCap: 1000, catalogue: 3000,

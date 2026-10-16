@@ -9,7 +9,7 @@
 --   1. a fonte existe, esta CONDITIONAL, ainda nao esta publicada e tem texto de atribuicao;
 --   2. existe ao menos uma passada de descoberta (scope 'discover') com status 'ok', e NENHUMA passada failed, running ou partial;
 --   3. ha vagas da fonte no banco e TODA original_url e https no dominio da propria fonte;
---   4. nenhuma vaga da fonte esta sem titulo ou sem empresa.
+--   4. nenhuma vaga da fonte esta sem titulo ou sem empresa (excecao: fonte cuja atribuicao diz que nao nomeia o empregador).
 -- Reversao imediata: update public.job_sources set can_redistribute = false where id = '<fonte>';
 do $publish$
 declare
@@ -59,7 +59,9 @@ begin
   if total_jobs = 0 then raise exception 'publicacao bloqueada: nao ha vagas de % no catalogo', sid; end if;
   select count(*) into bad_urls from public.jobs where source_id = sid and original_url !~ host_re;
   if bad_urls > 0 then raise exception 'publicacao bloqueada: % vaga(s) com original_url fora do dominio da fonte', bad_urls; end if;
-  select count(*) into bad_rows from public.jobs where source_id = sid and (btrim(title) = '' or btrim(company) = '');
+  -- an offer without an employer name is accepted only for a source whose attribution says so (public employment services that do not name the employer, or
+  -- that leave out a person's name): the statement is part of the stored attribution, so it is visible to the user
+  select count(*) into bad_rows from public.jobs where source_id = sid and (btrim(title) = '' or (btrim(company) = '' and src.attribution !~* '(not name the employer|show no employer name)'));
   if bad_rows > 0 then raise exception 'publicacao bloqueada: % vaga(s) sem titulo ou empresa', bad_rows; end if;
 
   update public.job_sources set can_redistribute = true where id = sid and can_redistribute = false;
