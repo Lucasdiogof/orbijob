@@ -204,6 +204,7 @@ describe('scripts/discover-local.mjs (rehearsal against a local stand-in)', () =
     const again = await runner(['run', '--yes']);
     expect(again.code).toBe(0);
     expect(again.out).toContain('skipped (too_soon)');
+    expect(again.out).toContain('estado: SUCCESS (skipped)'); // the workflow reads this line; without it the state would default to FAILED
     expect(again.out).toContain('ultima hora');
     expect(w.calls.feed).toBe(feedCalls);
     const stored = w.jobs.size;

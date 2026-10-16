@@ -95,6 +95,7 @@ if (mode === 'preflight') process.exit(pre.length ? 1 : 0);
 if (pre.length === 1 && tooSoon && mode === 'run') {
   // stands down exactly like the Worker's lease (`skipped (too_soon)`): green, nothing written, and said so
   console.log('resultado: skipped (too_soon)');
+  console.log('estado: SUCCESS (skipped)');
   console.log('codigo de saida: 0');
   process.exit(0);
 }
