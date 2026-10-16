@@ -6,6 +6,17 @@ import { placeName } from './bpce';
 /** Spanish telephone numbers: 6xx/7xx/8xx/9xx in any grouping, optionally +34 / 0034. */
 export const ES_PHONE = /(?<![0-9])(?:(?:\+|00)34[\s.-]?)?[6-9][0-9](?:[\s.-]?[0-9]){7}(?![0-9])/g;
 
+/**
+ * Telephone numbers of other countries written with their country code (`+45 93 57 62 51`, `+43 555263380`, `0049 89 4378031`), as the EURES offers abroad
+ * carry them: 8 to 15 digits after `+`/`00` and the code. Amounts ("17.000 - 18.000") and references have no `+`/`00` prefix and are untouched.
+ */
+export const INTL_PHONE = /(?<![\w+])(?:\+|\b00)[1-9][0-9]{0,2}(?:[\s.-]?\(?[0-9]{1,5}\)?){2,6}(?![0-9])/g;
+
+/** Every telephone number of a Spanish offer's text, Spanish or foreign, replaced by `label`. */
+export function maskPhones(text: string, label: string): string {
+  return text.replace(INTL_PHONE, (m) => (m.replace(/\D/g, '').length >= 8 ? label : m)).replace(ES_PHONE, label);
+}
+
 const SMALL_WORDS = /(?<=\S)\s(De|Del|Dels|Della|La|Las|Les|Los|El|Els|I|Y)(?=\s|$)/g;
 
 /**

@@ -53,13 +53,21 @@ describe('ECYL normalizer (real offers)', () => {
     expect(j.description).not.toMatch(/ana\.ruiz|947/);
   });
 
-  it('the country is Spain only for a province of Castilla y León; EURES offers abroad state none', () => {
+  it('the country is Spain for a province of Castilla y León; a EURES offer abroad has the one country its title states', () => {
     const abroad = ok(normalizeEcyl(rec('1285689967800'), NOW));
-    expect(abroad).toMatchObject({ country: null, city: null });
+    expect(abroad).toMatchObject({ country: 'DK', city: null }); // "Specialized consultant in Neurology en Dinamarca"
     expect(abroad.description).not.toMatch(/Provincia:/);
     expect(abroad.description).toContain('Fuente de la oferta: Red EURES');
     for (const p of ['Burgos', 'León', 'Leon', 'Ávila', 'Avila', 'Zamora', 'Soria', 'Segovia', 'Palencia', 'Salamanca', 'Valladolid']) expect(ecylCountry(p), p).toBe('ES');
     for (const p of ['Otra', '', 'Madrid', 'Europa']) expect(ecylCountry(p), p).toBeNull();
+    // the EURES offers abroad: the one country the title states, never a guess (real titles of 2026-10-16)
+    expect(ecylCountry('Otra', 'Embryologist en Dinamarca')).toBe('DK');
+    expect(ecylCountry('Otra', 'Specialized consultant in Neurology en Dinamarca')).toBe('DK');
+    expect(ecylCountry('Otra', '15 electricistas en España con desplazamientos a Alemania y Austria')).toBe('ES');
+    expect(ecylCountry('Otra', 'Ingeniero/a con alemán en España')).toBe('ES');
+    expect(ecylCountry('Otra', 'Cocineros en Noruega o en Suecia')).toBeNull(); // two countries
+    expect(ecylCountry('Otra', 'Bolsa de monitor/a deportivo para el Ayto. El Real Sitio de San Ildefonso (Segovia)')).toBeNull();
+    expect(ecylCountry('Otra', 'Trabajo en Austriaco')).toBeNull(); // not a whole word
   });
 
   it('refuses an offer older than 90 days and what cannot be shown honestly, with a reason and never an exception', () => {
@@ -102,5 +110,17 @@ describe('ECYL connector', () => {
     expect(s.attribution).toContain('Creative Commons Attribution 4.0');
     expect(s.attribution).toContain('origin of the data');
     expect(s.catalogue).toBeLessThanOrEqual(1500);
+  });
+});
+
+describe('telephone numbers of Spanish offers', () => {
+  it('masks Spanish and foreign numbers written with their country code, never amounts or references', async () => {
+    const { maskPhones } = await import('../src/connectors/spain');
+    const t = 'Llamar al +45 93 57 62 51 o +43 555263380, 0049 89 4378031, tel. 987 65 43 21. Salario 17.000 - 18.000 EUR. Ref 1285689967800. +34 612345678';
+    const m = maskPhones(t, '[teléfono]');
+    expect(m).not.toMatch(/93 57 62 51|555263380|4378031|987 65 43 21|612345678/);
+    expect(m).toContain('17.000 - 18.000');
+    expect(m).toContain('1285689967800');
+    expect(m.match(/\[teléfono\]/g)).toHaveLength(5);
   });
 });

@@ -3,7 +3,7 @@ import { inlineText } from '../text';
 import type { Connector, NormalizedJob } from '../types';
 import { ownUrl, type Normalized } from './feeds';
 import { jsonRecords, snapshotConnector } from './snapshot';
-import { ES_PHONE, townName } from './spain';
+import { maskPhones, townName } from './spain';
 
 /**
  * Lanbide, the Basque employment service (Spain): the job offers it manages, as open data of Open Data Euskadi (dataset "Ofertas de empleo de Lanbide", ≈ 500 offers,
@@ -46,7 +46,7 @@ function day(s: string): number {
 
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().trim();
 
-const clean = (html: string): string => cleanDescription(html).replace(ES_PHONE, '[teléfono]');
+const clean = (html: string): string => maskPhones(cleanDescription(html), '[teléfono]');
 
 export function normalizeLanbide(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };

@@ -4,7 +4,7 @@ import { inlineText } from '../text';
 import type { Connector, NormalizedJob } from '../types';
 import { ownUrl, type Normalized } from './feeds';
 import { snapshotConnector } from './snapshot';
-import { ES_PHONE, isoDay, townName } from './spain';
+import { ES_PHONE, isoDay, maskPhones, townName } from './spain';
 
 export { ES_PHONE, isoDay, townName };
 
@@ -106,7 +106,7 @@ export function employerName(raw: string): string {
 
 // --- one offer -------------------------------------------------------------------------------------------------------------------------
 
-const clean = (html: string): string => cleanDescription(html).replace(ES_PHONE, '[telèfon]');
+const clean = (html: string): string => maskPhones(cleanDescription(html), '[telèfon]');
 
 export function normalizeFeinaActiva(ad: string, nowIso: string): Normalized {
   const id = tag(ad, 'id').trim();

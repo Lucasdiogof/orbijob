@@ -3,7 +3,7 @@ import { inlineText } from '../text';
 import type { Connector, NormalizedJob } from '../types';
 import { ownUrl, type Normalized } from './feeds';
 import { jsonRecords, snapshotConnector } from './snapshot';
-import { ES_PHONE } from './spain';
+import { maskPhones } from './spain';
 
 /**
  * ECYL, the Servicio Público de Empleo de Castilla y León (Spain): the job offers its offices publish, as open data of the Junta de Castilla y León (dataset "Ofertas de
@@ -21,7 +21,7 @@ import { ES_PHONE } from './spain';
  *
  * The ECYL does not name the employer: the company stays empty. The text is written by the office and often ends with how to apply, with an office or employer e-mail address
  * and a telephone number: telephone numbers are masked and e-mail addresses masked unless they are role addresses. The country is Spain when the offer's province is a
- * province of Castilla y León; the EURES offers abroad ("Otra") state no single country. The offer's publication date is its start date; an offer older than 90 days is
+ * province of Castilla y León; for the EURES offers ("Otra") it is the one country the title states ("en Dinamarca"), else none. The offer's publication date is its start date; an offer older than 90 days is
  * refused, since the feed has no end date. A listing that leaves the feed stops being stamped (`presenceConfirmsOpen`).
  */
 
@@ -44,11 +44,25 @@ export function ecylUrl(link: unknown, id: string): string | null {
   return ownUrl(`https://${ECYL_HOST}${u.pathname}`, ECYL_HOST);
 }
 
-export function ecylCountry(province: string): string | null {
-  return PROVINCES.has(province.trim().toLowerCase()) ? 'ES' : null;
+/** Country names (Spanish) the EURES offers abroad write in their title ("Embryologist en Dinamarca"). */
+const ABROAD: Record<string, string> = {
+  españa: 'ES', alemania: 'DE', austria: 'AT', 'bélgica': 'BE', belgica: 'BE', dinamarca: 'DK', finlandia: 'FI', francia: 'FR', irlanda: 'IE', islandia: 'IS',
+  italia: 'IT', luxemburgo: 'LU', malta: 'MT', noruega: 'NO', 'países bajos': 'NL', 'paises bajos': 'NL', holanda: 'NL', polonia: 'PL', portugal: 'PT',
+  suecia: 'SE', suiza: 'CH', chequia: 'CZ', grecia: 'GR', croacia: 'HR', eslovenia: 'SI', estonia: 'EE', letonia: 'LV', lituania: 'LT', 'reino unido': 'GB',
+};
+const ABROAD_RE = new RegExp(`(?<!\\p{L})en (${Object.keys(ABROAD).join('|')})(?!\\p{L})`, 'giu');
+
+/**
+ * Spain when the offer's province is one of Castilla y León; otherwise (the EURES offers, province "Otra") the country the title itself states with "en <país>",
+ * only when it names exactly one ("15 electricistas en España con desplazamientos a Alemania y Austria" is in Spain); nothing is guessed from anything else.
+ */
+export function ecylCountry(province: string, title = ''): string | null {
+  if (PROVINCES.has(province.trim().toLowerCase())) return 'ES';
+  const named = new Set([...title.matchAll(ABROAD_RE)].map((m) => ABROAD[m[1]!.toLowerCase()]!));
+  return named.size === 1 ? [...named][0]! : null;
 }
 
-const clean = (html: string): string => cleanDescription(html).replace(ES_PHONE, '[teléfono]');
+const clean = (html: string): string => maskPhones(cleanDescription(html), '[teléfono]');
 
 export function normalizeEcyl(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
@@ -73,7 +87,7 @@ export function normalizeEcyl(raw: unknown, nowIso: string): Normalized {
   const job: NormalizedJob = {
     source: 'ecyl', lastCheckedAt: nowIso, requirements: [], skills: [], status: 'open', language: 'es',
     externalId: id, company: '', title, description,
-    country: ecylCountry(province), city: town || null, workMode: 'unspecified', contractType: null,
+    country: ecylCountry(province, title), city: town || null, workMode: 'unspecified', contractType: null,
     salaryMin: null, salaryMax: null, salaryCurrency: null, salaryPeriod: null,
     publishedAt: Number.isFinite(posted) ? new Date(posted).toISOString() : null,
     originalUrl: url, applyUrl: url, geoRestrictions: [],
