@@ -557,6 +557,7 @@ void main() {
         ('bpce', 'Groupe BPCE', 'recrutement.bpce.fr'),
         ('forem', 'Le Forem', 'www.leforem.be'),
         ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
+        ('csp', 'Choisir le Service Public', 'choisirleservicepublic.gouv.fr'),
       ]) {
         final j = jobFromCatalogRow(
           row(

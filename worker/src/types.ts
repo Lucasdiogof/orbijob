@@ -52,4 +52,6 @@ export interface Connector {
    * still open. Returns only the ids the source answered for; 'unknown' must never be treated as closed.
    */
   checkStatuses?(externalIds: string[]): Promise<Record<string, JobStatus>>;
+  /** Ids per `checkStatuses` call when stored jobs are revalidated (default 100): smaller for sources asked one page per id, so a batch fits the time budget. */
+  readonly statusBatch?: number;
 }

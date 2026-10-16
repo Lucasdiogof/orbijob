@@ -7,6 +7,7 @@ import { jobsCoNzConnector } from './connectors/jobsconz';
 import { teachingVacanciesConnector, TEACHINGVACANCIES_MAX_PAGES } from './connectors/teachingvacancies';
 import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
 import { mpsvCzConnector } from './connectors/mpsvcz';
+import { cspConnector } from './connectors/csp';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -122,6 +123,15 @@ export const SOURCES: Record<string, SourceProfile> = {
     host: 'up.gov.cz',
     maxPages: 1, newCap: 1000, catalogue: 3500,
     make: (f, n, origin) => mpsvCzConnector(f, n, { origin }),
+  },
+  csp: {
+    id: 'csp',
+    attribution: 'Jobs via Choisir le Service Public, the job site of the French civil service (https://choisirleservicepublic.gouv.fr), open data "Les offres diffusées sur Choisir le Service Public" by the DGAFP on data.gouv.fr (https://www.data.gouv.fr/datasets/6322e99e12175f7eb26ff465), Licence Ouverte v2.0 (https://www.etalab.gouv.fr/licence-ouverte-open-licence/); every offer is confirmed on its own page before it is shown',
+    host: 'choisirleservicepublic.gouv.fr',
+    // each new offer costs one page request (1 s apart) before it is stored: 80 per pass fits the 3-minute discovery budget. Every stored
+    // offer must be re-confirmed within 72 h (the app hides older confirmations): 4 revalidations a day of ~450 pages cover 2,000
+    maxPages: 1, newCap: 80, catalogue: 2000,
+    make: (f, n, origin) => cspConnector(f, n, origin ? { api: origin } : {}),
   },
 };
 

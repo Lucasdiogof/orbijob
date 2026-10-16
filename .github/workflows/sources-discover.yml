@@ -52,12 +52,13 @@ on:
     # Úřad práce ČR / MPSV (Czech open data, refreshed daily ~01:07 UTC): one ~190 MB file streamed in ~10 s, the 3,000 most recently inserted; twice a day
     - cron: '43 13 * * *'
     - cron: '8 19 * * *'
+    - cron: '34 2,8,14,20 * * *'
   workflow_dispatch:
     inputs:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz]
+        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -132,9 +133,10 @@ jobs:
             '43 14 * * *')         s=forem ;;
             '43 13 * * *')         s=mpsvcz ;;
             '8 19 * * *')          s=mpsvcz ;;
+            '34 2,8,14,20 * * *')  s=csp ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

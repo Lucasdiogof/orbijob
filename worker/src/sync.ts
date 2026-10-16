@@ -410,9 +410,10 @@ async function closeStale(
   }
   if (!o.connector.checkStatuses) return;
   const check = o.connector.checkStatuses.bind(o.connector);
-  for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += STATUS_BATCH, b++) {
+  const size = Math.max(1, Math.min(o.connector.statusBatch ?? STATUS_BATCH, STATUS_BATCH));
+  for (let i = 0, b = 0; i < absent.length && b < MAX_STATUS_BATCHES; i += size, b++) {
     if (pastDeadline()) throw new Error('deadline'); // the pass is reported as partial; what earlier batches proved is already stored
-    const batch = absent.slice(i, i + STATUS_BATCH);
+    const batch = absent.slice(i, i + size);
     const wait = limiter.reserve();
     if (wait > 0) await sleep(wait);
     const answers = await withRetry(() => check(batch), retry);

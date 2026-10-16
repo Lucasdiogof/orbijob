@@ -309,6 +309,7 @@ const _sourceNames = {
   'bpce': 'Groupe BPCE',
   'forem': 'Le Forem',
   'mpsvcz': 'Úřad práce ČR',
+  'csp': 'Choisir le Service Public',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

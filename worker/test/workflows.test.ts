@@ -170,7 +170,7 @@ describe('jobicy-discover.yml', () => {
 describe('every workflow file is valid YAML in the places a plain scalar breaks it', () => {
   // GitHub rejects the whole file ("workflow file issue": no trigger, no run) when a plain scalar contains ": " or " #".
   // This caught nothing before because the other tests read the files as text. No YAML parser is installed, so the known failure class is checked directly.
-  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'sources-discover.yml', 'sources-revalidate.yml', 'ops-health.yml', 'windows-bootstrap.yml']) {
+  for (const f of ['ci.yml', 'jobicy-revalidate.yml', 'jobicy-watchdog.yml', 'jobicy-discover.yml', 'sources-discover.yml', 'sources-revalidate.yml', 'csp-revalidate.yml', 'ops-health.yml', 'windows-bootstrap.yml']) {
     it(`${f}: unquoted name/description/if values contain no ': ' and no ' #'`, () => {
       const bad = read(f).split(/\r?\n/).filter((l) => /^\s*(- )?(name|description|if):\s+/.test(l))
         .map((l) => /^\s*(?:- )?(?:name|description|if):\s+(.*)$/.exec(l)![1]!)
@@ -188,14 +188,15 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_DISCOVERY_ENABLED == 'true'/);
     expect(c).toMatch(/default: check/);
     expect(c).toMatch(/options: \[check, preview, discover\]/);
-    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz\]/);
+    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp\]/);
     const step = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
     expect(step).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'\)/);
   });
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '16 4,16 * * *', '16 10,22 * * *', '59 1,7,13,19 * * *', '31 4,10,16,22 * * *', '35 6,18 * * *', '59 12 * * *', '12 5,17 * * *', '14 11,23 * * *', '30 7,19 * * *', '28 13 * * *', '46 8,20 * * *', '43 14 * * *', '43 13 * * *', '8 19 * * *']);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '16 4,16 * * *', '16 10,22 * * *', '59 1,7,13,19 * * *', '31 4,10,16,22 * * *', '35 6,18 * * *', '59 12 * * *', '12 5,17 * * *', '14 11,23 * * *', '30 7,19 * * *', '28 13 * * *', '46 8,20 * * *', '43 14 * * *', '43 13 * * *', '8 19 * * *', '34 2,8,14,20 * * *']);
+    expect(c).toMatch(/'34 2,8,14,20 \* \* \*'\)\s+s=csp/);
     expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
     expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
     expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
@@ -239,7 +240,7 @@ describe('sources-discover.yml', () => {
     const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
     expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
     expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_|wrangler|supabase db|--prompt-key|revalidate-local/);
-    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\|forem\|mpsvcz\) ;; \*\) .*exit 1/);
+    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\|forem\|mpsvcz\|csp\) ;; \*\) .*exit 1/);
   });
 
   it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {
@@ -284,6 +285,31 @@ describe('sources-revalidate.yml (Platsbanken freshness)', () => {
   });
 
   it('labels the failure kinds with ALERT steps (exit codes 4, 5, 6)', () => {
+    for (const k of ['auth', 'unreachable', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
+  });
+});
+
+describe('csp-revalidate.yml (Choisir le Service Public freshness)', () => {
+  const c = code(read('csp-revalidate.yml'));
+
+  it('runs with the sources revalidation switch, 4 times a day at hours the discovery of the source never uses; a manual run is read-only unless asked', () => {
+    expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_REVALIDATION_ENABLED == 'true'/);
+    expect(c).toMatch(/default: check/);
+    expect(c).toMatch(/if: github\.event_name == 'schedule' \|\| inputs\.action == 'revalidate'/);
+    const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
+    expect(crons).toEqual(['7 5,11,17,23 * * *']);
+    expect(code(read('sources-discover.yml'))).toMatch(/'34 2,8,14,20 \* \* \*'\)\s+s=csp/);
+  });
+
+  it('can only revalidate this source: fixed source, the revalidation script and the read-only key check, its own concurrency group', () => {
+    expect(c).toMatch(/ORBIJOB_SOURCE: csp/);
+    const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
+    expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/revalidate-local.mjs']));
+    expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|discover-local|worker-secrets|publish_|wrangler|supabase db|--prompt-key/);
+    expect(c).toMatch(/concurrency:\n  group: csp-revalidate\n  cancel-in-progress: false/);
+    expect(c).toMatch(/environment: jobicy-revalidation/);
+    expect(c).toMatch(/permissions:\n  contents: read/);
+    for (const m of c.matchAll(/uses: ([^\s]+)/g)) expect(m[1]).toMatch(/@[0-9a-f]{40}$/);
     for (const k of ['auth', 'unreachable', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
   });
 });
