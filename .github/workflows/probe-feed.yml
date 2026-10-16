@@ -1,0 +1,26 @@
+# TEMPORARY read-only probe (OrbiJob 13.0 research): fetches the first bytes of a public feed from a GitHub runner, because some hosts are not reachable
+# from the owner's machine. Prints status, content type and the first 4 KB. Writes nothing anywhere. Removed after the research.
+name: Probe feed
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'https URL of a public open-data feed'
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Fetch the first bytes
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          case "$URL" in https://*) ;; *) echo "only https"; exit 1 ;; esac
+          curl -sS -L --max-time 90 -A 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; research probe)' -D /tmp/h -o /tmp/b -w 'status=%{http_code} size=%{size_download} type=%{content_type}\n' "$URL" || true
+          head -c 600 /tmp/h || true
+          echo '----'
+          head -c 4000 /tmp/b | tr -d '\000' || true
