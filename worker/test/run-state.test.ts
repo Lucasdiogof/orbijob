@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { runScheduledSync } from '../src/scheduled';
+// @ts-expect-error plain ES module without types
 import { classifyDiscoverRun } from '../scripts/run-state.mjs';
+// @ts-expect-error plain ES module without types
 import { evaluateHealth, worst } from '../scripts/ops-health-lib.mjs';
 import { World, storedJob } from './helpers/world';
 
@@ -48,7 +50,7 @@ describe('discovery pass states: SUCCESS, AT_CAPACITY, PARTIAL, FAILED', () => {
     for (const id of ['s0', 's1']) w.jobs.set(`jobicy:${id}`, { ...storedJob(id, 'closed'), description: '' });
     nextCycle(w);
     const o = await discover(w, { SYNC_MAX_CATALOGUE: '3', SYNC_MAX_NEW_JOBS: '1' }); // room for 2; one new listing per pass here
-    expect(o.summary?.upserted).toBe(1);
+    expect('summary' in o ? o.summary.upserted : -1).toBe(1);
     expect(classifyDiscoverRun({ outcome: o })).toMatchObject({ state: 'SUCCESS', code: 0 });
   });
 
@@ -73,15 +75,15 @@ describe('ops-health keeps a planned ceiling apart from real problems', () => {
 
   it('a fresh source at its ceiling is AT_CAPACITY and the overall status stays OK', () => {
     const rows = evaluateHealth(input(ago(1), [{ status: 'partial', error_class: 'catalogue_full' }, { status: 'partial', error_class: 'catalogue_full' }]));
-    expect(rows.find((r) => r.check === 'source_ceiling:mpsvcz')?.status).toBe('AT_CAPACITY');
-    expect(rows.find((r) => r.check === 'source_runs:mpsvcz')).toBeUndefined();
+    expect(rows.find((r: { check: string }) => r.check === 'source_ceiling:mpsvcz')?.status).toBe('AT_CAPACITY');
+    expect(rows.find((r: { check: string }) => r.check === 'source_runs:mpsvcz')).toBeUndefined();
     expect(worst(rows)).toBe('OK');
   });
 
   it('a full source that stopped refreshing, or that also failed, still raises WARN/ALERT', () => {
     expect(worst(evaluateHealth(input(ago(40), [{ status: 'partial', error_class: 'catalogue_full' }])))).toBe('ALERT');
     const rows = evaluateHealth(input(ago(1), [{ status: 'partial', error_class: 'catalogue_full' }, { status: 'failed', error_class: 'http_5xx' }]));
-    expect(rows.find((r) => r.check === 'source_runs:mpsvcz')?.status).toBe('WARN');
+    expect(rows.find((r: { check: string }) => r.check === 'source_runs:mpsvcz')?.status).toBe('WARN');
     expect(worst(rows)).toBe('WARN');
   });
 });
