@@ -95,7 +95,8 @@ const hostOk = { jobicy: /(^|\.)jobicy\.com$/, jobtech: /(^|\.)arbetsformedlinge
 let badUrl = 0, noAttr = 0;
 for (const r of sample.rows) {
   try { const u = new URL(r.original_url); if (u.protocol !== 'https:' || !hostOk[r.source_id]?.test(u.hostname)) badUrl++; } catch { badUrl++; }
-  if (!r.job_sources?.attribution || !/^https?:\/\//.test(String(r.job_sources.attribution).match(/\(([^)]+)\)/)?.[1] ?? '')) noAttr++;
+  // a link to the source anywhere in the text (the first parenthesis can be an acronym, as in "Servei Públic d'Ocupació de Catalunya (SOC) (https://...)")
+  if (!/\(https?:\/\/[^)\s]+\)/.test(String(r.job_sources?.attribution ?? ''))) noAttr++;
 }
 results.push({ name: `links: ${sample.rows.length} visible rows checked`, status: sample.status, visible: badUrl, sample: `bad original_url=${badUrl}, attribution without link=${noAttr}` });
 
