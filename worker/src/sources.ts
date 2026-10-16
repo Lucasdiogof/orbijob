@@ -9,6 +9,7 @@ import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
 import { mpsvCzConnector } from './connectors/mpsvcz';
 import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
+import { feinaActivaConnector } from './connectors/feinaactiva';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -141,6 +142,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // one request returns every active offer (≈ 250): no cap is needed, the ceiling only keeps the source in proportion
     maxPages: 1, newCap: 500, catalogue: 1000,
     make: (f, n, origin) => sefMurciaConnector(f, n, { origin }),
+  },
+  feinaactiva: {
+    id: 'feinaactiva',
+    attribution: 'Jobs via Feina Activa, Servei Públic d\'Ocupació de Catalunya (SOC) (https://feinaactiva.gencat.cat), open data of the Generalitat de Catalunya "Portal Feina Activa. Ofertes de feina", Llicència oberta d\'ús d\'informació - Catalunya (https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies); origin of the data: Generalitat de Catalunya, Departament d\'Empresa i Treball, Servei Públic d\'Ocupació de Catalunya',
+    host: 'feinaactiva.gencat.cat',
+    // one 7 MB XML read returns every published offer (≈ 4,600); at most 1,000 new ones per pass, 3,000 in the catalogue (the portal keeps offers for months)
+    maxPages: 1, newCap: 1000, catalogue: 3000,
+    make: (f, n, origin) => feinaActivaConnector(f, n, { origin }),
   },
 };
 

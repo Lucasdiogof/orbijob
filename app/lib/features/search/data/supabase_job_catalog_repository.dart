@@ -311,6 +311,7 @@ const _sourceNames = {
   'mpsvcz': 'Úřad práce ČR',
   'csp': 'Choisir le Service Public',
   'sefmurcia': 'SEF Murcia',
+  'feinaactiva': 'Feina Activa (SOC)',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

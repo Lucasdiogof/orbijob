@@ -559,6 +559,7 @@ void main() {
         ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
         ('csp', 'Choisir le Service Public', 'choisirleservicepublic.gouv.fr'),
         ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
+        ('feinaactiva', 'Feina Activa (SOC)', 'feinaactiva.gencat.cat'),
       ]) {
         final j = jobFromCatalogRow(
           row(
