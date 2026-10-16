@@ -10,6 +10,7 @@ import { mpsvCzConnector } from './connectors/mpsvcz';
 import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
 import { feinaActivaConnector } from './connectors/feinaactiva';
+import { ecylConnector } from './connectors/ecyl';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -150,6 +151,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // one 7 MB XML read returns every published offer (≈ 4,600); at most 1,000 new ones per pass, 3,000 in the catalogue (the portal keeps offers for months)
     maxPages: 1, newCap: 1000, catalogue: 3000,
     make: (f, n, origin) => feinaActivaConnector(f, n, { origin }),
+  },
+  ecyl: {
+    id: 'ecyl',
+    attribution: 'Jobs via ECYL, Servicio Público de Empleo de Castilla y León (https://empleo.jcyl.es), open data of the Junta de Castilla y León "Ofertas de Empleo" (https://datosabiertos.jcyl.es), Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/deed.es_ES); origin of the data: Junta de Castilla y León. The ECYL does not name the employer',
+    host: 'jcyl.es',
+    // one 1.2 MB JSON read returns every offer (≈ 950); the catalogue ceiling keeps the source in proportion
+    maxPages: 1, newCap: 1000, catalogue: 1500,
+    make: (f, n, origin) => ecylConnector(f, n, { origin }),
   },
 };
 

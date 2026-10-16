@@ -560,6 +560,7 @@ void main() {
         ('csp', 'Choisir le Service Public', 'choisirleservicepublic.gouv.fr'),
         ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
         ('feinaactiva', 'Feina Activa (SOC)', 'feinaactiva.gencat.cat'),
+        ('ecyl', 'ECYL Castilla y León', 'empleo.jcyl.es'),
       ]) {
         final j = jobFromCatalogRow(
           row(

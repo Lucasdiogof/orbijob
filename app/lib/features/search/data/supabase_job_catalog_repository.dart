@@ -312,6 +312,7 @@ const _sourceNames = {
   'csp': 'Choisir le Service Public',
   'sefmurcia': 'SEF Murcia',
   'feinaactiva': 'Feina Activa (SOC)',
+  'ecyl': 'ECYL Castilla y León',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
