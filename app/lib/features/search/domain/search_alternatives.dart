@@ -144,8 +144,12 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
   final matched = <List<String>>[];
   final consumed = <String>[];
   final tokens = t.split(RegExp(r'[\s/-]+'));
-  bool has(String f) =>
-      strict ? tokens.any((w) => w.startsWith(f)) : t.contains(f);
+  // a multi-word fragment ("administrative assistant") must start at a word of the term
+  bool has(String f) => !strict
+      ? t.contains(f)
+      : f.contains(' ')
+      ? t.startsWith(f) || t.contains(' $f')
+      : tokens.any((w) => w.startsWith(f));
   for (final g in synonymGroups) {
     final hit = g.where(has).toList();
     if (hit.isEmpty) continue;

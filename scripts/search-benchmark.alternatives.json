@@ -685,6 +685,9 @@
     "enfermer"
    ],
    [
+    "infermer"
+   ],
+   [
     "nurse"
    ],
    [
@@ -736,6 +739,9 @@
    ],
    [
     "enfermer"
+   ],
+   [
+    "infermer"
    ],
    [
     "nurse"
@@ -796,6 +802,9 @@
     "enfermer"
    ],
    [
+    "infermer"
+   ],
+   [
     "nursing"
    ],
    [
@@ -847,6 +856,9 @@
    ],
    [
     "enfermer"
+   ],
+   [
+    "infermer"
    ],
    [
     "nursing"
@@ -904,6 +916,9 @@
     "enfermer"
    ],
    [
+    "infermer"
+   ],
+   [
     "nurse"
    ],
    [
@@ -955,6 +970,9 @@
    ],
    [
     "enfermer"
+   ],
+   [
+    "infermer"
    ],
    [
     "nurse"
@@ -1012,6 +1030,9 @@
     "enfermer"
    ],
    [
+    "infermer"
+   ],
+   [
     "nurse"
    ],
    [
@@ -1063,6 +1084,9 @@
    ],
    [
     "enfermer"
+   ],
+   [
+    "infermer"
    ],
    [
     "nurse"
@@ -1120,6 +1144,9 @@
     "enfermer"
    ],
    [
+    "infermer"
+   ],
+   [
     "nurse"
    ],
    [
@@ -1171,6 +1198,9 @@
    ],
    [
     "enfermer"
+   ],
+   [
+    "infermer"
    ],
    [
     "nurse"
@@ -1417,6 +1447,12 @@
     "professora"
    ],
    [
+    "profesor"
+   ],
+   [
+    "profesora"
+   ],
+   [
     "docente"
    ],
    [
@@ -1439,6 +1475,9 @@
    ]
   ],
   "after": [
+   [
+    "profesor"
+   ],
    [
     "docente"
    ],
@@ -1471,6 +1510,12 @@
     "professora"
    ],
    [
+    "profesor"
+   ],
+   [
+    "profesora"
+   ],
+   [
     "docente"
    ],
    [
@@ -1492,6 +1537,9 @@
   "after": [
    [
     "professor"
+   ],
+   [
+    "profesor"
    ],
    [
     "docente"
@@ -1522,6 +1570,12 @@
     "professora"
    ],
    [
+    "profesor"
+   ],
+   [
+    "profesora"
+   ],
+   [
     "docente"
    ],
    [
@@ -1543,6 +1597,9 @@
   "after": [
    [
     "professor"
+   ],
+   [
+    "profesor"
    ],
    [
     "docente"
@@ -1659,6 +1716,9 @@
   "after": [
    [
     "cocinero"
+   ],
+   [
+    "cuiner"
    ],
    [
     "cuisinier"
@@ -2130,6 +2190,2163 @@
    ],
    [
     "právnička"
+   ]
+  ]
+ },
+ "software engineer": {
+  "before": [
+   [
+    "engenheir"
+   ],
+   [
+    "ingenier"
+   ],
+   [
+    "ingenieur"
+   ],
+   [
+    "ingenjör"
+   ]
+  ],
+  "after": [
+   [
+    "software",
+    "engenheir"
+   ],
+   [
+    "software",
+    "ingenier"
+   ],
+   [
+    "software",
+    "ingenieur"
+   ],
+   [
+    "software",
+    "ingenjör"
+   ]
+  ]
+ },
+ "ingeniero de software": {
+  "before": [
+   [
+    "engenheir"
+   ],
+   [
+    "engineer"
+   ],
+   [
+    "ingenieur"
+   ],
+   [
+    "ingenjör"
+   ]
+  ],
+  "after": [
+   [
+    "software",
+    "engenheir"
+   ],
+   [
+    "software",
+    "engineer"
+   ],
+   [
+    "software",
+    "ingenieur"
+   ],
+   [
+    "software",
+    "ingenjör"
+   ]
+  ]
+ },
+ "administrative assistant": {
+  "before": [
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ],
+  "after": [
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ],
+   [
+    "administrative",
+    "office",
+    "assistant"
+   ],
+   [
+    "office",
+    "administrator"
+   ],
+   [
+    "verwaltungsassistent"
+   ],
+   [
+    "verwaltungssekretärin"
+   ],
+   [
+    "administrativ",
+    "assistent"
+   ],
+   [
+    "administratief",
+    "medewerker"
+   ],
+   [
+    "administratief",
+    "assistent"
+   ],
+   [
+    "assistant",
+    "administratif"
+   ],
+   [
+    "assistante",
+    "administrative"
+   ],
+   [
+    "administrativní",
+    "asistent"
+   ]
+  ]
+ },
+ "auxiliar administrativo": {
+  "before": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ],
+  "after": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ]
+ },
+ "administrativo": {
+  "before": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ],
+  "after": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ]
+ },
+ "administratiu": {
+  "before": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ],
+  "after": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "agent administratif"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ]
+ },
+ "agent administratif": {
+  "before": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ],
+  "after": [
+   [
+    "administrative assistant"
+   ],
+   [
+    "administrative officer"
+   ],
+   [
+    "office assistant"
+   ],
+   [
+    "office clerk"
+   ],
+   [
+    "assistente administrativ"
+   ],
+   [
+    "auxiliar administrativ"
+   ],
+   [
+    "asistente administrativ"
+   ],
+   [
+    "administrativo"
+   ],
+   [
+    "administrativa"
+   ],
+   [
+    "administratiu"
+   ],
+   [
+    "verwaltungsangestellt"
+   ],
+   [
+    "verwaltungsfachangestellt"
+   ],
+   [
+    "sachbearbeiter"
+   ],
+   [
+    "bürokraft"
+   ],
+   [
+    "assistant administratif"
+   ],
+   [
+    "assistante administrative"
+   ],
+   [
+    "administrativní pracovník"
+   ]
+  ]
+ },
+ "conductor": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ]
+ },
+ "chauffeur": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "řidič"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "řidič"
+   ],
+   [
+    "bohags-",
+    "flyttbilsförare"
+   ],
+   [
+    "verhuizer"
+   ]
+  ]
+ },
+ "driver": {
+  "before": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ],
+  "after": [
+   [
+    "motorista"
+   ],
+   [
+    "conductor"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ]
+ },
+ "camarero": {
+  "before": [
+   [
+    "garçom"
+   ],
+   [
+    "garçonete"
+   ],
+   [
+    "empregado de mesa"
+   ],
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "cambrer"
+   ],
+   [
+    "mesero"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ],
+   [
+    "číšník"
+   ],
+   [
+    "servírka"
+   ]
+  ],
+  "after": [
+   [
+    "garçom"
+   ],
+   [
+    "garçonete"
+   ],
+   [
+    "empregado de mesa"
+   ],
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "cambrer"
+   ],
+   [
+    "mesero"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ],
+   [
+    "číšník"
+   ],
+   [
+    "servírka"
+   ],
+   [
+    "empregado",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "mesa"
+   ],
+   [
+    "empregada",
+    "restaurante"
+   ],
+   [
+    "servitris"
+   ],
+   [
+    "serveerster"
+   ],
+   [
+    "číšnice"
+   ]
+  ]
+ },
+ "cambrer": {
+  "before": [
+   [
+    "garçom"
+   ],
+   [
+    "garçonete"
+   ],
+   [
+    "empregado de mesa"
+   ],
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "mesero"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ],
+   [
+    "číšník"
+   ],
+   [
+    "servírka"
+   ]
+  ],
+  "after": [
+   [
+    "garçom"
+   ],
+   [
+    "garçonete"
+   ],
+   [
+    "empregado de mesa"
+   ],
+   [
+    "waiter"
+   ],
+   [
+    "waitress"
+   ],
+   [
+    "camarero"
+   ],
+   [
+    "camarera"
+   ],
+   [
+    "mesero"
+   ],
+   [
+    "kellner"
+   ],
+   [
+    "servitör"
+   ],
+   [
+    "serveur"
+   ],
+   [
+    "serveuse"
+   ],
+   [
+    "číšník"
+   ],
+   [
+    "servírka"
+   ]
+  ]
+ },
+ "cook": {
+  "before": [],
+  "after": [
+   [
+    "cozinheir"
+   ],
+   [
+    "cocinero"
+   ],
+   [
+    "cuiner"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "kuchař"
+   ],
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "cocinero": {
+  "before": [],
+  "after": [
+   [
+    "cozinheir"
+   ],
+   [
+    "cuiner"
+   ],
+   [
+    "cuisinier"
+   ],
+   [
+    "köchin"
+   ],
+   [
+    "cook"
+   ],
+   [
+    "kuchař"
+   ],
+   [
+    "chefe",
+    "cozinha"
+   ],
+   [
+    "cocinera"
+   ],
+   [
+    "kokerska"
+   ],
+   [
+    "cuisinière"
+   ]
+  ]
+ },
+ "enfermero": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ],
+   [
+    "phlebotomist"
+   ],
+   [
+    "phlebotomy",
+    "technician"
+   ],
+   [
+    "practitioner",
+    "phlebotomy"
+   ],
+   [
+    "flebotomista"
+   ],
+   [
+    "enfermera"
+   ],
+   [
+    "blutabnehmer"
+   ],
+   [
+    "blodprovtagare"
+   ],
+   [
+    "blodprovtagningspersonal"
+   ],
+   [
+    "bloedafnameassistent"
+   ],
+   [
+    "medewerker",
+    "bloedafname"
+   ]
+  ]
+ },
+ "infermer": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "infirmier": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "médico": {
+  "before": [
+   [
+    "médica"
+   ],
+   [
+    "physician"
+   ],
+   [
+    "arzt"
+   ],
+   [
+    "ärztin"
+   ],
+   [
+    "läkare"
+   ]
+  ],
+  "after": [
+   [
+    "médica"
+   ],
+   [
+    "physician"
+   ],
+   [
+    "arzt"
+   ],
+   [
+    "ärztin"
+   ],
+   [
+    "läkare"
+   ]
+  ]
+ },
+ "medico": {
+  "before": [],
+  "after": []
+ },
+ "profesor": {
+  "before": [
+   [
+    "professor"
+   ],
+   [
+    "professora"
+   ],
+   [
+    "profesora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "enseignant"
+   ],
+   [
+    "učitel"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "professor"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "enseignant"
+   ],
+   [
+    "učitel"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "maestro": {
+  "before": [],
+  "after": [
+   [
+    "musical",
+    "conductor"
+   ],
+   [
+    "musical",
+    "director"
+   ],
+   [
+    "director",
+    "orquesta"
+   ],
+   [
+    "dirigent"
+   ],
+   [
+    "chef",
+    "d’orchestre"
+   ]
+  ]
+ },
+ "enseignant": {
+  "before": [
+   [
+    "professor"
+   ],
+   [
+    "professora"
+   ],
+   [
+    "profesor"
+   ],
+   [
+    "profesora"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "učitel"
+   ],
+   [
+    "教師"
+   ]
+  ],
+  "after": [
+   [
+    "professor"
+   ],
+   [
+    "profesor"
+   ],
+   [
+    "docente"
+   ],
+   [
+    "teacher"
+   ],
+   [
+    "lehrer"
+   ],
+   [
+    "lärare"
+   ],
+   [
+    "učitel"
+   ],
+   [
+    "教師"
+   ]
+  ]
+ },
+ "ingeniero civil": {
+  "before": [
+   [
+    "engenheir"
+   ],
+   [
+    "engineer"
+   ],
+   [
+    "ingenieur"
+   ],
+   [
+    "ingenjör"
+   ]
+  ],
+  "after": [
+   [
+    "civil",
+    "engenheir"
+   ],
+   [
+    "civil",
+    "engineer"
+   ],
+   [
+    "civil",
+    "ingenieur"
+   ],
+   [
+    "civil",
+    "ingenjör"
+   ],
+   [
+    "ingeniera",
+    "civil"
+   ],
+   [
+    "bauingenieur"
+   ],
+   [
+    "ingenieur",
+    "civiele",
+    "bouwkunde"
+   ],
+   [
+    "ingenieur",
+    "structuurberekening"
+   ],
+   [
+    "burgerlijk",
+    "ingenieur",
+    "bouwkunde"
+   ],
+   [
+    "ingénieur",
+    "génie",
+    "civil"
+   ],
+   [
+    "stavební",
+    "inženýr"
+   ]
+  ]
+ },
+ "ingénieur": {
+  "before": [],
+  "after": []
+ },
+ "electricista": {
+  "before": [],
+  "after": [
+   [
+    "eletricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "elektrikář"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "peón": {
+  "before": [],
+  "after": [
+   [
+    "roustabout"
+   ],
+   [
+    "deckarbeiter"
+   ],
+   [
+    "homme",
+    "surface"
+   ],
+   [
+    "femme",
+    "surface"
+   ]
+  ]
+ },
+ "mozo de almacén": {
+  "before": [
+   [
+    "trabalhador de armazém"
+   ],
+   [
+    "auxiliar de armazém"
+   ],
+   [
+    "warehouse worker"
+   ],
+   [
+    "warehouse operative"
+   ],
+   [
+    "lagerarbeiter"
+   ],
+   [
+    "lagermitarbeiter"
+   ],
+   [
+    "lagerist"
+   ],
+   [
+    "lagerarbetare"
+   ],
+   [
+    "magasinier"
+   ],
+   [
+    "skladník"
+   ]
+  ],
+  "after": [
+   [
+    "trabalhador de armazém"
+   ],
+   [
+    "auxiliar de armazém"
+   ],
+   [
+    "warehouse worker"
+   ],
+   [
+    "warehouse operative"
+   ],
+   [
+    "lagerarbeiter"
+   ],
+   [
+    "lagermitarbeiter"
+   ],
+   [
+    "lagerist"
+   ],
+   [
+    "lagerarbetare"
+   ],
+   [
+    "magasinier"
+   ],
+   [
+    "skladník"
+   ],
+   [
+    "relocation",
+    "mover"
+   ],
+   [
+    "corporate",
+    "mover"
+   ],
+   [
+    "moza",
+    "almacén"
+   ],
+   [
+    "transportarbeiter"
+   ],
+   [
+    "möbeltransporteurin"
+   ],
+   [
+    "flyttkarl"
+   ],
+   [
+    "stadsbud"
+   ],
+   [
+    "verhuizer"
+   ],
+   [
+    "déménageur"
+   ],
+   [
+    "déménageuse"
+   ],
+   [
+    "pracovník",
+    "stěhovací",
+    "služby"
+   ],
+   [
+    "pracovnice",
+    "stěhovací",
+    "služby"
+   ],
+   [
+    "warehouse",
+    "worker"
+   ],
+   [
+    "warehouse",
+    "operative"
+   ],
+   [
+    "warehouse",
+    "picker"
+   ],
+   [
+    "fiel",
+    "armazém"
+   ],
+   [
+    "magazijnmedewerker"
+   ],
+   [
+    "pakhuis-",
+    "magazijnknecht"
+   ],
+   [
+    "magazijnmedewerkster"
+   ],
+   [
+    "magasinière"
+   ],
+   [
+    "skladnice"
+   ]
+  ]
+ },
+ "dependiente": {
+  "before": [],
+  "after": []
+ },
+ "limpiador": {
+  "before": [
+   [
+    "limpiadora"
+   ],
+   [
+    "faxineir"
+   ],
+   [
+    "cleaner"
+   ],
+   [
+    "reinigungskraft"
+   ],
+   [
+    "städare"
+   ],
+   [
+    "netejador"
+   ],
+   [
+    "netejadora"
+   ],
+   [
+    "nettoyeur"
+   ],
+   [
+    "uklízeč"
+   ]
+  ],
+  "after": [
+   [
+    "faxineir"
+   ],
+   [
+    "cleaner"
+   ],
+   [
+    "reinigungskraft"
+   ],
+   [
+    "städare"
+   ],
+   [
+    "netejador"
+   ],
+   [
+    "nettoyeur"
+   ],
+   [
+    "uklízeč"
+   ]
+  ]
+ },
+ "cuidador": {
+  "before": [],
+  "after": [
+   [
+    "companion"
+   ],
+   [
+    "pessoal",
+    "companhia"
+   ],
+   [
+    "gesellschafter"
+   ],
+   [
+    "hemvårdare"
+   ],
+   [
+    "gezelschapspersoon"
+   ],
+   [
+    "gezelschapsdame"
+   ],
+   [
+    "aide",
+    "domicile"
+   ],
+   [
+    "společník"
+   ],
+   [
+    "společnice"
+   ]
+  ]
+ },
+ "abogado": {
+  "before": [
+   [
+    "advogad"
+   ],
+   [
+    "lawyer"
+   ],
+   [
+    "attorney"
+   ],
+   [
+    "rechtsanwalt"
+   ],
+   [
+    "jurist"
+   ],
+   [
+    "advokat"
+   ]
+  ],
+  "after": [
+   [
+    "advogad"
+   ],
+   [
+    "lawyer"
+   ],
+   [
+    "attorney"
+   ],
+   [
+    "rechtsanwalt"
+   ],
+   [
+    "jurist"
+   ],
+   [
+    "advokat"
+   ],
+   [
+    "abogada"
+   ],
+   [
+    "rechtsanwältin"
+   ],
+   [
+    "advocaat"
+   ],
+   [
+    "avocat"
+   ],
+   [
+    "právník"
+   ],
+   [
+    "právnička"
+   ]
+  ]
+ },
+ "contable": {
+  "before": [],
+  "after": [
+   [
+    "accountant"
+   ],
+   [
+    "contabilista"
+   ],
+   [
+    "controllerin"
+   ],
+   [
+    "comptable"
+   ],
+   [
+    "účetní",
+    "revizor"
+   ]
+  ]
+ },
+ "mecánico": {
+  "before": [],
+  "after": []
+ },
+ "carpintero": {
+  "before": [],
+  "after": [
+   [
+    "carpenter"
+   ],
+   [
+    "carpinteiro"
+   ],
+   [
+    "carpinteira"
+   ],
+   [
+    "carpintera"
+   ],
+   [
+    "zimmerer"
+   ],
+   [
+    "zimmerin"
+   ],
+   [
+    "snickare"
+   ],
+   [
+    "timmerman"
+   ],
+   [
+    "charpentier"
+   ],
+   [
+    "charpentière"
+   ],
+   [
+    "tesař"
+   ]
+  ]
+ },
+ "albañil": {
+  "before": [],
+  "after": [
+   [
+    "bricklayer"
+   ],
+   [
+    "pedreiro"
+   ],
+   [
+    "pedreira"
+   ],
+   [
+    "maurer"
+   ],
+   [
+    "murare"
+   ],
+   [
+    "metselaar"
+   ],
+   [
+    "maçon"
+   ],
+   [
+    "zedník"
+   ],
+   [
+    "zednice"
+   ]
+  ]
+ },
+ "veterinario": {
+  "before": [],
+  "after": []
+ },
+ "farmacéutico": {
+  "before": [
+   [
+    "farmacêutic"
+   ],
+   [
+    "pharmacist"
+   ],
+   [
+    "apotheker"
+   ],
+   [
+    "apotekare"
+   ]
+  ],
+  "after": [
+   [
+    "farmacêutic"
+   ],
+   [
+    "pharmacist"
+   ],
+   [
+    "apotheker"
+   ],
+   [
+    "apotekare"
+   ],
+   [
+    "farmacéutica"
+   ],
+   [
+    "farmaceut"
+   ],
+   [
+    "pharmacien"
    ]
   ]
  }

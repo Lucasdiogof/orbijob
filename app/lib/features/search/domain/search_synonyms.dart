@@ -29,6 +29,7 @@ const List<List<String>> _groups = [
     'enfermeir',
     'enfermagem',
     'enfermer',
+    'infermer', // Catalan
     'nurse',
     'nursing',
     // not the bare stem "pflege": it is also Rechtspfleger (court clerk), Tierpfleger (zookeeper), Denkmalpflege, Grünpflege
@@ -71,6 +72,8 @@ const List<List<String>> _groups = [
   [
     'professor',
     'professora',
+    'profesor', // Spanish and Catalan
+    'profesora',
     'docente',
     'teacher',
     'lehrer',
@@ -111,7 +114,7 @@ const List<List<String>> _groups = [
     'soudeur',
     'svářeč',
   ],
-  ['cozinheir', 'cocinero', 'cuisinier', 'köchin', 'cook', 'kuchař'],
+  ['cozinheir', 'cocinero', 'cuiner', 'cuisinier', 'köchin', 'cook', 'kuchař'],
   // waiting staff (Brazilian "garçom" is not an ESCO label: ESCO Portuguese uses "empregado de mesa")
   [
     'garçom',
@@ -121,6 +124,7 @@ const List<List<String>> _groups = [
     'waitress',
     'camarero',
     'camarera',
+    'cambrer', // Catalan
     'mesero',
     'kellner',
     'servitör',
@@ -128,6 +132,40 @@ const List<List<String>> _groups = [
     'serveuse',
     'číšník',
     'servírka',
+  ],
+  // office work: the specific names only ("administrativ" alone is also Administrative Director, "administrator" a system role)
+  [
+    'administrative assistant',
+    'administrative officer',
+    'office assistant',
+    'office clerk',
+    'assistente administrativ',
+    'auxiliar administrativ',
+    'asistente administrativ',
+    'administrativo',
+    'administrativa',
+    'administratiu',
+    'verwaltungsangestellt',
+    'verwaltungsfachangestellt',
+    'sachbearbeiter',
+    'bürokraft',
+    'assistant administratif',
+    'assistante administrative',
+    'agent administratif',
+    'administrativní pracovník',
+  ],
+  // cleaning staff
+  [
+    'limpiador',
+    'limpiadora',
+    'faxineir',
+    'cleaner',
+    'reinigungskraft',
+    'städare',
+    'netejador',
+    'netejadora',
+    'nettoyeur',
+    'uklízeč',
   ],
   // construction labour: the general worker names only (masons, carpenters... are their own occupations)
   [
