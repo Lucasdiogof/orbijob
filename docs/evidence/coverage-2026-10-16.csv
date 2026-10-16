@@ -1,0 +1,195 @@
+section,key,value,note
+area,(none),14118,visible jobs matching no broad pattern
+area,construction/industry,581,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,education,1259,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,finance/admin,2392,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,health,611,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,hospitality,481,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,logistics,191,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,sales,738,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,services,748,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+area,technology,2016,"visible jobs whose TITLE matches a broad pattern (diagnostic, not the app taxonomy)"
+country,(unknown),1429,visible jobs; unknown = the source states no single country
+country,AE,4,visible jobs; unknown = the source states no single country
+country,AR,9,visible jobs; unknown = the source states no single country
+country,AT,1,visible jobs; unknown = the source states no single country
+country,AU,35,visible jobs; unknown = the source states no single country
+country,BE,1999,visible jobs; unknown = the source states no single country
+country,BG,4,visible jobs; unknown = the source states no single country
+country,BR,13,visible jobs; unknown = the source states no single country
+country,CA,50,visible jobs; unknown = the source states no single country
+country,CH,138,visible jobs; unknown = the source states no single country
+country,CL,278,visible jobs; unknown = the source states no single country
+country,CN,6,visible jobs; unknown = the source states no single country
+country,CO,10,visible jobs; unknown = the source states no single country
+country,CR,3,visible jobs; unknown = the source states no single country
+country,CY,2,visible jobs; unknown = the source states no single country
+country,CZ,3502,visible jobs; unknown = the source states no single country
+country,DE,1819,visible jobs; unknown = the source states no single country
+country,DK,1,visible jobs; unknown = the source states no single country
+country,EC,1,visible jobs; unknown = the source states no single country
+country,ES,22,visible jobs; unknown = the source states no single country
+country,FR,1792,visible jobs; unknown = the source states no single country
+country,GB,3879,visible jobs; unknown = the source states no single country
+country,GR,4,visible jobs; unknown = the source states no single country
+country,HK,6,visible jobs; unknown = the source states no single country
+country,HU,1,visible jobs; unknown = the source states no single country
+country,IE,9,visible jobs; unknown = the source states no single country
+country,IN,2,visible jobs; unknown = the source states no single country
+country,IT,10,visible jobs; unknown = the source states no single country
+country,JP,7,visible jobs; unknown = the source states no single country
+country,KR,2,visible jobs; unknown = the source states no single country
+country,LU,7,visible jobs; unknown = the source states no single country
+country,MC,1,visible jobs; unknown = the source states no single country
+country,MT,9,visible jobs; unknown = the source states no single country
+country,MX,15,visible jobs; unknown = the source states no single country
+country,MY,1,visible jobs; unknown = the source states no single country
+country,NL,314,visible jobs; unknown = the source states no single country
+country,NO,7,visible jobs; unknown = the source states no single country
+country,NZ,343,visible jobs; unknown = the source states no single country
+country,PE,8,visible jobs; unknown = the source states no single country
+country,PH,22,visible jobs; unknown = the source states no single country
+country,PL,6,visible jobs; unknown = the source states no single country
+country,PT,12,visible jobs; unknown = the source states no single country
+country,RO,2,visible jobs; unknown = the source states no single country
+country,RS,1,visible jobs; unknown = the source states no single country
+country,SE,3992,visible jobs; unknown = the source states no single country
+country,SG,12,visible jobs; unknown = the source states no single country
+country,SK,1,visible jobs; unknown = the source states no single country
+country,TH,2,visible jobs; unknown = the source states no single country
+country,TR,2,visible jobs; unknown = the source states no single country
+country,TW,1107,visible jobs; unknown = the source states no single country
+country,UA,2,visible jobs; unknown = the source states no single country
+country,US,1620,visible jobs; unknown = the source states no single country
+country,VN,1,visible jobs; unknown = the source states no single country
+growth,2026-10-10,293,jobs first stored that day
+growth,2026-10-11,822,jobs first stored that day
+growth,2026-10-12,2029,jobs first stored that day
+growth,2026-10-13,7641,jobs first stored that day
+growth,2026-10-14,9760,jobs first stored that day
+growth,2026-10-15,911,jobs first stored that day
+growth,2026-10-16,2882,jobs first stored that day
+quality,cross_source_duplicates,4,fingerprints shared by open jobs of two or more sources
+quality,no_company,0,visible jobs without a company
+quality,no_place,392,"visible jobs without country, city or eligibility"
+quality,no_published_date,1549,visible jobs without a publication date
+quality,short_description,1605,"visible jobs with a description under 200 characters (under 60 when it is written in Chinese, Japanese or Korean, which says as much in a quarter of the characters)"
+source,arbeitnow,2425,visible jobs
+source,bpce,1549,visible jobs
+source,forem,2000,visible jobs
+source,getonboard,600,visible jobs
+source,jobicy,1196,visible jobs
+source,jobsconz,340,visible jobs
+source,jobtech,4021,visible jobs
+source,karrierenrw,1097,visible jobs
+source,mpsvcz,3500,visible jobs
+source,nycjobs,1062,visible jobs
+source,remoteok,113,visible jobs
+source,remotive,16,visible jobs
+source,teachingvacancies,3500,visible jobs
+source,twjobs,1106,visible jobs
+source_failures_7d,arbeitnow,23,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_failures_7d,forem,8,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_failures_7d,getonboard,11,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_failures_7d,jobicy,1,discovery/revalidation passes not ok in 7 days (max_pages)
+source_failures_7d,jobtech,16,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_failures_7d,mpsvcz,3,"discovery/revalidation passes not ok in 7 days (catalogue_full,http_404)"
+source_failures_7d,teachingvacancies,19,discovery/revalidation passes not ok in 7 days (catalogue_full)
+source_last_run,arbeitnow,partial (catalogue_full),"started 2026-10-16 20:02:58.851+00, scope discover"
+source_last_run,bpce,ok,"started 2026-10-16 17:33:01.977+00, scope discover"
+source_last_run,csp,ok,"started 2026-10-16 19:49:33.427+00, scope discover"
+source_last_run,ecyl,ok,"started 2026-10-16 21:22:57.935+00, scope discover"
+source_last_run,feinaactiva,ok,"started 2026-10-16 21:20:16.048+00, scope discover"
+source_last_run,forem,partial (catalogue_full),"started 2026-10-16 18:23:28.742+00, scope discover"
+source_last_run,getonboard,partial (catalogue_full),"started 2026-10-16 19:35:09.333+00, scope discover"
+source_last_run,jobicy,ok,"started 2026-10-16 21:11:58.669+00, scope revalidate"
+source_last_run,jobsconz,ok,"started 2026-10-16 18:46:06.239+00, scope discover"
+source_last_run,jobtech,partial (catalogue_full),"started 2026-10-16 21:07:24.248+00, scope discover"
+source_last_run,karrierenrw,ok,"started 2026-10-16 19:56:17.934+00, scope discover"
+source_last_run,lanbide,ok,"started 2026-10-16 21:30:35.96+00, scope discover"
+source_last_run,mpsvcz,failed (http_404),"started 2026-10-16 17:41:30.209+00, scope discover"
+source_last_run,nycjobs,ok,"started 2026-10-16 21:39:09.544+00, scope discover"
+source_last_run,remoteok,ok,"started 2026-10-16 20:04:32.088+00, scope discover"
+source_last_run,remotive,ok,"started 2026-10-16 15:01:46.972+00, scope discover"
+source_last_run,sefmurcia,ok,"started 2026-10-16 20:00:32.893+00, scope discover"
+source_last_run,teachingvacancies,partial (catalogue_full),"started 2026-10-16 19:39:43.97+00, scope discover"
+source_last_run,twjobs,ok,"started 2026-10-16 12:22:31.463+00, scope discover"
+source_new_7d,arbeitnow,3094,first stored in the last 7 days
+source_new_7d,bpce,1549,first stored in the last 7 days
+source_new_7d,csp,43,first stored in the last 7 days
+source_new_7d,ecyl,850,first stored in the last 7 days
+source_new_7d,feinaactiva,1000,first stored in the last 7 days
+source_new_7d,forem,2000,first stored in the last 7 days
+source_new_7d,getonboard,600,first stored in the last 7 days
+source_new_7d,jobicy,746,first stored in the last 7 days
+source_new_7d,jobsconz,246,first stored in the last 7 days
+source_new_7d,jobtech,3959,first stored in the last 7 days
+source_new_7d,karrierenrw,1097,first stored in the last 7 days
+source_new_7d,lanbide,600,first stored in the last 7 days
+source_new_7d,mpsvcz,3500,first stored in the last 7 days
+source_new_7d,nycjobs,1062,first stored in the last 7 days
+source_new_7d,remoteok,23,first stored in the last 7 days
+source_new_7d,sefmurcia,243,first stored in the last 7 days
+source_new_7d,teachingvacancies,3500,first stored in the last 7 days
+source_new_7d,twjobs,233,first stored in the last 7 days
+source_no_country,arbeitnow,664,visible jobs of the source without a country
+source_no_country,bpce,14,visible jobs of the source without a country
+source_no_country,getonboard,296,visible jobs of the source without a country
+source_no_country,jobicy,333,visible jobs of the source without a country
+source_no_country,jobtech,1,visible jobs of the source without a country
+source_no_country,remoteok,106,visible jobs of the source without a country
+source_no_country,remotive,15,visible jobs of the source without a country
+source_stale,arbeitnow,2026-10-14 10:33:13.049+00,last discovery pass that ended ok
+source_stale,bpce,2026-10-16 17:33:01.977+00,last discovery pass that ended ok
+source_stale,csp,2026-10-16 19:49:33.427+00,last discovery pass that ended ok
+source_stale,ecyl,2026-10-16 21:22:57.935+00,last discovery pass that ended ok
+source_stale,feinaactiva,2026-10-16 21:20:16.048+00,last discovery pass that ended ok
+source_stale,forem,2026-10-13 23:23:28.184+00,last discovery pass that ended ok
+source_stale,getonboard,2026-10-13 22:22:50.545+00,last discovery pass that ended ok
+source_stale,jobicy,2026-10-16 14:15:37.612+00,last discovery pass that ended ok
+source_stale,jobsconz,2026-10-16 18:46:06.239+00,last discovery pass that ended ok
+source_stale,jobtech,2026-10-14 11:51:02.873+00,last discovery pass that ended ok
+source_stale,karrierenrw,2026-10-16 19:56:17.934+00,last discovery pass that ended ok
+source_stale,lanbide,2026-10-16 21:30:35.96+00,last discovery pass that ended ok
+source_stale,mpsvcz,2026-10-14 22:12:20.363+00,last discovery pass that ended ok
+source_stale,nycjobs,2026-10-16 21:39:09.544+00,last discovery pass that ended ok
+source_stale,remoteok,2026-10-16 20:04:32.088+00,last discovery pass that ended ok
+source_stale,remotive,2026-10-16 15:01:46.972+00,last discovery pass that ended ok
+source_stale,sefmurcia,2026-10-16 20:00:32.893+00,last discovery pass that ended ok
+source_stale,teachingvacancies,2026-10-14 15:23:48.314+00,last discovery pass that ended ok
+source_stale,twjobs,2026-10-16 12:22:31.463+00,last discovery pass that ended ok
+source_stored,arbeitnow,"3200 stored, 3200 open",published
+source_stored,bpce,"1549 stored, 1549 open",published
+source_stored,csp,"43 stored, 43 open",NOT PUBLISHED (not shown in the app)
+source_stored,ecyl,"850 stored, 850 open",NOT PUBLISHED (not shown in the app)
+source_stored,feinaactiva,"1000 stored, 1000 open",NOT PUBLISHED (not shown in the app)
+source_stored,forem,"2000 stored, 2000 open",published
+source_stored,getonboard,"600 stored, 600 open",published
+source_stored,jobicy,"1312 stored, 1196 open",published
+source_stored,jobsconz,"543 stored, 340 open",published
+source_stored,jobtech,"4200 stored, 4021 open",published
+source_stored,karrierenrw,"1097 stored, 1097 open",published
+source_stored,lanbide,"600 stored, 600 open",NOT PUBLISHED (not shown in the app)
+source_stored,mpsvcz,"3500 stored, 3500 open",published
+source_stored,nycjobs,"1062 stored, 1062 open",published
+source_stored,remoteok,"117 stored, 117 open",published
+source_stored,remotive,"18 stored, 18 open",published
+source_stored,sefmurcia,"243 stored, 243 open",NOT PUBLISHED (not shown in the app)
+source_stored,teachingvacancies,"3500 stored, 3500 open",published
+source_stored,twjobs,"1269 stored, 1269 open",published
+storage,database,263 MB,free plan limit 500 MB
+validity,open_not_verified_72h,944,open jobs the app hides because nothing confirmed them in 72 h
+validity,past_expiry_still_open,1811,"open jobs published over 60 days ago (still confirmed by their source: a deadline, a status endpoint or the feed itself; shown with their real date, never closed for age alone)"
+validity_old_by_source,ecyl,112,open jobs published over 60 days ago
+validity_old_by_source,feinaactiva,822,open jobs published over 60 days ago
+validity_old_by_source,getonboard,243,open jobs published over 60 days ago
+validity_old_by_source,jobtech,19,open jobs published over 60 days ago
+validity_old_by_source,karrierenrw,275,open jobs published over 60 days ago
+validity_old_by_source,nycjobs,30,open jobs published over 60 days ago
+validity_old_by_source,remoteok,40,open jobs published over 60 days ago
+validity_old_by_source,sefmurcia,17,open jobs published over 60 days ago
+validity_old_by_source,twjobs,253,open jobs published over 60 days ago
+work_mode,hybrid,345,visible jobs
+work_mode,onsite,1285,visible jobs
+work_mode,remote,1829,visible jobs
+work_mode,unspecified,19066,visible jobs
