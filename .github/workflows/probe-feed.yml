@@ -8,6 +8,10 @@ on:
         description: 'https URL of a public open-data feed'
         type: string
         required: true
+      bytes:
+        description: 'how many bytes to print'
+        type: string
+        default: '9000'
 permissions:
   contents: read
 jobs:
@@ -18,9 +22,10 @@ jobs:
       - name: Fetch the first bytes
         env:
           URL: ${{ inputs.url }}
+          BYTES: ${{ inputs.bytes }}
         run: |
           case "$URL" in https://*) ;; *) echo "only https"; exit 1 ;; esac
           curl -sS -L --max-time 90 -A 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; research probe)' -D /tmp/h -o /tmp/b -w 'status=%{http_code} size=%{size_download} type=%{content_type}\n' "$URL" || true
           head -c 600 /tmp/h || true
           echo '----'
-          head -c 4000 /tmp/b | tr -d '\000' || true
+          head -c ${BYTES:-9000} /tmp/b | tr -d '\000' || true
