@@ -190,9 +190,10 @@ describe('scripts/discover-local.mjs (rehearsal against a local stand-in)', () =
     expect(w.calls.feed).toBe(0);
   });
 
-  it('the catalogue ceiling stops the import, keeps what fits, and exits 7 (a distinct alert)', async () => {
+  it('the catalogue ceiling stops the import and keeps what fits; a healthy pass at the ceiling is AT_CAPACITY and exits 0 (planned, not a failure)', async () => {
     const r = await runner(['run', '--yes'], { SYNC_MAX_CATALOGUE: '3' });
-    expect(r.code).toBe(7);
+    expect(r.code).toBe(0);
+    expect(r.out).toContain('estado: AT_CAPACITY');
     expect(w.jobs.size).toBe(3);
     expect(w.runs[0]).toMatchObject({ status: 'partial', error_class: 'catalogue_full' });
   });

@@ -247,9 +247,14 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\|forem\|mpsvcz\|csp\|sefmurcia\|feinaactiva\|ecyl\|lanbide\) ;; \*\) .*exit 1/);
   });
 
-  it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6, 7)', () => {
-    for (const k of ['auth', 'unreachable', 'storage', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
-    for (const n of ['4', '5', '6', '7']) expect(c).toMatch(new RegExp(`steps\.rv\.outputs\.code == '${n}'`));
+  it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6); a source at its planned ceiling is a CAPACITY notice, never an error', () => {
+    for (const k of ['auth', 'unreachable', 'api']) expect(c).toMatch(new RegExp(`name: 'ALERT ${k}:`));
+    for (const n of ['4', '5', '6']) expect(c).toMatch(new RegExp(`steps\.rv\.outputs\.code == '${n}'`));
+    expect(c).not.toMatch(/name: 'ALERT storage:|outputs\.code == '7'/);
+    expect(c).toMatch(/name: 'CAPACITY: [^']+'\n\s+if: always\(\) && steps\.rv\.outputs\.state == 'AT_CAPACITY'\n\s+run: echo "::notice title=sources-at-capacity::/);
+    // the state comes from the script's own "estado:" line; nothing found means FAILED, never a silent success
+    expect(c).toMatch(/state=\$\(grep -oE '\^estado: \[A-Z_\]\+' run\.log/);
+    expect(c).toMatch(/echo "state=\$\{state:-FAILED\}" >> "\$GITHUB_OUTPUT"/);
   });
 });
 

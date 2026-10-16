@@ -38,7 +38,7 @@ describe('remote ops health', () => {
     expect(status(evaluateHealth(i), 'source_fresh:jobtech')).toBe('ALERT');
   });
 
-  it('failed passes warn, but a pass that stopped at the catalogue ceiling is only the ceiling note', () => {
+  it('failed passes warn, but a pass that stopped at the catalogue ceiling is only the AT_CAPACITY note', () => {
     const i = base();
     i.runs24h = [
       { source_id: 'jobtech', scope: 'discover', status: 'failed', error_class: 'http_5xx', started_at: ago(3) },
@@ -48,7 +48,7 @@ describe('remote ops health', () => {
     const rows = evaluateHealth(i);
     expect(status(rows, 'source_runs:jobtech')).toBe('WARN');
     expect(status(rows, 'source_runs:getonboard')).toBeUndefined();
-    expect(status(rows, 'source_ceiling:getonboard')).toBe('WARN');
+    expect(status(rows, 'source_ceiling:getonboard')).toBe('AT_CAPACITY'); // planned limit, informational
     expect(worst(rows)).toBe('WARN');
   });
 

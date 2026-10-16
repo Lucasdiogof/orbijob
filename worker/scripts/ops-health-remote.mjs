@@ -30,7 +30,7 @@ try {
   const visibleJobs = Number((head.headers.get('content-range') ?? '').split('/')[1] ?? 0);
   const rows = evaluateHealth({ now, sources, newestChecked, runs24h, visibleJobs });
   const overall = worst(rows);
-  const lines = rows.map((x) => `${x.status.padEnd(5)} ${x.check}: ${x.value}`);
+  const lines = rows.map((x) => `${x.status.padEnd(11)} ${x.check}: ${x.value}`);
   console.log(`ops-health ${now.toISOString()}: ${overall}\n${lines.join('\n')}`);
   if (process.env.GITHUB_STEP_SUMMARY) {
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Ops health: ${overall}\n\n| status | check | value |\n|---|---|---|\n${rows.map((x) => `| ${x.status} | ${x.check} | ${x.value} |`).join('\n')}\n`);

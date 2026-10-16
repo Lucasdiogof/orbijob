@@ -16,11 +16,13 @@
 // A verificação final compara o banco antes e depois: toda vaga que existia continua existindo com o mesmo conteúdo (só podem mudar
 // status open->closed e last_checked_at, que são da revalidação concorrente; closed->open reprova), as novas são exatamente as informadas,
 // todas abertas e com URL do Jobicy, a fonte inalterada, uma linha nova em sync_runs. Qualquer diferença reprova (código 1), sem desfazer nada.
-// Códigos de saída: 0 ok (ou adiada pela lease); 1 reprovada/falhou; 3 corte de tempo; 4 credencial recusada; 5 banco inalcançável; 6 passada parcial;
-// 7 teto do catálogo atingido (nada mais é importado até haver limpeza ou o teto ser aumentado de propósito).
+// Códigos de saída: 0 SUCCESS (ou adiada pela lease) e AT_CAPACITY (fonte saudável no teto planejado do catálogo: nada mais entra até vagas expirarem);
+// 1 FAILED (reprovada/falhou, ou "no teto" sem ter lido nada do feed); 3 corte de tempo; 4 credencial recusada; 5 banco inalcançável; 6 PARTIAL.
+// A linha "estado:" diz qual dos quatro estados (scripts/run-state.mjs); o workflow a lê.
 import { build } from 'esbuild';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { classifyDiscoverRun } from './run-state.mjs';
 
 const REF = 'rpmlfxwebnlxnwadyvle';
 const localOnly = (name) => {
@@ -122,7 +124,9 @@ if (mode === 'preview') {
   const companies = new Set(wrote.map((r) => r.company)).size;
   console.log(`simulacao: ${s.status === 'ok' ? 'OK' : s.status.toUpperCase()} NADA FOI GRAVADO  seriam_importadas=${wrote.length} de_${companies}_empresas`);
   console.log(metrics(s));
-  process.exit(s.status === 'ok' ? 0 : s.status === 'partial' ? (s.error_class === 'catalogue_full' ? 7 : 6) : 1);
+  const st = classifyDiscoverRun({ outcome: { status: s.status, summary: s } });
+  console.log(`estado: ${st.state} (${st.reason})`);
+  process.exit(st.code);
 }
 
 if (!flags.includes('--yes')) fail('rode com --yes para confirmar que o proprietario autorizou esta passada de importacao');
@@ -168,12 +172,8 @@ if (JSON.stringify(after.source) !== JSON.stringify(before.source)) problems.pus
 if (outcome && outcome.status !== 'skipped' && after.runs !== before.runs + 1) problems.push('esperava exatamente 1 linha nova em sync_runs');
 console.log(`verificacao: ${problems.length ? 'REPROVADO' : 'OK'}  vagas=${after.jobs.size} (antes ${before.jobs.size}) novas=${added} fonte=${after.source?.status}/${after.source?.can_redistribute}`);
 for (const p of [...new Set(problems)]) console.log(`  FALHA  ${p}`);
-const code = problems.length ? 1
-  : crash === 'auth' ? 4
-  : crash === 'unreachable' ? 5
-  : !outcome || outcome.status === 'failed' ? 1
-  : outcome.status === 'partial' && outcome.summary?.error_class === 'catalogue_full' ? 7
-  : outcome.status === 'partial' ? 6
-  : 0;
+// SUCCESS / AT_CAPACITY (healthy pass stopped only by the intended ceiling) / PARTIAL / FAILED: see run-state.mjs.
+const { state, code, reason } = classifyDiscoverRun({ outcome, crash, problems });
+console.log(`estado: ${state} (${reason})`);
 console.log(`codigo de saida: ${code}`);
 process.exit(code);

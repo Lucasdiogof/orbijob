@@ -203,9 +203,11 @@ jobs:
           node scripts/discover-local.mjs run --yes > run.log 2>&1 || code=$?
           cat run.log
           echo "code=$code" >> "$GITHUB_OUTPUT"
+          state=$(grep -oE '^estado: [A-Z_]+' run.log | tail -n 1 | cut -d' ' -f2)
+          echo "state=${state:-FAILED}" >> "$GITHUB_OUTPUT"
           {
             echo "### Sources discover"
-            grep -E '^(preflight|resultado|metricas|verificacao|codigo de saida)' run.log | sed 's/^/- /'
+            grep -E '^(preflight|resultado|metricas|verificacao|estado|codigo de saida)' run.log | sed 's/^/- /'
           } >> "$GITHUB_STEP_SUMMARY"
           exit "$code"
 
@@ -215,9 +217,11 @@ jobs:
       - name: 'ALERT unreachable: database did not answer'
         if: always() && steps.rv.outputs.code == '5'
         run: echo "::error title=sources-unreachable::O banco nao respondeu"
-      - name: 'ALERT storage: catalogue ceiling reached (free database quota guard)'
-        if: always() && steps.rv.outputs.code == '7'
-        run: echo "::error title=sources-catalogue-full::O teto de catalogo da fonte foi atingido; nenhuma vaga nova entra ate haver limpeza ou aumento consciente do teto"
+      # Planned limit, not a fault: a healthy pass (feed read, no HTTP error, verification passed) that stopped only at the source's catalogue ceiling.
+      # The run stays green; this notice and the summary say so. Real failures in the same pass are classified FAILED/PARTIAL and raise their own ALERT.
+      - name: 'CAPACITY: source at its planned catalogue ceiling (healthy, not a failure)'
+        if: always() && steps.rv.outputs.state == 'AT_CAPACITY'
+        run: echo "::notice title=sources-at-capacity::A fonte esta no teto planejado do catalogo; a passada leu o feed sem erro. Nada novo entra ate vagas expirarem (revalidacao e expiracao seguem normais)"
       - name: 'ALERT api: source feed errors (nothing existing was changed)'
         if: always() && steps.rv.outputs.code == '6'
         run: echo "::error title=sources-api::O feed da fonte falhou em parte da passada (ou bloqueou com desafio anti-bot, que nao e contornado)"
