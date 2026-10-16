@@ -59,12 +59,14 @@ on:
     - cron: '2 4,10,16,22 * * *'
     # ECYL (Castilla y León employment service open data): one ~1.2 MB JSON read, twice a day
     - cron: '36 0,12 * * *'
+    # Lanbide (Basque employment service open data): one ~600 KB JSON read, twice a day
+    - cron: '13 1,13 * * *'
   workflow_dispatch:
     inputs:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl]
+        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl, lanbide]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -143,9 +145,10 @@ jobs:
             '18 3,9,15,21 * * *')  s=sefmurcia ;;
             '2 4,10,16,22 * * *')  s=feinaactiva ;;
             '36 0,12 * * *')       s=ecyl ;;
+            '13 1,13 * * *')       s=lanbide ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp|sefmurcia|feinaactiva|ecyl) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp|sefmurcia|feinaactiva|ecyl|lanbide) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

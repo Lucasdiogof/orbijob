@@ -561,6 +561,7 @@ void main() {
         ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
         ('feinaactiva', 'Feina Activa (SOC)', 'feinaactiva.gencat.cat'),
         ('ecyl', 'ECYL Castilla y León', 'empleo.jcyl.es'),
+        ('lanbide', 'Lanbide', 'web.lanbide.eus'),
       ]) {
         final j = jobFromCatalogRow(
           row(

@@ -11,6 +11,7 @@ import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
 import { feinaActivaConnector } from './connectors/feinaactiva';
 import { ecylConnector } from './connectors/ecyl';
+import { lanbideConnector } from './connectors/lanbide';
 import { karriereNrwConnector } from './connectors/karrierenrw';
 import { taiwanJobsConnector } from './connectors/taiwanjobs';
 import { JOBTECH_PASS_PAGES, jobtechConnector } from './connectors/jobtech';
@@ -159,6 +160,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // one 1.2 MB JSON read returns every offer (≈ 950); the catalogue ceiling keeps the source in proportion
     maxPages: 1, newCap: 1000, catalogue: 1500,
     make: (f, n, origin) => ecylConnector(f, n, { origin }),
+  },
+  lanbide: {
+    id: 'lanbide',
+    attribution: 'Jobs via Lanbide, Servicio Vasco de Empleo (https://web.lanbide.eus), open data of the Basque Government "Ofertas de empleo de Lanbide" (https://opendata.euskadi.eus), Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/); origin of the data: Gobierno Vasco, Lanbide. The offers do not name the employer',
+    host: 'lanbide.eus',
+    // one 600 KB JSON read returns every offer Lanbide manages (≈ 500); the catalogue ceiling keeps the source in proportion
+    maxPages: 1, newCap: 600, catalogue: 1000,
+    make: (f, n, origin) => lanbideConnector(f, n, { origin }),
   },
 };
 
