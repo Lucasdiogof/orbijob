@@ -1,10 +1,9 @@
 import { cleanDescription } from '../description';
-import { HttpError, parseRetryAfter } from '../http';
 import { inlineText } from '../text';
-import type { Connector, FetchPage, NormalizedJob } from '../types';
+import type { Connector, NormalizedJob } from '../types';
 import { ownUrl, type Normalized } from './feeds';
-import { ES_PHONE } from './feinaactiva';
-import { townName } from './sefmurcia';
+import { jsonRecords, snapshotConnector } from './snapshot';
+import { ES_PHONE, townName } from './spain';
 
 /**
  * Lanbide, the Basque employment service (Spain): the job offers it manages, as open data of Open Data Euskadi (dataset "Ofertas de empleo de Lanbide", ≈ 500 offers,
@@ -81,30 +80,10 @@ export function normalizeLanbide(raw: unknown, nowIso: string): Normalized {
 }
 
 export function lanbideConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date(), opts: { origin?: string } = {}): Connector {
-  const feed = opts.origin ? `${opts.origin.replace(/\/+$/, '')}/apps/OF_OFERTAS_ODE_JSON` : LANBIDE_FEED;
-  return {
-    id: 'lanbide',
-    minIntervalMs: 1500,
-    presenceConfirmsOpen: true,
-    async fetchPage(cursor): Promise<FetchPage> {
-      if (cursor) throw new Error('lanbide: invalid cursor');
-      const res = await fetchImpl(feed, { headers: { Accept: 'application/json', 'User-Agent': 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)' }, signal: AbortSignal.timeout(90_000) });
-      if (!res.ok) throw new HttpError(res.status, parseRetryAfter(res.headers.get('retry-after')));
-      let data: unknown;
-      try {
-        data = JSON.parse(decodeFeed(await res.arrayBuffer()));
-      } catch {
-        throw new HttpError(403); // not JSON: a challenge or an error page
-      }
-      if (!Array.isArray(data)) throw new Error('lanbide: unexpected response');
-      const nowIso = now().toISOString();
-      const jobs: NormalizedJob[] = [];
-      const rejected: { externalId: string | null; reason: string }[] = [];
-      for (const raw of data) {
-        const n = normalizeLanbide(raw, nowIso);
-        if (n.ok) jobs.push(n.job); else if (n.reason !== 'stale') rejected.push({ externalId: n.externalId, reason: n.reason });
-      }
-      return { jobs, nextCursor: null, isFullSnapshot: false, rejected };
-    },
-  };
+  return snapshotConnector({
+    id: 'lanbide', fetchImpl, now, accept: 'application/json', timeoutMs: 90_000,
+    url: opts.origin ? `${opts.origin.replace(/\/+$/, '')}/apps/OF_OFERTAS_ODE_JSON` : LANBIDE_FEED,
+    records: (res) => jsonRecords(res, decodeFeed),
+    normalize: normalizeLanbide,
+  });
 }

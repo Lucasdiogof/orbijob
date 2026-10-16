@@ -1,9 +1,12 @@
 import { cleanDescription } from '../description';
-import { HttpError, parseRetryAfter } from '../http';
+import { HttpError } from '../http';
 import { inlineText } from '../text';
-import type { Connector, FetchPage, NormalizedJob } from '../types';
-import { placeName } from './bpce';
+import type { Connector, NormalizedJob } from '../types';
 import { ownUrl, type Normalized } from './feeds';
+import { snapshotConnector } from './snapshot';
+import { ES_PHONE, isoDay, townName } from './spain';
+
+export { ES_PHONE, isoDay, townName };
 
 /**
  * Feina Activa (Catalonia, Spain): the job offers published on the portal of the Servei Públic d'Ocupació de Catalunya (SOC), as open data of the Generalitat
@@ -29,9 +32,6 @@ import { ownUrl, type Normalized } from './feeds';
 export const FEINAACTIVA_HOST = 'feinaactiva.gencat.cat';
 export const FEINAACTIVA_FEED = `https://${FEINAACTIVA_HOST}/api/offers/offers-xml`;
 export const FEINAACTIVA_MAX_AGE_DAYS = 90;
-
-/** Spanish telephone numbers: 6xx/7xx/8xx/9xx in any grouping, optionally +34 / 0034. */
-export const ES_PHONE = /(?<![0-9])(?:(?:\+|00)34[\s.-]?)?[6-9][0-9](?:[\s.-]?[0-9]){7}(?![0-9])/g;
 
 const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
 const decode = (s: string): string =>
@@ -106,28 +106,6 @@ export function employerName(raw: string): string {
 
 // --- one offer -------------------------------------------------------------------------------------------------------------------------
 
-/** dd/mm/yyyy -> yyyy-mm-dd, or '' when it is not a real date. */
-export function isoDay(s: string): string {
-  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s.trim());
-  if (!m) return '';
-  const iso = `${m[3]}-${m[2]}-${m[1]}`;
-  const d = new Date(`${iso}T00:00:00Z`);
-  return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === iso ? iso : '';
-}
-
-/**
- * Towns come upper-case and, for names that start with an article, inverted ("HOSPITALET DE LLOBREGAT, L'", "PRAT DE LLOBREGAT, EL"): they are put back in
- * reading order ("L'Hospitalet de Llobregat") and the small words are lower-cased ("Cornellà del Terri").
- */
-export function townName(raw: string): string {
-  const text = inlineText(raw);
-  const m = /^(.+?),\s*(l['’]|el|la|els|les|los|las)$/i.exec(text);
-  const upper = (s: string) => (s === s.toUpperCase() ? s : s.toUpperCase());
-  const base = m ? (m[2]!.endsWith("'") || m[2]!.endsWith('’') ? `${m[2]!}${m[1]!}` : `${m[2]!} ${m[1]!}`) : text;
-  const cased = placeName(m ? upper(base) : base);
-  return cased.replace(/(?<=\S)\s(De|Del|Dels|Della|La|Las|Les|Los|El|Els|I|Y|D['’])(?=\s|$)/g, (_x, w: string) => ` ${w.toLowerCase()}`).replace(/\b(L)(['’])([a-zà-ÿ])/g, (_x, l: string, q: string, c: string) => `${l}${q}${c.toUpperCase()}`);
-}
-
 const clean = (html: string): string => cleanDescription(html).replace(ES_PHONE, '[telèfon]');
 
 export function normalizeFeinaActiva(ad: string, nowIso: string): Normalized {
@@ -165,26 +143,14 @@ export function normalizeFeinaActiva(ad: string, nowIso: string): Normalized {
 }
 
 export function feinaActivaConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date(), opts: { origin?: string } = {}): Connector {
-  const feed = opts.origin ? `${opts.origin.replace(/\/+$/, '')}/api/offers/offers-xml` : FEINAACTIVA_FEED;
-  return {
-    id: 'feinaactiva',
-    minIntervalMs: 1500,
-    presenceConfirmsOpen: true,
-    async fetchPage(cursor): Promise<FetchPage> {
-      if (cursor) throw new Error('feinaactiva: invalid cursor');
-      const res = await fetchImpl(feed, { headers: { Accept: 'application/xml', 'User-Agent': 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)' }, signal: AbortSignal.timeout(120_000) });
-      if (!res.ok) throw new HttpError(res.status, parseRetryAfter(res.headers.get('retry-after')));
+  return snapshotConnector({
+    id: 'feinaactiva', fetchImpl, now, accept: 'application/xml', timeoutMs: 120_000, emptyIsError: true,
+    url: opts.origin ? `${opts.origin.replace(/\/+$/, '')}/api/offers/offers-xml` : FEINAACTIVA_FEED,
+    records: async (res) => {
       const xml = await res.text();
       if (!/^\s*(<\?xml[^>]*>\s*)?<ofertes>/.test(xml)) throw new HttpError(403); // not the feed: a challenge or an error page
-      const nowIso = now().toISOString();
-      const jobs: NormalizedJob[] = [];
-      const rejected: { externalId: string | null; reason: string }[] = [];
-      for (const ad of ads(xml)) {
-        const n = normalizeFeinaActiva(ad, nowIso);
-        if (n.ok) jobs.push(n.job); else if (n.reason !== 'stale') rejected.push({ externalId: n.externalId, reason: n.reason });
-      }
-      if (jobs.length === 0 && rejected.length === 0) throw new Error('feinaactiva: the feed holds no offers');
-      return { jobs, nextCursor: null, isFullSnapshot: false, rejected };
+      return ads(xml);
     },
-  };
+    normalize: (raw, nowIso) => normalizeFeinaActiva(String(raw), nowIso),
+  });
 }

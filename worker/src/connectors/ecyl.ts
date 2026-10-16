@@ -1,8 +1,9 @@
 import { cleanDescription } from '../description';
 import { inlineText } from '../text';
-import type { Connector, FetchPage, NormalizedJob } from '../types';
-import { getFeed, ownUrl, type Normalized } from './feeds';
-import { ES_PHONE } from './feinaactiva';
+import type { Connector, NormalizedJob } from '../types';
+import { ownUrl, type Normalized } from './feeds';
+import { jsonRecords, snapshotConnector } from './snapshot';
+import { ES_PHONE } from './spain';
 
 /**
  * ECYL, the Servicio Público de Empleo de Castilla y León (Spain): the job offers its offices publish, as open data of the Junta de Castilla y León (dataset "Ofertas de
@@ -81,23 +82,10 @@ export function normalizeEcyl(raw: unknown, nowIso: string): Normalized {
 }
 
 export function ecylConnector(fetchImpl: typeof fetch, now: () => Date = () => new Date(), opts: { origin?: string } = {}): Connector {
-  const feed = opts.origin ? `${opts.origin.replace(/\/+$/, '')}/web/jcyl/risp/es/empleo/ofertas-empleo/1284354353012.json` : ECYL_FEED;
-  return {
-    id: 'ecyl',
-    minIntervalMs: 1500,
-    presenceConfirmsOpen: true,
-    async fetchPage(cursor): Promise<FetchPage> {
-      if (cursor) throw new Error('ecyl: invalid cursor');
-      const data = await getFeed<unknown>(fetchImpl, feed, 90_000);
-      if (!Array.isArray(data)) throw new Error('ecyl: unexpected response');
-      const nowIso = now().toISOString();
-      const jobs: NormalizedJob[] = [];
-      const rejected: { externalId: string | null; reason: string }[] = [];
-      for (const raw of data) {
-        const n = normalizeEcyl(raw, nowIso);
-        if (n.ok) jobs.push(n.job); else if (n.reason !== 'stale') rejected.push({ externalId: n.externalId, reason: n.reason });
-      }
-      return { jobs, nextCursor: null, isFullSnapshot: false, rejected };
-    },
-  };
+  return snapshotConnector({
+    id: 'ecyl', fetchImpl, now, accept: 'application/json', timeoutMs: 90_000,
+    url: opts.origin ? `${opts.origin.replace(/\/+$/, '')}/web/jcyl/risp/es/empleo/ofertas-empleo/1284354353012.json` : ECYL_FEED,
+    records: (res) => jsonRecords(res),
+    normalize: normalizeEcyl,
+  });
 }
