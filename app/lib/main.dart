@@ -59,6 +59,12 @@ Karriere.NRW, employer portal of North Rhine-Westphalia (https://karriere.nrw), 
 Groupe BPCE open data (https://recrutement.bpce.fr): Licence Ouverte v2.0 (Etalab), https://www.etalab.gouv.fr/licence-ouverte-open-licence/.
 Le Forem (https://www.leforem.be), Open Data Wallonie-Bruxelles: CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/. The records taken from this source are shared under the same licence.
 Taiwan Jobs: Open Government Data License v1.0 (https://data.gov.tw/en/datasets/44062). Platsbanken / Arbetsformedlingen: CC0.
+Úřad práce České republiky / MPSV, open data "Volná pracovní místa" (https://data.mpsv.cz/od/soubory/volna-mista/): published without copyright, database or personal-data restrictions (https://data.mpsv.cz/web/data/podminky-uziti).
+Choisir le Service Public (https://choisirleservicepublic.gouv.fr), dataset "Les offres diffusées sur Choisir le Service Public" by the DGAFP on data.gouv.fr (https://www.data.gouv.fr/datasets/6322e99e12175f7eb26ff465): Licence Ouverte v2.0 (Etalab), https://www.etalab.gouv.fr/licence-ouverte-open-licence/.
+SEF, Servicio de Empleo y Formación de la Región de Murcia, open data "Ofertas de empleo activas en la Región de Murcia" (https://datosabiertos.regiondemurcia.es): reuse authorised by its legal notice, https://datosabiertos.regiondemurcia.es/avisolegal. Origin of the data: Región de Murcia.
+Feina Activa, Servei Públic d'Ocupació de Catalunya, open data "Portal Feina Activa. Ofertes de feina": Llicència oberta d'ús d'informació - Catalunya, https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies. Origin of the data: Generalitat de Catalunya.
+ECYL, Servicio Público de Empleo de Castilla y León, open data "Ofertas de Empleo" (https://datosabiertos.jcyl.es): CC BY 4.0, https://creativecommons.org/licenses/by/4.0/. Origin of the data: Junta de Castilla y León.
+Lanbide, Servicio Vasco de Empleo, open data "Ofertas de empleo de Lanbide" (https://opendata.euskadi.eus): CC BY 4.0, https://creativecommons.org/licenses/by/4.0/. Origin of the data: Gobierno Vasco.
 Listings are shown as published by their sources, with a link to the original; OrbiJob may have shortened or reformatted the text.''',
     );
   });
