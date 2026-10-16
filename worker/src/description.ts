@@ -1,3 +1,4 @@
+import { maskPersonalPhones } from './phones';
 import { htmlToText } from './text';
 
 /**
@@ -71,4 +72,12 @@ export function cleanDescription(html: string): string {
   // Some feeds (Arbeitnow, Remote OK) send the HTML entity-escaped (&lt;p&gt;): one decode leaves real tags, so decode once more.
   if (/<\/?[a-z][a-z0-9]*(\s[^>]*)?>|<[a-z][^>]*$/i.test(text)) text = htmlToText(dropInlineImages(text));
   return maskPersonalEmails(tidyMarkdown(text));
+}
+
+/**
+ * The personal-data guard every stored description passes through (13.0), whatever the connector did before: personal e-mail addresses and telephone numbers that
+ * may identify a person are masked (`./phones` holds the telephone rule); role addresses and institutional lines stay. Idempotent.
+ */
+export function protectPersonalData(text: string, country: string | null = null): string {
+  return maskPersonalPhones(maskPersonalEmails(text), country);
 }

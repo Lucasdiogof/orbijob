@@ -1,3 +1,4 @@
+import { protectPersonalData } from './description';
 import { Deduper, canonicalUrl, fingerprint, shouldMarkClosed } from './dedupe';
 import { HttpError, RateLimiter, withRetry, type RetryOptions } from './http';
 import type { Connector, NormalizedJob } from './types';
@@ -59,7 +60,7 @@ export function toJobRow(j: NormalizedJob): JobRow {
     external_id: j.externalId,
     company: j.company,
     title: j.title,
-    description: j.description,
+    description: protectPersonalData(j.description, j.country), // the single storage point: no connector can store a personal phone or e-mail
     country: j.country,
     city: j.city,
     language: j.language,
