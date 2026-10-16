@@ -100,7 +100,7 @@ describe('MPSV connector (streams one big JSON document)', () => {
     if (url.endsWith('/ciselniky/obce.json')) return new Response(JSON.stringify(codesFixture.obce));
     if (url.endsWith('/ciselniky/smennosti.json')) return new Response(JSON.stringify(codesFixture.smennosti));
     if (url.endsWith('/ciselniky/pracovnepravni-vztahy.json')) return new Response(JSON.stringify(codesFixture['pracovnepravni-vztahy']));
-    if (url.endsWith('/volna-mista/volna-mista.json')) return new Response(bigDoc(items));
+    if (url.endsWith('/volna-mista/volna-mista.json.gz')) return new Response(bigDoc(items));
     return new Response('no', { status: 404 });
   }) as typeof fetch;
   const small = { minTowns: 1, minVacancies: 1 };
@@ -124,11 +124,21 @@ describe('MPSV connector (streams one big JSON document)', () => {
     expect(out.jobs.map((j) => j.externalId)).toEqual(Array.from({ length: 10 }, (_, i) => String(1049 - i)));
   });
 
+  it('reads the compressed file whether or not the client already applied Content-Encoding (only the .gz is published since 2026-10-16)', async () => {
+    const items = recs.map(fresh);
+    const gz = await new Response(new Blob([bigDoc(items)]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer();
+    const raw = (async (u: string | URL | Request) => (String(u).endsWith('.json.gz') ? new Response(gz) : fetcher(items)(u))) as typeof fetch;
+    const plain = await mpsvCzConnector(fetcher(items), nowFn, small).fetchPage(null, 'default');
+    const still = await mpsvCzConnector(raw, nowFn, small).fetchPage(null, 'default');
+    expect(still.jobs.map((j) => j.externalId)).toEqual(plain.jobs.map((j) => j.externalId));
+    expect(still.jobs.length).toBeGreaterThan(8);
+  });
+
   it('reads the three code lists and the big file from the publisher\'s open-data folder only', async () => {
     const urls: string[] = [];
     await mpsvCzConnector(fetcher(recs.map(fresh), urls), nowFn, small).fetchPage(null, 'default');
     expect(urls.every((u) => u.startsWith('https://data.mpsv.cz/od/soubory/'))).toBe(true);
-    expect(urls.some((u) => u.endsWith('/volna-mista/volna-mista.json'))).toBe(true);
+    expect(urls.some((u) => u.endsWith('/volna-mista/volna-mista.json.gz'))).toBe(true);
   });
 
   it('fails loudly on an implausibly small file or town list, and on an unexpected cursor', async () => {

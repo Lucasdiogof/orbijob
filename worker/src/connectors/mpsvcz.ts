@@ -8,7 +8,10 @@ import { getFeed, ownUrl, type Normalized } from './feeds';
 /**
  * Úřad práce České republiky / MPSV (Czech public employment service), open data "Volná pracovní místa":
  *
- *   https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json   (one JSON document, ~190 MB, ~40,000 vacancies, refreshed daily)
+ *   https://data.mpsv.cz/od/soubory/volna-mista/volna-mista.json.gz   (one JSON document, ~190 MB / 18 MB compressed, ~40,000 vacancies, refreshed daily)
+ *
+ * On 2026-10-16 the publisher dropped the uncompressed `volna-mista.json` (HTTP 404; only the `.gz` stays listed). The `.gz` is served with
+ * `Content-Encoding: gzip`, which fetch decodes on its own; a body that still starts with the gzip magic bytes is decompressed here (`gunzipIfNeeded`).
  *   https://data.mpsv.cz/od/soubory/ciselniky/{obce,smennosti,pracovnepravni-vztahy}.json   (the code lists the vacancies point to)
  *
  * Terms: the publisher's own statement for every MPSV/ÚP ČR open dataset (https://data.mpsv.cz/web/data/podminky-uziti) says the distribution
@@ -32,6 +35,24 @@ const MAX_DESCRIPTION = 6000;
  */
 export const PHONE = /(?:(?:\+|\b00)420[\s.-]?|\b)\d{3}[\s.-]?\d{3}[\s.-]?\d{3}\b/g;
 const DATA_ORIGIN = 'https://data.mpsv.cz';
+export const MPSVCZ_FILE = 'volna-mista/volna-mista.json.gz';
+
+/** The body as text bytes, still streamed: decompressed when it starts with the gzip magic bytes (a client that did not apply Content-Encoding). */
+export async function gunzipIfNeeded(body: ReadableStream<Uint8Array>): Promise<ReadableStream<Uint8Array>> {
+  const reader = body.getReader();
+  const first = await reader.read();
+  let head: Uint8Array | null = first.done ? null : first.value; // looked at once, then passed on unchanged
+  const whole = new ReadableStream<Uint8Array>({
+    async pull(c) {
+      if (head) { const h = head; head = null; c.enqueue(h); return; }
+      const { value, done } = await reader.read();
+      if (done) c.close(); else c.enqueue(value);
+    },
+    cancel(reason) { return reader.cancel(reason); },
+  }, { highWaterMark: 0 });
+  const gz = !!head && head.length >= 2 && head[0] === 0x1f && head[1] === 0x8b;
+  return gz ? whole.pipeThrough(new DecompressionStream('gzip')) : whole;
+}
 const DAY = 86_400_000;
 
 const str = (v: unknown): string => (typeof v === 'string' ? v : '');
@@ -157,7 +178,7 @@ export function mpsvCzConnector(fetchImpl: typeof fetch, now: () => Date = () =>
         contracts: names(await codeList(fetchImpl, ORIGIN, 'pracovnepravni-vztahy')),
       };
       if (codes.towns.size < (opts.minTowns ?? 1000)) throw new Error('mpsvcz: the town list is implausibly small');
-      const res = await fetchImpl(`${ORIGIN}/volna-mista/volna-mista.json`, {
+      const res = await fetchImpl(`${ORIGIN}/${MPSVCZ_FILE}`, {
         headers: { Accept: 'application/json', 'User-Agent': 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)' },
         signal: AbortSignal.timeout(300_000),
       });
@@ -169,7 +190,7 @@ export function mpsvCzConnector(fetchImpl: typeof fetch, now: () => Date = () =>
       let kept: Entry[] = [];
       const rejected: { externalId: string | null; reason: string }[] = [];
       let seen = 0;
-      for await (const text of arrayItems(res.body, 'polozky')) {
+      for await (const text of arrayItems(await gunzipIfNeeded(res.body), 'polozky')) {
         seen++;
         let r: Record<string, unknown>;
         try {

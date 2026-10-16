@@ -5,7 +5,7 @@ import { writeFileSync } from 'node:fs';
 
 const UA = { 'user-agent': 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; fixture capture)' };
 const base = 'https://data.mpsv.cz/od/soubory';
-const all = (await (await fetch(`${base}/volna-mista/volna-mista.json`, { headers: UA })).json()).polozky;
+const all = (await (await fetch(`${base}/volna-mista/volna-mista.json.gz`, { headers: UA })).json()).polozky; // only the .gz since 2026-10-16 (fetch applies Content-Encoding)
 const id = (v) => v?.id ?? '';
 const scrub = (t) => String(t ?? '').replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g, 'kontakt@example.cz').replace(/(\+?\d[\d ]{7,}\d)/g, '000 000 000').slice(0, 700);
 const want = [
