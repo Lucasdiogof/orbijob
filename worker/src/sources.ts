@@ -9,6 +9,7 @@ import { nycJobsConnector, NYCJOBS_MAX_PAGES } from './connectors/nycjobs';
 import { mpsvCzConnector } from './connectors/mpsvcz';
 import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
+import { calgaryConnector } from './connectors/calgary';
 import { feinaActivaConnector } from './connectors/feinaactiva';
 import { ecylConnector } from './connectors/ecyl';
 import { lanbideConnector } from './connectors/lanbide';
@@ -136,6 +137,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // offer must be re-confirmed within 72 h (the app hides older confirmations): 4 revalidations a day of ~450 pages cover 2,000
     maxPages: 1, newCap: 80, catalogue: 2000,
     make: (f, n, origin) => cspConnector(f, n, origin ? { api: origin } : {}),
+  },
+  calgary: {
+    id: 'calgary',
+    attribution: 'Jobs via The City of Calgary (https://www.calgary.ca/careers.html), open data "City of Calgary Careers" (https://data.calgary.ca/d/City-of-Calgary-Careers/5fsi-n9xm). Contains information licensed under the Open Government Licence – City of Calgary (https://data.calgary.ca/stories/s/Open-Calgary-Terms-of-Use/u45n-7awa/)',
+    host: 'calgary.ca',
+    // one request returns every current listing (≈ 55); the ceiling only keeps the source in proportion
+    maxPages: 1, newCap: 200, catalogue: 300,
+    make: (f, n, origin) => calgaryConnector(f, n, { origin }),
   },
   sefmurcia: {
     id: 'sefmurcia',

@@ -314,6 +314,7 @@ const _sourceNames = {
   'feinaactiva': 'Feina Activa (SOC)',
   'ecyl': 'ECYL Castilla y León',
   'lanbide': 'Lanbide',
+  'calgary': 'City of Calgary',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
