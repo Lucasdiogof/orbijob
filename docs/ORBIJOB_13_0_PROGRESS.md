@@ -86,3 +86,9 @@ de enfermería" (nursing assistant). Every query answered in < 1.2 s; the sample
 ## Pending outside this environment
 Owner: ~~publish the five sources~~ (done 16/10, verified through the public key); request the USAJOBS key (`docs/USAJOBS_API_REQUEST.md`); decide on employer permission requests (`docs/EMPLOYER_FEED_PERMISSION.md`);
 unchanged: Get on Board permission, NAV Norway registration e-mail, Jooble/Korea Work24 keys, real push on a phone, device validation, store work (out of scope here).
+
+## Personal-data guard (2026-10-16, after the 13.0 closing round)
+* One guard at the storage point for every source (`src/description.ts` `protectPersonalData`, `src/phones.ts`): telephone numbers of a person (mobiles, named contacts, international, national and North-American formats) become `[tel.]`, personal e-mails `[e-mail]`; institutional lines, role addresses, dates, hours and amounts are kept. Titles, company names (22 legitimate trade names contain `@` and are untouched) and apply links are never rewritten. The app shows the markers as plain text; the original listing stays one tap away on the official page.
+* Backfill over stored descriptions: `worker/scripts/backfill-personal-data.ts` (dry-run by default, idempotent, no copy of the originals kept). It was applied once (≈ 300 texts); the follow-up dry-run found 0 more. **Do not run it again without a new rule.** One phone masked earlier out of excess caution cannot be recovered from the database; the official page still shows it.
+* Read-only audit through the publishable key: `worker/scripts/public-privacy-audit.ts` (counts only, never a number). Result on 2026-10-16: **26,405 visible listings in 19 sources, 0 would still be masked**. Limit: the rules cover phone and e-mail formats, not every conceivable personal datum.
+* Commits: bcdceb9 (guard), 1fe92bb (backfill script), b7dde7e (audit script); CI green on b7dde7e and 1fe92bb. Worker 954 tests (+39 skipped live), `tsc` clean.
