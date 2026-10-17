@@ -4215,8 +4215,58 @@
   ]
  },
  "dependiente": {
-  "before": [],
-  "after": []
+  "before": [
+   [
+    "balconista"
+   ],
+   [
+    "shop assistant"
+   ],
+   [
+    "sales assistant"
+   ],
+   [
+    "retail assistant"
+   ],
+   [
+    "dependienta"
+   ],
+   [
+    "vendeuse"
+   ],
+   [
+    "butikssäljare"
+   ],
+   [
+    "prodavač"
+   ]
+  ],
+  "after": [
+   [
+    "balconista"
+   ],
+   [
+    "shop assistant"
+   ],
+   [
+    "sales assistant"
+   ],
+   [
+    "retail assistant"
+   ],
+   [
+    "dependienta"
+   ],
+   [
+    "vendeuse"
+   ],
+   [
+    "butikssäljare"
+   ],
+   [
+    "prodavač"
+   ]
+  ]
  },
  "limpiador": {
   "before": [

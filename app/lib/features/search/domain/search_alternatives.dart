@@ -184,8 +184,16 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
             // a word of the matched name itself is not a qualifier ("trabalhador de armazém" is one name)
             if (!consumed.any((c) {
                   final fc = _fold(c).replaceAll('-', ' ');
-                  return _fold(w).contains(fc) ||
-                      fc.split(' ').contains(_fold(w));
+                  final fw = _fold(w);
+                  // a plural or inflected form of a word of the name ("projetos" for "gerente de projeto") is part of the name, not a qualifier
+                  return fw.contains(fc) ||
+                      fc
+                          .split(' ')
+                          .any(
+                            (cw) =>
+                                cw == fw ||
+                                (cw.length >= 5 && fw.startsWith(cw)),
+                          );
                 }) &&
                 !_noise.contains(w))
               w,

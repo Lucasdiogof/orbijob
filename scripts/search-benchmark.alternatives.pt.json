@@ -1,0 +1,2041 @@
+{
+ "técnico de enfermagem": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ],
+   [
+    "técnica de enfermagem"
+   ],
+   [
+    "auxiliar de enfermagem"
+   ],
+   [
+    "auxiliar de enfermería"
+   ],
+   [
+    "nursing assistant"
+   ],
+   [
+    "nurse assistant"
+   ],
+   [
+    "healthcare assistant"
+   ],
+   [
+    "pflegehelfer"
+   ],
+   [
+    "pflegeassistent"
+   ],
+   [
+    "undersköterska"
+   ],
+   [
+    "aide-soignant"
+   ],
+   [
+    "aide soignante"
+   ],
+   [
+    "ošetřovatel"
+   ]
+  ],
+  "after": [
+   [
+    "técnica de enfermagem"
+   ],
+   [
+    "auxiliar de enfermagem"
+   ],
+   [
+    "auxiliar de enfermería"
+   ],
+   [
+    "nursing assistant"
+   ],
+   [
+    "nurse assistant"
+   ],
+   [
+    "healthcare assistant"
+   ],
+   [
+    "pflegehelfer"
+   ],
+   [
+    "pflegeassistent"
+   ],
+   [
+    "undersköterska"
+   ],
+   [
+    "aide-soignant"
+   ],
+   [
+    "aide soignante"
+   ],
+   [
+    "ošetřovatel"
+   ]
+  ]
+ },
+ "auxiliar de enfermagem": {
+  "before": [
+   [
+    "enfermeir"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ],
+   [
+    "técnico de enfermagem"
+   ],
+   [
+    "técnica de enfermagem"
+   ],
+   [
+    "auxiliar de enfermería"
+   ],
+   [
+    "nursing assistant"
+   ],
+   [
+    "nurse assistant"
+   ],
+   [
+    "healthcare assistant"
+   ],
+   [
+    "pflegehelfer"
+   ],
+   [
+    "pflegeassistent"
+   ],
+   [
+    "undersköterska"
+   ],
+   [
+    "aide-soignant"
+   ],
+   [
+    "aide soignante"
+   ],
+   [
+    "ošetřovatel"
+   ]
+  ],
+  "after": [
+   [
+    "técnico de enfermagem"
+   ],
+   [
+    "técnica de enfermagem"
+   ],
+   [
+    "auxiliar de enfermería"
+   ],
+   [
+    "nursing assistant"
+   ],
+   [
+    "nurse assistant"
+   ],
+   [
+    "healthcare assistant"
+   ],
+   [
+    "pflegehelfer"
+   ],
+   [
+    "pflegeassistent"
+   ],
+   [
+    "undersköterska"
+   ],
+   [
+    "aide-soignant"
+   ],
+   [
+    "aide soignante"
+   ],
+   [
+    "ošetřovatel"
+   ]
+  ]
+ },
+ "auxiliar de limpeza": {
+  "before": [
+   [
+    "limpiador"
+   ],
+   [
+    "limpiadora"
+   ],
+   [
+    "faxineir"
+   ],
+   [
+    "cleaner"
+   ],
+   [
+    "reinigungskraft"
+   ],
+   [
+    "städare"
+   ],
+   [
+    "netejador"
+   ],
+   [
+    "netejadora"
+   ],
+   [
+    "nettoyeur"
+   ],
+   [
+    "uklízeč"
+   ],
+   [
+    "femme de ménage"
+   ],
+   [
+    "agent d'entretien"
+   ],
+   [
+    "personal de limpieza"
+   ],
+   [
+    "putzfrau"
+   ],
+   [
+    "raumpfleg"
+   ]
+  ],
+  "after": [
+   [
+    "limpiador"
+   ],
+   [
+    "faxineir"
+   ],
+   [
+    "cleaner"
+   ],
+   [
+    "reinigungskraft"
+   ],
+   [
+    "städare"
+   ],
+   [
+    "netejador"
+   ],
+   [
+    "nettoyeur"
+   ],
+   [
+    "uklízeč"
+   ],
+   [
+    "femme de ménage"
+   ],
+   [
+    "agent d'entretien"
+   ],
+   [
+    "personal de limpieza"
+   ],
+   [
+    "putzfrau"
+   ],
+   [
+    "raumpfleg"
+   ]
+  ]
+ },
+ "motorista de caminhão": {
+  "before": [
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ],
+   [
+    "truck driver"
+   ],
+   [
+    "lorry driver"
+   ],
+   [
+    "hgv driver"
+   ],
+   [
+    "lkw-fahrer"
+   ],
+   [
+    "lkw fahrer"
+   ],
+   [
+    "lastwagenfahrer"
+   ],
+   [
+    "berufskraftfahrer"
+   ],
+   [
+    "lastbilschaufför"
+   ],
+   [
+    "lastbilsförare"
+   ],
+   [
+    "camionero"
+   ],
+   [
+    "camionneur"
+   ],
+   [
+    "camionista"
+   ],
+   [
+    "caminhoneiro"
+   ],
+   [
+    "motorista de carreta"
+   ],
+   [
+    "conductor de camión"
+   ],
+   [
+    "conducteur routier"
+   ],
+   [
+    "chauffeur poids lourd"
+   ],
+   [
+    "chauffeur routier"
+   ],
+   [
+    "řidič kamionu"
+   ],
+   [
+    "řidič nákladního"
+   ]
+  ],
+  "after": [
+   [
+    "truck driver"
+   ],
+   [
+    "lorry driver"
+   ],
+   [
+    "hgv driver"
+   ],
+   [
+    "lkw-fahrer"
+   ],
+   [
+    "lkw fahrer"
+   ],
+   [
+    "lastwagenfahrer"
+   ],
+   [
+    "berufskraftfahrer"
+   ],
+   [
+    "lastbilschaufför"
+   ],
+   [
+    "lastbilsförare"
+   ],
+   [
+    "camionero"
+   ],
+   [
+    "camionneur"
+   ],
+   [
+    "camionista"
+   ],
+   [
+    "caminhoneiro"
+   ],
+   [
+    "motorista de carreta"
+   ],
+   [
+    "conductor de camión"
+   ],
+   [
+    "conducteur routier"
+   ],
+   [
+    "chauffeur poids lourd"
+   ],
+   [
+    "chauffeur routier"
+   ],
+   [
+    "řidič kamionu"
+   ],
+   [
+    "řidič nákladního"
+   ]
+  ]
+ },
+ "pedreiro": {
+  "before": [],
+  "after": [
+   [
+    "bricklayer"
+   ],
+   [
+    "pedreira"
+   ],
+   [
+    "albañil"
+   ],
+   [
+    "maurer"
+   ],
+   [
+    "murare"
+   ],
+   [
+    "metselaar"
+   ],
+   [
+    "maçon"
+   ],
+   [
+    "zedník"
+   ],
+   [
+    "zednice"
+   ]
+  ]
+ },
+ "padeiro": {
+  "before": [],
+  "after": [
+   [
+    "bakery",
+    "specialist"
+   ],
+   [
+    "bakery",
+    "employee"
+   ],
+   [
+    "padeira"
+   ],
+   [
+    "panadero"
+   ],
+   [
+    "panadera"
+   ],
+   [
+    "bäcker"
+   ],
+   [
+    "bagare"
+   ],
+   [
+    "bakker"
+   ],
+   [
+    "boulanger"
+   ],
+   [
+    "boulangère"
+   ],
+   [
+    "pekař"
+   ],
+   [
+    "pracovník",
+    "pekárny"
+   ]
+  ]
+ },
+ "açougueiro": {
+  "before": [
+   [
+    "butcher"
+   ],
+   [
+    "carnicero"
+   ],
+   [
+    "metzger"
+   ],
+   [
+    "fleischer"
+   ],
+   [
+    "boucher"
+   ],
+   [
+    "slaktare"
+   ],
+   [
+    "řezník"
+   ]
+  ],
+  "after": [
+   [
+    "butcher"
+   ],
+   [
+    "carnicero"
+   ],
+   [
+    "metzger"
+   ],
+   [
+    "fleischer"
+   ],
+   [
+    "boucher"
+   ],
+   [
+    "slaktare"
+   ],
+   [
+    "řezník"
+   ]
+  ]
+ },
+ "atendente": {
+  "before": [],
+  "after": []
+ },
+ "balconista": {
+  "before": [
+   [
+    "shop assistant"
+   ],
+   [
+    "sales assistant"
+   ],
+   [
+    "retail assistant"
+   ],
+   [
+    "dependiente"
+   ],
+   [
+    "dependienta"
+   ],
+   [
+    "vendeuse"
+   ],
+   [
+    "butikssäljare"
+   ],
+   [
+    "prodavač"
+   ]
+  ],
+  "after": [
+   [
+    "shop assistant"
+   ],
+   [
+    "sales assistant"
+   ],
+   [
+    "retail assistant"
+   ],
+   [
+    "dependiente"
+   ],
+   [
+    "dependienta"
+   ],
+   [
+    "vendeuse"
+   ],
+   [
+    "butikssäljare"
+   ],
+   [
+    "prodavač"
+   ]
+  ]
+ },
+ "porteiro": {
+  "before": [],
+  "after": [
+   [
+    "doorman"
+   ],
+   [
+    "doorwoman"
+   ],
+   [
+    "porteira"
+   ],
+   [
+    "portero",
+    "hotel"
+   ],
+   [
+    "portera",
+    "hotel"
+   ],
+   [
+    "portier"
+   ],
+   [
+    "portière"
+   ],
+   [
+    "dörrvaktmästare"
+   ],
+   [
+    "vrátný"
+   ],
+   [
+    "vrátná"
+   ]
+  ]
+ },
+ "auxiliar de cozinha": {
+  "before": [
+   [
+    "kitchen assistant"
+   ],
+   [
+    "kitchen hand"
+   ],
+   [
+    "ayudante de cocina"
+   ],
+   [
+    "küchenhilfe"
+   ],
+   [
+    "aide de cuisine"
+   ],
+   [
+    "kökshjälp"
+   ],
+   [
+    "pomocný kuchař"
+   ]
+  ],
+  "after": [
+   [
+    "kitchen assistant"
+   ],
+   [
+    "kitchen hand"
+   ],
+   [
+    "ayudante de cocina"
+   ],
+   [
+    "küchenhilfe"
+   ],
+   [
+    "aide de cuisine"
+   ],
+   [
+    "kökshjälp"
+   ],
+   [
+    "pomocný kuchař"
+   ]
+  ]
+ },
+ "operador de caixa": {
+  "before": [],
+  "after": [
+   [
+    "cashier"
+   ],
+   [
+    "operadora",
+    "caixa"
+   ],
+   [
+    "cajero"
+   ],
+   [
+    "cajera"
+   ],
+   [
+    "kassierer"
+   ],
+   [
+    "butikskassör"
+   ],
+   [
+    "kassamedewerker"
+   ],
+   [
+    "kassamedewerkster"
+   ],
+   [
+    "hôte",
+    "caisse"
+   ],
+   [
+    "pokladník",
+    "prodejně"
+   ],
+   [
+    "pokladnice",
+    "prodejně"
+   ],
+   [
+    "pokladní",
+    "hypermarketu"
+   ]
+  ]
+ },
+ "assistente social": {
+  "before": [],
+  "after": [
+   [
+    "social",
+    "worker"
+   ],
+   [
+    "trabajador",
+    "social"
+   ],
+   [
+    "sozialarbeiter"
+   ],
+   [
+    "socionom"
+   ],
+   [
+    "sociaal",
+    "werker"
+   ],
+   [
+    "sociaal",
+    "assistent"
+   ],
+   [
+    "travailleur",
+    "social"
+   ],
+   [
+    "travailleuse",
+    "sociale"
+   ],
+   [
+    "sociální",
+    "pracovník"
+   ],
+   [
+    "sociální",
+    "pracovnice"
+   ]
+  ]
+ },
+ "entregador": {
+  "before": [
+   [
+    "delivery driver"
+   ],
+   [
+    "courier"
+   ],
+   [
+    "repartidor"
+   ],
+   [
+    "lieferfahrer"
+   ],
+   [
+    "kurier"
+   ],
+   [
+    "livreur"
+   ]
+  ],
+  "after": [
+   [
+    "delivery driver"
+   ],
+   [
+    "courier"
+   ],
+   [
+    "repartidor"
+   ],
+   [
+    "lieferfahrer"
+   ],
+   [
+    "kurier"
+   ],
+   [
+    "livreur"
+   ]
+  ]
+ },
+ "costureira": {
+  "before": [
+   [
+    "seamstress"
+   ],
+   [
+    "costurera"
+   ],
+   [
+    "näherin"
+   ],
+   [
+    "couturière"
+   ],
+   [
+    "sömmerska"
+   ],
+   [
+    "švadlena"
+   ]
+  ],
+  "after": [
+   [
+    "seamstress"
+   ],
+   [
+    "costurera"
+   ],
+   [
+    "näherin"
+   ],
+   [
+    "couturière"
+   ],
+   [
+    "sömmerska"
+   ],
+   [
+    "švadlena"
+   ]
+  ]
+ },
+ "secretária": {
+  "before": [],
+  "after": [
+   [
+    "secretary"
+   ],
+   [
+    "secretário"
+   ],
+   [
+    "secretario"
+   ],
+   [
+    "secretaria",
+    "centro",
+    "docente"
+   ],
+   [
+    "sekretär"
+   ],
+   [
+    "sekretariatsfachkraft"
+   ],
+   [
+    "sekreterare"
+   ],
+   [
+    "administratief",
+    "medewerker",
+    "secretariaat"
+   ],
+   [
+    "administratief",
+    "medewerkster",
+    "secretariaat"
+   ],
+   [
+    "secrétaire"
+   ],
+   [
+    "sekretář"
+   ]
+  ]
+ },
+ "programador": {
+  "before": [],
+  "after": []
+ },
+ "pedagogo": {
+  "before": [],
+  "after": []
+ },
+ "nutricionista": {
+  "before": [
+   [
+    "nutritionist"
+   ],
+   [
+    "dietitian"
+   ],
+   [
+    "dietician"
+   ],
+   [
+    "dietist"
+   ]
+  ],
+  "after": [
+   [
+    "nutritionist"
+   ],
+   [
+    "dietitian"
+   ],
+   [
+    "dietician"
+   ],
+   [
+    "dietist"
+   ],
+   [
+    "ernährungsberater",
+    "fertiggerichte"
+   ],
+   [
+    "voedingsdeskundige",
+    "bereide",
+    "maaltijden"
+   ],
+   [
+    "voedingsdeskundige",
+    "kant-en-klare",
+    "maaltijden"
+   ],
+   [
+    "voedingsspecialist",
+    "bereide",
+    "maaltijden"
+   ],
+   [
+    "odborník",
+    "výživu"
+   ],
+   [
+    "odbornice",
+    "výživu"
+   ]
+  ]
+ },
+ "fonoaudiólogo": {
+  "before": [
+   [
+    "fonoaudiolog"
+   ],
+   [
+    "speech therap"
+   ],
+   [
+    "speech-language"
+   ],
+   [
+    "logopäd"
+   ],
+   [
+    "logoped"
+   ]
+  ],
+  "after": [
+   [
+    "fonoaudiolog"
+   ],
+   [
+    "speech therap"
+   ],
+   [
+    "speech-language"
+   ],
+   [
+    "logopäd"
+   ],
+   [
+    "logoped"
+   ]
+  ]
+ },
+ "personal trainer": {
+  "before": [],
+  "after": [
+   [
+    "well-being",
+    "personal",
+    "trainer"
+   ],
+   [
+    "personal",
+    "trainer",
+    "nutritionist"
+   ],
+   [
+    "treinador",
+    "pessoal"
+   ],
+   [
+    "entrenador",
+    "personal"
+   ],
+   [
+    "personal",
+    "trainerin"
+   ],
+   [
+    "personlig",
+    "tränare"
+   ],
+   [
+    "personal",
+    "fitness",
+    "trainer"
+   ],
+   [
+    "personal",
+    "coach"
+   ],
+   [
+    "entraîneur",
+    "personnel"
+   ],
+   [
+    "entraîneuse",
+    "personnelle"
+   ],
+   [
+    "osobní",
+    "trenér",
+    "fitness"
+   ]
+  ]
+ },
+ "cuidador de idosos": {
+  "before": [
+   [
+    "cuidadora de idosos"
+   ],
+   [
+    "cuidador de personas mayores"
+   ],
+   [
+    "gerocultor"
+   ],
+   [
+    "care worker"
+   ],
+   [
+    "altenbetreu"
+   ],
+   [
+    "aide à domicile"
+   ],
+   [
+    "hemtjänst"
+   ]
+  ],
+  "after": [
+   [
+    "cuidadora de idosos"
+   ],
+   [
+    "cuidador de personas mayores"
+   ],
+   [
+    "gerocultor"
+   ],
+   [
+    "care worker"
+   ],
+   [
+    "altenbetreu"
+   ],
+   [
+    "aide à domicile"
+   ],
+   [
+    "hemtjänst"
+   ]
+  ]
+ },
+ "operador de máquinas": {
+  "before": [
+   [
+    "machine operator"
+   ],
+   [
+    "maschinenbediener"
+   ],
+   [
+    "maschinenführer"
+   ],
+   [
+    "opérateur sur machine"
+   ],
+   [
+    "maskinoperatör"
+   ],
+   [
+    "operátor stroje"
+   ]
+  ],
+  "after": [
+   [
+    "machine operator"
+   ],
+   [
+    "maschinenbediener"
+   ],
+   [
+    "maschinenführer"
+   ],
+   [
+    "opérateur sur machine"
+   ],
+   [
+    "maskinoperatör"
+   ],
+   [
+    "operátor stroje"
+   ]
+  ]
+ },
+ "eletricista": {
+  "before": [],
+  "after": [
+   [
+    "electricista"
+   ],
+   [
+    "electrician"
+   ],
+   [
+    "elektriker"
+   ],
+   [
+    "électricien"
+   ],
+   [
+    "elektricien"
+   ],
+   [
+    "elektrikář"
+   ],
+   [
+    "electrical",
+    "services",
+    "installer"
+   ],
+   [
+    "monteur",
+    "elektrische",
+    "installaties"
+   ]
+  ]
+ },
+ "encanador": {
+  "before": [
+   [
+    "plumber"
+   ],
+   [
+    "fontanero"
+   ],
+   [
+    "fontaner"
+   ],
+   [
+    "canalizador"
+   ],
+   [
+    "klempner"
+   ],
+   [
+    "plombier"
+   ],
+   [
+    "rörmokare"
+   ],
+   [
+    "instalatér"
+   ]
+  ],
+  "after": [
+   [
+    "plumber"
+   ],
+   [
+    "fontaner"
+   ],
+   [
+    "canalizador"
+   ],
+   [
+    "klempner"
+   ],
+   [
+    "plombier"
+   ],
+   [
+    "rörmokare"
+   ],
+   [
+    "instalatér"
+   ]
+  ]
+ },
+ "pintor": {
+  "before": [],
+  "after": [
+   [
+    "artistic",
+    "painter"
+   ],
+   [
+    "kunstmaler"
+   ],
+   [
+    "bildkonstnär"
+   ],
+   [
+    "kunstschilder"
+   ],
+   [
+    "artiste",
+    "peintre"
+   ],
+   [
+    "malíř"
+   ]
+  ]
+ },
+ "carpinteiro": {
+  "before": [],
+  "after": [
+   [
+    "carpenter"
+   ],
+   [
+    "carpinteira"
+   ],
+   [
+    "carpintero"
+   ],
+   [
+    "carpintera"
+   ],
+   [
+    "zimmerer"
+   ],
+   [
+    "zimmerin"
+   ],
+   [
+    "snickare"
+   ],
+   [
+    "timmerman"
+   ],
+   [
+    "charpentier"
+   ],
+   [
+    "charpentière"
+   ],
+   [
+    "tesař"
+   ]
+  ]
+ },
+ "jardineiro": {
+  "before": [
+   [
+    "gardener"
+   ],
+   [
+    "jardinero"
+   ],
+   [
+    "gärtner"
+   ],
+   [
+    "jardinier"
+   ],
+   [
+    "trädgårdsmästare"
+   ],
+   [
+    "zahradník"
+   ]
+  ],
+  "after": [
+   [
+    "gardener"
+   ],
+   [
+    "jardinero"
+   ],
+   [
+    "gärtner"
+   ],
+   [
+    "jardinier"
+   ],
+   [
+    "trädgårdsmästare"
+   ],
+   [
+    "zahradník"
+   ],
+   [
+    "groundsman"
+   ],
+   [
+    "groundswoman"
+   ],
+   [
+    "jardineira"
+   ],
+   [
+    "rasenpfleger"
+   ],
+   [
+    "spezialist",
+    "rasenpflege"
+   ],
+   [
+    "vaktmästare"
+   ],
+   [
+    "vaktmästarna"
+   ],
+   [
+    "medewerker",
+    "groenvoorziening"
+   ],
+   [
+    "medewerkster",
+    "groenvoorziening"
+   ],
+   [
+    "medewerker",
+    "groene",
+    "ruimte"
+   ],
+   [
+    "greenkeeper",
+    "specialista"
+   ],
+   [
+    "greenkeeper",
+    "specialistka"
+   ]
+  ]
+ },
+ "segurança": {
+  "before": [],
+  "after": []
+ },
+ "vigilante": {
+  "before": [],
+  "after": [
+   [
+    "house",
+    "sitter"
+   ],
+   [
+    "house",
+    "caretaker"
+   ],
+   [
+    "haussitter"
+   ],
+   [
+    "husvakt"
+   ],
+   [
+    "huisbewaarder"
+   ],
+   [
+    "huisbewaarster"
+   ],
+   [
+    "gardien",
+    "maison"
+   ]
+  ]
+ },
+ "auxiliar de produção": {
+  "before": [
+   [
+    "operador de produção"
+   ],
+   [
+    "production operator"
+   ],
+   [
+    "production worker"
+   ],
+   [
+    "produktionsmitarbeiter"
+   ],
+   [
+    "produktionshelfer"
+   ],
+   [
+    "operario de producción"
+   ],
+   [
+    "opérateur de production"
+   ],
+   [
+    "produktionsarbetare"
+   ],
+   [
+    "výrobní dělník"
+   ]
+  ],
+  "after": [
+   [
+    "operador de produção"
+   ],
+   [
+    "production operator"
+   ],
+   [
+    "production worker"
+   ],
+   [
+    "produktionsmitarbeiter"
+   ],
+   [
+    "produktionshelfer"
+   ],
+   [
+    "operario de producción"
+   ],
+   [
+    "opérateur de production"
+   ],
+   [
+    "produktionsarbetare"
+   ],
+   [
+    "výrobní dělník"
+   ]
+  ]
+ },
+ "analista de dados": {
+  "before": [],
+  "after": [
+   [
+    "data",
+    "analyst"
+   ],
+   [
+    "analista",
+    "informação"
+   ],
+   [
+    "analista",
+    "datos"
+   ],
+   [
+    "datenanalytiker"
+   ],
+   [
+    "datenanalyst"
+   ],
+   [
+    "dataanalytiker"
+   ],
+   [
+    "data-analist"
+   ],
+   [
+    "analyste",
+    "données"
+   ],
+   [
+    "analytik",
+    "dat"
+   ],
+   [
+    "analytička",
+    "dat"
+   ]
+  ]
+ },
+ "gerente de projetos": {
+  "before": [
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ],
+  "after": [
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ]
+ },
+ "técnico de manutenção": {
+  "before": [
+   [
+    "maintenance technician"
+   ],
+   [
+    "técnico de mantenimiento"
+   ],
+   [
+    "instandhaltungstechniker"
+   ],
+   [
+    "wartungstechniker"
+   ],
+   [
+    "technicien de maintenance"
+   ],
+   [
+    "underhållstekniker"
+   ],
+   [
+    "údržbář"
+   ]
+  ],
+  "after": [
+   [
+    "maintenance technician"
+   ],
+   [
+    "técnico de mantenimiento"
+   ],
+   [
+    "instandhaltungstechniker"
+   ],
+   [
+    "wartungstechniker"
+   ],
+   [
+    "technicien de maintenance"
+   ],
+   [
+    "underhållstekniker"
+   ],
+   [
+    "údržbář"
+   ],
+   [
+    "aircraft",
+    "engine",
+    "tester"
+   ],
+   [
+    "técnica",
+    "manutenção"
+   ],
+   [
+    "triebwerkprüfer"
+   ],
+   [
+    "flygmotorprovare"
+   ],
+   [
+    "flygmotortestare"
+   ],
+   [
+    "tester",
+    "vliegtuigmotoren"
+   ],
+   [
+    "testeur",
+    "moteurs",
+    "d’avions"
+   ],
+   [
+    "testeuse",
+    "moteurs",
+    "d’avions"
+   ],
+   [
+    "zkušební",
+    "technik",
+    "leteckých",
+    "motorů"
+   ],
+   [
+    "zkušební",
+    "technička",
+    "leteckých",
+    "motorů"
+   ],
+   [
+    "automotive",
+    "engineering",
+    "technician"
+   ],
+   [
+    "automotive",
+    "design",
+    "checker"
+   ],
+   [
+    "técnico",
+    "mecânica",
+    "automóvel"
+   ],
+   [
+    "técnica",
+    "mecânica",
+    "automóvel"
+   ],
+   [
+    "ingeniero",
+    "técnico",
+    "automoción"
+   ],
+   [
+    "ingeniera",
+    "técnica",
+    "automoción"
+   ],
+   [
+    "ingeniero",
+    "técnico",
+    "automóvil"
+   ],
+   [
+    "kraftfahrzeugbautechniker"
+   ],
+   [
+    "techniker",
+    "kraftfahrzeugbau"
+   ],
+   [
+    "technisch",
+    "ingenieur",
+    "motorvoertuigen"
+   ],
+   [
+    "technicien",
+    "ingénierie",
+    "automobile"
+   ],
+   [
+    "automobilový",
+    "technik"
+   ],
+   [
+    "automobilová",
+    "technička"
+   ],
+   [
+    "ingeniero",
+    "técnico",
+    "climatización"
+   ],
+   [
+    "ingeniera",
+    "técnica",
+    "climatización"
+   ],
+   [
+    "ingeniero",
+    "técnico",
+    "hvac"
+   ],
+   [
+    "vvs-ingenjör"
+   ],
+   [
+    "technicus",
+    "verwarmings-",
+    "airconditioningsinstallaties"
+   ],
+   [
+    "klimaattechnicus"
+   ],
+   [
+    "servicetechnicus",
+    "hvac"
+   ],
+   [
+    "technicien",
+    "génie",
+    "climatique"
+   ],
+   [
+    "technicienne-thermicienne"
+   ],
+   [
+    "marine",
+    "engineering",
+    "technician"
+   ]
+  ]
+ },
+ "enfermeiro": {
+  "before": [
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ],
+  "after": [
+   [
+    "enfermagem"
+   ],
+   [
+    "enfermer"
+   ],
+   [
+    "infermer"
+   ],
+   [
+    "nurse"
+   ],
+   [
+    "nursing"
+   ],
+   [
+    "krankenpfleg"
+   ],
+   [
+    "krankenschwester"
+   ],
+   [
+    "pflegefach"
+   ],
+   [
+    "pflegekraft"
+   ],
+   [
+    "altenpfleg"
+   ],
+   [
+    "pflegehelf"
+   ],
+   [
+    "pflegeassist"
+   ],
+   [
+    "sjuksköterska"
+   ],
+   [
+    "infirmier"
+   ],
+   [
+    "infirmière"
+   ],
+   [
+    "zdravotní sestr"
+   ],
+   [
+    "všeobecná sestr"
+   ],
+   [
+    "護理"
+   ]
+  ]
+ },
+ "psicólogo": {
+  "before": [
+   [
+    "psicolog"
+   ],
+   [
+    "psycholog"
+   ],
+   [
+    "psykolog"
+   ]
+  ],
+  "after": [
+   [
+    "psicolog"
+   ],
+   [
+    "psycholog"
+   ],
+   [
+    "psykolog"
+   ],
+   [
+    "psicóloga"
+   ],
+   [
+    "psycholoog"
+   ],
+   [
+    "psycholožka"
+   ]
+  ]
+ },
+ "contador": {
+  "before": [
+   [
+    "contadora"
+   ],
+   [
+    "accountant"
+   ],
+   [
+    "buchhalter"
+   ]
+  ],
+  "after": [
+   [
+    "accountant"
+   ],
+   [
+    "buchhalter"
+   ]
+  ]
+ },
+ "motorista": {
+  "before": [
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ],
+  "after": [
+   [
+    "conductor"
+   ],
+   [
+    "driver"
+   ],
+   [
+    "fahrer"
+   ],
+   [
+    "chaufför"
+   ],
+   [
+    "chauffeur"
+   ],
+   [
+    "řidič"
+   ]
+  ]
+ }
+}

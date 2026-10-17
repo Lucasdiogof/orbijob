@@ -3124,12 +3124,16 @@
   ],
   "after": [
    [
-    "therapist",
+    "terapeuta ocupacional"
+   ],
+   [
     "terapia ocupacional"
    ],
    [
-    "therapist",
     "ergotherap"
+   ],
+   [
+    "arbetsterapeut"
    ],
    [
     "expert",
@@ -3144,12 +3148,6 @@
    [
     "terapeuta",
     "ocupacional"
-   ],
-   [
-    "ergotherapeut"
-   ],
-   [
-    "arbetsterapeut"
    ],
    [
     "ergothérapeute"
@@ -3779,8 +3777,45 @@
   ]
  },
  "project manager": {
-  "before": [],
+  "before": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ],
   "after": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ],
    [
     "project",
     "coordinator"
@@ -3795,9 +3830,6 @@
    ],
    [
     "projektmanager"
-   ],
-   [
-    "projektledare"
    ],
    [
     "projectmanager"
@@ -3821,12 +3853,88 @@
   ]
  },
  "projektleiter": {
-  "before": [],
-  "after": []
+  "before": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ],
+  "after": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "jefe de proyecto"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ]
  },
  "jefe de proyecto": {
-  "before": [],
-  "after": []
+  "before": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ],
+  "after": [
+   [
+    "gerente de projeto"
+   ],
+   [
+    "gestor de projeto"
+   ],
+   [
+    "project manager"
+   ],
+   [
+    "projektleiter"
+   ],
+   [
+    "chef de projet"
+   ],
+   [
+    "projektledare"
+   ]
+  ]
  },
  "medico": {
   "before": [],
