@@ -236,6 +236,18 @@ void main() {
         contains('PCI Concursos: fisioterapeuta'),
       );
     });
+    test('the federal university hospitals page is listed for physiotherapy and for its pelvic specialty', () {
+      for (final spec in [
+        HealthSpecialty.physiotherapy,
+        HealthSpecialty.pelvicPhysio,
+      ]) {
+        expect(
+          portalsFor(spec).map((p) => p.name),
+          contains('HU Brasil (EBSERH): concursos e seleções'),
+          reason: '$spec',
+        );
+      }
+    });
     test(
       'nursing has no dedicated board yet: only the general ones (none today)',
       () {
