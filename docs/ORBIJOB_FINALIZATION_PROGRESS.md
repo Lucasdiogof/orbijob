@@ -57,3 +57,7 @@ USAJOBS needs only the owner's free API key. Worker 905 tests, Flutter 995 tests
 
 ## Checkpoint 2026-10-16 (personal-data guard)
 HEAD b7dde7e on main = origin/main, working tree clean (untracked `.idea/`, `_aplicar/` are local on purpose). Backfills already run: personal-data (once, ≈ 300 texts, dry-run now 0), Czech/ECYL fixes of 13.0. Scripts: `worker/scripts/backfill-personal-data.ts`, `worker/scripts/public-privacy-audit.ts`. Last public audit: 26,405 visible, 0 leaks by rule. Details in docs/ORBIJOB_13_0_PROGRESS.md. Pending outside this environment: USAJOBS key (owner), employer permission requests (owner), Get on Board permission, NAV Norway e-mail. Next concrete step: new licensed sources (hypothesis needed) or search-quality cases found in the benchmark.
+
+## Phase 14.0 (2026-10-17) - see docs/ORBIJOB_14_0_PROGRESS.md and docs/SOURCES_14_0.md
+Flutter suite re-run first: analyze clean, 995 passed before the phase, 1,004 after. City of Calgary imported (55, unpublished; owner file in `_aplicar/2026-10-17_14_0_fontes/`); source research with the licence text read for each candidate; search groups for trades with a 70-query benchmark on the public catalogue;
+read-only audits saved in `docs/evidence` (catalogue quality, RLS: anonymous reads only jobs, job_sources, job_clusters). Database 284 MB of 500 MB. Worker 961 tests. Pending outside this environment: Calgary publication, USAJOBS key, employer permission requests, Edmonton question.
