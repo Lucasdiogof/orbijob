@@ -57,3 +57,11 @@ Status legend: **Done** · **Partial** · **In progress** · **Pending**. Auto/D
 3. Create the upload keystore and the store accounts/listings; provide a Mac for iOS (APNs key, signing).
 4. NAV Norway registration e-mail; USAJOBS/Jooble keys; a source with Latin-American inventory.
 5. Native-speaker review of profession names; a person with TalkBack/VoiceOver.
+
+## ORBI-001 (17/10/2026)
+
+| Area | Implemented | Auto-validated | Production | Device |
+|---|---|---|---|---|
+| Offline catalogue (saved results, states, reconnect) | yes | yes | n/a (client) | no |
+| Automatic translation download (policy, network states) | yes | yes | n/a (client) | no |
+| Accent-insensitive search (app + alerts SQL) | yes | yes (golden parity, SQL test in CI) | **migration 20 not applied** (CLI account lacks OrbiJob; SQL file prepared) | no |

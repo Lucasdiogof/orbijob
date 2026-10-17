@@ -64,3 +64,6 @@ read-only audits saved in `docs/evidence` (catalogue quality, RLS: anonymous rea
 
 ## Phase 14.1 - Brazil (2026-10-17) - see docs/ORBIJOB_14_1_BRAZIL.md
 Baseline measured first (13 visible listings in Brazil, 109 remote listings explicitly open to Brazil/LATAM/anywhere, 0 Flutter titles, 0 pelvic physiotherapy). SINE-ES imported (309, unpublished; owner file in `_aplicar/2026-10-17_14_1_brasil/`). Brazilian phone/CPF masking added at the storage point (0 left, no backfill needed). Search: programador, app developers, the typed words also match as a conjunction; benchmarks `search-benchmark.queries.br.json` and `search-timing.mjs`. HU Brasil (EBSERH) link for physiotherapy. Worker 979 tests, Flutter 1,018, analyze clean. Pending outside this environment: SINE-ES publication decision, dados.gov.br API key, permission requests (Gupy, SETADES-ES, boards, employers: drafts in the Brazil document, nothing sent), USAJOBS key.
+
+## ORBI-001 (17/10/2026)
+Offline-first catalogue (`23d4303`), automatic translation download policy (`3546b1b`), accent-insensitive search (`e302550`, migration 20 pending in production). Details and pending items: `docs/ORBIJOB_ORBI001_HANDOFF.md`. Automated validation only; no device validation.
