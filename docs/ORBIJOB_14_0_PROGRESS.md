@@ -59,3 +59,10 @@ unchanged: Get on Board permission, NAV Norway registration e-mail, Jooble/Korea
 
 ## Next concrete step
 A bundle connector for small municipal feeds of the same shape (OpenDataSoft with `jobaffinity` fields: Tours 33; UK councils under OGL) only when at least three feeds of one shape exist; otherwise search quality from the benchmark (health and trades in Portuguese) and the 60-day-old listings of feinaactiva.
+
+## Round 2 — Brazilian Portuguese trades (2026-10-17, commit 2c8bc52)
+A third benchmark, `scripts/search-benchmark.queries.pt.json` (38 queries), measured on the public catalogue: 13 of them found nothing or almost nothing in 5.0 (açougueiro 0, balconista 0, auxiliar de cozinha 0, entregador 0, costureira 0, cuidador de idosos 0, operador de máquinas 0,
+auxiliar de produção 0, gerente de projetos 0, técnico de enfermagem 2, técnico de manutenção 1). Groups of whole names added for nursing assistants (nursing assistant, Pflegehelfer, undersköterska, aide-soignant…, so "auxiliar de enfermagem" is no longer "any nurse"), butchers, kitchen assistants, delivery
+drivers and couriers, seamstresses, elderly care, machine and production operators, shop assistants, project managers and maintenance technicians. Found by the same measure: a plural of a word of the name ("projetos") was treated as a required qualifier and returned 0; fixed. After: açougueiro 34, balconista 185,
+auxiliar de cozinha 45, entregador 50, costureira 8, cuidador de idosos 92, operador de máquinas 14, auxiliar de produção 25, técnico de enfermagem 104, técnico de manutenção 100. Of the earlier 74 + 70 queries only "dependiente" (35→185), "project manager", "projektleiter" and "jefe de proyecto" changed.
+Not changed on purpose: "atendente" and "segurança" (ambiguous words with no safe cross-language name). Flutter 1,008 tests passed, analyze clean.
