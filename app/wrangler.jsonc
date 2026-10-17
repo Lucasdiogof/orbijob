@@ -8,7 +8,6 @@
     "directory": "build/web",
     // Flutter is a SPA: unknown paths fall back to index.html (refresh on /route never 404s).
     "not_found_handling": "single-page-application"
-  }
-  // Custom domain: ONLY after the owner authorises DNS changes. Uncomment, then deploy.
-  // "routes": [{ "pattern": "orbijob.lucksrei.com", "custom_domain": true }]
+  },
+  "routes": [{ "pattern": "orbijob.lucksrei.com", "custom_domain": true }]
 }
