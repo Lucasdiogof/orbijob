@@ -17,6 +17,7 @@ env:
   FLUTTER_VERSION: "3.47.7"        # pin to the version the app is developed with
   APP_DIR: "app"                    # folder with pubspec.yaml and wrangler.jsonc (OrbiJob: app)
   FLUTTER_WEB_FLAGS: "--no-web-resources-cdn"           # e.g. --no-web-resources-cdn
+  SMOKE_URLS: "https://orbijob.lucksrei.com https://orbijob-web.lucasdiogo1234.workers.dev"  # public URLs checked after every deploy (space separated)
 jobs:
   deploy:
     if: github.event_name == 'workflow_dispatch' || vars.AUTO_DEPLOY == 'true'
@@ -46,6 +47,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: ${{ env.APP_DIR }}
           command: deploy
-      - name: Smoke test (workers.dev)
-        if: vars.SMOKE_URL != ''
-        run: bash scripts/smoke-test.sh "${{ vars.SMOKE_URL }}"
+      - name: Smoke test (public URLs, fails the workflow on a bad publish)
+        run: |
+          for u in $SMOKE_URLS; do bash scripts/smoke-test.sh "$u" || exit 1; done
