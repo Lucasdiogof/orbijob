@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:orbijob/core/format/fold.dart';
 import 'package:orbijob/features/search/domain/continent.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
 import 'package:orbijob/features/search/domain/health_specialty.dart';
@@ -46,16 +47,17 @@ class _Job {
 bool _matches(SearchSpec spec, _Job j) {
   final s = spec.canonical;
   final f = s.filters;
-  final t = j.title.toLowerCase();
+  final t = foldAccents(j.title);
   if (s.term.isNotEmpty) {
-    final term = s.term.toLowerCase();
+    final term = foldAccents(s.term);
     final alts = (s.toQuery()['match'] as Map)['alts'] as List? ?? const [];
     final hit =
         t.contains(term) ||
-        (j.city ?? '').toLowerCase().contains(term) ||
+        foldAccents(j.city ?? '').contains(term) ||
         alts.any(
-          (a) =>
-              a is List ? a.every((p) => t.contains('$p')) : t.contains('$a'),
+          (a) => a is List
+              ? a.every((p) => t.contains(foldAccents('$p')))
+              : t.contains(foldAccents('$a')),
         );
     if (!hit) return false;
   }
@@ -264,6 +266,11 @@ void main() {
       'profession-parts': const SearchSpec(term: 'desenvolvedor flutter'),
       'profession-esco': const SearchSpec(term: 'eletricista'),
       'profession-specialty': const SearchSpec(term: 'fisioterapia pélvica'),
+      // accents never decide (ops.title_has folds both sides): typed with or without them, the same jobs
+      'accent-typed': const SearchSpec(term: 'sênior'),
+      'accent-plain': const SearchSpec(term: 'senior'),
+      'accent-city': const SearchSpec(term: 'goiania'),
+      'accent-profession': const SearchSpec(term: 'médico'),
       'country': const SearchSpec(filters: JobFilters(countryCode: 'BR')),
       'continent': const SearchSpec(
         filters: JobFilters(continent: Continent.europe),
@@ -310,6 +317,8 @@ void main() {
       ),
     };
     final jobs = <_Job>[
+      _Job('Desenvolvedor Sênior', country: 'BR', daysAgo: 3),
+      _Job('Senior Medico', country: 'PT', city: 'Lisboa', daysAgo: 4),
       _Job(
         'Registered Nurse',
         country: 'DE',

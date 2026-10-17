@@ -262,7 +262,7 @@ void main() {
       final or = b.requests.first.request.url.queryParametersAll['or']!.single;
       expect(
         or,
-        '(search.wfts(simple).Acme Robotics,title.ilike.*Acme Robotics*,city.ilike.*Acme Robotics*)',
+        '(search.wfts(simple).Acme Robotics,title_fold.ilike.*acme robotics*,city_fold.ilike.*acme robotics*)',
       );
     });
 
@@ -275,19 +275,57 @@ void main() {
             b.requests.first.request.url.queryParametersAll['or']!.single;
         expect(
           or,
-          '(title.ilike.*Flutter Developer*,city.ilike.*Flutter Developer*,'
-          'and(title.ilike.*flutter*,title.ilike.*desenvolvedor*),'
-          'and(title.ilike.*flutter*,title.ilike.*desarrollador*),'
-          'and(title.ilike.*flutter*,title.ilike.*entwickler*),'
-          'and(title.ilike.*flutter*,title.ilike.*utvecklare*),'
-          'and(title.ilike.*flutter*,title.ilike.*programador*),'
-          'and(title.ilike.*flutter*,title.ilike.*programmer*),'
-          'and(title.ilike.*flutter*,title.ilike.*programmierer*),'
+          '(title_fold.ilike.*flutter developer*,city_fold.ilike.*flutter developer*,'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*desenvolvedor*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*desarrollador*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*entwickler*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*utvecklare*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*programador*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*programmer*),'
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*programmierer*),'
           // the typed words kept as a conjunction: "Desenvolvedor(a) Flutter" and "Flutter Senior Developer" are not the adjacent phrase
-          'and(title.ilike.*flutter*,title.ilike.*developer*))',
+          'and(title_fold.ilike.*flutter*,title_fold.ilike.*developer*))',
         );
       },
     );
+
+    test('accents never decide: the folded columns get the folded term, the full-text column both spellings', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('Sênior Zxq');
+      final or = b.requests.first.request.url.queryParametersAll['or']!.single;
+      expect(or, contains('search.wfts(simple).Sênior Zxq'));
+      expect(or, contains('search.wfts(simple).senior zxq'));
+      expect(or, contains('title_fold.ilike.*senior zxq*'));
+      expect(or, contains('city_fold.ilike.*senior zxq*'));
+      expect(or, isNot(contains('title.ilike')));
+    });
+
+    test('a database without the folded columns is searched the old way, once the server says so', () async {
+      var calls = 0;
+      final b = FakeBackend(
+        respond: (m, u, body) {
+          calls++;
+          if (u.queryParameters['or']?.contains('title_fold') ?? false) {
+            return (
+              400,
+              {
+                'code': '42703',
+                'message': 'column jobs.title_fold does not exist',
+              },
+            );
+          }
+          return (200, [row()]);
+        },
+      );
+      SupabaseJobCatalogRepository.useFoldedColumns = true;
+      addTearDown(() => SupabaseJobCatalogRepository.useFoldedColumns = true);
+      final r = await repoFor(b).search('médico');
+      expect(r.jobs, hasLength(1));
+      expect(calls, 2);
+      final or = b.requests.last.request.url.queryParametersAll['or']!.single;
+      expect(or, contains('title.ilike.*médico*'));
+      expect(SupabaseJobCatalogRepository.useFoldedColumns, isFalse);
+    });
 
     test('an empty or punctuation-only query adds no text filter (browse the newest)', () async {
       for (final q in ['', '   ', ',()"*%']) {

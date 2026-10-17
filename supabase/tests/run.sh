@@ -33,6 +33,7 @@ run 14_v3_alerts.sql
 run 15_push_devices.sql
 run 16_reminders.sql
 run 17_search_alternatives.sql
+run 18_accent_search.sql
 ./05_concurrency.sh "$URL"
 # the storage section must be re-runnable without error (idempotence of the bucket/policy statements)
 awk '/-- ───────── private storage: resumes/{f=1} f' ../migrations/20261010000000_app_integration.sql > /tmp/storage_section_$$.sql

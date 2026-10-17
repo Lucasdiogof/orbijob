@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/format/fold.dart';
 import '../domain/entities/job_posting.dart';
 import '../domain/health_specialty.dart';
 import '../domain/job_area.dart';
@@ -46,9 +47,46 @@ class SupabaseJobCatalogRepository
       'salary_min,salary_max,salary_currency,salary_period,published_at,original_url,apply_url,status,'
       'geo_restrictions,skills,job_sources!inner(id,attribution,can_redistribute,status)';
 
+  /// The catalogue's accent-folded columns (`title_fold`, `city_fold`, migration 20261027000000) exist. Cleared for the session the first
+  /// time the server says one is missing (a database not migrated yet): the search then falls back to the accent-sensitive filters.
+  static bool useFoldedColumns = true;
+
   @override
   Future<SearchResult> search(
     String query, {
+    String? countryCode,
+    JobFilters filters = const JobFilters(),
+    int offset = 0,
+    int limit = 20,
+  }) async {
+    try {
+      return await _search(
+        query,
+        countryCode: countryCode,
+        filters: filters,
+        offset: offset,
+        limit: limit,
+        folded: useFoldedColumns,
+      );
+    } on PostgrestException catch (e) {
+      final missing =
+          e.message.contains('title_fold') || e.message.contains('city_fold');
+      if (!useFoldedColumns || !missing) rethrow;
+      useFoldedColumns = false;
+      return _search(
+        query,
+        countryCode: countryCode,
+        filters: filters,
+        offset: offset,
+        limit: limit,
+        folded: false,
+      );
+    }
+  }
+
+  Future<SearchResult> _search(
+    String query, {
+    required bool folded,
     String? countryCode,
     JobFilters filters = const JobFilters(),
     int offset = 0,
@@ -83,16 +121,24 @@ class SupabaseJobCatalogRepository
       // A term that names a profession is judged on the title (a description that merely mentions the word is not a match); the
       // alternatives keep the qualifying words together (search_alternatives.dart). Any other term keeps the full-text match.
       final alts = titleAlternatives(term);
+      // Accents never decide: the title and city are compared folded on both sides ("sênior" = "senior"); the full-text column is asked for
+      // both spellings (it keeps the accents of the descriptions).
+      String has(String column, String needle) => folded
+          ? '${column}_fold.ilike.*${foldAccents(needle)}*'
+          : '$column.ilike.*$needle*';
+      final plain = foldAccents(term);
       q = q.or(
         [
           if (alts.isEmpty) 'search.wfts(simple).$term',
-          'title.ilike.*$term*',
-          'city.ilike.*$term*',
+          if (alts.isEmpty && folded && plain != term.toLowerCase())
+            'search.wfts(simple).$plain',
+          has('title', term),
+          has('city', term),
           for (final a in alts)
             if (a.length == 1)
-              'title.ilike.*${a.first}*'
+              has('title', a.first)
             else
-              'and(${[for (final p in a) 'title.ilike.*$p*'].join(',')})',
+              'and(${[for (final p in a) has('title', p)].join(',')})',
         ].join(','),
       );
     }

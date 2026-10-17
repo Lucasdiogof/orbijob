@@ -1,3 +1,4 @@
+import '../../../core/format/fold.dart';
 import 'occupation_labels.g.dart';
 import 'search_synonyms.dart';
 
@@ -235,18 +236,7 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
 
 // --- ESCO -----------------------------------------------------------------------------------------------------------------------------
 
-String _fold(String s) {
-  // Latin letters with marks, incl. Czech, Polish and Nordic ones (č ř š ž ě ů ł ø ...), so "kuchar" finds "kuchař"
-  const from = 'àáâãäåçèéêëìíîïñòóôõöùúûüýÿčďěňřšťůžľĺŕłśźżćńąęøő';
-  const to = 'aaaaaaceeeeiiiinooooouuuuyycdenrstuzllrlszzcnaeoo';
-  final b = StringBuffer();
-  for (final r in s.toLowerCase().runes) {
-    final c = String.fromCharCode(r);
-    final i = from.indexOf(c);
-    b.write(i >= 0 ? to[i] : c);
-  }
-  return b.toString();
-}
+String _fold(String s) => foldAccents(s);
 
 Map<String, List<int>>? _index;
 
