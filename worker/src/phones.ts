@@ -21,7 +21,12 @@ const INTL = String.raw`(?<![\w+])(?:\+|\b00)[1-9]\d{0,2}(?:[ \t./-]{0,2}\(?\d{1
 const NANP = String.raw`(?<![\w(+-])(?:\(\d{3}\)[ \t]?|\d{3}[.-])\d{3}[.-]\d{4}(?![\d-])`;
 /** National numbers with a trunk 0 (0179 / 12 92 419, 040-608 76 01, 02238/808-190, 01283 247800): only right after a telephone word (see TEL_WORD). */
 const NATIONAL = String.raw`(?<![\w])0[1-9]\d{0,4}(?:[ \t]?[/-][ \t]?|[ \t]|\.)\d{2,8}(?:[ \t.-]\d{1,6}){0,4}(?![\w])`;
-const CANDIDATE = new RegExp(`${INTL}|${NANP}|${NATIONAL}`, 'g');
+/**
+ * Brazilian numbers (14.1): the area code (DDD) in parentheses, "(62) 99999-9999" or "(62) 3333-4444", and the mobile written with separators, "62 9 9999-9999" or
+ * "62 99999-9999". A bare run of eleven digits is never recognised (it is as likely a CPF or a PIS number).
+ */
+const BRAZIL = String.raw`(?<![\w(+.-])(?:\([1-9]\d\)[ \t]?9?[ .-]?\d{4}[ .-]?\d{4}|[1-9]\d[ .]9[ .-]?\d{4}[ .-]\d{4})(?![\d-])`;
+const CANDIDATE = new RegExp(`${INTL}|${NANP}|${BRAZIL}|${NATIONAL}`, 'g');
 
 /** Words that announce a telephone number, in the catalogue's languages. */
 const TEL_WORD = /(?:tel|phone|telefon|téléphone|telèfon|teléfono|telefone|call|calling|ring|ruf|fon|mobil|mobile|cell|handy|contact|kontakt|ansprech|nå|nås|nummer|number|número|numero|nr|appel|llam|whatsapp|sms|bel|📞|☎|on|på|unter|at|au|al|zentrale|telefonzentrale|sekretariat|empfang|reception|switchboard|office|växel|växeln|centralita|recepción|secretaría|accueil|standard|hotline|helpline)\W{0,6}$/iu;
@@ -41,7 +46,7 @@ const NOT_A_NAME = /\b(?:Ihre|Ihr|Unsere|Unser|Telefon|Telefonnummer|Rufnummer|M
 const PERSON_NEAR = 30;
 
 /** Institutional lines: public business information, kept when no person is named. */
-const INSTITUTION = /(?:[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\b(?:wir|uns|we|us|vi|oss|nosotros|nous|let us know|contact us|call us|reach us|ring us|kontaktieren Sie uns|ruf uns an|ring oss|kontakta oss|contacta con nosotros|llámanos|contactez-nous|appelez-nous|toll[ -]free|(?:relations|accommodations?|recruiting|recruitment|talent|people|support|service|help|candidate) (?:team|desk|line|department|office)|team[ -]recruiting|recruiting[ -]team|personalservice|bewerbermanagement|school office|the office|our office|main office|front desk|reception|switchboard|main line|HR team|HR department|human resources|recruitment team|recruitment office|admissions|helpline|hotline|customer service|Zentrale|Telefonzentrale|Empfang|Sekretariat|Servicecenter|växel|växeln|kundtjänst|kundservice|reception|centralita|recepción|secretaría|accueil|standard|ústředna|sekretariát|kontaktcenter|kontaktcentret|school|academy|trust|MAT|college|university|council|kommun|kommunen|region|regionen|gemeinde|stadt|landkreis|hospital|klinik|sjukhus|ayuntamiento|mairie)\b)/iu;
+const INSTITUTION = /(?:[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\b(?:wir|uns|we|us|vi|oss|nosotros|nous|let us know|contact us|call us|reach us|ring us|kontaktieren Sie uns|ruf uns an|ring oss|kontakta oss|contacta con nosotros|llámanos|contactez-nous|appelez-nous|toll[ -]free|(?:relations|accommodations?|recruiting|recruitment|talent|people|support|service|help|candidate) (?:team|desk|line|department|office)|team[ -]recruiting|recruiting[ -]team|personalservice|bewerbermanagement|school office|the office|our office|main office|front desk|reception|switchboard|main line|HR team|HR department|human resources|recruitment team|recruitment office|admissions|helpline|hotline|customer service|Zentrale|Telefonzentrale|Empfang|Sekretariat|Servicecenter|växel|växeln|kundtjänst|kundservice|reception|centralita|recepción|secretaría|accueil|standard|ústředna|sekretariát|kontaktcenter|kontaktcentret|school|academy|trust|MAT|college|university|council|kommun|kommunen|region|regionen|gemeinde|stadt|landkreis|hospital|klinik|sjukhus|ayuntamiento|mairie|fale conosco|entre em contato conosco|ligue para n[oó]s|nossa central|a central|central de atendimento|central telef[oô]nica|recep[cç][aã]o|portaria|ouvidoria|sac|setor de rh|departamento pessoal|prefeitura|secretaria municipal)\b)/iu;
 
 /** National mobile prefixes (trunk 0) by the listing's country: the same digits are a landline elsewhere (0161 is Manchester, 016x a German mobile). */
 const NATIONAL_MOBILE: Record<string, RegExp> = {
@@ -52,8 +57,10 @@ const NATIONAL_MOBILE: Record<string, RegExp> = {
 /** Mobile ranges of the catalogue's countries: always a person's line. International numbers carry their country; national ones use the listing's. */
 function isMobile(raw: string, country: string | null): boolean {
   const d = raw.replace(/[^\d+]/g, '').replace(/^00/, '+');
+  // Brazil: DDD + a nine-digit number that starts with 9 is a mobile line (landlines have eight digits after the DDD)
+  if (/^[1-9]\d9\d{8}$/.test(d)) return true;
   if (d.startsWith('+')) {
-    return /^\+49(?:15|16|17)|^\+46(?:7[02369])|^\+447|^\+316|^\+33[67]|^\+34[67]|^\+420[67]|^\+43(?:6[5-9])|^\+417[5-9]|^\+353(?:8[3-9])|^\+32(?:4[5-9])|^\+64(?:2)|^\+61(?:4)/.test(d);
+    return /^\+49(?:15|16|17)|^\+46(?:7[02369])|^\+447|^\+316|^\+33[67]|^\+34[67]|^\+55[1-9]\d9|^\+420[67]|^\+43(?:6[5-9])|^\+417[5-9]|^\+353(?:8[3-9])|^\+32(?:4[5-9])|^\+64(?:2)|^\+61(?:4)/.test(d);
   }
   const rule = country ? NATIONAL_MOBILE[country] : undefined;
   return !!rule && rule.test(d);

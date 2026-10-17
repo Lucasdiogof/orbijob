@@ -79,5 +79,16 @@ export function cleanDescription(html: string): string {
  * may identify a person are masked (`./phones` holds the telephone rule); role addresses and institutional lines stay. Idempotent.
  */
 export function protectPersonalData(text: string, country: string | null = null): string {
-  return maskPersonalPhones(maskPersonalEmails(text), country);
+  return maskPersonalPhones(maskPersonalIds(maskPersonalEmails(text)), country);
+}
+
+export const MASKED_ID = '[CPF]';
+/**
+ * The Brazilian personal tax number (CPF) identifies a person: the formatted one (123.456.789-09), and eleven digits right after the word CPF. The company number
+ * (CNPJ) is public business information and is left alone.
+ */
+export function maskPersonalIds(text: string): string {
+  return text
+    .replace(/(?<![\d.])\d{3}\.\d{3}\.\d{3}-\d{2}(?![\d-])/g, MASKED_ID)
+    .replace(/\b(CPF\W{0,4}(?:n[º°o.]{0,2}\W{0,3})?)\d{11}(?!\d)/gi, (_m, w: string) => `${w}${MASKED_ID}`);
 }
