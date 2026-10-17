@@ -22,3 +22,11 @@ Pendência externa: confirmar SMTP custom no projeto (embutido = 2 e-mails/hora)
 ## Limitações web conhecidas
 Tradução on-device (ML Kit), push (FCM nativo) e WebView interna são recursos de Android/iOS; na web o app já os degrada
 (`kIsWeb`), mas a execução no navegador não foi validada aqui. Navegador abre vagas em nova aba.
+
+
+## QA local no navegador (2026-10-17, build servido por wrangler dev em localhost)
+Carregamento, tela inicial, ausência de erros de console, mobile (375x812) e desktop verificados. Sem chaves privilegiadas no bundle.
+**Não testado por mim**: login/logout/persistência, recuperação por código, isolamento entre usuários (exigem conta de QA e caixa de e-mail de QA, que não tenho; digitar senhas fora de localhost também é vedado).
+Deploy de teste em workers.dev: **bloqueado** (login do wrangler expirou e não há `CLOUDFLARE_API_TOKEN`). Workflow `deploy-web.yml` pronto, desativado até existir o token e a variável `AUTO_DEPLOY=true`.
+
+Achado: na aba Explorar a consulta de contagem em \`jobs\` (join com \`job_sources\`) devolveu HTTP 500 várias vezes e 206 outras; a lista inicial carregou. Provável timeout no Postgres; não é específico da web e não foi alterado.
