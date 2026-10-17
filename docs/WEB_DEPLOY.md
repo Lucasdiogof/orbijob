@@ -30,3 +30,7 @@ Carregamento, tela inicial, ausência de erros de console, mobile (375x812) e de
 Deploy de teste em workers.dev: **bloqueado** (login do wrangler expirou e não há `CLOUDFLARE_API_TOKEN`). Workflow `deploy-web.yml` pronto, desativado até existir o token e a variável `AUTO_DEPLOY=true`.
 
 Achado: na aba Explorar a consulta de contagem em \`jobs\` (join com \`job_sources\`) devolveu HTTP 500 várias vezes e 206 outras; a lista inicial carregou. Provável timeout no Postgres; não é específico da web e não foi alterado.
+
+## Ambiente de teste (2026-10-17)
+URL: https://orbijob-web.lucasdiogo1234.workers.dev (Worker `orbijob-web`, deploy manual com token Cloudflare; versão 44ad1d7f).
+Validado nessa URL em navegador real: carrega, sem erro de console próprio (smoke público: raiz, manifest, scripts, rota profunda e headers OK), tela de entrada/inicial correta. Login, sessão, recuperação por código e isolamento **não testados**: exigem criar conta/digitar senha, o que fica com o dono.
