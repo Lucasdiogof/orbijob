@@ -36,7 +36,8 @@ jobs:
       - run: |
           flutter build web --release $FLUTTER_WEB_FLAGS \
             --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
-            --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }} \n            --dart-define=AUTH_REDIRECT_URL=${{ vars.AUTH_REDIRECT_URL }}
+            --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }} \
+            --dart-define=AUTH_REDIRECT_URL=${{ vars.AUTH_REDIRECT_URL }}
       - run: bash scripts/check-bundle-secrets.sh build/web
       - uses: cloudflare/wrangler-action@v3
         with:
