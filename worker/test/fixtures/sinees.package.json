@@ -1,0 +1,29 @@
+{
+ "help": "https://dados.es.gov.br/api/3/action/help_show?name=package_show",
+ "success": true,
+ "result": {
+  "id": "c43d6653-634a-4e6e-bd66-c9ca3f6ee106",
+  "title": "Vagas das agências estaduais do trabalhador",
+  "license_id": "cc-by",
+  "resources": [
+   {
+    "id": "648251fa-f138-478f-b9f0-def693efc3b8",
+    "name": "VAGAS_ARACRUZ",
+    "format": "CSV",
+    "url": "https://dados.es.gov.br/dataset/c43d6653-634a-4e6e-bd66-c9ca3f6ee106/resource/648251fa-f138-478f-b9f0-def693efc3b8/download/vagas_aracruz.csv"
+   },
+   {
+    "id": "a3c4a430-ec45-4764-8081-dde7333a2718",
+    "name": "VAGAS_CARIACICA",
+    "format": "CSV",
+    "url": "https://dados.es.gov.br/dataset/c43d6653-634a-4e6e-bd66-c9ca3f6ee106/resource/a3c4a430-ec45-4764-8081-dde7333a2718/download/vagas_cariacica.csv"
+   },
+   {
+    "id": "d214d4c9-f7bb-4848-bd2e-701131c239f4",
+    "name": "VAGAS_GUARAPARI",
+    "format": "CSV",
+    "url": "https://dados.es.gov.br/dataset/c43d6653-634a-4e6e-bd66-c9ca3f6ee106/resource/d214d4c9-f7bb-4848-bd2e-701131c239f4/download/vagas_guarapari.csv"
+   }
+  ]
+ }
+}

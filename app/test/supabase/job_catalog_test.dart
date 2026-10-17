@@ -568,6 +568,7 @@ void main() {
         ('ecyl', 'ECYL Castilla y León', 'empleo.jcyl.es'),
         ('lanbide', 'Lanbide', 'web.lanbide.eus'),
         ('calgary', 'City of Calgary', 'recruiting.calgary.ca'),
+        ('sinees', 'SINE-ES (Espírito Santo)', 'setades.es.gov.br'),
       ]) {
         final j = jobFromCatalogRow(
           row(

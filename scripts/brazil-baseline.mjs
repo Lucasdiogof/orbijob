@@ -85,5 +85,17 @@ out.physio_titles_BR = samples(br, (r) => classify(r).physioTitle, 40);
 // duplicates inside the Brazilian set: same url or same title+company
 const seen = new Set(); let dupUrl = 0, dupTc = 0; const seenTc = new Set();
 for (const r of br) { if (seen.has(r.original_url)) dupUrl++; seen.add(r.original_url); const k = `${fold(r.title)}|${fold(r.company)}`; if (seenTc.has(k)) dupTc++; seenTc.add(k); }
+// eligibility classes of the remote listings that are not based in Brazil (explicit evidence only: a listing that says "remote" and nothing else is not counted)
+const geo = (r) => (r.geo_restrictions ?? []).map((g) => g.toLowerCase());
+const cls = { explicit_BR: 0, explicit_LATAM: 0, worldwide_anywhere: 0, other_regions_only: 0 };
+const bySourceElig = {};
+for (const r of eligOnly) {
+  const g = geo(r);
+  const k = g.includes('br') || g.includes('brazil') ? 'explicit_BR' : g.some((x) => x === 'latam' || x === 'latin america') ? 'explicit_LATAM' : g.some((x) => x === 'anywhere' || x === 'worldwide') && r.work_mode === 'remote' ? 'worldwide_anywhere' : 'other_regions_only';
+  cls[k]++;
+  bySourceElig[r.source_id] = (bySourceElig[r.source_id] ?? 0) + 1;
+}
+out.eligibility_classes_not_based_in_BR = cls;
+out.eligible_by_source = bySourceElig;
 out.duplicates_BR = { same_url: dupUrl, same_title_and_company: dupTc };
 console.log(JSON.stringify(out, null, 1));

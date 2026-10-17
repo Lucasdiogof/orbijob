@@ -57,6 +57,8 @@ on:
     - cron: '18 3,9,15,21 * * *'
     # City of Calgary (open data, ≈ 55 listings): one small JSON read a day
     - cron: '40 9 * * *'
+    # SINE-ES (Espírito Santo, Brazil: open data of the state employment agencies, rewritten every morning): a catalogue read and 11 small CSVs, once a day
+    - cron: '20 9 * * *'
     # Feina Activa (Catalonia, SOC open data): one ~7 MB XML read, 4 times a day
     - cron: '2 4,10,16,22 * * *'
     # ECYL (Castilla y León employment service open data): one ~1.2 MB JSON read, twice a day
@@ -68,7 +70,7 @@ on:
       source:
         description: 'Fonte a ler'
         type: choice
-        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl, lanbide, calgary]
+        options: [arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl, lanbide, calgary, sinees]
         default: arbeitnow
       action:
         description: 'check = somente leitura; preview = SIMULACAO (le o feed, nao grava nada); discover = UMA importacao real'
@@ -149,9 +151,10 @@ jobs:
             '36 0,12 * * *')       s=ecyl ;;
             '13 1,13 * * *')       s=lanbide ;;
             '40 9 * * *')          s=calgary ;;
+            '20 9 * * *')          s=sinees ;;
             *)                    s="$CHOSEN" ;;
           esac
-          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp|sefmurcia|feinaactiva|ecyl|lanbide|calgary) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
+          case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp|sefmurcia|feinaactiva|ecyl|lanbide|calgary|sinees) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac
           echo "source=$s" >> "$GITHUB_OUTPUT"
           echo "fonte: $s"
 

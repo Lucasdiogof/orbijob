@@ -315,6 +315,7 @@ const _sourceNames = {
   'ecyl': 'ECYL Castilla y León',
   'lanbide': 'Lanbide',
   'calgary': 'City of Calgary',
+  'sinees': 'SINE-ES (Espírito Santo)',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,

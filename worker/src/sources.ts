@@ -10,6 +10,7 @@ import { mpsvCzConnector } from './connectors/mpsvcz';
 import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
 import { calgaryConnector } from './connectors/calgary';
+import { sineEsConnector } from './connectors/sinees';
 import { feinaActivaConnector } from './connectors/feinaactiva';
 import { ecylConnector } from './connectors/ecyl';
 import { lanbideConnector } from './connectors/lanbide';
@@ -145,6 +146,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // one request returns every current listing (≈ 55); the ceiling only keeps the source in proportion
     maxPages: 1, newCap: 200, catalogue: 300,
     make: (f, n, origin) => calgaryConnector(f, n, { origin }),
+  },
+  sinees: {
+    id: 'sinees',
+    attribution: 'Jobs via SINE-ES, the Agências do Trabalhador of the state of Espírito Santo, Brazil (Secretaria de Estado de Trabalho, Assistência e Desenvolvimento Social, SETADES; https://setades.es.gov.br/vagas-de-empregos), open data "Vagas das agências estaduais do trabalhador" (https://dados.es.gov.br/dataset/c43d6653-634a-4e6e-bd66-c9ca3f6ee106), Creative Commons Attribution (http://www.opendefinition.org/licenses/cc-by). The SINE does not name the employer; apply at the Agência do Trabalhador named in the listing',
+    host: 'es.gov.br',
+    // one catalogue request plus one small CSV per office (11, ≈ 350 vacancies in all): no cap is needed, the ceiling only keeps the source in proportion
+    maxPages: 1, newCap: 600, catalogue: 800,
+    make: (f, n, origin) => sineEsConnector(f, n, { origin }),
   },
   sefmurcia: {
     id: 'sefmurcia',
