@@ -1682,32 +1682,128 @@
    ],
    [
     "řidič"
+   ],
+   [
+    "lorry driver"
+   ],
+   [
+    "hgv driver"
+   ],
+   [
+    "lkw-fahrer"
+   ],
+   [
+    "lkw fahrer"
+   ],
+   [
+    "lastwagenfahrer"
+   ],
+   [
+    "berufskraftfahrer"
+   ],
+   [
+    "lastbilschaufför"
+   ],
+   [
+    "lastbilsförare"
+   ],
+   [
+    "camionero"
+   ],
+   [
+    "camionneur"
+   ],
+   [
+    "camionista"
+   ],
+   [
+    "caminhoneiro"
+   ],
+   [
+    "motorista de caminhão"
+   ],
+   [
+    "motorista de carreta"
+   ],
+   [
+    "conductor de camión"
+   ],
+   [
+    "conducteur routier"
+   ],
+   [
+    "chauffeur poids lourd"
+   ],
+   [
+    "chauffeur routier"
+   ],
+   [
+    "řidič kamionu"
+   ],
+   [
+    "řidič nákladního"
    ]
   ],
   "after": [
    [
-    "truck",
-    "motorista"
+    "lorry driver"
    ],
    [
-    "truck",
-    "conductor"
+    "hgv driver"
    ],
    [
-    "truck",
-    "fahrer"
+    "lkw-fahrer"
    ],
    [
-    "truck",
-    "chaufför"
+    "lkw fahrer"
    ],
    [
-    "truck",
-    "chauffeur"
+    "lastwagenfahrer"
    ],
    [
-    "truck",
-    "řidič"
+    "berufskraftfahrer"
+   ],
+   [
+    "lastbilschaufför"
+   ],
+   [
+    "lastbilsförare"
+   ],
+   [
+    "camionero"
+   ],
+   [
+    "camionneur"
+   ],
+   [
+    "camionista"
+   ],
+   [
+    "caminhoneiro"
+   ],
+   [
+    "motorista de caminhão"
+   ],
+   [
+    "motorista de carreta"
+   ],
+   [
+    "conductor de camión"
+   ],
+   [
+    "conducteur routier"
+   ],
+   [
+    "chauffeur poids lourd"
+   ],
+   [
+    "chauffeur routier"
+   ],
+   [
+    "řidič kamionu"
+   ],
+   [
+    "řidič nákladního"
    ]
   ]
  },
@@ -3676,7 +3772,26 @@
  },
  "medico": {
   "before": [],
-  "after": []
+  "after": [
+   [
+    "médico"
+   ],
+   [
+    "médica"
+   ],
+   [
+    "physician"
+   ],
+   [
+    "arzt"
+   ],
+   [
+    "ärztin"
+   ],
+   [
+    "läkare"
+   ]
+  ]
  },
  "profesor": {
   "before": [
@@ -3888,7 +4003,23 @@
  },
  "ingénieur": {
   "before": [],
-  "after": []
+  "after": [
+   [
+    "engenheir"
+   ],
+   [
+    "ingenier"
+   ],
+   [
+    "engineer"
+   ],
+   [
+    "ingenieur"
+   ],
+   [
+    "ingenjör"
+   ]
+  ]
  },
  "electricista": {
   "before": [],
@@ -4115,6 +4246,24 @@
    ],
    [
     "uklízeč"
+   ],
+   [
+    "femme de ménage"
+   ],
+   [
+    "agent d'entretien"
+   ],
+   [
+    "personal de limpieza"
+   ],
+   [
+    "auxiliar de limpeza"
+   ],
+   [
+    "putzfrau"
+   ],
+   [
+    "raumpfleg"
    ]
   ],
   "after": [
@@ -4138,6 +4287,24 @@
    ],
    [
     "uklízeč"
+   ],
+   [
+    "femme de ménage"
+   ],
+   [
+    "agent d'entretien"
+   ],
+   [
+    "personal de limpieza"
+   ],
+   [
+    "auxiliar de limpeza"
+   ],
+   [
+    "putzfrau"
+   ],
+   [
+    "raumpfleg"
    ]
   ]
  },
@@ -4257,8 +4424,64 @@
   ]
  },
  "mecánico": {
-  "before": [],
-  "after": []
+  "before": [
+   [
+    "mechanic"
+   ],
+   [
+    "auto mechanic"
+   ],
+   [
+    "car mechanic"
+   ],
+   [
+    "diesel mechanic"
+   ],
+   [
+    "mecânico"
+   ],
+   [
+    "mechaniker"
+   ],
+   [
+    "mechanik"
+   ],
+   [
+    "mechanici"
+   ],
+   [
+    "mécanicien"
+   ],
+   [
+    "mekaniker"
+   ]
+  ],
+  "after": [
+   [
+    "auto mechanic"
+   ],
+   [
+    "car mechanic"
+   ],
+   [
+    "diesel mechanic"
+   ],
+   [
+    "mecânico"
+   ],
+   [
+    "mechanik"
+   ],
+   [
+    "mechanici"
+   ],
+   [
+    "mécanicien"
+   ],
+   [
+    "mekaniker"
+   ]
+  ]
  },
  "carpintero": {
   "before": [],

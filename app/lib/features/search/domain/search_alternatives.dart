@@ -75,6 +75,7 @@ final RegExp _unsafe = RegExp(r'[(),*"\\%_:;]');
 /// stand alone as the name of another profession. The person's own typed word is still searched.
 const Set<String> _falseFriends = {
   'controller',
+  'mechanic',
   'revisor',
   'lasser',
   'chef',
@@ -141,21 +142,38 @@ List<String> _words(String s) => [
 // --- hand-made groups -----------------------------------------------------------------------------------------------------------------
 
 List<List<String>> _fromGroups(String t, {required bool strict}) {
-  final matched = <List<String>>[];
-  final consumed = <String>[];
-  final tokens = t.split(RegExp(r'[\s/-]+'));
+  // Accents are ignored when the term is compared with the groups ("medico" is "médico"); the alternatives themselves keep their accents, since
+  // they are what the titles are searched for.
+  final ft = _fold(t);
+  final tokens = ft.split(RegExp(r'[\s/-]+'));
   // a multi-word fragment ("administrative assistant") must start at a word of the term
-  bool has(String f) => !strict
-      ? t.contains(f)
-      : f.contains(' ')
-      ? t.startsWith(f) || t.contains(' $f')
-      : tokens.any((w) => w.startsWith(f));
-  for (final g in synonymGroups) {
-    final hit = g.where(has).toList();
-    if (hit.isEmpty) continue;
-    matched.add(g);
-    consumed.addAll(hit);
+  bool has(String f0) {
+    final f = _fold(f0);
+    return !strict
+        ? ft.contains(f)
+        : f.contains(' ')
+        ? ft.startsWith(f) || ft.contains(' $f')
+        : tokens.any((w) => w.startsWith(f));
   }
+
+  final hits = <List<String>, List<String>>{
+    for (final g in synonymGroups) g: g.where(has).toList(),
+  }..removeWhere((_, h) => h.isEmpty);
+  // A group whose every hit lies inside a longer hit of another group is part of that group's name: "truck driver" is the truck-driver
+  // profession, not "driver" plus a "truck" qualifier.
+  hits.removeWhere(
+    (g, h) => hits.entries.any(
+      (o) =>
+          !identical(o.key, g) &&
+          h.every(
+            (x) => o.value.any(
+              (y) => y.length > x.length && _fold(y).contains(_fold(x)),
+            ),
+          ),
+    ),
+  );
+  final matched = hits.keys.toList();
+  final consumed = [for (final h in hits.values) ...h];
   if (matched.isEmpty) return const [];
   // The words the person adds to the profession ("flutter", "civil") stay required in every alternative. With two groups the second one IS
   // the qualifier ("fisioterapia pélvica"), and generic words ("health") would only exclude the same job written in another language.
@@ -164,9 +182,11 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
       : [
           for (final w in _words(t.replaceAll('-', ' ')))
             // a word of the matched name itself is not a qualifier ("trabalhador de armazém" is one name)
-            if (!consumed.any(
-                  (c) => w.contains(c) || c.split(' ').contains(w),
-                ) &&
+            if (!consumed.any((c) {
+                  final fc = _fold(c).replaceAll('-', ' ');
+                  return _fold(w).contains(fc) ||
+                      fc.split(' ').contains(_fold(w));
+                }) &&
                 !_noise.contains(w))
               w,
         ];
