@@ -8,6 +8,7 @@ import 'core/config/app_config.dart';
 import 'core/config/supabase_bootstrap.dart';
 import 'core/design/design.dart';
 import 'core/di/injector.dart';
+import 'features/translation/network_probe.dart';
 import 'features/auth/data/supabase_auth_repository.dart';
 import 'features/push/data/firebase_push_messaging.dart';
 
@@ -27,6 +28,7 @@ Future<void> main() async {
   }
   configureDependencies(
     preferences: prefs,
+    networkProbe: DeviceNetworkProbe(),
     pushMessaging: client == null ? null : FirebasePushMessaging(),
     authRepository: client == null
         ? null

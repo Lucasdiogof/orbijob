@@ -148,6 +148,34 @@ class SettingsSection extends StatelessWidget {
                   style: context.text.bodySmall!.copyWith(color: c.muted),
                 ),
                 const SizedBox(height: AppSpace.s3),
+                Text(l.translationPolicyTitle, style: context.text.titleSmall),
+                const SizedBox(height: AppSpace.s2),
+                SegmentedButton<DownloadPolicy>(
+                  showSelectedIcon: false,
+                  segments: [
+                    ButtonSegment(
+                      value: DownloadPolicy.wifiOnly,
+                      label: Text(l.translationPolicyWifi),
+                    ),
+                    ButtonSegment(
+                      value: DownloadPolicy.always,
+                      label: Text(l.translationPolicyAlways),
+                    ),
+                    ButtonSegment(
+                      value: DownloadPolicy.ask,
+                      label: Text(l.translationPolicyAsk),
+                    ),
+                  ],
+                  selected: {tr.policy},
+                  onSelectionChanged: (v) =>
+                      context.read<TranslationCubit>().setPolicy(v.first),
+                ),
+                const SizedBox(height: AppSpace.s2),
+                Text(
+                  l.translationPolicyHelp,
+                  style: context.text.bodySmall!.copyWith(color: c.muted),
+                ),
+                const SizedBox(height: AppSpace.s3),
                 OrbiTextButton(
                   label: l.translationClearCache,
                   onPressed: () async {

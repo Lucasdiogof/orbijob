@@ -1,0 +1,49 @@
+{
+ "translationOfflineNoModel": {
+  "en": "No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.",
+  "pt": "Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online. Mostrando o original.",
+  "es": "Sin conexión. La traducción necesita datos del idioma que aún no están en este dispositivo; se descargan cuando haya conexión. Se muestra el original."
+ },
+ "translationWaitingWifi": {
+  "en": "Waiting for Wi-Fi to download language data (about {mb} MB). Showing the original.",
+  "pt": "Aguardando Wi-Fi para baixar os dados do idioma (cerca de {mb} MB). Mostrando o original.",
+  "es": "Esperando Wi-Fi para descargar los datos del idioma (unos {mb} MB). Se muestra el original.",
+  "_meta": {
+   "placeholders": {
+    "mb": {
+     "type": "int"
+    }
+   }
+  }
+ },
+ "translationDownloadNow": {
+  "en": "Download now on mobile data",
+  "pt": "Baixar agora com dados móveis",
+  "es": "Descargar ahora con datos móviles"
+ },
+ "translationPolicyTitle": {
+  "en": "Download language data",
+  "pt": "Baixar dados de idioma",
+  "es": "Descargar datos de idioma"
+ },
+ "translationPolicyWifi": {
+  "en": "On Wi-Fi only",
+  "pt": "Só no Wi-Fi",
+  "es": "Solo con Wi-Fi"
+ },
+ "translationPolicyAlways": {
+  "en": "Always",
+  "pt": "Sempre",
+  "es": "Siempre"
+ },
+ "translationPolicyAsk": {
+  "en": "Ask me",
+  "pt": "Perguntar",
+  "es": "Preguntarme"
+ },
+ "translationPolicyHelp": {
+  "en": "Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.",
+  "pt": "Cada idioma tem cerca de 30 MB, baixados uma vez. No Wi-Fi o download acontece sozinho quando uma vaga precisa.",
+  "es": "Cada idioma ocupa unos 30 MB y se descarga una vez. Con Wi-Fi se descarga solo cuando un anuncio lo necesita."
+ }
+}

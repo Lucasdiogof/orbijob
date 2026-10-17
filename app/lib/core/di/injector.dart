@@ -61,6 +61,7 @@ import '../../features/push/data/supabase_push_devices_repository.dart';
 import '../../features/push/domain/push_messaging.dart';
 import '../../features/push/push_registrar.dart';
 import '../../features/search/data/offline_first_search_repository.dart';
+import '../../features/translation/network_probe.dart';
 import '../../features/search/data/search_results_cache.dart';
 
 final sl = GetIt.instance;
@@ -90,6 +91,9 @@ void configureDependencies({
 
   /// While saved results (no connection) are on screen the search is tried again this often; null = never (tests).
   Duration? connectionRetry = const Duration(seconds: 20),
+
+  /// What kind of connection there is (decides automatic language downloads); tests pass a fake.
+  NetworkProbe? networkProbe,
 }) {
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
@@ -110,7 +114,11 @@ void configureDependencies({
       ),
     )
     ..registerLazySingleton<TranslationCubit>(
-      () => TranslationCubit(sl<TranslationService>(), prefs: preferences),
+      () => TranslationCubit(
+        sl<TranslationService>(),
+        prefs: preferences,
+        network: networkProbe,
+      ),
     )
     ..registerLazySingleton<PdfPicker>(() => pdfPicker ?? FilePickerPdfPicker())
     ..registerLazySingleton<AuthRepository>(

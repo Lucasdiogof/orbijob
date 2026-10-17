@@ -2664,4 +2664,32 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get serverUnavailableBody =>
       'O catálogo não respondeu agora. Tente de novo em instantes.';
+
+  @override
+  String get translationOfflineNoModel =>
+      'Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online. Mostrando o original.';
+
+  @override
+  String translationWaitingWifi(int mb) {
+    return 'Aguardando Wi-Fi para baixar os dados do idioma (cerca de $mb MB). Mostrando o original.';
+  }
+
+  @override
+  String get translationDownloadNow => 'Baixar agora com dados móveis';
+
+  @override
+  String get translationPolicyTitle => 'Baixar dados de idioma';
+
+  @override
+  String get translationPolicyWifi => 'Só no Wi-Fi';
+
+  @override
+  String get translationPolicyAlways => 'Sempre';
+
+  @override
+  String get translationPolicyAsk => 'Perguntar';
+
+  @override
+  String get translationPolicyHelp =>
+      'Cada idioma tem cerca de 30 MB, baixados uma vez. No Wi-Fi o download acontece sozinho quando uma vaga precisa.';
 }

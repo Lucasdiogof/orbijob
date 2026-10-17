@@ -204,6 +204,17 @@ class TranslationBanner extends StatelessWidget {
             ],
           ),
         );
+      case DetailStatus.offlineNoModel:
+        return note(Icons.cloud_off_outlined, l.translationOfflineNoModel);
+      case DetailStatus.waitingWifi:
+        return note(
+          Icons.wifi_rounded,
+          l.translationWaitingWifi(detail.downloadMb),
+          action: OrbiTextButton(
+            label: l.translationDownloadNow,
+            onPressed: onDownload,
+          ),
+        );
       case DetailStatus.unsupported:
         return note(Icons.translate_rounded, l.translationUnsupported(lang));
       case DetailStatus.failed:

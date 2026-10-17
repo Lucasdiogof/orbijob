@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../search/domain/entities/job_posting.dart';
 import 'language_detector.dart';
+import 'network_probe.dart';
 import 'translation_engine.dart';
 import 'translation_service.dart';
 
@@ -20,6 +22,12 @@ enum DetailStatus {
   /// The language data must be downloaded first (the person decides).
   needsDownload,
   downloading,
+
+  /// The language data is missing and there is no connection: it is fetched when one comes back (the original is shown meanwhile).
+  offlineNoModel,
+
+  /// The language data is missing and the device is on mobile data: the policy waits for Wi-Fi (the person can download now).
+  waitingWifi,
 
   /// No engine on this device translates this language.
   unsupported,
@@ -62,10 +70,23 @@ class DetailTranslation extends Equatable {
   ];
 }
 
+/// When missing language data (about 30 MB per language) may be downloaded without a tap.
+enum DownloadPolicy {
+  /// By itself on Wi-Fi or any unmetered connection; on mobile data it waits and offers a button. The default.
+  wifiOnly,
+
+  /// By itself on any connection, mobile data included.
+  always,
+
+  /// Never by itself: the detail screen asks.
+  ask,
+}
+
 class TranslationState extends Equatable {
   const TranslationState({
     this.target = 'en',
     this.enabled = true,
+    this.policy = DownloadPolicy.wifiOnly,
     this.titles = const {},
     this.details = const {},
   });
@@ -73,6 +94,7 @@ class TranslationState extends Equatable {
   /// The interface language: what listings are translated into.
   final String target;
   final bool enabled;
+  final DownloadPolicy policy;
 
   /// Translated titles by `jobKey|target|fingerprint`.
   final Map<String, String> titles;
@@ -83,17 +105,19 @@ class TranslationState extends Equatable {
   TranslationState copyWith({
     String? target,
     bool? enabled,
+    DownloadPolicy? policy,
     Map<String, String>? titles,
     Map<String, DetailTranslation>? details,
   }) => TranslationState(
     target: target ?? this.target,
     enabled: enabled ?? this.enabled,
+    policy: policy ?? this.policy,
     titles: titles ?? this.titles,
     details: details ?? this.details,
   );
 
   @override
-  List<Object?> get props => [target, enabled, titles, details];
+  List<Object?> get props => [target, enabled, policy, titles, details];
 }
 
 /// Decides what to translate, when, and keeps what the screens show. Everything is on demand and non-blocking: a card asks for its
@@ -104,15 +128,46 @@ class TranslationCubit extends Cubit<TranslationState> {
     this.service, {
     String initialTarget = 'en',
     SharedPreferences? prefs,
+    this.network,
   }) : _prefs = prefs,
        super(
          TranslationState(
            target: initialTarget,
            enabled: prefs?.getBool(_enabledKey) ?? true,
+           policy: _readPolicy(prefs),
          ),
        );
 
   static const _enabledKey = 'tr.enabled';
+  static const _policyKey = 'tr.download';
+
+  /// What the connection is right now; null = unknown, language data is then never downloaded without a tap (tests, platforms without a probe).
+  final NetworkProbe? network;
+  final _downloads = <String, Future<bool>>{};
+
+  static DownloadPolicy _readPolicy(SharedPreferences? p) {
+    final v = p?.getString(_policyKey);
+    return DownloadPolicy.values.firstWhere(
+      (e) => e.name == v,
+      orElse: () => DownloadPolicy.wifiOnly,
+    );
+  }
+
+  Future<void> setPolicy(DownloadPolicy p) async {
+    await _prefs?.setString(_policyKey, p.name);
+    _epoch++;
+    emit(state.copyWith(policy: p, details: const {}));
+  }
+
+  /// One download per language pair at a time: two screens asking for the same data share it.
+  Future<bool> _prepareOnce(String from, String to) {
+    final k = '$from>$to';
+    return _downloads[k] ??= service.prepare(from, to).whenComplete(() {
+      _downloads.remove(k);
+      _readyMemo.remove(k);
+    });
+  }
+
   final TranslationService service;
   final SharedPreferences? _prefs;
 
@@ -226,7 +281,11 @@ class TranslationCubit extends Cubit<TranslationState> {
   }
 
   /// Translates title and description of one listing for its detail screen.
-  Future<void> loadDetail(JobPosting j, {bool retry = false}) async {
+  Future<void> loadDetail(
+    JobPosting j, {
+    bool retry = false,
+    bool afterDownload = false,
+  }) async {
     if (retry) service.clearFailures();
     final id = jobKey(j);
     if (!state.enabled) return;
@@ -259,17 +318,59 @@ class TranslationCubit extends Cubit<TranslationState> {
       );
       return;
     }
-    if (ready == EngineReadiness.needsDownload) {
+    if (ready == EngineReadiness.needsDownload && afterDownload) {
       _setDetail(
         id,
         target,
-        DetailTranslation(
-          DetailStatus.needsDownload,
-          from: from,
-          downloadMb: service.engine.approxDownloadMb,
-        ),
+        DetailTranslation(DetailStatus.failed, from: from),
         epoch: epoch,
       );
+      return;
+    }
+    if (ready == EngineReadiness.needsDownload) {
+      final mb = service.engine.approxDownloadMb;
+      final net = kIsWeb || state.policy == DownloadPolicy.ask
+          ? null
+          : await network?.kind();
+      if (epoch != _epoch) return;
+      if (net == null) {
+        _setDetail(
+          id,
+          target,
+          DetailTranslation(
+            DetailStatus.needsDownload,
+            from: from,
+            downloadMb: mb,
+          ),
+          epoch: epoch,
+        );
+        return;
+      }
+      if (net == NetworkKind.none) {
+        _setDetail(
+          id,
+          target,
+          DetailTranslation(DetailStatus.offlineNoModel, from: from),
+          epoch: epoch,
+        );
+        return;
+      }
+      if (net == NetworkKind.mobile &&
+          state.policy == DownloadPolicy.wifiOnly) {
+        _setDetail(
+          id,
+          target,
+          DetailTranslation(
+            DetailStatus.waitingWifi,
+            from: from,
+            downloadMb: mb,
+          ),
+          epoch: epoch,
+        );
+        return;
+      }
+      // allowed by the policy: fetch the data now, without a tap
+      await downloadAndLoad(j);
       return;
     }
     _setDetail(
@@ -352,8 +453,7 @@ class TranslationCubit extends Cubit<TranslationState> {
       target,
       DetailTranslation(DetailStatus.downloading, from: from),
     );
-    final ok = await service.prepare(from, target);
-    _readyMemo.remove('$from>$target');
+    final ok = await _prepareOnce(from, target);
     if (!ok) {
       _setDetail(
         id,
@@ -362,7 +462,8 @@ class TranslationCubit extends Cubit<TranslationState> {
       );
       return;
     }
-    await loadDetail(j);
+    _readyMemo.remove('$from>$target');
+    await loadDetail(j, afterDownload: true);
   }
 
   void _setDetail(String id, String target, DetailTranslation d, {int? epoch}) {

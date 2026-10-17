@@ -2656,4 +2656,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get serverUnavailableBody =>
       'The catalogue did not answer just now. Try again in a moment.';
+
+  @override
+  String get translationOfflineNoModel =>
+      'No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.';
+
+  @override
+  String translationWaitingWifi(int mb) {
+    return 'Waiting for Wi-Fi to download language data (about $mb MB). Showing the original.';
+  }
+
+  @override
+  String get translationDownloadNow => 'Download now on mobile data';
+
+  @override
+  String get translationPolicyTitle => 'Download language data';
+
+  @override
+  String get translationPolicyWifi => 'On Wi-Fi only';
+
+  @override
+  String get translationPolicyAlways => 'Always';
+
+  @override
+  String get translationPolicyAsk => 'Ask me';
+
+  @override
+  String get translationPolicyHelp =>
+      'Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.';
 }

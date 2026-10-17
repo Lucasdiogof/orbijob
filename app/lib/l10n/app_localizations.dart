@@ -4647,6 +4647,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The catalogue did not answer just now. Try again in a moment.'**
   String get serverUnavailableBody;
+
+  /// No description provided for @translationOfflineNoModel.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.'**
+  String get translationOfflineNoModel;
+
+  /// No description provided for @translationWaitingWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Wi-Fi to download language data (about {mb} MB). Showing the original.'**
+  String translationWaitingWifi(int mb);
+
+  /// No description provided for @translationDownloadNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Download now on mobile data'**
+  String get translationDownloadNow;
+
+  /// No description provided for @translationPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download language data'**
+  String get translationPolicyTitle;
+
+  /// No description provided for @translationPolicyWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'On Wi-Fi only'**
+  String get translationPolicyWifi;
+
+  /// No description provided for @translationPolicyAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'Always'**
+  String get translationPolicyAlways;
+
+  /// No description provided for @translationPolicyAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me'**
+  String get translationPolicyAsk;
+
+  /// No description provided for @translationPolicyHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.'**
+  String get translationPolicyHelp;
 }
 
 class _AppLocalizationsDelegate

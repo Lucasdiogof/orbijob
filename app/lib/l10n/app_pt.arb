@@ -860,5 +860,20 @@
   "offlineNoCacheBody": "Esta busca ainda não foi feita neste aparelho, então precisa de internet. As buscas que você já fez abrem offline.",
   "offlineHomeNoCacheBody": "Conecte-se para ver as vagas mais recentes. Elas aparecem aqui assim que houver internet e ficam disponíveis offline depois.",
   "serverUnavailableTitle": "Catálogo de vagas indisponível",
-  "serverUnavailableBody": "O catálogo não respondeu agora. Tente de novo em instantes."
+  "serverUnavailableBody": "O catálogo não respondeu agora. Tente de novo em instantes.",
+  "translationOfflineNoModel": "Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online. Mostrando o original.",
+  "translationWaitingWifi": "Aguardando Wi-Fi para baixar os dados do idioma (cerca de {mb} MB). Mostrando o original.",
+  "@translationWaitingWifi": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "translationDownloadNow": "Baixar agora com dados móveis",
+  "translationPolicyTitle": "Baixar dados de idioma",
+  "translationPolicyWifi": "Só no Wi-Fi",
+  "translationPolicyAlways": "Sempre",
+  "translationPolicyAsk": "Perguntar",
+  "translationPolicyHelp": "Cada idioma tem cerca de 30 MB, baixados uma vez. No Wi-Fi o download acontece sozinho quando uma vaga precisa."
 }
