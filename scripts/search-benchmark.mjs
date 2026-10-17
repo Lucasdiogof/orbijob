@@ -27,7 +27,12 @@ const fetchRows = async (or, { head = true, limit = 0 } = {}) => {
   u.searchParams.set('last_checked_at', `gte.${new Date(Date.now() - 72 * 3600e3).toISOString()}`);
   u.searchParams.set('or', `(${or})`);
   const r = await fetch(u, { headers: { apikey: KEY, Prefer: 'count=exact', Range: `0-${head ? 0 : limit - 1}` } });
-  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  if (!r.ok) {
+    const body = await r.text();
+    // an exact COUNT over a wide filter can hit the statement timeout while the page the app asks for does not (see search-timing.mjs): report it as -1
+    if (head && body.includes("57014")) return -1;
+    throw new Error(`${r.status} ${body}`);
+  }
   const total = Number((r.headers.get('content-range') ?? '*/0').split('/')[1]);
   return head ? total : { total, rows: await r.json() };
 };

@@ -279,7 +279,12 @@ void main() {
           'and(title.ilike.*flutter*,title.ilike.*desenvolvedor*),'
           'and(title.ilike.*flutter*,title.ilike.*desarrollador*),'
           'and(title.ilike.*flutter*,title.ilike.*entwickler*),'
-          'and(title.ilike.*flutter*,title.ilike.*utvecklare*))',
+          'and(title.ilike.*flutter*,title.ilike.*utvecklare*),'
+          'and(title.ilike.*flutter*,title.ilike.*programador*),'
+          'and(title.ilike.*flutter*,title.ilike.*programmer*),'
+          'and(title.ilike.*flutter*,title.ilike.*programmierer*),'
+          // the typed words kept as a conjunction: "Desenvolvedor(a) Flutter" and "Flutter Senior Developer" are not the adjacent phrase
+          'and(title.ilike.*flutter*,title.ilike.*developer*))',
         );
       },
     );

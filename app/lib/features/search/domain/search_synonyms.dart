@@ -118,7 +118,30 @@ const List<List<String>> _groups = [
   ['vendedor', 'vendedora', 'sales', 'verkäufer', 'säljare'],
   ['contador', 'contadora', 'accountant', 'buchhalter'],
   ['engenheir', 'ingenier', 'engineer', 'ingenieur', 'ingenjör'],
-  ['desenvolvedor', 'desarrollador', 'developer', 'entwickler', 'utvecklare'],
+  [
+    'desenvolvedor',
+    'desarrollador',
+    'developer',
+    'entwickler',
+    'utvecklare',
+    // in Brazil "programador" is the everyday word for the same job
+    'programador',
+    'programmer',
+    'programmierer',
+  ],
+  // app developers: whole names, so "desenvolvedor de aplicativos" is not "any developer" plus a required "aplicativos"
+  [
+    'desenvolvedor de aplicativos',
+    'desenvolvedora de aplicativos',
+    'desenvolvedor de app',
+    'app developer',
+    'app-entwickler',
+    'appentwickler',
+    'apputvecklare',
+    'desarrollador de aplicaciones',
+    'desarrollador de apps',
+    "développeur d'applications",
+  ],
   [
     'eletricista',
     'electricista',

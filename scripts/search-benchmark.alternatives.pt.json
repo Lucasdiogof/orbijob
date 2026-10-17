@@ -982,8 +982,52 @@
   ]
  },
  "programador": {
-  "before": [],
-  "after": []
+  "before": [
+   [
+    "desenvolvedor"
+   ],
+   [
+    "desarrollador"
+   ],
+   [
+    "developer"
+   ],
+   [
+    "entwickler"
+   ],
+   [
+    "utvecklare"
+   ],
+   [
+    "programmer"
+   ],
+   [
+    "programmierer"
+   ]
+  ],
+  "after": [
+   [
+    "desenvolvedor"
+   ],
+   [
+    "desarrollador"
+   ],
+   [
+    "developer"
+   ],
+   [
+    "entwickler"
+   ],
+   [
+    "utvecklare"
+   ],
+   [
+    "programmer"
+   ],
+   [
+    "programmierer"
+   ]
+  ]
  },
  "pedagogo": {
   "before": [],
@@ -1630,6 +1674,9 @@
    ],
    [
     "projektledare"
+   ],
+   [
+    "gerente de projeto"
    ]
   ]
  },

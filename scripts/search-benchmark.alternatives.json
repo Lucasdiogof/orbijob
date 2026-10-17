@@ -121,14 +121,6 @@
    ],
    [
     "fisioterap",
-    "assoalho pélvico"
-   ],
-   [
-    "fisioterap",
-    "piso pélvico"
-   ],
-   [
-    "fisioterap",
     "bäckenbotten"
    ],
    [
@@ -153,6 +145,10 @@
    ],
    [
     "sjukgymnast",
+    "pélvic"
+   ],
+   [
+    "fisioterap",
     "pélvic"
    ]
   ]
@@ -303,6 +299,10 @@
    ],
    [
     "sjukgymnast",
+    "pelvic"
+   ],
+   [
+    "physiotherap",
     "pelvic"
    ]
   ]
@@ -587,6 +587,15 @@
    ],
    [
     "utvecklare"
+   ],
+   [
+    "programador"
+   ],
+   [
+    "programmer"
+   ],
+   [
+    "programmierer"
    ]
   ],
   "after": [
@@ -605,6 +614,22 @@
    [
     "flutter",
     "utvecklare"
+   ],
+   [
+    "flutter",
+    "programador"
+   ],
+   [
+    "flutter",
+    "programmer"
+   ],
+   [
+    "flutter",
+    "programmierer"
+   ],
+   [
+    "flutter",
+    "desenvolvedor"
    ]
   ]
  },
@@ -621,6 +646,15 @@
    ],
    [
     "utvecklare"
+   ],
+   [
+    "programador"
+   ],
+   [
+    "programmer"
+   ],
+   [
+    "programmierer"
    ]
   ],
   "after": [
@@ -639,6 +673,22 @@
    [
     "flutter",
     "utvecklare"
+   ],
+   [
+    "flutter",
+    "programador"
+   ],
+   [
+    "flutter",
+    "programmer"
+   ],
+   [
+    "flutter",
+    "programmierer"
+   ],
+   [
+    "flutter",
+    "developer"
    ]
   ]
  },
@@ -655,6 +705,15 @@
    ],
    [
     "utvecklare"
+   ],
+   [
+    "programador"
+   ],
+   [
+    "programmer"
+   ],
+   [
+    "programmierer"
    ]
   ],
   "after": [
@@ -673,6 +732,22 @@
    [
     "flutter",
     "utvecklare"
+   ],
+   [
+    "flutter",
+    "programador"
+   ],
+   [
+    "flutter",
+    "programmer"
+   ],
+   [
+    "flutter",
+    "programmierer"
+   ],
+   [
+    "flutter",
+    "entwickler"
    ]
   ]
  },
@@ -1279,8 +1354,8 @@
     "ingenjör"
    ],
    [
-    "engenheira",
-    "civil"
+    "civil",
+    "engenheir"
    ],
    [
     "bauingenieur"
@@ -1344,13 +1419,7 @@
    ],
    [
     "civil",
-    "engineering",
-    "consultant"
-   ],
-   [
-    "civil",
-    "engineering",
-    "expert"
+    "engineer"
    ],
    [
     "bauingenieur"
@@ -2320,6 +2389,10 @@
    [
     "software",
     "ingenjör"
+   ],
+   [
+    "software",
+    "engineer"
    ]
   ]
  },
@@ -2354,6 +2427,10 @@
    [
     "software",
     "ingenjör"
+   ],
+   [
+    "software",
+    "ingenier"
    ]
   ]
  },
@@ -2603,6 +2680,9 @@
    ],
    [
     "administrativní pracovník"
+   ],
+   [
+    "auxiliar administrativ"
    ]
   ]
  },
@@ -3970,8 +4050,8 @@
     "ingenjör"
    ],
    [
-    "ingeniera",
-    "civil"
+    "civil",
+    "ingenier"
    ],
    [
     "bauingenieur"

@@ -31,7 +31,10 @@ List<List<String>> titleAlternatives(String term, {int max = 40}) {
   for (final a in all) {
     if (a.isEmpty || a.any(_unsafe.hasMatch)) continue;
     if (a.length == 1 && _falseFriends.contains(a.first)) continue;
-    if (a.every(own.contains)) continue; // the term itself, already searched
+    // the term itself, already searched (a one-part alternative); with several parts it is the same words kept together, which only differ from
+    // the typed phrase when something else may sit between them ("Desenvolvedor(a) Flutter" for "desenvolvedor flutter")
+    if (a.length == 1 && a.every(own.contains)) continue;
+    if (a.length > 1 && a.every(own.contains) && own.length < 2) continue;
     // narrower than the term, which already covers it
     if (a.any((p) => p.contains(t))) continue;
     if (seen.add((a.toList()..sort()).join('|'))) kept.add(a);
@@ -86,6 +89,8 @@ const Set<String> _falseFriends = {
 };
 
 const Set<String> _noise = {
+  // part of the name "pelvic floor", never a profession's qualifier
+  'floor',
   'health',
   'saúde',
   'saude',
@@ -208,9 +213,14 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
     ];
   }
   int ownCount(List<String> c) => c.where(t.contains).length;
+  // with qualifiers or several words, a combination of the term's own fragments is the same words not kept adjacent (not the term itself): "(a)", a
+  // seniority word or "Health" may sit between "desenvolvedor" and "flutter", or "pelvic" and "physiotherapist"
   combos = [
     for (final c in combos)
-      if (ownCount(c) < c.length) c,
+      if (ownCount(c) < c.length ||
+          qualifiers.isNotEmpty ||
+          _words(t).length >= 2)
+        c,
   ];
   // stable: cross-language combinations first, the generated order otherwise
   final order = {for (var i = 0; i < combos.length; i++) combos[i]: i};

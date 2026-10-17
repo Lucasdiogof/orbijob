@@ -378,8 +378,8 @@
               "ingenjör"
             ],
             [
-              "engenheira",
-              "civil"
+              "civil",
+              "engenheir"
             ],
             "bauingenieur",
             [
@@ -460,6 +460,22 @@
             [
               "flutter",
               "utvecklare"
+            ],
+            [
+              "flutter",
+              "programador"
+            ],
+            [
+              "flutter",
+              "programmer"
+            ],
+            [
+              "flutter",
+              "programmierer"
+            ],
+            [
+              "flutter",
+              "desenvolvedor"
             ]
           ]
         }
@@ -639,14 +655,6 @@
             ],
             [
               "fisioterap",
-              "assoalho pélvico"
-            ],
-            [
-              "fisioterap",
-              "piso pélvico"
-            ],
-            [
-              "fisioterap",
               "bäckenbotten"
             ],
             [
@@ -671,6 +679,10 @@
             ],
             [
               "sjukgymnast",
+              "pélvic"
+            ],
+            [
+              "fisioterap",
               "pélvic"
             ]
           ]
