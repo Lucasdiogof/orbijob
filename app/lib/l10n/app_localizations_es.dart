@@ -2638,4 +2638,37 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get authPasswordChangedSignIn =>
       'Contraseña cambiada. Inicia sesión con la nueva contraseña.';
+
+  @override
+  String offlineSavedBanner(DateTime when) {
+    final intl.DateFormat whenDateFormat = intl.DateFormat(
+      'd MMM y, HH:mm',
+      localeName,
+    );
+    final String whenString = whenDateFormat.format(when);
+
+    return 'Sin conexión · datos guardados el $whenString';
+  }
+
+  @override
+  String get offlineMayBeOutdated =>
+      'Los resultados guardados pueden estar desactualizados. Se actualizan solos cuando vuelva la conexión.';
+
+  @override
+  String get offlineNoCacheTitle => 'Sin conexión';
+
+  @override
+  String get offlineNoCacheBody =>
+      'Esta búsqueda aún no se hizo en este dispositivo, así que necesita internet. Las búsquedas que ya hiciste se abren sin conexión.';
+
+  @override
+  String get offlineHomeNoCacheBody =>
+      'Conéctate para ver las vacantes más recientes. Aparecen aquí en cuanto haya internet y quedan disponibles sin conexión después.';
+
+  @override
+  String get serverUnavailableTitle => 'Catálogo de vacantes no disponible';
+
+  @override
+  String get serverUnavailableBody =>
+      'El catálogo no respondió ahora. Inténtalo de nuevo en un momento.';
 }

@@ -1287,5 +1287,21 @@
   "officialPortalButton": "Official employment service",
   "authNewPasswordRepeat": "Repeat the new password",
   "authPasswordMismatch": "The passwords do not match",
-  "authPasswordChangedSignIn": "Password changed. Sign in with your new password."
+  "authPasswordChangedSignIn": "Password changed. Sign in with your new password.",
+  "offlineSavedBanner": "No connection · data saved on {when}",
+  "@offlineSavedBanner": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "format": "d MMM y, HH:mm",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "offlineMayBeOutdated": "Saved results may be out of date. They refresh by themselves when the connection returns.",
+  "offlineNoCacheTitle": "No connection",
+  "offlineNoCacheBody": "This search has not been made on this device yet, so it needs the internet. Searches you already made open offline.",
+  "offlineHomeNoCacheBody": "Connect to see the newest jobs. They appear here as soon as there is internet and stay available offline afterwards.",
+  "serverUnavailableTitle": "Job catalogue unavailable",
+  "serverUnavailableBody": "The catalogue did not answer just now. Try again in a moment."
 }

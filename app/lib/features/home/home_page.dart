@@ -24,6 +24,7 @@ import '../search/presentation/widgets/area_grid.dart';
 import '../search/presentation/widgets/search_filters_panel.dart'
     show continentLabel;
 import '../shell/shell_cubit.dart';
+import '../search/presentation/widgets/saved_results_notice.dart';
 import 'latest_jobs_cubit.dart';
 import 'recent_searches_cubit.dart';
 
@@ -317,8 +318,10 @@ class _RemoteJobs extends StatelessWidget {
       builder: (context, s) {
         // Nothing to say when there are no remote jobs: the section simply is not there.
         if (s.status == LatestStatus.empty ||
-            s.status == LatestStatus.notConfigured) {
-          return const SizedBox.shrink();
+            s.status == LatestStatus.notConfigured ||
+            s.status == LatestStatus.offline ||
+            s.status == LatestStatus.unavailable) {
+          return const SizedBox.shrink(); // the latest-jobs section above already says there is no connection
         }
         return Padding(
           padding: const EdgeInsets.only(top: AppSpace.s6),
@@ -385,31 +388,59 @@ class _JobsSection extends StatelessWidget {
           onPressed: onRetry,
         ),
       ),
+      // no connection and nothing saved yet: say what is needed instead of "something went wrong"
+      LatestStatus.offline => OrbiEmptyState(
+        icon: Icons.cloud_off_outlined,
+        title: l.offlineNoCacheTitle,
+        body: l.offlineHomeNoCacheBody,
+        kind: OrbiStateKind.info,
+        action: OrbiSecondaryButton(
+          label: l.retry,
+          icon: Icons.refresh,
+          onPressed: onRetry,
+        ),
+      ),
+      LatestStatus.unavailable => OrbiEmptyState(
+        icon: Icons.cloud_queue_outlined,
+        title: l.serverUnavailableTitle,
+        body: l.serverUnavailableBody,
+        kind: OrbiStateKind.info,
+        action: OrbiSecondaryButton(
+          label: l.retry,
+          icon: Icons.refresh,
+          onPressed: onRetry,
+        ),
+      ),
       LatestStatus.ready => BlocBuilder<HiddenJobsCubit, HiddenJobsState>(
         builder: (context, hidden) =>
             BlocBuilder<FavoritesCubit, FavoritesState>(
-              builder: (context, favs) => OrbiAdaptiveGrid(
-                children: [
-                  for (final j
-                      in state.jobs
-                          .where((j) => !hidden.isHidden(j.job))
-                          .take(maxItems))
-                    OrbiJobCard(
-                      scored: j,
-                      compact: true,
-                      menu: JobActionsMenu(job: j.job),
-                      isFavorite: favs.items.containsKey(
-                        FavoritesCubit.keyOf(j.job),
-                      ),
-                      onFavoriteChanged: (_) =>
-                          context.read<FavoritesCubit>().toggle(j),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => JobDetailPage(scored: j),
+              builder: (context, favs) => _withSavedNotice(
+                context,
+                state.cachedAt,
+                onRetry,
+                OrbiAdaptiveGrid(
+                  children: [
+                    for (final j
+                        in state.jobs
+                            .where((j) => !hidden.isHidden(j.job))
+                            .take(maxItems))
+                      OrbiJobCard(
+                        scored: j,
+                        compact: true,
+                        menu: JobActionsMenu(job: j.job),
+                        isFavorite: favs.items.containsKey(
+                          FavoritesCubit.keyOf(j.job),
+                        ),
+                        onFavoriteChanged: (_) =>
+                            context.read<FavoritesCubit>().toggle(j),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => JobDetailPage(scored: j),
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
       ),
@@ -429,6 +460,24 @@ class _JobsSection extends StatelessWidget {
       ],
     );
   }
+}
+
+/// The saved jobs of the last online visit are shown with a quiet line saying when they were saved (no connection); fresh ones are shown as they are.
+Widget _withSavedNotice(
+  BuildContext context,
+  DateTime? savedAt,
+  VoidCallback onRetry,
+  Widget child,
+) {
+  if (savedAt == null) return child;
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SavedResultsNotice(savedAt: savedAt, onRetry: onRetry, compact: true),
+      const SizedBox(height: AppSpace.s3),
+      child,
+    ],
+  );
 }
 
 class _AreasSection extends StatelessWidget {

@@ -2623,4 +2623,37 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authPasswordChangedSignIn =>
       'Password changed. Sign in with your new password.';
+
+  @override
+  String offlineSavedBanner(DateTime when) {
+    final intl.DateFormat whenDateFormat = intl.DateFormat(
+      'd MMM y, HH:mm',
+      localeName,
+    );
+    final String whenString = whenDateFormat.format(when);
+
+    return 'No connection · data saved on $whenString';
+  }
+
+  @override
+  String get offlineMayBeOutdated =>
+      'Saved results may be out of date. They refresh by themselves when the connection returns.';
+
+  @override
+  String get offlineNoCacheTitle => 'No connection';
+
+  @override
+  String get offlineNoCacheBody =>
+      'This search has not been made on this device yet, so it needs the internet. Searches you already made open offline.';
+
+  @override
+  String get offlineHomeNoCacheBody =>
+      'Connect to see the newest jobs. They appear here as soon as there is internet and stay available offline afterwards.';
+
+  @override
+  String get serverUnavailableTitle => 'Job catalogue unavailable';
+
+  @override
+  String get serverUnavailableBody =>
+      'The catalogue did not answer just now. Try again in a moment.';
 }

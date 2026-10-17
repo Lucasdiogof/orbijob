@@ -4605,6 +4605,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password changed. Sign in with your new password.'**
   String get authPasswordChangedSignIn;
+
+  /// No description provided for @offlineSavedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection · data saved on {when}'**
+  String offlineSavedBanner(DateTime when);
+
+  /// No description provided for @offlineMayBeOutdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved results may be out of date. They refresh by themselves when the connection returns.'**
+  String get offlineMayBeOutdated;
+
+  /// No description provided for @offlineNoCacheTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection'**
+  String get offlineNoCacheTitle;
+
+  /// No description provided for @offlineNoCacheBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This search has not been made on this device yet, so it needs the internet. Searches you already made open offline.'**
+  String get offlineNoCacheBody;
+
+  /// No description provided for @offlineHomeNoCacheBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to see the newest jobs. They appear here as soon as there is internet and stay available offline afterwards.'**
+  String get offlineHomeNoCacheBody;
+
+  /// No description provided for @serverUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job catalogue unavailable'**
+  String get serverUnavailableTitle;
+
+  /// No description provided for @serverUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The catalogue did not answer just now. Try again in a moment.'**
+  String get serverUnavailableBody;
 }
 
 class _AppLocalizationsDelegate

@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/job_snapshot.dart';
+import '../../data/offline_first_search_repository.dart'
+    show classifyCatalogueError;
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
 import '../../domain/search_repository.dart';
@@ -42,9 +46,14 @@ class SearchSuccess extends SearchState {
     this.hasMore = false,
     this.loadingMore = false,
     this.loadMoreFailed = false,
+    this.cachedAt,
   });
   final String query;
   final List<ScoredJob> jobs;
+
+  /// Set when these are the saved results of this search because the catalogue could not be reached: when they were saved. The list refreshes by
+  /// itself when the connection returns.
+  final DateTime? cachedAt;
 
   /// The catalogue has more jobs after these (the next page can be requested).
   final bool hasMore;
@@ -65,6 +74,7 @@ class SearchSuccess extends SearchState {
     hasMore: hasMore ?? this.hasMore,
     loadingMore: loadingMore ?? this.loadingMore,
     loadMoreFailed: loadMoreFailed ?? this.loadMoreFailed,
+    cachedAt: cachedAt,
   );
 
   @override
@@ -75,6 +85,7 @@ class SearchSuccess extends SearchState {
     hasMore,
     loadingMore,
     loadMoreFailed,
+    cachedAt,
   ];
 }
 
@@ -94,17 +105,103 @@ class SearchNoSource extends SearchState {
 }
 
 class SearchFailure extends SearchState {
-  const SearchFailure(this.query, {super.filters});
+  const SearchFailure(
+    this.query, {
+    super.filters,
+    this.kind = CatalogueFailure.other,
+  });
   final String query;
+
+  /// No connection, the service not answering, or anything else: each has its own message (and "no connection" is not an error of the app).
+  final CatalogueFailure kind;
   @override
-  List<Object?> get props => [query, filters];
+  List<Object?> get props => [query, filters, kind];
 }
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit(this._repo, {this.onQuery, this.pageSize = 20})
-    : super(const SearchIdle());
+  SearchCubit(
+    this._repo, {
+    this.onQuery,
+    this.pageSize = 20,
+    this.reconnectEvery,
+  }) : super(const SearchIdle());
   final SearchRepository _repo;
   final int pageSize;
+
+  /// While saved results (or an offline message) are on screen the search is tried again quietly this often; null = never (tests).
+  final Duration? reconnectEvery;
+  Timer? _reconnect;
+  bool _retrying = false;
+
+  @override
+  Future<void> close() {
+    _reconnect?.cancel();
+    return super.close();
+  }
+
+  void _watchConnection(SearchState s) {
+    final waiting =
+        (s is SearchSuccess && s.cachedAt != null) ||
+        (s is SearchFailure && s.kind != CatalogueFailure.other);
+    final every = reconnectEvery;
+    if (!waiting || every == null) {
+      _reconnect?.cancel();
+      _reconnect = null;
+      return;
+    }
+    _reconnect ??= Timer.periodic(every, (_) => _quietRetry());
+  }
+
+  @override
+  void onChange(Change<SearchState> change) {
+    super.onChange(change);
+    _watchConnection(change.nextState);
+  }
+
+  /// The "try again" of saved results: one quiet attempt now, without blanking the list.
+  Future<void> refreshQuietly() => _quietRetry();
+
+  /// One quiet attempt: only a fresh answer replaces what is on screen; a failure leaves the saved results (or the message) untouched, with no
+  /// loading flicker and no list jump.
+  Future<void> _quietRetry() async {
+    final q = _active;
+    final s = state;
+    if (_retrying || q == null || isClosed) return;
+    if (!((s is SearchSuccess && s.cachedAt != null) || s is SearchFailure)) {
+      return;
+    }
+    _retrying = true;
+    final gen = _generation;
+    try {
+      final r = await _repo.search(
+        q,
+        countryCode: _country,
+        filters: _filters,
+        limit: pageSize,
+      );
+      if (gen != _generation || isClosed || r.cachedAt != null) return;
+      _offset = r.consumed;
+      if (r.notConfigured) return;
+      if (!r.hasIntegratedSource) {
+        return emit(SearchNoSource(q, filters: _filters));
+      }
+      if (r.jobs.isEmpty && !r.hasMore) {
+        return emit(SearchEmpty(q, filters: _filters));
+      }
+      emit(
+        SearchSuccess(
+          q,
+          _unique(r.jobs),
+          filters: _filters,
+          hasMore: r.hasMore,
+        ),
+      );
+    } catch (_) {
+      // still unreachable: keep what is on screen
+    } finally {
+      _retrying = false;
+    }
+  }
 
   /// Notified with every non-empty query (feeds the recent-searches list).
   final void Function(String query)? onQuery;
@@ -162,11 +259,14 @@ class SearchCubit extends Cubit<SearchState> {
           _unique(r.jobs),
           filters: _filters,
           hasMore: r.hasMore,
+          cachedAt: r.cachedAt,
         ),
       );
-    } catch (_) {
+    } catch (e) {
       if (gen != _generation) return;
-      emit(SearchFailure(q, filters: _filters));
+      emit(
+        SearchFailure(q, filters: _filters, kind: classifyCatalogueError(e)),
+      );
     }
   }
 

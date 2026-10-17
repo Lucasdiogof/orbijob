@@ -844,5 +844,21 @@
   "officialPortalButton": "Serviço oficial de emprego",
   "authNewPasswordRepeat": "Repita a nova senha",
   "authPasswordMismatch": "As senhas não coincidem",
-  "authPasswordChangedSignIn": "Senha alterada. Entre com a nova senha."
+  "authPasswordChangedSignIn": "Senha alterada. Entre com a nova senha.",
+  "offlineSavedBanner": "Sem conexão · dados salvos em {when}",
+  "@offlineSavedBanner": {
+    "placeholders": {
+      "when": {
+        "type": "DateTime",
+        "format": "d MMM y, HH:mm",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
+  "offlineMayBeOutdated": "Os resultados salvos podem estar desatualizados. Eles se atualizam sozinhos quando a conexão voltar.",
+  "offlineNoCacheTitle": "Sem conexão",
+  "offlineNoCacheBody": "Esta busca ainda não foi feita neste aparelho, então precisa de internet. As buscas que você já fez abrem offline.",
+  "offlineHomeNoCacheBody": "Conecte-se para ver as vagas mais recentes. Elas aparecem aqui assim que houver internet e ficam disponíveis offline depois.",
+  "serverUnavailableTitle": "Catálogo de vagas indisponível",
+  "serverUnavailableBody": "O catálogo não respondeu agora. Tente de novo em instantes."
 }

@@ -32,7 +32,7 @@ Future<void> main() async {
         ? null
         : SupabaseAuthRepository(client, redirectTo: config.redirectTo),
   );
-  if (client != null) registerSupabaseRepositories(client);
+  if (client != null) registerSupabaseRepositories(client, preferences: prefs);
   runApp(const OrbiJobApp());
 }
 

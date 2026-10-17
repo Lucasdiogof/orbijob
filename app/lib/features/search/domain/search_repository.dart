@@ -9,6 +9,7 @@ class SearchResult {
     required this.hasIntegratedSource,
     this.hasMore = false,
     this.notConfigured = false,
+    this.cachedAt,
     int? consumed,
   }) : _consumed = consumed; // ignore: prefer_initializing_formals
   final List<ScoredJob> jobs;
@@ -24,11 +25,18 @@ class SearchResult {
   /// [hasIntegratedSource] = false (the backend answered that no source covers the query) and from an empty list.
   final bool notConfigured;
 
+  /// Set when the catalogue could not be reached and this is the saved first page of the same search (ORBI-001): the moment it was saved. Such a
+  /// result has no further pages. Null for anything the catalogue answered just now.
+  final DateTime? cachedAt;
+
   /// Server rows this page used up. Differs from `jobs.length` when invalid rows were skipped, and is what the next
   /// request's `offset` must advance by.
   int get consumed => _consumed ?? jobs.length;
   final int? _consumed;
 }
+
+/// Why the catalogue could not be read, as far as the person needs to tell: no connection (or a timeout), the service not answering, or anything else.
+enum CatalogueFailure { offline, server, other }
 
 abstract class SearchRepository {
   /// [query] may be empty to browse the newest jobs. Pages are [limit] jobs starting at [offset], in a stable order.

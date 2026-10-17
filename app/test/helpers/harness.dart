@@ -75,6 +75,7 @@ Future<void> pumpApp(
     translationEngine: translationEngine,
     translationCache: MemoryTranslationCache(),
     notificationsRefresh: null,
+    connectionRetry: null,
     textShare: textShare,
     favoritesRepository: favorites ?? InMemoryFavoritesRepository(),
   );

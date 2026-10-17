@@ -60,6 +60,8 @@ import '../../features/privacy/domain/account_data_repository.dart';
 import '../../features/push/data/supabase_push_devices_repository.dart';
 import '../../features/push/domain/push_messaging.dart';
 import '../../features/push/push_registrar.dart';
+import '../../features/search/data/offline_first_search_repository.dart';
+import '../../features/search/data/search_results_cache.dart';
 
 final sl = GetIt.instance;
 
@@ -85,6 +87,9 @@ void configureDependencies({
 
   /// How often the open app re-reads the notifications; null = never (tests, which must not leave a timer behind).
   Duration? notificationsRefresh = const Duration(minutes: 5),
+
+  /// While saved results (no connection) are on screen the search is tried again this often; null = never (tests).
+  Duration? connectionRetry = const Duration(seconds: 20),
 }) {
   if (favoritesRepository != null) {
     sl.registerLazySingleton<FavoritesRepository>(() => favoritesRepository);
@@ -123,10 +128,15 @@ void configureDependencies({
         recoveryMarker: preferences == null
             ? null
             : PrefsRecoveryMarker(preferences),
-        beforeSignOut: sl<PushRegistrar>().beforeSignOut,
+        beforeSignOut: () async {
+          await sl<PushRegistrar>().beforeSignOut();
+          // what this device kept for the account that leaves (saved searches' results) does not stay for the next one
+          await maybe<SearchResultsCache>()?.clear();
+        },
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();
           await sl<TranslationService>().cache.clear();
+          await maybe<SearchResultsCache>()?.clear();
         },
       ),
     )
@@ -142,6 +152,7 @@ void configureDependencies({
       () => SearchCubit(
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
         onQuery: sl<RecentSearchesCubit>().record,
+        reconnectEvery: connectionRetry,
       ),
     )
     ..registerFactory<AreasCubit>(() => AreasCubit(maybe<SearchRepository>()))
@@ -150,11 +161,13 @@ void configureDependencies({
     )
     ..registerFactory<LatestJobsCubit>(
       () => LatestJobsCubit(
+        reconnectEvery: connectionRetry,
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
       ),
     )
     ..registerFactory<RemoteJobsCubit>(
       () => RemoteJobsCubit(
+        reconnectEvery: connectionRetry,
         maybe<SearchRepository>() ?? UnconfiguredSearchRepository(),
       ),
     )
@@ -197,7 +210,10 @@ void configureDependencies({
 
 /// Registers the Supabase-backed repositories. Called once at start-up, only when a public configuration exists.
 /// The screens read them through their Cubits (see [maybe]); a repository registered earlier (previews, tests) wins.
-void registerSupabaseRepositories(SupabaseClient client) {
+void registerSupabaseRepositories(
+  SupabaseClient client, {
+  SharedPreferences? preferences,
+}) {
   if (!sl.isRegistered<PushDevicesRepository>()) {
     sl.registerLazySingleton<PushDevicesRepository>(
       () => SupabasePushDevicesRepository(client),
@@ -208,16 +224,28 @@ void registerSupabaseRepositories(SupabaseClient client) {
       () => SupabaseFavoritesRepository(client),
     );
   }
+  if (!sl.isRegistered<SearchResultsCache>()) {
+    // the first page of every search made online, kept on the device (bounded, expiring) to reopen it without a connection; without storage
+    // it only lives for the session
+    sl.registerLazySingleton<SearchResultsCache>(
+      () => preferences == null
+          ? MemorySearchResultsCache()
+          : PrefsSearchResultsCache(preferences),
+    );
+  }
   if (!sl.isRegistered<SearchRepository>()) {
     sl.registerLazySingleton<SearchRepository>(
-      () => SupabaseJobCatalogRepository(
-        client,
-        maxVerificationAge: jobMaxVerificationAge(
-          const int.fromEnvironment(
-            'JOB_MAX_VERIFICATION_HOURS',
-            defaultValue: 72,
+      () => OfflineFirstSearchRepository(
+        SupabaseJobCatalogRepository(
+          client,
+          maxVerificationAge: jobMaxVerificationAge(
+            const int.fromEnvironment(
+              'JOB_MAX_VERIFICATION_HOURS',
+              defaultValue: 72,
+            ),
           ),
         ),
+        sl<SearchResultsCache>(),
       ),
     );
   }

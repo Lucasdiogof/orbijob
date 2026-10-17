@@ -21,11 +21,13 @@ import '../../../../core/format/country_names.dart';
 import '../../domain/country_portals.dart';
 import '../../domain/entities/job_posting.dart';
 import '../../domain/job_filters.dart';
+import '../../domain/search_repository.dart' show CatalogueFailure;
 import '../cubit/search_cubit.dart';
 import '../widgets/area_chips.dart';
 import '../widgets/area_picker.dart';
 import '../widgets/health_specialty_chips.dart';
 import '../widgets/job_detail_view.dart';
+import '../widgets/saved_results_notice.dart';
 import '../widgets/search_filters_panel.dart';
 import '../widgets/search_suggestions_box.dart';
 import 'job_detail_page.dart';
@@ -473,11 +475,26 @@ class _Results extends StatelessWidget {
           ],
         ),
       ),
-      SearchFailure() => OrbiEmptyState(
-        icon: Icons.error_outline,
-        title: l.errorTitle,
-        body: l.errorBody,
-        kind: OrbiStateKind.error,
+      SearchFailure(:final kind) => OrbiEmptyState(
+        // no connection is not an error of the app: it says what is needed (and that searches already made open offline)
+        icon: switch (kind) {
+          CatalogueFailure.offline => Icons.cloud_off_outlined,
+          CatalogueFailure.server => Icons.cloud_queue_outlined,
+          CatalogueFailure.other => Icons.error_outline,
+        },
+        title: switch (kind) {
+          CatalogueFailure.offline => l.offlineNoCacheTitle,
+          CatalogueFailure.server => l.serverUnavailableTitle,
+          CatalogueFailure.other => l.errorTitle,
+        },
+        body: switch (kind) {
+          CatalogueFailure.offline => l.offlineNoCacheBody,
+          CatalogueFailure.server => l.serverUnavailableBody,
+          CatalogueFailure.other => l.errorBody,
+        },
+        kind: kind == CatalogueFailure.other
+            ? OrbiStateKind.error
+            : OrbiStateKind.info,
         action: OrbiSecondaryButton(
           label: l.retry,
           icon: Icons.refresh,
@@ -489,6 +506,7 @@ class _Results extends StatelessWidget {
         :final hasMore,
         :final loadingMore,
         :final loadMoreFailed,
+        :final cachedAt,
       ) =>
         BlocConsumer<FavoritesCubit, FavoritesState>(
           listenWhen: (a, b) => a.actionTick != b.actionTick,
@@ -523,7 +541,7 @@ class _Results extends StatelessWidget {
                 itemBuilder: (context, i) {
                   if (i == 0) {
                     // A Wrap, not a Row: with large text the save button drops under the count instead of overflowing.
-                    return Wrap(
+                    final header = Wrap(
                       alignment: WrapAlignment.spaceBetween,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
@@ -536,6 +554,20 @@ class _Results extends StatelessWidget {
                           ),
                         ),
                         _SaveSearchButton(spec: spec),
+                      ],
+                    );
+                    if (cachedAt == null) return header;
+                    // saved copy of the search (no connection): say so, with the date, above the count
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SavedResultsNotice(
+                          savedAt: cachedAt,
+                          onRetry: () =>
+                              context.read<SearchCubit>().refreshQuietly(),
+                        ),
+                        const SizedBox(height: AppSpace.s3),
+                        header,
                       ],
                     );
                   }
