@@ -85,35 +85,41 @@ void main() {
     expect(d.log, ['+token-1', '+token-2', '-token-1']);
   });
 
-  test('signing out removes the row while the session still exists, forgets the token, and the next account starts clean', () async {
-    final m = _Messaging();
-    final d = _Devices();
-    final r = PushRegistrar(m, d);
-    await r.onSignedIn('u1');
-    await r.beforeSignOut();
-    expect(d.rows, isEmpty);
-    expect(m.deletes, 1);
-    m.tok = 'token-b';
-    await r.onSignedIn('u2');
-    expect(d.rows.keys, ['token-b']);
-    m.refresh.add('late'); // the first account's listener is gone
-    await pumpEventQueue();
-    expect(d.rows.keys, contains('late'));
-    expect(d.log.where((e) => e == '+late'), hasLength(1));
-  });
+  test(
+    'signing out removes the row while the session still exists, forgets the token, and the next account starts clean',
+    () async {
+      final m = _Messaging();
+      final d = _Devices();
+      final r = PushRegistrar(m, d);
+      await r.onSignedIn('u1');
+      await r.beforeSignOut();
+      expect(d.rows, isEmpty);
+      expect(m.deletes, 1);
+      m.tok = 'token-b';
+      await r.onSignedIn('u2');
+      expect(d.rows.keys, ['token-b']);
+      m.refresh.add('late'); // the first account's listener is gone
+      await pumpEventQueue();
+      expect(d.rows.keys, contains('late'));
+      expect(d.log.where((e) => e == '+late'), hasLength(1));
+    },
+  );
 
-  test('no push without permission, without a platform (web) or without a backend; nothing is stored', () async {
-    final denied = _Devices();
-    await PushRegistrar(_Messaging(allowed: false), denied).onSignedIn('u1');
-    expect(denied.rows, isEmpty);
-    final web = _Devices();
-    final webMsg = _Messaging(plat: null);
-    await PushRegistrar(webMsg, web).onSignedIn('u1');
-    expect(web.rows, isEmpty);
-    expect(webMsg.starts, 0);
-    await PushRegistrar(_Messaging(), null).onSignedIn('u1');
-    await PushRegistrar(const NoPushMessaging(), _Devices()).onSignedIn('u1');
-  });
+  test(
+    'no push without permission, without a platform (web) or without a backend; nothing is stored',
+    () async {
+      final denied = _Devices();
+      await PushRegistrar(_Messaging(allowed: false), denied).onSignedIn('u1');
+      expect(denied.rows, isEmpty);
+      final web = _Devices();
+      final webMsg = _Messaging(plat: null);
+      await PushRegistrar(webMsg, web).onSignedIn('u1');
+      expect(web.rows, isEmpty);
+      expect(webMsg.starts, 0);
+      await PushRegistrar(_Messaging(), null).onSignedIn('u1');
+      await PushRegistrar(const NoPushMessaging(), _Devices()).onSignedIn('u1');
+    },
+  );
 
   test('failures never reach sign-in or sign-out', () async {
     final d = _Devices()..fail = true;

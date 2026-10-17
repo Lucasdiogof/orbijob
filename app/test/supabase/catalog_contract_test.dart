@@ -138,26 +138,29 @@ String _pretty(Object o) =>
     '${const JsonEncoder.withIndent('  ').convert(o)}\n';
 
 void main() {
-  test('the requests the repository sends match the golden file replayed against a real PostgREST in CI', () async {
-    final actual = _pretty(await _record());
-    final file = File(_goldenPath);
-    if (Platform.environment['UPDATE_GOLDEN'] == '1') {
-      file.writeAsStringSync(actual);
-      return;
-    }
-    expect(
-      file.existsSync(),
-      isTrue,
-      reason: 'generate it with UPDATE_GOLDEN=1',
-    );
-    expect(
-      actual,
-      file.readAsStringSync().replaceAll('\r\n', '\n'),
-      reason:
-          'the repository now sends different queries than the ones validated against PostgREST; '
-          'regenerate with UPDATE_GOLDEN=1 and let the catalog-postgrest CI job re-validate them',
-    );
-  });
+  test(
+    'the requests the repository sends match the golden file replayed against a real PostgREST in CI',
+    () async {
+      final actual = _pretty(await _record());
+      final file = File(_goldenPath);
+      if (Platform.environment['UPDATE_GOLDEN'] == '1') {
+        file.writeAsStringSync(actual);
+        return;
+      }
+      expect(
+        file.existsSync(),
+        isTrue,
+        reason: 'generate it with UPDATE_GOLDEN=1',
+      );
+      expect(
+        actual,
+        file.readAsStringSync().replaceAll('\r\n', '\n'),
+        reason:
+            'the repository now sends different queries than the ones validated against PostgREST; '
+            'regenerate with UPDATE_GOLDEN=1 and let the catalog-postgrest CI job re-validate them',
+      );
+    },
+  );
 
   test('the golden file only contains reads of the two public tables', () {
     final g = jsonDecode(File(_goldenPath).readAsStringSync()) as Map;

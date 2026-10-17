@@ -44,37 +44,43 @@ Map<String, Object?> catalogRow({
 void main() {
   final job = jobFromCatalogRow(catalogRow(description: 'Plain text.'))!;
 
-  test('a catalogue job is saved under source:id with the data needed to show and open it later', () async {
-    final b = FakeBackend();
-    await SupabaseFavoritesRepository(b.client).add(job);
-    final r = b.last;
-    expect(r.method, 'POST');
-    expect(r.path, '/rest/v1/saved_jobs');
-    expect(r.query['on_conflict'], 'user_id,job_key');
-    final body = r.json as Map;
-    expect(body['user_id'], testUserA);
-    expect(body['job_key'], 'jobicy:154956');
-    final snap = body['snapshot'] as Map;
-    expect(snap['source'], 'jobicy');
-    expect(snap['sourceName'], 'Jobicy');
-    expect(
-      snap['originalUrl'],
-      'https://jobicy.com/jobs/154956-account-executive',
-    );
-    expect(snap['geoRestrictions'], ['CA', 'US']);
-    expect(snap['salaryCurrency'], 'USD');
-  });
+  test(
+    'a catalogue job is saved under source:id with the data needed to show and open it later',
+    () async {
+      final b = FakeBackend();
+      await SupabaseFavoritesRepository(b.client).add(job);
+      final r = b.last;
+      expect(r.method, 'POST');
+      expect(r.path, '/rest/v1/saved_jobs');
+      expect(r.query['on_conflict'], 'user_id,job_key');
+      final body = r.json as Map;
+      expect(body['user_id'], testUserA);
+      expect(body['job_key'], 'jobicy:154956');
+      final snap = body['snapshot'] as Map;
+      expect(snap['source'], 'jobicy');
+      expect(snap['sourceName'], 'Jobicy');
+      expect(
+        snap['originalUrl'],
+        'https://jobicy.com/jobs/154956-account-executive',
+      );
+      expect(snap['geoRestrictions'], ['CA', 'US']);
+      expect(snap['salaryCurrency'], 'USD');
+    },
+  );
 
-  test('the description is never written to the snapshot, so it cannot exceed the 16 KB limit', () async {
-    final huge = jobFromCatalogRow(catalogRow(description: 'x' * 200000))!;
-    expect(huge.description!.length, 200000);
-    final snap = jobToSnapshot(huge);
-    expect(snap.containsKey('description'), isFalse);
-    expect(utf8.encode(jsonEncode(snap)).length, lessThan(16384));
-    final b = FakeBackend();
-    await SupabaseFavoritesRepository(b.client).add(huge);
-    expect(utf8.encode(b.last.body).length, lessThan(16384));
-  });
+  test(
+    'the description is never written to the snapshot, so it cannot exceed the 16 KB limit',
+    () async {
+      final huge = jobFromCatalogRow(catalogRow(description: 'x' * 200000))!;
+      expect(huge.description!.length, 200000);
+      final snap = jobToSnapshot(huge);
+      expect(snap.containsKey('description'), isFalse);
+      expect(utf8.encode(jsonEncode(snap)).length, lessThan(16384));
+      final b = FakeBackend();
+      await SupabaseFavoritesRepository(b.client).add(huge);
+      expect(utf8.encode(b.last.body).length, lessThan(16384));
+    },
+  );
 
   test('saving the same job twice is one row (upsert on user + key)', () async {
     final b = FakeBackend();
@@ -90,24 +96,27 @@ void main() {
     );
   });
 
-  test('a saved catalogue job comes back identical, with eligibility kept and no description', () async {
-    final snap = jobToSnapshot(job);
-    final b = FakeBackend(
-      respond: (_, _, _) => (
-        200,
-        [
-          {'snapshot': snap},
-        ],
-      ),
-    );
-    final back = (await SupabaseFavoritesRepository(b.client).list()).single;
-    expect(back, job); // identity: source + external id
-    expect(back.geoRestrictions, ['CA', 'US']);
-    expect(back.salaryMin, 120000);
-    expect(back.sourceName, 'Jobicy');
-    expect(back.description, isNull);
-    expect(back.originalUrl, job.originalUrl);
-  });
+  test(
+    'a saved catalogue job comes back identical, with eligibility kept and no description',
+    () async {
+      final snap = jobToSnapshot(job);
+      final b = FakeBackend(
+        respond: (_, _, _) => (
+          200,
+          [
+            {'snapshot': snap},
+          ],
+        ),
+      );
+      final back = (await SupabaseFavoritesRepository(b.client).list()).single;
+      expect(back, job); // identity: source + external id
+      expect(back.geoRestrictions, ['CA', 'US']);
+      expect(back.salaryMin, 120000);
+      expect(back.sourceName, 'Jobicy');
+      expect(back.description, isNull);
+      expect(back.originalUrl, job.originalUrl);
+    },
+  );
 
   test('a job with no company name is not lost when it is read back', () async {
     final noCompany = jobFromCatalogRow(catalogRow(company: ''))!;

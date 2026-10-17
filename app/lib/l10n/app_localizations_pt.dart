@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -2529,7 +2528,8 @@ class AppLocalizationsPt extends AppLocalizations {
       locale: localeName,
       other:
           '$count arquivos de currículo não puderam ser incluídos; eles constam no arquivo de dados.',
-      one: '1 arquivo de currículo não pôde ser incluído; ele consta no arquivo de dados.',
+      one:
+          '1 arquivo de currículo não pôde ser incluído; ele consta no arquivo de dados.',
     );
     return '$_temp0';
   }

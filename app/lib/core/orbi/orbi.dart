@@ -1,4 +1,3 @@
-// The OrbiJob component library: every screen is built from these, which in turn read only the design tokens.
 export 'orbi_art.dart';
 export 'orbi_auth_gate.dart';
 export 'orbi_buttons.dart';

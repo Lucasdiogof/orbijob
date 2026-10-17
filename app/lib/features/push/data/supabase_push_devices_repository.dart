@@ -39,7 +39,6 @@ class SupabasePushDevicesRepository implements PushDevicesRepository {
   }
 
   Future<void> _upsert(Map<String, Object?> row) async {
-    // insert or, for a known device, refresh it (platform, locale, last_seen_at)
     final existing = await _client
         .from('push_devices')
         .select('id')

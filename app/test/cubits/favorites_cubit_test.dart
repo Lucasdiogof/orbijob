@@ -99,18 +99,21 @@ void main() {
     expect(c.state.actionFailure, isNotNull);
   });
 
-  test('a second tap while the first is in flight is ignored (no duplicate request)', () async {
-    final gate = Completer<void>();
-    final repo = _Slow(gate);
-    final c = FavoritesCubit(repo);
-    await c.load();
-    final first = c.toggle(ScoredJob(job('1')));
-    final second = c.toggle(ScoredJob(job('1')));
-    gate.complete();
-    await Future.wait([first, second]);
-    expect(repo.adds, 1);
-    expect(c.isFavorite(job('1')), isTrue);
-  });
+  test(
+    'a second tap while the first is in flight is ignored (no duplicate request)',
+    () async {
+      final gate = Completer<void>();
+      final repo = _Slow(gate);
+      final c = FavoritesCubit(repo);
+      await c.load();
+      final first = c.toggle(ScoredJob(job('1')));
+      final second = c.toggle(ScoredJob(job('1')));
+      gate.complete();
+      await Future.wait([first, second]);
+      expect(repo.adds, 1);
+      expect(c.isFavorite(job('1')), isTrue);
+    },
+  );
 
   test('signed out: the tap asks for sign-in and sends nothing', () async {
     final repo = FailingFavorites()..error = NotSignedInException();

@@ -34,8 +34,8 @@ class _FitLabel extends StatelessWidget {
   );
 }
 
-MediaQueryData _clamped(BuildContext context) => MediaQuery.of(context)
-    .copyWith(
+MediaQueryData _clamped(BuildContext context) =>
+    MediaQuery.of(context).copyWith(
       textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
     );
 

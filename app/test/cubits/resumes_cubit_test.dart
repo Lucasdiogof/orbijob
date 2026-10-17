@@ -33,19 +33,22 @@ void main() {
     expect(c.state.uploading, isFalse);
   });
 
-  test('rejects non-PDF, empty and oversized files on the device, before any request', () async {
-    await c.load();
-    expect(
-      await c.upload(Uint8List.fromList('hello world'.codeUnits)),
-      isFalse,
-    );
-    expect(c.state.actionFailure, DataFailureKind.notPdf);
-    expect(await c.upload(Uint8List(0)), isFalse);
-    expect(c.state.actionFailure, DataFailureKind.emptyFile);
-    expect(await c.upload(tinyPdf(ResumeRepository.maxBytes)), isFalse);
-    expect(c.state.actionFailure, DataFailureKind.tooLarge);
-    expect(repo.rows, isEmpty);
-  });
+  test(
+    'rejects non-PDF, empty and oversized files on the device, before any request',
+    () async {
+      await c.load();
+      expect(
+        await c.upload(Uint8List.fromList('hello world'.codeUnits)),
+        isFalse,
+      );
+      expect(c.state.actionFailure, DataFailureKind.notPdf);
+      expect(await c.upload(Uint8List(0)), isFalse);
+      expect(c.state.actionFailure, DataFailureKind.emptyFile);
+      expect(await c.upload(tinyPdf(ResumeRepository.maxBytes)), isFalse);
+      expect(c.state.actionFailure, DataFailureKind.tooLarge);
+      expect(repo.rows, isEmpty);
+    },
+  );
 
   test('exactly 5 MiB is accepted', () async {
     await c.load();

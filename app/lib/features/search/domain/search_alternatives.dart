@@ -145,8 +145,6 @@ List<String> _words(String s) => [
     if (w.length >= 3 && !_stop.contains(w)) w,
 ];
 
-// --- hand-made groups -----------------------------------------------------------------------------------------------------------------
-
 List<List<String>> _fromGroups(String t, {required bool strict}) {
   // Accents are ignored when the term is compared with the groups ("medico" is "médico"); the alternatives themselves keep their accents, since
   // they are what the titles are searched for.
@@ -233,8 +231,6 @@ List<List<String>> _fromGroups(String t, {required bool strict}) {
     for (final c in combos) [...qualifiers, ...c],
   ];
 }
-
-// --- ESCO -----------------------------------------------------------------------------------------------------------------------------
 
 String _fold(String s) => foldAccents(s);
 

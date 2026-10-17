@@ -73,19 +73,22 @@ void main() {
     },
   );
 
-  test('a fresh zero hides an area that the cache still had; an area that failed keeps its cached number', () async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      AreasCubit.cacheKey,
-      '{"technology":9,"health":4,"design":3}',
-    );
-    final repo = _Counting(
-      (p) async => {JobArea.technology: 0, JobArea.design: 3},
-    );
-    final cubit = AreasCubit(repo, prefs: prefs);
-    await cubit.load();
-    expect(cubit.state.available, [JobArea.design, JobArea.health]);
-  });
+  test(
+    'a fresh zero hides an area that the cache still had; an area that failed keeps its cached number',
+    () async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        AreasCubit.cacheKey,
+        '{"technology":9,"health":4,"design":3}',
+      );
+      final repo = _Counting(
+        (p) async => {JobArea.technology: 0, JobArea.design: 3},
+      );
+      final cubit = AreasCubit(repo, prefs: prefs);
+      await cubit.load();
+      expect(cubit.state.available, [JobArea.design, JobArea.health]);
+    },
+  );
 
   test(
     'a second load while one is running does nothing (no duplicate requests)',

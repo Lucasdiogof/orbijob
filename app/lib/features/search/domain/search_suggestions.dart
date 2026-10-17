@@ -37,8 +37,6 @@ bool _isProfession(String w) =>
       (g) => !g.any(_modifierGroups.contains) && g.any((f) => w.startsWith(f)),
     );
 
-// --- spelling -------------------------------------------------------------------------------------------------------------------------
-
 Map<String, String>? _names;
 
 /// Folded single- and two-word names -> the label as ESCO writes it (first one wins).

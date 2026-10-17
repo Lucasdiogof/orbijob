@@ -42,7 +42,6 @@ abstract final class AppTypography {
     const d = AppFonts.display;
     const t = AppFonts.text;
     return TextTheme(
-      // Display / Heading large / Heading medium / Heading small
       displayLarge: _style(d, 28, 34, FontWeight.w700, spacing: -0.3),
       displayMedium: _style(d, 24, 30, FontWeight.w700, spacing: -0.2),
       displaySmall: _style(d, 22, 28, FontWeight.w700, spacing: -0.2),
@@ -52,7 +51,6 @@ abstract final class AppTypography {
       titleLarge: _style(d, 18, 24, FontWeight.w600, spacing: -0.1),
       titleMedium: _style(d, 16, 22, FontWeight.w600),
       titleSmall: _style(d, 15, 20, FontWeight.w600),
-      // Body / Body emphasis (labelLarge) / Label / Caption / Metadata
       bodyLarge: _style(t, 16, 24, FontWeight.w400),
       bodyMedium: _style(t, 15, 22, FontWeight.w400),
       bodySmall: _style(t, 13, 18, FontWeight.w400),
@@ -66,7 +64,6 @@ abstract final class AppTypography {
   static TextStyle metadata(Color color) =>
       _style(AppFonts.text, 12, 16, FontWeight.w500).copyWith(color: color);
 
-  /// Caption: 12/16 regular.
   static TextStyle caption(Color color) =>
       _style(AppFonts.text, 12, 16, FontWeight.w400).copyWith(color: color);
 

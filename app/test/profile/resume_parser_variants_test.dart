@@ -126,78 +126,90 @@ String _p(DateTime? d) => d == null ? 'now' : '${d.year}-${d.month}';
 void main() {
   ResumeSuggestion parse(String k) => parseResumeText(cvs[k]!);
 
-  test('nurse: "Name, RN" is the name (not a city), the headline, the UK and the entries are read', () {
-    final s = parse('nurse-en');
-    expect(s.name, 'Priya Nair');
-    expect(s.headline, 'Registered Nurse – Intensive Care');
-    expect((s.city, s.country), ('Manchester', 'GB'));
-    expect(
-      s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
-      [
-        ('Senior Staff Nurse', 'Royal Infirmary Hospital', '2018-6', 'now'),
-        ('Staff Nurse', "St Mary's Hospital", '2014-9', '2018-5'),
-      ],
-    );
-  });
+  test(
+    'nurse: "Name, RN" is the name (not a city), the headline, the UK and the entries are read',
+    () {
+      final s = parse('nurse-en');
+      expect(s.name, 'Priya Nair');
+      expect(s.headline, 'Registered Nurse – Intensive Care');
+      expect((s.city, s.country), ('Manchester', 'GB'));
+      expect(
+        s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
+        [
+          ('Senior Staff Nurse', 'Royal Infirmary Hospital', '2018-6', 'now'),
+          ('Staff Nurse', "St Mary's Hospital", '2014-9', '2018-5'),
+        ],
+      );
+    },
+  );
 
-  test('electrician: a company ending in "S.A. de C.V." stays a header, and the second entry keeps its own dates', () {
-    final s = parse('electrician-es');
-    expect(
-      s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
-      [
-        (
-          'Electricista de mantenimiento',
-          'Grupo Industrial Norte S.A. de C.V.',
-          '2015-3',
-          'now',
-        ),
-        (
-          'Ayudante de electricista',
-          'Instalaciones Eléctricas del Centro',
-          '2010-1',
-          '2015-2',
-        ),
-      ],
-    );
-    expect(s.experiences.first.description, contains('PLC'));
-    expect((s.city, s.country), ('Ciudad de México', 'MX'));
-  });
+  test(
+    'electrician: a company ending in "S.A. de C.V." stays a header, and the second entry keeps its own dates',
+    () {
+      final s = parse('electrician-es');
+      expect(
+        s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
+        [
+          (
+            'Electricista de mantenimiento',
+            'Grupo Industrial Norte S.A. de C.V.',
+            '2015-3',
+            'now',
+          ),
+          (
+            'Ayudante de electricista',
+            'Instalaciones Eléctricas del Centro',
+            '2010-1',
+            '2015-2',
+          ),
+        ],
+      );
+      expect(s.experiences.first.description, contains('PLC'));
+      expect((s.city, s.country), ('Ciudad de México', 'MX'));
+    },
+  );
 
-  test('teacher: "Fev/2019 – Atual" is a date (not part of the company) and "Belo Horizonte - MG" is the city', () {
-    final s = parse('teacher-pt');
-    expect(s.city, 'Belo Horizonte');
-    expect(
-      s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
-      [
-        ('Professora de Matemática', 'Colégio Santa Clara', '2019-2', 'now'),
-        (
-          'Professora substituta',
-          'Escola Estadual João Pinheiro',
-          '2016-1',
-          '2018-1',
-        ),
-      ],
-    );
-  });
+  test(
+    'teacher: "Fev/2019 – Atual" is a date (not part of the company) and "Belo Horizonte - MG" is the city',
+    () {
+      final s = parse('teacher-pt');
+      expect(s.city, 'Belo Horizonte');
+      expect(
+        s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
+        [
+          ('Professora de Matemática', 'Colégio Santa Clara', '2019-2', 'now'),
+          (
+            'Professora substituta',
+            'Escola Estadual João Pinheiro',
+            '2016-1',
+            '2018-1',
+          ),
+        ],
+      );
+    },
+  );
 
-  test('truck driver (German): headings, "heute", "Muttersprache", one-line "Title, Company" headers', () {
-    final s = parse('driver-de');
-    expect((s.name, s.city, s.country), ('Jürgen Weber', 'Hamburg', 'DE'));
-    expect(s.languages.map((l) => (l.code, l.level)), [
-      ('de', 'Muttersprache'),
-      ('en', 'Grundkenntnisse'),
-    ]);
-    expect(
-      s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
-      [
-        ('Fernfahrer', 'Nordtrans GmbH', '2016-1', 'now'),
-        ('Kraftfahrer', 'Spedition Müller KG', '2010-1', '2015-1'),
-      ],
-    );
-    expect(s.experiences.first.description, contains('Fernverkehr'));
-    final e = s.education.single;
-    expect((e.degree, e.institution), ('Berufskraftfahrer', 'IHK Hamburg'));
-  });
+  test(
+    'truck driver (German): headings, "heute", "Muttersprache", one-line "Title, Company" headers',
+    () {
+      final s = parse('driver-de');
+      expect((s.name, s.city, s.country), ('Jürgen Weber', 'Hamburg', 'DE'));
+      expect(s.languages.map((l) => (l.code, l.level)), [
+        ('de', 'Muttersprache'),
+        ('en', 'Grundkenntnisse'),
+      ]);
+      expect(
+        s.experiences.map((e) => (e.title, e.company, _p(e.start), _p(e.end))),
+        [
+          ('Fernfahrer', 'Nordtrans GmbH', '2016-1', 'now'),
+          ('Kraftfahrer', 'Spedition Müller KG', '2010-1', '2015-1'),
+        ],
+      );
+      expect(s.experiences.first.description, contains('Fernverkehr'));
+      final e = s.education.single;
+      expect((e.degree, e.institution), ('Berufskraftfahrer', 'IHK Hamburg'));
+    },
+  );
 
   test('welder: "Santo André/SP" is the city and "a" separates the dates', () {
     final s = parse('welder-pt');

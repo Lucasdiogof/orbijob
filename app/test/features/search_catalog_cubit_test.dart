@@ -129,20 +129,23 @@ void main() {
       expect((c.state as SearchSuccess).loadingMore, isFalse);
     });
 
-    test('a failed "show more" keeps the list and offers retry; retrying loads the page', () async {
-      final repo = PagedRepo(catalogue(45))..failOnCall = 2;
-      final c = SearchCubit(repo, pageSize: 20);
-      await c.search('job');
-      await c.loadMore();
-      var s = c.state as SearchSuccess;
-      expect(s.jobs, hasLength(20));
-      expect(s.loadMoreFailed, isTrue);
-      expect(s.loadingMore, isFalse);
-      await c.loadMore();
-      s = c.state as SearchSuccess;
-      expect(s.jobs, hasLength(40));
-      expect(s.loadMoreFailed, isFalse);
-    });
+    test(
+      'a failed "show more" keeps the list and offers retry; retrying loads the page',
+      () async {
+        final repo = PagedRepo(catalogue(45))..failOnCall = 2;
+        final c = SearchCubit(repo, pageSize: 20);
+        await c.search('job');
+        await c.loadMore();
+        var s = c.state as SearchSuccess;
+        expect(s.jobs, hasLength(20));
+        expect(s.loadMoreFailed, isTrue);
+        expect(s.loadingMore, isFalse);
+        await c.loadMore();
+        s = c.state as SearchSuccess;
+        expect(s.jobs, hasLength(40));
+        expect(s.loadMoreFailed, isFalse);
+      },
+    );
 
     test(
       'changing filters reloads from the first page with the new filters',
@@ -168,26 +171,32 @@ void main() {
       },
     );
 
-    test('filters set with nothing on screen list the newest jobs that match them, and stay for the next search', () async {
-      final repo = PagedRepo(catalogue(3));
-      final c = SearchCubit(repo);
-      await c.setFilters(const JobFilters(onlyWithSalary: true));
-      expect(c.state, isA<SearchSuccess>());
-      expect(repo.calls.single.query, '');
-      expect(repo.calls.single.filters.onlyWithSalary, isTrue);
-      await c.search('x');
-      expect(repo.calls.last.filters.onlyWithSalary, isTrue);
-    });
+    test(
+      'filters set with nothing on screen list the newest jobs that match them, and stay for the next search',
+      () async {
+        final repo = PagedRepo(catalogue(3));
+        final c = SearchCubit(repo);
+        await c.setFilters(const JobFilters(onlyWithSalary: true));
+        expect(c.state, isA<SearchSuccess>());
+        expect(repo.calls.single.query, '');
+        expect(repo.calls.single.filters.onlyWithSalary, isTrue);
+        await c.search('x');
+        expect(repo.calls.last.filters.onlyWithSalary, isTrue);
+      },
+    );
 
-    test('an area chosen with nothing on screen is sent with the newest-jobs request', () async {
-      final repo = PagedRepo(catalogue(3));
-      final c = SearchCubit(repo);
-      await c.setFilters(const JobFilters(area: JobArea.health));
-      expect(repo.calls.single.filters.area, JobArea.health);
-      expect(c.state.filters.area, JobArea.health);
-      await c.clearFilters();
-      expect(repo.calls.last.filters.area, isNull);
-    });
+    test(
+      'an area chosen with nothing on screen is sent with the newest-jobs request',
+      () async {
+        final repo = PagedRepo(catalogue(3));
+        final c = SearchCubit(repo);
+        await c.setFilters(const JobFilters(area: JobArea.health));
+        expect(repo.calls.single.filters.area, JobArea.health);
+        expect(c.state.filters.area, JobArea.health);
+        await c.clearFilters();
+        expect(repo.calls.last.filters.area, isNull);
+      },
+    );
 
     test(
       'setting identical filters does nothing; clearFilters reloads',
@@ -204,19 +213,24 @@ void main() {
       },
     );
 
-    test('browse lists the newest jobs without a term and without feeding recent searches', () async {
-      final repo = PagedRepo(catalogue(3));
-      final recorded = <String>[];
-      final c = SearchCubit(repo, onQuery: recorded.add);
-      await c.browse();
-      expect(repo.calls.single.query, '');
-      expect((c.state as SearchSuccess).jobs, hasLength(3));
-      expect(recorded, isEmpty);
-      await c.search('   '); // an empty submission is the same as browsing: it lists, it never blanks the page
-      expect(c.state, isA<SearchSuccess>());
-      expect(repo.calls, hasLength(2));
-      expect(recorded, isEmpty);
-    });
+    test(
+      'browse lists the newest jobs without a term and without feeding recent searches',
+      () async {
+        final repo = PagedRepo(catalogue(3));
+        final recorded = <String>[];
+        final c = SearchCubit(repo, onQuery: recorded.add);
+        await c.browse();
+        expect(repo.calls.single.query, '');
+        expect((c.state as SearchSuccess).jobs, hasLength(3));
+        expect(recorded, isEmpty);
+        await c.search(
+          '   ',
+        ); // an empty submission is the same as browsing: it lists, it never blanks the page
+        expect(c.state, isA<SearchSuccess>());
+        expect(repo.calls, hasLength(2));
+        expect(recorded, isEmpty);
+      },
+    );
 
     test('an old response never overwrites a newer search', () async {
       final gate = Completer<void>();
@@ -246,22 +260,25 @@ void main() {
       expect(c.state, isA<SearchIdle>());
     });
 
-    test('server failure -> failure state; retry repeats the same search and filters', () async {
-      final repo = PagedRepo(catalogue(3))..failOnCall = 2;
-      final c = SearchCubit(repo);
-      await c.setFilters(
-        const JobFilters(publishedWithinDays: 1),
-      ); // call 1: lists the newest jobs
-      await c.search('x', countryCode: 'DE');
-      expect(
-        c.state,
-        const SearchFailure('x', filters: JobFilters(publishedWithinDays: 1)),
-      );
-      await c.retry();
-      expect(c.state, isA<SearchSuccess>());
-      expect(repo.calls.last.country, 'DE');
-      expect(repo.calls.last.filters.publishedWithinDays, 1);
-    });
+    test(
+      'server failure -> failure state; retry repeats the same search and filters',
+      () async {
+        final repo = PagedRepo(catalogue(3))..failOnCall = 2;
+        final c = SearchCubit(repo);
+        await c.setFilters(
+          const JobFilters(publishedWithinDays: 1),
+        ); // call 1: lists the newest jobs
+        await c.search('x', countryCode: 'DE');
+        expect(
+          c.state,
+          const SearchFailure('x', filters: JobFilters(publishedWithinDays: 1)),
+        );
+        await c.retry();
+        expect(c.state, isA<SearchSuccess>());
+        expect(repo.calls.last.country, 'DE');
+        expect(repo.calls.last.filters.publishedWithinDays, 1);
+      },
+    );
 
     test('retry with nothing searched does nothing', () async {
       final repo = PagedRepo(catalogue(1));
@@ -269,32 +286,44 @@ void main() {
       expect(repo.calls, isEmpty);
     });
 
-    test('empty catalogue with an authorised source -> empty; without one -> no source', () async {
-      final empty = SearchCubit(PagedRepo(const []));
-      await empty.search('x');
-      expect(empty.state, const SearchEmpty('x'));
-      final none = SearchCubit(PagedRepo(const [], integrated: false));
-      await none.search('x');
-      expect(none.state, const SearchNoSource('x'));
-    });
+    test(
+      'empty catalogue with an authorised source -> empty; without one -> no source',
+      () async {
+        final empty = SearchCubit(PagedRepo(const []));
+        await empty.search('x');
+        expect(empty.state, const SearchEmpty('x'));
+        final none = SearchCubit(PagedRepo(const [], integrated: false));
+        await none.search('x');
+        expect(none.state, const SearchNoSource('x'));
+      },
+    );
 
-    test('empty result under active filters keeps the filters so the UI can offer to clear them', () async {
-      final c = SearchCubit(PagedRepo(const []));
-      await c.setFilters(const JobFilters(countryCode: 'PT'));
-      await c.search('x');
-      expect(
-        c.state,
-        const SearchEmpty('x', filters: JobFilters(countryCode: 'PT')),
-      );
-    });
+    test(
+      'empty result under active filters keeps the filters so the UI can offer to clear them',
+      () async {
+        final c = SearchCubit(PagedRepo(const []));
+        await c.setFilters(const JobFilters(countryCode: 'PT'));
+        await c.search('x');
+        expect(
+          c.state,
+          const SearchEmpty('x', filters: JobFilters(countryCode: 'PT')),
+        );
+      },
+    );
 
-    test('a page of only-invalid rows that still has more pages is not reported as empty', () async {
-      final repo = PagedRepo(catalogue(30), skipEvery: 1); // every row skipped
-      final c = SearchCubit(repo, pageSize: 10);
-      await c.search('x');
-      final s = c.state as SearchSuccess;
-      expect(s.jobs, isEmpty);
-      expect(s.hasMore, isTrue);
-    });
+    test(
+      'a page of only-invalid rows that still has more pages is not reported as empty',
+      () async {
+        final repo = PagedRepo(
+          catalogue(30),
+          skipEvery: 1,
+        ); // every row skipped
+        final c = SearchCubit(repo, pageSize: 10);
+        await c.search('x');
+        final s = c.state as SearchSuccess;
+        expect(s.jobs, isEmpty);
+        expect(s.hasMore, isTrue);
+      },
+    );
   });
 }

@@ -34,22 +34,18 @@ String tidyMarkdown(String text) {
     RegExp(r'\[([^\]\n]+)\]\((https?://[^)\s]+)\)'),
     (m) => m[1]!.trim() == m[2] ? m[2]! : '${m[1]} (${m[2]})',
   );
-  // horizontal rules: 3+ of the same symbol alone on a line
   t = t.replaceAll(
     RegExp(r'^[ \t]*([_*=-])(?:[ \t]*\1){2,}[ \t]*$', multiLine: true),
     '',
   );
-  // "* item" / "+ item" -> "- item"
   t = t.replaceAllMapped(
     RegExp(r'^([ \t]*)[*+][ \t]+(?=\S)', multiLine: true),
     (m) => '${m[1]}- ',
   );
-  // ATX headings
   t = t.replaceAllMapped(
     RegExp(r'^[ \t]{0,3}#{1,6}[ \t]+(.+?)[ \t]*#*[ \t]*$', multiLine: true),
     (m) => m[1]!,
   );
-  // paired emphasis, then orphan markers at a word edge
   t = t.replaceAllMapped(
     RegExp(r'(\*\*\*|\*\*|__)(?=\S)([^\n]*?\S)\1'),
     (m) => m[2]!,

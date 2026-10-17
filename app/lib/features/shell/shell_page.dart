@@ -26,9 +26,9 @@ class ShellPage extends StatelessWidget {
     ApplicationsPage(),
   ];
 
-  void _openProfile(BuildContext context) =>
-      Navigator.of(context)
-          .push(MaterialPageRoute<void>(builder: (_) => const ProfilePage()));
+  void _openProfile(BuildContext context) => Navigator.of(
+    context,
+  ).push(MaterialPageRoute<void>(builder: (_) => const ProfilePage()));
 
   @override
   Widget build(BuildContext context) {

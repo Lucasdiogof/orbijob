@@ -76,36 +76,35 @@ void main() {
     expect(escoOccupationsOf('kuchar'), escoOccupationsOf('kuchař'));
   });
 
-  test(
-    'no incompatible profession: the qualifier and the field stay apart',
-    () {
-      // a cook is not a waiter, a driver is not a warehouse worker, a nurse is not a physiotherapist
-      expect(reaches('cozinheiro', 'číšník'), isFalse);
-      expect(reaches('motorista', 'skladník'), isFalse);
-      expect(reaches('enfermeiro', 'fyzioterapeut'), isFalse);
-      expect(reaches('professor', 'kuchař'), isFalse);
-      // never the bare "sestra" (also "sister"), never "lager" alone (also beer, camp, bearing)
-      for (final q in ['nurse', 'enfermeiro', 'warehouse worker']) {
-        expect(
-          titleAlternatives(q).any(
-            (a) => a.length == 1 && (a.first == 'sestra' || a.first == 'lager'),
-          ),
-          isFalse,
-          reason: q,
-        );
-      }
-      // "trabalhador de armazém" is one name: its words are not extra required parts
+  test('no incompatible profession: the qualifier and the field stay apart', () {
+    // a cook is not a waiter, a driver is not a warehouse worker, a nurse is not a physiotherapist
+    expect(reaches('cozinheiro', 'číšník'), isFalse);
+    expect(reaches('motorista', 'skladník'), isFalse);
+    expect(reaches('enfermeiro', 'fyzioterapeut'), isFalse);
+    expect(reaches('professor', 'kuchař'), isFalse);
+    // never the bare "sestra" (also "sister"), never "lager" alone (also beer, camp, bearing)
+    for (final q in ['nurse', 'enfermeiro', 'warehouse worker']) {
       expect(
-        titleAlternatives('trabalhador de armazém')
-            .any((a) => a.contains('trabalhador')),
+        titleAlternatives(q).any(
+          (a) => a.length == 1 && (a.first == 'sestra' || a.first == 'lager'),
+        ),
         isFalse,
+        reason: q,
       );
-      // a qualified search keeps its qualifier in Czech too
-      expect(
-        titleAlternatives('desenvolvedor flutter')
-            .every((a) => a.contains('flutter')),
-        isTrue,
-      );
-    },
-  );
+    }
+    // "trabalhador de armazém" is one name: its words are not extra required parts
+    expect(
+      titleAlternatives(
+        'trabalhador de armazém',
+      ).any((a) => a.contains('trabalhador')),
+      isFalse,
+    );
+    // a qualified search keeps its qualifier in Czech too
+    expect(
+      titleAlternatives(
+        'desenvolvedor flutter',
+      ).every((a) => a.contains('flutter')),
+      isTrue,
+    );
+  });
 }

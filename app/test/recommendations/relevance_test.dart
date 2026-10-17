@@ -72,16 +72,19 @@ void main() {
         );
       },
     );
-    test('the specialty matters: "pelvic" is not ignored, and a general physiotherapist job is the same GROUP, not the same specialty', () {
-      expect(
-        _kind('Fisioterapeuta pélvica', 'Pelvic Health Physiotherapist'),
-        isNot(ReasonKind.professionGroup),
-      );
-      expect(
-        _kind('Fisioterapeuta pélvica', 'Physiotherapist (m/w/d)'),
-        ReasonKind.professionGroup,
-      );
-    });
+    test(
+      'the specialty matters: "pelvic" is not ignored, and a general physiotherapist job is the same GROUP, not the same specialty',
+      () {
+        expect(
+          _kind('Fisioterapeuta pélvica', 'Pelvic Health Physiotherapist'),
+          isNot(ReasonKind.professionGroup),
+        );
+        expect(
+          _kind('Fisioterapeuta pélvica', 'Physiotherapist (m/w/d)'),
+          ReasonKind.professionGroup,
+        );
+      },
+    );
   });
 
   group('nurse versus caregiver and assistants', () {
@@ -130,36 +133,40 @@ void main() {
   });
 
   group('technology', () {
-    test('Flutter developer and software engineer are RELATED, in both directions, and never "the same"', () {
-      expect(
-        _kind('Flutter Developer', 'Software Engineer'),
-        ReasonKind.professionRelated,
-      );
-      expect(
-        _kind('Software Engineer', 'Flutter Developer'),
-        ReasonKind.professionRelated,
-      );
-      expect(
-        _kind('Desenvolvedor Flutter', 'Mobile Engineer'),
-        ReasonKind.professionGroup, // the same occupation group, in other words
-      );
-      final r = _r.evaluate(
-        _p('Flutter Developer'),
-        _job('Senior Flutter Developer', country: 'DE'),
-      )!;
-      expect(r.reasons.first.kind, ReasonKind.professionExact);
-      expect(
-        r.score,
-        greaterThan(
-          _r
-              .evaluate(
-                _p('Flutter Developer'),
-                _job('Software Engineer', country: 'DE'),
-              )!
-              .score,
-        ),
-      );
-    });
+    test(
+      'Flutter developer and software engineer are RELATED, in both directions, and never "the same"',
+      () {
+        expect(
+          _kind('Flutter Developer', 'Software Engineer'),
+          ReasonKind.professionRelated,
+        );
+        expect(
+          _kind('Software Engineer', 'Flutter Developer'),
+          ReasonKind.professionRelated,
+        );
+        expect(
+          _kind('Desenvolvedor Flutter', 'Mobile Engineer'),
+          ReasonKind
+              .professionGroup, // the same occupation group, in other words
+        );
+        final r = _r.evaluate(
+          _p('Flutter Developer'),
+          _job('Senior Flutter Developer', country: 'DE'),
+        )!;
+        expect(r.reasons.first.kind, ReasonKind.professionExact);
+        expect(
+          r.score,
+          greaterThan(
+            _r
+                .evaluate(
+                  _p('Flutter Developer'),
+                  _job('Software Engineer', country: 'DE'),
+                )!
+                .score,
+          ),
+        );
+      },
+    );
     test(
       'a related profession is not offered for an unrelated technology role',
       () {

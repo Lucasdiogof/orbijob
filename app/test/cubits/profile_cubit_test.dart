@@ -28,28 +28,31 @@ void main() {
     expect(c.state.profile, isNull);
   });
 
-  test('creates a profile for any profession; headline, summary, city and work mode live in the JSON columns', () async {
-    await c.load();
-    final p = const ProfessionalProfile(name: 'Maria Souza').copyWith(
-      headline: 'Enfermeira',
-      summary: 'UTI adulto',
-      city: 'Goiânia',
-      workMode: 'hybrid',
-      countryOfResidence: 'BR',
-      skills: ['Triagem', 'BLS'],
-    );
-    expect(await c.saveProfile(p), isTrue);
-    final saved = repo.profileRows.single;
-    expect(saved.id, isNotNull);
-    expect(saved.personal, {
-      'headline': 'Enfermeira',
-      'summary': 'UTI adulto',
-      'city': 'Goiânia',
-    });
-    expect(saved.preferences['workMode'], 'hybrid');
-    expect(c.state.profile!.headline, 'Enfermeira');
-    expect(c.state.profile!.skills, ['Triagem', 'BLS']);
-  });
+  test(
+    'creates a profile for any profession; headline, summary, city and work mode live in the JSON columns',
+    () async {
+      await c.load();
+      final p = const ProfessionalProfile(name: 'Maria Souza').copyWith(
+        headline: 'Enfermeira',
+        summary: 'UTI adulto',
+        city: 'Goiânia',
+        workMode: 'hybrid',
+        countryOfResidence: 'BR',
+        skills: ['Triagem', 'BLS'],
+      );
+      expect(await c.saveProfile(p), isTrue);
+      final saved = repo.profileRows.single;
+      expect(saved.id, isNotNull);
+      expect(saved.personal, {
+        'headline': 'Enfermeira',
+        'summary': 'UTI adulto',
+        'city': 'Goiânia',
+      });
+      expect(saved.preferences['workMode'], 'hybrid');
+      expect(c.state.profile!.headline, 'Enfermeira');
+      expect(c.state.profile!.skills, ['Triagem', 'BLS']);
+    },
+  );
 
   test('blank optional fields are removed, unknown keys are kept', () {
     final p = const ProfessionalProfile(

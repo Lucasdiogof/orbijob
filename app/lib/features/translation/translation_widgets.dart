@@ -80,7 +80,8 @@ class _TranslatedTitleState extends State<TranslatedTitle> {
                 widget.job.title,
               )],
       builder: (context, s) {
-        if (s.enabled) _request(); // a language change asks again; cached results return at once
+        if (s.enabled)
+          _request(); // a language change asks again; cached results return at once
         final t = s.enabled ? c.titleFor(widget.job) : null;
         return widget.builder(context, t ?? widget.job.title, t != null);
       },

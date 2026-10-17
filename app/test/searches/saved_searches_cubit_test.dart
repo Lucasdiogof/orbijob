@@ -19,19 +19,22 @@ void main() {
     c = SavedSearchesCubit(repo);
   });
 
-  test('saves, lists, dedupes and removes (server side, unlike device-only recents)', () async {
-    await c.load();
-    expect(await c.save('  electrician '), isTrue);
-    expect(await c.save('electrician'), isFalse);
-    expect(c.state.actionFailure, DataFailureKind.duplicate);
-    expect(await c.save('nurse', countryCode: 'DE'), isTrue);
-    expect(repo.rows.map((r) => r.spec.term), ['nurse', 'electrician']);
-    expect(repo.rows.first.spec.countryCode, 'DE');
-    expect(c.isSaved('nurse', countryCode: 'DE'), isTrue);
-    expect(c.isSaved('nurse'), isFalse);
-    await c.remove(c.state.items.first.id);
-    expect(c.state.items.map((s) => s.spec.term), ['electrician']);
-  });
+  test(
+    'saves, lists, dedupes and removes (server side, unlike device-only recents)',
+    () async {
+      await c.load();
+      expect(await c.save('  electrician '), isTrue);
+      expect(await c.save('electrician'), isFalse);
+      expect(c.state.actionFailure, DataFailureKind.duplicate);
+      expect(await c.save('nurse', countryCode: 'DE'), isTrue);
+      expect(repo.rows.map((r) => r.spec.term), ['nurse', 'electrician']);
+      expect(repo.rows.first.spec.countryCode, 'DE');
+      expect(c.isSaved('nurse', countryCode: 'DE'), isTrue);
+      expect(c.isSaved('nurse'), isFalse);
+      await c.remove(c.state.items.first.id);
+      expect(c.state.items.map((s) => s.spec.term), ['electrician']);
+    },
+  );
 
   test(
     'a search with filters and no text is saved whole, and recognised as saved',
@@ -81,39 +84,54 @@ void main() {
     },
   );
 
-  test('empty, nameless-by-mistake and over-long input is refused before reaching the server', () async {
-    await c.load();
-    expect(await c.save('   '), isFalse);
-    expect(await c.saveSpec(const SearchSpec()), isFalse);
-    expect(await c.save('x' * (SavedSearchesCubit.maxTermLength + 1)), isFalse);
-    expect(await c.saveSpec(const SearchSpec(term: 'a'), name: '  '), isFalse);
-    expect(
-      await c.saveSpec(const SearchSpec(term: 'a'), name: 'n' * 81),
-      isFalse,
-    );
-    expect(c.state.actionFailure, DataFailureKind.invalidInput);
-    expect(repo.rows, isEmpty);
-  });
+  test(
+    'empty, nameless-by-mistake and over-long input is refused before reaching the server',
+    () async {
+      await c.load();
+      expect(await c.save('   '), isFalse);
+      expect(await c.saveSpec(const SearchSpec()), isFalse);
+      expect(
+        await c.save('x' * (SavedSearchesCubit.maxTermLength + 1)),
+        isFalse,
+      );
+      expect(
+        await c.saveSpec(const SearchSpec(term: 'a'), name: '  '),
+        isFalse,
+      );
+      expect(
+        await c.saveSpec(const SearchSpec(term: 'a'), name: 'n' * 81),
+        isFalse,
+      );
+      expect(c.state.actionFailure, DataFailureKind.invalidInput);
+      expect(repo.rows, isEmpty);
+    },
+  );
 
-  test('rename, edit, alerts and frequency change only what is asked, on the server first', () async {
-    await c.load();
-    await c.saveSpec(const SearchSpec(term: 'nurse'), name: 'Nurses');
-    final id = c.state.items.single.id;
-    expect(await c.rename(id, '  Night nurses '), isTrue);
-    expect(repo.rows.single.name, 'Night nurses');
-    expect(repo.rows.single.alertsEnabled, isFalse);
-    expect(await c.setAlerts(id, true), isTrue);
-    expect(await c.setFrequency(id, AlertFrequency.instant), isTrue);
-    expect(repo.rows.single.alertsEnabled, isTrue);
-    expect(repo.rows.single.frequency, AlertFrequency.instant);
-    expect(repo.rows.single.name, 'Night nurses');
-    expect(await c.update(id, spec: const SearchSpec(term: 'midwife')), isTrue);
-    expect(repo.rows.single.spec.term, 'midwife');
-    expect(c.state.items.single.spec.term, 'midwife');
-    expect(await c.rename(id, ''), isFalse);
-    expect(await c.update(id, spec: const SearchSpec()), isFalse);
-    expect(c.state.items.single.name, 'Night nurses');
-  });
+  test(
+    'rename, edit, alerts and frequency change only what is asked, on the server first',
+    () async {
+      await c.load();
+      await c.saveSpec(const SearchSpec(term: 'nurse'), name: 'Nurses');
+      final id = c.state.items.single.id;
+      expect(await c.rename(id, '  Night nurses '), isTrue);
+      expect(repo.rows.single.name, 'Night nurses');
+      expect(repo.rows.single.alertsEnabled, isFalse);
+      expect(await c.setAlerts(id, true), isTrue);
+      expect(await c.setFrequency(id, AlertFrequency.instant), isTrue);
+      expect(repo.rows.single.alertsEnabled, isTrue);
+      expect(repo.rows.single.frequency, AlertFrequency.instant);
+      expect(repo.rows.single.name, 'Night nurses');
+      expect(
+        await c.update(id, spec: const SearchSpec(term: 'midwife')),
+        isTrue,
+      );
+      expect(repo.rows.single.spec.term, 'midwife');
+      expect(c.state.items.single.spec.term, 'midwife');
+      expect(await c.rename(id, ''), isFalse);
+      expect(await c.update(id, spec: const SearchSpec()), isFalse);
+      expect(c.state.items.single.name, 'Night nurses');
+    },
+  );
 
   test('a failed change leaves the list exactly as it was', () async {
     await c.load();

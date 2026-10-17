@@ -24,7 +24,8 @@ Future<void> main() async {
   try {
     prefs = await SharedPreferences.getInstance();
   } catch (_) {
-    prefs = null; // storage unavailable: settings and the translation cache simply do not persist
+    prefs =
+        null; // storage unavailable: settings and the translation cache simply do not persist
   }
   configureDependencies(
     preferences: prefs,

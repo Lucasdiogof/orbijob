@@ -60,13 +60,16 @@ void main() {
       expect(salaryKind(job(min: 90000, per: null)), SalaryKind.unknown);
     });
 
-    test('Jobicy 152711 (USD 168-220 per year) is suspicious and HIDDEN, never shown as 168,000', () async {
-      final j = job(min: 168, max: 220);
-      expect(salaryKind(j), SalaryKind.suspicious);
-      for (final code in ['en', 'pt', 'es']) {
-        expect(formatSalary(j, await loc(code)), isNull);
-      }
-    });
+    test(
+      'Jobicy 152711 (USD 168-220 per year) is suspicious and HIDDEN, never shown as 168,000',
+      () async {
+        final j = job(min: 168, max: 220);
+        expect(salaryKind(j), SalaryKind.suspicious);
+        for (final code in ['en', 'pt', 'es']) {
+          expect(formatSalary(j, await loc(code)), isNull);
+        }
+      },
+    );
 
     test('bounds match the Worker (same boundary cases)', () {
       SalaryKind k(double? a, double? b, SalaryPeriod p) =>
@@ -81,55 +84,58 @@ void main() {
       expect(k(0, null, SalaryPeriod.year), SalaryKind.suspicious);
     });
 
-    test('one-sided salaries read "From" / "Up to" in PT, EN and ES and keep currency and period', () async {
-      final en = await loc('en');
-      final pt = await loc('pt');
-      final es = await loc('es');
-      expect(
-        formatSalary(job(min: 90000), en),
-        allOf(startsWith('From '), contains('90,000'), endsWith('/year')),
-      );
-      expect(
-        formatSalary(job(max: 110000), en),
-        allOf(startsWith('Up to '), contains('110,000')),
-      );
-      expect(formatSalary(job(min: 90000), pt), startsWith('A partir de '));
-      expect(formatSalary(job(max: 110000), pt), startsWith('Até '));
-      expect(formatSalary(job(min: 90000), es), startsWith('Desde '));
-      expect(formatSalary(job(max: 110000), es), startsWith('Hasta '));
-      expect(
-        formatSalary(job(min: 60, max: 70, per: SalaryPeriod.hour), en),
-        allOf(contains('60–70'), endsWith('/h')),
-      );
-      expect(
-        formatSalary(job(min: 120000, max: 145000), en),
-        contains('120,000–145,000'),
-      );
-      // hourly rates keep their cents; whole amounts stay whole
-      expect(
-        formatSalary(job(min: 13.45, max: 13.45, per: SalaryPeriod.hour), en),
-        allOf(contains('13.45'), isNot(contains('13.45–')), endsWith('/h')),
-      );
-      expect(
-        formatSalary(
-          job(min: 29.2118, max: 42.7915, per: SalaryPeriod.hour),
-          en,
-        ),
-        contains('29.21–42.79'),
-      );
-      expect(
-        formatSalary(job(min: 60, max: 70, per: SalaryPeriod.hour), en),
-        contains('60–70'),
-      );
-      expect(
-        formatSalary(job(min: 24884.87, max: 26531), en),
-        contains('24,885–26,531'),
-      );
-      expect(
-        formatSalary(job(min: 150000, max: 150000), en),
-        isNot(contains('–')),
-      );
-    });
+    test(
+      'one-sided salaries read "From" / "Up to" in PT, EN and ES and keep currency and period',
+      () async {
+        final en = await loc('en');
+        final pt = await loc('pt');
+        final es = await loc('es');
+        expect(
+          formatSalary(job(min: 90000), en),
+          allOf(startsWith('From '), contains('90,000'), endsWith('/year')),
+        );
+        expect(
+          formatSalary(job(max: 110000), en),
+          allOf(startsWith('Up to '), contains('110,000')),
+        );
+        expect(formatSalary(job(min: 90000), pt), startsWith('A partir de '));
+        expect(formatSalary(job(max: 110000), pt), startsWith('Até '));
+        expect(formatSalary(job(min: 90000), es), startsWith('Desde '));
+        expect(formatSalary(job(max: 110000), es), startsWith('Hasta '));
+        expect(
+          formatSalary(job(min: 60, max: 70, per: SalaryPeriod.hour), en),
+          allOf(contains('60–70'), endsWith('/h')),
+        );
+        expect(
+          formatSalary(job(min: 120000, max: 145000), en),
+          contains('120,000–145,000'),
+        );
+        // hourly rates keep their cents; whole amounts stay whole
+        expect(
+          formatSalary(job(min: 13.45, max: 13.45, per: SalaryPeriod.hour), en),
+          allOf(contains('13.45'), isNot(contains('13.45–')), endsWith('/h')),
+        );
+        expect(
+          formatSalary(
+            job(min: 29.2118, max: 42.7915, per: SalaryPeriod.hour),
+            en,
+          ),
+          contains('29.21–42.79'),
+        );
+        expect(
+          formatSalary(job(min: 60, max: 70, per: SalaryPeriod.hour), en),
+          contains('60–70'),
+        );
+        expect(
+          formatSalary(job(min: 24884.87, max: 26531), en),
+          contains('24,885–26,531'),
+        );
+        expect(
+          formatSalary(job(min: 150000, max: 150000), en),
+          isNot(contains('–')),
+        );
+      },
+    );
   });
 
   group('2. geographic eligibility', () {
@@ -175,11 +181,14 @@ void main() {
       ]);
       expect(mixed.needsCheck, isTrue);
     });
-    test('names the app does not recognise are shown as written and ask for a check', () {
-      final e = g(job(geo: ['US', 'Atlantis']));
-      expect(e.places, ['United States', 'Atlantis']);
-      expect(e.needsCheck, isTrue);
-    });
+    test(
+      'names the app does not recognise are shown as written and ask for a check',
+      () {
+        final e = g(job(geo: ['US', 'Atlantis']));
+        expect(e.places, ['United States', 'Atlantis']);
+        expect(e.needsCheck, isTrue);
+      },
+    );
     test('Anywhere together with places is ambiguous', () {
       final e = g(job(geo: ['Anywhere', 'US']));
       expect((e.kind, e.needsCheck), (GeoKind.mixed, true));
@@ -309,113 +318,120 @@ void main() {
     );
   });
 
-  group('screens: PT/EN/ES, light and dark, narrow width, long names, large text', () {
-    Widget host(Widget child, String lang, Brightness b, double width) =>
-        MaterialApp(
-          theme: b == Brightness.light ? AppTheme.light() : AppTheme.dark(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: Locale(lang),
-          home: Scaffold(
-            body: Center(
-              child: SizedBox(width: width, child: child),
+  group(
+    'screens: PT/EN/ES, light and dark, narrow width, long names, large text',
+    () {
+      Widget host(Widget child, String lang, Brightness b, double width) =>
+          MaterialApp(
+            theme: b == Brightness.light ? AppTheme.light() : AppTheme.dark(),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale(lang),
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(width: width, child: child),
+              ),
             ),
+          );
+
+      final scenarios = <(String, JobPosting, List<String>)>[
+        (
+          'pt',
+          job(
+            country: 'AE',
+            geo: ['AE'],
+            min: 90000,
+            description:
+                '**About us**\n\nApply: careers@example.com or jane.doe@example.com',
           ),
-        );
-
-    final scenarios = <(String, JobPosting, List<String>)>[
-      (
-        'pt',
-        job(
-          country: 'AE',
-          geo: ['AE'],
-          min: 90000,
-          description: '**About us**\n\nApply: careers@example.com or jane.doe@example.com',
+          ['Emirados Árabes Unidos', 'A partir de'],
         ),
-        ['Emirados Árabes Unidos', 'A partir de'],
-      ),
-      (
-        'en',
-        job(geo: ['EMEA'], max: 110000, description: '* one\n* two'),
-        ['Up to', 'Check eligibility on the original listing before applying.'],
-      ),
-      (
-        'es',
-        job(geo: ['CA', 'US', 'LATAM'], min: 168, max: 220),
-        [
-          'Canadá, Estados Unidos, LATAM',
-          'Verifica la elegibilidad en el anuncio original antes de postularte.',
-        ],
-      ),
-      (
-        'pt',
-        job(),
-        [
-          'Elegibilidade geográfica não informada pela fonte',
-          'Confira a elegibilidade no anúncio original antes de se candidatar.',
-        ],
-      ),
-    ];
+        (
+          'en',
+          job(geo: ['EMEA'], max: 110000, description: '* one\n* two'),
+          [
+            'Up to',
+            'Check eligibility on the original listing before applying.',
+          ],
+        ),
+        (
+          'es',
+          job(geo: ['CA', 'US', 'LATAM'], min: 168, max: 220),
+          [
+            'Canadá, Estados Unidos, LATAM',
+            'Verifica la elegibilidad en el anuncio original antes de postularte.',
+          ],
+        ),
+        (
+          'pt',
+          job(),
+          [
+            'Elegibilidade geográfica não informada pela fonte',
+            'Confira a elegibilidade no anúncio original antes de se candidatar.',
+          ],
+        ),
+      ];
 
-    for (final b in [Brightness.light, Brightness.dark]) {
-      for (final (lang, j, expected) in scenarios) {
-        testWidgets('detail ($lang, ${b.name}, 280 px, text x2)', (t) async {
+      for (final b in [Brightness.light, Brightness.dark]) {
+        for (final (lang, j, expected) in scenarios) {
+          testWidgets('detail ($lang, ${b.name}, 280 px, text x2)', (t) async {
+            t.platformDispatcher.textScaleFactorTestValue = 2;
+            addTearDown(t.platformDispatcher.clearAllTestValues);
+            t.view.physicalSize = const Size(280, 1600);
+            t.view.devicePixelRatio = 1;
+            addTearDown(t.view.reset);
+            await t.pumpWidget(
+              host(
+                JobDetailView(
+                  scored: ScoredJob(j),
+                  now: DateTime.utc(2026, 10, 10),
+                ),
+                lang,
+                b,
+                280,
+              ),
+            );
+            expect(t.takeException(), isNull, reason: 'no overflow');
+            final all = t
+                .widgetList<Text>(find.byType(Text))
+                .map((w) => w.data ?? w.textSpan?.toPlainText() ?? '')
+                .join('\n');
+            for (final e in expected) {
+              expect(all, contains(e));
+            }
+            expect(
+              all,
+              isNot(contains('168')),
+              reason: 'suspicious salary hidden',
+            );
+            expect(all, isNot(contains('**')));
+            expect(all, isNot(contains('jane.doe@')));
+            if (j.description != null && j.description!.contains('careers@')) {
+              expect(all, contains('careers@example.com'));
+            }
+          });
+        }
+      }
+
+      testWidgets(
+        'card: long country name does not overflow at 280 px, text x2',
+        (t) async {
           t.platformDispatcher.textScaleFactorTestValue = 2;
           addTearDown(t.platformDispatcher.clearAllTestValues);
-          t.view.physicalSize = const Size(280, 1600);
-          t.view.devicePixelRatio = 1;
-          addTearDown(t.view.reset);
           await t.pumpWidget(
             host(
-              JobDetailView(
-                scored: ScoredJob(j),
-                now: DateTime.utc(2026, 10, 10),
+              OrbiJobCard(
+                scored: ScoredJob(job(geo: ['AE', 'DO', 'CZ'], max: 110000)),
               ),
-              lang,
-              b,
+              'pt',
+              Brightness.dark,
               280,
             ),
           );
-          expect(t.takeException(), isNull, reason: 'no overflow');
-          final all = t
-              .widgetList<Text>(find.byType(Text))
-              .map((w) => w.data ?? w.textSpan?.toPlainText() ?? '')
-              .join('\n');
-          for (final e in expected) {
-            expect(all, contains(e));
-          }
-          expect(
-            all,
-            isNot(contains('168')),
-            reason: 'suspicious salary hidden',
-          );
-          expect(all, isNot(contains('**')));
-          expect(all, isNot(contains('jane.doe@')));
-          if (j.description != null && j.description!.contains('careers@')) {
-            expect(all, contains('careers@example.com'));
-          }
-        });
-      }
-    }
-
-    testWidgets(
-      'card: long country name does not overflow at 280 px, text x2',
-      (t) async {
-        t.platformDispatcher.textScaleFactorTestValue = 2;
-        addTearDown(t.platformDispatcher.clearAllTestValues);
-        await t.pumpWidget(
-          host(
-            OrbiJobCard(
-              scored: ScoredJob(job(geo: ['AE', 'DO', 'CZ'], max: 110000)),
-            ),
-            'pt',
-            Brightness.dark,
-            280,
-          ),
-        );
-        expect(t.takeException(), isNull);
-        expect(find.textContaining('Emirados Árabes Unidos'), findsOneWidget);
-      },
-    );
-  });
+          expect(t.takeException(), isNull);
+          expect(find.textContaining('Emirados Árabes Unidos'), findsOneWidget);
+        },
+      );
+    },
+  );
 }

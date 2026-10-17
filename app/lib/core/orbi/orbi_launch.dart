@@ -61,7 +61,6 @@ class _OrbiLaunchOverlayState extends State<OrbiLaunchOverlay>
                 animation: _ctl,
                 builder: (context, _) {
                   final t = _ctl.value;
-                  // hold the still logo briefly, turn it, then fade the whole layer
                   final turn = Curves.easeInOutCubic.transform(
                     ((t - 0.1) / 0.55).clamp(0.0, 1.0),
                   );

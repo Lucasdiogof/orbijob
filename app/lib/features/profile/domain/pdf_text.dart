@@ -39,9 +39,6 @@ PdfTextResult extractPdfText(Uint8List bytes) {
   }
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Object model
-
 class _Name {
   const _Name(this.v);
   final String v;
@@ -297,9 +294,6 @@ class _Lexer {
   }
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Fonts
-
 class _Font {
   _Font(
     this.toUnicode,
@@ -349,8 +343,6 @@ const _winAnsiHigh = <int, int>{
   0x9F: 0x0178,
 };
 
-// ---------------------------------------------------------------------------------------------------------------------
-
 class _Extractor {
   _Extractor(this.bytes);
   final Uint8List bytes;
@@ -396,8 +388,6 @@ class _Extractor {
     }
     return PdfTextResult(PdfTextStatus.ok, text, pages.length);
   }
-
-  // ---- parsing ----
 
   void _scanObjects() {
     final re = RegExp(r'(\d+)\s+(\d+)\s+obj\b');
@@ -558,8 +548,6 @@ class _Extractor {
     }
     return Uint8List.fromList(out);
   }
-
-  // ---- pages ----
 
   List<Map<String, Object?>> _pages() {
     Map<String, Object?>? catalog;
@@ -751,8 +739,6 @@ class _Extractor {
     }
     return (map, bytesPerCode);
   }
-
-  // ---- content ----
 
   String? _pageText(Map<String, Object?> page) {
     final contents = _resolve(page['Contents']);

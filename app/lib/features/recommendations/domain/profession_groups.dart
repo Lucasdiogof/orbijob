@@ -28,7 +28,7 @@ class OccupationMatch {
 }
 
 const _curated = <String, List<String>>{
-  // ── nursing, medicine and care: the same "health" area but different regulated professions
+  // the same "health" area but different regulated professions
   '2221': [
     'nurse',
     'registered nurse',
@@ -90,7 +90,7 @@ const _curated = <String, List<String>>{
     'tecnico em enfermagem',
     'nursing associate',
   ],
-  // ── teaching: a teacher is not a teaching assistant
+  // a teacher is not a teaching assistant
   '2330': [
     'teacher',
     'professor',
@@ -118,7 +118,7 @@ const _curated = <String, List<String>>{
     'skolassistent',
     'asistente de profesor',
   ],
-  // ── engineering: the qualifier decides the function ("engenheiro eletricista" is not "eletricista")
+  // the qualifier decides the function ("engenheiro eletricista" is not "eletricista")
   '2151': [
     'engenheiro eletricista',
     'engenheira eletricista',
@@ -159,7 +159,6 @@ const _curated = <String, List<String>>{
     'app entwickler',
     'app developer',
   ],
-  // ── driving
   '8332': [
     'truck driver',
     'lorry driver',

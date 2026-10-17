@@ -64,102 +64,117 @@ void main() {
       },
     );
 
-    test('only stages that exist after applying imply an application date; "interested" never does', () {
-      expect(ApplicationStage.interested.impliesApplied, isFalse);
-      expect(ApplicationStage.rejected.impliesApplied, isFalse);
-      expect(ApplicationStage.withdrawn.impliesApplied, isFalse);
-      for (final s in [
-        ApplicationStage.applied,
-        ApplicationStage.screening,
-        ApplicationStage.interview,
-        ApplicationStage.offer,
-        ApplicationStage.hired,
-      ]) {
-        expect(s.impliesApplied, isTrue);
-      }
-    });
+    test(
+      'only stages that exist after applying imply an application date; "interested" never does',
+      () {
+        expect(ApplicationStage.interested.impliesApplied, isFalse);
+        expect(ApplicationStage.rejected.impliesApplied, isFalse);
+        expect(ApplicationStage.withdrawn.impliesApplied, isFalse);
+        for (final s in [
+          ApplicationStage.applied,
+          ApplicationStage.screening,
+          ApplicationStage.interview,
+          ApplicationStage.offer,
+          ApplicationStage.hired,
+        ]) {
+          expect(s.impliesApplied, isTrue);
+        }
+      },
+    );
   });
 
   group('agenda', () {
-    test('lists interviews and follow-ups of open processes in the next 14 days; overdue first', () {
-      final items = buildAgenda([
-        _app('a', interview: DateTime(2026, 10, 15, 14)),
-        _app('b', followUp: DateTime(2026, 10, 20)),
-        _app('c', interview: DateTime(2026, 10, 10, 9)),
-        _app('d', interview: DateTime(2026, 12, 25)),
-        _app(
-          'e',
-          stage: ApplicationStage.rejected,
-          interview: DateTime(2026, 10, 14),
-        ),
-        _app(
-          'f',
-          stage: ApplicationStage.hired,
-          followUp: DateTime(2026, 10, 14),
-        ),
-      ], _now);
-      expect(items.map((e) => e.application.id), ['c', 'a', 'b']);
-      expect(items.first.overdue, isTrue);
-      expect(items[1].overdue, isFalse);
-    });
+    test(
+      'lists interviews and follow-ups of open processes in the next 14 days; overdue first',
+      () {
+        final items = buildAgenda([
+          _app('a', interview: DateTime(2026, 10, 15, 14)),
+          _app('b', followUp: DateTime(2026, 10, 20)),
+          _app('c', interview: DateTime(2026, 10, 10, 9)),
+          _app('d', interview: DateTime(2026, 12, 25)),
+          _app(
+            'e',
+            stage: ApplicationStage.rejected,
+            interview: DateTime(2026, 10, 14),
+          ),
+          _app(
+            'f',
+            stage: ApplicationStage.hired,
+            followUp: DateTime(2026, 10, 14),
+          ),
+        ], _now);
+        expect(items.map((e) => e.application.id), ['c', 'a', 'b']);
+        expect(items.first.overdue, isTrue);
+        expect(items[1].overdue, isFalse);
+      },
+    );
 
-    test('a follow-up is a day: not overdue until the day is over; an interview is overdue as soon as its time passes', () {
-      final today = buildAgenda([
-        _app('a', followUp: DateTime(2026, 10, 13)),
-      ], _now);
-      expect(today.single.overdue, isFalse);
-      final yesterday = buildAgenda([
-        _app('a', followUp: DateTime(2026, 10, 12)),
-      ], _now);
-      expect(yesterday.single.overdue, isTrue);
-      final earlier = buildAgenda([
-        _app('a', interview: DateTime(2026, 10, 13, 9)),
-      ], _now);
-      expect(earlier.single.overdue, isTrue);
-      final later = buildAgenda([
-        _app('a', interview: DateTime(2026, 10, 13, 15)),
-      ], _now);
-      expect(later.single.overdue, isFalse);
-    });
+    test(
+      'a follow-up is a day: not overdue until the day is over; an interview is overdue as soon as its time passes',
+      () {
+        final today = buildAgenda([
+          _app('a', followUp: DateTime(2026, 10, 13)),
+        ], _now);
+        expect(today.single.overdue, isFalse);
+        final yesterday = buildAgenda([
+          _app('a', followUp: DateTime(2026, 10, 12)),
+        ], _now);
+        expect(yesterday.single.overdue, isTrue);
+        final earlier = buildAgenda([
+          _app('a', interview: DateTime(2026, 10, 13, 9)),
+        ], _now);
+        expect(earlier.single.overdue, isTrue);
+        final later = buildAgenda([
+          _app('a', interview: DateTime(2026, 10, 13, 15)),
+        ], _now);
+        expect(later.single.overdue, isFalse);
+      },
+    );
 
-    test('very old dates are history, not reminders; both dates of one process appear', () {
-      expect(
-        buildAgenda([_app('a', interview: DateTime(2026, 8, 1))], _now),
-        isEmpty,
-      );
-      final both = buildAgenda([
-        _app(
+    test(
+      'very old dates are history, not reminders; both dates of one process appear',
+      () {
+        expect(
+          buildAgenda([_app('a', interview: DateTime(2026, 8, 1))], _now),
+          isEmpty,
+        );
+        final both = buildAgenda([
+          _app(
+            'a',
+            interview: DateTime(2026, 10, 14, 10),
+            followUp: DateTime(2026, 10, 16),
+          ),
+        ], _now);
+        expect(both.map((e) => e.kind), [
+          AgendaKind.interview,
+          AgendaKind.followUp,
+        ]);
+      },
+    );
+
+    test(
+      'nextDate: the interview first, otherwise the follow-up; none once the process is over',
+      () {
+        final both = _app(
           'a',
-          interview: DateTime(2026, 10, 14, 10),
-          followUp: DateTime(2026, 10, 16),
-        ),
-      ], _now);
-      expect(both.map((e) => e.kind), [
-        AgendaKind.interview,
-        AgendaKind.followUp,
-      ]);
-    });
-
-    test('nextDate: the interview first, otherwise the follow-up; none once the process is over', () {
-      final both = _app(
-        'a',
-        interview: DateTime(2026, 10, 14),
-        followUp: DateTime(2026, 10, 20),
-      );
-      expect(both.nextDate, DateTime(2026, 10, 14));
-      expect(
-        _app('b', followUp: DateTime(2026, 10, 20)).nextDate,
-        DateTime(2026, 10, 20),
-      );
-      expect(
-        _app(
-          'c',
-          stage: ApplicationStage.closed,
+          interview: DateTime(2026, 10, 14),
           followUp: DateTime(2026, 10, 20),
-        ).nextDate,
-        isNull,
-      );
-    });
+        );
+        expect(both.nextDate, DateTime(2026, 10, 14));
+        expect(
+          _app('b', followUp: DateTime(2026, 10, 20)).nextDate,
+          DateTime(2026, 10, 20),
+        );
+        expect(
+          _app(
+            'c',
+            stage: ApplicationStage.closed,
+            followUp: DateTime(2026, 10, 20),
+          ).nextDate,
+          isNull,
+        );
+      },
+    );
   });
 
   group('cubit', () {
@@ -182,32 +197,38 @@ void main() {
       sourceName: 'Jobicy',
     );
 
-    test('"interested" keeps an eye on a listing: no application date, nothing claimed, never twice', () async {
-      await c.load();
-      expect(await c.trackInterest(listing('1')), isTrue);
-      final a = c.state.items.single;
-      expect(a.stage, ApplicationStage.interested);
-      expect(a.appliedAt, isNull);
-      expect(a.job.originalUrl, 'https://example.com/1');
-      expect(c.isTracked(listing('1')), isTrue);
-      expect(await c.trackInterest(listing('1')), isFalse);
-      expect(c.state.actionFailure, DataFailureKind.duplicate);
-      expect(c.state.items.length, 1);
-    });
+    test(
+      '"interested" keeps an eye on a listing: no application date, nothing claimed, never twice',
+      () async {
+        await c.load();
+        expect(await c.trackInterest(listing('1')), isTrue);
+        final a = c.state.items.single;
+        expect(a.stage, ApplicationStage.interested);
+        expect(a.appliedAt, isNull);
+        expect(a.job.originalUrl, 'https://example.com/1');
+        expect(c.isTracked(listing('1')), isTrue);
+        expect(await c.trackInterest(listing('1')), isFalse);
+        expect(c.state.actionFailure, DataFailureKind.duplicate);
+        expect(c.state.items.length, 1);
+      },
+    );
 
-    test('moving to a stage that exists after applying records today once; moving back or around never overwrites it', () async {
-      await c.load();
-      await c.trackInterest(listing('1'));
-      final id = c.state.items.single.id;
-      await c.updateStage(id, ApplicationStage.applied);
-      final first = c.state.items.single.appliedAt;
-      expect(first, isNotNull);
-      expect(repo.rows.single.appliedAt, first);
-      await c.updateStage(id, ApplicationStage.interview);
-      await c.updateStage(id, ApplicationStage.interested);
-      await c.updateStage(id, ApplicationStage.offer);
-      expect(c.state.items.single.appliedAt, first);
-    });
+    test(
+      'moving to a stage that exists after applying records today once; moving back or around never overwrites it',
+      () async {
+        await c.load();
+        await c.trackInterest(listing('1'));
+        final id = c.state.items.single.id;
+        await c.updateStage(id, ApplicationStage.applied);
+        final first = c.state.items.single.appliedAt;
+        expect(first, isNotNull);
+        expect(repo.rows.single.appliedAt, first);
+        await c.updateStage(id, ApplicationStage.interview);
+        await c.updateStage(id, ApplicationStage.interested);
+        await c.updateStage(id, ApplicationStage.offer);
+        expect(c.state.items.single.appliedAt, first);
+      },
+    );
 
     test('an application the person dated themselves keeps its date', () async {
       await c.load();
@@ -223,23 +244,26 @@ void main() {
       expect(c.state.items.single.appliedAt, DateTime(2026, 1, 5));
     });
 
-    test('interview and follow-up dates are stored, shown at once and cleared; a failure changes nothing', () async {
-      await c.load();
-      await c.create(company: 'A', title: 'B');
-      final id = c.state.items.single.id;
-      final at = DateTime(2026, 11, 2, 14, 30);
-      await c.setInterview(id, at);
-      await c.setFollowUp(id, DateTime(2026, 11, 5));
-      expect(c.state.items.single.interviewAt, at);
-      expect(repo.rows.single.followUpAt, DateTime(2026, 11, 5));
-      await c.setInterview(id, null);
-      expect(c.state.items.single.interviewAt, isNull);
-      expect(c.state.items.single.followUpAt, DateTime(2026, 11, 5));
-      repo.error = sb.AuthRetryableFetchException(message: 'offline');
-      await c.setFollowUp(id, null);
-      expect(c.state.items.single.followUpAt, DateTime(2026, 11, 5));
-      expect(c.state.actionFailure, DataFailureKind.network);
-    });
+    test(
+      'interview and follow-up dates are stored, shown at once and cleared; a failure changes nothing',
+      () async {
+        await c.load();
+        await c.create(company: 'A', title: 'B');
+        final id = c.state.items.single.id;
+        final at = DateTime(2026, 11, 2, 14, 30);
+        await c.setInterview(id, at);
+        await c.setFollowUp(id, DateTime(2026, 11, 5));
+        expect(c.state.items.single.interviewAt, at);
+        expect(repo.rows.single.followUpAt, DateTime(2026, 11, 5));
+        await c.setInterview(id, null);
+        expect(c.state.items.single.interviewAt, isNull);
+        expect(c.state.items.single.followUpAt, DateTime(2026, 11, 5));
+        repo.error = sb.AuthRetryableFetchException(message: 'offline');
+        await c.setFollowUp(id, null);
+        expect(c.state.items.single.followUpAt, DateTime(2026, 11, 5));
+        expect(c.state.actionFailure, DataFailureKind.network);
+      },
+    );
 
     test('notes are kept as before and can be cleared', () async {
       await c.load();
@@ -252,51 +276,54 @@ void main() {
   });
 
   group('the Supabase repository', () {
-    test('rows keep working: an old stage name, no dates; the new columns are read as UTC instants', () {
-      final old = applicationFromRow({
-        'id': 'a',
-        'stage': 'screening',
-        'job_snapshot': {
-          'source': 'manual',
-          'externalId': 'x',
-          'company': 'A',
-          'title': 'B',
-          'originalUrl': '',
-        },
-      })!;
-      expect(old.stage, ApplicationStage.screening);
-      expect(old.interviewAt, isNull);
-      final fresh = applicationFromRow({
-        'id': 'b',
-        'stage': 'hired',
-        'interview_at': '2026-11-02T14:30:00+00:00',
-        'follow_up_at': '2026-11-05T00:00:00+00:00',
-        'job_snapshot': {
-          'source': 'manual',
-          'externalId': 'y',
-          'company': 'A',
-          'title': 'B',
-          'originalUrl': '',
-        },
-      })!;
-      expect(fresh.stage, ApplicationStage.hired);
-      expect(fresh.interviewAt, DateTime.utc(2026, 11, 2, 14, 30));
-      expect(fresh.followUpAt!.isUtc, isTrue);
-      expect(
-        applicationFromRow({
-          'id': 'c',
-          'stage': 'unheard-of',
+    test(
+      'rows keep working: an old stage name, no dates; the new columns are read as UTC instants',
+      () {
+        final old = applicationFromRow({
+          'id': 'a',
+          'stage': 'screening',
           'job_snapshot': {
             'source': 'manual',
-            'externalId': 'z',
+            'externalId': 'x',
             'company': 'A',
             'title': 'B',
             'originalUrl': '',
           },
-        })!.stage,
-        ApplicationStage.applied,
-      );
-    });
+        })!;
+        expect(old.stage, ApplicationStage.screening);
+        expect(old.interviewAt, isNull);
+        final fresh = applicationFromRow({
+          'id': 'b',
+          'stage': 'hired',
+          'interview_at': '2026-11-02T14:30:00+00:00',
+          'follow_up_at': '2026-11-05T00:00:00+00:00',
+          'job_snapshot': {
+            'source': 'manual',
+            'externalId': 'y',
+            'company': 'A',
+            'title': 'B',
+            'originalUrl': '',
+          },
+        })!;
+        expect(fresh.stage, ApplicationStage.hired);
+        expect(fresh.interviewAt, DateTime.utc(2026, 11, 2, 14, 30));
+        expect(fresh.followUpAt!.isUtc, isTrue);
+        expect(
+          applicationFromRow({
+            'id': 'c',
+            'stage': 'unheard-of',
+            'job_snapshot': {
+              'source': 'manual',
+              'externalId': 'z',
+              'company': 'A',
+              'title': 'B',
+              'originalUrl': '',
+            },
+          })!.stage,
+          ApplicationStage.applied,
+        );
+      },
+    );
 
     test(
       'updating dates sends only the columns asked for; clearing sends null',

@@ -324,7 +324,8 @@ void main() {
                   source: 'jobicy',
                   externalId: 'h1',
                   company: 'Clínica Exemplo',
-                  title: 'Auxiliar administrativo com título bastante longo para testar a quebra de linha',
+                  title:
+                      'Auxiliar administrativo com título bastante longo para testar a quebra de linha',
                   originalUrl: 'https://example.com/h1',
                 ),
               );

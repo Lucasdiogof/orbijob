@@ -51,28 +51,34 @@ TranslationCubit _cubit(
 );
 
 void main() {
-  test('Wi-Fi: missing language data downloads by itself and the listing is translated', () async {
-    final e = FakeEngine(ready: false);
-    final c = _cubit(e, FakeNetwork(NetworkKind.unmetered));
-    await c.loadDetail(_job('1'));
-    expect(e.prepared, 1);
-    expect(c.state.details['t:1']!.status, DetailStatus.ready);
-    await c.close();
-  });
+  test(
+    'Wi-Fi: missing language data downloads by itself and the listing is translated',
+    () async {
+      final e = FakeEngine(ready: false);
+      final c = _cubit(e, FakeNetwork(NetworkKind.unmetered));
+      await c.loadDetail(_job('1'));
+      expect(e.prepared, 1);
+      expect(c.state.details['t:1']!.status, DetailStatus.ready);
+      await c.close();
+    },
+  );
 
-  test('mobile data with the Wi-Fi policy: nothing is downloaded, the person can do it now', () async {
-    final e = FakeEngine(ready: false);
-    final c = _cubit(e, FakeNetwork(NetworkKind.mobile));
-    await c.loadDetail(_job('1'));
-    expect(e.prepared, 0);
-    final d = c.state.details['t:1']!;
-    expect(d.status, DetailStatus.waitingWifi);
-    expect(d.downloadMb, 30);
-    await c.downloadAndLoad(_job('1')); // the explicit tap
-    expect(e.prepared, 1);
-    expect(c.state.details['t:1']!.status, DetailStatus.ready);
-    await c.close();
-  });
+  test(
+    'mobile data with the Wi-Fi policy: nothing is downloaded, the person can do it now',
+    () async {
+      final e = FakeEngine(ready: false);
+      final c = _cubit(e, FakeNetwork(NetworkKind.mobile));
+      await c.loadDetail(_job('1'));
+      expect(e.prepared, 0);
+      final d = c.state.details['t:1']!;
+      expect(d.status, DetailStatus.waitingWifi);
+      expect(d.downloadMb, 30);
+      await c.downloadAndLoad(_job('1')); // the explicit tap
+      expect(e.prepared, 1);
+      expect(c.state.details['t:1']!.status, DetailStatus.ready);
+      await c.close();
+    },
+  );
 
   test('mobile data with the "always" policy downloads by itself', () async {
     SharedPreferences.setMockInitialValues({'tr.download': 'always'});
@@ -110,18 +116,21 @@ void main() {
     },
   );
 
-  test('no connection and no language data: says so, downloads nothing, and works once the connection is back', () async {
-    final e = FakeEngine(ready: false);
-    final net = FakeNetwork(NetworkKind.none);
-    final c = _cubit(e, net);
-    await c.loadDetail(_job('1'));
-    expect(e.prepared, 0);
-    expect(c.state.details['t:1']!.status, DetailStatus.offlineNoModel);
-    net.value = NetworkKind.unmetered;
-    await c.loadDetail(_job('1'), retry: true);
-    expect(c.state.details['t:1']!.status, DetailStatus.ready);
-    await c.close();
-  });
+  test(
+    'no connection and no language data: says so, downloads nothing, and works once the connection is back',
+    () async {
+      final e = FakeEngine(ready: false);
+      final net = FakeNetwork(NetworkKind.none);
+      final c = _cubit(e, net);
+      await c.loadDetail(_job('1'));
+      expect(e.prepared, 0);
+      expect(c.state.details['t:1']!.status, DetailStatus.offlineNoModel);
+      net.value = NetworkKind.unmetered;
+      await c.loadDetail(_job('1'), retry: true);
+      expect(c.state.details['t:1']!.status, DetailStatus.ready);
+      await c.close();
+    },
+  );
 
   test('two listings that need the same language share one download', () async {
     final e = SlowPrepareEngine();
@@ -148,18 +157,21 @@ void main() {
     },
   );
 
-  test('changing the language drops what was shown, a language already matching is left alone', () async {
-    final c = _cubit(
-      FakeEngine(ready: false),
-      FakeNetwork(NetworkKind.unmetered),
-    );
-    await c.loadDetail(_job('1'));
-    c.setTarget('de');
-    expect(c.state.details, isEmpty);
-    await c.loadDetail(_job('1'));
-    expect(c.state.details['t:1']!.status, DetailStatus.none);
-    await c.close();
-  });
+  test(
+    'changing the language drops what was shown, a language already matching is left alone',
+    () async {
+      final c = _cubit(
+        FakeEngine(ready: false),
+        FakeNetwork(NetworkKind.unmetered),
+      );
+      await c.loadDetail(_job('1'));
+      c.setTarget('de');
+      expect(c.state.details, isEmpty);
+      await c.loadDetail(_job('1'));
+      expect(c.state.details['t:1']!.status, DetailStatus.none);
+      await c.close();
+    },
+  );
 
   test('the policy is remembered', () async {
     SharedPreferences.setMockInitialValues({});

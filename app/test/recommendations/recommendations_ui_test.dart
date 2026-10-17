@@ -69,70 +69,88 @@ JobPosting _job(
 
 void main() {
   group('RecommendationsCubit', () {
-    test('asks the catalogue for the profession, the countries and remote jobs, then ranks on the device', () async {
-      final repo = _Catalogue([
-        _job('1', 'Registered Nurse', country: 'DE'),
-        _job('2', 'Nurse Practitioner', country: 'JP'),
-        _job('3', 'Backend Developer', country: 'DE'),
-        _job('4', 'Nurse (remote triage)', mode: WorkMode.remote),
-      ]);
-      final c = RecommendationsCubit(repo);
-      await c.refresh(
-        const RecommendationProfile(
-          professions: ['Nurse'],
-          interestCountries: {'DE'},
-          workMode: 'remote',
-        ),
-      );
-      expect(c.state.status, RecStatus.ready);
-      expect(repo.asked.toSet(), containsAll(['Nurse||', '|DE|', '||remote']));
-      expect(c.state.items.map((r) => r.job.externalId), ['1', '4', '2']);
-      expect(
-        c.state.items.first.reasons.map((r) => r.kind),
-        contains(ReasonKind.countryOfInterest),
-      );
-      await c.close();
-    });
+    test(
+      'asks the catalogue for the profession, the countries and remote jobs, then ranks on the device',
+      () async {
+        final repo = _Catalogue([
+          _job('1', 'Registered Nurse', country: 'DE'),
+          _job('2', 'Nurse Practitioner', country: 'JP'),
+          _job('3', 'Backend Developer', country: 'DE'),
+          _job('4', 'Nurse (remote triage)', mode: WorkMode.remote),
+        ]);
+        final c = RecommendationsCubit(repo);
+        await c.refresh(
+          const RecommendationProfile(
+            professions: ['Nurse'],
+            interestCountries: {'DE'},
+            workMode: 'remote',
+          ),
+        );
+        expect(c.state.status, RecStatus.ready);
+        expect(
+          repo.asked.toSet(),
+          containsAll(['Nurse||', '|DE|', '||remote']),
+        );
+        expect(c.state.items.map((r) => r.job.externalId), ['1', '4', '2']);
+        expect(
+          c.state.items.first.reasons.map((r) => r.kind),
+          contains(ReasonKind.countryOfInterest),
+        );
+        await c.close();
+      },
+    );
 
-    test('the same profile does not ask again; a changed one does; force always does', () async {
-      final repo = _Catalogue([_job('1', 'Nurse', country: 'DE')]);
-      final c = RecommendationsCubit(repo);
-      const p = RecommendationProfile(professions: ['Nurse']);
-      await c.refresh(p);
-      final n = repo.asked.length;
-      await c.refresh(p);
-      expect(repo.asked.length, n);
-      await c.refresh(
-        const RecommendationProfile(professions: ['Nurse'], workMode: 'hybrid'),
-      );
-      expect(repo.asked.length, greaterThan(n));
-      final m = repo.asked.length;
-      await c.refresh(
-        const RecommendationProfile(professions: ['Nurse'], workMode: 'hybrid'),
-        force: true,
-      );
-      expect(repo.asked.length, greaterThan(m));
-      await c.close();
-    });
+    test(
+      'the same profile does not ask again; a changed one does; force always does',
+      () async {
+        final repo = _Catalogue([_job('1', 'Nurse', country: 'DE')]);
+        final c = RecommendationsCubit(repo);
+        const p = RecommendationProfile(professions: ['Nurse']);
+        await c.refresh(p);
+        final n = repo.asked.length;
+        await c.refresh(p);
+        expect(repo.asked.length, n);
+        await c.refresh(
+          const RecommendationProfile(
+            professions: ['Nurse'],
+            workMode: 'hybrid',
+          ),
+        );
+        expect(repo.asked.length, greaterThan(n));
+        final m = repo.asked.length;
+        await c.refresh(
+          const RecommendationProfile(
+            professions: ['Nurse'],
+            workMode: 'hybrid',
+          ),
+          force: true,
+        );
+        expect(repo.asked.length, greaterThan(m));
+        await c.close();
+      },
+    );
 
-    test('nothing to compare, nothing matching, offline and not configured are different answers', () async {
-      final c = RecommendationsCubit(_Catalogue([_job('1', 'Welder')]));
-      await c.refresh(null);
-      expect(c.state.status, RecStatus.needsProfile);
-      await c.refresh(const RecommendationProfile());
-      expect(c.state.status, RecStatus.needsProfile);
-      await c.refresh(const RecommendationProfile(professions: ['Nurse']));
-      expect(c.state.status, RecStatus.empty);
-      final off = RecommendationsCubit(_Catalogue(const [], failAll: true));
-      await off.refresh(const RecommendationProfile(professions: ['Nurse']));
-      expect(off.state.status, RecStatus.failure);
-      final none = RecommendationsCubit(null);
-      await none.refresh(const RecommendationProfile(professions: ['Nurse']));
-      expect(none.state.status, RecStatus.notConfigured);
-      await c.close();
-      await off.close();
-      await none.close();
-    });
+    test(
+      'nothing to compare, nothing matching, offline and not configured are different answers',
+      () async {
+        final c = RecommendationsCubit(_Catalogue([_job('1', 'Welder')]));
+        await c.refresh(null);
+        expect(c.state.status, RecStatus.needsProfile);
+        await c.refresh(const RecommendationProfile());
+        expect(c.state.status, RecStatus.needsProfile);
+        await c.refresh(const RecommendationProfile(professions: ['Nurse']));
+        expect(c.state.status, RecStatus.empty);
+        final off = RecommendationsCubit(_Catalogue(const [], failAll: true));
+        await off.refresh(const RecommendationProfile(professions: ['Nurse']));
+        expect(off.state.status, RecStatus.failure);
+        final none = RecommendationsCubit(null);
+        await none.refresh(const RecommendationProfile(professions: ['Nurse']));
+        expect(none.state.status, RecStatus.notConfigured);
+        await c.close();
+        await off.close();
+        await none.close();
+      },
+    );
 
     test('a thin profile is flagged so the screen can say so', () async {
       final c = RecommendationsCubit(

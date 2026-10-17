@@ -438,8 +438,9 @@ class _ResumeImportPageState extends State<ResumeImportPage> {
                 l.profileFieldEmail,
                 keyboard: TextInputType.emailAddress,
                 validator: (v) =>
-                    RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
-                        .hasMatch((v ?? '').trim())
+                    RegExp(
+                      r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                    ).hasMatch((v ?? '').trim())
                     ? null
                     : l.profileEmailInvalid,
               ),

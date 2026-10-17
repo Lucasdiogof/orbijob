@@ -201,7 +201,6 @@ const List<List<String>> _groups = [
     'agent administratif',
     'administrativní pracovník',
   ],
-  // cleaning staff
   [
     'limpiador',
     'limpiadora',
@@ -306,7 +305,6 @@ const List<List<String>> _groups = [
     'aide soignante',
     'ošetřovatel',
   ],
-  // butchers
   [
     'açougueiro',
     'butcher',
@@ -338,7 +336,6 @@ const List<List<String>> _groups = [
     'kurier',
     'livreur',
   ],
-  // seamstresses
   [
     'costureira',
     'seamstress',
@@ -359,7 +356,6 @@ const List<List<String>> _groups = [
     'aide à domicile',
     'hemtjänst',
   ],
-  // machine operators
   [
     'operador de máquinas',
     'machine operator',
@@ -369,7 +365,6 @@ const List<List<String>> _groups = [
     'maskinoperatör',
     'operátor stroje',
   ],
-  // production operators
   [
     'auxiliar de produção',
     'operador de produção',
@@ -394,7 +389,6 @@ const List<List<String>> _groups = [
     'butikssäljare',
     'prodavač',
   ],
-  // project managers
   [
     'gerente de projeto',
     'gestor de projeto',
@@ -404,7 +398,6 @@ const List<List<String>> _groups = [
     'chef de projet',
     'projektledare',
   ],
-  // maintenance technicians
   [
     'técnico de manutenção',
     'maintenance technician',

@@ -89,8 +89,6 @@ class ResumeSuggestion {
       education.isEmpty;
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-
 String _fold(String s) {
   const from = 'àáâãäåçèéêëìíîïñòóôõöùúûüýÿ';
   const to = 'aaaaaaceeeeiiiinooooouuuuyy';
@@ -265,8 +263,6 @@ _Section _headingOf(String line) {
   return _headingIndex[t] ?? _Section.none;
 }
 
-// ---- dates --------------------------------------------------------------------------------------------------------
-
 const _months = <String, int>{
   'jan': 1,
   'january': 1,
@@ -388,8 +384,6 @@ _Range? _rangeIn(String line) {
   return null;
 }
 
-// ---- contact ------------------------------------------------------------------------------------------------------
-
 final _emailRe = RegExp(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}');
 final _urlRe = RegExp(
   r'(?:https?:\/\/|www\.)[^\s,;|·•]+|(?:linkedin\.com|github\.com|gitlab\.com)\/[^\s,;|·•]+',
@@ -493,8 +487,6 @@ const _countries = <String, String>{
   'taiwan': 'TW',
 };
 
-// ---- languages ----------------------------------------------------------------------------------------------------
-
 const _languageNames = <String, String>{
   'portugues': 'pt',
   'portuguese': 'pt',
@@ -552,8 +544,6 @@ const _languageNames = <String, String>{
   'catalan': 'ca',
   'libras': 'bzs',
 };
-
-// ---- the parser ---------------------------------------------------------------------------------------------------
 
 bool _isBullet(String l) => RegExp(r'^[•·▪■◦\-–—*►➢✓]\s*\S').hasMatch(l);
 
@@ -666,7 +656,6 @@ ResumeSuggestion parseResumeText(String text) {
   ];
   if (lines.isEmpty) return const ResumeSuggestion();
 
-  // --- split in sections
   final sections = <_Section, List<String>>{};
   final head = <String>[];
   var cur = _Section.none;
@@ -684,7 +673,6 @@ ResumeSuggestion parseResumeText(String text) {
     }
   }
 
-  // --- contact & identity from the whole text (the head block first)
   String? email;
   String? phone;
   final links = <String>[];
@@ -723,7 +711,6 @@ ResumeSuggestion parseResumeText(String text) {
     }
   }
 
-  // --- location from the head block
   String? city;
   String? country;
   for (var i = 0; i < head.length; i++) {
@@ -744,7 +731,6 @@ ResumeSuggestion parseResumeText(String text) {
     }
   }
 
-  // --- summary
   String? summary;
   final sum = sections[_Section.summary];
   if (sum != null && sum.isNotEmpty) {
@@ -796,8 +782,9 @@ bool _looksLikeLocation(String l) =>
     }
     if (RegExp(r'\d').hasMatch(p)) continue;
     // "Santo André/SP" or "Belo Horizonte - MG" (the dash splits it into two parts, handled below): a city and its state code
-    final cityUf = RegExp(r"^([A-Za-zÀ-ÿ .'-]{2,40}?)\s*/\s*[A-Z]{2}$")
-        .firstMatch(p);
+    final cityUf = RegExp(
+      r"^([A-Za-zÀ-ÿ .'-]{2,40}?)\s*/\s*[A-Z]{2}$",
+    ).firstMatch(p);
     if (cityUf != null) return (cityUf.group(1)!.trim(), null);
     final segs = p
         .split(',')
@@ -826,9 +813,9 @@ List<String> _skills(List<String> lines) {
     final colon = l.indexOf(':');
     if (colon > 0 && colon < 40) l = l.substring(colon + 1);
     for (final part in l.split(RegExp(r'[,;|•·●▪]|\s{2,}'))) {
-      final s = _unbullet(part)
-          .replaceAll(RegExp(r'^[\-–]+|[\-–]+$'), '')
-          .trim();
+      final s = _unbullet(
+        part,
+      ).replaceAll(RegExp(r'^[\-–]+|[\-–]+$'), '').trim();
       if (s.length < 2 || s.length > 60) continue;
       if (!RegExp(r'\p{L}', unicode: true).hasMatch(s)) continue;
       if (out.any((e) => e.toLowerCase() == s.toLowerCase())) continue;
@@ -845,8 +832,9 @@ List<SuggestedLanguage> _languages(List<String> lines) {
     for (final part in _unbullet(l).split(RegExp(r'[,;|•·]'))) {
       final p = part.trim();
       if (p.isEmpty) continue;
-      final m = RegExp(r'^([A-Za-zÀ-ÿ ]{3,30}?)\s*(?:[\(:\-–—]\s*(.+?)\)?)?$')
-          .firstMatch(p);
+      final m = RegExp(
+        r'^([A-Za-zÀ-ÿ ]{3,30}?)\s*(?:[\(:\-–—]\s*(.+?)\)?)?$',
+      ).firstMatch(p);
       if (m == null) continue;
       final code = _languageNames[_fold(m.group(1)!.trim())];
       if (code == null) continue;

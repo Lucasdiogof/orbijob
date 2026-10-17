@@ -98,47 +98,53 @@ void main() {
       expect(mapDeleteAccountStatus(400, null).kind, AuthFailureKind.unknown);
     });
 
-    test('success deletes and cleans up, keeps the screen signed in until finishAccountDeletion, then signs out without "session expired"', () async {
-      final repo = _FakeAuth()
-        ..currentUser = const AuthUser(id: 'u', email: 'a@b.co');
-      final order = <String>[];
-      final c = AuthCubit(
-        repo,
-        beforeSignOut: () async => order.add('push'),
-        afterAccountDeleted: () async => order.add('device'),
-      );
-      await c.deleteAccount('secret');
-      await Future<void>.delayed(Duration.zero);
-      expect(repo.deletedWith, 'secret');
-      expect(
-        c.state.signedIn,
-        isTrue,
-        reason: 'the confirmation is shown first',
-      );
-      expect(c.state.failure, isNull);
-      expect(order, ['push', 'device']);
-      await c.finishAccountDeletion();
-      await Future<void>.delayed(Duration.zero);
-      expect(c.state.signedIn, isFalse);
-      expect(c.state.notice, isNot(AuthNotice.sessionExpired));
-      await c.close();
-    });
+    test(
+      'success deletes and cleans up, keeps the screen signed in until finishAccountDeletion, then signs out without "session expired"',
+      () async {
+        final repo = _FakeAuth()
+          ..currentUser = const AuthUser(id: 'u', email: 'a@b.co');
+        final order = <String>[];
+        final c = AuthCubit(
+          repo,
+          beforeSignOut: () async => order.add('push'),
+          afterAccountDeleted: () async => order.add('device'),
+        );
+        await c.deleteAccount('secret');
+        await Future<void>.delayed(Duration.zero);
+        expect(repo.deletedWith, 'secret');
+        expect(
+          c.state.signedIn,
+          isTrue,
+          reason: 'the confirmation is shown first',
+        );
+        expect(c.state.failure, isNull);
+        expect(order, ['push', 'device']);
+        await c.finishAccountDeletion();
+        await Future<void>.delayed(Duration.zero);
+        expect(c.state.signedIn, isFalse);
+        expect(c.state.notice, isNot(AuthNotice.sessionExpired));
+        await c.close();
+      },
+    );
 
-    test('a wrong password keeps the person signed in, with the failure, and cleans nothing', () async {
-      final repo = _FakeAuth()
-        ..currentUser = const AuthUser(id: 'u', email: 'a@b.co')
-        ..error = const AuthFailure(AuthFailureKind.invalidCredentials);
-      var cleaned = false;
-      final c = AuthCubit(
-        repo,
-        afterAccountDeleted: () async => cleaned = true,
-      );
-      await c.deleteAccount('nope');
-      expect(c.state.signedIn, isTrue);
-      expect(c.state.failure, AuthFailureKind.invalidCredentials);
-      expect(cleaned, isFalse);
-      await c.close();
-    });
+    test(
+      'a wrong password keeps the person signed in, with the failure, and cleans nothing',
+      () async {
+        final repo = _FakeAuth()
+          ..currentUser = const AuthUser(id: 'u', email: 'a@b.co')
+          ..error = const AuthFailure(AuthFailureKind.invalidCredentials);
+        var cleaned = false;
+        final c = AuthCubit(
+          repo,
+          afterAccountDeleted: () async => cleaned = true,
+        );
+        await c.deleteAccount('nope');
+        expect(c.state.signedIn, isTrue);
+        expect(c.state.failure, AuthFailureKind.invalidCredentials);
+        expect(cleaned, isFalse);
+        await c.close();
+      },
+    );
 
     test('a clean-up that throws never blocks the deletion', () async {
       final repo = _FakeAuth()
@@ -343,8 +349,9 @@ void main() {
           ),
         );
         expect(
-          await SupabaseAuthRepository(b.client)
-              .signUp(email: 'a@b.co', password: 'password123'),
+          await SupabaseAuthRepository(
+            b.client,
+          ).signUp(email: 'a@b.co', password: 'password123'),
           SignUpOutcome.confirmationRequired,
         );
       },
@@ -364,23 +371,26 @@ void main() {
       },
     );
 
-    test('sign-in updates the user, failure is cleared on retry, sign-out clears the user', () async {
-      final repo = _FakeAuth()
-        ..error = const AuthFailure(AuthFailureKind.invalidCredentials);
-      final c = AuthCubit(repo);
-      await c.signIn('a@b.co', 'bad');
-      expect(c.state.failure, AuthFailureKind.invalidCredentials);
-      expect(c.state.signedIn, isFalse);
-      repo.error = null;
-      await c.signIn('a@b.co', 'password123');
-      await Future<void>.delayed(Duration.zero);
-      expect(c.state.failure, isNull);
-      expect(c.state.user?.email, 'a@b.co');
-      await c.signOut();
-      await Future<void>.delayed(Duration.zero);
-      expect(c.state.signedIn, isFalse);
-      await c.close();
-    });
+    test(
+      'sign-in updates the user, failure is cleared on retry, sign-out clears the user',
+      () async {
+        final repo = _FakeAuth()
+          ..error = const AuthFailure(AuthFailureKind.invalidCredentials);
+        final c = AuthCubit(repo);
+        await c.signIn('a@b.co', 'bad');
+        expect(c.state.failure, AuthFailureKind.invalidCredentials);
+        expect(c.state.signedIn, isFalse);
+        repo.error = null;
+        await c.signIn('a@b.co', 'password123');
+        await Future<void>.delayed(Duration.zero);
+        expect(c.state.failure, isNull);
+        expect(c.state.user?.email, 'a@b.co');
+        await c.signOut();
+        await Future<void>.delayed(Duration.zero);
+        expect(c.state.signedIn, isFalse);
+        await c.close();
+      },
+    );
 
     test(
       'a restored session is reflected at start; sign-up reports confirmation',

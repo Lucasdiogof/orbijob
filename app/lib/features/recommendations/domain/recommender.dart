@@ -183,7 +183,6 @@ class Recommender {
 
     final title = normalizeForMatch(j.title);
 
-    // ── profession
     if (p.hasProfession) {
       available += _pProfession;
       signals++;
@@ -196,7 +195,6 @@ class Recommender {
       }
     }
 
-    // ── skills (title and description; whole words only)
     if (p.skills.isNotEmpty) {
       available += _pSkills;
       signals++;
@@ -220,7 +218,6 @@ class Recommender {
       }
     }
 
-    // ── place
     final countries = p.countries;
     final hasPlaceInfo =
         (j.country ?? '').isNotEmpty ||
@@ -263,7 +260,6 @@ class Recommender {
     }
     if (!hasPlaceInfo) caveats.add(const Caveat(CaveatKind.locationUnknown));
 
-    // ── work mode
     if (p.workMode != null) {
       available += _pMode;
       signals++;
@@ -275,7 +271,6 @@ class Recommender {
       }
     }
 
-    // ── language of the listing
     final jl = j.language?.toLowerCase().split(RegExp(r'[-_]')).first;
     if (p.languages.isNotEmpty) {
       available += _pLanguage;
@@ -290,7 +285,6 @@ class Recommender {
       }
     }
 
-    // ── recency
     available += _pRecent;
     signals++;
     final pub = j.publishedAt;
@@ -310,7 +304,7 @@ class Recommender {
       }
     }
 
-    // ── must-haves: dropped only when the listing says the opposite
+    // dropped only when the listing says the opposite
     if (p.mustHave.contains(MustHave.workMode) &&
         p.workMode != null &&
         j.workMode != WorkMode.unspecified &&
@@ -335,8 +329,8 @@ class Recommender {
       return null;
     }
 
-    // ── relevance gate: a profession or skill agrees. The general area alone never makes a listing relevant (a physiotherapist is not
-    // offered doctors' jobs because both are "health"); it is only shown as an extra reason when something real already agrees.
+    // a profession or skill must agree; the general area alone never makes a listing relevant (a physiotherapist is not
+    // offered doctors' jobs because both are "health")
     if (p.isEmpty) return null;
     if (p.hasProfession || p.skills.isNotEmpty) {
       if (!relevant) return null;

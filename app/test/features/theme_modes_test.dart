@@ -61,8 +61,9 @@ void main() {
       final scaffold = t.widget<Scaffold>(find.byType(Scaffold).first);
       expect(
         scaffold.backgroundColor ??
-            Theme.of(t.element(find.byType(Scaffold).first))
-                .scaffoldBackgroundColor,
+            Theme.of(
+              t.element(find.byType(Scaffold).first),
+            ).scaffoldBackgroundColor,
         colors.bg,
       );
     }

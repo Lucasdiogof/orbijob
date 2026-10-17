@@ -116,12 +116,10 @@ class OrbiOrbitPainter extends CustomPainter {
     final ringR = 31 * k;
     final stroke = 13 * k;
     final t = progress.clamp(0.0, 1.0);
-    // eased half turn, and arcs breathing 25% shorter at the middle of it
     final eased = Curves.easeInOutCubic.transform(t);
     final turn = eased * math.pi;
     final sweep =
         _baseSweep * (1 - (shorten ? 0.25 : 0) * math.sin(math.pi * t));
-    // keep the arcs centred on the same bisector while they shorten
     final shrink = (_baseSweep - sweep) / 2;
     final ring = Rect.fromCircle(center: c, radius: ringR);
     final arc = Paint()
@@ -132,7 +130,6 @@ class OrbiOrbitPainter extends CustomPainter {
     for (final base in [_baseStart, _baseStart + math.pi]) {
       canvas.drawArc(ring, base + turn + shrink, sweep, false, arc);
     }
-    // the core: a soft ripple that grows and fades, then the core itself pulsing a little
     if (ripple) {
       final r = Curves.easeOut.transform(t);
       canvas.drawCircle(

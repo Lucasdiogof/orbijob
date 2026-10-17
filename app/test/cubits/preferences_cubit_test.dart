@@ -26,14 +26,17 @@ void main() {
       },
     );
 
-    test('a failed load is not "synced": a change would overwrite unknown data, so it is not sent', () async {
-      repo.error = const sb.AuthApiException('x', statusCode: '401');
-      await c.load();
-      expect(c.state.synced, isFalse);
-      repo.error = null;
-      await c.setTheme('dark');
-      expect(repo.saves, 0);
-    });
+    test(
+      'a failed load is not "synced": a change would overwrite unknown data, so it is not sent',
+      () async {
+        repo.error = const sb.AuthApiException('x', statusCode: '401');
+        await c.load();
+        expect(c.state.synced, isFalse);
+        repo.error = null;
+        await c.setTheme('dark');
+        expect(repo.saves, 0);
+      },
+    );
 
     test('theme, language and countries are saved to the account', () async {
       await c.load();
