@@ -18,7 +18,7 @@ import { snapshotConnector } from './snapshot';
  * What the data does NOT hold, and the connector therefore does not invent: the employer (the SINE does not name it: the company stays empty and the source's
  * attribution says so), a publication date (the update date is not the date the vacancy was opened: it is shown as "updated", not stored as published_at), a
  * salary, a work mode, a link to the individual vacancy. The link is the state's own page that lists these vacancies by office (https://setades.es.gov.br/vagas-de-empregos,
- * a viewer of this same dataset); the `#vaga-<code>` fragment only keeps each listing's URL distinct, it does not change the page. Candidates apply through the
+ * a viewer of this same dataset); the `#/vaga/<code>` route fragment keeps each listing's URL distinct (the catalogue de-duplicates by canonical URL and keeps a fragment only when it is a route like this), it does not change the page. Candidates apply through the
  * Agência do Trabalhador named in the listing.
  *
  * Freshness: the SETADES page itself says the data "reflect the last bulletin available from each agency". A record whose update date is older than 21 days is
@@ -76,7 +76,7 @@ export function normalizeSineEs(raw: unknown, nowIso: string): Normalized {
   const updated = usDay(str(r.atualizacao));
   if (!updated) return { ok: false, reason: 'invalid_date', externalId: id };
   if (Date.parse(`${updated}T00:00:00Z`) < Date.parse(nowIso) - SINEES_MAX_AGE_DAYS * 86_400_000) return { ok: false, reason: 'stale', externalId: id };
-  const url = ownUrl(`${SINEES_PAGE}#vaga-${id}`, SINEES_HOST);
+  const url = ownUrl(`${SINEES_PAGE}#/vaga/${id}`, SINEES_HOST);
   if (!url) return { ok: false, reason: 'invalid_url', externalId: id };
   const posto = inlineText(str(r.posto));
   const facts: string[] = [];

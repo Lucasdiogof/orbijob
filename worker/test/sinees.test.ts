@@ -24,7 +24,7 @@ describe('SINE-ES normalizer (real rows)', () => {
     const j = ok(normalizeSineEs(row(), NOW));
     expect(j).toMatchObject({ source: 'sinees', country: 'BR', city: 'Cariacica, ES', company: '', language: 'pt', workMode: 'unspecified', status: 'open', lastCheckedAt: NOW, publishedAt: null, salaryMin: null, salaryCurrency: null, contractType: null, geoRestrictions: [] });
     expect(j.externalId).toBe('9100001');
-    expect(j.originalUrl).toBe('https://setades.es.gov.br/vagas-de-empregos#vaga-9100001');
+    expect(j.originalUrl).toBe('https://setades.es.gov.br/vagas-de-empregos#/vaga/9100001');
     expect(j.applyUrl).toBe(j.originalUrl);
     expect(j.description).toBe(['Preparam alimentos.', '', 'Vagas: 2', 'Experiência/qualificação exigida: Experiência na função', 'Escolaridade exigida: Ensino fundamental', 'Posto de atendimento: Agência do Trabalhador de Cariacica (SINE-ES)', 'Atualizada em: 15/10/2026'].join('\n').replace('\n\n', '\n\n'));
   });
@@ -86,7 +86,7 @@ describe('SINE-ES connector', () => {
     expect(multi.title).toBe('TÉCNICO DE SEGURANÇA DO TRABALHO');
     expect(multi.description).toContain('Criar planos de prevenção; produz laudos técnicos;\nelabora e assina documentos');
     expect(byCode.get('9287297')!.description).not.toContain('Escolaridade');
-    for (const j of page.jobs) { expect(j.company).toBe(''); expect(j.country).toBe('BR'); expect(j.originalUrl).toMatch(/^https:\/\/setades\.es\.gov\.br\/vagas-de-empregos#vaga-\d+$/); }
+    for (const j of page.jobs) { expect(j.company).toBe(''); expect(j.country).toBe('BR'); expect(j.originalUrl).toMatch(/^https:\/\/setades\.es\.gov\.br\/vagas-de-empregos#\/vaga\/\d+$/); }
   });
 
   it('works against another origin (tests, mirrors): only the catalogue host is replaced', async () => {
