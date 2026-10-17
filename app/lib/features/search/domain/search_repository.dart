@@ -57,7 +57,10 @@ abstract interface class JobLookup {
 
 /// Repositories that can say how many open jobs each [JobArea] has (one count request per area).
 abstract interface class AreaCountSource {
-  Future<Map<JobArea, int>> areaCounts();
+  /// [onPartial] receives the counts known so far each time one more area is counted, so the screen need not wait for the slowest.
+  Future<Map<JobArea, int>> areaCounts({
+    void Function(Map<JobArea, int> soFar)? onPartial,
+  });
 }
 
 /// Repositories that can count open jobs per [HealthSpecialty] (asked only when the Health area is opened).

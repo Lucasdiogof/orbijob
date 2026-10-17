@@ -1,3 +1,5 @@
+import 'title_pattern.dart';
+
 /// Professional areas offered as browse filters.
 ///
 /// The catalogue has no profession column (`jobs.isco08` is empty), so an area is a deterministic, auditable rule on the
@@ -794,7 +796,10 @@ enum JobArea {
   String get orFilter =>
       [for (final k in keywords) 'title.ilike.*$k*'].join(',');
 
-  /// The same rule applied locally (used by previews and tests; the server uses [orFilter]).
+  /// The same rule as ONE regular expression for `title ~*` (see [titleAlternation]); the counts and the list filter use this one.
+  String get titleRegex => titleAlternation(keywords);
+
+  /// The same rule applied locally (used by previews and tests; the server uses [titleRegex]).
   bool matches(String title) {
     final t = title.toLowerCase();
     return keywords.any(t.contains);

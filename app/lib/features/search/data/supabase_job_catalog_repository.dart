@@ -158,7 +158,7 @@ class SupabaseJobCatalogRepository
       ]);
     }
     final area = f.area;
-    if (area != null) q = q.or(area.orFilter);
+    if (area != null) q = q.filter('title', 'imatch', area.titleRegex);
     final specialty = f.specialty;
     if (specialty != null) q = _withSpecialty(q, specialty);
     final days = f.publishedWithinDays;
@@ -227,21 +227,26 @@ class SupabaseJobCatalogRepository
 
   /// Open, visible jobs per area (the same visibility rules as the list: open, authorised source, verified recently).
   ///
-  /// Each count is an exact count over a long list of title patterns, about half a second on the free database, which handles one query at a
-  /// time: nine at once all exceeded its 3-second statement limit (HTTP 500 `57014`, measured on 2026-10-13) and no chip appeared. So they
-  /// run three at a time, and an area whose count still fails is retried once alone and otherwise left out (no chip, never a wrong number).
+  /// Each count is ONE `title ~*` filter over the area's keywords (see [titleAlternation]): about 0.4 to 1 s each on the free database.
+  /// The earlier form, an `or` of up to 94 `ilike` patterns, took 1 to 3 s and passed the 3-second statement limit for technology and
+  /// health (HTTP 500 `57014`), which also held the single database connection while the Home list was loading. The free database
+  /// answers one query at a time, so at most two run together; every finished count is reported through [onPartial] so chips appear as
+  /// they arrive. An area whose count still fails is retried once alone and otherwise left out (no chip, never a wrong number).
   @override
-  Future<Map<JobArea, int>> areaCounts() async {
+  Future<Map<JobArea, int>> areaCounts({
+    void Function(Map<JobArea, int> soFar)? onPartial,
+  }) async {
     final counts = <JobArea, int>{};
     Future<void> count(JobArea a) async {
       try {
         counts[a] = await _countArea(a);
+        onPartial?.call(Map.of(counts));
       } catch (_) {}
     }
 
     const areas = JobArea.values;
-    for (var i = 0; i < areas.length; i += 3) {
-      await Future.wait([for (final a in areas.skip(i).take(3)) count(a)]);
+    for (var i = 0; i < areas.length; i += 2) {
+      await Future.wait([for (final a in areas.skip(i).take(2)) count(a)]);
     }
     for (final a in areas) {
       if (!counts.containsKey(a)) await count(a);
@@ -267,18 +272,21 @@ class SupabaseJobCatalogRepository
         _now().toUtc().subtract(maxAge).toIso8601String(),
       );
     }
-    final res = await q.or(area.orFilter).limit(1).count(CountOption.exact);
+    final res = await q
+        .filter('title', 'imatch', area.titleRegex)
+        .limit(1)
+        .count(CountOption.exact);
     return res.count;
   }
 
-  /// A refinement (pelvic) must ALSO be a title of its parent (physiotherapy): two `or` groups, both required.
+  /// A refinement (pelvic) must ALSO be a title of its parent (physiotherapy): two `title ~*` filters, both required.
   static T _withSpecialty<T extends PostgrestFilterBuilder<dynamic>>(
     T q,
     HealthSpecialty s,
   ) {
     final p = s.parent;
-    var out = q.or(s.orFilter) as T;
-    if (p != null) out = out.or(p.orFilter) as T;
+    var out = q.filter('title', 'imatch', s.titleRegex) as T;
+    if (p != null) out = out.filter('title', 'imatch', p.titleRegex) as T;
     return out;
   }
 

@@ -99,43 +99,38 @@ void main() {
   });
 
   group('professional areas', () {
-    test('an area filter adds ONE or=(title.ilike...) clause on top of the visibility rules', () async {
+    test('an area filter adds ONE title regex (imatch) on top of the visibility rules, not a list of ilike patterns', () async {
       final b = FakeBackend(respond: answer([row()]));
       await repoFor(b)
           .search('', filters: const JobFilters(area: JobArea.health));
       final r = b.requests.first;
       expect(r.query['status'], 'eq.open');
       expect(r.query['job_sources.can_redistribute'], 'eq.true');
-      final or = r.query['or']!;
-      expect(or, startsWith('(title.ilike.*nurse*'));
-      expect(or, contains('title.ilike.*physio*'));
-      expect(or, endsWith(')'));
+      expect(r.query.containsKey('or'), isFalse);
+      final t = r.query['title']!;
+      expect(t, startsWith('imatch.nurse|nursing|'));
+      expect(t, contains('|physio'));
     });
 
-    test(
-      'an area and a term are two separate or-clauses (both must hold)',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search(
-          'flutter',
-          filters: const JobFilters(area: JobArea.technology),
-        );
-        final ors = b.requests.first.request.url.query
-            .split('&')
-            .where((p) => p.startsWith('or='))
-            .toList();
-        expect(ors, hasLength(2));
-      },
-    );
+    test('an area and a term are separate clauses (both must hold): the term is the only or=, the area is a title regex', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(
+        b,
+      ).search('flutter', filters: const JobFilters(area: JobArea.technology));
+      final ors = b.requests.first.request.url.query
+          .split('&')
+          .where((p) => p.startsWith('or='))
+          .toList();
+      expect(ors, hasLength(1));
+      expect(b.requests.first.query['title'], startsWith('imatch.software|'));
+    });
 
     test('areaCounts asks one count per area with the same visibility rules, selecting only ids and one row', () async {
       final b = FakeBackend(
         respond: (m, url, _) => (200, <Object?>[]),
         headersFor: (url) {
-          final or = url.queryParameters['or'] ?? '';
-          final n = or.contains('nurse')
-              ? 3
-              : (or.contains('software') ? 41 : 0);
+          final t = url.queryParameters['title'] ?? '';
+          final n = t.contains('nurse') ? 3 : (t.contains('software') ? 41 : 0);
           return {'content-range': '0-0/$n'};
         },
       );
@@ -156,14 +151,15 @@ void main() {
         expect(r.query['status'], 'eq.open');
         expect(r.query['job_sources.can_redistribute'], 'eq.true');
         expect(r.query['last_checked_at'], startsWith('gte.2026-10-07'));
-        expect(r.query['or'], startsWith('(title.ilike.'));
+        expect(r.query['title'], startsWith('imatch.'));
+        expect(r.query.containsKey('or'), isFalse);
       }
     });
     test('areaCounts retries a failed area once and leaves out one that keeps failing; the others still count', () async {
       var techCalls = 0;
       final b = FakeBackend(
         respond: (m, url, _) {
-          final or = url.queryParameters['or'] ?? '';
+          final or = url.queryParameters['title'] ?? '';
           if (or.contains('software')) {
             techCalls++;
             if (techCalls == 1) return (500, {'code': '57014'});
@@ -180,6 +176,37 @@ void main() {
         isFalse,
       ); // no chip rather than a wrong number
       expect(counts[JobArea.finance], 5);
+    });
+
+    test('areaCounts reports every finished count through onPartial, growing one area at a time', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) => {'content-range': '0-0/7'},
+      );
+      final seen = <int>[];
+      final counts = await repoFor(b)
+          .areaCounts(onPartial: (soFar) => seen.add(soFar.length));
+      expect(counts, hasLength(JobArea.values.length));
+      expect(seen, hasLength(JobArea.values.length));
+      expect(seen.last, JobArea.values.length);
+      expect(seen, orderedEquals([...seen]..sort()));
+    });
+
+    test('a refinement counts as TWO title regexes: its own and the parent specialty', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) => {'content-range': '0-0/2'},
+      );
+      await repoFor(b).specialtyCounts();
+      final pelvic = b.requests.firstWhere(
+        (r) =>
+            r.request.url.query
+                .split('&')
+                .where((p) => p.startsWith('title='))
+                .length ==
+            2,
+      );
+      expect(pelvic.request.url.query, contains('title=imatch.'));
     });
 
     test(

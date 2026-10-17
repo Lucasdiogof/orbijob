@@ -1,3 +1,5 @@
+import 'title_pattern.dart';
+
 /// Health specialties offered inside the Health area.
 ///
 /// Same principle as [JobArea]: a deterministic rule on the job TITLE (case-insensitive, any language listed), nothing
@@ -178,6 +180,9 @@ enum HealthSpecialty {
   /// Ultrasound Sonographer" is not a pelvic physiotherapist).
   String get orFilter =>
       [for (final k in keywords) 'title.ilike.*$k*'].join(',');
+
+  /// The keywords as ONE regular expression for `title ~*` (see [titleAlternation]); a refinement must ALSO match [parent]'s.
+  String get titleRegex => titleAlternation(keywords);
 
   /// The same rule locally (previews and tests).
   bool matches(String title) {

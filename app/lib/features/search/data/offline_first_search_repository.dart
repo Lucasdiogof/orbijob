@@ -119,10 +119,12 @@ class OfflineFirstSearchRepository
   }
 
   @override
-  Future<Map<JobArea, int>> areaCounts() {
+  Future<Map<JobArea, int>> areaCounts({
+    void Function(Map<JobArea, int> soFar)? onPartial,
+  }) {
     final inner = _inner;
     if (inner is AreaCountSource) {
-      return (inner as AreaCountSource).areaCounts();
+      return (inner as AreaCountSource).areaCounts(onPartial: onPartial);
     }
     throw UnsupportedError('this catalogue cannot count areas');
   }

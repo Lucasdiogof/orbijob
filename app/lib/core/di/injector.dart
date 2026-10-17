@@ -163,7 +163,9 @@ void configureDependencies({
         reconnectEvery: connectionRetry,
       ),
     )
-    ..registerFactory<AreasCubit>(() => AreasCubit(maybe<SearchRepository>()))
+    ..registerFactory<AreasCubit>(
+      () => AreasCubit(maybe<SearchRepository>(), prefs: preferences),
+    )
     ..registerFactory<SpecialtiesCubit>(
       () => SpecialtiesCubit(maybe<SearchRepository>()),
     )

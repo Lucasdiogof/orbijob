@@ -160,7 +160,9 @@ class PreviewSearchRepository implements SearchRepository, AreaCountSource {
   }
 
   @override
-  Future<Map<JobArea, int>> areaCounts() async => {
+  Future<Map<JobArea, int>> areaCounts({
+    void Function(Map<JobArea, int> soFar)? onPartial,
+  }) async => {
     for (final a in JobArea.values)
       a: _jobs.where((s) => a.matches(s.job.title)).length,
   };
