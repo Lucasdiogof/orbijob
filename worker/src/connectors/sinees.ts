@@ -11,7 +11,7 @@ import { snapshotConnector } from './snapshot';
  *
  *   https://dados.es.gov.br/api/3/action/package_show?id=c43d6653-634a-4e6e-bd66-c9ca3f6ee106   (CKAN: one CSV resource per office, rewritten every morning)
  *
- * Each CSV has the same eight columns: occupation (VAGA), vacancy code, the standard description of the occupation (the Brazilian occupation classification's text,
+ * Each CSV has the same eight columns: occupation (VAGA), vacancy code (the office of Colatina writes the CBO occupation code there: see normalizeSineEs), the standard description of the occupation (the Brazilian occupation classification's text,
  * not the employer's own ad), qualification and schooling required (free text, typed by the office, kept as written), number of positions, the date the office
  * updated the record (MM/DD/YYYY) and the office (posto).
  *
@@ -66,8 +66,13 @@ const HEADERS: Record<string, keyof SineRecord> = {
 export function normalizeSineEs(raw: unknown, nowIso: string): Normalized {
   if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return { ok: false, reason: 'not_an_object', externalId: null };
   const r = raw as Record<string, unknown>;
-  const id = str(r.codigo).trim();
-  if (!/^[0-9]{5,12}$/.test(id)) return { ok: false, reason: 'invalid_id', externalId: null };
+  const posto = inlineText(str(r.posto));
+  const codeRaw = str(r.codigo).trim();
+  // Colatina publishes the CBO occupation code ("7170-20") where the other offices publish the vacancy code. It identifies the occupation within that office (one
+  // row each), so the id is built from both and the listing says so: it is never presented as a vacancy code.
+  const cbo = /^\d{4}-\d{2}$/.test(codeRaw) && posto !== '';
+  const id = cbo ? `cbo-${codeRaw}-${fold(posto).replace(/ /g, '-')}` : codeRaw;
+  if (!cbo && !/^[0-9]{5,12}$/.test(id)) return { ok: false, reason: 'invalid_id', externalId: null };
   const title = inlineText(str(r.vaga));
   if (!title) return { ok: false, reason: 'missing_title', externalId: id };
   const qtyRaw = str(r.quantidade).trim();
@@ -78,13 +83,13 @@ export function normalizeSineEs(raw: unknown, nowIso: string): Normalized {
   if (Date.parse(`${updated}T00:00:00Z`) < Date.parse(nowIso) - SINEES_MAX_AGE_DAYS * 86_400_000) return { ok: false, reason: 'stale', externalId: id };
   const url = ownUrl(`${SINEES_PAGE}#/vaga/${id}`, SINEES_HOST);
   if (!url) return { ok: false, reason: 'invalid_url', externalId: id };
-  const posto = inlineText(str(r.posto));
   const facts: string[] = [];
   const fact = (label: string, v: string) => { if (v) facts.push(`${label}: ${v}`); };
   fact('Vagas', String(qty));
   fact('Experiência/qualificação exigida', text(r.qualificacao));
   fact('Escolaridade exigida', text(r.escolaridade));
   fact('Posto de atendimento', posto ? `Agência do Trabalhador de ${posto} (SINE-ES)` : '');
+  if (cbo) fact('Código da ocupação (CBO)', codeRaw);
   fact('Atualizada em', updated.split('-').reverse().join('/'));
   const description = [text(r.descricao), facts.join('\n')].filter(Boolean).join('\n\n');
   const job: NormalizedJob = {

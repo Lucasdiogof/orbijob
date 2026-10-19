@@ -5,7 +5,7 @@ import { writeFileSync } from 'node:fs';
 
 const UA = 'OrbiJob/1 (+https://github.com/Lucasdiogof/orbijob; job catalogue with attribution and original links)';
 const pkg = await (await fetch('https://dados.es.gov.br/api/3/action/package_show?id=c43d6653-634a-4e6e-bd66-c9ca3f6ee106', { headers: { 'user-agent': UA } })).json();
-const want = ['VAGAS_CARIACICA', 'VAGAS_ARACRUZ', 'VAGAS_GUARAPARI'];
+const want = ['VAGAS_CARIACICA', 'VAGAS_ARACRUZ', 'VAGAS_GUARAPARI', 'VAGAS_COLATINA'];
 const resources = pkg.result.resources.filter((r) => want.includes(r.name));
 
 function parse(csv) {
@@ -39,6 +39,7 @@ const files = {
   VAGAS_CARIACICA: [...pick('VAGAS_CARIACICA', 4), special.multiline, special.filler].filter(Boolean),
   VAGAS_ARACRUZ: [...pick('VAGAS_ARACRUZ', 3), special.blankQty, special.old].filter(Boolean),
   VAGAS_GUARAPARI: pick('VAGAS_GUARAPARI', 3),
+  VAGAS_COLATINA: pick('VAGAS_COLATINA', 3), // the office that writes the CBO occupation code where the others write the vacancy code
 };
 for (const [name, rows] of Object.entries(files)) {
   writeFileSync(new URL(`../test/fixtures/sinees.${name.toLowerCase()}.csv`, import.meta.url), '﻿' + [header, ...rows].map((r) => r.map(esc).join(',')).join('\r\n') + '\r\n');

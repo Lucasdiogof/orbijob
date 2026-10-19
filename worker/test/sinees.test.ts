@@ -9,7 +9,7 @@ const NOW = '2026-10-17T12:00:00.000Z';
 const nowFn = () => new Date(NOW);
 const fx = (n: string) => readFileSync(new URL(`./fixtures/${n}`, import.meta.url), 'utf8');
 const pkg = fx('sinees.package.json');
-const csv: Record<string, string> = { 'vagas_cariacica.csv': fx('sinees.vagas_cariacica.csv'), 'vagas_aracruz.csv': fx('sinees.vagas_aracruz.csv'), 'vagas_guarapari.csv': fx('sinees.vagas_guarapari.csv') };
+const csv: Record<string, string> = { 'vagas_cariacica.csv': fx('sinees.vagas_cariacica.csv'), 'vagas_aracruz.csv': fx('sinees.vagas_aracruz.csv'), 'vagas_guarapari.csv': fx('sinees.vagas_guarapari.csv'), 'vagas_colatina.csv': fx('sinees.vagas_colatina.csv') };
 const routed = ((url: string | URL | Request) => {
   const u = String(url);
   if (u.includes('package_show')) return Promise.resolve(new Response(pkg, { status: 200, headers: { 'content-type': 'application/json' } }));
@@ -27,6 +27,15 @@ describe('SINE-ES normalizer (real rows)', () => {
     expect(j.originalUrl).toBe('https://setades.es.gov.br/vagas-de-empregos#/vaga/9100001');
     expect(j.applyUrl).toBe(j.originalUrl);
     expect(j.description).toBe(['Preparam alimentos.', '', 'Vagas: 2', 'Experiência/qualificação exigida: Experiência na função', 'Escolaridade exigida: Ensino fundamental', 'Posto de atendimento: Agência do Trabalhador de Cariacica (SINE-ES)', 'Atualizada em: 15/10/2026'].join('\n').replace('\n\n', '\n\n'));
+  });
+
+  it('an occupation code (CBO) in the code column is accepted only with its office and gets its own id; other malformed codes stay refused', () => {
+    const j = ok(normalizeSineEs(row({ codigo: '5211-40', posto: 'São Mateus' }), NOW));
+    expect(j.externalId).toBe('cbo-5211-40-sao-mateus');
+    expect(j.description).toContain('Código da ocupação (CBO): 5211-40');
+    expect(normalizeSineEs(row({ codigo: '5211-40', posto: '' }), NOW)).toMatchObject({ ok: false, reason: 'invalid_id' });
+    expect(normalizeSineEs(row({ codigo: '52111-40', posto: 'Colatina' }), NOW)).toMatchObject({ ok: false, reason: 'invalid_id' });
+    expect(normalizeSineEs(row({ codigo: '', posto: 'Colatina' }), NOW)).toMatchObject({ ok: false, reason: 'invalid_id' });
   });
 
   it('a blank quantity counts as one position (as the SETADES page says), zero or text is refused', () => {
@@ -73,20 +82,25 @@ describe('SINE-ES connector', () => {
     const c = sineEsConnector(f, nowFn);
     expect(c.presenceConfirmsOpen).toBe(true);
     const page = await c.fetchPage(null, 'discover');
-    expect(calls).toHaveLength(4);
+    expect(calls).toHaveLength(5);
     expect(calls[0]).toBe('https://dados.es.gov.br/api/3/action/package_show?id=c43d6653-634a-4e6e-bd66-c9ca3f6ee106');
-    expect(page.jobs).toHaveLength(12); // 13 rows, one older than 21 days
+    expect(page.jobs).toHaveLength(15); // 16 rows, one older than 21 days
     expect(page.nextCursor).toBeNull();
     expect(page.rejected).toEqual([]);
     const byCode = new Map(page.jobs.map((j) => [j.externalId, j]));
     expect(byCode.get('9019403')).toMatchObject({ title: 'Açougueiro desossador', city: 'Cariacica, ES' });
     expect(byCode.get('9284915')).toMatchObject({ title: 'Acessor de Clientes', city: 'Aracruz, ES' });
     expect(byCode.has('9223447')).toBe(false); // the 09/15 record
+    // Colatina writes the CBO occupation code where the others write the vacancy code: the id says so and the listing shows it as an occupation code
+    const colatina = byCode.get('cbo-7170-20-colatina')!;
+    expect(colatina).toMatchObject({ title: 'Ajudante de obras', city: 'Colatina, ES' });
+    expect(colatina.description).toContain('Código da ocupação (CBO): 7170-20');
+    expect(colatina.originalUrl).toBe('https://setades.es.gov.br/vagas-de-empregos#/vaga/cbo-7170-20-colatina');
     const multi = byCode.get('351605')!;
     expect(multi.title).toBe('TÉCNICO DE SEGURANÇA DO TRABALHO');
     expect(multi.description).toContain('Criar planos de prevenção; produz laudos técnicos;\nelabora e assina documentos');
     expect(byCode.get('9287297')!.description).not.toContain('Escolaridade');
-    for (const j of page.jobs) { expect(j.company).toBe(''); expect(j.country).toBe('BR'); expect(j.originalUrl).toMatch(/^https:\/\/setades\.es\.gov\.br\/vagas-de-empregos#\/vaga\/\d+$/); }
+    for (const j of page.jobs) { expect(j.company).toBe(''); expect(j.country).toBe('BR'); expect(j.originalUrl).toMatch(/^https:\/\/setades\.es\.gov\.br\/vagas-de-empregos#\/vaga\/[a-z0-9-]+$/); }
   });
 
   it('works against another origin (tests, mirrors): only the catalogue host is replaced', async () => {
@@ -94,7 +108,7 @@ describe('SINE-ES connector', () => {
     const f = ((u: string | URL | Request) => { seen.push(String(u)); return routed(String(u).replace('http://mirror.test', 'https://dados.es.gov.br')); }) as typeof fetch;
     const page = await sineEsConnector(f, nowFn, { origin: 'http://mirror.test/' }).fetchPage(null, 'discover');
     expect(seen.every((u) => u.startsWith('http://mirror.test/'))).toBe(true);
-    expect(page.jobs).toHaveLength(12);
+    expect(page.jobs).toHaveLength(15);
   });
 
   it('a body that is not the catalogue, an HTTP error, a broken office file and an empty catalogue are failures, never an empty list', async () => {
