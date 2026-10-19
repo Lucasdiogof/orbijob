@@ -69,6 +69,7 @@ ECYL, Servicio Público de Empleo de Castilla y León, open data "Ofertas de Emp
 Lanbide, Servicio Vasco de Empleo, open data "Ofertas de empleo de Lanbide" (https://opendata.euskadi.eus): CC BY 4.0, https://creativecommons.org/licenses/by/4.0/. Origin of the data: Gobierno Vasco.
 City of Calgary, open data "City of Calgary Careers" (https://data.calgary.ca/d/City-of-Calgary-Careers/5fsi-n9xm): Contains information licensed under the Open Government Licence – City of Calgary, https://data.calgary.ca/stories/s/Open-Calgary-Terms-of-Use/u45n-7awa/.
 SINE-ES, Agências do Trabalhador of the state of Espírito Santo (SETADES), open data "Vagas das agências estaduais do trabalhador" (https://dados.es.gov.br/dataset/c43d6653-634a-4e6e-bd66-c9ca3f6ee106): Creative Commons Attribution, http://www.opendefinition.org/licenses/cc-by. Origin of the data: Governo do Estado do Espírito Santo.
+USAJOBS (https://www.usajobs.gov), the job site of the United States federal government, operated by the U.S. Office of Personnel Management: Public Data under the USAJOBS API Terms of Service, https://developer.usajobs.gov/guides/terms-of-service. OrbiJob is not operated or endorsed by the U.S. Office of Personnel Management; each listing links to its current official announcement on usajobs.gov.
 Listings are shown as published by their sources, with a link to the original; OrbiJob may have shortened or reformatted the text.''',
     );
   });

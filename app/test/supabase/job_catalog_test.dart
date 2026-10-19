@@ -634,6 +634,7 @@ void main() {
         ('lanbide', 'Lanbide', 'web.lanbide.eus'),
         ('calgary', 'City of Calgary', 'recruiting.calgary.ca'),
         ('sinees', 'SINE-ES (Espírito Santo)', 'setades.es.gov.br'),
+        ('usajobs', 'USAJOBS', 'www.usajobs.gov'),
       ]) {
         final j = jobFromCatalogRow(
           row(

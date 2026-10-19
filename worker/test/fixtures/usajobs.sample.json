@@ -1,0 +1,100 @@
+{
+  "_note": "Shaped after the public USAJOBS Search API documentation (https://developer.usajobs.gov/api-reference/get-api-search); the values are written for the test, they are not copied announcements. The real response is checked by the workflow preview with the owner's key.",
+  "LanguageCode": "EN",
+  "SearchParameters": { "Page": "1", "ResultsPerPage": "500" },
+  "SearchResult": {
+    "SearchResultCount": 5,
+    "SearchResultCountAll": 5,
+    "SearchResultItems": [
+      {
+        "MatchedObjectId": "812345600",
+        "MatchedObjectDescriptor": {
+          "PositionID": "NIH-26-0001",
+          "PositionTitle": "Information Technology Specialist (Customer Support)",
+          "PositionURI": "https://www.usajobs.gov:443/job/812345600",
+          "ApplyURI": ["https://www.usajobs.gov:443/job/812345600"],
+          "PositionLocationDisplay": "Bethesda, Maryland",
+          "PositionLocation": [{ "LocationName": "Bethesda, Maryland", "CountryCode": "United States", "CountrySubDivisionCode": "Maryland", "CityName": "Bethesda, Maryland" }],
+          "OrganizationName": "National Institutes of Health",
+          "DepartmentName": "Department of Health and Human Services",
+          "JobCategory": [{ "Name": "Information Technology Management", "Code": "2210" }],
+          "JobGrade": [{ "Code": "GS" }],
+          "PositionSchedule": [{ "Name": "Full-time", "Code": "1" }],
+          "PositionOfferingType": [{ "Name": "Permanent", "Code": "15317" }],
+          "QualificationSummary": "<p>You must have one year of specialized experience equivalent to the GS-11 level, supporting users of computer systems.</p>",
+          "PositionRemuneration": [{ "MinimumRange": "86962", "MaximumRange": "113050", "RateIntervalCode": "PA", "Description": "Per Year" }],
+          "PublicationStartDate": "2026-10-12",
+          "ApplicationCloseDate": "2026-11-30",
+          "UserArea": {
+            "Details": {
+              "JobSummary": "<p>Provide technical support to staff. Questions: contact Ms. Jane Doe at jane.doe@example.gov or 301-555-0100.</p>",
+              "MajorDuties": ["Resolves hardware and software problems", "Installs and configures workstations"],
+              "WhoMayApply": { "Name": "United States Citizens", "Code": "15333" },
+              "RemoteIndicator": "False",
+              "AgencyContactEmail": "private.person@example.gov"
+            }
+          }
+        }
+      },
+      {
+        "MatchedObjectId": "812345601",
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Registered Nurse (Telehealth)",
+          "PositionURI": "https://www.usajobs.gov/job/812345601",
+          "ApplyURI": ["https://www.usajobs.gov/job/812345601"],
+          "PositionLocationDisplay": "Anywhere in the U.S. (remote job)",
+          "PositionLocation": [{ "LocationName": "Anywhere in the U.S. (remote job)", "CountryCode": "United States", "CityName": "Anywhere in the U.S. (remote job)" }],
+          "OrganizationName": "Veterans Health Administration",
+          "DepartmentName": "Department of Veterans Affairs",
+          "JobCategory": [{ "Name": "Nurse", "Code": "0610" }],
+          "PositionSchedule": [{ "Name": "Part-time", "Code": "2" }],
+          "PositionRemuneration": [{ "MinimumRange": "38.50", "MaximumRange": "49.10", "RateIntervalCode": "PH", "Description": "Per Hour" }],
+          "PublicationStartDate": "2026-10-10",
+          "ApplicationCloseDate": "2026-10-28T23:59:59.9970000",
+          "UserArea": { "Details": { "JobSummary": "Deliver care by video to veterans.", "RemoteIndicator": "True", "WhoMayApply": { "Name": "Open to the public" } } }
+        }
+      },
+      {
+        "MatchedObjectId": "812345602",
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Park Ranger (Interpretation)",
+          "PositionURI": "https://www.usajobs.gov/job/812345602",
+          "ApplyURI": ["https://www.usajobs.gov/job/812345602"],
+          "PositionLocationDisplay": "Multiple Locations",
+          "PositionLocation": [
+            { "LocationName": "Yosemite National Park, California", "CountryCode": "United States", "CityName": "Yosemite National Park, California" },
+            { "LocationName": "Zion National Park, Utah", "CountryCode": "United States", "CityName": "Zion National Park, Utah" }
+          ],
+          "OrganizationName": "National Park Service",
+          "DepartmentName": "Department of the Interior",
+          "PositionSchedule": [{ "Name": "Seasonal", "Code": "6" }],
+          "PositionRemuneration": [{ "MinimumRange": "0", "MaximumRange": "0", "RateIntervalCode": "WC", "Description": "Without Compensation" }],
+          "PublicationStartDate": "2026-10-14",
+          "ApplicationCloseDate": "2026-11-05",
+          "UserArea": { "Details": { "JobSummary": "Lead visitor programs." } }
+        }
+      },
+      {
+        "MatchedObjectId": "812345603",
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Closed Announcement",
+          "PositionURI": "https://www.usajobs.gov/job/812345603",
+          "OrganizationName": "Some Agency",
+          "PositionLocation": [{ "CountryCode": "United States", "CityName": "Denver, Colorado" }],
+          "PublicationStartDate": "2026-09-01",
+          "ApplicationCloseDate": "2026-10-10",
+          "UserArea": { "Details": {} }
+        }
+      },
+      {
+        "MatchedObjectId": "812345604",
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Link On Another Site",
+          "PositionURI": "https://evil.example/job/812345604",
+          "OrganizationName": "Some Agency",
+          "ApplicationCloseDate": "2026-12-01"
+        }
+      }
+    ]
+  }
+}

@@ -22,6 +22,7 @@ void main() {
       'Lanbide,',
       'City of Calgary, open data',
       'SINE-ES,',
+      'USAJOBS (',
       'Listings are shown',
     ];
     String part(String source) {
@@ -58,8 +59,18 @@ void main() {
     expect(part('City of Calgary, open data'), isNot(contains('CC BY')));
     expect(part('SINE-ES,'), contains('Creative Commons Attribution'));
     expect(part('SINE-ES,'), contains('dados.es.gov.br'));
+    expect(
+      part('USAJOBS ('),
+      contains(
+        'not operated or endorsed by the U.S. Office of Personnel Management',
+      ),
+    );
+    expect(
+      part('USAJOBS ('),
+      contains('developer.usajobs.gov/guides/terms-of-service'),
+    );
     expect(part('Úřad práce'), contains('podminky-uziti'));
-    for (final s in starts.take(8)) {
+    for (final s in starts.take(9)) {
       expect(part(s), contains('https://'), reason: s);
     }
   });

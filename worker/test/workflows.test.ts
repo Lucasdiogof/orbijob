@@ -188,14 +188,14 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/if: github\.event_name == 'workflow_dispatch' \|\| vars\.SOURCES_DISCOVERY_ENABLED == 'true'/);
     expect(c).toMatch(/default: check/);
     expect(c).toMatch(/options: \[check, preview, discover\]/);
-    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl, lanbide, calgary, sinees\]/);
+    expect(c).toMatch(/options: \[arbeitnow, remoteok, remotive, jobtech, twjobs, jobsconz, getonboard, teachingvacancies, nycjobs, karrierenrw, bpce, forem, mpsvcz, csp, sefmurcia, feinaactiva, ecyl, lanbide, calgary, sinees, usajobs\]/);
     const step = steps(d).find((s) => s.includes('discover-local.mjs run --yes'))!;
     expect(step).toMatch(/if: github\.event_name == 'schedule' \|\| \(inputs\.action == 'discover' && inputs\.confirm == 'IMPORTAR-NOVAS-VAGAS'\)/);
   });
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '16 4,16 * * *', '16 10,22 * * *', '59 1,7,13,19 * * *', '31 4,10,16,22 * * *', '35 6,18 * * *', '59 12 * * *', '12 5,17 * * *', '14 11,23 * * *', '30 7,19 * * *', '28 13 * * *', '46 8,20 * * *', '43 14 * * *', '43 13 * * *', '8 19 * * *', '34 2,8,14,20 * * *', '18 3,9,15,21 * * *', '40 9 * * *', '20 9 * * *', '2 4,10,16,22 * * *', '36 0,12 * * *', '13 1,13 * * *']);
+    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '16 4,16 * * *', '16 10,22 * * *', '59 1,7,13,19 * * *', '31 4,10,16,22 * * *', '35 6,18 * * *', '59 12 * * *', '12 5,17 * * *', '14 11,23 * * *', '30 7,19 * * *', '28 13 * * *', '46 8,20 * * *', '43 14 * * *', '43 13 * * *', '8 19 * * *', '34 2,8,14,20 * * *', '18 3,9,15,21 * * *', '40 9 * * *', '20 9 * * *', '35 10,22 * * *', '2 4,10,16,22 * * *', '36 0,12 * * *', '13 1,13 * * *']);
     expect(c).toMatch(/'34 2,8,14,20 \* \* \*'\)\s+s=csp/);
     expect(c).toMatch(/'18 3,9,15,21 \* \* \*'\)\s+s=sefmurcia/);
     expect(c).toMatch(/'2 4,10,16,22 \* \* \*'\)\s+s=feinaactiva/);
@@ -203,6 +203,7 @@ describe('sources-discover.yml', () => {
     expect(c).toMatch(/'13 1,13 \* \* \*'\)\s+s=lanbide/);
     expect(c).toMatch(/'40 9 \* \* \*'\)\s+s=calgary/);
     expect(c).toMatch(/'20 9 \* \* \*'\)\s+s=sinees/);
+    expect(c).toMatch(/'35 10,22 \* \* \*'\)\s+s=usajobs/);
     expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
     expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
     expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
@@ -231,12 +232,16 @@ describe('sources-discover.yml', () => {
   });
 
   it('uses ONE secret, from the dedicated environment, never in install/checkout/source-choice steps; no legacy or local-ingestion key', () => {
-    expect(new Set([...c.matchAll(/secrets\.([A-Z0-9_]+)/g)].map((m) => m[1]))).toEqual(new Set(['ORBIJOB_SYNC_WORKER_KEY']));
+    // the worker key, plus the owner's USAJOBS key (a different source's credential), which only the three steps that read a feed receive
+    expect(new Set([...c.matchAll(/secrets\.([A-Z0-9_]+)/g)].map((m) => m[1]))).toEqual(new Set(['ORBIJOB_SYNC_WORKER_KEY', 'USAJOBS_API_KEY']));
     expect(c).toMatch(/environment: jobicy-revalidation/);
     for (const s of steps(d)) {
       const name = /name: (.+)/.exec(s)?.[1] ?? '';
       if (/Install dependencies|checkout|setup-node|Choose the source/i.test(name + s.split('\n')[0])) expect(s.includes('secrets.'), name).toBe(false);
+      if (s.includes('secrets.USAJOBS_API_KEY')) expect(s, name).toMatch(/discover-local\.mjs (preflight|preview|run)/);
     }
+    expect([...c.matchAll(/secrets\.USAJOBS_API_KEY/g)]).toHaveLength(3);
+    expect(c).not.toMatch(/echo[^\n]*USAJOBS_API_KEY|USAJOBS_API_KEY[^\n]*(>>|tee)/); // the key is never printed or written anywhere
     expect(c).not.toMatch(/GITHUB_TOKEN|github\.token|SERVICE_ROLE|service_role|orbijob_ingest_local|ORBIJOB_REHEARSAL/);
     expect(c).toMatch(/::add-mask::\$KEY/);
     expect(c).not.toMatch(/upload-artifact|actions\/cache|set -x|\bsh -x|--debug|ACTIONS_STEP_DEBUG/);
@@ -246,7 +251,7 @@ describe('sources-discover.yml', () => {
     const scripts = [...c.matchAll(/node (scripts\/[\w.-]+\.mjs)/g)].map((m) => m[1]);
     expect(new Set(scripts)).toEqual(new Set(['scripts/worker-key-check.mjs', 'scripts/discover-local.mjs']));
     expect(c).not.toMatch(/SYNC_MODE|SYNC_MAX_NEW_JOBS|first-ingestion|worker-secrets|publish_|wrangler|supabase db|--prompt-key|revalidate-local/);
-    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\|forem\|mpsvcz\|csp\|sefmurcia\|feinaactiva\|ecyl\|lanbide\|calgary\|sinees\) ;; \*\) .*exit 1/);
+    expect(c).toMatch(/case "\$s" in arbeitnow\|remoteok\|remotive\|jobtech\|twjobs\|jobsconz\|getonboard\|teachingvacancies\|nycjobs\|karrierenrw\|bpce\|forem\|mpsvcz\|csp\|sefmurcia\|feinaactiva\|ecyl\|lanbide\|calgary\|sinees\|usajobs\) ;; \*\) .*exit 1/);
   });
 
   it('labels the failure kinds with steps named ALERT (exit codes 4, 5, 6); a source at its planned ceiling is a CAPACITY notice, never an error', () => {

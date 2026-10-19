@@ -11,6 +11,7 @@ import { cspConnector } from './connectors/csp';
 import { sefMurciaConnector } from './connectors/sefmurcia';
 import { calgaryConnector } from './connectors/calgary';
 import { sineEsConnector } from './connectors/sinees';
+import { usaJobsConnector, USAJOBS_MAX_PAGES } from './connectors/usajobs';
 import { feinaActivaConnector } from './connectors/feinaactiva';
 import { ecylConnector } from './connectors/ecyl';
 import { lanbideConnector } from './connectors/lanbide';
@@ -44,6 +45,9 @@ export interface SourceProfile {
   catalogue: number;
   make(fetchImpl: typeof fetch, now: () => Date, origin?: string): Connector;
 }
+
+/** A credential or contact the owner keeps as a secret/variable of the discovery job (never in the code, never logged); undefined where there is no process environment. */
+const envVar = (name: string): string | undefined => (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.[name];
 
 export const SOURCES: Record<string, SourceProfile> = {
   jobicy: {
@@ -154,6 +158,14 @@ export const SOURCES: Record<string, SourceProfile> = {
     // one catalogue request plus one small CSV per office (11, ≈ 350 vacancies in all): no cap is needed, the ceiling only keeps the source in proportion
     maxPages: 1, newCap: 600, catalogue: 800,
     make: (f, n, origin) => sineEsConnector(f, n, { origin }),
+  },
+  usajobs: {
+    id: 'usajobs',
+    attribution: 'Jobs via USAJOBS, the job site of the United States federal government, operated by the U.S. Office of Personnel Management (https://www.usajobs.gov), Public Data under the USAJOBS API Terms of Service (https://developer.usajobs.gov/guides/terms-of-service). OrbiJob is not operated or endorsed by the U.S. Office of Personnel Management; every listing links to the current official announcement on usajobs.gov',
+    host: 'usajobs.gov',
+    // the newest 2,000 announcements (4 pages of 500), read twice a day; a listing that leaves that window stops being stamped. The ceiling keeps the source in proportion to the free database.
+    maxPages: USAJOBS_MAX_PAGES, pageWindow: true, newCap: 700, catalogue: 2000,
+    make: (f, n, origin) => usaJobsConnector(f, n, { origin, apiKey: envVar('USAJOBS_API_KEY'), email: envVar('USAJOBS_CONTACT_EMAIL') }),
   },
   sefmurcia: {
     id: 'sefmurcia',

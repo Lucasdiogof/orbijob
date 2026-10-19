@@ -370,6 +370,7 @@ const _sourceNames = {
   'lanbide': 'Lanbide',
   'calgary': 'City of Calgary',
   'sinees': 'SINE-ES (Espírito Santo)',
+  'usajobs': 'USAJOBS',
 };
 
 /// A catalogue row -> [JobPosting], or null when the row cannot be shown honestly: not open, source not authorised,
