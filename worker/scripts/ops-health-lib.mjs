@@ -8,6 +8,8 @@ export const THRESHOLDS = {
   freshWarnH: 14, freshAlertH: 30,
   /** visible listings the app shows */
   visibleWarn: 9000, visibleAlert: 5000,
+  /** share of a published source's open listings unverified for 72 h (hidden by the app): above this the source is mostly dead rows */
+  staleShareWarn: 0.5,
 };
 
 /**
@@ -40,6 +42,12 @@ export function evaluateHealth(input) {
         value: `${bad.length} pass(es) not ok in 24 h (${[...new Set(bad.map((r) => r.error_class ?? r.status))].join(', ')})`,
         note: 'a pass that stopped at the catalogue ceiling (catalogue_full) is by design and not counted',
       });
+    }
+    // A source whose open listings are mostly unverified for 72 h shows little in the app even when its runs are green or AT_CAPACITY
+    // (Arbeitnow, 2026-10-19: 2,739 of 3,200 dead rows filled its ceiling). Counted only when the caller passes openCounts.
+    const oc = input.openCounts?.[s.id];
+    if (oc && oc.open >= 50 && oc.stale / oc.open > THRESHOLDS.staleShareWarn) {
+      rows.push({ check: `source_live:${s.id}`, status: 'WARN', value: `${oc.stale} of ${oc.open} open listings unverified for 72 h (hidden in the app)`, note: 'the source stopped confirming most stored listings: check its feed window and ceiling; the expiry turns them unknown after 7 days' });
     }
     // Planned limit, not a fault (13.0): the source is healthy and full. Reported as AT_CAPACITY, never as WARN/ALERT, so it does not drown real problems;
     // a full source that stops refreshing still turns source_fresh WARN/ALERT above, and a failed pass still counts in source_runs.

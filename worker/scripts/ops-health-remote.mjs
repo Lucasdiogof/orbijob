@@ -22,13 +22,16 @@ try {
   const sources = await (await get('job_sources?select=id,can_redistribute')).json();
   const runs24h = await (await get(`sync_runs?select=source_id,scope,status,error_class,started_at&started_at=gte.${iso(24)}&limit=1000`)).json();
   const newestChecked = {};
+  const openCounts = {};
   for (const s of sources.filter((x) => x.can_redistribute)) {
     const rows = await (await get(`jobs?select=last_checked_at&source_id=eq.${s.id}&status=eq.open&order=last_checked_at.desc&limit=1`)).json();
     newestChecked[s.id] = rows[0]?.last_checked_at ?? null;
+    const count = async (q) => Number(((await get(`jobs?select=id&source_id=eq.${s.id}&status=eq.open${q}`, { Prefer: 'count=exact', Range: '0-0' })).headers.get('content-range') ?? '').split('/')[1] ?? 0);
+    openCounts[s.id] = { open: await count(''), stale: await count(`&last_checked_at=lt.${iso(72)}`) };
   }
   const head = await get(`jobs?select=id,job_sources!inner(id)&status=eq.open&job_sources.can_redistribute=eq.true&last_checked_at=gte.${iso(72)}`, { Prefer: 'count=exact', Range: '0-0' });
   const visibleJobs = Number((head.headers.get('content-range') ?? '').split('/')[1] ?? 0);
-  const rows = evaluateHealth({ now, sources, newestChecked, runs24h, visibleJobs });
+  const rows = evaluateHealth({ now, sources, newestChecked, runs24h, visibleJobs, openCounts });
   const overall = worst(rows);
   const lines = rows.map((x) => `${x.status.padEnd(11)} ${x.check}: ${x.value}`);
   console.log(`ops-health ${now.toISOString()}: ${overall}\n${lines.join('\n')}`);
