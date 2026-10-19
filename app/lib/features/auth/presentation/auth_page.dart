@@ -95,19 +95,55 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    // The symbol sits on a lit tile with a soft halo and one orbit line, echoing the logo ring; the three
+    // elements arrive in sequence (skipped with reduced motion). Static art, nothing loops.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const BrandSymbol(size: 44),
+        Reveal(
+          child: ExcludeSemantics(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                gradient: c.cardGradient,
+                border: Border.all(color: c.cardBorder),
+                boxShadow: [
+                  BoxShadow(
+                    color: c.primary.withValues(alpha: c.isDark ? 0.22 : 0.14),
+                    blurRadius: 28,
+                  ),
+                ],
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(AppSpace.s3),
+                child: BrandSymbol(size: 36),
+              ),
+            ),
+          ),
+        ),
         const SizedBox(height: AppSpace.s5),
-        Semantics(
-          header: true,
-          child: Text(headline, style: context.text.headlineMedium),
+        Reveal(
+          index: 1,
+          child: AnimatedSwitcher(
+            duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+            child: Semantics(
+              key: ValueKey(headline),
+              header: true,
+              child: Text(headline, style: context.text.headlineMedium),
+            ),
+          ),
         ),
         const SizedBox(height: AppSpace.s2),
-        Text(
-          subtitle,
-          style: context.text.bodyMedium!.copyWith(color: c.muted),
+        Reveal(
+          index: 2,
+          child: AnimatedSwitcher(
+            duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+            child: Text(
+              subtitle,
+              key: ValueKey(subtitle),
+              style: context.text.bodyMedium!.copyWith(color: c.muted),
+            ),
+          ),
         ),
       ],
     );
@@ -124,33 +160,38 @@ class AuthMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final fg = error ? c.onErrorContainer : c.onPrimaryContainer;
-    return Semantics(
-      liveRegion: true,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: error ? c.errorContainer : c.primaryContainer,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpace.s3),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                error
-                    ? Icons.error_outline_rounded
-                    : Icons.mark_email_read_outlined,
-                size: AppSize.iconSm,
-                color: fg,
-              ),
-              const SizedBox(width: AppSpace.s2),
-              Expanded(
-                child: Text(
-                  text,
-                  style: context.text.bodyMedium!.copyWith(color: fg),
+    return Reveal(
+      child: Semantics(
+        liveRegion: true,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: error ? c.errorContainer : c.primaryContainer,
+            border: Border.all(
+              color: (error ? c.error : c.primary).withValues(alpha: 0.35),
+            ),
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpace.s3),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  error
+                      ? Icons.error_outline_rounded
+                      : Icons.mark_email_read_outlined,
+                  size: AppSize.iconSm,
+                  color: fg,
                 ),
-              ),
-            ],
+                const SizedBox(width: AppSpace.s2),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: context.text.bodyMedium!.copyWith(color: fg),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

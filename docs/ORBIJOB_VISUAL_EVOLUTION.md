@@ -72,5 +72,15 @@ Observed on the live site after deploy (800 px window, two-column Home): the mon
 
 Evidence: `batch2/14-resumes-*` (dark one inspected: main résumé highlighted, no overflow) and `batch2/15-settings-*` (saved, not inspected). Saved searches and notifications changes are covered by the existing widget tests but have no capture yet. `flutter analyze` clean, 1,079 tests pass.
 
+## Batch 3 (19/10/2026): account screens and loading
+Visual only; no change to the auth cubit, validation, navigation or the OTP/new-password order.
+| Area | Change |
+|---|---|
+| `AuthHeader` (sign in, sign up, recovery code, new password) | Brand symbol on a lit tile with a soft accent halo; symbol, headline and subtitle reveal in sequence; headline/subtitle cross-fade when switching between sign in and sign up. |
+| `AuthMessage` | Enters with the shared reveal and carries a hairline edge in the message colour (error or notice), still a live region. |
+| Skeletons | New `SkeletonPulse`: `OrbiSkeletonList` now runs one shimmer clock for the whole list instead of one controller per block (about 7 per card); a lone `OrbiSkeleton` still runs its own. Static with reduced motion. |
+
+Evidence: `batch3/10-login-*`, `batch3/11-signup-*`. Only the dark sign-in capture was inspected (no overflow, hierarchy fine, halo subtle). Recovery-code and new-password screens inherit the header but have no capture. `flutter analyze` clean, 1,079 tests pass. Skeleton cost was not measured.
+
 ### Still open for the redesign
-Professional profile sub-page, résumé upload progress, applications board, auth screens, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
+Professional profile sub-page, résumé upload progress, applications board, OTP/new-password captures, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
