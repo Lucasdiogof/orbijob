@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -85,6 +86,17 @@ abstract final class AppTheme {
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       splashFactory: NoSplash.splashFactory,
+      // Android, web and desktop: a short fade-forwards between screens; iOS keeps its native slide and swipe-back.
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.fuchsia: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.macOS: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       focusColor: c.focusLayer,
       hoverColor: c.hoverLayer,
       highlightColor: c.pressedLayer,
@@ -305,7 +317,6 @@ abstract final class AppTheme {
         ),
         textStyle: text.bodySmall!.copyWith(color: c.bg),
       ),
-      pageTransitionsTheme: const PageTransitionsTheme(),
     );
   }
 }

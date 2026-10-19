@@ -19,7 +19,9 @@ import '../helpers/harness.dart';
 
 const _user = AuthUser(id: 'user-a', email: 'maria@example.com');
 final _capture = Platform.environment['CAPTURE'] == '1';
-final _out = Directory('../docs/design/orbijob-v2');
+final _out = Directory(
+  Platform.environment['CAPTURE_OUT'] ?? '../docs/design/orbijob-v2',
+);
 
 /// Writes the PNG instead of comparing it (this is a generator, not a regression test).
 class _WritingComparator extends GoldenFileComparator {

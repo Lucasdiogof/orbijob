@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import '../motion/motion.dart';
 import '../widgets/focus_ring.dart';
 
-/// The one card surface of the product: a [surface] tile with a hairline edge, a generous radius and no shadow.
-/// With [onTap] it is a single touch target with hover/pressed/focus states; with [selected] it takes the brand edge.
-class OrbiCard extends StatelessWidget {
+/// The one card surface of the product: a [surface] tile lit from above, with a hairline edge, a generous radius and, in light mode, a quiet lift.
+/// With [onTap] it is a single touch target with hover/pressed/focus states and a small press; with [selected] it takes the brand edge.
+class OrbiCard extends StatefulWidget {
   const OrbiCard({
     super.key,
     required this.child,
@@ -26,33 +27,63 @@ class OrbiCard extends StatelessWidget {
   final String? semanticLabel;
 
   @override
+  State<OrbiCard> createState() => _OrbiCardState();
+}
+
+class _OrbiCardState extends State<OrbiCard> {
+  bool _hover = false;
+
+  @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final tappable = widget.onTap != null;
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppRadius.lg),
       side: BorderSide(
-        color: selected ? c.cardBorderSelected : c.cardBorder,
-        width: selected ? 1.5 : 1,
+        color: widget.selected
+            ? c.cardBorderSelected
+            : (_hover && tappable ? c.cardBorderHover : c.cardBorder),
+        width: widget.selected ? 1.5 : 1,
       ),
     );
-    final body = Material(
-      color: color ?? c.cardBg,
-      shape: shape,
-      clipBehavior: Clip.antiAlias,
-      child: onTap == null
-          ? Padding(padding: padding, child: child)
-          : InkWell(
-              onTap: onTap,
-              hoverColor: c.hoverLayer,
-              highlightColor: c.pressedLayer,
-              child: Padding(padding: padding, child: child),
-            ),
+    // A tinted card ([color]) stays flat; the default one is lit from above.
+    final surface = DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: shape,
+        color: widget.color,
+        gradient: widget.color == null ? c.cardGradient : null,
+        shadows: widget.color == null ? c.cardShadow : null,
+      ),
+      child: Material(
+        color: c.clear,
+        shape: shape,
+        clipBehavior: Clip.antiAlias,
+        child: tappable
+            ? InkWell(
+                onTap: widget.onTap,
+                hoverColor: c.hoverLayer,
+                highlightColor: c.pressedLayer,
+                child: Padding(padding: widget.padding, child: widget.child),
+              )
+            : Padding(padding: widget.padding, child: widget.child),
+      ),
     );
-    final ringed = onTap == null
-        ? body
-        : FocusRing(radius: AppRadius.lg, child: body);
-    return semanticLabel == null
+    final body = tappable
+        ? MouseRegion(
+            onEnter: (_) => setState(() => _hover = true),
+            onExit: (_) => setState(() => _hover = false),
+            child: Pressable(scale: 0.985, child: surface),
+          )
+        : surface;
+    final ringed = tappable
+        ? FocusRing(radius: AppRadius.lg, child: body)
+        : body;
+    return widget.semanticLabel == null
         ? ringed
-        : Semantics(container: true, label: semanticLabel, child: ringed);
+        : Semantics(
+            container: true,
+            label: widget.semanticLabel,
+            child: ringed,
+          );
   }
 }

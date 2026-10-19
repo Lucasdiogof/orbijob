@@ -62,25 +62,51 @@ class HomePage extends StatelessWidget {
             AppSpace.s8,
           ),
           children: [
-            Text(greeting, style: context.metadataStyle),
-            const SizedBox(height: AppSpace.s1),
-            Semantics(
-              header: true,
-              child: Text(l.homeHeadline, style: context.text.displayLarge),
-            ),
-            const SizedBox(height: AppSpace.s4),
-            OrbiSearchField(
-              hint: l.homeSearchHint,
-              readOnly: true,
-              onTap: context.read<ShellCubit>().openSearch,
-              trailing: IconButton(
-                tooltip: l.exploreOpenFilters,
-                icon: const Icon(Icons.tune_rounded),
-                onPressed: context.read<ShellCubit>().openFilters,
+            OrbitBackdrop(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Reveal(
+                    child: Text(
+                      greeting,
+                      style: context.technicalStyle.copyWith(
+                        color: context.colors.accentText,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpace.s2),
+                  Reveal(
+                    index: 1,
+                    child: Semantics(
+                      header: true,
+                      child: Text(
+                        l.homeHeadline,
+                        style: context.heroStyle(wide: wide),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpace.s5),
+                  Reveal(
+                    index: 2,
+                    child: OrbiSearchField(
+                      hint: l.homeSearchHint,
+                      readOnly: true,
+                      onTap: context.read<ShellCubit>().openSearch,
+                      trailing: IconButton(
+                        tooltip: l.exploreOpenFilters,
+                        icon: const Icon(Icons.tune_rounded),
+                        onPressed: context.read<ShellCubit>().openFilters,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpace.s3),
+                  Reveal(
+                    index: 3,
+                    child: _QuickFilters(onGo: (f) => _goExplore(context, f)),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: AppSpace.s3),
-            _QuickFilters(onGo: (f) => _goExplore(context, f)),
             const SizedBox(height: AppSpace.s6),
             const _SavedSection(),
             const RecommendationsSection(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../design/design.dart';
+import '../motion/motion.dart';
 import 'focus_ring.dart';
 
 class FavoriteButton extends StatelessWidget {
@@ -29,9 +30,17 @@ class FavoriteButton extends StatelessWidget {
         child: IconButton(
           tooltip: label,
           onPressed: onChanged == null ? null : () => onChanged!(!isFavorite),
-          icon: Icon(
-            isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? c.primary : c.ink,
+          // A small pop when a job is saved; plain swap with reduced motion.
+          icon: AnimatedSwitcher(
+            duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+            switchInCurve: Curves.easeOutBack,
+            transitionBuilder: (child, a) =>
+                ScaleTransition(scale: a, child: child),
+            child: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              key: ValueKey(isFavorite),
+              color: isFavorite ? c.primary : c.ink,
+            ),
           ),
         ),
       ),

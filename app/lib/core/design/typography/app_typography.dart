@@ -60,6 +60,19 @@ abstract final class AppTypography {
     ).apply(bodyColor: c.ink, displayColor: c.ink);
   }
 
+  /// Hero headline of the Home: the display face, larger and tighter than any title, for the one moment of editorial voice per screen.
+  static TextStyle hero(Color color, {bool wide = false}) => _style(
+    AppFonts.display,
+    wide ? 44 : 32,
+    wide ? 48 : 37,
+    FontWeight.w700,
+    spacing: wide ? -1.0 : -0.7,
+  ).copyWith(color: color);
+
+  /// Figures that must line up (salaries, counts): tabular digits.
+  static TextStyle figures(TextStyle base) =>
+      base.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
   /// Metadata (dates, sources, counts): 12/16, medium weight, in the muted colour.
   static TextStyle metadata(Color color) =>
       _style(AppFonts.text, 12, 16, FontWeight.w500).copyWith(color: color);

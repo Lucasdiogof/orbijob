@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import '../motion/motion.dart';
 import '../widgets/focus_ring.dart';
 import 'orbi_loader.dart';
 
@@ -147,27 +148,49 @@ class _OrbiButton extends StatelessWidget {
       onTap: enabled ? onPressed : null,
       child: FocusRing(
         radius: AppRadius.md,
-        child: Material(
-          color: bg,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: enabled ? onPressed : null,
-            hoverColor: (kind == _Kind.primary ? c.onPrimary : c.primary)
-                .withValues(alpha: AppStateLayer.hover),
-            highlightColor: (kind == _Kind.primary ? c.onPrimary : c.primary)
-                .withValues(alpha: AppStateLayer.pressed),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                minHeight: AppSize.touch,
-                minWidth: AppSize.touch,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: kind == _Kind.text ? AppSpace.s3 : AppSpace.s5,
-                  vertical: AppSpace.s2,
+        child: Pressable(
+          enabled: enabled,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: kind == _Kind.primary && enabled ? null : bg,
+              gradient: kind == _Kind.primary && enabled
+                  ? c.primaryGradient
+                  : null,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              boxShadow: kind == _Kind.primary && enabled
+                  ? c.primaryGlow
+                  : null,
+            ),
+            child: Material(
+              color: c.clear,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: enabled ? onPressed : null,
+                hoverColor: (kind == _Kind.primary ? c.onPrimary : c.primary)
+                    .withValues(alpha: AppStateLayer.hover),
+                highlightColor:
+                    (kind == _Kind.primary ? c.onPrimary : c.primary)
+                        .withValues(alpha: AppStateLayer.pressed),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: AppSize.touch,
+                    minWidth: AppSize.touch,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kind == _Kind.text
+                          ? AppSpace.s3
+                          : AppSpace.s5,
+                      vertical: AppSpace.s2,
+                    ),
+                    child: Center(
+                      widthFactor: 1,
+                      heightFactor: 1,
+                      child: content,
+                    ),
+                  ),
                 ),
-                child: Center(widthFactor: 1, heightFactor: 1, child: content),
               ),
             ),
           ),

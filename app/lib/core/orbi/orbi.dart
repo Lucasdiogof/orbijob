@@ -1,3 +1,4 @@
+export '../motion/motion.dart';
 export 'orbi_art.dart';
 export 'orbi_auth_gate.dart';
 export 'orbi_buttons.dart';
@@ -10,6 +11,8 @@ export 'orbi_grid.dart';
 export 'orbi_fields.dart';
 export 'orbi_job_card.dart';
 export 'orbi_launch.dart';
+export 'orbi_monogram.dart';
+export 'orbit_backdrop.dart';
 export 'orbi_loader.dart';
 export 'orbi_navigation.dart';
 export 'orbi_section_header.dart';

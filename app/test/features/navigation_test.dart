@@ -54,7 +54,7 @@ void main() {
     (t) async {
       await pumpApp(
         t,
-        size: const Size(390, 2400),
+        size: const Size(390, 2800),
         repo: PreviewSearchRepository(),
       );
       // every tile carries its real count; none is drawn for an area without jobs

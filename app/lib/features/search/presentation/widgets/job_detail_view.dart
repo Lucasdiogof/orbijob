@@ -214,9 +214,15 @@ class _JobDetailBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (j.company.isNotEmpty &&
+                        OrbiMonogram.initialOf(j.company) != null &&
+                        MediaQuery.textScalerOf(context).scale(16) <= 22) ...[
+                      OrbiMonogram(name: j.company, size: 48),
+                      const SizedBox(height: AppSpace.s4),
+                    ],
                     Semantics(
                       header: true,
-                      child: Text(shownTitle, style: t.headlineMedium),
+                      child: Text(shownTitle, style: t.headlineLarge),
                     ),
                     const SizedBox(height: AppSpace.s2),
                     if (j.company.isNotEmpty)

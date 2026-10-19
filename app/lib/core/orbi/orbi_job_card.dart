@@ -9,6 +9,7 @@ import '../widgets/compatibility_indicator.dart';
 import '../widgets/favorite_button.dart';
 import 'orbi_card.dart';
 import 'orbi_chips.dart';
+import 'orbi_monogram.dart';
 
 /// Job card. Reading order: title, company, place, work mode and pay, then the quiet footer (date, source).
 /// Anything the source did not provide is simply not drawn; nothing is invented. One discreet badge at most (the work mode);
@@ -83,6 +84,13 @@ class OrbiJobCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (j.company.isNotEmpty &&
+                    OrbiMonogram.initialOf(j.company) != null &&
+                    MediaQuery.textScalerOf(context).scale(16) <= 22)
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpace.s3),
+                    child: OrbiMonogram(name: j.company),
+                  ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(right: AppSpace.s2),
@@ -163,7 +171,10 @@ class OrbiJobCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Flexible(
-                                child: Text(salary, style: t.labelLarge),
+                                child: Text(
+                                  salary,
+                                  style: AppTypography.figures(t.labelLarge!),
+                                ),
                               ),
                               if (j.salaryCurrency != null) ...[
                                 const SizedBox(width: AppSpace.s2),
