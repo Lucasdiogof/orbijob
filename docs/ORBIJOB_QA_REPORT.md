@@ -49,3 +49,35 @@ Legend: PASSOU = checked and fine; CORRIGIDO = defect found and fixed with a reg
 **Is OrbiJob technically ready as a release candidate? SIM.** No technical blocker was found: analysis and test suites are green, CI is green, production RLS/Storage/Edge Function checks hold, migration history is consistent.
 
 Left on purpose (not blockers for the candidate): physical-device validation (offline, ML Kit download, push, recovery e-mail in the real inbox), store/TestFlight distribution, the Get on Board redistribution licence, pending authorisation requests for Brazilian sources (Gupy, Remotar, Coodesh…), two-account IDOR test in production.
+
+---
+
+# Round 2: release-candidate validation (19/10/2026, HEAD `af4e881`, CI green)
+
+Web checked by real navigation on https://orbijob.lucksrei.com (production build, signed out; no account was created and no e-mail was requested). Desktop 800×600 and mobile 375×812.
+
+| Area | Method | Result | Evidence | Pending |
+|---|---|---|---|---|
+| Web home (desktop, mobile) | Real navigation | PASSOU | real listings, side menu on desktop, bottom bar on mobile, recent search kept after reload | cold start showed the orbital splash for roughly 10 s on the emulated pane (not measured precisely) |
+| Search without accents | Real navigation | PASSOU | "medico" returned physician/medical listings (USAJOBS) | |
+| Job detail | Real navigation | PASSOU | title, place, salary, original-language notice, description, "prepare application", "open original" | |
+| Profile menu signed out | Real navigation | PASSOU | sign-in / create account, all sections listed | |
+| Sign-in screen, "Forgot password" → code screen | Real navigation | PASSOU | the code-based screen opens; an invalid e-mail is blocked locally with a readable error (no request sent) | sending a code and typing it: owner (inbox) |
+| Settings: language, theme, translation policy | Real navigation | PASSOU | Spanish applied at once, light theme applied, "Solo en Wi-Fi / Siempre / Preguntar" present | |
+| Applications gate signed out (es, light) | Real navigation | PASSOU | explanatory empty state with create account / sign in | |
+| Favourites, saved searches, profile, résumés, applications, export/delete signed in | Automated | PASSOU (automated) | test suites; no real account was used (creating one in production is out of bounds) | end-to-end with a real signed-in session: NÃO VALIDADO |
+| Password-recovery OTP, technical | Automated + production | PASSOU | cubit/widget tests; `/auth/v1/recover` 200; wrong-code and 5xx mapped (`66b6546`). A 200 does not prove delivery | e-mail arrival and code entry: owner |
+| Offline, translation, policy | Automated | PASSOU (automated) | offline-first, cubit, translation and layout tests; settings screen shows the policy | real offline, model download: device |
+| RLS, Storage, Edge Functions | Production (read-only, anonymous) | PASSOU | see round 1 | two-account IDOR: needs two real accounts |
+| Ops health | CI log | PASSOU | no ALERT; warnings only (daily sources 15–24 h, Arbeitnow ceiling, one Get on Board 403) | |
+| Secrets | Repo scan | PASSOU | only fake test fixtures | |
+| Capacity and catalogue | Production (read-only SQL) | PASSOU with a watch item | database 331 MB of 500 MB (66 %); 31,877 listings, 31,139 open; 0 duplicate source keys; 0 open listings with an invalid link; 14 active cron jobs; 2,034 open listings (6.5 %) without a country; 562 (1.8 %) with a very short description; 0 accounts yet | keep an eye on the 500 MB limit as the catalogue grows |
+
+## Classification
+1. **Ready and validated:** Web browsing (home, search, detail, settings, themes, languages, signed-out gates, recovery screen), production RLS/Storage/Edge Function checks, backend tests, CI, catalogue integrity.
+2. **Implemented, no device validation:** offline reading, automatic translation and model download, push notifications, résumé upload from a phone, the signed-in flows (covered by automated tests, not by a real session), real offline behaviour.
+3. **Depends on the owner:** the recovery e-mail reaching a real inbox and the typed code (SMTP now answers 200); store/TestFlight distribution; the Get on Board licence and the other source authorisations; a two-account production isolation test.
+4. **Real blockers:** none found.
+
+## Answer
+**Ready to end development and start the final validation on devices? SIM.** Not "100 %": the signed-in flows and offline/translation have not been exercised end to end on a real session or device, only by automated tests.
