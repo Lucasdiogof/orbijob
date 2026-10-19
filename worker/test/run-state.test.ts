@@ -87,3 +87,26 @@ describe('ops-health keeps a planned ceiling apart from real problems', () => {
     expect(worst(rows)).toBe('WARN');
   });
 });
+
+describe('ops-health sees a source made mostly of dead rows', () => {
+  it('WARN when more than half of a published source\'s open listings are unverified for 72 h; quiet otherwise or for tiny sources', () => {
+    const now = new Date('2026-10-19T12:00:00Z');
+    const base = { now, sources: [{ id: 'arbeitnow', can_redistribute: true }], newestChecked: { arbeitnow: now.toISOString() }, runs24h: [], visibleJobs: 25_000 };
+    const live = (o: number, s: number) => evaluateHealth({ ...base, openCounts: { arbeitnow: { open: o, stale: s } } }).find((r: { check: string }) => r.check === 'source_live:arbeitnow');
+    expect(live(3200, 2739)?.status).toBe('WARN');
+    expect(live(3200, 400)).toBeUndefined();
+    expect(live(18, 15)).toBeUndefined();
+  });
+});
+
+describe('a ceiling full of dead rows is not capacity (Arbeitnow, 2026-10-19)', () => {
+  it('open listings the source stopped confirming more than 72 h ago do not count against the ceiling: new live listings enter', async () => {
+    const w = new World();
+    // 3 stored listings the feed no longer carries, last confirmed 4 days before the world's clock: the app already hides them
+    for (const id of ['d1', 'd2', 'd3']) w.jobs.set(`jobicy:${id}`, { ...storedJob(id), last_checked_at: '2026-10-06T12:00:00.000Z' });
+    const o = await discover(w, { SYNC_MAX_CATALOGUE: '3', SYNC_MAX_NEW_JOBS: '2' });
+    expect('summary' in o ? o.summary.upserted : -1).toBe(2);
+    expect(classifyDiscoverRun({ outcome: o }).state).toBe('SUCCESS');
+    expect(w.jobs.get('jobicy:d1')?.status).toBe('open'); // nothing is closed or deleted here: the regular expiry handles them
+  });
+});

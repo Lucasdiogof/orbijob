@@ -102,7 +102,7 @@ export interface JobStore {
    * `discover` mode: how many stored jobs of the source still weigh what a job weighs: open (or unknown) ones and any that still carry a description.
    * Compacted closed jobs (docs/JOBICY_RETENTION.md) cost ~1/10 and do not count against the catalogue ceiling.
    */
-  countFullJobs?(sourceId: string): Promise<number>;
+  countFullJobs?(sourceId: string, nowMs?: number): Promise<number>;
   /**
    * `discover` mode: INSERT only. A row whose (source_id, external_id) is already stored is left exactly as it is (it is never updated,
    * re-opened or blanked). Returns how many rows were really inserted.
@@ -258,7 +258,7 @@ export async function runSync(o: SyncOptions): Promise<SyncSummary> {
         if (k.status === 'unknown') knownUnknown.add(k.external_id);
         deduper.rememberStored(sourceId, k, k.status !== 'closed');
       }
-      fullStored = o.store.countFullJobs ? await withRetry(() => o.store.countFullJobs!(sourceId), retry) : known.size;
+      fullStored = o.store.countFullJobs ? await withRetry(() => o.store.countFullJobs!(sourceId, now().getTime()), retry) : known.size;
     } catch (e) {
       fail(e); // without knowing what is stored nothing can be added
     }

@@ -157,9 +157,13 @@ export class World {
         return new Response(null, { status: 201 });
       }
       if (method === 'GET' && (headers.Prefer ?? '').includes('count=exact')) {
-        // a count only: `or=(status.eq.open,description.neq.)` = "full" jobs (open or still carrying a description)
+        // a count only: `or=(and(status.eq.open,last_checked_at.gte.T),and(status.eq.closed,description.neq.))` = rows against the ceiling
+        // (live open listings, or closed ones still carrying a description)
         const all = [...this.jobs.values()].filter((j) => j.source_id === eq('source_id'));
-        const n = (q.get('or') ?? '').includes('description.neq.') ? all.filter((j) => j.status === 'open' || (j.status === 'closed' && String(j.description ?? '') !== '')).length : all.length;
+        const or = q.get('or') ?? '';
+        const since = /last_checked_at\.gte\.([^,)]+)/.exec(or)?.[1];
+        const live = (j: Record<string, unknown>) => j.status === 'open' && (!since || String(j.last_checked_at ?? '') >= since);
+        const n = or.includes('description.neq.') ? all.filter((j) => live(j) || (j.status === 'closed' && String(j.description ?? '') !== '')).length : all.length;
         return new Response('[]', { status: 206, headers: { 'content-type': 'application/json', 'content-range': `0-0/${n}` } });
       }
       if (method === 'GET') {
@@ -203,4 +207,5 @@ export class World {
 export const storedJob = (externalId: string, status: 'open' | 'closed' = 'open') => ({
   source_id: 'jobicy', external_id: externalId, company: 'c', title: `t ${externalId}`, status,
   original_url: `https://jobicy.com/jobs/${externalId}`, canonical_url: `https://jobicy.com/jobs/${externalId}`, fingerprint: `fp-${externalId}`,
+  last_checked_at: '2026-10-10T11:00:00.000Z', // verified 1 h before the world's clock, like a live stored row
 });

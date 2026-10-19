@@ -1,3 +1,4 @@
+import { EXPIRE_MS } from '../freshness';
 import { HttpError, parseRetryAfter } from '../http';
 import { RunConflict, type RunLedger, type RunPatch, type RunRef } from '../lease';
 import type { JobRow, JobStore, KnownKey, SyncRunRow } from '../sync';
@@ -106,9 +107,16 @@ export class SupabaseJobStore implements JobStore, RunLedger {
   }
 
   /** Jobs that still weigh a full job: open or unknown, or closed but still carrying a description (a count only; no row is read). */
-  async countFullJobs(sourceId: string): Promise<number> {
+  /**
+   * The rows that count against a source's catalogue ceiling: LIVE open listings (verified within the app's 72 h window) and closed ones that still
+   * carry their text. An open listing the source stopped confirming more than 72 h ago is already hidden by the app and waits for the expiry (7 days,
+   * then compaction); counting it let a feed that turned over fill the ceiling with dead rows and block every new listing (Arbeitnow, 2026-10-19:
+   * 2,739 of 3,200 stored rows unverified, 2,400 live listings read per pass, 0 imported). Storage stays bounded: those rows leave within days.
+   */
+  async countFullJobs(sourceId: string, nowMs: number = Date.now()): Promise<number> {
+    const since = new Date(nowMs - EXPIRE_MS).toISOString();
     const res = await this.call(
-      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(status.eq.open,and(status.eq.closed,description.neq.))&limit=1`,
+      `jobs?select=external_id&source_id=eq.${encodeURIComponent(sourceId)}&or=(and(status.eq.open,last_checked_at.gte.${since}),and(status.eq.closed,description.neq.))&limit=1`,
       { method: 'GET', prefer: 'count=exact' },
     );
     const n = Number((res.headers.get('content-range') ?? '').split('/')[1]);
