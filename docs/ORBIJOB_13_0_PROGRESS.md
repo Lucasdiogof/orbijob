@@ -92,3 +92,14 @@ unchanged: Get on Board permission, NAV Norway registration e-mail, Jooble/Korea
 * Backfill over stored descriptions: `worker/scripts/backfill-personal-data.ts` (dry-run by default, idempotent, no copy of the originals kept). It was applied in two rounds on 2026-10-16: 1,219 texts, then 300 more after the rule was refined from what the first round left (named contacts without a telephone word, country-specific mobile ranges, roles in parentheses, working hours, institution names) — 1,519 descriptions, ≈ 2,030 numbers; the follow-up dry-run found 0 more. **Do not run it again without a new rule.** One phone masked earlier out of excess caution cannot be recovered from the database; the official page still shows it.
 * Read-only audit through the publishable key: `worker/scripts/public-privacy-audit.ts` (counts only, never a number). Result on 2026-10-16: **25,405 visible listings in 19 sources, 0 would still be masked**; `ops-health` afterwards: only AT_CAPACITY rows plus the already-fixed Czech 404. Limit: the rules cover phone and e-mail formats, not every conceivable personal datum.
 * Commits: bcdceb9 (guard), 1fe92bb (backfill script), b7dde7e (audit script); CI green on b7dde7e and 1fe92bb. Worker 954 tests (+39 skipped live), `tsc` clean.
+
+## Follow-up checks (2026-10-19)
+* `Sources discover`: 39 of the last 40 runs green (the sources at their ceiling now end AT_CAPACITY); the one red run was Get on Board answering HTTP 403 once (00:13 UTC),
+  green again at 09:58 — a real, transient feed error, correctly reported as FAILED.
+* `Jobicy watchdog` was CRITICAL ("oldest verification 109.5 h") because of **4 of 1,624** Jobicy listings the API no longer answers for (1,620 verified within 24 h); the app
+  already hides them and the expiry turns them `unknown` after 7 days. The watchdog now judges the age after skipping max(25, 2 % of the open listings); a stopped
+  revalidation still ages the whole catalogue and still alarms (tested both ways). Real run afterwards: "tudo normal", 30,037 public listings.
+* CI had turned red on `14c323c` (another session formatted the app with a different formatter version); re-formatted with the CI's Dart 3.13.5 (`f72880c`), analyze and
+  1,057 Flutter tests green.
+* Environment note: the Supabase CLI on this machine is now logged into an account that only sees the La Pelve project, so `supabase db query --linked` cannot reach
+  `rpmlfxwebnlxnwadyvle` until the owner logs the CLI back into the OrbiJob organisation. Checks above used GitHub and the publishable key only.
