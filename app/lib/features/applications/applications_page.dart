@@ -175,13 +175,23 @@ class _ApplicationsListState extends State<_ApplicationsList> {
               ],
             ),
             const SizedBox(height: AppSpace.s3),
-            if (shown.isEmpty)
-              Text(l.apFilteredEmpty, style: context.metadataStyle)
-            else
-              for (final a in shown) ...[
-                _ApplicationTile(a),
-                const SizedBox(height: AppSpace.s3),
-              ],
+            // changing the stage filter cross-fades the list instead of swapping it
+            AnimatedSwitcher(
+              duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+              child: Column(
+                key: ValueKey(filter),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (shown.isEmpty)
+                    Text(l.apFilteredEmpty, style: context.metadataStyle)
+                  else
+                    for (final a in shown) ...[
+                      _ApplicationTile(a),
+                      const SizedBox(height: AppSpace.s3),
+                    ],
+                ],
+              ),
+            ),
           ],
         ),
       ),

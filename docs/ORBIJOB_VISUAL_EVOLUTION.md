@@ -103,6 +103,15 @@ Evidence: `batch4/03-filters-*` (dark inspected: chips, selected chip with check
 
 **CI incident (fixed).** Commit d672785 failed the CI `app` job at the `dart format` step (analyze and tests did not run there). Cause: the local Flutter SDK is a master/dev build whose formatter differs from the CI's stable Dart 3.13.5; `visual_evolution_test.dart` was formatted by the wrong one. Reproduced with the 3.47.7 SDK in the fvm cache (`/Volumes/DevSSD/Flutter/fvm_cache/versions/3.47.7`, Dart 3.13.5) and fixed; run `<that dart> format --output=none --set-exit-if-changed lib test` before pushing. Earlier batch commits passed CI.
 
+## Batch 6 (19/10/2026): professional profile, upload placeholder, applications filter
+| Area | Change |
+|---|---|
+| Professional profile | Name set larger with a monogram tile (dropped at large text), sections reveal in sequence; the completeness bar fills to its value (and follows changes), instant with reduced motion. No field, validation or save logic changed. |
+| Résumé upload | While a file is being stored a skeleton row (one shared shimmer clock) appears at the top of the list, announced as busy; it uses the existing `uploading` state, no new state. Not covered by an automated test; checked only by reading the code, not by a capture. |
+| Applications | Changing the stage filter cross-fades the list (instant with reduced motion). The pipeline structure (agenda, filter chips, tiles) is unchanged: a board/column layout was **not** built. |
+
+Evidence: `batch6/13-professional-profile-*` (dark inspected). Tests: 2 new (completeness bar). `dart format` verified with the CI's Dart 3.13.5, analyze clean, 1,092 tests pass. Note: batch 5's "NO" conclusion below still stands; this batch closes the professional-profile and upload-progress items only partially (no capture of the upload placeholder) and not the applications board.
+
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
 2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.

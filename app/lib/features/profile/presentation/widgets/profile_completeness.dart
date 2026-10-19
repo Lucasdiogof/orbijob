@@ -50,11 +50,19 @@ class ProfileCompletenessCard extends StatelessWidget {
             excludeSemantics: true,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppRadius.pill),
-              child: LinearProgressIndicator(
-                value: percent / 100,
-                minHeight: 8,
-                backgroundColor: c.container,
-                color: c.primary,
+              // the bar fills to its value once when it appears and follows later changes (instant with reduced motion)
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(end: percent / 100),
+                duration: reduceMotion(context)
+                    ? Duration.zero
+                    : AppMotion.slow,
+                curve: AppMotion.curve,
+                builder: (context, v, _) => LinearProgressIndicator(
+                  value: v,
+                  minHeight: 8,
+                  backgroundColor: c.container,
+                  color: c.primary,
+                ),
               ),
             ),
           ),

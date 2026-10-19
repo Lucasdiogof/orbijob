@@ -94,11 +94,11 @@ class ProfileSections extends StatelessWidget {
           body = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _ProfileCard(p),
+              Reveal(child: _ProfileCard(p)),
               const SizedBox(height: AppSpace.s6),
-              _ExperienceList(p, s.experiences),
+              Reveal(index: 1, child: _ExperienceList(p, s.experiences)),
               const SizedBox(height: AppSpace.s6),
-              _EducationList(p, s.education),
+              Reveal(index: 2, child: _EducationList(p, s.education)),
             ],
           );
         }
@@ -125,7 +125,19 @@ class _ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(p.name, style: t.titleMedium),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (OrbiMonogram.initialOf(p.name) != null &&
+                  MediaQuery.textScalerOf(context).scale(16) <= 22)
+                Padding(
+                  padding: const EdgeInsets.only(right: AppSpace.s3),
+                  child: OrbiMonogram(name: p.name, size: 48),
+                ),
+              Expanded(child: Text(p.name, style: t.titleLarge)),
+            ],
+          ),
+          const SizedBox(height: AppSpace.s1),
           if (p.headline != null) Text(p.headline!, style: muted),
           if (place.isNotEmpty) Text(place, style: muted),
           if (p.contactEmail != null) Text(p.contactEmail!, style: muted),

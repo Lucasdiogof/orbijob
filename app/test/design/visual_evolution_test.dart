@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
+import 'package:orbijob/features/profile/presentation/widgets/profile_completeness.dart';
+import 'package:orbijob/l10n/app_localizations.dart';
 
 Widget _host(Widget child, {bool reduce = false, bool dark = false}) =>
     MaterialApp(
@@ -133,6 +135,42 @@ void main() {
       await t.pumpWidget(chip(true, reduce: true));
       await t.pump();
       expect(find.byIcon(Icons.check), findsOneWidget);
+    });
+  });
+
+  group('profile completeness bar', () {
+    Widget card(List<String> missing, {bool reduce = false}) => MaterialApp(
+      theme: AppTheme.light(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
+      home: MediaQuery(
+        data: MediaQueryData(disableAnimations: reduce),
+        child: Scaffold(body: ProfileCompletenessCard(missing: missing)),
+      ),
+    );
+
+    double value(WidgetTester t) => t
+        .widget<LinearProgressIndicator>(find.byType(LinearProgressIndicator))
+        .value!;
+
+    testWidgets('fills to the real share of parts and follows changes', (
+      t,
+    ) async {
+      await t.pumpWidget(card(['a', 'b', 'c', 'd', 'e', 'f', 'g']));
+      await t.pumpAndSettle();
+      expect(value(t), 0);
+      await t.pumpWidget(card(['a']));
+      await t.pump(const Duration(milliseconds: 60));
+      expect(value(t), lessThan(6 / 7)); // still on its way
+      await t.pumpAndSettle();
+      expect(value(t), closeTo(6 / 7, 0.01));
+    });
+
+    testWidgets('with reduced motion it is at its value at once', (t) async {
+      await t.pumpWidget(card(['a', 'b'], reduce: true));
+      await t.pump();
+      expect(value(t), closeTo(5 / 7, 0.01));
     });
   });
 }

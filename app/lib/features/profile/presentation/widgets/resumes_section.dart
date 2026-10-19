@@ -236,6 +236,11 @@ class _ResumesView extends StatelessWidget {
                   ],
                 ),
               ),
+            // while a file is being stored, a placeholder row shows where it will land
+            if (s.uploading) ...[
+              const _UploadingRow(),
+              const SizedBox(height: AppSpace.s3),
+            ],
             for (final (i, f) in ordered.indexed) ...[
               Reveal(
                 index: i,
@@ -347,4 +352,37 @@ class _ResumesView extends StatelessWidget {
       },
     );
   }
+}
+
+/// The row of a résumé that is still being uploaded: skeleton shapes in the place of the title and the type, announced as busy.
+class _UploadingRow extends StatelessWidget {
+  const _UploadingRow();
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    label: AppLocalizations.of(context).resumesUploading,
+    liveRegion: true,
+    child: ExcludeSemantics(
+      child: SkeletonPulse(
+        child: OrbiCard(
+          child: Row(
+            children: [
+              const OrbiSkeleton(width: 44, height: 44, radius: AppRadius.md),
+              const SizedBox(width: AppSpace.s3),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OrbiSkeleton(width: 160, height: 16),
+                    SizedBox(height: AppSpace.s2),
+                    OrbiSkeleton(width: 40, height: 12),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
