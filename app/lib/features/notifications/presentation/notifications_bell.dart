@@ -31,7 +31,12 @@ class NotificationsBell extends StatelessWidget {
             ),
             icon: Badge(
               isLabelVisible: n > 0,
-              label: Text(n > 99 ? '99+' : '$n'),
+              // a count in a small badge: capped text scaling keeps it from covering the neighbouring profile button
+              label: Text(
+                n > 99 ? '99+' : '$n',
+                textScaler: MediaQuery.textScalerOf(context)
+                    .clamp(maxScaleFactor: 1.2),
+              ),
               child: Icon(
                 n > 0
                     ? Icons.notifications_rounded

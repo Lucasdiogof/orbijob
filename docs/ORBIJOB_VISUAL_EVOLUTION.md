@@ -142,12 +142,21 @@ Rendered in EN/PT/ES, light and dark (`upload/60-resume-uploading-*.png`, all si
 | bentogrids.com | fetch returned only the title | — | none | Nothing could be learned; no claim made. |
 
 ### Empty-state family (new)
-`OrbiArtStyle`: **orbit** (default: the full ring system, "nothing here yet"), **broken** (dashed outer ring, satellite off its ring: offline, service down, not configured, no source), **calm** (single ring: no search results). Applied through `OrbiEmptyState.artStyle` in `DataFailureView` and the Explore states. Capture `batch8/62-art-styles-*` (dark and light both opened? only dark was opened).
+`OrbiArtStyle`: **orbit** (default: the full ring system, "nothing here yet"), **broken** (dashed outer ring, satellite off its ring: offline, service down, not configured, no source), **calm** (single ring: no search results). Applied through `OrbiEmptyState.artStyle` in `DataFailureView` and the Explore states. Capture `batch8/62-art-styles-*` (only the dark one was opened).
 
 ### Grain (decision changed: applied, narrowly)
 `OrbiGrain`: ≤ 6,000 dots drawn once from a fixed seed with `drawRawPoints`, own repaint layer, no asset, no shader, no animation, ignored by hit-testing and semantics. Used inside `OrbitBackdrop` (Home hero, sign-in screen). **Dark theme only**: probing the numbers showed secondary text over the light hero glow is at 4.68:1 and a grain dot would take it to 4.25:1, so the light theme draws none (test asserts it). Dark worst case (glow + full-strength dot) keeps ink 10.9:1, muted 5.3:1 (tested). Cost not measured on a device; one static layer per screen and no effect on list scrolling since it sits in the hero/backdrop only. Visible effect is subtle (inspected: sign-in dark).
 
 Tests: grain contrast, not-drawn-in-light, capped paint; full suite 1,097 pass; `dart format` clean with the CI's Dart; analyze clean.
+
+## Batch 9 (19/10/2026): QA of the logged-in lists, header at 200 % text
+Data-rich capture gallery (saved searches, notifications, favourites, settings; desktop, tablet, text ×2, ES) in `batch9/`. Opened and checked: saved searches dark, notifications light, settings dark, favourites dark, favourites desktop dark, notifications ×2 dark, favourites ES ×2 light. Not opened: the remaining theme variants (light/dark counterparts) of those scenes, which are generated but unseen.
+
+Found and fixed:
+1. **Header at text ×2**: the unread badge of the bell and the initial in the profile disc scaled with the text and the badge covered the profile button. Both now follow the text size up to ×1.2 (they live in fixed-size shapes); regression test for the profile disc.
+2. **Favourites** had no hierarchy: a count header in the Home's small technical style ("Favourites (2)") now leads the list. It reuses the generic "{label} ({count})" string, so no new translation was needed; PT/EN/ES verified in the layout net.
+Assessed and left alone: saved searches, notifications (unread edge), settings (themed segmented controls already match the system's shapes; one label wraps to two lines at 390 px).
+Tests 1,098 pass; format clean with the CI's Dart; analyze clean.
 
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.

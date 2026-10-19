@@ -13,7 +13,13 @@ import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
+import 'package:orbijob/features/notifications/domain/notifications_repository.dart';
 import 'package:orbijob/features/profile/domain/pdf_picker.dart';
+import 'package:orbijob/features/search/domain/job_area.dart';
+import 'package:orbijob/features/search/domain/job_filters.dart';
+import 'package:orbijob/features/searches/domain/saved_search.dart';
+import 'package:orbijob/features/searches/domain/search_spec.dart';
+import 'package:orbijob/preview/in_memory_favorites.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
 import 'package:orbijob/l10n/app_localizations.dart';
@@ -174,6 +180,140 @@ void main() {
         matchesGoldenFile('62-art-styles-${b.name}.png'),
       );
     }, skip: !_capture);
+  }
+
+  // Lists with data: saved searches, notifications, favourites, settings, one application.
+  for (final b in const [Brightness.dark, Brightness.light]) {
+    Future<(FakeAuth, Fakes, InMemoryFavoritesRepository)> rich() async {
+      final auth = FakeAuth()..currentUser = _user;
+      final fakes = await signedInFakes(auth);
+      fakes.savedSearches.rows.addAll([
+        SavedSearch(
+          id: 's1',
+          name: 'Pelvic physiotherapy in Germany, hybrid or remote',
+          alertsEnabled: true,
+          frequency: AlertFrequency.weekly,
+          query: const SearchSpec(
+            term: 'physiotherapist',
+            filters: JobFilters(
+              countryCode: 'DE',
+              area: JobArea.health,
+              workModes: {WorkMode.remote, WorkMode.hybrid},
+            ),
+          ).toQuery(),
+        ),
+        SavedSearch(
+          id: 's2',
+          query: const SearchSpec(term: 'flutter developer').toQuery(),
+        ),
+      ]);
+      fakes.notifications.rows.addAll([
+        AppNotification(
+          id: 'n1',
+          title: 'Pelvic floor physiotherapist (m/f/d), part-time',
+          company: 'University Hospital Hamburg-Eppendorf',
+          country: 'DE',
+          searchIds: const ['s1'],
+          createdAt: DateTime.now().toUtc().subtract(const Duration(hours: 3)),
+        ),
+        AppNotification(
+          id: 'n2',
+          title: 'Flutter developer',
+          company: 'Atlas Labs',
+          country: 'PT',
+          searchIds: const ['s2'],
+          createdAt: DateTime.now().toUtc().subtract(const Duration(days: 2)),
+          readAt: DateTime.now().toUtc().subtract(const Duration(days: 1)),
+        ),
+      ]);
+      final favs = InMemoryFavoritesRepository();
+      for (final (i, (co, ti)) in [
+        ('Clínica Aurora', 'Physiotherapist'),
+        ('Atlas Labs', 'Senior Flutter developer'),
+      ].indexed) {
+        await favs.add(
+          JobPosting(
+            source: 'manual',
+            externalId: 'f$i',
+            company: co,
+            title: ti,
+            originalUrl: 'https://e.invalid/$i',
+            country: 'PT',
+          ),
+        );
+      }
+      return (auth, fakes, favs);
+    }
+
+    Future<void> richScene(
+      String name,
+      Future<void> Function(WidgetTester t, AppLocalizations l) go, {
+      Size size = phone,
+      double textScale = 1,
+      Locale locale = const Locale('en'),
+    }) async {
+      testWidgets('$name ${b.name}', (t) async {
+        final (auth, fakes, favs) = await rich();
+        await pumpApp(
+          t,
+          auth: auth,
+          fakes: fakes,
+          favorites: favs,
+          repo: PreviewSearchRepository(),
+          platformBrightness: b,
+          size: size,
+          textScale: textScale,
+          locale: locale,
+        );
+        final l = AppLocalizations.of(t.element(find.byType(Scaffold).first));
+        await go(t, l);
+        await _shot(t, '$name-${b.name}');
+      }, skip: !_capture);
+    }
+
+    richScene('70-saved-searches', (t, l) async {
+      await t.tap(find.byTooltip(l.profile));
+      await t.pumpAndSettle();
+      await t.tap(find.text(l.profileHubSavedSearches));
+      await t.pumpAndSettle();
+    });
+    richScene('71-notifications', (t, l) async {
+      await t.tap(find.byTooltip(l.ntBellUnread(1)));
+      await t.pumpAndSettle();
+    });
+    richScene('72-favorites-list', (t, l) async {
+      await t.tap(find.text(l.navFavorites).first);
+      await t.pumpAndSettle();
+    });
+    richScene('74-favorites-desktop', (t, l) async {
+      await t.tap(find.text(l.navFavorites).first);
+      await t.pumpAndSettle();
+    }, size: desktop);
+    richScene('75-saved-searches-tablet', (t, l) async {
+      await t.tap(find.byTooltip(l.profile));
+      await t.pumpAndSettle();
+      await t.tap(find.text(l.profileHubSavedSearches));
+      await t.pumpAndSettle();
+    }, size: tablet);
+    richScene('76-notifications-text200', (t, l) async {
+      await t.tap(find.byTooltip(l.ntBellUnread(1)));
+      await t.pumpAndSettle();
+    }, textScale: 2);
+    richScene(
+      '77-favorites-es-text200',
+      (t, l) async {
+        await t.tap(find.text(l.navFavorites).first);
+        await t.pumpAndSettle();
+      },
+      textScale: 2,
+      locale: const Locale('es'),
+    );
+    richScene('73-settings', (t, l) async {
+      await t.tap(find.byTooltip(l.profile));
+      await t.pumpAndSettle();
+      await t.tap(find.text(l.settingsTitle));
+      await t.pumpAndSettle();
+    });
   }
 
   testWidgets('61-applications-grouped', (t) async {

@@ -172,6 +172,20 @@ void main() {
     );
   });
 
+  testWidgets('profile initial stays inside its disc at text x2', (t) async {
+    t.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(t.platformDispatcher.clearAllTestValues);
+    await t.pumpWidget(
+      _host(
+        OrbiProfileButton(tooltip: 'Profile', onPressed: () {}, initial: 'M'),
+      ),
+    );
+    expect(t.takeException(), isNull);
+    final size = t.getSize(find.text('M'));
+    expect(size.height, lessThanOrEqualTo(36));
+    expect(size.width, lessThanOrEqualTo(36));
+  });
+
   group('OrbiFilterChip motion', () {
     Widget chip(bool on, {bool reduce = false}) => _host(
       OrbiFilterChip(label: 'Remote', selected: on, onSelected: (_) {}),

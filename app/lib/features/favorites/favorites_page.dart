@@ -67,19 +67,35 @@ class FavoritesPage extends StatelessWidget {
             savedAt,
             ListView.separated(
               padding: const EdgeInsets.all(AppSpace.s4),
-              itemCount: jobs.length,
-              separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
-              itemBuilder: (context, i) => OrbiJobCard(
-                scored: jobs[i],
-                isFavorite: true,
-                onFavoriteChanged: (_) =>
-                    context.read<FavoritesCubit>().toggle(jobs[i]),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => JobDetailPage(scored: jobs[i]),
+              itemCount: jobs.length + 1,
+              separatorBuilder: (_, i) =>
+                  SizedBox(height: i == 0 ? AppSpace.s2 : AppSpace.s3),
+              itemBuilder: (context, row) {
+                if (row == 0) {
+                  // the count, in the same small technical voice as the Home greeting ("{label} ({count})" is a generic pattern)
+                  return Semantics(
+                    header: true,
+                    child: Text(
+                      l.apPipelineCount(l.navFavorites, jobs.length),
+                      style: context.technicalStyle.copyWith(
+                        color: context.colors.accentText,
+                      ),
+                    ),
+                  );
+                }
+                final job = jobs[row - 1];
+                return OrbiJobCard(
+                  scored: job,
+                  isFavorite: true,
+                  onFavoriteChanged: (_) =>
+                      context.read<FavoritesCubit>().toggle(job),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => JobDetailPage(scored: job),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ),

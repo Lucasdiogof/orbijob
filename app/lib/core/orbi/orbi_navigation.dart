@@ -378,6 +378,9 @@ class OrbiProfileButton extends StatelessWidget {
                 )
               : Text(
                   initial!.toUpperCase(),
+                  // a letter in a fixed 36 dp disc: it follows the text size only up to 1.2x so it stays inside the disc
+                  textScaler: MediaQuery.textScalerOf(context)
+                      .clamp(maxScaleFactor: 1.2),
                   style: context.text.labelLarge!.copyWith(
                     color: c.onPrimaryContainer,
                   ),
