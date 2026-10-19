@@ -112,6 +112,17 @@ Evidence: `batch4/03-filters-*` (dark inspected: chips, selected chip with check
 
 Evidence: `batch6/13-professional-profile-*` (dark inspected). Tests: 2 new (completeness bar). `dart format` verified with the CI's Dart 3.13.5, analyze clean, 1,092 tests pass. Note: batch 5's "NO" conclusion below still stands; this batch closes the professional-profile and upload-progress items only partially (no capture of the upload placeholder) and not the applications board.
 
+## Batch 7 (19/10/2026): upload placeholder verified, applications grouped by stage
+| Area | Change |
+|---|---|
+| Résumé upload | Test (`resume_upload_placeholder_test.dart`, upload held open with a gate added to `FakeResumes`): skeleton row and "Uploading…" while storing, then the real row. The capture showed a defect: "No résumé uploaded yet." stayed visible during the first upload; it is now hidden while uploading (asserted). |
+| Applications | With "All" selected and more than one stage present, tiles are grouped under one header per stage (badge with count, announced as a heading), in pipeline order. Selecting a stage shows the plain list. Presentation only: same records, same order within a stage, nothing persisted or reordered. Test: `applications_grouping_test.dart`. |
+| Existing test | `pipeline_test.dart` tapped stage chips by text; the same text is now also a group header, so the three taps target the chip (`OrbiFilterChip`) explicitly. Every assertion is unchanged. |
+
+Evidence: `batch7/60-resume-uploading-dark.png` (inspected before the fix, which exposed the stale message; re-rendered after it but not re-inspected) and `batch7/61-applications-grouped-dark.png` (inspected: headers, tiles, monograms, no overflow). Each tile still shows its own stage badge, so the stage appears twice; kept so a tile reads on its own. `flutter analyze` clean, `dart format` clean with the CI's Dart, 1,094 tests pass.
+
+The "NO" conclusion in the final report below still holds: remaining items are listed there, minus the upload placeholder (now tested) and the grouped applications layout (done as a grouped list, not a board with columns).
+
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
 2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.

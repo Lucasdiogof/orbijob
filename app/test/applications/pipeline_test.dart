@@ -38,6 +38,12 @@ ApplicationRecord _app(
   ),
 );
 
+/// A stage chip (the same text is also a group header in the list).
+Finder _chip(String label) => find.descendant(
+  of: find.byType(OrbiFilterChip),
+  matching: find.text(label),
+);
+
 void main() {
   group('stages', () {
     test(
@@ -368,7 +374,7 @@ void main() {
         expect(find.textContaining('Interview · Welder'), findsOneWidget);
         expect(find.textContaining('Follow up · Cook'), findsOneWidget);
         expect(find.text('All (4)'), findsOneWidget);
-        await t.tap(find.text('Interested (1)'));
+        await t.tap(_chip('Interested (1)'));
         await t.pumpAndSettle();
         expect(find.text('Pilot'), findsOneWidget);
         expect(find.text('Clerk'), findsNothing);
@@ -383,7 +389,7 @@ void main() {
           const Offset(-400, 0),
         );
         await t.pumpAndSettle();
-        await t.tap(find.text('Rejected (1)'));
+        await t.tap(_chip('Rejected (1)'));
         await t.pumpAndSettle();
         expect(find.text('Clerk'), findsOneWidget);
         expect(find.text('Pilot'), findsNothing);
@@ -397,7 +403,7 @@ void main() {
           const Offset(600, 0),
         );
         await t.pumpAndSettle();
-        await t.tap(find.text('All (4)'));
+        await t.tap(_chip('All (4)'));
         await t.pumpAndSettle();
         expect(find.text('Pilot'), findsOneWidget);
       },

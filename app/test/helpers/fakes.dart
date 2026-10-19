@@ -445,6 +445,9 @@ class FakeResumes extends Failing implements ResumeRepository {
   var _n = 0;
   int deleted = 0;
 
+  /// When set, `upload` waits for it (a test holds the upload open to look at the "storing" state).
+  Completer<void>? uploadGate;
+
   @override
   Future<List<ResumeFile>> list(String profileId) async {
     check();
@@ -454,6 +457,7 @@ class FakeResumes extends Failing implements ResumeRepository {
   @override
   Future<ResumeFile> upload(String profileId, Uint8List pdfBytes) async {
     check();
+    await uploadGate?.future;
     final f = ResumeFile(
       id: 'r-${++_n}',
       profileId: profileId,

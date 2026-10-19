@@ -185,14 +185,49 @@ class _ApplicationsListState extends State<_ApplicationsList> {
                   if (shown.isEmpty)
                     Text(l.apFilteredEmpty, style: context.metadataStyle)
                   else
-                    for (final a in shown) ...[
-                      _ApplicationTile(a),
-                      const SizedBox(height: AppSpace.s3),
-                    ],
+                    // all stages: grouped under one header per stage, in pipeline order (presentation only; the list and
+                    // its order inside a stage are the same as before). One stage selected: the plain list.
+                    for (final st in ApplicationStage.values)
+                      if (filter == null && (counts[st] ?? 0) > 0) ...[
+                        if (counts.values.where((n) => n > 0).length > 1)
+                          _StageHeader(stage: st, count: counts[st]!),
+                        for (final a in shown)
+                          if (a.stage == st) ...[
+                            _ApplicationTile(a),
+                            const SizedBox(height: AppSpace.s3),
+                          ],
+                      ] else if (filter == st)
+                        for (final a in shown) ...[
+                          _ApplicationTile(a),
+                          const SizedBox(height: AppSpace.s3),
+                        ],
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Header of a stage group: the stage badge with its count, announced as a heading.
+class _StageHeader extends StatelessWidget {
+  const _StageHeader({required this.stage, required this.count});
+  final ApplicationStage stage;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final label = l.apPipelineCount(applicationStageLabel(l, stage), count);
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpace.s2, bottom: AppSpace.s2),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Semantics(
+          header: true,
+          child: OrbiStatusBadge(label: label, kind: _stageKind(stage)),
         ),
       ),
     );

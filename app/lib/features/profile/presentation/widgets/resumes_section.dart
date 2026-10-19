@@ -216,7 +216,7 @@ class _ResumesView extends StatelessWidget {
               style: context.text.bodyMedium!.copyWith(color: c.muted),
             ),
             const SizedBox(height: AppSpace.s4),
-            if (s.items.isEmpty)
+            if (s.items.isEmpty && !s.uploading)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSpace.s4),
                 child: Column(

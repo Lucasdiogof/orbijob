@@ -1,6 +1,7 @@
 // Generates the OrbiJob 2.0 screenshot gallery in docs/design/orbijob-v2/ from the real app (real fonts, in-memory data).
 // It only runs when CAPTURE=1:   CAPTURE=1 flutter test test/tool/capture_screens_test.dart
 // Without it every test here is skipped, so the normal suite never writes files.
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,10 @@ import 'package:orbijob/app.dart';
 import 'package:orbijob/core/data/user_scope.dart';
 import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
+import 'package:orbijob/features/applications/domain/application_record.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
+import 'package:orbijob/features/profile/domain/pdf_picker.dart';
+import 'package:orbijob/features/search/domain/entities/job_posting.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
 
@@ -99,6 +103,82 @@ void main() {
     }
     return fakes;
   }
+
+  // Evidence for the upload placeholder (held open) and the applications grouped by stage.
+  testWidgets('60-resume-uploading', (t) async {
+    final auth = FakeAuth()..currentUser = _user;
+    final fakes = await signedInFakes(auth, full: false);
+    await fakes.profiles.save(const ProfessionalProfile(name: 'Maria Souza'));
+    fakes.resumes.uploadGate = Completer<void>();
+    await pumpApp(
+      t,
+      auth: auth,
+      fakes: fakes,
+      platformBrightness: Brightness.dark,
+      pdfPicker: FakePdfPicker(PickedPdf(name: 'cv.pdf', bytes: tinyPdf())),
+    );
+    await t.tap(find.byTooltip('Profile'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Résumés'));
+    await t.pumpAndSettle();
+    await t.tap(find.text('Upload PDF'));
+    await t.pump(const Duration(milliseconds: 400));
+    await expectLater(
+      find.byType(OrbiJobApp),
+      matchesGoldenFile('60-resume-uploading-dark.png'),
+    );
+  }, skip: !_capture);
+
+  testWidgets('61-applications-grouped', (t) async {
+    final auth = FakeAuth()..currentUser = _user;
+    final fakes = await signedInFakes(auth, full: false);
+    ApplicationRecord app(
+      String id,
+      String co,
+      String title,
+      ApplicationStage st,
+    ) => ApplicationRecord(
+      id: id,
+      stage: st,
+      appliedAt: DateTime(2026, 10, 2),
+      job: JobPosting(
+        source: 'manual',
+        externalId: id,
+        company: co,
+        title: title,
+        originalUrl: '',
+      ),
+    );
+    fakes.applications.rows.addAll([
+      app(
+        'a1',
+        'Hospital Exemplo',
+        'Pelvic physiotherapist',
+        ApplicationStage.interview,
+      ),
+      app('a2', 'Clínica Aurora', 'Physiotherapist', ApplicationStage.applied),
+      app('a3', 'Atlas Labs', 'Flutter developer', ApplicationStage.applied),
+      app(
+        'a4',
+        'Nord Health',
+        'Rehabilitation specialist',
+        ApplicationStage.rejected,
+      ),
+    ]);
+    await pumpApp(
+      t,
+      auth: auth,
+      fakes: fakes,
+      size: const Size(390, 1100),
+      platformBrightness: Brightness.dark,
+    );
+    await t.tap(find.text('Applications').first);
+    await t.pumpAndSettle();
+    await expectLater(
+      find.byType(OrbiJobApp),
+      matchesGoldenFile('61-applications-grouped-dark.png'),
+    );
+  }, skip: !_capture);
 
   void gallery(String theme, Brightness b) {
     Future<void> scene(
