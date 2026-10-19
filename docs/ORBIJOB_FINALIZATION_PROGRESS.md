@@ -70,3 +70,6 @@ Offline-first catalogue (`23d4303`), automatic translation download policy (`354
 
 ## Final QA (19/10/2026)
 See `docs/ORBIJOB_QA_REPORT.md`: audit of every flow, production security checks, one bug fixed (`66b6546`, 5xx shown as "no connection"), conclusion: technically ready as a release candidate; device validation and store distribution left on purpose.
+
+## Visual evolution (19/10/2026)
+Batches 1 to 11 done and on `main` (head `455dc7a`, CI green). Checkpoint for the next session: remaining items are the keyboard-only and screen-reader pass on the new widgets, device performance, a real-account walkthrough, and the light touch areas (Settings, Explore results). Full detail and evidence: `docs/ORBIJOB_VISUAL_EVOLUTION.md`.

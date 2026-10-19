@@ -67,3 +67,6 @@ Status legend: **Done** · **Partial** · **In progress** · **Pending**. Auto/D
 | Accent-insensitive search (app + alerts SQL) | yes | yes (golden parity, SQL test in CI) | **migration 20 not applied** (CLI account lacks OrbiJob; SQL file prepared) | no |
 
 | Final QA 19/10/2026 | Implemented: n/a · Automated tests: 1,069 Flutter + 994 Worker + CI SQL · Production check: RLS, Storage, Edge Functions, migration history · Device: not validated · External: see `ORBIJOB_QA_REPORT.md` |
+
+## Visual evolution (19/10/2026)
+Premium visual pass over the whole app through the shared design system, 12 commits (`2c33aaf` … `455dc7a`): see `docs/ORBIJOB_VISUAL_EVOLUTION.md` for per-screen changes, references, decisions, evidence and the honest list of what is not validated (no device performance measurement, no real-account walkthrough, no keyboard/screen-reader pass on new widgets). No backend or data change.
