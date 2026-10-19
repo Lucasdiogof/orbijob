@@ -7,6 +7,7 @@ import '../../core/orbi/orbi.dart';
 import '../browser/open_in_app.dart';
 import '../../core/widgets/data_state_view.dart';
 import '../../l10n/app_localizations.dart';
+import '../search/presentation/widgets/saved_results_notice.dart';
 import '../shell/shell_cubit.dart';
 import 'applications_cubit.dart';
 import 'domain/application_agenda.dart';
@@ -69,7 +70,28 @@ class ApplicationsPage extends StatelessWidget {
             action: add,
           );
         }
-        return _ApplicationsList(items: s.items, add: add);
+        final list = _ApplicationsList(items: s.items, add: add);
+        final savedAt = s.cachedAt;
+        if (savedAt == null) return list;
+        // the copy kept on the device is read-only while there is no connection: said, with its date, above the list
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.s4,
+                AppSpace.s4,
+                AppSpace.s4,
+                0,
+              ),
+              child: SavedResultsNotice(
+                savedAt: savedAt,
+                onRetry: () => context.read<ApplicationsCubit>().load(),
+                compact: true,
+              ),
+            ),
+            Expanded(child: list),
+          ],
+        );
       },
     );
   }

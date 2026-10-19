@@ -60,6 +60,9 @@ import '../../features/privacy/domain/account_data_repository.dart';
 import '../../features/push/data/supabase_push_devices_repository.dart';
 import '../../features/push/domain/push_messaging.dart';
 import '../../features/push/push_registrar.dart';
+import '../data/list_mirror.dart';
+import '../../features/favorites/data/offline_read_favorites_repository.dart';
+import '../../features/applications/data/offline_read_applications_repository.dart';
 import '../../features/search/data/offline_first_search_repository.dart';
 import '../../features/translation/network_probe.dart';
 import '../../features/search/data/search_results_cache.dart';
@@ -140,11 +143,13 @@ void configureDependencies({
           await sl<PushRegistrar>().beforeSignOut();
           // what this device kept for the account that leaves (saved searches' results) does not stay for the next one
           await maybe<SearchResultsCache>()?.clear();
+          await maybe<ListMirror>()?.clearAll();
         },
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();
           await sl<TranslationService>().cache.clear();
           await maybe<SearchResultsCache>()?.clear();
+          await maybe<ListMirror>()?.clearAll();
         },
       ),
     )
@@ -229,9 +234,22 @@ void registerSupabaseRepositories(
       () => SupabasePushDevicesRepository(client),
     );
   }
+  // the signed-in user's own lists (favourites, applications) are copied to the device after every successful read, to open them without a connection;
+  // read-only, per user, and removed at sign-out
+  final mirror = preferences == null ? null : ListMirror(preferences);
+  if (mirror != null && !sl.isRegistered<ListMirror>()) {
+    sl.registerSingleton<ListMirror>(mirror);
+  }
+  String? currentUserId() => client.auth.currentUser?.id;
   if (!sl.isRegistered<FavoritesRepository>()) {
     sl.registerLazySingleton<FavoritesRepository>(
-      () => SupabaseFavoritesRepository(client),
+      () => mirror == null
+          ? SupabaseFavoritesRepository(client)
+          : OfflineReadFavoritesRepository(
+              SupabaseFavoritesRepository(client),
+              mirror,
+              currentUserId,
+            ),
     );
   }
   if (!sl.isRegistered<SearchResultsCache>()) {
@@ -267,7 +285,13 @@ void registerSupabaseRepositories(
       () => SupabaseResumeRepository(client),
     )
     ..registerLazySingleton<ApplicationsRepository>(
-      () => SupabaseApplicationsRepository(client),
+      () => mirror == null
+          ? SupabaseApplicationsRepository(client)
+          : OfflineReadApplicationsRepository(
+              SupabaseApplicationsRepository(client),
+              mirror,
+              currentUserId,
+            ),
     )
     ..registerLazySingleton<PreferencesRepository>(
       () => SupabasePreferencesRepository(client),

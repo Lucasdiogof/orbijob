@@ -7,6 +7,7 @@ import '../../core/orbi/orbi.dart';
 import '../../core/widgets/data_state_view.dart';
 import '../../l10n/app_localizations.dart';
 import '../search/presentation/pages/job_detail_page.dart';
+import '../search/presentation/widgets/saved_results_notice.dart';
 import '../shell/shell_cubit.dart';
 import 'favorites_cubit.dart';
 
@@ -46,22 +47,27 @@ class FavoritesPage extends StatelessWidget {
           );
         }
         final jobs = s.items.values.toList();
+        final savedAt = s.cachedAt;
         return Align(
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 760),
-            child: ListView.separated(
-              padding: const EdgeInsets.all(AppSpace.s4),
-              itemCount: jobs.length,
-              separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
-              itemBuilder: (context, i) => OrbiJobCard(
-                scored: jobs[i],
-                isFavorite: true,
-                onFavoriteChanged: (_) =>
-                    context.read<FavoritesCubit>().toggle(jobs[i]),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => JobDetailPage(scored: jobs[i]),
+            child: _withSavedNotice(
+              context,
+              savedAt,
+              ListView.separated(
+                padding: const EdgeInsets.all(AppSpace.s4),
+                itemCount: jobs.length,
+                separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
+                itemBuilder: (context, i) => OrbiJobCard(
+                  scored: jobs[i],
+                  isFavorite: true,
+                  onFavoriteChanged: (_) =>
+                      context.read<FavoritesCubit>().toggle(jobs[i]),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => JobDetailPage(scored: jobs[i]),
+                    ),
                   ),
                 ),
               ),
@@ -71,4 +77,27 @@ class FavoritesPage extends StatelessWidget {
       },
     );
   }
+}
+
+/// The copy kept on the device is read-only while there is no connection: it is said, with its date, above the list.
+Widget _withSavedNotice(BuildContext context, DateTime? savedAt, Widget list) {
+  if (savedAt == null) return list;
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.s4,
+          AppSpace.s4,
+          AppSpace.s4,
+          0,
+        ),
+        child: SavedResultsNotice(
+          savedAt: savedAt,
+          onRetry: () => context.read<FavoritesCubit>().load(),
+          compact: true,
+        ),
+      ),
+      Expanded(child: list),
+    ],
+  );
 }

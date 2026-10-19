@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/data/data_failure.dart';
+import '../../core/data/list_mirror.dart';
 import '../../core/data/load_status.dart';
 import '../search/data/job_snapshot.dart';
 import '../search/domain/entities/job_posting.dart';
@@ -15,7 +16,11 @@ class FavoritesState extends Equatable {
     this.pending = const {},
     this.actionFailure,
     this.actionTick = 0,
+    this.cachedAt,
   });
+
+  /// Set when the list is the copy kept on the device (no connection): when it was saved.
+  final DateTime? cachedAt;
 
   final LoadStatus status;
   final DataFailureKind? failure;
@@ -37,6 +42,8 @@ class FavoritesState extends Equatable {
     Map<String, ScoredJob>? items,
     Set<String>? pending,
     DataFailureKind? actionFailure,
+    DateTime? cachedAt,
+    bool clearCachedAt = false,
   }) => FavoritesState(
     status: status ?? this.status,
     failure: clearFailure ? null : (failure ?? this.failure),
@@ -44,6 +51,7 @@ class FavoritesState extends Equatable {
     pending: pending ?? this.pending,
     actionFailure: actionFailure,
     actionTick: actionFailure == null ? actionTick : actionTick + 1,
+    cachedAt: clearCachedAt ? null : (cachedAt ?? this.cachedAt),
   );
 
   @override
@@ -54,6 +62,7 @@ class FavoritesState extends Equatable {
     pending,
     actionFailure,
     actionTick,
+    cachedAt,
   ];
 }
 
@@ -85,11 +94,16 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(state.copyWith(status: LoadStatus.loading, clearFailure: true));
     try {
       final jobs = await repo.list();
+      final saved = repo is ListedFromMirror
+          ? (repo as ListedFromMirror).listedFromMirrorAt
+          : null;
       emit(
         state.copyWith(
           status: LoadStatus.ready,
           clearFailure: true,
           items: {for (final j in jobs) keyOf(j): ScoredJob(j)},
+          cachedAt: saved,
+          clearCachedAt: saved == null,
         ),
       );
     } catch (e) {
