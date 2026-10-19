@@ -15,3 +15,10 @@ cache cleared on sign-out and account deletion, ARB strings, tests `offline_firs
 * **Migration 20 is NOT applied in production**: the Supabase CLI here is logged in to the account that owns only `fisioterapia_pelvica` and `aura` (`projects list` shows no OrbiJob; `db query --linked` answers 403). Run `_aplicar/2026-10-17_orbi001/01_migration_20_accent_insensitive_search.sql` in the OrbiJob SQL Editor (idempotent; rollback in `99_…`), then `02_verificar.sql`. Until then the app searches as before.
 * To give the CLI access: create a Personal Access Token in the account/organisation that owns `rpmlfxwebnlxnwadyvle` and set it in your own terminal (`$env:SUPABASE_ACCESS_TOKEN`), never in chat or in the repository.
 * Not validated on a device (iOS, Android ML Kit model download, real offline).
+
+## Closing audit (19/10/2026)
+* Repository clean at `d752df5` plus the CI-green pushes before it; nothing of ORBI-001 left uncommitted. Stashes and the `orbijob-wt7` worktree untouched.
+* **Supabase CLI**: the 403 is gone. `projects list` shows `orbiJob` (`rpmlfxwebnlxnwadyvle`, linked) and `db query --linked` works.
+* **Migration 20 (`20261027000000`) is live in production**, applied by hand in the SQL Editor: `jobs.title_fold` answers on the public API, no row has a null fold (0 of 31,046), two fold indexes exist, `ops.fold('Médico Sênior Pélvica')` returns `medico senior pelvica`, and the folded titles match `medico` (40) and `senior` (1,719). `supabase migration list` still shows its remote column empty because it was not applied through the CLI; the SQL is idempotent, so a later `db push` is harmless. Run `supabase migration repair --status applied 20261027000000` only if the history should show it.
+* Checks today: `flutter analyze` clean, 1,069 Flutter tests passing (94 skipped), latest CI runs green.
+* Still not validated on a device: real offline, ML Kit model download on Android/iOS.
