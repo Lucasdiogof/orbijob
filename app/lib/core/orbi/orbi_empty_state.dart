@@ -17,6 +17,7 @@ class OrbiEmptyState extends StatelessWidget {
     this.action,
     this.secondaryAction,
     this.kind = OrbiStateKind.empty,
+    this.artStyle = OrbiArtStyle.orbit,
   });
 
   final IconData icon;
@@ -25,6 +26,9 @@ class OrbiEmptyState extends StatelessWidget {
   final Widget? action;
   final Widget? secondaryAction;
   final OrbiStateKind kind;
+
+  /// The ring composition around the icon (see [OrbiArtStyle]).
+  final OrbiArtStyle artStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class OrbiEmptyState extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      OrbiArt(icon: icon, error: isError),
+                      OrbiArt(icon: icon, error: isError, style: artStyle),
                       const SizedBox(height: AppSpace.s5),
                       Reveal(
                         index: 1,

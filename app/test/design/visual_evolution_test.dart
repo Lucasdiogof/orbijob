@@ -110,6 +110,68 @@ void main() {
     }
   });
 
+  group('grain keeps the text contrast', () {
+    double ratio(Color a, Color b) {
+      final la = a.computeLuminance();
+      final lb = b.computeLuminance();
+      return ((la > lb ? la : lb) + 0.05) / ((la > lb ? lb : la) + 0.05);
+    }
+
+    // dark only: the light theme draws no grain (see the next test)
+    for (final (name, c) in [('dark', AppColors.dark)]) {
+      test(
+        '$name: ink and muted text on the page colour under the glow and a full-strength grain dot',
+        () {
+          final glow = (c.heroGlow.colors.first);
+          final lit = Color.alphaBlend(glow, c.bg);
+          final worst = Color.alphaBlend(
+            c.ink.withValues(alpha: OrbiGrain.alpha),
+            lit,
+          );
+          expect(ratio(c.ink, worst), greaterThanOrEqualTo(4.5));
+          expect(ratio(c.muted, worst), greaterThanOrEqualTo(4.5));
+        },
+      );
+    }
+
+    testWidgets(
+      'is not drawn in the light theme (thin contrast margin under the glow)',
+      (t) async {
+        await t.pumpWidget(
+          _host(const SizedBox(width: 800, height: 900, child: OrbiGrain())),
+        );
+        expect(
+          find.descendant(
+            of: find.byType(OrbiGrain),
+            matching: find.byType(CustomPaint),
+          ),
+          findsNothing,
+        );
+      },
+    );
+
+    testWidgets(
+      'paints without error, is capped, and is hidden from semantics',
+      (t) async {
+        await t.pumpWidget(
+          _host(
+            const SizedBox(width: 800, height: 900, child: OrbiGrain()),
+            dark: true,
+          ),
+        );
+        expect(t.takeException(), isNull);
+        expect(OrbiGrain.maxDots, lessThanOrEqualTo(6000));
+        expect(
+          find.descendant(
+            of: find.byType(OrbiGrain),
+            matching: find.byType(CustomPaint),
+          ),
+          findsOneWidget,
+        );
+      },
+    );
+  });
+
   group('OrbiFilterChip motion', () {
     Widget chip(bool on, {bool reduce = false}) => _host(
       OrbiFilterChip(label: 'Remote', selected: on, onSelected: (_) {}),

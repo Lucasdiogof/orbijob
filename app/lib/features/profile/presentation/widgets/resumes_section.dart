@@ -354,35 +354,57 @@ class _ResumesView extends StatelessWidget {
   }
 }
 
-/// The row of a résumé that is still being uploaded: skeleton shapes in the place of the title and the type, announced as busy.
+/// The row of a résumé that is still being uploaded: the file tile with a dimmed PDF icon and the word for what is happening
+/// where the title will be, over a skeleton line (the bars alone are too faint on a dark card). Announced as busy.
 class _UploadingRow extends StatelessWidget {
   const _UploadingRow();
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    label: AppLocalizations.of(context).resumesUploading,
-    liveRegion: true,
-    child: ExcludeSemantics(
-      child: SkeletonPulse(
-        child: OrbiCard(
-          child: Row(
-            children: [
-              const OrbiSkeleton(width: 44, height: 44, radius: AppRadius.md),
-              const SizedBox(width: AppSpace.s3),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OrbiSkeleton(width: 160, height: 16),
-                    SizedBox(height: AppSpace.s2),
-                    OrbiSkeleton(width: 40, height: 12),
-                  ],
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final c = context.colors;
+    return Semantics(
+      label: l.resumesUploading,
+      liveRegion: true,
+      child: ExcludeSemantics(
+        child: SkeletonPulse(
+          child: OrbiCard(
+            child: Row(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: c.primaryContainer.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: SizedBox.square(
+                    dimension: 44,
+                    child: Icon(
+                      Icons.picture_as_pdf_outlined,
+                      color: c.onPrimaryContainer.withValues(alpha: 0.55),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: AppSpace.s3),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.resumesUploading,
+                        style: context.text.titleSmall!.copyWith(
+                          color: c.muted,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpace.s2),
+                      const OrbiSkeleton(width: 40, height: 12),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

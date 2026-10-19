@@ -7,6 +7,7 @@ export 'orbi_chips.dart';
 export 'orbi_empty_state.dart';
 export 'orbi_feedback.dart';
 export 'orbi_form.dart';
+export 'orbi_grain.dart';
 export 'orbi_grid.dart';
 export 'orbi_fields.dart';
 export 'orbi_job_card.dart';

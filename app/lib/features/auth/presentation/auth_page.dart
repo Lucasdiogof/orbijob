@@ -258,92 +258,94 @@ class _AuthPageState extends State<AuthPage> {
           title: Text(_signUp ? l.authSignUpTitle : l.authSignInTitle),
           leading: const BackButton(),
         ),
-        body: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: Form(
-              key: _form,
-              child: ListView(
-                padding: const EdgeInsets.all(AppSpace.s5),
-                children: [
-                  AuthHeader(
-                    headline: _signUp
-                        ? l.authSignUpHeadline
-                        : l.authSignInHeadline,
-                    subtitle: _signUp
-                        ? l.authSignUpSubtitle
-                        : l.authSignInSubtitle,
-                  ),
-                  const SizedBox(height: AppSpace.s6),
-                  OrbiTextField(
-                    label: l.authEmail,
-                    controller: _email,
-                    enabled: !s.busy,
-                    keyboardType: TextInputType.emailAddress,
-                    autofillHints: const [AutofillHints.email],
-                    textInputAction: TextInputAction.next,
-                    validator: (v) =>
-                        _validEmail(v ?? '') ? null : l.authEmailInvalid,
-                  ),
-                  const SizedBox(height: AppSpace.s4),
-                  PasswordField(
-                    label: l.authPassword,
-                    controller: _password,
-                    enabled: !s.busy,
-                    newPassword: _signUp,
-                    onSubmitted: (_) => _submit(),
-                    validator: (v) =>
-                        (v ?? '').length >= 8 ? null : l.authPasswordShort,
-                  ),
-                  if (!_signUp)
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: OrbiTextButton(
-                        label: l.authForgotPassword,
-                        onPressed: s.busy
-                            ? null
-                            : () {
-                                context.read<AuthCubit>().dismissMessage();
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (_) => RecoveryCodePage(
-                                      initialEmail: _email.text.trim(),
+        body: OrbitBackdrop(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Form(
+                key: _form,
+                child: ListView(
+                  padding: const EdgeInsets.all(AppSpace.s5),
+                  children: [
+                    AuthHeader(
+                      headline: _signUp
+                          ? l.authSignUpHeadline
+                          : l.authSignInHeadline,
+                      subtitle: _signUp
+                          ? l.authSignUpSubtitle
+                          : l.authSignInSubtitle,
+                    ),
+                    const SizedBox(height: AppSpace.s6),
+                    OrbiTextField(
+                      label: l.authEmail,
+                      controller: _email,
+                      enabled: !s.busy,
+                      keyboardType: TextInputType.emailAddress,
+                      autofillHints: const [AutofillHints.email],
+                      textInputAction: TextInputAction.next,
+                      validator: (v) =>
+                          _validEmail(v ?? '') ? null : l.authEmailInvalid,
+                    ),
+                    const SizedBox(height: AppSpace.s4),
+                    PasswordField(
+                      label: l.authPassword,
+                      controller: _password,
+                      enabled: !s.busy,
+                      newPassword: _signUp,
+                      onSubmitted: (_) => _submit(),
+                      validator: (v) =>
+                          (v ?? '').length >= 8 ? null : l.authPasswordShort,
+                    ),
+                    if (!_signUp)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: OrbiTextButton(
+                          label: l.authForgotPassword,
+                          onPressed: s.busy
+                              ? null
+                              : () {
+                                  context.read<AuthCubit>().dismissMessage();
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                      builder: (_) => RecoveryCodePage(
+                                        initialEmail: _email.text.trim(),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                        ),
                       ),
+                    if (s.failure != null || s.notice != AuthNotice.none) ...[
+                      const SizedBox(height: AppSpace.s3),
+                      AuthMessage(
+                        error: s.failure != null,
+                        text: s.failure != null
+                            ? authFailureText(l, s.failure!)
+                            : authNoticeText(l, s.notice),
+                      ),
+                    ] else if (_opening == AuthNotice.passwordChanged) ...[
+                      const SizedBox(height: AppSpace.s3),
+                      AuthMessage(text: l.authPasswordChangedSignIn),
+                    ],
+                    const SizedBox(height: AppSpace.s5),
+                    OrbiPrimaryButton(
+                      label: _signUp ? l.authSignUpAction : l.authSignInAction,
+                      loading: s.busy,
+                      expand: true,
+                      onPressed: _submit,
                     ),
-                  if (s.failure != null || s.notice != AuthNotice.none) ...[
-                    const SizedBox(height: AppSpace.s3),
-                    AuthMessage(
-                      error: s.failure != null,
-                      text: s.failure != null
-                          ? authFailureText(l, s.failure!)
-                          : authNoticeText(l, s.notice),
+                    const SizedBox(height: AppSpace.s2),
+                    OrbiTextButton(
+                      label: _signUp
+                          ? l.authSwitchToSignIn
+                          : l.authSwitchToSignUp,
+                      onPressed: s.busy
+                          ? null
+                          : () => setState(() => _signUp = !_signUp),
                     ),
-                  ] else if (_opening == AuthNotice.passwordChanged) ...[
-                    const SizedBox(height: AppSpace.s3),
-                    AuthMessage(text: l.authPasswordChangedSignIn),
                   ],
-                  const SizedBox(height: AppSpace.s5),
-                  OrbiPrimaryButton(
-                    label: _signUp ? l.authSignUpAction : l.authSignInAction,
-                    loading: s.busy,
-                    expand: true,
-                    onPressed: _submit,
-                  ),
-                  const SizedBox(height: AppSpace.s2),
-                  OrbiTextButton(
-                    label: _signUp
-                        ? l.authSwitchToSignIn
-                        : l.authSwitchToSignUp,
-                    onPressed: s.busy
-                        ? null
-                        : () => setState(() => _signUp = !_signUp),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

@@ -67,6 +67,7 @@ class DataFailureView extends StatelessWidget {
         title: l.accountUnavailableTitle,
         body: dataFailureText(l, kind),
         kind: OrbiStateKind.info,
+        artStyle: OrbiArtStyle.broken,
       );
     }
     return OrbiEmptyState(
@@ -74,6 +75,7 @@ class DataFailureView extends StatelessWidget {
       title: l.dataLoadErrorTitle,
       body: dataFailureText(l, kind),
       kind: OrbiStateKind.error,
+      artStyle: OrbiArtStyle.broken,
       action: onRetry == null
           ? null
           : OrbiPrimaryButton(

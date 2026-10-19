@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import 'orbi_grain.dart';
 
 /// Ambient light behind a hero area: a soft brand glow in the top corner and two thin orbit lines that echo the logo ring.
 /// Painted once and never animated (a repaint boundary keeps it out of the list's scrolling work); it carries no information.
@@ -23,6 +24,7 @@ class OrbitBackdrop extends StatelessWidget {
             ),
           ),
         ),
+        const Positioned.fill(child: OrbiGrain()),
         child,
       ],
     );

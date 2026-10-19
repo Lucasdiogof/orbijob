@@ -16,6 +16,7 @@ import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/profile/domain/pdf_picker.dart';
 import 'package:orbijob/features/search/domain/entities/job_posting.dart';
 import 'package:orbijob/features/profile/domain/professional_profile.dart';
+import 'package:orbijob/l10n/app_localizations.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';
 
 import '../helpers/fakes.dart';
@@ -105,29 +106,75 @@ void main() {
   }
 
   // Evidence for the upload placeholder (held open) and the applications grouped by stage.
-  testWidgets('60-resume-uploading', (t) async {
-    final auth = FakeAuth()..currentUser = _user;
-    final fakes = await signedInFakes(auth, full: false);
-    await fakes.profiles.save(const ProfessionalProfile(name: 'Maria Souza'));
-    fakes.resumes.uploadGate = Completer<void>();
-    await pumpApp(
-      t,
-      auth: auth,
-      fakes: fakes,
-      platformBrightness: Brightness.dark,
-      pdfPicker: FakePdfPicker(PickedPdf(name: 'cv.pdf', bytes: tinyPdf())),
-    );
-    await t.tap(find.byTooltip('Profile'));
-    await t.pumpAndSettle();
-    await t.tap(find.text('Résumés'));
-    await t.pumpAndSettle();
-    await t.tap(find.text('Upload PDF'));
-    await t.pump(const Duration(milliseconds: 400));
-    await expectLater(
-      find.byType(OrbiJobApp),
-      matchesGoldenFile('60-resume-uploading-dark.png'),
-    );
-  }, skip: !_capture);
+  for (final code in const ['en', 'pt', 'es']) {
+    for (final b in const [Brightness.dark, Brightness.light]) {
+      testWidgets('60-resume-uploading $code ${b.name}', (t) async {
+        final auth = FakeAuth()..currentUser = _user;
+        final fakes = await signedInFakes(auth, full: false);
+        await fakes.profiles.save(
+          const ProfessionalProfile(name: 'Maria Souza'),
+        );
+        fakes.resumes.uploadGate = Completer<void>();
+        await pumpApp(
+          t,
+          auth: auth,
+          fakes: fakes,
+          platformBrightness: b,
+          locale: Locale(code),
+          pdfPicker: FakePdfPicker(PickedPdf(name: 'cv.pdf', bytes: tinyPdf())),
+        );
+        final l = AppLocalizations.of(t.element(find.byType(Scaffold).first));
+        await t.tap(find.byTooltip(l.profile));
+        await t.pumpAndSettle();
+        await t.tap(find.text(l.resumesSection));
+        await t.pumpAndSettle();
+        await t.tap(find.text(l.resumesUpload));
+        await t.pump(const Duration(milliseconds: 400));
+        await expectLater(
+          find.byType(OrbiJobApp),
+          matchesGoldenFile('60-resume-uploading-$code-${b.name}.png'),
+        );
+      }, skip: !_capture);
+    }
+  }
+
+  for (final b in const [Brightness.dark, Brightness.light]) {
+    testWidgets('62-art-styles ${b.name}', (t) async {
+      t.view.physicalSize = const Size(390, 300);
+      t.view.devicePixelRatio = 1;
+      addTearDown(t.view.reset);
+      await t.pumpWidget(
+        MaterialApp(
+          theme: b == Brightness.dark ? AppTheme.dark() : AppTheme.light(),
+          home: const Scaffold(
+            body: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  OrbiArt(icon: Icons.bookmark_border_rounded, size: 96),
+                  OrbiArt(
+                    icon: Icons.cloud_off_outlined,
+                    size: 96,
+                    style: OrbiArtStyle.broken,
+                  ),
+                  OrbiArt(
+                    icon: Icons.search_off,
+                    size: 96,
+                    style: OrbiArtStyle.calm,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await t.pumpAndSettle();
+      await expectLater(
+        find.byType(Scaffold),
+        matchesGoldenFile('62-art-styles-${b.name}.png'),
+      );
+    }, skip: !_capture);
+  }
 
   testWidgets('61-applications-grouped', (t) async {
     final auth = FakeAuth()..currentUser = _user;

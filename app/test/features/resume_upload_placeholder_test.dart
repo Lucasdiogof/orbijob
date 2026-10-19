@@ -39,7 +39,10 @@ void main() {
       await t.pump(const Duration(milliseconds: 100));
       // upload held open: skeleton row, the button says it is uploading, and the row is announced
       expect(find.byType(OrbiSkeleton), findsWidgets);
-      expect(find.text('Uploading…'), findsOneWidget);
+      expect(
+        find.text('Uploading…'),
+        findsNWidgets(2),
+      ); // the button and the row
       // the "nothing yet" message is not shown while the first file is on its way
       expect(find.text('No résumé uploaded yet.'), findsNothing);
       expect(find.bySemanticsLabel('Uploading…'), findsWidgets);

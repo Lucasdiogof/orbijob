@@ -418,14 +418,17 @@ class _Results extends StatelessWidget {
         title: l.notConfiguredTitle,
         body: l.notConfiguredBody,
         kind: OrbiStateKind.info,
+        artStyle: OrbiArtStyle.broken,
       ),
       SearchNoSource() => OrbiEmptyState(
         icon: Icons.public_off,
         title: l.noSourceTitle,
         body: l.noSourceBody,
         kind: OrbiStateKind.info,
+        artStyle: OrbiArtStyle.broken,
       ),
       SearchEmpty(:final filters, :final query) => OrbiEmptyState(
+        artStyle: OrbiArtStyle.calm,
         icon: Icons.search_off,
         title: l.emptyTitle,
         body: filters.specialty != null
@@ -495,6 +498,7 @@ class _Results extends StatelessWidget {
         kind: kind == CatalogueFailure.other
             ? OrbiStateKind.error
             : OrbiStateKind.info,
+        artStyle: OrbiArtStyle.broken,
         action: OrbiSecondaryButton(
           label: l.retry,
           icon: Icons.refresh,

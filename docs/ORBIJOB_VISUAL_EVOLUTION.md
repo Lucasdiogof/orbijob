@@ -123,6 +123,32 @@ Evidence: `batch7/60-resume-uploading-dark.png` (inspected before the fix, which
 
 The "NO" conclusion in the final report below still holds: remaining items are listed there, minus the upload placeholder (now tested) and the grouped applications layout (done as a grouped list, not a board with columns).
 
+## Batch 8 (19/10/2026): upload re-inspection, references, empty-state families, grain
+
+### Upload state re-inspected (P0)
+Rendered in EN/PT/ES, light and dark (`upload/60-resume-uploading-*.png`, all six looked at). Confirmed: "No résumé uploaded yet." is gone while the first file uploads; spacing and hierarchy fine; PT/ES strings fit at 390 px. Residual found and fixed: in dark the skeleton bars were almost invisible on the card, so the placeholder row now shows a dimmed PDF tile and the "Uploading…" text over one skeleton line (re-captured and inspected: ES dark; the others were re-rendered, not all re-opened).
+
+### References studied (page-level fetch only; no code installed or copied)
+| Reference | Consulted | Principle | Applied in OrbiJob | Flutter adaptation / limits |
+|---|---|---|---|---|
+| superdesign-skill (MIT) | README | "design inside the existing design system, take a before-replica of current UI first" | Same method: before/after captures from the real app | **Not installed**: it needs a global unpinned npm CLI, a third-party login and sends project code to its service. |
+| better-design (MIT), design-taste (MIT) | README (batch 2) | hierarchy/depth/motion tokens; duration+easing tokens; reduced motion; list of things never to animate | `AppMotion` tokens reused everywhere; nothing animates inside scrolling lists; every motion checks `reduceMotion` | Rule values live in SKILL.md files that were not read. |
+| motion-primitives (MIT) | README (batch 2) | small optional entrance/hover motion | `Reveal`, hover nudge, chip transitions | React + `motion`; only the idea. Component catalogue not read. |
+| ui-layouts org | org page | `uilayouts` (MIT, components/effects), `cursify` (cursor effects, licence not shown) | none | Web/React only; cursor effects are meaningless on touch and were skipped. |
+| paper-design org | org page + `shaders` README | Zero-dependency canvas/WebGL shaders (Apache-2.0); README names MeshGradient and DotOrbit only | Informs the decision below | Not usable in Flutter; the equivalent would be a Flutter fragment shader, judged not worth the cost. |
+| 60fps.design | home page | stagger/sequence, shimmer/fade/reveal, loading reduces perceived wait, empty states should invite action, shared-element morph | Sequenced reveals, one shared shimmer clock, empty states with a primary action; shared-element rejected (see batch 4) | Category descriptions only; individual shots not studied. |
+| scrolltide.co | home page | scroll-driven templates, GPU shader backgrounds, bento blocks (React/Three.js/GSAP) | none | Scroll-jacking and WebGL backgrounds conflict with long lazy lists. |
+| navbar.gallery, cta.gallery, unsection.com | home pages | navigation by content amount; CTA categories; repeatable card (label, title, badge) and a consistent taxonomy | Stage headers + badges in Applications follow the "consistent taxonomy, repeatable card"; the bottom bar was kept | Pages list categories, not guidance; no design analysis was available. |
+| bentogrids.com | fetch returned only the title | — | none | Nothing could be learned; no claim made. |
+
+### Empty-state family (new)
+`OrbiArtStyle`: **orbit** (default: the full ring system, "nothing here yet"), **broken** (dashed outer ring, satellite off its ring: offline, service down, not configured, no source), **calm** (single ring: no search results). Applied through `OrbiEmptyState.artStyle` in `DataFailureView` and the Explore states. Capture `batch8/62-art-styles-*` (dark and light both opened? only dark was opened).
+
+### Grain (decision changed: applied, narrowly)
+`OrbiGrain`: ≤ 6,000 dots drawn once from a fixed seed with `drawRawPoints`, own repaint layer, no asset, no shader, no animation, ignored by hit-testing and semantics. Used inside `OrbitBackdrop` (Home hero, sign-in screen). **Dark theme only**: probing the numbers showed secondary text over the light hero glow is at 4.68:1 and a grain dot would take it to 4.25:1, so the light theme draws none (test asserts it). Dark worst case (glow + full-strength dot) keeps ink 10.9:1, muted 5.3:1 (tested). Cost not measured on a device; one static layer per screen and no effect on list scrolling since it sits in the hero/backdrop only. Visible effect is subtle (inspected: sign-in dark).
+
+Tests: grain contrast, not-drawn-in-light, capped paint; full suite 1,097 pass; `dart format` clean with the CI's Dart; analyze clean.
+
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
 2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.
