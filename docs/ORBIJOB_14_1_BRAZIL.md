@@ -101,3 +101,6 @@ Worker 979 passaram (+39 de rede ignorados), `tsc` limpo; Flutter 1.018 passaram
 
 ## Nota (19/10): outras frentes do mesmo dia
 Calgary e SINE-ES entraram na página de licenças do app (a licença da Calgary exige a frase de atribuição; commit a04f136). O ORBI-001 (leitura offline e tradução automática) está em `docs/OFFLINE.md`; o teto de vagas vivas, em `docs/ORBIJOB_13_0_PROGRESS.md`. A SINE-ES foi publicada pelo dono: 309 vagas visíveis pela chave pública, Brasil = 322 visíveis.
+
+## Nota (19/10, tarde): Colatina
+O escritório de Colatina publica o **código da ocupação (CBO)**, como `7170-20`, no lugar do código da vaga. O conector passou a aceitá-lo com id próprio (`cbo-7170-20-colatina`) e a mostrar "Código da ocupação (CBO)" na descrição, nunca como código de vaga (commit 9273108): +9 vagas em produção (318 da SINE-ES; só a linha sem código de São Mateus segue rejeitada).

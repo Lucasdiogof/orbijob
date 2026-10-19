@@ -26,6 +26,14 @@ never invents one. A search that was never made on the device needs the internet
   offline and waiting-for-Wi-Fi states. The original is always one tap away.
 * Limits kept honest: the web translator exists only in Chromium desktop; Traditional Chinese quality is weak; requirements (diplomas, registrations, visas) can be mistranslated by any engine.
 
-## Not done / to validate on a device
-No device test of airplane mode, of reconnection on a real network or of the download policy over mobile data (all covered by automated tests with fakes). The job detail of a notification
-(`jobById`) still needs the connection. Reconnection is detected by retrying, not by a connectivity plugin (no new dependency).
+## The job a notification points at
+`OfflineFirstSearchRepository.jobById` reads the job from the catalogue and keeps it by id (40 jobs, 14 days, same store and same sign-out clearing as the searches). Without a connection the kept copy opens;
+a job the catalogue says is gone (closed, removed) is null and is NEVER served from the copy. When the notification centre opens online, the newest 10 jobs its notifications point at are kept ahead of time
+(`JobPrefetch`, stops at the first failure). Offline with nothing kept, the person is told it needs the internet (no "no longer available" and no web page that cannot load).
+
+## Accent-insensitive search
+Done in migration 20261027000000 (`title_fold`, `city_fold`, `ops.fold`; the Flutter table is `lib/core/format/fold.dart`): "sênior" finds "Senior", "medico" finds "Médico". See the migration header.
+
+## To validate on a device
+No device test of airplane mode, of reconnection on a real network or of the download policy over mobile data (all covered by automated tests with fakes). Reconnection is detected by retrying, not by a
+connectivity plugin (no new dependency).
