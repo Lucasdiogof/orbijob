@@ -430,11 +430,15 @@ function jobicyConnectorRow(id: string) {
 describe.skipIf(!URL_ || !SECRET)('catalogue ceiling count against a real PostgREST', () => {
   const service = sign('service_role');
   const store = new SupabaseJobStore(URL_ ?? 'http://localhost:3000', service, direct);
-  it('countFullJobs counts open/unknown jobs and closed ones that still carry a description, exactly as a full read would', async () => {
-    const all = (await rest('GET', '/jobs?select=status,description&source_id=eq.jobicy', { token: service })).json as { status: string; description: string }[];
-    const expected = all.filter((j) => j.status !== 'closed' || j.description !== '').length;
+  it('countFullJobs counts live open jobs (verified within 72 h) and closed ones that still carry a description, exactly as a full read would', async () => {
+    const all = (await rest('GET', '/jobs?select=status,description,last_checked_at&source_id=eq.jobicy', { token: service })).json as { status: string; description: string; last_checked_at: string }[];
     expect(all.length).toBeGreaterThan(0);
-    expect(await store.countFullJobs('jobicy')).toBe(expected);
+    // judged at two moments: the fixtures' own day (their open rows are live) and now (rows verified long ago are dead and do not count)
+    for (const nowMs of [NOW.getTime() + 3_600_000, Date.now()]) {
+      const live = (j: { status: string; last_checked_at: string }) => j.status === 'open' && Date.parse(j.last_checked_at) >= nowMs - 72 * 3_600_000;
+      const expected = all.filter((j) => live(j) || (j.status === 'closed' && j.description !== '')).length;
+      expect(await store.countFullJobs('jobicy', nowMs)).toBe(expected);
+    }
   });
   it('a closed job whose description was emptied stops counting (compaction), and counts again if the description comes back', async () => {
     const before = await store.countFullJobs('jobicy');
