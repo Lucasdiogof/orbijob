@@ -1318,5 +1318,6 @@
   "translationPolicyWifi": "On Wi-Fi only",
   "translationPolicyAlways": "Always",
   "translationPolicyAsk": "Ask me",
-  "translationPolicyHelp": "Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it."
+  "translationPolicyHelp": "Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.",
+  "ntJobOffline": "No connection. This job has not been opened on this device yet; connect to see its details."
 }

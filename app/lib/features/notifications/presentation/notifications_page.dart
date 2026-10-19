@@ -11,6 +11,8 @@ import '../../../core/widgets/data_state_view.dart';
 import '../../shell/shell_cubit.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../browser/open_in_app.dart';
+import '../../search/data/offline_first_search_repository.dart'
+    show classifyCatalogueError;
 import '../../search/domain/entities/job_posting.dart';
 import '../../search/domain/search_repository.dart';
 import '../../search/presentation/pages/job_detail_page.dart';
@@ -38,8 +40,21 @@ class _NotificationsPageState extends State<NotificationsPage> {
     super.initState();
     // Opening the centre reads again, so what the hourly run just wrote is there.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) context.read<NotificationsCubit>().refresh();
+      if (mounted) _refreshAndKeepJobs();
     });
+  }
+
+  /// Refreshes the list and keeps the newest jobs it points at, so that opening them works without a connection later.
+  Future<void> _refreshAndKeepJobs() async {
+    final cubit = context.read<NotificationsCubit>();
+    await cubit.refresh();
+    final repo = maybe<SearchRepository>();
+    if (repo is! JobPrefetch) return;
+    final ids = [
+      for (final n in cubit.state.items)
+        if (!n.kind.isReminder && n.jobId != null) n.jobId!,
+    ];
+    if (ids.isNotEmpty) await (repo as JobPrefetch).prefetchJobs(ids);
   }
 
   Future<void> _open(AppNotification n) async {
@@ -54,16 +69,23 @@ class _NotificationsPageState extends State<NotificationsPage> {
       return;
     }
     JobPosting? job;
+    var offline = false;
     final repo = maybe<SearchRepository>();
     final id = n.jobId;
     if (id != null && repo is JobLookup) {
       try {
         job = await (repo as JobLookup).jobById(id);
-      } catch (_) {
+      } catch (e) {
         job = null;
+        offline = classifyCatalogueError(e) == CatalogueFailure.offline;
       }
     }
     if (!mounted) return;
+    if (job == null && offline) {
+      // no connection and this job was never kept on the device: say what is needed instead of "no longer available" and a page that cannot load
+      showOrbiSnackBar(context, l.ntJobOffline);
+      return;
+    }
     if (job != null) {
       await nav.push(
         MaterialPageRoute<void>(

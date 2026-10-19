@@ -2699,4 +2699,8 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get translationPolicyHelp =>
       'Cada idioma ocupa unos 30 MB y se descarga una vez. Con Wi-Fi se descarga solo cuando un anuncio lo necesita.';
+
+  @override
+  String get ntJobOffline =>
+      'Sin conexión. Esta vacante aún no se abrió en este dispositivo; conéctate para ver los detalles.';
 }

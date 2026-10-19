@@ -2692,4 +2692,8 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get translationPolicyHelp =>
       'Cada idioma tem cerca de 30 MB, baixados uma vez. No Wi-Fi o download acontece sozinho quando uma vaga precisa.';
+
+  @override
+  String get ntJobOffline =>
+      'Sem conexão. Esta vaga ainda não foi aberta neste aparelho; conecte-se para ver os detalhes.';
 }

@@ -26,6 +26,14 @@ class CachedSearch {
   final bool hasIntegratedSource;
 }
 
+/// A job kept by its catalogue id, to open the job of a notification without a connection.
+class CachedJob {
+  const CachedJob({required this.id, required this.savedAt, required this.job});
+  final String id;
+  final DateTime savedAt;
+  final JobPosting job;
+}
+
 /// Everything that makes two searches the same: the sanitised text, the country and the filters. The key is stable across launches.
 String searchCacheKey(
   String query, {
@@ -54,6 +62,10 @@ abstract class SearchResultsCache {
   Future<CachedSearch?> read(String key);
   Future<void> write(CachedSearch entry);
 
+  /// One job kept by its catalogue id (the job a notification points at), or null when it was never kept or is older than the age limit.
+  Future<CachedJob?> readJob(String id);
+  Future<void> writeJob(CachedJob entry);
+
   /// Forgets everything (sign-out, "clear" in Settings).
   Future<void> clear();
 }
@@ -66,6 +78,16 @@ class MemorySearchResultsCache implements SearchResultsCache {
   final DateTime Function() now;
   final Duration maxAge;
   final entries = <String, CachedSearch>{};
+  final jobs = <String, CachedJob>{};
+  @override
+  Future<CachedJob?> readJob(String id) async {
+    final e = jobs[id];
+    return e == null || now().difference(e.savedAt) > maxAge ? null : e;
+  }
+
+  @override
+  Future<void> writeJob(CachedJob entry) async => jobs[entry.id] = entry;
+
   @override
   Future<CachedSearch?> read(String key) async {
     final e = entries[key];
@@ -75,7 +97,11 @@ class MemorySearchResultsCache implements SearchResultsCache {
   @override
   Future<void> write(CachedSearch entry) async => entries[entry.key] = entry;
   @override
-  Future<void> clear() async => entries.clear();
+  Future<void> clear() async {
+    entries.clear();
+    jobs.clear();
+  }
+
   static const defaultMaxAge = Duration(days: 14);
 }
 
@@ -97,6 +123,54 @@ class PrefsSearchResultsCache implements SearchResultsCache {
   final int maxEntries;
   final int maxJobsPerEntry;
   static const storeKey = 'search.cache.v1';
+  static const jobsKey = 'search.cache.jobs.v1';
+  static const maxJobs = 40;
+
+  List<Map<String, Object?>> _loadJobs() {
+    try {
+      final raw = _prefs.getString(jobsKey);
+      if (raw == null) return [];
+      final data = jsonDecode(raw);
+      return data is List
+          ? [
+              for (final e in data)
+                if (e is Map<String, Object?>) e,
+            ]
+          : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<CachedJob?> readJob(String id) async {
+    for (final e in _loadJobs()) {
+      if (e['k'] != id) continue;
+      final at = DateTime.tryParse('${e['at']}');
+      if (at == null || now().difference(at) > maxAge) return null;
+      final job = jobFromCacheJson(e['j']);
+      return job == null
+          ? null
+          : CachedJob(id: id, savedAt: at.toUtc(), job: job);
+    }
+    return null;
+  }
+
+  @override
+  Future<void> writeJob(CachedJob entry) async {
+    try {
+      final all = _loadJobs()..removeWhere((e) => e['k'] == entry.id);
+      all.add({
+        'k': entry.id,
+        'at': entry.savedAt.toUtc().toIso8601String(),
+        'j': jobToCacheJson(entry.job),
+      });
+      final keep = all.length > maxJobs
+          ? all.sublist(all.length - maxJobs)
+          : all;
+      await _prefs.setString(jobsKey, jsonEncode(keep));
+    } catch (_) {}
+  }
 
   List<Map<String, Object?>> _load() {
     try {
@@ -163,6 +237,7 @@ class PrefsSearchResultsCache implements SearchResultsCache {
   Future<void> clear() async {
     try {
       await _prefs.remove(storeKey);
+      await _prefs.remove(jobsKey);
     } catch (_) {}
   }
 }

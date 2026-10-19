@@ -4695,6 +4695,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.'**
   String get translationPolicyHelp;
+
+  /// No description provided for @ntJobOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. This job has not been opened on this device yet; connect to see its details.'**
+  String get ntJobOffline;
 }
 
 class _AppLocalizationsDelegate

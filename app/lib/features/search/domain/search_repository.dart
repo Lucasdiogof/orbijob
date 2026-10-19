@@ -55,6 +55,12 @@ abstract interface class JobLookup {
   Future<JobPosting?> jobById(String id);
 }
 
+/// Repositories that can keep jobs for reading without a connection ahead of time (the jobs the notifications point at).
+abstract interface class JobPrefetch {
+  /// Fetches each job by id and keeps it; never throws (a failure just means that job is not kept).
+  Future<void> prefetchJobs(Iterable<String> ids);
+}
+
 /// Repositories that can say how many open jobs each [JobArea] has (one count request per area).
 abstract interface class AreaCountSource {
   /// [onPartial] receives the counts known so far each time one more area is counted, so the screen need not wait for the slowest.

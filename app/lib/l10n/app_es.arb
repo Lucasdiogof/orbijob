@@ -875,5 +875,6 @@
   "translationPolicyWifi": "Solo con Wi-Fi",
   "translationPolicyAlways": "Siempre",
   "translationPolicyAsk": "Preguntarme",
-  "translationPolicyHelp": "Cada idioma ocupa unos 30 MB y se descarga una vez. Con Wi-Fi se descarga solo cuando un anuncio lo necesita."
+  "translationPolicyHelp": "Cada idioma ocupa unos 30 MB y se descarga una vez. Con Wi-Fi se descarga solo cuando un anuncio lo necesita.",
+  "ntJobOffline": "Sin conexión. Esta vacante aún no se abrió en este dispositivo; conéctate para ver los detalles."
 }

@@ -2684,4 +2684,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get translationPolicyHelp =>
       'Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.';
+
+  @override
+  String get ntJobOffline =>
+      'No connection. This job has not been opened on this device yet; connect to see its details.';
 }

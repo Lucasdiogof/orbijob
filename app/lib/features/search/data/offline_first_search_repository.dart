@@ -49,7 +49,8 @@ class OfflineFirstSearchRepository
         SearchRepository,
         AreaCountSource,
         SpecialtyCountSource,
-        JobLookup {
+        JobLookup,
+        JobPrefetch {
   OfflineFirstSearchRepository(
     this._inner,
     this._cache, {
@@ -111,11 +112,44 @@ class OfflineFirstSearchRepository
     }
   }
 
-  @override
-  Future<JobPosting?> jobById(String id) {
+  /// Reads the job from the catalogue and keeps it. Throws what the catalogue throws (never the copy).
+  Future<JobPosting?> _fetchAndKeep(String id) async {
     final inner = _inner;
-    if (inner is JobLookup) return (inner as JobLookup).jobById(id);
-    throw UnsupportedError('this catalogue cannot look a job up by id');
+    if (inner is! JobLookup) {
+      throw UnsupportedError('this catalogue cannot look a job up by id');
+    }
+    final job = await (inner as JobLookup).jobById(id).timeout(networkTimeout);
+    if (job != null) {
+      await _cache.writeJob(
+        CachedJob(id: id, savedAt: _now().toUtc(), job: job),
+      );
+    }
+    return job;
+  }
+
+  /// The job a notification points at: from the catalogue (and kept), or, when the catalogue cannot be reached, the copy kept the last time it was read.
+  /// A job the catalogue no longer shows (closed, removed) is null and is not served from the copy: it must not look open.
+  @override
+  Future<JobPosting?> jobById(String id) async {
+    try {
+      return await _fetchAndKeep(id);
+    } catch (e) {
+      if (!isConnectivityProblem(e)) rethrow;
+      final saved = await _cache.readJob(id);
+      if (saved == null) rethrow;
+      return saved.job;
+    }
+  }
+
+  @override
+  Future<void> prefetchJobs(Iterable<String> ids) async {
+    for (final id in ids.take(10)) {
+      try {
+        await _fetchAndKeep(id);
+      } catch (_) {
+        return; // offline or refused: stop here instead of trying every id
+      }
+    }
   }
 
   @override
