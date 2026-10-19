@@ -31,8 +31,13 @@ class OrbiTextField extends StatelessWidget {
     this.validator,
     this.optional = false,
     this.textCapitalization = TextCapitalization.none,
+    this.textStyle,
+    this.textAlign = TextAlign.start,
   });
 
+  /// Overrides the input text style (a code field uses a wide-tracked technical style); presentation only.
+  final TextStyle? textStyle;
+  final TextAlign textAlign;
   final String label;
   final bool optional;
   final TextCapitalization textCapitalization;
@@ -77,7 +82,8 @@ class OrbiTextField extends StatelessWidget {
           inputFormatters: inputFormatters,
           autofocus: autofocus,
           validator: validator,
-          style: context.text.bodyLarge,
+          style: textStyle ?? context.text.bodyLarge,
+          textAlign: textAlign,
           decoration: InputDecoration(
             hintText: hint,
             helperText: helper,

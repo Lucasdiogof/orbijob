@@ -82,96 +82,105 @@ class _RecoveryCodePageState extends State<RecoveryCodePage> {
           title: Text(l.authRecoveryTitle),
           leading: const BackButton(),
         ),
-        body: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: Form(
-              key: _form,
-              child: ListView(
-                padding: const EdgeInsets.all(AppSpace.s5),
-                children: [
-                  AuthHeader(
-                    headline: l.authRecoveryTitle,
-                    subtitle: _codeStep
-                        ? l.authRecoveryEnterCode(_email.text.trim())
-                        : l.authRecoverySubtitle,
-                  ),
-                  const SizedBox(height: AppSpace.s6),
-                  if (!_codeStep)
-                    OrbiTextField(
-                      label: l.authEmail,
-                      controller: _email,
-                      enabled: !s.busy,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => _send(),
-                      validator: (v) =>
-                          _validEmail(v ?? '') ? null : l.authEmailInvalid,
-                    )
-                  else
-                    OrbiTextField(
-                      label: l.authRecoveryCodeLabel,
-                      controller: _code,
-                      enabled: !s.busy,
-                      autofocus: true,
-                      keyboardType: TextInputType.number,
-                      autofillHints: const [AutofillHints.oneTimeCode],
-                      textInputAction: TextInputAction.done,
-                      maxLength: 6,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(6),
-                      ],
-                      onSubmitted: (_) => _verify(),
-                      validator: (v) => (v ?? '').trim().length == 6
-                          ? null
-                          : l.authRecoveryCodeShort,
+        body: OrbitBackdrop(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Form(
+                key: _form,
+                child: ListView(
+                  padding: const EdgeInsets.all(AppSpace.s5),
+                  children: [
+                    AuthHeader(
+                      headline: l.authRecoveryTitle,
+                      subtitle: _codeStep
+                          ? l.authRecoveryEnterCode(_email.text.trim())
+                          : l.authRecoverySubtitle,
                     ),
-                  if (s.failure != null ||
-                      (_codeStep && s.notice == AuthNotice.resetSent)) ...[
-                    const SizedBox(height: AppSpace.s3),
-                    AuthMessage(
-                      error: s.failure != null,
-                      text: s.failure != null
-                          ? authFailureText(l, s.failure!)
-                          : authNoticeText(l, s.notice),
+                    const SizedBox(height: AppSpace.s6),
+                    if (!_codeStep)
+                      OrbiTextField(
+                        label: l.authEmail,
+                        controller: _email,
+                        enabled: !s.busy,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (_) => _send(),
+                        validator: (v) =>
+                            _validEmail(v ?? '') ? null : l.authEmailInvalid,
+                      )
+                    else
+                      OrbiTextField(
+                        label: l.authRecoveryCodeLabel,
+                        controller: _code,
+                        enabled: !s.busy,
+                        autofocus: true,
+                        keyboardType: TextInputType.number,
+                        autofillHints: const [AutofillHints.oneTimeCode],
+                        textInputAction: TextInputAction.done,
+                        maxLength: 6,
+                        // a one-time code reads as a code: large, centred, widely tracked, with the six places hinted
+                        textAlign: TextAlign.center,
+                        hint: '······',
+                        textStyle: context.text.headlineSmall!.copyWith(
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                          letterSpacing: 10,
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(6),
+                        ],
+                        onSubmitted: (_) => _verify(),
+                        validator: (v) => (v ?? '').trim().length == 6
+                            ? null
+                            : l.authRecoveryCodeShort,
+                      ),
+                    if (s.failure != null ||
+                        (_codeStep && s.notice == AuthNotice.resetSent)) ...[
+                      const SizedBox(height: AppSpace.s3),
+                      AuthMessage(
+                        error: s.failure != null,
+                        text: s.failure != null
+                            ? authFailureText(l, s.failure!)
+                            : authNoticeText(l, s.notice),
+                      ),
+                    ],
+                    const SizedBox(height: AppSpace.s5),
+                    OrbiPrimaryButton(
+                      label: _codeStep
+                          ? l.authRecoveryVerify
+                          : l.authRecoverySendCode,
+                      loading: s.busy,
+                      expand: true,
+                      onPressed: _codeStep ? _verify : _send,
                     ),
+                    if (_codeStep) ...[
+                      const SizedBox(height: AppSpace.s2),
+                      OrbiTextButton(
+                        label: _wait > 0
+                            ? l.authRecoveryResendIn(_wait)
+                            : l.authRecoveryResend,
+                        onPressed: s.busy || _wait > 0 ? null : _send,
+                      ),
+                      OrbiTextButton(
+                        label: l.authRecoveryChangeEmail,
+                        onPressed: s.busy
+                            ? null
+                            : () {
+                                _timer?.cancel();
+                                _code.clear();
+                                context.read<AuthCubit>().dismissMessage();
+                                setState(() {
+                                  _codeStep = false;
+                                  _wait = 0;
+                                });
+                              },
+                      ),
+                    ],
                   ],
-                  const SizedBox(height: AppSpace.s5),
-                  OrbiPrimaryButton(
-                    label: _codeStep
-                        ? l.authRecoveryVerify
-                        : l.authRecoverySendCode,
-                    loading: s.busy,
-                    expand: true,
-                    onPressed: _codeStep ? _verify : _send,
-                  ),
-                  if (_codeStep) ...[
-                    const SizedBox(height: AppSpace.s2),
-                    OrbiTextButton(
-                      label: _wait > 0
-                          ? l.authRecoveryResendIn(_wait)
-                          : l.authRecoveryResend,
-                      onPressed: s.busy || _wait > 0 ? null : _send,
-                    ),
-                    OrbiTextButton(
-                      label: l.authRecoveryChangeEmail,
-                      onPressed: s.busy
-                          ? null
-                          : () {
-                              _timer?.cancel();
-                              _code.clear();
-                              context.read<AuthCubit>().dismissMessage();
-                              setState(() {
-                                _codeStep = false;
-                                _wait = 0;
-                              });
-                            },
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
           ),

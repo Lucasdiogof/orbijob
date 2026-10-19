@@ -40,61 +40,63 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
             title: Text(l.authNewPasswordTitle),
             automaticallyImplyLeading: false,
           ),
-          body: Align(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 480),
-              child: Form(
-                key: _form,
-                child: ListView(
-                  padding: const EdgeInsets.all(AppSpace.s5),
-                  children: [
-                    AuthHeader(
-                      headline: l.authNewPasswordTitle,
-                      subtitle: l.authNewPasswordSubtitle,
-                    ),
-                    const SizedBox(height: AppSpace.s6),
-                    PasswordField(
-                      label: l.authNewPasswordLabel,
-                      controller: _password,
-                      enabled: !s.busy,
-                      newPassword: true,
-                      textInputAction: TextInputAction.next,
-                      validator: (v) =>
-                          (v ?? '').length >= 8 ? null : l.authPasswordShort,
-                    ),
-                    const SizedBox(height: AppSpace.s3),
-                    PasswordField(
-                      label: l.authNewPasswordRepeat,
-                      controller: _repeat,
-                      enabled: !s.busy,
-                      newPassword: true,
-                      onSubmitted: (_) => _submit(context),
-                      validator: (v) =>
-                          v == _password.text ? null : l.authPasswordMismatch,
-                    ),
-                    if (s.failure != null) ...[
+          body: OrbitBackdrop(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: Form(
+                  key: _form,
+                  child: ListView(
+                    padding: const EdgeInsets.all(AppSpace.s5),
+                    children: [
+                      AuthHeader(
+                        headline: l.authNewPasswordTitle,
+                        subtitle: l.authNewPasswordSubtitle,
+                      ),
+                      const SizedBox(height: AppSpace.s6),
+                      PasswordField(
+                        label: l.authNewPasswordLabel,
+                        controller: _password,
+                        enabled: !s.busy,
+                        newPassword: true,
+                        textInputAction: TextInputAction.next,
+                        validator: (v) =>
+                            (v ?? '').length >= 8 ? null : l.authPasswordShort,
+                      ),
                       const SizedBox(height: AppSpace.s3),
-                      AuthMessage(
-                        error: true,
-                        text: authFailureText(l, s.failure!),
+                      PasswordField(
+                        label: l.authNewPasswordRepeat,
+                        controller: _repeat,
+                        enabled: !s.busy,
+                        newPassword: true,
+                        onSubmitted: (_) => _submit(context),
+                        validator: (v) =>
+                            v == _password.text ? null : l.authPasswordMismatch,
+                      ),
+                      if (s.failure != null) ...[
+                        const SizedBox(height: AppSpace.s3),
+                        AuthMessage(
+                          error: true,
+                          text: authFailureText(l, s.failure!),
+                        ),
+                      ],
+                      const SizedBox(height: AppSpace.s5),
+                      OrbiPrimaryButton(
+                        label: l.authNewPasswordAction,
+                        loading: s.busy,
+                        expand: true,
+                        onPressed: () => _submit(context),
+                      ),
+                      const SizedBox(height: AppSpace.s2),
+                      OrbiTextButton(
+                        label: l.authCancelRecovery,
+                        onPressed: s.busy
+                            ? null
+                            : () => context.read<AuthCubit>().cancelRecovery(),
                       ),
                     ],
-                    const SizedBox(height: AppSpace.s5),
-                    OrbiPrimaryButton(
-                      label: l.authNewPasswordAction,
-                      loading: s.busy,
-                      expand: true,
-                      onPressed: () => _submit(context),
-                    ),
-                    const SizedBox(height: AppSpace.s2),
-                    OrbiTextButton(
-                      label: l.authCancelRecovery,
-                      onPressed: s.busy
-                          ? null
-                          : () => context.read<AuthCubit>().cancelRecovery(),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -471,6 +471,37 @@ void main() {
       );
       await _shot(t, '10-login-$theme');
     });
+    scene('80-recovery-email-$theme', (t) async {
+      await t.tap(find.byTooltip('Profile'));
+      await t.pumpAndSettle();
+      await t.tap(
+        find.descendant(
+          of: find.byType(OrbiPrimaryButton),
+          matching: find.text('Sign in'),
+        ),
+      );
+      await t.pumpAndSettle();
+      await t.tap(find.text('Forgot password'));
+      await _shot(t, '80-recovery-email-$theme');
+    });
+    scene('81-recovery-code-$theme', (t) async {
+      await t.tap(find.byTooltip('Profile'));
+      await t.pumpAndSettle();
+      await t.tap(
+        find.descendant(
+          of: find.byType(OrbiPrimaryButton),
+          matching: find.text('Sign in'),
+        ),
+      );
+      await t.pumpAndSettle();
+      await t.tap(find.text('Forgot password'));
+      await t.pumpAndSettle();
+      await t.enterText(find.byType(TextField).first, 'maria@example.com');
+      await t.tap(find.text('Send code'));
+      await t.pumpAndSettle();
+      await t.enterText(find.byType(TextField).first, '123');
+      await _shot(t, '81-recovery-code-$theme');
+    });
     scene('11-signup-$theme', (t) async {
       await t.tap(find.byTooltip('Profile'));
       await t.pumpAndSettle();

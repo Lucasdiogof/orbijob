@@ -158,6 +158,12 @@ Found and fixed:
 Assessed and left alone: saved searches, notifications (unread edge), settings (themed segmented controls already match the system's shapes; one label wraps to two lines at 390 px).
 Tests 1,098 pass; format clean with the CI's Dart; analyze clean.
 
+## Batch 10 (19/10/2026): recovery flow
+Presentation only; the auth cubit, the two-step order (e-mail, then code, then new password) and validation are unchanged and their tests pass.
+* Recovery-code and new-password screens now sit on the same `OrbitBackdrop` as sign-in (glow, orbit lines, dark-theme grain).
+* The 6-digit code field is styled as a code (`OrbiTextField.textStyle/textAlign`, new optional presentation parameters): large tabular digits, centred, wide tracking, hint of six places.
+Evidence: `batch10/80-recovery-email-*`, `81-recovery-code-*` (both code captures opened; the e-mail step captures not opened). Not captured: the new-password screen (needs a recovery session in the harness).
+
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
 2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.
