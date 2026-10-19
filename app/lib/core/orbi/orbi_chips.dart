@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import '../motion/motion.dart';
 import '../widgets/focus_ring.dart';
 
 /// A filled (not outlined) selectable chip, 36 dp tall inside a 44 dp touch target. Selection is carried by the brand fill,
@@ -28,6 +29,30 @@ class OrbiFilterChip extends StatelessWidget {
     final c = context.colors;
     final fg = selected ? c.chipSelectedFg : c.ink;
     final enabled = onSelected != null;
+    final reduce = reduceMotion(context);
+    final dur = reduce ? Duration.zero : AppMotion.fast;
+    Widget lead() {
+      final row = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (selected)
+            Icon(Icons.check, size: 16, color: fg)
+          else if (icon != null)
+            Icon(icon, size: 16, color: fg),
+          if (selected || icon != null) const SizedBox(width: AppSpace.s2 - 2),
+        ],
+      );
+      // zero-length AnimatedSize trips a framework assertion, so with reduced motion it is simply not used
+      return reduce
+          ? row
+          : AnimatedSize(
+              duration: dur,
+              curve: AppMotion.curve,
+              alignment: AlignmentDirectional.centerStart,
+              child: row,
+            );
+    }
+
     return Semantics(
       button: true,
       selected: selected,
@@ -41,42 +66,54 @@ class OrbiFilterChip extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 48),
           child: Center(
             widthFactor: 1,
-            child: Material(
-              color: selected ? c.chipSelectedBg : c.chipBg,
-              shape: const StadiumBorder(),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                customBorder: const StadiumBorder(),
-                onTap: enabled ? () => onSelected!(!selected) : null,
-                hoverColor: c.hoverLayer,
-                highlightColor: c.pressedLayer,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpace.s4,
-                    vertical: AppSpace.s2,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (selected)
-                        Icon(Icons.check, size: 16, color: fg)
-                      else if (icon != null)
-                        Icon(icon, size: 16, color: fg),
-                      if (selected || icon != null)
-                        const SizedBox(width: AppSpace.s2 - 2),
-                      Flexible(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.text.labelMedium!.copyWith(color: fg),
+            child: Pressable(
+              scale: 0.96,
+              enabled: enabled,
+              child: AnimatedContainer(
+                duration: dur,
+                curve: AppMotion.curve,
+                decoration: ShapeDecoration(
+                  shape: const StadiumBorder(),
+                  color: selected ? c.chipSelectedBg : c.chipBg,
+                ),
+                child: Material(
+                  color: c.clear,
+                  shape: const StadiumBorder(),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    customBorder: const StadiumBorder(),
+                    onTap: enabled ? () => onSelected!(!selected) : null,
+                    hoverColor: c.hoverLayer,
+                    highlightColor: c.pressedLayer,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpace.s4,
+                        vertical: AppSpace.s2,
+                      ),
+                      // the check grows in and the colours cross-fade, so a toggle reads as a change of state, not a jump
+                      child: AnimatedDefaultTextStyle(
+                        duration: dur,
+                        curve: AppMotion.curve,
+                        style: context.text.labelMedium!.copyWith(color: fg),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            lead(),
+                            Flexible(
+                              child: Text(
+                                label,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (trailing != null) ...[
+                              const SizedBox(width: AppSpace.s1),
+                              trailing!,
+                            ],
+                          ],
                         ),
                       ),
-                      if (trailing != null) ...[
-                        const SizedBox(width: AppSpace.s1),
-                        trailing!,
-                      ],
-                    ],
+                    ),
                   ),
                 ),
               ),

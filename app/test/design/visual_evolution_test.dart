@@ -107,4 +107,30 @@ void main() {
       );
     }
   });
+
+  group('OrbiFilterChip motion', () {
+    Widget chip(bool on, {bool reduce = false}) => _host(
+      OrbiFilterChip(label: 'Remote', selected: on, onSelected: (_) {}),
+      reduce: reduce,
+    );
+
+    testWidgets('the check grows in while the chip animates, and settles', (
+      t,
+    ) async {
+      await t.pumpWidget(chip(false));
+      expect(find.byIcon(Icons.check), findsNothing);
+      await t.pumpWidget(chip(true));
+      await t.pump(const Duration(milliseconds: 40));
+      expect(find.byIcon(Icons.check), findsOneWidget);
+      await t.pumpAndSettle();
+      expect(t.takeException(), isNull);
+    });
+
+    testWidgets('with reduced motion the check is there on the first frame', (t) async {
+      await t.pumpWidget(chip(false, reduce: true));
+      await t.pumpWidget(chip(true, reduce: true));
+      await t.pump();
+      expect(find.byIcon(Icons.check), findsOneWidget);
+    });
+  });
 }

@@ -82,5 +82,17 @@ Visual only; no change to the auth cubit, validation, navigation or the OTP/new-
 
 Evidence: `batch3/10-login-*`, `batch3/11-signup-*`. Only the dark sign-in capture was inspected (no overflow, hierarchy fine, halo subtle). Recovery-code and new-password screens inherit the header but have no capture. `flutter analyze` clean, 1,079 tests pass. Skeleton cost was not measured.
 
+## Batch 4 (19/10/2026): chip motion, Hero and texture decisions
+| Area | Change |
+|---|---|
+| `OrbiFilterChip` | Fill and text colour cross-fade (120 ms), the check mark grows in with the chip width (`AnimatedSize`), press feedback (scale 0.96). Applies to every filter and quick-filter chip. With reduced motion: no animated size, zero-length colour change. Two tests added (check appears while animating and settles; check present on the first frame with reduced motion). |
+| Hover and focus | Hover already existed on cards (brand edge) and chips (hover layer); profile hub chevron nudges on hover (batch 2). Keyboard focus keeps the existing 2 px `FocusRing`; not changed. |
+
+### Decisions (reasoned from the code, not prototyped)
+* **Shared-element (Hero) list → detail: not implemented.** The detail page is opened from 6 call sites and the shell keeps every tab alive in an `IndexedStack`, so the same job can be on screen in Home, Explore and Favourites at once; Hero tags must be unique per route subtree, so that would assert or need a per-list tag scheme. Titles are also rebuilt by the translation builder and the monogram is dropped on narrow cards or large text, so the shared element would not match between the two screens. Cost and risk are higher than the gain; the existing fade-forwards transition stays.
+* **Grain/shader texture: still not applied.** A static grain needs either an image asset (bundle size, and it must be tiled without banding on CanvasKit) or a per-pixel painter/shader; both are repainted behind scrolling lists, and grain lowers text contrast margins that batch 1 tested to ≥ 4.5:1. The static glow, lit card surfaces and orbit lines give depth at no per-frame cost. A grain could be tried on a single non-scrolling surface (login backdrop) if the owner wants it; no performance data was collected either way.
+
+Evidence: `batch4/03-filters-*` (dark inspected: chips, selected chip with check, no overflow). Stills cannot show the transition itself. `flutter analyze` clean, 1,081 tests pass.
+
 ### Still open for the redesign
-Professional profile sub-page, résumé upload progress, applications board, OTP/new-password captures, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
+Professional profile sub-page, résumé upload progress, applications board, OTP/new-password captures, final audit (200 % text, reduced-motion, ES/PT, small-phone captures; CI status), filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
