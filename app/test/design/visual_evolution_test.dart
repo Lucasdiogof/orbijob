@@ -126,7 +126,9 @@ void main() {
       expect(t.takeException(), isNull);
     });
 
-    testWidgets('with reduced motion the check is there on the first frame', (t) async {
+    testWidgets('with reduced motion the check is there on the first frame', (
+      t,
+    ) async {
       await t.pumpWidget(chip(false, reduce: true));
       await t.pumpWidget(chip(true, reduce: true));
       await t.pump();

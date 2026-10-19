@@ -79,9 +79,13 @@ class HomePage extends StatelessWidget {
                     index: 1,
                     child: Semantics(
                       header: true,
+                      // The hero is already display-size type: it follows the user's text size up to 1.5x, so a long word
+                      // ("opportunity") is not cut in the middle at 200 %. Everything else keeps scaling fully.
                       child: Text(
                         l.homeHeadline,
                         style: context.heroStyle(wide: wide),
+                        textScaler: MediaQuery.textScalerOf(context)
+                            .clamp(maxScaleFactor: 1.5),
                       ),
                     ),
                   ),

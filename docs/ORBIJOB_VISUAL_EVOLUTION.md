@@ -94,5 +94,29 @@ Evidence: `batch3/10-login-*`, `batch3/11-signup-*`. Only the dark sign-in captu
 
 Evidence: `batch4/03-filters-*` (dark inspected: chips, selected chip with check, no overflow). Stills cannot show the transition itself. `flutter analyze` clean, 1,081 tests pass.
 
+## Batch 5 (19/10/2026): audit and fixes
+**Method.** The existing layout safety net (`test/features/i18n_layout_test.dart`: ~30 screens × PT/EN/ES × text 1× and 2× on a narrow phone, no overflow, nothing throws) was run against every batch and passes. New `test/features/reduced_motion_audit_test.dart`: Favourites, Applications and the profile hub at 320 × 568, text ×2, PT/EN/ES, with the system "reduce motion" flag: nothing half-transparent in the first frames, no overflow (checked to fail when the flag is off). Capture generator gained `textScale` and two scenes (`50-…`, `51-…`).
+
+**Found and fixed from the captures (`batch5/`, BEFORE and after, dark inspected):**
+1. Home hero at text ×2 cut "opportunity" mid-word. The hero now follows the text size up to ×1.5 (`TextScaler.clamp`); every other text still scales fully. Trade-off: the display headline is ~25 % smaller than a strict ×2 for users at the maximum setting.
+2. Profile hub at 320 px, ES, ×2: the decorative icon tile took width from titles and words were cut (`compe|tencias`). The tile is dropped at very large text. The e-mail address in the account card still breaks across lines (unavoidable for an address without spaces).
+
+**CI incident (fixed).** Commit d672785 failed the CI `app` job at the `dart format` step (analyze and tests did not run there). Cause: the local Flutter SDK is a master/dev build whose formatter differs from the CI's stable Dart 3.13.5; `visual_evolution_test.dart` was formatted by the wrong one. Reproduced with the 3.47.7 SDK in the fvm cache (`/Volumes/DevSSD/Flutter/fvm_cache/versions/3.47.7`, Dart 3.13.5) and fixed; run `<that dart> format --output=none --set-exit-if-changed lib test` before pushing. Earlier batch commits passed CI.
+
+## Final report
+1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
+2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.
+3. **References really consulted**: READMEs of motion-primitives, design-taste and better-design (all MIT; details not read). Not consulted: Superdesign, Canvas UI, Paper Shaders, UI Layouts, Hyperiux, Cursify, Trickle UI Kit and the 8 galleries.
+4. **Narrow cards**: monogram only when the card content is ≥ 280 px wide, judged by `LayoutBuilder`; test at 240 and 330 px.
+5. **By screen**: Home (hero ×1.5 cap), job cards, Profile hub, Résumés, Applications (monogram, stage cross-fade), Favourites (state cross-fade), Saved searches (alert icon), Notifications (unread edge), Settings (reveal), Sign in/up/recovery/new password (shared header and message), all empty states (art), skeleton lists, filter chips.
+6. **Components**: `OrbiArt`, `OrbiEmptyState`, `AuthHeader`, `AuthMessage`, `OrbiFilterChip`, `SkeletonPulse`/`OrbiSkeleton`, `_HubRow`, `OrbiJobCard`.
+7. **Motion**: sequenced reveals (first screenful only), state cross-fades, chip transitions, hover chevron; all skipped with reduced motion.
+8. **Textures/effects**: static glow, lit surfaces, orbit lines applied; grain/shader and Hero evaluated and not applied (reasoning above, not prototyped or measured).
+9. **Responsive/a11y**: covered by the layout net and the audit above (320 px, ×2 text, PT/EN/ES, reduced motion). Not done: keyboard-navigation and screen-reader passes on the new widgets beyond what the existing tests assert.
+10. **Performance**: not measured on a device. Skeleton lists now use one ticker instead of about 7 per card.
+11. **Screenshots**: `batch2`–`batch5`; only the ones named as inspected were looked at. Stills cannot show animation.
+12. **Tests**: `flutter analyze` clean; 1,090 Flutter tests pass; worker untouched.
+13. **Conclusion — premium redesign applied consistently with visual evidence and no proven functional regression? NO.** Not done or not verified: professional-profile sub-page and résumé upload progress redesign, applications board layout, recovery-code/new-password and several other screens inspected only through their shared components, real-device performance, keyboard/screen-reader review, texture experiments, 7 of 10 reference repos and all galleries not studied, manual run with a real account. The product-level visual direction is in place; the finish of the remaining screens is incomplete.
+
 ### Still open for the redesign
 Professional profile sub-page, résumé upload progress, applications board, OTP/new-password captures, final audit (200 % text, reduced-motion, ES/PT, small-phone captures; CI status), filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.

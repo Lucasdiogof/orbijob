@@ -173,23 +173,26 @@ class _HubRowState extends State<_HubRow> {
             onTap: widget.onTap,
             child: Row(
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        c.primaryContainer,
-                        Color.lerp(c.primaryContainer, c.primary, 0.18)!,
-                      ],
+                // decorative tile: at very large text it yields its room to the words
+                if (MediaQuery.textScalerOf(context).scale(16) <= 28)
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          c.primaryContainer,
+                          Color.lerp(c.primaryContainer, c.primary, 0.18)!,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    child: Icon(icon, color: c.onPrimaryContainer),
                   ),
-                  child: Icon(icon, color: c.onPrimaryContainer),
-                ),
-                const SizedBox(width: AppSpace.s3),
+                if (MediaQuery.textScalerOf(context).scale(16) <= 28)
+                  const SizedBox(width: AppSpace.s3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

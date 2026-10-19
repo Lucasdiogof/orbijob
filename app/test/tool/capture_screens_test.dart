@@ -109,6 +109,7 @@ void main() {
       Locale? locale,
       bool fullProfile = true,
       bool resumePdf = false,
+      double textScale = 1,
     }) async {
       testWidgets('$name ($theme)', (t) async {
         final auth = FakeAuth();
@@ -124,6 +125,7 @@ void main() {
         await pumpApp(
           t,
           size: size,
+          textScale: textScale,
           platformBrightness: b,
           repo: PreviewSearchRepository(),
           auth: auth,
@@ -138,6 +140,22 @@ void main() {
     }
 
     scene('01-home-$theme', (t) => _shot(t, '01-home-$theme'));
+    scene(
+      '50-home-text200-$theme',
+      (t) => _shot(t, '50-home-text200-$theme'),
+      textScale: 2,
+    );
+    scene(
+      '51-profile-hub-text200-es-$theme',
+      (t) async {
+        await t.tap(find.byTooltip('Perfil'));
+        await _shot(t, '51-profile-hub-text200-es-$theme');
+      },
+      signedIn: true,
+      locale: const Locale('es'),
+      textScale: 2,
+      size: const Size(320, 568),
+    );
     scene('02-explore-$theme', (t) async {
       await _tapText(t, 'Explore');
       await _search(t, 'Pedreiro');
