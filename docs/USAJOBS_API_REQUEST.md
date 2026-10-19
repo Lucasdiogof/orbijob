@@ -17,3 +17,15 @@ and contact information", so it has to be requested by the owner.
    previews, imports and prepares the guarded publication file.
 
 Questions about credentials: `access@usajobs.gov`.
+
+## State (2026-10-19): the key arrived, the connector is built and waits for the secret
+* Connector `worker/src/connectors/usajobs.ts`, 12 tests (a fixture shaped after the public API documentation; the real response is checked by the workflow preview), source row `usajobs` created `CONDITIONAL` and **not published**,
+  schedule 10:35 and 22:35 UTC, the newest 2,000 announcements (4 requests of 500), ceiling 2,000, 700 new per pass. Attribution and "not operated or endorsed by OPM" are in the source's attribution and on the licence page.
+* The key and the contact e-mail are NEVER in the code or in a log: the discovery job reads the secret `USAJOBS_API_KEY` and the variable `USAJOBS_CONTACT_EMAIL` (the e-mail address the key was requested with: the API asks for it as the User-Agent).
+  The owner stores them once, in the owner's own terminal:
+
+      gh secret set USAJOBS_API_KEY --repo Lucasdiogof/orbijob          (paste the key when asked; it is not echoed)
+      gh variable set USAJOBS_CONTACT_EMAIL --repo Lucasdiogof/orbijob --body "the-e-mail-used-in-the-request"
+
+* Then: Actions → "Sources discover" → source usajobs, action preview (reads the feed, writes nothing); if the counts look right, one real import (action discover with the guard phrase) and the publication file for the owner's review.
+
