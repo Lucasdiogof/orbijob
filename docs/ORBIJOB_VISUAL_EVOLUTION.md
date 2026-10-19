@@ -33,3 +33,5 @@ Real renders of the app (real fonts, in-memory data) before/after: Home dark and
 
 ## Not done yet (honest list)
 Full-app pass over Perfil/Currículos/Candidaturas/Auth beyond what inherits the new card and button; custom empty states with motion; filter chip transitions; shared-element list→detail transition; section-header refinements; measured performance on a device; reduced-motion and 200 %-text captures of the new Home; study of the listed references. These are the next batches.
+
+Observed on the live site after deploy (800 px window, two-column Home): the monogram narrows the title column and long titles wrap to four lines; consider hiding the monogram below a card width of about 300 px in the next batch.
