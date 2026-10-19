@@ -65,3 +65,5 @@ Status legend: **Done** · **Partial** · **In progress** · **Pending**. Auto/D
 | Offline catalogue (saved results, states, reconnect) | yes | yes | n/a (client) | no |
 | Automatic translation download (policy, network states) | yes | yes | n/a (client) | no |
 | Accent-insensitive search (app + alerts SQL) | yes | yes (golden parity, SQL test in CI) | **migration 20 not applied** (CLI account lacks OrbiJob; SQL file prepared) | no |
+
+| Final QA 19/10/2026 | Implemented: n/a · Automated tests: 1,069 Flutter + 994 Worker + CI SQL · Production check: RLS, Storage, Edge Functions, migration history · Device: not validated · External: see `ORBIJOB_QA_REPORT.md` |

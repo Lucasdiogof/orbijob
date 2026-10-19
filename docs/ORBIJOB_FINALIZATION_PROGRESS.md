@@ -67,3 +67,6 @@ Baseline measured first (13 visible listings in Brazil, 109 remote listings expl
 
 ## ORBI-001 (17/10/2026)
 Offline-first catalogue (`23d4303`), automatic translation download policy (`3546b1b`), accent-insensitive search (`e302550`, migration 20 pending in production). Details and pending items: `docs/ORBIJOB_ORBI001_HANDOFF.md`. Automated validation only; no device validation.
+
+## Final QA (19/10/2026)
+See `docs/ORBIJOB_QA_REPORT.md`: audit of every flow, production security checks, one bug fixed (`66b6546`, 5xx shown as "no connection"), conclusion: technically ready as a release candidate; device validation and store distribution left on purpose.
