@@ -22,60 +22,69 @@ class FavoritesPage extends StatelessWidget {
       listener: (context, s) {
         if (s.actionFailure != null) showDataFailure(context, s.actionFailure!);
       },
-      builder: (context, s) {
-        if (s.status == LoadStatus.loading) return const DataLoadingView();
-        if (s.status == LoadStatus.failure) {
-          return DataFailureView(
-            kind: s.failure!,
-            onRetry: () => context.read<FavoritesCubit>().load(),
-            gate: OrbiGateKind.favorites,
-            onContinue: () =>
+      builder: (context, s) => AnimatedSwitcher(
+        duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+        child: KeyedSubtree(
+          key: ValueKey(s.status == LoadStatus.ready && s.items.isEmpty),
+          child: _body(context, s, l),
+        ),
+      ),
+    );
+  }
+
+  Widget _body(BuildContext context, FavoritesState s, AppLocalizations l) {
+    {
+      if (s.status == LoadStatus.loading) return const DataLoadingView();
+      if (s.status == LoadStatus.failure) {
+        return DataFailureView(
+          kind: s.failure!,
+          onRetry: () => context.read<FavoritesCubit>().load(),
+          gate: OrbiGateKind.favorites,
+          onContinue: () => context.read<ShellCubit>().goTo(ShellCubit.explore),
+        );
+      }
+      if (s.items.isEmpty) {
+        return OrbiEmptyState(
+          icon: Icons.bookmark_border_rounded,
+          title: l.favoritesTitle,
+          body: l.favoritesBody,
+          action: OrbiPrimaryButton(
+            label: l.gateKeepExploring,
+            icon: Icons.explore_outlined,
+            onPressed: () =>
                 context.read<ShellCubit>().goTo(ShellCubit.explore),
-          );
-        }
-        if (s.items.isEmpty) {
-          return OrbiEmptyState(
-            icon: Icons.bookmark_border_rounded,
-            title: l.favoritesTitle,
-            body: l.favoritesBody,
-            action: OrbiPrimaryButton(
-              label: l.gateKeepExploring,
-              icon: Icons.explore_outlined,
-              onPressed: () =>
-                  context.read<ShellCubit>().goTo(ShellCubit.explore),
-            ),
-          );
-        }
-        final jobs = s.items.values.toList();
-        final savedAt = s.cachedAt;
-        return Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 760),
-            child: _withSavedNotice(
-              context,
-              savedAt,
-              ListView.separated(
-                padding: const EdgeInsets.all(AppSpace.s4),
-                itemCount: jobs.length,
-                separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
-                itemBuilder: (context, i) => OrbiJobCard(
-                  scored: jobs[i],
-                  isFavorite: true,
-                  onFavoriteChanged: (_) =>
-                      context.read<FavoritesCubit>().toggle(jobs[i]),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => JobDetailPage(scored: jobs[i]),
-                    ),
+          ),
+        );
+      }
+      final jobs = s.items.values.toList();
+      final savedAt = s.cachedAt;
+      return Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 760),
+          child: _withSavedNotice(
+            context,
+            savedAt,
+            ListView.separated(
+              padding: const EdgeInsets.all(AppSpace.s4),
+              itemCount: jobs.length,
+              separatorBuilder: (_, _) => const SizedBox(height: AppSpace.s3),
+              itemBuilder: (context, i) => OrbiJobCard(
+                scored: jobs[i],
+                isFavorite: true,
+                onFavoriteChanged: (_) =>
+                    context.read<FavoritesCubit>().toggle(jobs[i]),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => JobDetailPage(scored: jobs[i]),
                   ),
                 ),
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    }
   }
 }
 

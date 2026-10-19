@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import '../motion/motion.dart';
 import 'orbi_art.dart';
 
 enum OrbiStateKind { empty, info, error }
@@ -47,24 +48,30 @@ class OrbiEmptyState extends StatelessWidget {
                     children: [
                       OrbiArt(icon: icon, error: isError),
                       const SizedBox(height: AppSpace.s5),
-                      Text(
-                        title,
-                        style: context.text.titleLarge,
-                        textAlign: TextAlign.center,
+                      Reveal(
+                        index: 1,
+                        child: Text(
+                          title,
+                          style: context.text.titleLarge,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       if (body != null) ...[
                         const SizedBox(height: AppSpace.s2),
-                        Text(
-                          body!,
-                          style: context.text.bodyMedium!.copyWith(
-                            color: context.colors.muted,
+                        Reveal(
+                          index: 2,
+                          child: Text(
+                            body!,
+                            style: context.text.bodyMedium!.copyWith(
+                              color: context.colors.muted,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ],
                       if (action != null) ...[
                         const SizedBox(height: AppSpace.s5),
-                        action!,
+                        Reveal(index: 3, child: action!),
                       ],
                       if (secondaryAction != null) ...[
                         const SizedBox(height: AppSpace.s2),

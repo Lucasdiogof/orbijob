@@ -279,6 +279,13 @@ class _ApplicationTile extends StatelessWidget {
       ),
       child: Row(
         children: [
+          if (a.job.company.isNotEmpty &&
+              OrbiMonogram.initialOf(a.job.company) != null &&
+              MediaQuery.textScalerOf(context).scale(16) <= 22)
+            Padding(
+              padding: const EdgeInsets.only(right: AppSpace.s3),
+              child: OrbiMonogram(name: a.job.company),
+            ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

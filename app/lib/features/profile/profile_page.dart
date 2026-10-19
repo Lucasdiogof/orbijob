@@ -42,11 +42,12 @@ class ProfilePage extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(AppSpace.s4),
             children: [
-              const _AccountCard(),
+              const Reveal(child: _AccountCard()),
               const SizedBox(height: AppSpace.s5),
               _HubRow(
                 icon: Icons.badge_outlined,
                 title: l.profileSectionProfessional,
+                index: 2,
                 subtitle: l.profileHubProfessionalSub,
                 onTap: () => _open(
                   context,
@@ -60,6 +61,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.description_outlined,
                 title: l.resumesSection,
+                index: 3,
                 subtitle: l.profileHubResumesSub,
                 onTap: () => _open(
                   context,
@@ -73,6 +75,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.bookmarks_outlined,
                 title: l.profileHubSavedSearches,
+                index: 4,
                 subtitle: l.profileHubSavedSearchesSub,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
@@ -83,6 +86,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.visibility_off_outlined,
                 title: l.hdTitle,
+                index: 5,
                 subtitle: l.hdProfileSub,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
@@ -93,6 +97,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.tune_rounded,
                 title: l.profileHubPreferences,
+                index: 6,
                 subtitle: l.profileHubPreferencesSub,
                 onTap: () => _open(
                   context,
@@ -106,6 +111,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.settings_outlined,
                 title: l.settingsTitle,
+                index: 7,
                 subtitle: l.profileHubSettingsSub,
                 onTap: () => _open(
                   context,
@@ -116,6 +122,7 @@ class ProfilePage extends StatelessWidget {
               _HubRow(
                 icon: Icons.shield_outlined,
                 title: l.privacyTitle,
+                index: 8,
                 subtitle: l.profileHubPrivacySub,
                 onTap: () =>
                     _open(context, (x) => x.privacyTitle, const _PrivacyView()),
@@ -128,52 +135,86 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _HubRow extends StatelessWidget {
+class _HubRow extends StatefulWidget {
   const _HubRow({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.index = 1,
   });
+  final int index;
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
 
   @override
+  State<_HubRow> createState() => _HubRowState();
+}
+
+class _HubRowState extends State<_HubRow> {
+  bool _hover = false;
+
+  @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpace.s3),
-      child: OrbiCard(
-        onTap: onTap,
-        child: Row(
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: c.primaryContainer,
-                borderRadius: BorderRadius.circular(AppRadius.md),
-              ),
-              child: Icon(icon, color: c.onPrimaryContainer),
-            ),
-            const SizedBox(width: AppSpace.s3),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: context.text.titleSmall),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: context.text.bodySmall!.copyWith(color: c.muted),
+    final icon = widget.icon;
+    final title = widget.title;
+    final subtitle = widget.subtitle;
+    return Reveal(
+      index: widget.index,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSpace.s3),
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _hover = true),
+          onExit: (_) => setState(() => _hover = false),
+          child: OrbiCard(
+            onTap: widget.onTap,
+            child: Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        c.primaryContainer,
+                        Color.lerp(c.primaryContainer, c.primary, 0.18)!,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
-                ],
-              ),
+                  child: Icon(icon, color: c.onPrimaryContainer),
+                ),
+                const SizedBox(width: AppSpace.s3),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: context.text.titleSmall),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: context.text.bodySmall!.copyWith(color: c.muted),
+                      ),
+                    ],
+                  ),
+                ),
+                AnimatedSlide(
+                  offset: Offset(_hover && !reduceMotion(context) ? 0.2 : 0, 0),
+                  duration: AppMotion.fast,
+                  curve: AppMotion.curve,
+                  child: Icon(
+                    Icons.chevron_right_rounded,
+                    color: _hover ? c.primary : c.muted,
+                  ),
+                ),
+              ],
             ),
-            Icon(Icons.chevron_right_rounded, color: c.muted),
-          ],
+          ),
         ),
       ),
     );

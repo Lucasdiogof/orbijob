@@ -35,3 +35,31 @@ Real renders of the app (real fonts, in-memory data) before/after: Home dark and
 Full-app pass over Perfil/Currículos/Candidaturas/Auth beyond what inherits the new card and button; custom empty states with motion; filter chip transitions; shared-element list→detail transition; section-header refinements; measured performance on a device; reduced-motion and 200 %-text captures of the new Home; study of the listed references. These are the next batches.
 
 Observed on the live site after deploy (800 px window, two-column Home): the monogram narrows the title column and long titles wrap to four lines; consider hiding the monogram below a card width of about 300 px in the next batch.
+
+---
+
+## Batch 2 (19/10/2026): narrow cards, shared empty-state art, profile hub, application tiles
+
+### References actually consulted (README level only, via page fetch)
+* **ibelick/motion-primitives** (MIT): React + Tailwind + `motion` kit; the README does not list components (catalogue lives on its docs site, not read). Used only as confirmation that the pattern is "small, optional entrance/hover motion"; nothing ported.
+* **madebymustafa/design-taste** (MIT): workflow "design read, avoid default patterns, pre-flight checklist"; names duration/easing tokens, reduced-motion support and a "never animate" list. Specific values are in SKILL.md files that were not read.
+* **marvkr/better-design** (MIT): topics hierarchy, spacing, typography, depth, motion; includes a self-review accessibility checklist. Details not read.
+* **Not consulted yet**: Superdesign, Canvas UI, Paper Shaders, UI Layouts, Hyperiux, Cursify, Trickle UI Kit and all the galleries (scrolltide, navbar.gallery, footer.design, cta.gallery, 404s.design, unsection, bentogrids, 60fps.design). No claim is made about them.
+
+### Changes
+| Area | Change |
+|---|---|
+| Job card (fix from batch 1) | Monogram is drawn only when the card's own content width is ≥ 280 px (`LayoutBuilder`), so the title keeps the room in two-column layouts. Commit 2c33aaf, with a width test. |
+| `OrbiArt` / `OrbiEmptyState` | Tile lit from above with a soft accent halo; art settles in (fade + 0.92→1 scale), title/body/action reveal in sequence. All empty, gate and error states inherit it. Static with reduced motion. |
+| Profile hub | Rows and account card reveal in sequence (first screenful only); icon tiles get a subtle gradient; on hover the chevron nudges and takes the brand colour (desktop). |
+| Applications list | Company monogram on each tile (same rules as job cards: decorative, hidden at large text). |
+| Favourites | Empty ↔ list ↔ loading switch cross-fades (`AnimatedSwitcher`, instant with reduced motion). |
+
+### Evidence
+`docs/design/visual-evolution/batch2/`: favourites empty, applications empty, profile hub, résumés (light and dark), rendered by `capture_screens_test.dart` (settled frames, so entrance animations are not visible in stills). Profile hub dark and favourites empty light were inspected: no overflow, hierarchy intact. The other captures were saved but not individually inspected. Need `FLUTTER_ROOT` set and, on a case-sensitive volume, a lowercase symlink of `MaterialIcons-Regular.otf`.
+
+### Verification
+`flutter analyze` clean; 1,079 Flutter tests pass. No device performance measurement; entrance animations are one-shot and limited to the first screenful, nothing animates inside scrolling lists.
+
+### Still open for the redesign
+Profile sub-pages (professional profile, résumé upload/progress), applications board/status transitions, saved searches and alerts, notifications, settings grouping, auth screens, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.

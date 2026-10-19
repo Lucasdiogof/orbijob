@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../design/design.dart';
+import '../motion/motion.dart';
 
 /// A discreet brand composition for empty and gated states: an icon tile at the centre of two concentric orbits,
 /// with a small satellite. Static vector art (CustomPainter), drawn from the theme tokens.
@@ -24,32 +25,74 @@ class OrbiArt extends StatelessWidget {
     final accent = error ? c.error : c.primary;
     final tile = size * 0.5;
     return ExcludeSemantics(
-      child: SizedBox.square(
-        dimension: size,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            CustomPaint(
-              size: Size.square(size),
-              painter: _OrbitsPainter(color: accent),
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: error ? c.errorContainer : c.primaryContainer,
-                borderRadius: BorderRadius.circular(AppRadius.lg),
+      child: _ArtEntrance(
+        child: SizedBox.square(
+          dimension: size,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              CustomPaint(
+                size: Size.square(size),
+                painter: _OrbitsPainter(color: accent),
               ),
-              child: SizedBox.square(
-                dimension: tile,
-                child: Icon(
-                  icon,
-                  size: tile * 0.52,
-                  color: error ? c.onErrorContainer : c.onPrimaryContainer,
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: error ? c.errorContainer : c.primaryContainer,
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                  // Lit from above like the cards, with a soft halo of the accent behind the tile.
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.lerp(
+                        error ? c.errorContainer : c.primaryContainer,
+                        c.ink,
+                        c.isDark ? 0.08 : 0.0,
+                      )!,
+                      error ? c.errorContainer : c.primaryContainer,
+                    ],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: accent.withValues(alpha: c.isDark ? 0.22 : 0.16),
+                      blurRadius: 24,
+                    ),
+                  ],
+                ),
+                child: SizedBox.square(
+                  dimension: tile,
+                  child: Icon(
+                    icon,
+                    size: tile * 0.52,
+                    color: error ? c.onErrorContainer : c.onPrimaryContainer,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+/// The art settles in once (fade and a small scale); static with reduced motion.
+class _ArtEntrance extends StatelessWidget {
+  const _ArtEntrance({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (reduceMotion(context)) return child;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: AppMotion.slow,
+      curve: AppMotion.curve,
+      builder: (context, v, child) => Opacity(
+        opacity: v,
+        child: Transform.scale(scale: 0.92 + 0.08 * v, child: child),
+      ),
+      child: child,
     );
   }
 }
