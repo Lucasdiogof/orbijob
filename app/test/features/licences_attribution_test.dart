@@ -20,6 +20,8 @@ void main() {
       'Feina Activa,',
       'ECYL,',
       'Lanbide,',
+      'City of Calgary, open data',
+      'SINE-ES,',
       'Listings are shown',
     ];
     String part(String source) {
@@ -46,8 +48,18 @@ void main() {
     expect(part('SEF, Servicio de Empleo'), isNot(contains('CC BY')));
     expect(part('ECYL,'), contains('CC BY 4.0'));
     expect(part('Lanbide,'), contains('CC BY 4.0'));
+    // the Calgary licence asks for this exact statement; the Espírito Santo data is CC BY (no version is claimed)
+    expect(
+      part('City of Calgary, open data'),
+      contains(
+        'Contains information licensed under the Open Government Licence – City of Calgary',
+      ),
+    );
+    expect(part('City of Calgary, open data'), isNot(contains('CC BY')));
+    expect(part('SINE-ES,'), contains('Creative Commons Attribution'));
+    expect(part('SINE-ES,'), contains('dados.es.gov.br'));
     expect(part('Úřad práce'), contains('podminky-uziti'));
-    for (final s in starts.take(6)) {
+    for (final s in starts.take(8)) {
       expect(part(s), contains('https://'), reason: s);
     }
   });
