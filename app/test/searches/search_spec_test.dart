@@ -161,37 +161,34 @@ void main() {
       expect(const SearchSpec(term: 'a').isEmpty, isFalse);
     });
 
-    test(
-      'the compiled block carries what the database needs, and a country wins over a continent',
-      () {
-        final m =
-            const SearchSpec(
-                  term: 'fisioterapeuta',
-                  filters: JobFilters(
-                    continent: Continent.europe,
-                    area: JobArea.health,
-                    specialty: HealthSpecialty.pelvicPhysio,
-                  ),
-                ).toQuery()['match']
-                as Map;
-        expect(m['term'], 'fisioterapeuta');
-        expect(m['alts'], contains('physiotherap'));
-        expect(m['cc'], contains('DE'));
-        expect(m['regions'], isNotEmpty);
-        // area, the specialty's own words and its parent's: three title groups, all required
-        expect((m['title_groups'] as List).length, 3);
-        final withCountry =
-            const SearchSpec(
-                  filters: JobFilters(
-                    countryCode: 'BR',
-                    continent: Continent.europe,
-                  ),
-                ).toQuery()['match']
-                as Map;
-        expect(withCountry['country'], 'BR');
-        expect(withCountry.containsKey('cc'), isFalse);
-      },
-    );
+    test('the compiled block carries what the database needs, and a country wins over a continent', () {
+      final m =
+          const SearchSpec(
+                term: 'fisioterapeuta',
+                filters: JobFilters(
+                  continent: Continent.europe,
+                  area: JobArea.health,
+                  specialty: HealthSpecialty.pelvicPhysio,
+                ),
+              ).toQuery()['match']
+              as Map;
+      expect(m['term'], 'fisioterapeuta');
+      expect(m['alts'], contains('physiotherap'));
+      expect(m['cc'], contains('DE'));
+      expect(m['regions'], isNotEmpty);
+      // area, the specialty's own words and its parent's: three title groups, all required
+      expect((m['title_groups'] as List).length, 3);
+      final withCountry =
+          const SearchSpec(
+                filters: JobFilters(
+                  countryCode: 'BR',
+                  continent: Continent.europe,
+                ),
+              ).toQuery()['match']
+              as Map;
+      expect(withCountry['country'], 'BR');
+      expect(withCountry.containsKey('cc'), isFalse);
+    });
 
     test(
       'the largest possible search stays far below the database limit (12 KiB)',

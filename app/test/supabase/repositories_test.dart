@@ -114,30 +114,27 @@ void main() {
       expect((body['snapshot'] as Map)['title'], job.title);
       expect(r.request.headers['apikey'], testPublishableKey);
     });
-    test(
-      'list maps snapshots and skips corrupt rows; remove filters by owner and key',
-      () async {
-        final b = FakeBackend(
-          respond: (m, u, body) => m == 'GET'
-              ? (
-                  200,
-                  [
-                    {'snapshot': jobToSnapshot(job)},
-                    {
-                      'snapshot': {'broken': true},
-                    },
-                  ],
-                )
-              : (204, null),
-        );
-        final repo = SupabaseFavoritesRepository(b.client);
-        expect(await repo.list(), [job]);
-        await repo.remove(job);
-        expect(b.last.method, 'DELETE');
-        expect(b.last.query['user_id'], 'eq.$testUserA');
-        expect(b.last.query['job_key'], 'eq.lever:abc');
-      },
-    );
+    test('list maps snapshots and skips corrupt rows; remove filters by owner and key', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => m == 'GET'
+            ? (
+                200,
+                [
+                  {'snapshot': jobToSnapshot(job)},
+                  {
+                    'snapshot': {'broken': true},
+                  },
+                ],
+              )
+            : (204, null),
+      );
+      final repo = SupabaseFavoritesRepository(b.client);
+      expect(await repo.list(), [job]);
+      await repo.remove(job);
+      expect(b.last.method, 'DELETE');
+      expect(b.last.query['user_id'], 'eq.$testUserA');
+      expect(b.last.query['job_key'], 'eq.lever:abc');
+    });
   });
 
   group('applications', () {
@@ -152,9 +149,8 @@ void main() {
     };
     test('create sends only provided optional fields and stage name', () async {
       final b = FakeBackend(respond: (m, u, body) => (201, row('applied')));
-      final rec = await SupabaseApplicationsRepository(
-        b.client,
-      ).create(job, channel: 'site');
+      final rec = await SupabaseApplicationsRepository(b.client)
+          .create(job, channel: 'site');
       final body = b.requests.first.json as Map;
       expect(body.keys.toSet(), {
         'user_id',
@@ -170,9 +166,8 @@ void main() {
       'changing the stage updates only the stage (history is a DB trigger)',
       () async {
         final b = FakeBackend(respond: (m, u, body) => (204, null));
-        await SupabaseApplicationsRepository(
-          b.client,
-        ).changeStage('app-1', ApplicationStage.interview);
+        await SupabaseApplicationsRepository(b.client)
+            .changeStage('app-1', ApplicationStage.interview);
         expect(b.last.method, 'PATCH');
         expect(b.last.json, {'stage': 'interview'});
         expect(b.last.query['id'], 'eq.app-1');
@@ -384,37 +379,34 @@ void main() {
   });
 
   group('profile updates', () {
-    test(
-      'updateExperience / updateEducation patch one row by id and never change the owner',
-      () async {
-        final b = FakeBackend(
-          respond: (m, u, body) => (
-            200,
-            {
-              'id': 'x1',
-              'profile_id': 'p1',
-              'company': 'C',
-              'title': 'T2',
-              'institution': 'Uni',
-            },
-          ),
-        );
-        final repo = SupabaseProfileRepository(b.client);
-        await repo.updateExperience(
-          Experience(id: 'x1', profileId: 'p1', company: 'C', title: 'T2'),
-        );
-        expect(b.last.method, 'PATCH');
-        expect(b.last.path, '/rest/v1/experiences');
-        expect(b.last.query['id'], 'eq.x1');
-        expect((b.last.json as Map).containsKey('user_id'), isFalse);
-        await repo.updateEducation(
-          const Education(id: 'e1', profileId: 'p1', institution: 'Uni'),
-        );
-        expect(b.last.method, 'PATCH');
-        expect(b.last.path, '/rest/v1/education');
-        expect(b.last.query['id'], 'eq.e1');
-      },
-    );
+    test('updateExperience / updateEducation patch one row by id and never change the owner', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => (
+          200,
+          {
+            'id': 'x1',
+            'profile_id': 'p1',
+            'company': 'C',
+            'title': 'T2',
+            'institution': 'Uni',
+          },
+        ),
+      );
+      final repo = SupabaseProfileRepository(b.client);
+      await repo.updateExperience(
+        Experience(id: 'x1', profileId: 'p1', company: 'C', title: 'T2'),
+      );
+      expect(b.last.method, 'PATCH');
+      expect(b.last.path, '/rest/v1/experiences');
+      expect(b.last.query['id'], 'eq.x1');
+      expect((b.last.json as Map).containsKey('user_id'), isFalse);
+      await repo.updateEducation(
+        const Education(id: 'e1', profileId: 'p1', institution: 'Uni'),
+      );
+      expect(b.last.method, 'PATCH');
+      expect(b.last.path, '/rest/v1/education');
+      expect(b.last.query['id'], 'eq.e1');
+    });
   });
 
   group('resumes', () {
@@ -465,48 +457,42 @@ void main() {
     test('invalid files never reach the network', () async {
       final b = FakeBackend();
       await expectLater(
-        SupabaseResumeRepository(
-          b.client,
-        ).upload('p1', Uint8List.fromList([1, 2, 3, 4, 5, 6])),
+        SupabaseResumeRepository(b.client)
+            .upload('p1', Uint8List.fromList([1, 2, 3, 4, 5, 6])),
         throwsA(isA<ResumeRejected>()),
       );
       expect(b.requests, isEmpty);
     });
-    test(
-      'upload stores under <user_id>/…pdf in the private bucket, then records the row',
-      () async {
-        final b = FakeBackend(
-          respond: (m, u, body) => u.path.contains('/storage/')
-              ? (200, m == 'DELETE' ? [] : {'Key': 'resumes/x'})
-              : (
-                  201,
-                  {
-                    'id': 'r1',
-                    'profile_id': 'p1',
-                    'storage_path': 'ignored',
-                    'created_at': '2026-10-09T00:00:00Z',
-                  },
-                ),
-        );
-        await SupabaseResumeRepository(b.client).upload('p1', pdf);
-        final storage = b.requests.firstWhere(
-          (r) => r.path.contains('/storage/v1/object/resumes/'),
-        );
-        expect(
-          storage.path,
-          matches(
-            RegExp(
-              '^/storage/v1/object/resumes/$testUserA/[0-9a-f]{32}\\.pdf\$',
-            ),
-          ),
-        );
-        final row =
-            b.requests.firstWhere((r) => r.path == '/rest/v1/resumes').json
-                as Map;
-        expect(row['user_id'], testUserA);
-        expect(row['storage_path'], startsWith('$testUserA/'));
-      },
-    );
+    test('upload stores under <user_id>/…pdf in the private bucket, then records the row', () async {
+      final b = FakeBackend(
+        respond: (m, u, body) => u.path.contains('/storage/')
+            ? (200, m == 'DELETE' ? [] : {'Key': 'resumes/x'})
+            : (
+                201,
+                {
+                  'id': 'r1',
+                  'profile_id': 'p1',
+                  'storage_path': 'ignored',
+                  'created_at': '2026-10-09T00:00:00Z',
+                },
+              ),
+      );
+      await SupabaseResumeRepository(b.client).upload('p1', pdf);
+      final storage = b.requests.firstWhere(
+        (r) => r.path.contains('/storage/v1/object/resumes/'),
+      );
+      expect(
+        storage.path,
+        matches(
+          RegExp('^/storage/v1/object/resumes/$testUserA/[0-9a-f]{32}\\.pdf\$'),
+        ),
+      );
+      final row =
+          b.requests.firstWhere((r) => r.path == '/rest/v1/resumes').json
+              as Map;
+      expect(row['user_id'], testUserA);
+      expect(row['storage_path'], startsWith('$testUserA/'));
+    });
     test('row failure removes the uploaded object (no orphan)', () async {
       final b = FakeBackend(
         respond: (m, u, body) => u.path.contains('/storage/')
@@ -537,9 +523,8 @@ void main() {
         path: '$testUserA/a.pdf',
         createdAt: DateTime(2026),
       );
-      await SupabaseResumeRepository(
-        b.client,
-      ).signedUrl(f, validFor: const Duration(hours: 5));
+      await SupabaseResumeRepository(b.client)
+          .signedUrl(f, validFor: const Duration(hours: 5));
       expect((b.last.json as Map)['expiresIn'], 300);
     });
   });

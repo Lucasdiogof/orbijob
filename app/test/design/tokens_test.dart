@@ -45,17 +45,14 @@ void main() {
     },
   );
 
-  test(
-    'OrbiJob 2.0 anchors: #F7F8FC / #111827 / #5B4CF6 (light), #0D111B / #A298FF (dark)',
-    () {
-      expect(_hex(AppColors.light.bg), '#F7F8FC');
-      expect(_hex(AppColors.light.surface), '#FFFFFF');
-      expect(_hex(AppColors.light.ink), '#111827');
-      expect(_hex(AppColors.light.primary), '#5B4CF6');
-      expect(_hex(AppColors.dark.bg), '#0D111B');
-      expect(_hex(AppColors.dark.primary), '#A298FF');
-    },
-  );
+  test('OrbiJob 2.0 anchors: #F7F8FC / #111827 / #5B4CF6 (light), #0D111B / #A298FF (dark)', () {
+    expect(_hex(AppColors.light.bg), '#F7F8FC');
+    expect(_hex(AppColors.light.surface), '#FFFFFF');
+    expect(_hex(AppColors.light.ink), '#111827');
+    expect(_hex(AppColors.light.primary), '#5B4CF6');
+    expect(_hex(AppColors.dark.bg), '#0D111B');
+    expect(_hex(AppColors.dark.primary), '#A298FF');
+  });
 
   final textPairs = <(String, String)>[
     ('ink', 'bg'),

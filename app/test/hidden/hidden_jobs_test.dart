@@ -83,16 +83,13 @@ void main() {
       expect(c.state.actionFailure, DataFailureKind.network);
     });
 
-    test(
-      'visible() drops hidden jobs and keeps the order; nothing is dropped before the list is known',
-      () async {
-        final all = [_job('1'), _job('2'), _job('3')];
-        expect(c.visible(all, (j) => j).length, 3);
-        await c.load();
-        await c.hide(all[1]);
-        expect(c.visible(all, (j) => j).map((j) => j.externalId), ['1', '3']);
-      },
-    );
+    test('visible() drops hidden jobs and keeps the order; nothing is dropped before the list is known', () async {
+      final all = [_job('1'), _job('2'), _job('3')];
+      expect(c.visible(all, (j) => j).length, 3);
+      await c.load();
+      await c.hide(all[1]);
+      expect(c.visible(all, (j) => j).map((j) => j.externalId), ['1', '3']);
+    });
 
     test(
       'the list comes back after a restart (read from the repository)',
@@ -138,9 +135,8 @@ void main() {
       'hiding is an insert that ignores duplicates and carries the owner',
       () async {
         final b = FakeBackend(respond: (m, u, body) => (201, null));
-        await SupabaseHiddenJobsRepository(
-          b.client,
-        ).hide(_job('9', title: 'Pilot'));
+        await SupabaseHiddenJobsRepository(b.client)
+            .hide(_job('9', title: 'Pilot'));
         final r = b.last;
         expect(r.method, 'POST');
         expect(r.query['on_conflict'], 'user_id,job_key');

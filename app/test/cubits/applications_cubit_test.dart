@@ -104,20 +104,17 @@ void main() {
     },
   );
 
-  test(
-    'a history re-read failure after a saved change does not undo or hide the change',
-    () async {
-      await c.load();
-      await c.create(company: 'A', title: 'B');
-      final id = c.state.items.single.id;
-      final flaky = _HistoryDown(repo);
-      final c2 = ApplicationsCubit(flaky);
-      await c2.load();
-      await c2.updateStage(id, ApplicationStage.screening);
-      expect(c2.state.items.single.stage, ApplicationStage.screening);
-      expect(c2.state.actionFailure, isNull);
-    },
-  );
+  test('a history re-read failure after a saved change does not undo or hide the change', () async {
+    await c.load();
+    await c.create(company: 'A', title: 'B');
+    final id = c.state.items.single.id;
+    final flaky = _HistoryDown(repo);
+    final c2 = ApplicationsCubit(flaky);
+    await c2.load();
+    await c2.updateStage(id, ApplicationStage.screening);
+    expect(c2.state.items.single.stage, ApplicationStage.screening);
+    expect(c2.state.actionFailure, isNull);
+  });
 
   test('note: saved, blank clears it', () async {
     await c.load();

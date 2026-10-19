@@ -108,20 +108,17 @@ void main() {
     },
   );
 
-  test(
-    'nothing is invented: text without recognisable parts gives an empty suggestion',
-    () {
-      final s = parseResumeText(
-        'lorem ipsum dolor sit amet\nconsectetur adipiscing elit',
-      );
-      expect(s.name, isNull);
-      expect(s.experiences, isEmpty);
-      expect(s.education, isEmpty);
-      expect(s.skills, isEmpty);
-      expect(s.languages, isEmpty);
-      expect(s.email, isNull);
-    },
-  );
+  test('nothing is invented: text without recognisable parts gives an empty suggestion', () {
+    final s = parseResumeText(
+      'lorem ipsum dolor sit amet\nconsectetur adipiscing elit',
+    );
+    expect(s.name, isNull);
+    expect(s.experiences, isEmpty);
+    expect(s.education, isEmpty);
+    expect(s.skills, isEmpty);
+    expect(s.languages, isEmpty);
+    expect(s.email, isNull);
+  });
 
   test('upper-case headings without accents and the date-first layout', () {
     final s = parseResumeText(

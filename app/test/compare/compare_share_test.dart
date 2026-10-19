@@ -53,27 +53,24 @@ JobPosting _job(
 
 void main() {
   group('CompareCubit', () {
-    test(
-      'adds up to three in the order picked, toggles, refuses a fourth without replacing',
-      () {
-        final c = CompareCubit();
-        final a = _job('1', 'A'),
-            b = _job('2', 'B'),
-            d = _job('3', 'C'),
-            e = _job('4', 'D');
-        expect(c.toggle(a), CompareChange.added);
-        expect(c.toggle(b), CompareChange.added);
-        expect(c.toggle(d), CompareChange.added);
-        expect(c.toggle(e), CompareChange.full);
-        expect(c.state.map((j) => j.externalId), ['1', '2', '3']);
-        expect(c.toggle(b), CompareChange.removed);
-        expect(c.state.map((j) => j.externalId), ['1', '3']);
-        expect(c.contains(a), isTrue);
-        expect(c.contains(b), isFalse);
-        c.clear();
-        expect(c.state, isEmpty);
-      },
-    );
+    test('adds up to three in the order picked, toggles, refuses a fourth without replacing', () {
+      final c = CompareCubit();
+      final a = _job('1', 'A'),
+          b = _job('2', 'B'),
+          d = _job('3', 'C'),
+          e = _job('4', 'D');
+      expect(c.toggle(a), CompareChange.added);
+      expect(c.toggle(b), CompareChange.added);
+      expect(c.toggle(d), CompareChange.added);
+      expect(c.toggle(e), CompareChange.full);
+      expect(c.state.map((j) => j.externalId), ['1', '2', '3']);
+      expect(c.toggle(b), CompareChange.removed);
+      expect(c.state.map((j) => j.externalId), ['1', '3']);
+      expect(c.contains(a), isTrue);
+      expect(c.contains(b), isFalse);
+      c.clear();
+      expect(c.state, isEmpty);
+    });
   });
 
   group('comparisonRows: only what the listings state', () {
@@ -114,44 +111,38 @@ void main() {
       },
     );
 
-    test(
-      'skills only where the source lists them; nothing is taken from the description',
-      () {
-        final rows = comparisonRows([
-          JobPosting(
-            source: 'jobtech',
-            externalId: 's1',
-            company: 'C',
-            title: 'Sjuksköterska',
-            originalUrl: 'https://example.com/s1',
-            skills: const ['Akutsjukvård', 'Körkort B'],
-            description: 'Experience with Python required',
-          ),
-          _job('2', 'Nurse'),
-        ], _en);
-        expect(rows.firstWhere((r) => r.label == 'Skills listed').values, [
-          'Akutsjukvård, Körkort B',
-          null,
-        ]);
-      },
-    );
+    test('skills only where the source lists them; nothing is taken from the description', () {
+      final rows = comparisonRows([
+        JobPosting(
+          source: 'jobtech',
+          externalId: 's1',
+          company: 'C',
+          title: 'Sjuksköterska',
+          originalUrl: 'https://example.com/s1',
+          skills: const ['Akutsjukvård', 'Körkort B'],
+          description: 'Experience with Python required',
+        ),
+        _job('2', 'Nurse'),
+      ], _en);
+      expect(rows.firstWhere((r) => r.label == 'Skills listed').values, [
+        'Akutsjukvård, Körkort B',
+        null,
+      ]);
+    });
 
-    test(
-      'who can apply: only the explicit restriction list; "Anywhere" is said as the source states it',
-      () {
-        final rows = comparisonRows([
-          _job('1', 'A', geo: ['Anywhere']),
-          _job('2', 'B', geo: ['BR', 'PT']),
-          _job('3', 'C', country: 'DE'),
-          _job('4', 'D', geo: ['EMEA']),
-        ], _en);
-        final v = rows.firstWhere((r) => r.label == 'Who can apply').values;
-        expect(v[0], 'Anywhere (as the source states)');
-        expect(v[1], 'Limited to: Brazil, Portugal');
-        expect(v[2], isNull);
-        expect(v[3], contains('Limited to:'));
-      },
-    );
+    test('who can apply: only the explicit restriction list; "Anywhere" is said as the source states it', () {
+      final rows = comparisonRows([
+        _job('1', 'A', geo: ['Anywhere']),
+        _job('2', 'B', geo: ['BR', 'PT']),
+        _job('3', 'C', country: 'DE'),
+        _job('4', 'D', geo: ['EMEA']),
+      ], _en);
+      final v = rows.firstWhere((r) => r.label == 'Who can apply').values;
+      expect(v[0], 'Anywhere (as the source states)');
+      expect(v[1], 'Limited to: Brazil, Portugal');
+      expect(v[2], isNull);
+      expect(v[3], contains('Limited to:'));
+    });
 
     test(
       'rows that differ are marked, identical or all-missing ones are not',
@@ -175,32 +166,29 @@ void main() {
       },
     );
 
-    test(
-      'salaries in different currencies or periods are flagged as not converted',
-      () {
-        expect(
-          salariesNotComparable([
-            _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
-            _job('2', 'B', min: 1, currency: 'USD', period: SalaryPeriod.month),
-          ]),
-          isTrue,
-        );
-        expect(
-          salariesNotComparable([
-            _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
-            _job('2', 'B', max: 2, currency: 'EUR', period: SalaryPeriod.month),
-          ]),
-          isFalse,
-        );
-        expect(
-          salariesNotComparable([
-            _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
-            _job('2', 'B'),
-          ]),
-          isFalse,
-        );
-      },
-    );
+    test('salaries in different currencies or periods are flagged as not converted', () {
+      expect(
+        salariesNotComparable([
+          _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
+          _job('2', 'B', min: 1, currency: 'USD', period: SalaryPeriod.month),
+        ]),
+        isTrue,
+      );
+      expect(
+        salariesNotComparable([
+          _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
+          _job('2', 'B', max: 2, currency: 'EUR', period: SalaryPeriod.month),
+        ]),
+        isFalse,
+      );
+      expect(
+        salariesNotComparable([
+          _job('1', 'A', min: 1, currency: 'EUR', period: SalaryPeriod.month),
+          _job('2', 'B'),
+        ]),
+        isFalse,
+      );
+    });
   });
 
   group('share text', () {

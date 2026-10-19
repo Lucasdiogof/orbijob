@@ -9,40 +9,31 @@ List<Map<String, dynamic>> _real() => (jsonDecode(
 ) as List).cast<Map<String, dynamic>>();
 
 void main() {
-  group(
-    'real listings from the live catalogue (the country never decides the language)',
-    () {
-      for (final j in _real()) {
-        final title = j['title'] as String;
-        test(
-          '${j['expect']}: ${title.length > 48 ? title.substring(0, 48) : title}',
-          () {
-            final text = '${j['title']}\n${j['description']}';
-            final d = detectLanguage(text);
-            expect(d, isNotNull, reason: 'enough text to decide');
-            expect(
-              d!.code,
-              j['expect'],
-              reason: 'country=${j['country']} declared=${j['language']}',
-            );
-          },
-        );
-      }
-    },
-  );
-
-  test(
-    'Traditional Chinese is recognised as such (script hint for the translator)',
-    () {
-      final d = detectLanguage('我們誠徵門市人員，需具備服務熱忱，負責商品銷售與顧客服務，歡迎應徵');
-      expect(d!.code, 'zh');
-      expect(d.script, 'Hant');
-      expect(
-        detectLanguage('我们诚聘门市人员，需具备服务热忱，负责商品销售与顾客服务，欢迎应聘')!.script,
-        'Hans',
+  group('real listings from the live catalogue (the country never decides the language)', () {
+    for (final j in _real()) {
+      final title = j['title'] as String;
+      test(
+        '${j['expect']}: ${title.length > 48 ? title.substring(0, 48) : title}',
+        () {
+          final text = '${j['title']}\n${j['description']}';
+          final d = detectLanguage(text);
+          expect(d, isNotNull, reason: 'enough text to decide');
+          expect(
+            d!.code,
+            j['expect'],
+            reason: 'country=${j['country']} declared=${j['language']}',
+          );
+        },
       );
-    },
-  );
+    }
+  });
+
+  test('Traditional Chinese is recognised as such (script hint for the translator)', () {
+    final d = detectLanguage('我們誠徵門市人員，需具備服務熱忱，負責商品銷售與顧客服務，歡迎應徵');
+    expect(d!.code, 'zh');
+    expect(d.script, 'Hant');
+    expect(detectLanguage('我们诚聘门市人员，需具备服务热忱，负责商品销售与顾客服务，欢迎应聘')!.script, 'Hans');
+  });
 
   test('other scripts', () {
     expect(detectLanguage('ソフトウェアエンジニアを募集しています。経験者歓迎です。')!.code, 'ja');

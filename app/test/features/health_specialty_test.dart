@@ -63,18 +63,15 @@ void main() {
         );
       });
     }
-    test(
-      'documented limit: a receptionist whose TITLE names the clinic specialty is matched (titles only, no guessing); '
-      'every other administrative title is not',
-      () {
-        expect(
-          HealthSpecialty.pelvicPhysio.matches(
-            'Recepcionista - Clínica de Fisioterapia Pélvica e Saúde da Mulher',
-          ),
-          isTrue,
-        );
-      },
-    );
+    test('documented limit: a receptionist whose TITLE names the clinic specialty is matched (titles only, no guessing); '
+        'every other administrative title is not', () {
+      expect(
+        HealthSpecialty.pelvicPhysio.matches(
+          'Recepcionista - Clínica de Fisioterapia Pélvica e Saúde da Mulher',
+        ),
+        isTrue,
+      );
+    });
   });
 
   group('specialties are narrower than the Health area', () {
@@ -169,22 +166,19 @@ void main() {
   );
 
   group('filters', () {
-    test(
-      'leaving the Health area drops the specialty; a specialty makes the filters active',
-      () {
-        const f = JobFilters(
-          area: JobArea.health,
-          specialty: HealthSpecialty.pelvicPhysio,
-        );
-        expect(f.isActive, isTrue);
-        expect(f.copyWith(clearArea: true).specialty, isNull);
-        expect(f.copyWith(clearSpecialty: true).area, JobArea.health);
-        expect(
-          const JobFilters(specialty: HealthSpecialty.nursing).isActive,
-          isTrue,
-        );
-      },
-    );
+    test('leaving the Health area drops the specialty; a specialty makes the filters active', () {
+      const f = JobFilters(
+        area: JobArea.health,
+        specialty: HealthSpecialty.pelvicPhysio,
+      );
+      expect(f.isActive, isTrue);
+      expect(f.copyWith(clearArea: true).specialty, isNull);
+      expect(f.copyWith(clearSpecialty: true).area, JobArea.health);
+      expect(
+        const JobFilters(specialty: HealthSpecialty.nursing).isActive,
+        isTrue,
+      );
+    });
   });
 
   group('search synonyms (titles only, nothing translated)', () {
@@ -234,32 +228,26 @@ void main() {
         expect(p.region, isNotEmpty);
       }
     });
-    test(
-      'pelvic physiotherapy lists its own boards first, then physiotherapy boards',
-      () {
-        final list = portalsFor(HealthSpecialty.pelvicPhysio);
-        expect(list.first.specialties, contains(HealthSpecialty.pelvicPhysio));
+    test('pelvic physiotherapy lists its own boards first, then physiotherapy boards', () {
+      final list = portalsFor(HealthSpecialty.pelvicPhysio);
+      expect(list.first.specialties, contains(HealthSpecialty.pelvicPhysio));
+      expect(
+        list.map((p) => p.name),
+        contains('PCI Concursos: fisioterapeuta'),
+      );
+    });
+    test('the federal university hospitals page is listed for physiotherapy and for its pelvic specialty', () {
+      for (final spec in [
+        HealthSpecialty.physiotherapy,
+        HealthSpecialty.pelvicPhysio,
+      ]) {
         expect(
-          list.map((p) => p.name),
-          contains('PCI Concursos: fisioterapeuta'),
+          portalsFor(spec).map((p) => p.name),
+          contains('HU Brasil (EBSERH): concursos e seleções'),
+          reason: '$spec',
         );
-      },
-    );
-    test(
-      'the federal university hospitals page is listed for physiotherapy and for its pelvic specialty',
-      () {
-        for (final spec in [
-          HealthSpecialty.physiotherapy,
-          HealthSpecialty.pelvicPhysio,
-        ]) {
-          expect(
-            portalsFor(spec).map((p) => p.name),
-            contains('HU Brasil (EBSERH): concursos e seleções'),
-            reason: '$spec',
-          );
-        }
-      },
-    );
+      }
+    });
     test(
       'nursing has no dedicated board yet: only the general ones (none today)',
       () {

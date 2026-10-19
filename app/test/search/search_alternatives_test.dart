@@ -5,9 +5,9 @@ import 'package:orbijob/features/search/domain/search_alternatives.dart';
 /// qualified profession into the whole field. Examples, not an exhaustive list.
 bool has(String term, String part) =>
     titleAlternatives(term).any((a) => a.length == 1 && a.first == part);
-bool hasAll(String term, List<String> parts) => titleAlternatives(
-  term,
-).any((a) => a.length == parts.length && parts.every(a.contains));
+bool hasAll(String term, List<String> parts) =>
+    titleAlternatives(term)
+        .any((a) => a.length == parts.length && parts.every(a.contains));
 
 void main() {
   group('multilingual professions', () {

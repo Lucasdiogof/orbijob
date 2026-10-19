@@ -94,8 +94,7 @@ void main() {
   final english = job(
     'en1',
     'Senior Backend Engineer',
-    description:
-        'We are looking for an experienced engineer to join our team and work on our platform with the rest of the group.',
+    description: 'We are looking for an experienced engineer to join our team and work on our platform with the rest of the group.',
     company: 'Globex',
   );
 
@@ -387,8 +386,7 @@ void main() {
       await t.pumpAndSettle();
       await t.tap(find.byTooltip('Back'));
       await t.pumpAndSettle();
-      e.seen
-          .clear(); // the Home list was translated before the switch was turned off
+      e.seen.clear(); // the Home list was translated before the switch was turned off
       await _openFirstJob(t);
       expect(
         find.text('Pflegefachkraft (m/w/d) für unser Team'),
@@ -398,53 +396,47 @@ void main() {
     },
   );
 
-  group(
-    'layout: every translation state in each language, narrow screen, large text',
-    () {
-      final states = <String, (FakeEngine?, bool)>{
-        'ready': (FakeEngine(), false),
-        'download offer': (FakeEngine(ready: false), false),
-        'no engine': (null, false),
-        'failure': (FakeEngine()..failWith = StateError('x'), false),
-        'loading': (
-          FakeEngine(latency: const Duration(milliseconds: 900)),
-          true,
-        ),
-      };
-      for (final lang in ['en', 'pt', 'es']) {
-        for (final e in states.entries) {
-          testWidgets('$lang / ${e.key}', (t) async {
-            final engine = e.value.$1;
-            await pumpApp(
-              t,
-              size: const Size(320, 640),
-              textScale: 2,
-              locale: Locale(lang),
-              repo: ListRepo([german]),
-              translationEngine: engine,
-              settle: false,
-            );
-            await t.pump(const Duration(milliseconds: 300));
-            await t.tap(find.byIcon(Icons.explore_outlined).first);
-            await t.pump(const Duration(milliseconds: 300));
-            await t.enterText(find.byType(TextField).last, 'x');
-            await t.testTextInput.receiveAction(TextInputAction.search);
-            await t.pump(const Duration(milliseconds: 600));
-            await t.tap(find.textContaining('Pflegefachkraft').first);
-            await t.pump(const Duration(milliseconds: 800));
-            if (!e.value.$2) await t.pumpAndSettle();
-            expect(t.takeException(), isNull);
-            // let the slow fake finish so no timer is left pending
-            if (e.value.$2) {
-              for (var i = 0; i < 40; i++) {
-                await t.pump(const Duration(seconds: 1));
-              }
+  group('layout: every translation state in each language, narrow screen, large text', () {
+    final states = <String, (FakeEngine?, bool)>{
+      'ready': (FakeEngine(), false),
+      'download offer': (FakeEngine(ready: false), false),
+      'no engine': (null, false),
+      'failure': (FakeEngine()..failWith = StateError('x'), false),
+      'loading': (FakeEngine(latency: const Duration(milliseconds: 900)), true),
+    };
+    for (final lang in ['en', 'pt', 'es']) {
+      for (final e in states.entries) {
+        testWidgets('$lang / ${e.key}', (t) async {
+          final engine = e.value.$1;
+          await pumpApp(
+            t,
+            size: const Size(320, 640),
+            textScale: 2,
+            locale: Locale(lang),
+            repo: ListRepo([german]),
+            translationEngine: engine,
+            settle: false,
+          );
+          await t.pump(const Duration(milliseconds: 300));
+          await t.tap(find.byIcon(Icons.explore_outlined).first);
+          await t.pump(const Duration(milliseconds: 300));
+          await t.enterText(find.byType(TextField).last, 'x');
+          await t.testTextInput.receiveAction(TextInputAction.search);
+          await t.pump(const Duration(milliseconds: 600));
+          await t.tap(find.textContaining('Pflegefachkraft').first);
+          await t.pump(const Duration(milliseconds: 800));
+          if (!e.value.$2) await t.pumpAndSettle();
+          expect(t.takeException(), isNull);
+          // let the slow fake finish so no timer is left pending
+          if (e.value.$2) {
+            for (var i = 0; i < 40; i++) {
+              await t.pump(const Duration(seconds: 1));
             }
-          });
-        }
+          }
+        });
       }
-    },
-  );
+    }
+  });
 
   group('real listings from the live catalogue', () {
     testWidgets(
@@ -496,23 +488,20 @@ void main() {
     );
   });
 
-  test(
-    'a service with the real engine contract: one translation per text and target, whatever the number of screens asking',
-    () async {
-      final e = FakeEngine(latency: const Duration(milliseconds: 5));
-      final s = TranslationService(engine: e, cache: MemoryTranslationCache());
-      final r = await Future.wait([
-        for (var i = 0; i < 10; i++)
-          s.translate(
-            id: 'a',
-            field: 'title',
-            text: 'Elektroniker',
-            from: 'de',
-            to: 'pt',
-          ),
-      ]);
-      expect(r.every((x) => x.text == '[pt] Elektroniker'), isTrue);
-      expect(e.seen, hasLength(1));
-    },
-  );
+  test('a service with the real engine contract: one translation per text and target, whatever the number of screens asking', () async {
+    final e = FakeEngine(latency: const Duration(milliseconds: 5));
+    final s = TranslationService(engine: e, cache: MemoryTranslationCache());
+    final r = await Future.wait([
+      for (var i = 0; i < 10; i++)
+        s.translate(
+          id: 'a',
+          field: 'title',
+          text: 'Elektroniker',
+          from: 'de',
+          to: 'pt',
+        ),
+    ]);
+    expect(r.every((x) => x.text == '[pt] Elektroniker'), isTrue);
+    expect(e.seen, hasLength(1));
+  });
 }

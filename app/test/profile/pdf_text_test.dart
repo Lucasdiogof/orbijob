@@ -53,19 +53,22 @@ String _hex16(String s) =>
     s.codeUnits.map((c) => c.toRadixString(16).padLeft(4, '0')).join();
 
 void main() {
-  test('simple fonts: lines, spaces between shows, parentheses and escapes', () {
-    final r = extractPdfText(
-      _simple(
-        'BT /F1 12 Tf 72 700 Td (Maria Souza) Tj 0 -16 Td (Fisioterapeuta p\\351lvica \\(CREFITO\\)) Tj ET\n'
-        'BT /F1 10 Tf 72 650 Td [(Skills)] TJ 40 0 Td (Flutter) Tj ET',
-      ),
-    );
-    expect(r.status, PdfTextStatus.ok);
-    expect(r.pages, 1);
-    expect(r.text, contains('Maria Souza'));
-    expect(r.text, contains('Fisioterapeuta pélvica (CREFITO)'));
-    expect(r.text.split('\n'), contains('Skills Flutter'));
-  });
+  test(
+    'simple fonts: lines, spaces between shows, parentheses and escapes',
+    () {
+      final r = extractPdfText(
+        _simple(
+          'BT /F1 12 Tf 72 700 Td (Maria Souza) Tj 0 -16 Td (Fisioterapeuta p\\351lvica \\(CREFITO\\)) Tj ET\n'
+          'BT /F1 10 Tf 72 650 Td [(Skills)] TJ 40 0 Td (Flutter) Tj ET',
+        ),
+      );
+      expect(r.status, PdfTextStatus.ok);
+      expect(r.pages, 1);
+      expect(r.text, contains('Maria Souza'));
+      expect(r.text, contains('Fisioterapeuta pélvica (CREFITO)'));
+      expect(r.text.split('\n'), contains('Skills Flutter'));
+    },
+  );
 
   test('Flate-compressed content and TJ kerning that means a space', () {
     final r = extractPdfText(
@@ -178,27 +181,24 @@ void main() {
     expect(r.text, contains('Compressed object streams are fine'));
   });
 
-  test(
-    'a scan (image only, no text operators) is reported as having no text layer',
-    () {
-      final p = _Pdf()
-        ..obj(1, '<< /Type /Catalog /Pages 2 0 R >>')
-        ..obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>')
-        ..obj(
-          3,
-          '<< /Type /Page /Parent 2 0 R /Contents 4 0 R /Resources << /XObject << /Im0 5 0 R >> >> >>',
-        )
-        ..stream(4, '', latin1.encode('q 595 0 0 842 0 0 cm /Im0 Do Q'))
-        ..stream(
-          5,
-          '/Type /XObject /Subtype /Image /Width 1 /Height 1 /ColorSpace /DeviceGray /BitsPerComponent 8',
-          [128],
-        );
-      final r = extractPdfText(p.bytes());
-      expect(r.status, PdfTextStatus.noTextLayer);
-      expect(r.text, isEmpty, reason: 'never pretends to have read anything');
-    },
-  );
+  test('a scan (image only, no text operators) is reported as having no text layer', () {
+    final p = _Pdf()
+      ..obj(1, '<< /Type /Catalog /Pages 2 0 R >>')
+      ..obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>')
+      ..obj(
+        3,
+        '<< /Type /Page /Parent 2 0 R /Contents 4 0 R /Resources << /XObject << /Im0 5 0 R >> >> >>',
+      )
+      ..stream(4, '', latin1.encode('q 595 0 0 842 0 0 cm /Im0 Do Q'))
+      ..stream(
+        5,
+        '/Type /XObject /Subtype /Image /Width 1 /Height 1 /ColorSpace /DeviceGray /BitsPerComponent 8',
+        [128],
+      );
+    final r = extractPdfText(p.bytes());
+    expect(r.status, PdfTextStatus.noTextLayer);
+    expect(r.text, isEmpty, reason: 'never pretends to have read anything');
+  });
 
   test('encrypted PDFs are reported as such, not guessed at', () {
     final bytes = Uint8List.fromList([

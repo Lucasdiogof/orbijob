@@ -95,26 +95,20 @@ void main() {
   });
 
   group('cache key', () {
-    test(
-      'the same search (case, spaces, country in the filter or beside it) is the same key; another filter is another',
-      () {
-        expect(searchCacheKey('  Flutter  '), searchCacheKey('flutter'));
-        expect(
-          searchCacheKey('flutter', countryCode: 'br'),
-          searchCacheKey(
-            'flutter',
-            filters: const JobFilters(countryCode: 'BR'),
-          ),
-        );
-        expect(
-          searchCacheKey(
-            'flutter',
-            filters: const JobFilters(workModes: {WorkMode.remote}),
-          ),
-          isNot(searchCacheKey('flutter')),
-        );
-      },
-    );
+    test('the same search (case, spaces, country in the filter or beside it) is the same key; another filter is another', () {
+      expect(searchCacheKey('  Flutter  '), searchCacheKey('flutter'));
+      expect(
+        searchCacheKey('flutter', countryCode: 'br'),
+        searchCacheKey('flutter', filters: const JobFilters(countryCode: 'BR')),
+      );
+      expect(
+        searchCacheKey(
+          'flutter',
+          filters: const JobFilters(workModes: {WorkMode.remote}),
+        ),
+        isNot(searchCacheKey('flutter')),
+      );
+    });
   });
 
   group('stored on the device', () {
@@ -186,91 +180,70 @@ void main() {
       );
     });
 
-    test(
-      'online: answers from the catalogue and keeps the page; the cache never answers while the catalogue does',
-      () async {
-        final r = await repo.search('flutter');
-        expect(r.cachedAt, isNull);
-        expect(r.jobs, hasLength(2));
-        net.jobs = [job('9')];
-        final again = await repo.search('flutter');
-        expect(again.jobs.single.job.externalId, '9');
-        expect(again.cachedAt, isNull);
-      },
-    );
+    test('online: answers from the catalogue and keeps the page; the cache never answers while the catalogue does', () async {
+      final r = await repo.search('flutter');
+      expect(r.cachedAt, isNull);
+      expect(r.jobs, hasLength(2));
+      net.jobs = [job('9')];
+      final again = await repo.search('flutter');
+      expect(again.jobs.single.job.externalId, '9');
+      expect(again.cachedAt, isNull);
+    });
 
-    test(
-      'no connection: the saved page of the SAME search, dated, with no further pages',
-      () async {
-        await repo.search('flutter');
-        net.error = const SocketException('Failed host lookup');
-        final r = await repo.search('flutter');
-        expect(r.cachedAt, t0);
-        expect(r.jobs.map((s) => s.job.externalId), ['1', '2']);
-        expect(r.hasMore, isFalse);
-        expect(
-          r.jobs.first.job.description,
-          'Descrição original em português.',
-        );
-      },
-    );
+    test('no connection: the saved page of the SAME search, dated, with no further pages', () async {
+      await repo.search('flutter');
+      net.error = const SocketException('Failed host lookup');
+      final r = await repo.search('flutter');
+      expect(r.cachedAt, t0);
+      expect(r.jobs.map((s) => s.job.externalId), ['1', '2']);
+      expect(r.hasMore, isFalse);
+      expect(r.jobs.first.job.description, 'Descrição original em português.');
+    });
 
-    test(
-      'a search never made, another filter, or a later page is NOT answered from the cache: the original error comes back',
-      () async {
-        await repo.search('flutter');
-        net.error = http.ClientException('offline');
-        await expectLater(
-          repo.search('dart'),
-          throwsA(isA<http.ClientException>()),
-        );
-        await expectLater(
-          repo.search(
-            'flutter',
-            filters: const JobFilters(workModes: {WorkMode.remote}),
-          ),
-          throwsA(isA<http.ClientException>()),
-        );
-        await expectLater(
-          repo.search('flutter', offset: 20),
-          throwsA(isA<http.ClientException>()),
-        );
-      },
-    );
+    test('a search never made, another filter, or a later page is NOT answered from the cache: the original error comes back', () async {
+      await repo.search('flutter');
+      net.error = http.ClientException('offline');
+      await expectLater(
+        repo.search('dart'),
+        throwsA(isA<http.ClientException>()),
+      );
+      await expectLater(
+        repo.search(
+          'flutter',
+          filters: const JobFilters(workModes: {WorkMode.remote}),
+        ),
+        throwsA(isA<http.ClientException>()),
+      );
+      await expectLater(
+        repo.search('flutter', offset: 20),
+        throwsA(isA<http.ClientException>()),
+      );
+    });
 
-    test(
-      'an answer the server gave on purpose (denied, invalid) is not hidden behind the cache',
-      () async {
-        await repo.search('flutter');
-        net.error = const DataFailure(DataFailureKind.denied);
-        await expectLater(repo.search('flutter'), throwsA(isA<DataFailure>()));
-      },
-    );
+    test('an answer the server gave on purpose (denied, invalid) is not hidden behind the cache', () async {
+      await repo.search('flutter');
+      net.error = const DataFailure(DataFailureKind.denied);
+      await expectLater(repo.search('flutter'), throwsA(isA<DataFailure>()));
+    });
 
-    test(
-      'a catalogue that does not answer in time falls back to the saved page instead of a skeleton',
-      () async {
-        await repo.search('flutter');
-        final slow = _Slow();
-        final r2 = OfflineFirstSearchRepository(
-          slow,
-          cache,
-          now: () => t0,
-          networkTimeout: const Duration(milliseconds: 50),
-        );
-        final r = await r2.search('flutter');
-        expect(r.cachedAt, t0);
-      },
-    );
+    test('a catalogue that does not answer in time falls back to the saved page instead of a skeleton', () async {
+      await repo.search('flutter');
+      final slow = _Slow();
+      final r2 = OfflineFirstSearchRepository(
+        slow,
+        cache,
+        now: () => t0,
+        networkTimeout: const Duration(milliseconds: 50),
+      );
+      final r = await r2.search('flutter');
+      expect(r.cachedAt, t0);
+    });
 
-    test(
-      'an empty page and "no source" without jobs are not stored (they would hide a recovery)',
-      () async {
-        net.jobs = [];
-        await repo.search('nothing');
-        expect(cache.entries, isEmpty);
-      },
-    );
+    test('an empty page and "no source" without jobs are not stored (they would hide a recovery)', () async {
+      net.jobs = [];
+      await repo.search('nothing');
+      expect(cache.entries, isEmpty);
+    });
 
     test('classification: no connection / service error / other', () {
       expect(
@@ -298,79 +271,73 @@ void main() {
   });
 
   group('Explore', () {
-    test(
-      'no connection with a saved search: saved results with their date; without one: an offline message, never a generic error',
-      () async {
-        final net = FakeCatalogue(jobs: [job('1')]);
-        final cache = MemorySearchResultsCache(now: () => t0);
-        final repo = OfflineFirstSearchRepository(
-          net,
-          cache,
-          now: () => t0,
-          networkTimeout: const Duration(milliseconds: 100),
-        );
-        final cubit = SearchCubit(repo);
-        await cubit.search('flutter');
-        expect((cubit.state as SearchSuccess).cachedAt, isNull);
+    test('no connection with a saved search: saved results with their date; without one: an offline message, never a generic error', () async {
+      final net = FakeCatalogue(jobs: [job('1')]);
+      final cache = MemorySearchResultsCache(now: () => t0);
+      final repo = OfflineFirstSearchRepository(
+        net,
+        cache,
+        now: () => t0,
+        networkTimeout: const Duration(milliseconds: 100),
+      );
+      final cubit = SearchCubit(repo);
+      await cubit.search('flutter');
+      expect((cubit.state as SearchSuccess).cachedAt, isNull);
 
-        net.error = http.ClientException('offline');
-        await cubit.search('flutter');
-        final s = cubit.state as SearchSuccess;
-        expect(s.cachedAt, t0);
-        expect(s.hasMore, isFalse);
+      net.error = http.ClientException('offline');
+      await cubit.search('flutter');
+      final s = cubit.state as SearchSuccess;
+      expect(s.cachedAt, t0);
+      expect(s.hasMore, isFalse);
 
-        await cubit.search('never searched');
-        expect(cubit.state, isA<SearchFailure>());
-        expect((cubit.state as SearchFailure).kind, CatalogueFailure.offline);
+      await cubit.search('never searched');
+      expect(cubit.state, isA<SearchFailure>());
+      expect((cubit.state as SearchFailure).kind, CatalogueFailure.offline);
 
-        net.error = const DataFailure(DataFailureKind.unavailable);
-        await cubit.search('never searched either');
-        expect((cubit.state as SearchFailure).kind, CatalogueFailure.server);
+      net.error = const DataFailure(DataFailureKind.unavailable);
+      await cubit.search('never searched either');
+      expect((cubit.state as SearchFailure).kind, CatalogueFailure.server);
 
-        net.error = StateError('bug');
-        await cubit.search('x2');
-        expect((cubit.state as SearchFailure).kind, CatalogueFailure.other);
-        await cubit.close();
-      },
-    );
+      net.error = StateError('bug');
+      await cubit.search('x2');
+      expect((cubit.state as SearchFailure).kind, CatalogueFailure.other);
+      await cubit.close();
+    });
 
-    test(
-      'when the connection returns the saved results are replaced quietly, with no loading state in between',
-      () async {
-        final net = FakeCatalogue(jobs: [job('1')]);
-        final cache = MemorySearchResultsCache(now: () => t0);
-        final repo = OfflineFirstSearchRepository(
-          net,
-          cache,
-          now: () => t0,
-          networkTimeout: const Duration(milliseconds: 100),
-        );
-        final cubit = SearchCubit(
-          repo,
-          reconnectEvery: const Duration(milliseconds: 30),
-        );
-        final seen = <Type>[];
-        final sub = cubit.stream.listen((s) => seen.add(s.runtimeType));
-        await cubit.search('flutter');
-        net.error = http.ClientException('offline');
-        await cubit.search('flutter');
-        expect((cubit.state as SearchSuccess).cachedAt, isNotNull);
-        seen.clear();
-        net.error = null;
-        net.jobs = [job('1'), job('7', title: 'Senior Flutter Developer')];
-        await Future<void>.delayed(const Duration(milliseconds: 200));
-        final s = cubit.state as SearchSuccess;
-        expect(s.cachedAt, isNull);
-        expect(s.jobs, hasLength(2));
-        expect(
-          seen,
-          isNot(contains(SearchLoading)),
-          reason: 'no skeleton flicker on reconnection',
-        );
-        await sub.cancel();
-        await cubit.close();
-      },
-    );
+    test('when the connection returns the saved results are replaced quietly, with no loading state in between', () async {
+      final net = FakeCatalogue(jobs: [job('1')]);
+      final cache = MemorySearchResultsCache(now: () => t0);
+      final repo = OfflineFirstSearchRepository(
+        net,
+        cache,
+        now: () => t0,
+        networkTimeout: const Duration(milliseconds: 100),
+      );
+      final cubit = SearchCubit(
+        repo,
+        reconnectEvery: const Duration(milliseconds: 30),
+      );
+      final seen = <Type>[];
+      final sub = cubit.stream.listen((s) => seen.add(s.runtimeType));
+      await cubit.search('flutter');
+      net.error = http.ClientException('offline');
+      await cubit.search('flutter');
+      expect((cubit.state as SearchSuccess).cachedAt, isNotNull);
+      seen.clear();
+      net.error = null;
+      net.jobs = [job('1'), job('7', title: 'Senior Flutter Developer')];
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      final s = cubit.state as SearchSuccess;
+      expect(s.cachedAt, isNull);
+      expect(s.jobs, hasLength(2));
+      expect(
+        seen,
+        isNot(contains(SearchLoading)),
+        reason: 'no skeleton flicker on reconnection',
+      );
+      await sub.cancel();
+      await cubit.close();
+    });
 
     test('a failed quiet attempt leaves the saved results alone', () async {
       final net = FakeCatalogue(jobs: [job('1')]);
@@ -396,47 +363,44 @@ void main() {
   });
 
   group('Home', () {
-    test(
-      'saved jobs with their date; without any: offline; service error: unavailable',
-      () async {
-        final net = FakeCatalogue(jobs: [job('1')]);
-        final cache = MemorySearchResultsCache(now: () => t0);
-        final repo = OfflineFirstSearchRepository(
+    test('saved jobs with their date; without any: offline; service error: unavailable', () async {
+      final net = FakeCatalogue(jobs: [job('1')]);
+      final cache = MemorySearchResultsCache(now: () => t0);
+      final repo = OfflineFirstSearchRepository(
+        net,
+        cache,
+        now: () => t0,
+        networkTimeout: const Duration(milliseconds: 100),
+      );
+      final cubit = LatestJobsCubit(repo);
+      await cubit.load();
+      expect(cubit.state.status, LatestStatus.ready);
+      expect(cubit.state.cachedAt, isNull);
+
+      net.error = http.ClientException('offline');
+      await cubit.load();
+      expect(cubit.state.status, LatestStatus.ready);
+      expect(cubit.state.cachedAt, t0);
+      expect(cubit.state.jobs, hasLength(1));
+
+      final empty = LatestJobsCubit(
+        OfflineFirstSearchRepository(
           net,
-          cache,
-          now: () => t0,
+          MemorySearchResultsCache(),
           networkTimeout: const Duration(milliseconds: 100),
-        );
-        final cubit = LatestJobsCubit(repo);
-        await cubit.load();
-        expect(cubit.state.status, LatestStatus.ready);
-        expect(cubit.state.cachedAt, isNull);
-
-        net.error = http.ClientException('offline');
-        await cubit.load();
-        expect(cubit.state.status, LatestStatus.ready);
-        expect(cubit.state.cachedAt, t0);
-        expect(cubit.state.jobs, hasLength(1));
-
-        final empty = LatestJobsCubit(
-          OfflineFirstSearchRepository(
-            net,
-            MemorySearchResultsCache(),
-            networkTimeout: const Duration(milliseconds: 100),
-          ),
-        );
-        await empty.load();
-        expect(empty.state.status, LatestStatus.offline);
-        net.error = const DataFailure(DataFailureKind.unavailable);
-        await empty.load();
-        expect(empty.state.status, LatestStatus.unavailable);
-        net.error = StateError('bug');
-        await empty.load();
-        expect(empty.state.status, LatestStatus.failure);
-        await cubit.close();
-        await empty.close();
-      },
-    );
+        ),
+      );
+      await empty.load();
+      expect(empty.state.status, LatestStatus.offline);
+      net.error = const DataFailure(DataFailureKind.unavailable);
+      await empty.load();
+      expect(empty.state.status, LatestStatus.unavailable);
+      net.error = StateError('bug');
+      await empty.load();
+      expect(empty.state.status, LatestStatus.failure);
+      await cubit.close();
+      await empty.close();
+    });
   });
 }
 

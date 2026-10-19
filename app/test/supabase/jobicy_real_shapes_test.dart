@@ -92,16 +92,13 @@ void main() {
       },
     );
 
-    test(
-      'regions stay regions (EMEA, LATAM, APAC, Europe) and are not expanded into countries',
-      () async {
-        for (final g in ['EMEA', 'LATAM', 'APAC', 'Europe']) {
-          final j = await load(row('3', geo: [g]));
-          expect(j.country, isNull);
-          expect(j.geoRestrictions, [g]);
-        }
-      },
-    );
+    test('regions stay regions (EMEA, LATAM, APAC, Europe) and are not expanded into countries', () async {
+      for (final g in ['EMEA', 'LATAM', 'APAC', 'Europe']) {
+        final j = await load(row('3', geo: [g]));
+        expect(j.country, isNull);
+        expect(j.geoRestrictions, [g]);
+      }
+    });
 
     test('mixed countries and regions keep their order', () async {
       final j = await load(
@@ -110,15 +107,12 @@ void main() {
       expect(j.geoRestrictions, ['CA', 'US', 'APAC', 'EMEA', 'LATAM']);
     });
 
-    test(
-      'a missing or empty location (5 of 299 are stored as an empty list): the app claims no place and no eligibility',
-      () async {
-        final j = await load(row('5'));
-        expect(j.geoRestrictions, isEmpty);
-        expect(j.country, isNull);
-        expect(placeLabel(j, l), isNull);
-      },
-    );
+    test('a missing or empty location (5 of 299 are stored as an empty list): the app claims no place and no eligibility', () async {
+      final j = await load(row('5'));
+      expect(j.geoRestrictions, isEmpty);
+      expect(j.country, isNull);
+      expect(placeLabel(j, l), isNull);
+    });
   });
 
   group('attribution and link', () {
@@ -161,15 +155,12 @@ void main() {
       expect(formatSalary(j, l), isNull);
     });
 
-    test(
-      'a salary with only one side (5 of 299) is shown as "Up to", never like an exact amount',
-      () async {
-        final j = await load(
-          row('10', min: null, max: 110000, cur: 'USD', per: 'year'),
-        );
-        final s = formatSalary(j, l)!;
-        expect(s, anyOf(contains('up to'), contains('Up to')));
-      },
-    );
+    test('a salary with only one side (5 of 299) is shown as "Up to", never like an exact amount', () async {
+      final j = await load(
+        row('10', min: null, max: 110000, cur: 'USD', per: 'year'),
+      );
+      final s = formatSalary(j, l)!;
+      expect(s, anyOf(contains('up to'), contains('Up to')));
+    });
   });
 }

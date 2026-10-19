@@ -57,28 +57,25 @@ void main() {
       await again.close();
     });
 
-    test(
-      'turning it off forgets what was kept and stops remembering, also after a restart',
-      () async {
-        final prefs = await _prefs();
-        final c = RecentSearchesCubit(prefs: prefs)..useScope('u');
-        c.record('nurse');
-        await c.setEnabled(false);
-        expect(c.state, isEmpty);
-        c.record('welder');
-        expect(c.state, isEmpty);
-        expect(prefs.getStringList('orbijob.recent_searches.u'), isNull);
-        await c.close();
-        final again = RecentSearchesCubit(prefs: prefs)..useScope('u');
-        expect(again.enabled.value, isFalse);
-        again.record('pilot');
-        expect(again.state, isEmpty);
-        await again.setEnabled(true);
-        again.record('pilot');
-        expect(again.state, ['pilot']);
-        await again.close();
-      },
-    );
+    test('turning it off forgets what was kept and stops remembering, also after a restart', () async {
+      final prefs = await _prefs();
+      final c = RecentSearchesCubit(prefs: prefs)..useScope('u');
+      c.record('nurse');
+      await c.setEnabled(false);
+      expect(c.state, isEmpty);
+      c.record('welder');
+      expect(c.state, isEmpty);
+      expect(prefs.getStringList('orbijob.recent_searches.u'), isNull);
+      await c.close();
+      final again = RecentSearchesCubit(prefs: prefs)..useScope('u');
+      expect(again.enabled.value, isFalse);
+      again.record('pilot');
+      expect(again.state, isEmpty);
+      await again.setEnabled(true);
+      again.record('pilot');
+      expect(again.state, ['pilot']);
+      await again.close();
+    });
 
     test(
       'clear removes the stored list, only for the current account',

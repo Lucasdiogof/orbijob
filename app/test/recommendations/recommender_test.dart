@@ -65,19 +65,16 @@ void main() {
       originalUrl: 'https://example.com/$source/$id',
       publishedAt: _now.subtract(Duration(hours: int.parse(id))),
     );
-    test(
-      'at most half of the list from one source while others have relevant jobs',
-      () {
-        final jobs = [
-          for (var i = 1; i <= 20; i++) from('big', '$i'),
-          for (var i = 30; i <= 34; i++) from('small', '$i'),
-        ];
-        final top = _r.rank(profile(professions: ['nurse']), jobs, limit: 10);
-        expect(top, hasLength(10));
-        expect(top.where((r) => r.job.source == 'big'), hasLength(5));
-        expect(top.where((r) => r.job.source == 'small'), hasLength(5));
-      },
-    );
+    test('at most half of the list from one source while others have relevant jobs', () {
+      final jobs = [
+        for (var i = 1; i <= 20; i++) from('big', '$i'),
+        for (var i = 30; i <= 34; i++) from('small', '$i'),
+      ];
+      final top = _r.rank(profile(professions: ['nurse']), jobs, limit: 10);
+      expect(top, hasLength(10));
+      expect(top.where((r) => r.job.source == 'big'), hasLength(5));
+      expect(top.where((r) => r.job.source == 'small'), hasLength(5));
+    });
     test('when there is not enough variety nothing relevant is dropped', () {
       final jobs = [
         for (var i = 1; i <= 8; i++) from('big', '$i'),
@@ -96,22 +93,19 @@ void main() {
   });
 
   group('any profession, not only technology', () {
-    test(
-      'a nurse is matched to nursing jobs in two languages and not to unrelated ones',
-      () {
-        final p = profile(professions: ['Enfermeira']);
-        expect(
-          one(p, job('1', 'Enfermeiro(a) de UTI'))!.reasons.first.kind,
-          ReasonKind.professionClose,
-        );
-        expect(
-          one(p, job('2', 'Registered Nurse'))!.reasons.first.kind,
-          ReasonKind.professionSynonym,
-        );
-        expect(one(p, job('3', 'Backend Developer')), isNull);
-        expect(one(p, job('4', 'Welder')), isNull);
-      },
-    );
+    test('a nurse is matched to nursing jobs in two languages and not to unrelated ones', () {
+      final p = profile(professions: ['Enfermeira']);
+      expect(
+        one(p, job('1', 'Enfermeiro(a) de UTI'))!.reasons.first.kind,
+        ReasonKind.professionClose,
+      );
+      expect(
+        one(p, job('2', 'Registered Nurse'))!.reasons.first.kind,
+        ReasonKind.professionSynonym,
+      );
+      expect(one(p, job('3', 'Backend Developer')), isNull);
+      expect(one(p, job('4', 'Welder')), isNull);
+    });
 
     test('an electrician, an accountant, a cook: the same rules', () {
       expect(
@@ -157,27 +151,21 @@ void main() {
       );
     });
 
-    test(
-      'another title of the same ESCO occupation group is said so ("same occupation group"), and scores below the profession itself',
-      () {
-        final p = profile(professions: ['Accountant'], interest: {'DE'});
-        final r = one(p, job('1', 'Financial Controller', country: 'DE'));
-        expect(r!.reasons.first.kind, ReasonKind.professionGroup);
-        expect(
-          r.score,
-          lessThan(one(p, job('2', 'Accountant', country: 'DE'))!.score),
-        );
-      },
-    );
+    test('another title of the same ESCO occupation group is said so ("same occupation group"), and scores below the profession itself', () {
+      final p = profile(professions: ['Accountant'], interest: {'DE'});
+      final r = one(p, job('1', 'Financial Controller', country: 'DE'));
+      expect(r!.reasons.first.kind, ReasonKind.professionGroup);
+      expect(
+        r.score,
+        lessThan(one(p, job('2', 'Accountant', country: 'DE'))!.score),
+      );
+    });
 
-    test(
-      'a title that only shares the general area is not recommended, with or without a country of interest',
-      () {
-        final p = profile(professions: ['Accountant'], interest: {'DE'});
-        expect(one(p, job('0', 'Marketing Manager')), isNull);
-        expect(one(p, job('1', 'Marketing Manager', country: 'DE')), isNull);
-      },
-    );
+    test('a title that only shares the general area is not recommended, with or without a country of interest', () {
+      final p = profile(professions: ['Accountant'], interest: {'DE'});
+      expect(one(p, job('0', 'Marketing Manager')), isNull);
+      expect(one(p, job('1', 'Marketing Manager', country: 'DE')), isNull);
+    });
 
     test('accents and capitals do not matter', () {
       final p = profile(professions: ['TÉCNICO de enfermagem']);
@@ -190,70 +178,60 @@ void main() {
   });
 
   group('skills', () {
-    test(
-      'skills found as whole words in the title or text count; fragments do not',
-      () {
-        final p = profile(skills: ['SQL', 'Excel', 'Python']);
-        final yes = one(
-          p,
-          job('1', 'Data Analyst', description: 'We use SQL and excel daily'),
-        )!;
-        expect(yes.reasons.first.kind, ReasonKind.skills);
-        expect(yes.reasons.first.items, ['SQL', 'Excel']);
-        expect(
-          one(p, job('2', 'Analyst', description: 'mysqldump tooling')),
-          isNull,
-        );
-      },
-    );
+    test('skills found as whole words in the title or text count; fragments do not', () {
+      final p = profile(skills: ['SQL', 'Excel', 'Python']);
+      final yes = one(
+        p,
+        job('1', 'Data Analyst', description: 'We use SQL and excel daily'),
+      )!;
+      expect(yes.reasons.first.kind, ReasonKind.skills);
+      expect(yes.reasons.first.items, ['SQL', 'Excel']);
+      expect(
+        one(p, job('2', 'Analyst', description: 'mysqldump tooling')),
+        isNull,
+      );
+    });
   });
 
   group('place', () {
     final nurse = ['Nurse'];
-    test(
-      'interest countries beat residence; remote jobs open to a country of the person count; a silent listing is kept with a note',
-      () {
-        final p = profile(
-          professions: nurse,
-          interest: {'DE'},
-          residence: 'BR',
-        );
-        expect(
-          one(p, job('1', 'Nurse', country: 'DE'))!.reasons.map((r) => r.kind),
-          contains(ReasonKind.countryOfInterest),
-        );
-        expect(
-          one(p, job('2', 'Nurse', country: 'BR'))!.reasons.map((r) => r.kind),
-          contains(ReasonKind.countryOfResidence),
-        );
-        final remote = one(
-          p,
-          job('3', 'Nurse', mode: WorkMode.remote, geo: ['BR']),
-        )!;
-        expect(
-          remote.reasons.map((r) => r.kind),
-          contains(ReasonKind.remoteEligible),
-        );
-        final any = one(
-          p,
-          job('4', 'Nurse', mode: WorkMode.remote, geo: ['Anywhere']),
-        )!;
-        expect(
-          any.reasons.map((r) => r.kind),
-          contains(ReasonKind.remoteAnywhere),
-        );
-        final silent = one(p, job('5', 'Nurse'))!;
-        expect(
-          silent.caveats.map((c) => c.kind),
-          contains(CaveatKind.locationUnknown),
-        );
-        final elsewhere = one(p, job('6', 'Nurse', country: 'JP'))!;
-        expect(
-          elsewhere.score,
-          lessThan(one(p, job('7', 'Nurse', country: 'DE'))!.score),
-        );
-      },
-    );
+    test('interest countries beat residence; remote jobs open to a country of the person count; a silent listing is kept with a note', () {
+      final p = profile(professions: nurse, interest: {'DE'}, residence: 'BR');
+      expect(
+        one(p, job('1', 'Nurse', country: 'DE'))!.reasons.map((r) => r.kind),
+        contains(ReasonKind.countryOfInterest),
+      );
+      expect(
+        one(p, job('2', 'Nurse', country: 'BR'))!.reasons.map((r) => r.kind),
+        contains(ReasonKind.countryOfResidence),
+      );
+      final remote = one(
+        p,
+        job('3', 'Nurse', mode: WorkMode.remote, geo: ['BR']),
+      )!;
+      expect(
+        remote.reasons.map((r) => r.kind),
+        contains(ReasonKind.remoteEligible),
+      );
+      final any = one(
+        p,
+        job('4', 'Nurse', mode: WorkMode.remote, geo: ['Anywhere']),
+      )!;
+      expect(
+        any.reasons.map((r) => r.kind),
+        contains(ReasonKind.remoteAnywhere),
+      );
+      final silent = one(p, job('5', 'Nurse'))!;
+      expect(
+        silent.caveats.map((c) => c.kind),
+        contains(CaveatKind.locationUnknown),
+      );
+      final elsewhere = one(p, job('6', 'Nurse', country: 'JP'))!;
+      expect(
+        elsewhere.score,
+        lessThan(one(p, job('7', 'Nurse', country: 'DE'))!.score),
+      );
+    });
 
     test('the same city adds to the place score', () {
       final p = profile(professions: nurse, residence: 'BR', city: 'Goiânia');
@@ -265,81 +243,69 @@ void main() {
   });
 
   group('work mode and language', () {
-    test(
-      'a matching work mode adds points, a mismatch does not subtract, an unstated one is flagged',
-      () {
-        final p = profile(professions: ['Nurse'], workMode: 'remote');
-        final remote = one(p, job('1', 'Nurse', mode: WorkMode.remote))!;
-        final onsite = one(p, job('2', 'Nurse', mode: WorkMode.onsite))!;
-        final unstated = one(p, job('3', 'Nurse'))!;
-        expect(remote.score, greaterThan(onsite.score));
-        expect(onsite.score, unstated.score);
-        expect(
-          unstated.caveats.map((c) => c.kind),
-          contains(CaveatKind.workModeUnstated),
-        );
-      },
-    );
+    test('a matching work mode adds points, a mismatch does not subtract, an unstated one is flagged', () {
+      final p = profile(professions: ['Nurse'], workMode: 'remote');
+      final remote = one(p, job('1', 'Nurse', mode: WorkMode.remote))!;
+      final onsite = one(p, job('2', 'Nurse', mode: WorkMode.onsite))!;
+      final unstated = one(p, job('3', 'Nurse'))!;
+      expect(remote.score, greaterThan(onsite.score));
+      expect(onsite.score, unstated.score);
+      expect(
+        unstated.caveats.map((c) => c.kind),
+        contains(CaveatKind.workModeUnstated),
+      );
+    });
 
-    test(
-      'a listing in another language is kept and flagged, one in the profile languages is rewarded',
-      () {
-        final p = profile(professions: ['Nurse'], languages: {'pt', 'en'});
-        final de = one(p, job('1', 'Nurse', language: 'de'))!;
-        expect(
-          de.caveats.map((c) => c.kind),
-          contains(CaveatKind.languageDiffers),
-        );
-        final en = one(p, job('2', 'Nurse', language: 'en-GB'))!;
-        expect(en.reasons.map((r) => r.kind), contains(ReasonKind.language));
-        expect(en.score, greaterThan(de.score));
-      },
-    );
+    test('a listing in another language is kept and flagged, one in the profile languages is rewarded', () {
+      final p = profile(professions: ['Nurse'], languages: {'pt', 'en'});
+      final de = one(p, job('1', 'Nurse', language: 'de'))!;
+      expect(
+        de.caveats.map((c) => c.kind),
+        contains(CaveatKind.languageDiffers),
+      );
+      final en = one(p, job('2', 'Nurse', language: 'en-GB'))!;
+      expect(en.reasons.map((r) => r.kind), contains(ReasonKind.language));
+      expect(en.score, greaterThan(de.score));
+    });
   });
 
   group('must-haves versus nice-to-haves', () {
-    test(
-      'a preference never removes a job; a must-have removes only what contradicts it',
-      () {
-        final nice = profile(professions: ['Nurse'], workMode: 'remote');
-        expect(one(nice, job('1', 'Nurse', mode: WorkMode.onsite)), isNotNull);
-        final must = profile(
-          professions: ['Nurse'],
-          workMode: 'remote',
-          must: {MustHave.workMode},
-        );
-        expect(one(must, job('1', 'Nurse', mode: WorkMode.onsite)), isNull);
-        expect(one(must, job('2', 'Nurse', mode: WorkMode.remote)), isNotNull);
-        expect(
-          one(must, job('3', 'Nurse')),
-          isNotNull,
-          reason: 'a listing that says nothing is not a contradiction',
-        );
-      },
-    );
+    test('a preference never removes a job; a must-have removes only what contradicts it', () {
+      final nice = profile(professions: ['Nurse'], workMode: 'remote');
+      expect(one(nice, job('1', 'Nurse', mode: WorkMode.onsite)), isNotNull);
+      final must = profile(
+        professions: ['Nurse'],
+        workMode: 'remote',
+        must: {MustHave.workMode},
+      );
+      expect(one(must, job('1', 'Nurse', mode: WorkMode.onsite)), isNull);
+      expect(one(must, job('2', 'Nurse', mode: WorkMode.remote)), isNotNull);
+      expect(
+        one(must, job('3', 'Nurse')),
+        isNotNull,
+        reason: 'a listing that says nothing is not a contradiction',
+      );
+    });
 
-    test(
-      'country must-have: other countries go, matching, eligible-remote and silent ones stay',
-      () {
-        final p = profile(
-          professions: ['Nurse'],
-          interest: {'DE'},
-          residence: 'BR',
-          must: {MustHave.country},
-        );
-        expect(one(p, job('1', 'Nurse', country: 'JP')), isNull);
-        expect(one(p, job('2', 'Nurse', country: 'DE')), isNotNull);
-        expect(
-          one(p, job('3', 'Nurse', mode: WorkMode.remote, geo: ['Anywhere'])),
-          isNotNull,
-        );
-        expect(
-          one(p, job('4', 'Nurse', mode: WorkMode.remote, geo: ['US'])),
-          isNull,
-        );
-        expect(one(p, job('5', 'Nurse')), isNotNull);
-      },
-    );
+    test('country must-have: other countries go, matching, eligible-remote and silent ones stay', () {
+      final p = profile(
+        professions: ['Nurse'],
+        interest: {'DE'},
+        residence: 'BR',
+        must: {MustHave.country},
+      );
+      expect(one(p, job('1', 'Nurse', country: 'JP')), isNull);
+      expect(one(p, job('2', 'Nurse', country: 'DE')), isNotNull);
+      expect(
+        one(p, job('3', 'Nurse', mode: WorkMode.remote, geo: ['Anywhere'])),
+        isNotNull,
+      );
+      expect(
+        one(p, job('4', 'Nurse', mode: WorkMode.remote, geo: ['US'])),
+        isNull,
+      );
+      expect(one(p, job('5', 'Nurse')), isNotNull);
+    });
 
     test(
       'language must-have: only listings written in another known language go',
@@ -355,28 +321,25 @@ void main() {
       },
     );
 
-    test(
-      'a must-have with nothing to compare against is ignored (the profile is incomplete, not strict)',
-      () {
-        final p = profile(
-          professions: ['Nurse'],
-          must: {MustHave.workMode, MustHave.country, MustHave.language},
-        );
-        expect(
-          one(
-            p,
-            job(
-              '1',
-              'Nurse',
-              mode: WorkMode.onsite,
-              country: 'JP',
-              language: 'de',
-            ),
+    test('a must-have with nothing to compare against is ignored (the profile is incomplete, not strict)', () {
+      final p = profile(
+        professions: ['Nurse'],
+        must: {MustHave.workMode, MustHave.country, MustHave.language},
+      );
+      expect(
+        one(
+          p,
+          job(
+            '1',
+            'Nurse',
+            mode: WorkMode.onsite,
+            country: 'JP',
+            language: 'de',
           ),
-          isNotNull,
-        );
-      },
-    );
+        ),
+        isNotNull,
+      );
+    });
   });
 
   group('incomplete profiles', () {
@@ -388,77 +351,68 @@ void main() {
       },
     );
 
-    test(
-      'a thin profile is scored on what it has: missing data never lowers the score',
-      () {
-        final thin = profile(professions: ['Nurse']);
-        final full = profile(
-          professions: ['Nurse'],
-          workMode: 'remote',
-          languages: {'pt'},
-          interest: {'DE'},
-        );
-        final j = job('1', 'Registered Nurse', daysAgo: 1);
-        expect(one(thin, j)!.score, greaterThanOrEqualTo(80));
-        expect(
-          one(full, j)!.score,
-          lessThan(one(thin, j)!.score),
-          reason:
-              'more criteria, none met: honestly lower than "all we asked met"',
-        );
-        expect(one(thin, j)!.signals, lessThan(one(full, j)!.signals));
-      },
-    );
+    test('a thin profile is scored on what it has: missing data never lowers the score', () {
+      final thin = profile(professions: ['Nurse']);
+      final full = profile(
+        professions: ['Nurse'],
+        workMode: 'remote',
+        languages: {'pt'},
+        interest: {'DE'},
+      );
+      final j = job('1', 'Registered Nurse', daysAgo: 1);
+      expect(one(thin, j)!.score, greaterThanOrEqualTo(80));
+      expect(
+        one(full, j)!.score,
+        lessThan(one(thin, j)!.score),
+        reason:
+            'more criteria, none met: honestly lower than "all we asked met"',
+      );
+      expect(one(thin, j)!.signals, lessThan(one(full, j)!.signals));
+    });
 
-    test(
-      'a profile with only a place and a work mode still gets relevant, not random, jobs',
-      () {
-        final p = profile(interest: {'PT'}, workMode: 'remote');
-        expect(
-          one(p, job('1', 'Anything', country: 'PT', mode: WorkMode.remote)),
-          isNotNull,
-        );
-        expect(
-          one(
-            p,
-            job(
-              '2',
-              'Anything',
-              country: 'JP',
-              mode: WorkMode.onsite,
-              daysAgo: 0,
-            ),
+    test('a profile with only a place and a work mode still gets relevant, not random, jobs', () {
+      final p = profile(interest: {'PT'}, workMode: 'remote');
+      expect(
+        one(p, job('1', 'Anything', country: 'PT', mode: WorkMode.remote)),
+        isNotNull,
+      );
+      expect(
+        one(
+          p,
+          job(
+            '2',
+            'Anything',
+            country: 'JP',
+            mode: WorkMode.onsite,
+            daysAgo: 0,
           ),
-          isNull,
-          reason: 'only "published recently" agrees',
-        );
-      },
-    );
+        ),
+        isNull,
+        reason: 'only "published recently" agrees',
+      );
+    });
   });
 
   group('honesty about eligibility', () {
-    test(
-      'a restricted listing carries a reminder; nothing says the person qualifies',
-      () {
-        final p = profile(professions: ['Nurse'], residence: 'BR');
-        final r = one(
-          p,
-          job('1', 'Nurse', mode: WorkMode.remote, geo: ['US', 'CA']),
-        )!;
-        final c = r.caveats.firstWhere(
-          (c) => c.kind == CaveatKind.eligibilityRestricted,
+    test('a restricted listing carries a reminder; nothing says the person qualifies', () {
+      final p = profile(professions: ['Nurse'], residence: 'BR');
+      final r = one(
+        p,
+        job('1', 'Nurse', mode: WorkMode.remote, geo: ['US', 'CA']),
+      )!;
+      final c = r.caveats.firstWhere(
+        (c) => c.kind == CaveatKind.eligibilityRestricted,
+      );
+      expect(c.items, ['US', 'CA']);
+      for (final reason in r.reasons) {
+        expect(ReasonKind.values.map((k) => k.name), isNot(contains('visa')));
+        expect(
+          reason.kind,
+          isNot(ReasonKind.remoteEligible),
+          reason: 'US/CA are not the person\'s countries',
         );
-        expect(c.items, ['US', 'CA']);
-        for (final reason in r.reasons) {
-          expect(ReasonKind.values.map((k) => k.name), isNot(contains('visa')));
-          expect(
-            reason.kind,
-            isNot(ReasonKind.remoteEligible),
-            reason: 'US/CA are not the person\'s countries',
-          );
-        }
-      },
-    );
+      }
+    });
   });
 
   group('ranking', () {

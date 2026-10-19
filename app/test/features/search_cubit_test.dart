@@ -29,26 +29,20 @@ class _Empty implements SearchRepository {
 
 void main() {
   group('SearchCubit', () {
-    test(
-      'an empty query lists the newest jobs (never an empty page); clear() is the only way back to idle',
-      () async {
-        final c = SearchCubit(NoSourceSearchRepository());
-        await c.search('   ');
-        expect(c.state, const SearchNoSource(''));
-        c.clear();
-        expect(c.state, const SearchIdle());
-      },
-    );
-    test(
-      'a build without backend configuration says so, and never "no source covers this search"',
-      () async {
-        final c = SearchCubit(UnconfiguredSearchRepository());
-        await c.search('engineer');
-        expect(c.state, const SearchNotConfigured('engineer'));
-        await c.browse();
-        expect(c.state, const SearchNotConfigured(''));
-      },
-    );
+    test('an empty query lists the newest jobs (never an empty page); clear() is the only way back to idle', () async {
+      final c = SearchCubit(NoSourceSearchRepository());
+      await c.search('   ');
+      expect(c.state, const SearchNoSource(''));
+      c.clear();
+      expect(c.state, const SearchIdle());
+    });
+    test('a build without backend configuration says so, and never "no source covers this search"', () async {
+      final c = SearchCubit(UnconfiguredSearchRepository());
+      await c.search('engineer');
+      expect(c.state, const SearchNotConfigured('engineer'));
+      await c.browse();
+      expect(c.state, const SearchNotConfigured(''));
+    });
     test(
       'no integrated source is reported honestly, never fake results',
       () async {

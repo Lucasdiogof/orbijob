@@ -19,23 +19,24 @@ void main() {
     },
   );
 
-  testWidgets('navigates between the four pages and shows honest empty states', (
-    t,
-  ) async {
-    await pumpApp(t);
-    expect(find.text('Find your next opportunity'), findsOneWidget);
-    await t.tap(find.text('Favorites'));
-    await t.pumpAndSettle();
-    expect(find.text('No favorites yet'), findsOneWidget);
-    await t.tap(find.text('Applications'));
-    await t.pumpAndSettle();
-    expect(find.text('No applications tracked'), findsWidgets);
-    await t.tap(find.text('Explore'));
-    await t.pumpAndSettle();
-    // Explore lists the newest jobs on its own; this build has no backend configuration, and it says so (not "no source")
-    expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
-    expect(find.text('No integrated source for this search'), findsNothing);
-  });
+  testWidgets(
+    'navigates between the four pages and shows honest empty states',
+    (t) async {
+      await pumpApp(t);
+      expect(find.text('Find your next opportunity'), findsOneWidget);
+      await t.tap(find.text('Favorites'));
+      await t.pumpAndSettle();
+      expect(find.text('No favorites yet'), findsOneWidget);
+      await t.tap(find.text('Applications'));
+      await t.pumpAndSettle();
+      expect(find.text('No applications tracked'), findsWidgets);
+      await t.tap(find.text('Explore'));
+      await t.pumpAndSettle();
+      // Explore lists the newest jobs on its own; this build has no backend configuration, and it says so (not "no source")
+      expect(find.text('This build is not connected to OrbiJob'), findsWidgets);
+      expect(find.text('No integrated source for this search'), findsNothing);
+    },
+  );
 
   testWidgets(
     'home search field opens Explore with the keyboard field focused',

@@ -107,43 +107,39 @@ Future<void> _openPrivacy(
 
 void main() {
   group('export ZIP', () {
-    test(
-      'holds the JSON and the downloadable PDFs, drops the signed links and reports what is missing',
-      () async {
-        final fetched = <String>[];
-        final e = await packExport(
-          _doc(),
-          now: DateTime.utc(2026, 10, 14, 9),
-          fetch: (url) async {
-            fetched.add(url);
-            return url.contains('/a') ? _pdf : null;
-          },
-        );
-        expect(e.fileName, 'orbijob-data-20261014.zip');
-        expect(e.resumeFiles, 1);
-        expect(e.resumeFilesMissing, 2);
-        expect(fetched, [
-          'https://signed.example/a?t=1',
-          'https://signed.example/b?t=1',
-        ]);
-        final zip = ZipDecoder().decodeBytes(e.bytes);
-        expect(zip.files.map((f) => f.name).toSet(), {
-          'orbijob-data.json',
-          'resumes/1-cv_ana.pdf',
-        });
-        final text = utf8.decode(
-          zip.findFile('orbijob-data.json')!.content as List<int>,
-        );
-        final json = jsonDecode(text) as Map<String, dynamic>;
-        expect(text, isNot(contains('signed.example')));
-        expect(json['data']['professional_profiles'][0]['name'], 'Ana');
-        final files = (json['resume_files'] as List)
-            .cast<Map<String, dynamic>>();
-        expect(files.map((f) => f['included_in_zip']), [true, false, false]);
-        expect(files.first['zip_path'], 'resumes/1-cv_ana.pdf');
-        expect(zip.findFile('resumes/1-cv_ana.pdf')!.content, _pdf);
-      },
-    );
+    test('holds the JSON and the downloadable PDFs, drops the signed links and reports what is missing', () async {
+      final fetched = <String>[];
+      final e = await packExport(
+        _doc(),
+        now: DateTime.utc(2026, 10, 14, 9),
+        fetch: (url) async {
+          fetched.add(url);
+          return url.contains('/a') ? _pdf : null;
+        },
+      );
+      expect(e.fileName, 'orbijob-data-20261014.zip');
+      expect(e.resumeFiles, 1);
+      expect(e.resumeFilesMissing, 2);
+      expect(fetched, [
+        'https://signed.example/a?t=1',
+        'https://signed.example/b?t=1',
+      ]);
+      final zip = ZipDecoder().decodeBytes(e.bytes);
+      expect(zip.files.map((f) => f.name).toSet(), {
+        'orbijob-data.json',
+        'resumes/1-cv_ana.pdf',
+      });
+      final text = utf8.decode(
+        zip.findFile('orbijob-data.json')!.content as List<int>,
+      );
+      final json = jsonDecode(text) as Map<String, dynamic>;
+      expect(text, isNot(contains('signed.example')));
+      expect(json['data']['professional_profiles'][0]['name'], 'Ana');
+      final files = (json['resume_files'] as List).cast<Map<String, dynamic>>();
+      expect(files.map((f) => f['included_in_zip']), [true, false, false]);
+      expect(files.first['zip_path'], 'resumes/1-cv_ana.pdf');
+      expect(zip.findFile('resumes/1-cv_ana.pdf')!.content, _pdf);
+    });
 
     test('works with no resumes at all', () async {
       final e = await packExport(
@@ -176,23 +172,20 @@ void main() {
       },
     );
 
-    test(
-      'a failure is mapped, nothing is shared, and a second tap while working does nothing',
-      () async {
-        final data = _FakeData()
-          ..error = const DataFailure(DataFailureKind.network);
-        var shared = 0;
-        final c = DataExportCubit(data, share: (_) async => shared++);
-        final first = c.start();
-        final second = c.start();
-        await Future.wait([first, second]);
-        expect(data.calls, 1);
-        expect(shared, 0);
-        expect(c.state.phase, ExportPhase.failed);
-        expect(c.state.failure, DataFailureKind.network);
-        await c.close();
-      },
-    );
+    test('a failure is mapped, nothing is shared, and a second tap while working does nothing', () async {
+      final data = _FakeData()
+        ..error = const DataFailure(DataFailureKind.network);
+      var shared = 0;
+      final c = DataExportCubit(data, share: (_) async => shared++);
+      final first = c.start();
+      final second = c.start();
+      await Future.wait([first, second]);
+      expect(data.calls, 1);
+      expect(shared, 0);
+      expect(c.state.phase, ExportPhase.failed);
+      expect(c.state.failure, DataFailureKind.network);
+      await c.close();
+    });
 
     test('without a backend it reports "not configured"', () async {
       final c = DataExportCubit(null);

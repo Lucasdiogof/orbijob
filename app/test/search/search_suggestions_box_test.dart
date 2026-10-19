@@ -21,9 +21,8 @@ void main() {
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               builder: (c, child) => MediaQuery(
-                data: MediaQuery.of(
-                  c,
-                ).copyWith(textScaler: const TextScaler.linear(2)),
+                data: MediaQuery.of(c)
+                    .copyWith(textScaler: const TextScaler.linear(2)),
                 child: child!,
               ),
               home: Scaffold(

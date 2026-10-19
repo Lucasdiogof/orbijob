@@ -29,36 +29,21 @@ const _hantOnly = '們這個為與來時會說國學後發對從開關門問間�
 const _hansOnly = '们这个为与来时会说国学后发对从开关门问间点经现当师电话体让请应该义过还务员联岁条处响营区无开';
 
 const _stop = <String, String>{
-  'en':
-      'the and of to in for with a an is are be as on at by or this that you will our we your from have has can it their about all not more work team role experience skills working join looking ability including such who which',
-  'de':
-      'und der die das den dem des ein eine einen einer eines mit für von zu im ist sind wir sie ihr ihre bei auf als auch oder nach über aus durch sich nicht wird werden haben unser unsere deine dein du uns wenn zum zur dass bis einer',
-  'sv':
-      'och att som en ett är för med på av till det den har vi du vill inte om vara kan hos från din dina våra vår ska eller men även alla där ditt dig samt så vid sig när',
-  'da':
-      'og at det en den til er som på de med for af ikke der vi du har om kan vil jeres vores din dig men eller også hos fra være',
-  'no':
-      'og å det en den til er som på de med for av ikke vi du har om kan vil din deg men eller også hos fra være dere vår våre',
-  'fi':
-      'ja on ei että se oli hän mutta kun sekä tai joka sinun meidän olet voit työ meille kanssa tehtävä myös ovat tämä vuotta',
-  'nl':
-      'de het een en van in is dat op te voor met zijn niet aan er maar om ook als bij wij je jij onze ons wat naar uit worden kan heeft',
-  'fr':
-      'le la les de des du un une et en pour dans que qui est sont avec sur au aux ce cette nous vous votre notre ses par pas plus ou ne se être poste équipe',
-  'es':
-      'el la los las de del un una y en para con que es son por se su sus al lo como más pero o este esta nuestro nuestra trabajo equipo experiencia puesto tu usted',
-  'pt':
-      'o a os as de do da dos das um uma e em para com que é são por se seu sua ao como mais mas ou este esta nosso nossa trabalho equipe experiência vaga você nós',
-  'it':
-      'il lo la i gli le di del della un una e in per con che è sono da si suo sua al come più ma o questo questa nostro nostra lavoro squadra esperienza',
-  'pl':
-      'i w na z do nie się jest to że o jak po za dla przez od ale lub oraz nasz nasza praca zespół doświadczenie będzie są',
-  'cs':
-      'a v na se je to že do pro s o jak po za od ale nebo naše práce tým zkušenosti bude jsou',
-  'ro':
-      'și în de la cu pe nu este care un o pentru sau mai din că ca noi echipa experiență',
-  'tr':
-      've bir bu için ile de da çok daha olarak gibi veya ancak biz sizin deneyim ekip',
+  'en': 'the and of to in for with a an is are be as on at by or this that you will our we your from have has can it their about all not more work team role experience skills working join looking ability including such who which',
+  'de': 'und der die das den dem des ein eine einen einer eines mit für von zu im ist sind wir sie ihr ihre bei auf als auch oder nach über aus durch sich nicht wird werden haben unser unsere deine dein du uns wenn zum zur dass bis einer',
+  'sv': 'och att som en ett är för med på av till det den har vi du vill inte om vara kan hos från din dina våra vår ska eller men även alla där ditt dig samt så vid sig när',
+  'da': 'og at det en den til er som på de med for af ikke der vi du har om kan vil jeres vores din dig men eller også hos fra være',
+  'no': 'og å det en den til er som på de med for av ikke vi du har om kan vil din deg men eller også hos fra være dere vår våre',
+  'fi': 'ja on ei että se oli hän mutta kun sekä tai joka sinun meidän olet voit työ meille kanssa tehtävä myös ovat tämä vuotta',
+  'nl': 'de het een en van in is dat op te voor met zijn niet aan er maar om ook als bij wij je jij onze ons wat naar uit worden kan heeft',
+  'fr': 'le la les de des du un une et en pour dans que qui est sont avec sur au aux ce cette nous vous votre notre ses par pas plus ou ne se être poste équipe',
+  'es': 'el la los las de del un una y en para con que es son por se su sus al lo como más pero o este esta nuestro nuestra trabajo equipo experiencia puesto tu usted',
+  'pt': 'o a os as de do da dos das um uma e em para com que é são por se seu sua ao como mais mas ou este esta nosso nossa trabalho equipe experiência vaga você nós',
+  'it': 'il lo la i gli le di del della un una e in per con che è sono da si suo sua al come più ma o questo questa nostro nostra lavoro squadra esperienza',
+  'pl': 'i w na z do nie się jest to że o jak po za dla przez od ale lub oraz nasz nasza praca zespół doświadczenie będzie są',
+  'cs': 'a v na se je to že do pro s o jak po za od ale nebo naše práce tým zkušenosti bude jsou',
+  'ro': 'și în de la cu pe nu este care un o pentru sau mai din că ca noi echipa experiență',
+  'tr': 've bir bu için ile de da çok daha olarak gibi veya ancak biz sizin deneyim ekip',
   'hu': 'és a az egy hogy nem is de van meg csapat munka tapasztalat vagy',
 };
 

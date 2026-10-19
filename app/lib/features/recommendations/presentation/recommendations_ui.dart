@@ -342,9 +342,8 @@ Widget? recommendationsMessage(
         );
   switch (s.status) {
     case RecStatus.needsProfile:
-      void open() => Navigator.of(
-        context,
-      ).push(MaterialPageRoute<void>(builder: (_) => const ProfilePage()));
+      void open() => Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (_) => const ProfilePage()));
       return make(
         Icons.badge_outlined,
         l.rcNeedProfileTitle,

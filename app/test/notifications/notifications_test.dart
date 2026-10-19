@@ -64,23 +64,20 @@ void main() {
       },
     );
 
-    test(
-      'alerts are on by default, and a failing settings read does not hide the list',
-      () async {
-        settings.error = StateError('x');
-        await c.load();
-        expect(c.state.status, LoadStatus.ready);
-        expect(c.state.alertsEnabled, isTrue);
-        expect(alertsEnabledIn({}), isTrue);
-        expect(alertsEnabledIn({'notifications': 'weird'}), isTrue);
-        expect(
-          alertsEnabledIn({
-            'notifications': {'enabled': false},
-          }),
-          isFalse,
-        );
-      },
-    );
+    test('alerts are on by default, and a failing settings read does not hide the list', () async {
+      settings.error = StateError('x');
+      await c.load();
+      expect(c.state.status, LoadStatus.ready);
+      expect(c.state.alertsEnabled, isTrue);
+      expect(alertsEnabledIn({}), isTrue);
+      expect(alertsEnabledIn({'notifications': 'weird'}), isTrue);
+      expect(
+        alertsEnabledIn({
+          'notifications': {'enabled': false},
+        }),
+        isFalse,
+      );
+    });
 
     test(
       'marking one read is immediate and stored; a failure puts it back',
@@ -128,19 +125,16 @@ void main() {
       expect(c.state.actionFailure, isNotNull);
     });
 
-    test(
-      'refresh picks up new notifications quietly and keeps the list when it fails',
-      () async {
-        await c.load();
-        repo.rows.insert(0, _n('4', 'Pilot'));
-        await c.refresh();
-        expect(c.state.items.first.title, 'Pilot');
-        repo.error = StateError('boom');
-        await c.refresh();
-        expect(c.state.items.first.title, 'Pilot');
-        expect(c.state.status, LoadStatus.ready);
-      },
-    );
+    test('refresh picks up new notifications quietly and keeps the list when it fails', () async {
+      await c.load();
+      repo.rows.insert(0, _n('4', 'Pilot'));
+      await c.refresh();
+      expect(c.state.items.first.title, 'Pilot');
+      repo.error = StateError('boom');
+      await c.refresh();
+      expect(c.state.items.first.title, 'Pilot');
+      expect(c.state.status, LoadStatus.ready);
+    });
 
     test('signed out and not configured are reported, not hidden', () async {
       final auth = FakeAuth();
@@ -252,9 +246,8 @@ void main() {
               )
             : (204, null),
       );
-      await SupabaseAccountSettingsRepository(
-        b.client,
-      ).setKey('notifications', {'enabled': false});
+      await SupabaseAccountSettingsRepository(b.client)
+          .setKey('notifications', {'enabled': false});
       final sent = b.last.json as Map;
       expect(sent['user_id'], testUserA);
       expect(sent['settings'], {

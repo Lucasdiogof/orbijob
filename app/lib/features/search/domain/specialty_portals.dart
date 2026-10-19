@@ -50,8 +50,7 @@ const specialtyPortals = <SpecialtyPortal>[
     // the federal university hospitals (the EBSERH network, now "HU Brasil") hire physiotherapists by public competition; its calls have named
     // "Fisioterapia na Saúde da Mulher" as a specialty (2023, 2025). Official page of the calls, no feed: a link only.
     name: 'HU Brasil (EBSERH): concursos e seleções',
-    url:
-        'https://www.gov.br/hubrasil/pt-br/acesso-a-informacao/agentes-publicos/concursos-e-selecoes',
+    url: 'https://www.gov.br/hubrasil/pt-br/acesso-a-informacao/agentes-publicos/concursos-e-selecoes',
     region: 'Brasil (hospitais universitários federais)',
     specialties: {HealthSpecialty.physiotherapy},
   ),

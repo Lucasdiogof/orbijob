@@ -243,8 +243,7 @@ class TranslationService {
         }
         if (restored == null) {
           kept++;
-          results[i] =
-              line; // a protected part did not survive: keep this line as written
+          results[i] = line; // a protected part did not survive: keep this line as written
         } else {
           results[i] = '${b.prefix}$restored';
         }

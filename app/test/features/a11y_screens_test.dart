@@ -159,9 +159,8 @@ void main() {
             ),
           );
           final r = await fakes.resumes.upload(p.id!, tinyPdf());
-          fakes.resumes.contents[r.id] = File(
-            'test/fixtures/resumes/cv_en.pdf',
-          ).readAsBytesSync();
+          fakes.resumes.contents[r.id] = File('test/fixtures/resumes/cv_en.pdf')
+              .readAsBytesSync();
         }
         await pumpApp(
           t,

@@ -93,9 +93,9 @@ class _AreaPickerSheetState extends State<_AreaPickerSheet> {
                               widget.area == JobArea.health &&
                               widget.specialty == null,
                           dense: true,
-                          onTap: () => Navigator.of(
-                            context,
-                          ).pop(const AreaPick(JobArea.health)),
+                          onTap: () =>
+                              Navigator.of(context)
+                                  .pop(const AreaPick(JobArea.health)),
                         ),
                         for (final sp in HealthSpecialty.values)
                           Padding(
@@ -118,9 +118,9 @@ class _AreaPickerSheetState extends State<_AreaPickerSheet> {
                                   : null,
                               selected: widget.specialty == sp,
                               dense: true,
-                              onTap: () => Navigator.of(
-                                context,
-                              ).pop(AreaPick(JobArea.health, sp)),
+                              onTap: () =>
+                                  Navigator.of(context)
+                                      .pop(AreaPick(JobArea.health, sp)),
                             ),
                           ),
                         _Row(

@@ -66,20 +66,16 @@ void main() {
       SupabaseJobCatalogRepository(b.client, now: () => fixedNow);
 
   group('continents', () {
-    test(
-      'a continent adds ONE or-clause: job country in it, or an eligible country/region of it',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(
-          b,
-        ).search('', filters: const JobFilters(continent: Continent.europe));
-        final or = b.requests.first.query['or']!;
-        expect(or, startsWith('(country.in.(AD,AL,'));
-        expect(or, contains('geo_restrictions.ov.{AD,'));
-        expect(or, contains(',Europe}'));
-        expect(or, endsWith(')'));
-      },
-    );
+    test('a continent adds ONE or-clause: job country in it, or an eligible country/region of it', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b)
+          .search('', filters: const JobFilters(continent: Continent.europe));
+      final or = b.requests.first.query['or']!;
+      expect(or, startsWith('(country.in.(AD,AL,'));
+      expect(or, contains('geo_restrictions.ov.{AD,'));
+      expect(or, contains(',Europe}'));
+      expect(or, endsWith(')'));
+    });
 
     test(
       'a chosen country wins over the continent (no second clause)',
@@ -103,138 +99,115 @@ void main() {
   });
 
   group('professional areas', () {
-    test(
-      'an area filter adds ONE title regex (imatch) on top of the visibility rules, not a list of ilike patterns',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(
-          b,
-        ).search('', filters: const JobFilters(area: JobArea.health));
-        final r = b.requests.first;
+    test('an area filter adds ONE title regex (imatch) on top of the visibility rules, not a list of ilike patterns', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b)
+          .search('', filters: const JobFilters(area: JobArea.health));
+      final r = b.requests.first;
+      expect(r.query['status'], 'eq.open');
+      expect(r.query['job_sources.can_redistribute'], 'eq.true');
+      expect(r.query.containsKey('or'), isFalse);
+      final t = r.query['title']!;
+      expect(t, startsWith('imatch.nurse|nursing|'));
+      expect(t, contains('|physio'));
+    });
+
+    test('an area and a term are separate clauses (both must hold): the term is the only or=, the area is a title regex', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(
+        b,
+      ).search('flutter', filters: const JobFilters(area: JobArea.technology));
+      final ors = b.requests.first.request.url.query
+          .split('&')
+          .where((p) => p.startsWith('or='))
+          .toList();
+      expect(ors, hasLength(1));
+      expect(b.requests.first.query['title'], startsWith('imatch.software|'));
+    });
+
+    test('areaCounts asks one count per area with the same visibility rules, selecting only ids and one row', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) {
+          final t = url.queryParameters['title'] ?? '';
+          final n = t.contains('nurse') ? 3 : (t.contains('software') ? 41 : 0);
+          return {'content-range': '0-0/$n'};
+        },
+      );
+      final counts = await repoFor(b).areaCounts();
+      expect(counts.keys, JobArea.values);
+      expect(counts[JobArea.health], 3);
+      expect(counts[JobArea.technology], 41);
+      expect(counts[JobArea.hospitality], 0);
+      expect(b.requests, hasLength(JobArea.values.length));
+      for (final r in b.requests) {
+        expect(r.method, 'GET');
+        expect(
+          r.query['select'],
+          'id,job_sources!inner(id)',
+        ); // no description, no content: ids only
+        expect(r.query['limit'], '1');
+        expect(r.request.headers['Prefer'], contains('count=exact'));
         expect(r.query['status'], 'eq.open');
         expect(r.query['job_sources.can_redistribute'], 'eq.true');
+        expect(r.query['last_checked_at'], startsWith('gte.2026-10-07'));
+        expect(r.query['title'], startsWith('imatch.'));
         expect(r.query.containsKey('or'), isFalse);
-        final t = r.query['title']!;
-        expect(t, startsWith('imatch.nurse|nursing|'));
-        expect(t, contains('|physio'));
-      },
-    );
+      }
+    });
+    test('areaCounts retries a failed area once and leaves out one that keeps failing; the others still count', () async {
+      var techCalls = 0;
+      final b = FakeBackend(
+        respond: (m, url, _) {
+          final or = url.queryParameters['title'] ?? '';
+          if (or.contains('software')) {
+            techCalls++;
+            if (techCalls == 1) return (500, {'code': '57014'});
+          }
+          if (or.contains('nurse')) return (500, {'code': '57014'});
+          return (200, <Object?>[]);
+        },
+        headersFor: (url) => {'content-range': '0-0/5'},
+      );
+      final counts = await repoFor(b).areaCounts();
+      expect(counts[JobArea.technology], 5); // retried alone
+      expect(
+        counts.containsKey(JobArea.health),
+        isFalse,
+      ); // no chip rather than a wrong number
+      expect(counts[JobArea.finance], 5);
+    });
 
-    test(
-      'an area and a term are separate clauses (both must hold): the term is the only or=, the area is a title regex',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search(
-          'flutter',
-          filters: const JobFilters(area: JobArea.technology),
-        );
-        final ors = b.requests.first.request.url.query
-            .split('&')
-            .where((p) => p.startsWith('or='))
-            .toList();
-        expect(ors, hasLength(1));
-        expect(b.requests.first.query['title'], startsWith('imatch.software|'));
-      },
-    );
+    test('areaCounts reports every finished count through onPartial, growing one area at a time', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) => {'content-range': '0-0/7'},
+      );
+      final seen = <int>[];
+      final counts = await repoFor(b)
+          .areaCounts(onPartial: (soFar) => seen.add(soFar.length));
+      expect(counts, hasLength(JobArea.values.length));
+      expect(seen, hasLength(JobArea.values.length));
+      expect(seen.last, JobArea.values.length);
+      expect(seen, orderedEquals([...seen]..sort()));
+    });
 
-    test(
-      'areaCounts asks one count per area with the same visibility rules, selecting only ids and one row',
-      () async {
-        final b = FakeBackend(
-          respond: (m, url, _) => (200, <Object?>[]),
-          headersFor: (url) {
-            final t = url.queryParameters['title'] ?? '';
-            final n = t.contains('nurse')
-                ? 3
-                : (t.contains('software') ? 41 : 0);
-            return {'content-range': '0-0/$n'};
-          },
-        );
-        final counts = await repoFor(b).areaCounts();
-        expect(counts.keys, JobArea.values);
-        expect(counts[JobArea.health], 3);
-        expect(counts[JobArea.technology], 41);
-        expect(counts[JobArea.hospitality], 0);
-        expect(b.requests, hasLength(JobArea.values.length));
-        for (final r in b.requests) {
-          expect(r.method, 'GET');
-          expect(
-            r.query['select'],
-            'id,job_sources!inner(id)',
-          ); // no description, no content: ids only
-          expect(r.query['limit'], '1');
-          expect(r.request.headers['Prefer'], contains('count=exact'));
-          expect(r.query['status'], 'eq.open');
-          expect(r.query['job_sources.can_redistribute'], 'eq.true');
-          expect(r.query['last_checked_at'], startsWith('gte.2026-10-07'));
-          expect(r.query['title'], startsWith('imatch.'));
-          expect(r.query.containsKey('or'), isFalse);
-        }
-      },
-    );
-    test(
-      'areaCounts retries a failed area once and leaves out one that keeps failing; the others still count',
-      () async {
-        var techCalls = 0;
-        final b = FakeBackend(
-          respond: (m, url, _) {
-            final or = url.queryParameters['title'] ?? '';
-            if (or.contains('software')) {
-              techCalls++;
-              if (techCalls == 1) return (500, {'code': '57014'});
-            }
-            if (or.contains('nurse')) return (500, {'code': '57014'});
-            return (200, <Object?>[]);
-          },
-          headersFor: (url) => {'content-range': '0-0/5'},
-        );
-        final counts = await repoFor(b).areaCounts();
-        expect(counts[JobArea.technology], 5); // retried alone
-        expect(
-          counts.containsKey(JobArea.health),
-          isFalse,
-        ); // no chip rather than a wrong number
-        expect(counts[JobArea.finance], 5);
-      },
-    );
-
-    test(
-      'areaCounts reports every finished count through onPartial, growing one area at a time',
-      () async {
-        final b = FakeBackend(
-          respond: (m, url, _) => (200, <Object?>[]),
-          headersFor: (url) => {'content-range': '0-0/7'},
-        );
-        final seen = <int>[];
-        final counts = await repoFor(
-          b,
-        ).areaCounts(onPartial: (soFar) => seen.add(soFar.length));
-        expect(counts, hasLength(JobArea.values.length));
-        expect(seen, hasLength(JobArea.values.length));
-        expect(seen.last, JobArea.values.length);
-        expect(seen, orderedEquals([...seen]..sort()));
-      },
-    );
-
-    test(
-      'a refinement counts as TWO title regexes: its own and the parent specialty',
-      () async {
-        final b = FakeBackend(
-          respond: (m, url, _) => (200, <Object?>[]),
-          headersFor: (url) => {'content-range': '0-0/2'},
-        );
-        await repoFor(b).specialtyCounts();
-        final pelvic = b.requests.firstWhere(
-          (r) =>
-              r.request.url.query
-                  .split('&')
-                  .where((p) => p.startsWith('title='))
-                  .length ==
-              2,
-        );
-        expect(pelvic.request.url.query, contains('title=imatch.'));
-      },
-    );
+    test('a refinement counts as TWO title regexes: its own and the parent specialty', () async {
+      final b = FakeBackend(
+        respond: (m, url, _) => (200, <Object?>[]),
+        headersFor: (url) => {'content-range': '0-0/2'},
+      );
+      await repoFor(b).specialtyCounts();
+      final pelvic = b.requests.firstWhere(
+        (r) =>
+            r.request.url.query
+                .split('&')
+                .where((p) => p.startsWith('title='))
+                .length ==
+            2,
+      );
+      expect(pelvic.request.url.query, contains('title=imatch.'));
+    });
 
     test(
       'areaCounts reports a failure when no area could be counted',
@@ -246,42 +219,36 @@ void main() {
   });
 
   group('request shape', () {
-    test(
-      'reads public.jobs with the publishable key, only open jobs of authorised sources',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('flutter');
-        final r = b.requests.first;
-        expect(r.method, 'GET');
-        expect(r.path, '/rest/v1/jobs');
-        expect(r.request.headers['apikey'], testPublishableKey);
-        expect(r.query['status'], 'eq.open');
-        expect(r.query['select'], contains('job_sources!inner('));
-        expect(r.query['job_sources.can_redistribute'], 'eq.true');
-        expect(
-          r.query['job_sources.status'],
-          allOf(contains('READY'), contains('CONDITIONAL')),
-        );
-      },
-    );
+    test('reads public.jobs with the publishable key, only open jobs of authorised sources', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('flutter');
+      final r = b.requests.first;
+      expect(r.method, 'GET');
+      expect(r.path, '/rest/v1/jobs');
+      expect(r.request.headers['apikey'], testPublishableKey);
+      expect(r.query['status'], 'eq.open');
+      expect(r.query['select'], contains('job_sources!inner('));
+      expect(r.query['job_sources.can_redistribute'], 'eq.true');
+      expect(
+        r.query['job_sources.status'],
+        allOf(contains('READY'), contains('CONDITIONAL')),
+      );
+    });
 
-    test(
-      'works signed out: the anon key is the bearer, no user id is sent anywhere',
-      () async {
-        final b = FakeBackend(signedIn: false, respond: answer([row()]));
-        final res = await repoFor(b).search('');
-        expect(res.jobs, hasLength(1));
-        expect(b.requests.first.request.headers['apikey'], testPublishableKey);
-        expect(
-          b.requests.first.request.headers['Authorization'],
-          'Bearer $testPublishableKey',
-        );
-        expect(
-          b.requests.first.request.url.toString(),
-          isNot(contains(testUserA)),
-        );
-      },
-    );
+    test('works signed out: the anon key is the bearer, no user id is sent anywhere', () async {
+      final b = FakeBackend(signedIn: false, respond: answer([row()]));
+      final res = await repoFor(b).search('');
+      expect(res.jobs, hasLength(1));
+      expect(b.requests.first.request.headers['apikey'], testPublishableKey);
+      expect(
+        b.requests.first.request.headers['Authorization'],
+        'Bearer $testPublishableKey',
+      );
+      expect(
+        b.requests.first.request.url.toString(),
+        isNot(contains(testUserA)),
+      );
+    });
 
     test(
       'never touches a service key: the only credential is the publishable one',
@@ -298,17 +265,14 @@ void main() {
       },
     );
 
-    test(
-      'stable ordering: newest first, id as tie-break; page = offset and limit + 1 row',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('', offset: 40, limit: 20);
-        final q = b.requests.first.query;
-        expect(q['order'], 'published_at.desc.nullslast,id.desc.nullslast');
-        expect(q['offset'], '40');
-        expect(q['limit'], '21');
-      },
-    );
+    test('stable ordering: newest first, id as tie-break; page = offset and limit + 1 row', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('', offset: 40, limit: 20);
+      final q = b.requests.first.query;
+      expect(q['order'], 'published_at.desc.nullslast,id.desc.nullslast');
+      expect(q['offset'], '40');
+      expect(q['limit'], '21');
+    });
 
     test('limit is clamped and negative offsets are ignored', () async {
       final b = FakeBackend(respond: answer([row()]));
@@ -319,19 +283,15 @@ void main() {
   });
 
   group('text search', () {
-    test(
-      'a free term uses the generated search column and a title substring, in one OR group',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('  Acme  Robotics ');
-        final or =
-            b.requests.first.request.url.queryParametersAll['or']!.single;
-        expect(
-          or,
-          '(search.wfts(simple).Acme Robotics,title_fold.ilike.*acme robotics*,city_fold.ilike.*acme robotics*)',
-        );
-      },
-    );
+    test('a free term uses the generated search column and a title substring, in one OR group', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('  Acme  Robotics ');
+      final or = b.requests.first.request.url.queryParametersAll['or']!.single;
+      expect(
+        or,
+        '(search.wfts(simple).Acme Robotics,title_fold.ilike.*acme robotics*,city_fold.ilike.*acme robotics*)',
+      );
+    });
 
     test(
       'a profession is judged on the title; its qualifying words stay together',
@@ -356,65 +316,55 @@ void main() {
       },
     );
 
-    test(
-      'accents never decide: the folded columns get the folded term, the full-text column both spellings',
-      () async {
+    test('accents never decide: the folded columns get the folded term, the full-text column both spellings', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('Sênior Zxq');
+      final or = b.requests.first.request.url.queryParametersAll['or']!.single;
+      expect(or, contains('search.wfts(simple).Sênior Zxq'));
+      expect(or, contains('search.wfts(simple).senior zxq'));
+      expect(or, contains('title_fold.ilike.*senior zxq*'));
+      expect(or, contains('city_fold.ilike.*senior zxq*'));
+      expect(or, isNot(contains('title.ilike')));
+    });
+
+    test('a database without the folded columns is searched the old way, once the server says so', () async {
+      var calls = 0;
+      final b = FakeBackend(
+        respond: (m, u, body) {
+          calls++;
+          if (u.queryParameters['or']?.contains('title_fold') ?? false) {
+            return (
+              400,
+              {
+                'code': '42703',
+                'message': 'column jobs.title_fold does not exist',
+              },
+            );
+          }
+          return (200, [row()]);
+        },
+      );
+      SupabaseJobCatalogRepository.useFoldedColumns = true;
+      addTearDown(() => SupabaseJobCatalogRepository.useFoldedColumns = true);
+      final r = await repoFor(b).search('médico');
+      expect(r.jobs, hasLength(1));
+      expect(calls, 2);
+      final or = b.requests.last.request.url.queryParametersAll['or']!.single;
+      expect(or, contains('title.ilike.*médico*'));
+      expect(SupabaseJobCatalogRepository.useFoldedColumns, isFalse);
+    });
+
+    test('an empty or punctuation-only query adds no text filter (browse the newest)', () async {
+      for (final q in ['', '   ', ',()"*%']) {
         final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('Sênior Zxq');
-        final or =
-            b.requests.first.request.url.queryParametersAll['or']!.single;
-        expect(or, contains('search.wfts(simple).Sênior Zxq'));
-        expect(or, contains('search.wfts(simple).senior zxq'));
-        expect(or, contains('title_fold.ilike.*senior zxq*'));
-        expect(or, contains('city_fold.ilike.*senior zxq*'));
-        expect(or, isNot(contains('title.ilike')));
-      },
-    );
-
-    test(
-      'a database without the folded columns is searched the old way, once the server says so',
-      () async {
-        var calls = 0;
-        final b = FakeBackend(
-          respond: (m, u, body) {
-            calls++;
-            if (u.queryParameters['or']?.contains('title_fold') ?? false) {
-              return (
-                400,
-                {
-                  'code': '42703',
-                  'message': 'column jobs.title_fold does not exist',
-                },
-              );
-            }
-            return (200, [row()]);
-          },
+        await repoFor(b).search(q);
+        expect(
+          b.requests.first.request.url.queryParametersAll.containsKey('or'),
+          isFalse,
+          reason: q,
         );
-        SupabaseJobCatalogRepository.useFoldedColumns = true;
-        addTearDown(() => SupabaseJobCatalogRepository.useFoldedColumns = true);
-        final r = await repoFor(b).search('médico');
-        expect(r.jobs, hasLength(1));
-        expect(calls, 2);
-        final or = b.requests.last.request.url.queryParametersAll['or']!.single;
-        expect(or, contains('title.ilike.*médico*'));
-        expect(SupabaseJobCatalogRepository.useFoldedColumns, isFalse);
-      },
-    );
-
-    test(
-      'an empty or punctuation-only query adds no text filter (browse the newest)',
-      () async {
-        for (final q in ['', '   ', ',()"*%']) {
-          final b = FakeBackend(respond: answer([row()]));
-          await repoFor(b).search(q);
-          expect(
-            b.requests.first.request.url.queryParametersAll.containsKey('or'),
-            isFalse,
-            reason: q,
-          );
-        }
-      },
-    );
+      }
+    });
 
     test('user text can never add filters or break the OR list', () async {
       final b = FakeBackend(respond: answer([row()]));
@@ -460,9 +410,8 @@ void main() {
 
     test('publication window is computed from the injected clock', () async {
       final b = FakeBackend(respond: answer([row()]));
-      await repoFor(
-        b,
-      ).search('', filters: const JobFilters(publishedWithinDays: 7));
+      await repoFor(b)
+          .search('', filters: const JobFilters(publishedWithinDays: 7));
       expect(
         b.requests.first.query['published_at'],
         'gte.2026-10-03T12:00:00.000Z',
@@ -473,9 +422,8 @@ void main() {
       '"only with salary" requires an amount, a currency and a period',
       () async {
         final b = FakeBackend(respond: answer([row()]));
-        await repoFor(
-          b,
-        ).search('', filters: const JobFilters(onlyWithSalary: true));
+        await repoFor(b)
+            .search('', filters: const JobFilters(onlyWithSalary: true));
         final u = b.requests.first.request.url;
         expect(
           u.queryParametersAll['or']!.single,
@@ -486,95 +434,79 @@ void main() {
       },
     );
 
-    test(
-      'country matches the job, an explicit eligibility entry, or a remote job the source marks as Anywhere (an EMPTY list is unknown and never matches)',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(
-          b,
-        ).search('', filters: const JobFilters(countryCode: 'pt'));
-        expect(
-          b.requests.first.request.url.queryParametersAll['or']!.single,
-          '(country.eq.PT,geo_restrictions.cs.{PT},and(work_mode.eq.remote,geo_restrictions.cs.{Anywhere}))',
-        );
-      },
-    );
+    test('country matches the job, an explicit eligibility entry, or a remote job the source marks as Anywhere (an EMPTY list is unknown and never matches)', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('', filters: const JobFilters(countryCode: 'pt'));
+      expect(
+        b.requests.first.request.url.queryParametersAll['or']!.single,
+        '(country.eq.PT,geo_restrictions.cs.{PT},and(work_mode.eq.remote,geo_restrictions.cs.{Anywhere}))',
+      );
+    });
 
-    test(
-      'only jobs the source vouched for within 72 hours are requested (a stale "open" job is never offered)',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('');
-        final v = b
-            .requests
-            .first
-            .request
-            .url
-            .queryParametersAll['last_checked_at']!
-            .single;
-        expect(v, startsWith('gte.'));
-        expect(
-          DateTime.parse(v.substring(4)),
-          fixedNow.subtract(
-            SupabaseJobCatalogRepository.defaultMaxVerificationAge,
-          ),
-        );
-        expect(
+    test('only jobs the source vouched for within 72 hours are requested (a stale "open" job is never offered)', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('');
+      final v = b
+          .requests
+          .first
+          .request
+          .url
+          .queryParametersAll['last_checked_at']!
+          .single;
+      expect(v, startsWith('gte.'));
+      expect(
+        DateTime.parse(v.substring(4)),
+        fixedNow.subtract(
           SupabaseJobCatalogRepository.defaultMaxVerificationAge,
-          const Duration(hours: 72),
-        );
-      },
-    );
+        ),
+      );
+      expect(
+        SupabaseJobCatalogRepository.defaultMaxVerificationAge,
+        const Duration(hours: 72),
+      );
+    });
 
     test('an invalid country code is ignored, not sent', () async {
       expect(normalizeCountry('Portugal'), isNull);
       expect(normalizeCountry('p1'), isNull);
       expect(normalizeCountry(' br '), 'BR');
       final b = FakeBackend(respond: answer([row()]));
-      await repoFor(
-        b,
-      ).search('', filters: const JobFilters(countryCode: 'Portugal'));
+      await repoFor(b)
+          .search('', filters: const JobFilters(countryCode: 'Portugal'));
       expect(
         b.requests.first.request.url.queryParametersAll.containsKey('or'),
         isFalse,
       );
     });
 
-    test(
-      'text and country together produce two independent OR groups (ANDed by the server)',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(
-          b,
-        ).search('nurse', filters: const JobFilters(countryCode: 'CA'));
-        expect(
-          b.requests.first.request.url.queryParametersAll['or'],
-          hasLength(2),
-        );
-      },
-    );
+    test('text and country together produce two independent OR groups (ANDed by the server)', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b)
+          .search('nurse', filters: const JobFilters(countryCode: 'CA'));
+      expect(
+        b.requests.first.request.url.queryParametersAll['or'],
+        hasLength(2),
+      );
+    });
 
-    test(
-      'the legacy countryCode argument still works and the filter wins when both are given',
-      () async {
-        final b = FakeBackend(respond: answer([row()]));
-        await repoFor(b).search('', countryCode: 'DE');
-        expect(
-          b.requests.first.request.url.queryParametersAll['or']!.single,
-          contains('country.eq.DE'),
-        );
-        final b2 = FakeBackend(respond: answer([row()]));
-        await repoFor(b2).search(
-          '',
-          countryCode: 'DE',
-          filters: const JobFilters(countryCode: 'FR'),
-        );
-        expect(
-          b2.requests.first.request.url.queryParametersAll['or']!.single,
-          contains('country.eq.FR'),
-        );
-      },
-    );
+    test('the legacy countryCode argument still works and the filter wins when both are given', () async {
+      final b = FakeBackend(respond: answer([row()]));
+      await repoFor(b).search('', countryCode: 'DE');
+      expect(
+        b.requests.first.request.url.queryParametersAll['or']!.single,
+        contains('country.eq.DE'),
+      );
+      final b2 = FakeBackend(respond: answer([row()]));
+      await repoFor(b2).search(
+        '',
+        countryCode: 'DE',
+        filters: const JobFilters(countryCode: 'FR'),
+      );
+      expect(
+        b2.requests.first.request.url.queryParametersAll['or']!.single,
+        contains('country.eq.FR'),
+      );
+    });
   });
 
   group('pagination', () {
@@ -602,48 +534,40 @@ void main() {
       expect(r.consumed, 2);
     });
 
-    test(
-      'skipped invalid rows still advance the offset (consumed counts server rows)',
-      () async {
-        final rows = [
-          row(ext: '1'),
-          row(ext: '2', extra: {'original_url': 'javascript:alert(1)'}),
-          row(ext: '3', extra: {'status': 'closed'}),
-          row(ext: '4'),
-        ];
-        final r = await repoFor(
-          FakeBackend(respond: answer(rows)),
-        ).search('', limit: 20);
-        expect(r.jobs.map((j) => j.job.externalId), ['1', '4']);
-        expect(r.consumed, 4);
-      },
-    );
+    test('skipped invalid rows still advance the offset (consumed counts server rows)', () async {
+      final rows = [
+        row(ext: '1'),
+        row(ext: '2', extra: {'original_url': 'javascript:alert(1)'}),
+        row(ext: '3', extra: {'status': 'closed'}),
+        row(ext: '4'),
+      ];
+      final r = await repoFor(FakeBackend(respond: answer(rows)))
+          .search('', limit: 20);
+      expect(r.jobs.map((j) => j.job.externalId), ['1', '4']);
+      expect(r.consumed, 4);
+    });
   });
 
   group('empty catalogue and unauthorised sources', () {
-    test(
-      'no rows and no authorised source: "no integrated source", not "nothing found"',
-      () async {
-        final b = FakeBackend(respond: answer([], sources: []));
-        final r = await repoFor(b).search('nurse');
-        expect(r.hasIntegratedSource, isFalse);
-        expect(r.jobs, isEmpty);
-        final srcReq = b.requests.last;
-        expect(srcReq.path, '/rest/v1/job_sources');
-        expect(srcReq.query['can_redistribute'], 'eq.true');
-        expect(
-          srcReq.query['status'],
-          allOf(contains('READY'), contains('CONDITIONAL')),
-        );
-      },
-    );
+    test('no rows and no authorised source: "no integrated source", not "nothing found"', () async {
+      final b = FakeBackend(respond: answer([], sources: []));
+      final r = await repoFor(b).search('nurse');
+      expect(r.hasIntegratedSource, isFalse);
+      expect(r.jobs, isEmpty);
+      final srcReq = b.requests.last;
+      expect(srcReq.path, '/rest/v1/job_sources');
+      expect(srcReq.query['can_redistribute'], 'eq.true');
+      expect(
+        srcReq.query['status'],
+        allOf(contains('READY'), contains('CONDITIONAL')),
+      );
+    });
 
     test(
       'no rows but an authorised source exists: an honest empty result',
       () async {
-        final r = await repoFor(
-          FakeBackend(respond: answer([])),
-        ).search('nurse');
+        final r = await repoFor(FakeBackend(respond: answer([])))
+            .search('nurse');
         expect(r.hasIntegratedSource, isTrue);
         expect(r.jobs, isEmpty);
         expect(r.hasMore, isFalse);
@@ -656,26 +580,23 @@ void main() {
       expect(b.requests.where((r) => r.path.endsWith('/job_sources')), isEmpty);
     });
 
-    test(
-      'rows of a source that is not authorised are dropped even if the server sent them',
-      () {
-        for (final bad in <Object?>[
-          {..._jobicy, 'can_redistribute': false},
-          {..._jobicy, 'status': 'RESEARCH'},
-          {..._jobicy, 'status': 'BLOCKED'},
-          {..._jobicy, 'can_redistribute': null},
-          null,
-          'jobicy',
-        ]) {
-          expect(jobFromCatalogRow(row(source: bad)), isNull, reason: '$bad');
-        }
-        expect(
-          jobFromCatalogRow(row(source: [_jobicy])),
-          isNotNull,
-          reason: 'embed as one-element list',
-        );
-      },
-    );
+    test('rows of a source that is not authorised are dropped even if the server sent them', () {
+      for (final bad in <Object?>[
+        {..._jobicy, 'can_redistribute': false},
+        {..._jobicy, 'status': 'RESEARCH'},
+        {..._jobicy, 'status': 'BLOCKED'},
+        {..._jobicy, 'can_redistribute': null},
+        null,
+        'jobicy',
+      ]) {
+        expect(jobFromCatalogRow(row(source: bad)), isNull, reason: '$bad');
+      }
+      expect(
+        jobFromCatalogRow(row(source: [_jobicy])),
+        isNotNull,
+        reason: 'embed as one-element list',
+      );
+    });
 
     test('closed, unknown-status and expired rows are dropped', () {
       for (final s in ['closed', 'unknown', null, 'OPEN']) {
@@ -689,90 +610,77 @@ void main() {
   });
 
   group('row mapping', () {
-    test(
-      'rows of the other sources show their own name and keep their own link (the link back their terms ask for)',
-      () {
-        for (final (id, name, host) in [
-          ('arbeitnow', 'Arbeitnow', 'www.arbeitnow.com'),
-          ('remoteok', 'Remote OK', 'remoteok.com'),
-          ('remotive', 'Remotive', 'remotive.com'),
-          ('jobsconz', 'Jobs.co.nz', 'jobs.co.nz'),
-          ('getonboard', 'Get on Board', 'www.getonbrd.com'),
-          (
-            'teachingvacancies',
-            'Teaching Vacancies',
-            'teaching-vacancies.service.gov.uk',
+    test('rows of the other sources show their own name and keep their own link (the link back their terms ask for)', () {
+      for (final (id, name, host) in [
+        ('arbeitnow', 'Arbeitnow', 'www.arbeitnow.com'),
+        ('remoteok', 'Remote OK', 'remoteok.com'),
+        ('remotive', 'Remotive', 'remotive.com'),
+        ('jobsconz', 'Jobs.co.nz', 'jobs.co.nz'),
+        ('getonboard', 'Get on Board', 'www.getonbrd.com'),
+        (
+          'teachingvacancies',
+          'Teaching Vacancies',
+          'teaching-vacancies.service.gov.uk',
+        ),
+        ('nycjobs', 'NYC Jobs', 'cityjobs.nyc.gov'),
+        ('karrierenrw', 'Karriere.NRW', 'karriere.nrw'),
+        ('bpce', 'Groupe BPCE', 'recrutement.bpce.fr'),
+        ('forem', 'Le Forem', 'www.leforem.be'),
+        ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
+        ('csp', 'Choisir le Service Public', 'choisirleservicepublic.gouv.fr'),
+        ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
+        ('feinaactiva', 'Feina Activa (SOC)', 'feinaactiva.gencat.cat'),
+        ('ecyl', 'ECYL Castilla y León', 'empleo.jcyl.es'),
+        ('lanbide', 'Lanbide', 'web.lanbide.eus'),
+        ('calgary', 'City of Calgary', 'recruiting.calgary.ca'),
+        ('sinees', 'SINE-ES (Espírito Santo)', 'setades.es.gov.br'),
+      ]) {
+        final j = jobFromCatalogRow(
+          row(
+            source: {
+              'id': id,
+              'attribution': 'Jobs via $name',
+              'can_redistribute': true,
+              'status': 'CONDITIONAL',
+            },
+            extra: {
+              'source_id': id,
+              'original_url': 'https://$host/jobs/1',
+              'apply_url': 'https://$host/jobs/1',
+              'country': null,
+              'salary_min': null,
+              'salary_max': null,
+              'salary_currency': null,
+              'salary_period': null,
+              'geo_restrictions': <String>[],
+            },
           ),
-          ('nycjobs', 'NYC Jobs', 'cityjobs.nyc.gov'),
-          ('karrierenrw', 'Karriere.NRW', 'karriere.nrw'),
-          ('bpce', 'Groupe BPCE', 'recrutement.bpce.fr'),
-          ('forem', 'Le Forem', 'www.leforem.be'),
-          ('mpsvcz', 'Úřad práce ČR', 'up.gov.cz'),
-          (
-            'csp',
-            'Choisir le Service Public',
-            'choisirleservicepublic.gouv.fr',
-          ),
-          ('sefmurcia', 'SEF Murcia', 'sefoficinavirtual.carm.es'),
-          ('feinaactiva', 'Feina Activa (SOC)', 'feinaactiva.gencat.cat'),
-          ('ecyl', 'ECYL Castilla y León', 'empleo.jcyl.es'),
-          ('lanbide', 'Lanbide', 'web.lanbide.eus'),
-          ('calgary', 'City of Calgary', 'recruiting.calgary.ca'),
-          ('sinees', 'SINE-ES (Espírito Santo)', 'setades.es.gov.br'),
-        ]) {
-          final j = jobFromCatalogRow(
-            row(
-              source: {
-                'id': id,
-                'attribution': 'Jobs via $name',
-                'can_redistribute': true,
-                'status': 'CONDITIONAL',
-              },
-              extra: {
-                'source_id': id,
-                'original_url': 'https://$host/jobs/1',
-                'apply_url': 'https://$host/jobs/1',
-                'country': null,
-                'salary_min': null,
-                'salary_max': null,
-                'salary_currency': null,
-                'salary_period': null,
-                'geo_restrictions': <String>[],
-              },
-            ),
-          )!;
-          expect(j.source, id);
-          expect(j.sourceName, name);
-          expect(Uri.parse(j.originalUrl).host, host);
-          expect(j.salaryMin, isNull);
-          expect(j.country, isNull);
-        }
-      },
-    );
+        )!;
+        expect(j.source, id);
+        expect(j.sourceName, name);
+        expect(Uri.parse(j.originalUrl).host, host);
+        expect(j.salaryMin, isNull);
+        expect(j.country, isNull);
+      }
+    });
 
-    test(
-      'a complete Jobicy row keeps source, attribution name, links, eligibility and salary',
-      () {
-        final j = jobFromCatalogRow(row())!;
-        expect(j.source, 'jobicy');
-        expect(j.sourceName, 'Jobicy');
-        expect(j.company, 'Juniper Square');
-        expect(
-          j.originalUrl,
-          'https://jobicy.com/jobs/154956-account-executive',
-        );
-        expect(j.applyUrl, j.originalUrl);
-        expect(j.workMode, WorkMode.remote);
-        expect(j.country, 'US');
-        expect(j.geoRestrictions, ['US']);
-        expect(j.salaryMin, 120000);
-        expect(j.salaryMax, 145000);
-        expect(j.salaryCurrency, 'USD');
-        expect(j.salaryPeriod, SalaryPeriod.year);
-        expect(j.publishedAt, DateTime.utc(2026, 10, 9, 18, 42, 49));
-        expect(j.description, 'Plain text description.');
-      },
-    );
+    test('a complete Jobicy row keeps source, attribution name, links, eligibility and salary', () {
+      final j = jobFromCatalogRow(row())!;
+      expect(j.source, 'jobicy');
+      expect(j.sourceName, 'Jobicy');
+      expect(j.company, 'Juniper Square');
+      expect(j.originalUrl, 'https://jobicy.com/jobs/154956-account-executive');
+      expect(j.applyUrl, j.originalUrl);
+      expect(j.workMode, WorkMode.remote);
+      expect(j.country, 'US');
+      expect(j.geoRestrictions, ['US']);
+      expect(j.salaryMin, 120000);
+      expect(j.salaryMax, 145000);
+      expect(j.salaryCurrency, 'USD');
+      expect(j.salaryPeriod, SalaryPeriod.year);
+      expect(j.publishedAt, DateTime.utc(2026, 10, 9, 18, 42, 49));
+      expect(j.description, 'Plain text description.');
+    });
 
     test(
       'an unknown source falls back to its attribution text, then to its id',
@@ -794,28 +702,25 @@ void main() {
       },
     );
 
-    test(
-      'sparse rows are accepted: optional fields stay empty, nothing is invented',
-      () {
-        final j = jobFromCatalogRow({
-          'source_id': 'jobicy',
-          'external_id': '9',
-          'title': 'Barista',
-          'company': '',
-          'original_url': 'https://jobicy.com/jobs/9',
-          'status': 'open',
-          'job_sources': _jobicy,
-        })!;
-        expect(j.company, '');
-        expect(j.country, isNull);
-        expect(j.workMode, WorkMode.unspecified);
-        expect(j.salaryMin, isNull);
-        expect(j.publishedAt, isNull);
-        expect(j.geoRestrictions, isEmpty);
-        expect(j.description, isNull);
-        expect(j.applyUrl, isNull);
-      },
-    );
+    test('sparse rows are accepted: optional fields stay empty, nothing is invented', () {
+      final j = jobFromCatalogRow({
+        'source_id': 'jobicy',
+        'external_id': '9',
+        'title': 'Barista',
+        'company': '',
+        'original_url': 'https://jobicy.com/jobs/9',
+        'status': 'open',
+        'job_sources': _jobicy,
+      })!;
+      expect(j.company, '');
+      expect(j.country, isNull);
+      expect(j.workMode, WorkMode.unspecified);
+      expect(j.salaryMin, isNull);
+      expect(j.publishedAt, isNull);
+      expect(j.geoRestrictions, isEmpty);
+      expect(j.description, isNull);
+      expect(j.applyUrl, isNull);
+    });
 
     test('rows without identity or title are skipped', () {
       for (final k in ['source_id', 'external_id', 'title', 'original_url']) {
@@ -830,72 +735,66 @@ void main() {
       expect(jobFromCatalogRow('x'), isNull);
     });
 
-    test(
-      'links: only http(s) with a host; a bad apply link is dropped, a bad original link drops the job',
-      () {
-        for (final bad in [
-          'javascript:alert(1)',
-          'data:text/html,x',
-          '/jobs/1',
-          'ftp://x.com/1',
-          'not a url',
-          'https://',
-          '',
-        ]) {
-          expect(
-            jobFromCatalogRow(row(extra: {'original_url': bad})),
-            isNull,
-            reason: bad,
-          );
-          expect(
-            jobFromCatalogRow(row(extra: {'apply_url': bad}))!.applyUrl,
-            isNull,
-            reason: 'apply $bad',
-          );
-        }
+    test('links: only http(s) with a host; a bad apply link is dropped, a bad original link drops the job', () {
+      for (final bad in [
+        'javascript:alert(1)',
+        'data:text/html,x',
+        '/jobs/1',
+        'ftp://x.com/1',
+        'not a url',
+        'https://',
+        '',
+      ]) {
         expect(
-          jobFromCatalogRow(
-            row(extra: {'original_url': 'http://jobicy.com/jobs/1'}),
-          )!.originalUrl,
-          'http://jobicy.com/jobs/1',
+          jobFromCatalogRow(row(extra: {'original_url': bad})),
+          isNull,
+          reason: bad,
         );
-      },
-    );
+        expect(
+          jobFromCatalogRow(row(extra: {'apply_url': bad}))!.applyUrl,
+          isNull,
+          reason: 'apply $bad',
+        );
+      }
+      expect(
+        jobFromCatalogRow(
+          row(extra: {'original_url': 'http://jobicy.com/jobs/1'}),
+        )!.originalUrl,
+        'http://jobicy.com/jobs/1',
+      );
+    });
 
-    test(
-      'salary is shown only when amount, currency and period are all valid and consistent',
-      () {
-        JobPosting? with_(Map<String, Object?> extra) =>
-            jobFromCatalogRow(row(extra: extra));
-        expect(with_({'salary_currency': null})!.salaryMin, isNull);
-        expect(with_({'salary_currency': 'usd'})!.salaryMin, isNull);
-        expect(with_({'salary_currency': 'US'})!.salaryMin, isNull);
-        expect(with_({'salary_period': null})!.salaryMin, isNull);
-        expect(with_({'salary_period': 'fortnight'})!.salaryMin, isNull);
-        expect(
-          with_({'salary_min': 200000, 'salary_max': 100000})!.salaryMin,
-          isNull,
-        );
-        expect(with_({'salary_min': -1})!.salaryMin, isNull);
-        expect(
-          with_({'salary_min': null, 'salary_max': null})!.salaryMin,
-          isNull,
-        );
-        // a single-sided range is legitimate
-        final one = with_({'salary_min': 90000, 'salary_max': null})!;
-        expect([one.salaryMin, one.salaryMax], [90000, null]);
-        // PostgREST can send numerics as strings
-        final str = with_({
-          'salary_min': '60',
-          'salary_max': '70.5',
-          'salary_period': 'hour',
-        })!;
-        expect(
-          [str.salaryMin, str.salaryMax, str.salaryPeriod],
-          [60, 70.5, SalaryPeriod.hour],
-        );
-      },
-    );
+    test('salary is shown only when amount, currency and period are all valid and consistent', () {
+      JobPosting? with_(Map<String, Object?> extra) =>
+          jobFromCatalogRow(row(extra: extra));
+      expect(with_({'salary_currency': null})!.salaryMin, isNull);
+      expect(with_({'salary_currency': 'usd'})!.salaryMin, isNull);
+      expect(with_({'salary_currency': 'US'})!.salaryMin, isNull);
+      expect(with_({'salary_period': null})!.salaryMin, isNull);
+      expect(with_({'salary_period': 'fortnight'})!.salaryMin, isNull);
+      expect(
+        with_({'salary_min': 200000, 'salary_max': 100000})!.salaryMin,
+        isNull,
+      );
+      expect(with_({'salary_min': -1})!.salaryMin, isNull);
+      expect(
+        with_({'salary_min': null, 'salary_max': null})!.salaryMin,
+        isNull,
+      );
+      // a single-sided range is legitimate
+      final one = with_({'salary_min': 90000, 'salary_max': null})!;
+      expect([one.salaryMin, one.salaryMax], [90000, null]);
+      // PostgREST can send numerics as strings
+      final str = with_({
+        'salary_min': '60',
+        'salary_max': '70.5',
+        'salary_period': 'hour',
+      })!;
+      expect(
+        [str.salaryMin, str.salaryMax, str.salaryPeriod],
+        [60, 70.5, SalaryPeriod.hour],
+      );
+    });
 
     test(
       'geo restrictions keep codes, regions and unknown names as written',
@@ -912,35 +811,28 @@ void main() {
     );
   });
 
-  group(
-    'errors surface to the caller (the cubit turns them into a retryable state)',
-    () {
-      test('HTTP 500 throws', () async {
-        final b = FakeBackend(respond: (_, _, _) => (500, {'message': 'boom'}));
+  group('errors surface to the caller (the cubit turns them into a retryable state)', () {
+    test('HTTP 500 throws', () async {
+      final b = FakeBackend(respond: (_, _, _) => (500, {'message': 'boom'}));
+      await expectLater(
+        repoFor(b).search('x'),
+        throwsA(isA<PostgrestException>()),
+      );
+    });
+    test(
+      'an expired session (401 / PGRST303) throws a mappable error',
+      () async {
+        final b = FakeBackend(
+          respond: (_, _, _) =>
+              (401, {'code': 'PGRST303', 'message': 'JWT expired'}),
+        );
         await expectLater(
           repoFor(b).search('x'),
-          throwsA(isA<PostgrestException>()),
+          throwsA(
+            isA<PostgrestException>().having((e) => e.code, 'code', 'PGRST303'),
+          ),
         );
-      });
-      test(
-        'an expired session (401 / PGRST303) throws a mappable error',
-        () async {
-          final b = FakeBackend(
-            respond: (_, _, _) =>
-                (401, {'code': 'PGRST303', 'message': 'JWT expired'}),
-          );
-          await expectLater(
-            repoFor(b).search('x'),
-            throwsA(
-              isA<PostgrestException>().having(
-                (e) => e.code,
-                'code',
-                'PGRST303',
-              ),
-            ),
-          );
-        },
-      );
-    },
-  );
+      },
+    );
+  });
 }

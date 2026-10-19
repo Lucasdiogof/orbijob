@@ -48,15 +48,12 @@ void main() {
       }
     });
 
-    test(
-      'mail, phone and sms links go to the matching app, from the main frame only',
-      () {
-        expect(v('mailto:rh@example.com'), UrlVerdict.system);
-        expect(v('tel:+5511999999999'), UrlVerdict.system);
-        expect(v('sms:+5511999999999'), UrlVerdict.system);
-        expect(v('mailto:rh@example.com', main: false), UrlVerdict.block);
-      },
-    );
+    test('mail, phone and sms links go to the matching app, from the main frame only', () {
+      expect(v('mailto:rh@example.com'), UrlVerdict.system);
+      expect(v('tel:+5511999999999'), UrlVerdict.system);
+      expect(v('sms:+5511999999999'), UrlVerdict.system);
+      expect(v('mailto:rh@example.com', main: false), UrlVerdict.block);
+    });
 
     test('files are left to the system browser, which owns downloads', () {
       expect(v('https://example.com/vaga.pdf'), UrlVerdict.download);

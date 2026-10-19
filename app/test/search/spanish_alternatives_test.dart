@@ -30,26 +30,20 @@ void main() {
         expect(has('cocinero', 'cuiner'), true);
       },
     );
-    test(
-      'office work: auxiliar administrativo <-> administrative assistant <-> Sachbearbeiter, but never every administrator',
-      () {
-        expect(
-          has('auxiliar administrativo', 'administrative assistant'),
-          true,
-        );
-        expect(has('administrative assistant', 'administrativo'), true);
-        expect(has('administrative assistant', 'sachbearbeiter'), true);
-        expect(has('administratiu', 'administrative assistant'), true);
-        for (final t in ['administrative assistant', 'administrativo']) {
-          expect(has(t, 'administrator'), isFalse, reason: t);
-          expect(has(t, 'administrativ'), isFalse, reason: t);
-        }
-        expect(
-          titleAlternatives('administrador de sistemas'),
-          isNot(contains(['administrative assistant'])),
-        );
-      },
-    );
+    test('office work: auxiliar administrativo <-> administrative assistant <-> Sachbearbeiter, but never every administrator', () {
+      expect(has('auxiliar administrativo', 'administrative assistant'), true);
+      expect(has('administrative assistant', 'administrativo'), true);
+      expect(has('administrative assistant', 'sachbearbeiter'), true);
+      expect(has('administratiu', 'administrative assistant'), true);
+      for (final t in ['administrative assistant', 'administrativo']) {
+        expect(has(t, 'administrator'), isFalse, reason: t);
+        expect(has(t, 'administrativ'), isFalse, reason: t);
+      }
+      expect(
+        titleAlternatives('administrador de sistemas'),
+        isNot(contains(['administrative assistant'])),
+      );
+    });
     test('cleaning staff', () {
       expect(has('limpiador', 'cleaner'), true);
       expect(has('cleaner', 'limpiador'), true);

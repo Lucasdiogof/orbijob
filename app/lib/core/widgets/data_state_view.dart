@@ -56,9 +56,8 @@ class DataFailureView extends StatelessWidget {
         kind: OrbiStateKind.info,
         action: OrbiPrimaryButton(
           label: l.accountSignIn,
-          onPressed: () => Navigator.of(
-            context,
-          ).push(MaterialPageRoute<void>(builder: (_) => const AuthPage())),
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute<void>(builder: (_) => const AuthPage())),
         ),
       );
     }
