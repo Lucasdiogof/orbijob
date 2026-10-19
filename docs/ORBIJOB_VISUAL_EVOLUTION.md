@@ -164,6 +164,9 @@ Presentation only; the auth cubit, the two-step order (e-mail, then code, then n
 * The 6-digit code field is styled as a code (`OrbiTextField.textStyle/textAlign`, new optional presentation parameters): large tabular digits, centred, wide tracking, hint of six places.
 Evidence: `batch10/80-recovery-email-*`, `81-recovery-code-*` (both code captures opened; the e-mail step captures not opened). Not captured: the new-password screen (needs a recovery session in the harness).
 
+## Batch 11 (19/10/2026): hero light with soft edges
+QA of the Home at tablet width (820 px) confirmed the narrow-card fix visually (monogram shown at ~343 px cards, titles wrap to two lines, no overflow) and exposed a defect: the hero glow ended on a straight vertical edge at the right of the content box and on a line under the app bar. `OrbitBackdrop` now paints glow and orbit lines into one layer and multiplies it by a soft alpha mask (fades to zero toward the top, bottom and both sides), painted once and cached with the widget; the glow centre moved inward (token `heroGlow`) so it stays visible. Mask colours are the new `AppMask` token (the repo's token test forbids literal colours outside the design folder). Evidence `batch11/`: tablet dark BEFORE (hard edge), phone dark/light and tablet light after (inspected). Tests 1,098 pass.
+
 ## Final report
 1. **HEAD**: start of this mission 70d0f2f (the local clone was at 14c323c and was fast-forwarded); end: see the last commit of this batch on `main`.
 2. **Repo state**: stashes kept (an old local iOS build stash, generated l10n output, accidental formatting by the dev SDK); nothing discarded, no force push.

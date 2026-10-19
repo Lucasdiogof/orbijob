@@ -39,8 +39,11 @@ class _OrbitPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
+    // Everything is drawn into one layer and then multiplied by a soft mask, so the light fades out toward the top and the
+    // sides instead of ending on the straight edge of the hero's box (painted once; the layer is cached with the widget).
+    canvas.saveLayer(rect, Paint());
     canvas.drawRect(rect, Paint()..shader = glow.createShader(rect));
-    final centre = Offset(size.width * 0.92, size.height * 0.1);
+    final centre = Offset(size.width * 0.82, size.height * 0.15);
     final stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1
@@ -55,6 +58,28 @@ class _OrbitPainter extends CustomPainter {
     for (final r in [size.shortestSide * 0.42, size.shortestSide * 0.66]) {
       canvas.drawCircle(centre, r, stroke);
     }
+    canvas.restore();
+    final dstIn = BlendMode.dstIn;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..blendMode = dstIn
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppMask.clear, AppMask.solid, AppMask.solid, AppMask.clear],
+          stops: [0, 0.3, 0.7, 1],
+        ).createShader(rect),
+    );
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..blendMode = dstIn
+        ..shader = LinearGradient(
+          colors: [AppMask.clear, AppMask.solid, AppMask.solid, AppMask.clear],
+          stops: [0, 0.12, 0.88, 1],
+        ).createShader(rect),
+    );
     canvas.restore();
   }
 

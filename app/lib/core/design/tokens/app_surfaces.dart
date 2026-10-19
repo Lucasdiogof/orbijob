@@ -53,8 +53,8 @@ extension AppSurfaces on AppColors {
 
   /// Ambient light of a hero area (static, painted once).
   RadialGradient get heroGlow => RadialGradient(
-    center: const Alignment(0.9, -0.7),
-    radius: 0.8,
+    center: const Alignment(0.6, -0.4),
+    radius: 0.9,
     colors: [
       primary.withValues(alpha: isDark ? 0.20 : 0.13),
       primary.withValues(alpha: 0),
@@ -63,4 +63,11 @@ extension AppSurfaces on AppColors {
 
   /// Thin orbit lines echoing the logo ring.
   Color get orbitLine => primary.withValues(alpha: isDark ? 0.14 : 0.10);
+}
+
+/// The two ends of an alpha mask (only the alpha channel matters when it is applied with a destination-in blend): used to fade
+/// a painted layer out toward its edges.
+abstract final class AppMask {
+  static const Color clear = Color(0x00000000);
+  static const Color solid = Color(0xFF000000);
 }
