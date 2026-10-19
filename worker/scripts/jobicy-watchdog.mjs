@@ -45,8 +45,17 @@ const visibleJobs = Number((pub.headers.get('content-range') ?? '*/0').split('/'
 // The validity deadline (72 h) is judged on the sources that are verified one by one: Jobicy (status endpoint) and the Platsbanken (/ad/{id}).
 // A source read as a window of its newest pages (Arbeitnow) or as a whole feed (Remote OK, Remotive) legitimately holds older rows that the app
 // already hides; they are reported in the log line below, not alarmed on.
+// A few listings the source no longer answers for (neither open nor closed) stay unverified: the app already hides them after 72 h and the expiry
+// turns them `unknown` after 7 days. Alarming on the single oldest of them was a false CRITICAL (2026-10-19: 4 of 1,624 Jobicy listings at 109 h while
+// 1,620 were verified within 24 h). The age is judged after skipping those stragglers: max(25, 2 % of the open listings). If the revalidation
+// really stops, the whole catalogue ages together and the alert fires exactly as before.
+const STRAGGLERS = (open) => Math.max(25, Math.ceil(open * 0.02));
 const oldestOf = async (source) => {
-  const r = await fetch(`${SUPABASE}/rest/v1/jobs?select=last_checked_at&source_id=eq.${source}&status=eq.open&order=last_checked_at.asc&limit=1`, { headers: { apikey: PUBLISHABLE }, signal: AbortSignal.timeout(20_000) });
+  const head = await fetch(`${SUPABASE}/rest/v1/jobs?select=id&source_id=eq.${source}&status=eq.open&limit=1`, { headers: { apikey: PUBLISHABLE, Prefer: 'count=exact' }, signal: AbortSignal.timeout(20_000) });
+  if (!head.ok) throw new Error(`leitura publica (${source}) falhou (HTTP ${head.status})`);
+  const open = Number((head.headers.get('content-range') ?? '*/0').split('/')[1]) || 0;
+  const skip = Math.min(STRAGGLERS(open), Math.max(0, open - 1));
+  const r = await fetch(`${SUPABASE}/rest/v1/jobs?select=last_checked_at&source_id=eq.${source}&status=eq.open&order=last_checked_at.asc&offset=${skip}&limit=1`, { headers: { apikey: PUBLISHABLE }, signal: AbortSignal.timeout(20_000) });
   if (!r.ok) throw new Error(`leitura publica (${source}) falhou (HTTP ${r.status})`);
   return (await r.json())[0]?.last_checked_at ?? null;
 };

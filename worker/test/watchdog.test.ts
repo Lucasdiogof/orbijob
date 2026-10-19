@@ -87,6 +87,8 @@ let gh: Server; let sb: Server; let ghBase = ''; let sbBase = '';
 let issues: { number: number; title: string; body: string; state: string; pull_request?: unknown }[] = [];
 let workflowRuns: unknown[] = [];
 let oldest: string | null = null; let visible = 0;
+/** When set: what a read that skips the first `offset` rows (the stragglers) answers; the plain oldest read still answers `oldest`. */
+let bulk: string | null = null; let offsets: number[] = [];
 let calls: { method: string; path: string; body?: string }[] = [];
 let runJobs: unknown[] = [];
 let discoverWorkflowRuns: unknown[] = [];
@@ -94,7 +96,7 @@ let sourcesWorkflowRuns: unknown[] = [];
 
 const listen = (srv: Server) => new Promise<string>((r) => srv.listen(0, '127.0.0.1', () => r(`http://127.0.0.1:${(srv.address() as { port: number }).port}`)));
 beforeEach(async () => {
-  issues = []; workflowRuns = []; discoverWorkflowRuns = []; sourcesWorkflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = [];
+  issues = []; workflowRuns = []; discoverWorkflowRuns = []; sourcesWorkflowRuns = []; oldest = null; visible = 0; calls = []; runJobs = []; bulk = null; offsets = [];
   gh = createServer(async (req, res) => {
     const chunks: Buffer[] = []; for await (const c of req) chunks.push(c as Buffer);
     const body = Buffer.concat(chunks).toString('utf8');
@@ -116,7 +118,10 @@ beforeEach(async () => {
     calls.push({ method: req.method!, path: new URL(req.url!, 'http://x').pathname });
     if (req.headers.apikey !== PUB) { res.writeHead(401); return res.end('{}'); }
     res.writeHead(200, { 'content-type': 'application/json', 'content-range': `0-0/${visible}` });
-    res.end(JSON.stringify(oldest ? [{ last_checked_at: oldest }] : []));
+    const offset = Number(new URL(req.url!, 'http://x').searchParams.get('offset') ?? 0);
+    if (offset > 0) offsets.push(offset);
+    const value = offset > 0 && bulk ? bulk : oldest;
+    res.end(JSON.stringify(value ? [{ last_checked_at: value }] : []));
   });
   ghBase = await listen(gh); sbBase = await listen(sb);
 });
@@ -287,5 +292,20 @@ describe('additional sources (sources-discover.yml)', () => {
     expect(r.out).toContain('fontes adicionais LIGADAS');
     expect(r.out).toContain('sources_consecutive_failures');
     expect(issues).toHaveLength(1);
+  });
+});
+
+describe('jobicy-watchdog.mjs: a few unanswered stragglers are not a CRITICAL (2026-10-19)', () => {
+  it('judges the age after skipping max(25, 2 % of the open listings); the whole catalogue ageing still alarms', async () => {
+    visible = 1624;
+    oldest = realAgo(109.5); // 4 listings the source no longer answers for, already hidden by the app
+    bulk = realAgo(2); // everything else verified 2 h ago
+    workflowRuns = [ghRun(1, 'success')];
+    const ok = await watchdog();
+    expect(ok.out).not.toContain('validity_critical');
+    expect(offsets).toContain(33); // 2 % of 1,624, rounded up
+    bulk = realAgo(109.5); // the revalidation really stopped: the bulk is old too
+    const bad = await watchdog();
+    expect(bad.out).toContain('validity_critical');
   });
 });
