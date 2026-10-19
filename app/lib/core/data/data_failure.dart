@@ -97,7 +97,13 @@ DataFailureKind mapDataError(Object error) {
     if (status != null && status >= 500) return DataFailureKind.unavailable;
     return DataFailureKind.unknown;
   }
-  if (error is sb.AuthRetryableFetchException) return DataFailureKind.network;
+  if (error is sb.AuthRetryableFetchException) {
+    // 5xx answers arrive wrapped in this type: the server was reached, so it is not "no connection".
+    final status = int.tryParse(error.statusCode ?? '');
+    return status != null && status >= 500
+        ? DataFailureKind.unavailable
+        : DataFailureKind.network;
+  }
   if (error is sb.AuthException) {
     final status = int.tryParse(error.statusCode ?? '');
     if (status == 401 || status == 403 || error.code == 'session_expired') {

@@ -107,6 +107,11 @@ void main() {
         DataFailureKind.sessionExpired,
       );
       expect(k(NotSignedInException()), DataFailureKind.signedOut);
+      // The client wraps a 5xx answer in the same type: the server answered, so it is "unavailable", not "offline".
+      expect(
+        k(sb.AuthRetryableFetchException(message: 'x', statusCode: '500')),
+        DataFailureKind.unavailable,
+      );
     });
 
     test('résumé rejections and anything else', () {

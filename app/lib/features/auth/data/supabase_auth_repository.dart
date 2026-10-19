@@ -11,7 +11,13 @@ import '../domain/auth_user.dart';
 AuthFailure mapAuthError(Object error) {
   if (error is AuthFailure) return error;
   if (error is sb.AuthRetryableFetchException) {
-    return const AuthFailure(AuthFailureKind.network);
+    // The client wraps every 5xx answer in this type too: the server was reached, so it is not "no connection".
+    final status = int.tryParse(error.statusCode ?? '');
+    return AuthFailure(
+      status != null && status >= 500
+          ? AuthFailureKind.unavailable
+          : AuthFailureKind.network,
+    );
   }
   if (error is sb.AuthWeakPasswordException) {
     return const AuthFailure(AuthFailureKind.weakPassword);

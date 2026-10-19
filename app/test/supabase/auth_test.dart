@@ -159,6 +159,20 @@ void main() {
 
   group('mapAuthError', () {
     AuthFailureKind k(Object e) => mapAuthError(e).kind;
+    test(
+      'a 5xx answer is "unavailable", a missing connection is "network"',
+      () {
+        // e.g. the server could not send the e-mail (SMTP): it answered, so "no connection" would mislead.
+        expect(
+          k(sb.AuthRetryableFetchException(message: 'x', statusCode: '500')),
+          AuthFailureKind.unavailable,
+        );
+        expect(
+          k(sb.AuthRetryableFetchException(message: 'SocketException')),
+          AuthFailureKind.network,
+        );
+      },
+    );
     test('by error code', () {
       expect(
         k(
