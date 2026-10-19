@@ -117,6 +117,35 @@ void main() {
   );
 
   testWidgets(
+    'company monogram yields to the title when the card is narrow, whatever the window width',
+    (t) async {
+      const job = ScoredJob(
+        JobPosting(
+          source: 's',
+          externalId: '1',
+          company: 'Construtora Horizonte',
+          title: 'Engenheiro de Planejamento e Controle de Obras Sênior',
+          originalUrl: 'https://e.invalid',
+        ),
+      );
+      for (final (width, shown) in [(240.0, false), (330.0, true)]) {
+        await t.pumpWidget(host(const OrbiJobCard(scored: job), width: width));
+        expect(t.takeException(), isNull, reason: 'overflow at $width');
+        expect(
+          find.byType(OrbiMonogram),
+          shown ? findsOneWidget : findsNothing,
+        );
+      }
+      // The title column keeps at least as much room as a title needs to stay within 3 lines at the narrow width.
+      await t.pumpWidget(host(const OrbiJobCard(scored: job), width: 240));
+      final box = t.getSize(
+        find.text('Engenheiro de Planejamento e Controle de Obras Sênior'),
+      );
+      expect(box.height / 20, lessThanOrEqualTo(4));
+    },
+  );
+
+  testWidgets(
     'filter chip: selection uses a check icon, not colour alone; toggles on tap',
     (t) async {
       var on = false;

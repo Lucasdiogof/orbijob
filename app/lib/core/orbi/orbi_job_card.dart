@@ -14,6 +14,9 @@ import 'orbi_monogram.dart';
 /// Job card. Reading order: title, company, place, work mode and pay, then the quiet footer (date, source).
 /// Anything the source did not provide is simply not drawn; nothing is invented. One discreet badge at most (the work mode);
 /// the contract type and the posting language are plain metadata.
+/// Card content width below which the company monogram is not drawn, so the title keeps the room.
+const double monogramMinCardWidth = 280;
+
 class OrbiJobCard extends StatelessWidget {
   const OrbiJobCard({
     super.key,
@@ -81,47 +84,52 @@ class OrbiJobCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (j.company.isNotEmpty &&
-                    OrbiMonogram.initialOf(j.company) != null &&
-                    MediaQuery.textScalerOf(context).scale(16) <= 22)
-                  Padding(
-                    padding: const EdgeInsets.only(right: AppSpace.s3),
-                    child: OrbiMonogram(name: j.company),
-                  ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: AppSpace.s2),
-                    child: Semantics(
-                      localeForSubtree: translated
-                          ? Locale(ui)
-                          : (lang == null
-                                ? null
-                                : Locale(lang.split('-').first)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title, style: t.titleMedium),
-                          if (j.company.isNotEmpty) ...[
-                            const SizedBox(height: 2),
-                            Text(j.company, style: t.bodyMedium),
+            LayoutBuilder(
+              builder: (context, box) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // The tile is decorative: it yields to the title when the card itself is narrow
+                  // (two-column Home at tablet widths), whatever the window width is.
+                  if (box.maxWidth >= monogramMinCardWidth &&
+                      j.company.isNotEmpty &&
+                      OrbiMonogram.initialOf(j.company) != null &&
+                      MediaQuery.textScalerOf(context).scale(16) <= 22)
+                    Padding(
+                      padding: const EdgeInsets.only(right: AppSpace.s3),
+                      child: OrbiMonogram(name: j.company),
+                    ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: AppSpace.s2),
+                      child: Semantics(
+                        localeForSubtree: translated
+                            ? Locale(ui)
+                            : (lang == null
+                                  ? null
+                                  : Locale(lang.split('-').first)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(title, style: t.titleMedium),
+                            if (j.company.isNotEmpty) ...[
+                              const SizedBox(height: 2),
+                              Text(j.company, style: t.bodyMedium),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (onFavoriteChanged != null)
-                  FavoriteButton(
-                    isFavorite: isFavorite,
-                    onChanged: onFavoriteChanged,
-                  )
-                else if (menu == null)
-                  const SizedBox(width: AppSpace.s2),
-                ?menu,
-              ],
+                  if (onFavoriteChanged != null)
+                    FavoriteButton(
+                      isFavorite: isFavorite,
+                      onChanged: onFavoriteChanged,
+                    )
+                  else if (menu == null)
+                    const SizedBox(width: AppSpace.s2),
+                  ?menu,
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: AppSpace.s2),
