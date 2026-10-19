@@ -73,8 +73,11 @@ class SavedSearchesPage extends StatelessWidget {
                 children: [
                   Text(l.ssSubtitle, style: context.metadataStyle),
                   const SizedBox(height: AppSpace.s3),
-                  for (final item in s.items) ...[
-                    SavedSearchCard(item: item, busy: s.busy),
+                  for (final (i, item) in s.items.indexed) ...[
+                    Reveal(
+                      index: i,
+                      child: SavedSearchCard(item: item, busy: s.busy),
+                    ),
                     const SizedBox(height: AppSpace.s3),
                   ],
                   Text(l.ntPushNote, style: context.metadataStyle),
@@ -185,6 +188,25 @@ class SavedSearchCard extends StatelessWidget {
           const SizedBox(height: AppSpace.s1),
           Row(
             children: [
+              // the alert state is read from the icon too, not only from the switch
+              AnimatedSwitcher(
+                duration: reduceMotion(context)
+                    ? Duration.zero
+                    : AppMotion.base,
+                transitionBuilder: (child, a) =>
+                    ScaleTransition(scale: a, child: child),
+                child: Icon(
+                  item.alertsEnabled
+                      ? Icons.notifications_active_rounded
+                      : Icons.notifications_off_outlined,
+                  key: ValueKey(item.alertsEnabled),
+                  size: 16,
+                  color: item.alertsEnabled
+                      ? context.colors.primary
+                      : context.colors.muted,
+                ),
+              ),
+              const SizedBox(width: AppSpace.s2),
               Expanded(
                 child: Text(
                   item.alertsEnabled

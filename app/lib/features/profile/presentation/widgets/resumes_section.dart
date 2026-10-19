@@ -217,103 +217,119 @@ class _ResumesView extends StatelessWidget {
             ),
             const SizedBox(height: AppSpace.s4),
             if (s.items.isEmpty)
-              OrbiCard(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpace.s4),
                 child: Column(
                   children: [
-                    Icon(
-                      Icons.description_outlined,
-                      size: AppSize.iconLg,
-                      color: c.muted,
-                    ),
-                    const SizedBox(height: AppSpace.s2),
-                    Text(
-                      l.resumesEmpty,
-                      style: context.text.bodyMedium!.copyWith(color: c.muted),
-                      textAlign: TextAlign.center,
+                    const OrbiArt(icon: Icons.description_outlined, size: 96),
+                    const SizedBox(height: AppSpace.s4),
+                    Reveal(
+                      index: 1,
+                      child: Text(
+                        l.resumesEmpty,
+                        style: context.text.bodyMedium!.copyWith(
+                          color: c.muted,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ],
                 ),
               ),
-            for (final f in ordered) ...[
-              OrbiCard(
-                onTap: s.busyId == null ? () => _open(context, f) : null,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: c.primaryContainer,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                      ),
-                      child: Icon(
-                        Icons.picture_as_pdf_outlined,
-                        color: c.onPrimaryContainer,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpace.s3),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l.resumeItem(fmt.formatMediumDate(f.createdAt)),
-                            style: context.text.titleSmall,
+            for (final (i, f) in ordered.indexed) ...[
+              Reveal(
+                index: i,
+                child: OrbiCard(
+                  selected: f.id == primaryId,
+                  onTap: s.busyId == null ? () => _open(context, f) : null,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              c.primaryContainer,
+                              Color.lerp(c.primaryContainer, c.primary, 0.18)!,
+                            ],
                           ),
-                          const SizedBox(height: AppSpace.s1),
-                          Text(_fileKind, style: context.metadataStyle),
-                        ],
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                        ),
+                        child: Icon(
+                          Icons.picture_as_pdf_outlined,
+                          color: c.onPrimaryContainer,
+                        ),
                       ),
-                    ),
-                    if (f.id == primaryId) ...[
-                      OrbiStatusBadge(
-                        label: l.resumePrimary,
-                        kind: OrbiBadgeKind.info,
-                        icon: Icons.star_rounded,
-                      ),
-                      const SizedBox(width: AppSpace.s1),
-                    ],
-                    if (s.busyId == f.id)
-                      const Padding(
-                        padding: EdgeInsets.all(AppSpace.s2),
-                        child: OrbiLoadingIndicator(size: 22),
-                      )
-                    else
-                      PopupMenuButton<_ResumeAction>(
-                        tooltip: l.resumeMoreActions,
-                        icon: const Icon(Icons.more_vert_rounded),
-                        onSelected: (a) => switch (a) {
-                          _ResumeAction.open => _open(context, f),
-                          _ResumeAction.suggest => _suggest(context, f),
-                          _ResumeAction.makePrimary => _makePrimary(context, f),
-                          _ResumeAction.replace => _replace(context, f),
-                          _ResumeAction.delete => _delete(context, f),
-                        },
-                        itemBuilder: (_) => [
-                          PopupMenuItem(
-                            value: _ResumeAction.open,
-                            child: Text(l.resumeOpen),
-                          ),
-                          PopupMenuItem(
-                            value: _ResumeAction.suggest,
-                            child: Text(l.resumeSuggestAction),
-                          ),
-                          if (f.id != primaryId)
-                            PopupMenuItem(
-                              value: _ResumeAction.makePrimary,
-                              child: Text(l.resumeSetPrimary),
+                      const SizedBox(width: AppSpace.s3),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l.resumeItem(fmt.formatMediumDate(f.createdAt)),
+                              style: context.text.titleSmall,
                             ),
-                          PopupMenuItem(
-                            value: _ResumeAction.replace,
-                            child: Text(l.resumeReplace),
-                          ),
-                          PopupMenuItem(
-                            value: _ResumeAction.delete,
-                            child: Text(l.commonDelete),
-                          ),
-                        ],
+                            const SizedBox(height: AppSpace.s1),
+                            Text(_fileKind, style: context.metadataStyle),
+                          ],
+                        ),
                       ),
-                  ],
+                      if (f.id == primaryId) ...[
+                        OrbiStatusBadge(
+                          label: l.resumePrimary,
+                          kind: OrbiBadgeKind.info,
+                          icon: Icons.star_rounded,
+                        ),
+                        const SizedBox(width: AppSpace.s1),
+                      ],
+                      if (s.busyId == f.id)
+                        const Padding(
+                          padding: EdgeInsets.all(AppSpace.s2),
+                          child: OrbiLoadingIndicator(size: 22),
+                        )
+                      else
+                        PopupMenuButton<_ResumeAction>(
+                          tooltip: l.resumeMoreActions,
+                          icon: const Icon(Icons.more_vert_rounded),
+                          onSelected: (a) => switch (a) {
+                            _ResumeAction.open => _open(context, f),
+                            _ResumeAction.suggest => _suggest(context, f),
+                            _ResumeAction.makePrimary => _makePrimary(
+                              context,
+                              f,
+                            ),
+                            _ResumeAction.replace => _replace(context, f),
+                            _ResumeAction.delete => _delete(context, f),
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              value: _ResumeAction.open,
+                              child: Text(l.resumeOpen),
+                            ),
+                            PopupMenuItem(
+                              value: _ResumeAction.suggest,
+                              child: Text(l.resumeSuggestAction),
+                            ),
+                            if (f.id != primaryId)
+                              PopupMenuItem(
+                                value: _ResumeAction.makePrimary,
+                                child: Text(l.resumeSetPrimary),
+                              ),
+                            PopupMenuItem(
+                              value: _ResumeAction.replace,
+                              child: Text(l.resumeReplace),
+                            ),
+                            PopupMenuItem(
+                              value: _ResumeAction.delete,
+                              child: Text(l.commonDelete),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpace.s3),

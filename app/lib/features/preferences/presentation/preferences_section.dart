@@ -84,20 +84,22 @@ class SettingsSection extends StatelessWidget {
       children: [
         OrbiSectionHeader(title: l.languageTitle),
         const SizedBox(height: AppSpace.s3),
-        OrbiCard(
-          onTap: () => _chooseLanguage(context, locale),
-          child: Row(
-            children: [
-              Icon(Icons.language_rounded, color: c.muted),
-              const SizedBox(width: AppSpace.s3),
-              Expanded(
-                child: Text(
-                  languageName(l, locale),
-                  style: context.text.bodyLarge,
+        Reveal(
+          child: OrbiCard(
+            onTap: () => _chooseLanguage(context, locale),
+            child: Row(
+              children: [
+                Icon(Icons.language_rounded, color: c.muted),
+                const SizedBox(width: AppSpace.s3),
+                Expanded(
+                  child: Text(
+                    languageName(l, locale),
+                    style: context.text.bodyLarge,
+                  ),
                 ),
-              ),
-              Icon(Icons.chevron_right_rounded, color: c.muted),
-            ],
+                Icon(Icons.chevron_right_rounded, color: c.muted),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: AppSpace.s6),

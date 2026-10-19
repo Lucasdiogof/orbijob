@@ -318,9 +318,14 @@ class _ApplicationTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpace.s3),
-          OrbiStatusBadge(
-            label: applicationStageLabel(l, a.stage),
-            kind: _stageKind(a.stage),
+          // a change of stage cross-fades instead of jumping
+          AnimatedSwitcher(
+            duration: reduceMotion(context) ? Duration.zero : AppMotion.base,
+            child: OrbiStatusBadge(
+              key: ValueKey(a.stage),
+              label: applicationStageLabel(l, a.stage),
+              kind: _stageKind(a.stage),
+            ),
           ),
         ],
       ),

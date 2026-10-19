@@ -213,13 +213,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   ),
                 )
               else
-                for (final n in s.items) ...[
-                  _NotificationCard(
-                    n: n,
-                    now: now,
-                    searchNames: [for (final id in n.searchIds) ?names[id]],
-                    onTap: () => _open(n),
-                    onDismiss: () => cubit.dismiss(n),
+                for (final (i, n) in s.items.indexed) ...[
+                  Reveal(
+                    index: i,
+                    child: _NotificationCard(
+                      n: n,
+                      now: now,
+                      searchNames: [for (final id in n.searchIds) ?names[id]],
+                      onTap: () => _open(n),
+                      onDismiss: () => cubit.dismiss(n),
+                    ),
                   ),
                   const SizedBox(height: AppSpace.s3),
                 ],
@@ -345,6 +348,8 @@ class _NotificationCard extends StatelessWidget {
       container: true,
       label: '$kindLabel. ${n.unread ? '${l.ntUnread}: ' : ''}${n.title}',
       child: OrbiCard(
+        // unread reads at a glance: the card takes the brand edge until it is opened
+        selected: n.unread,
         onTap: onTap,
         padding: const EdgeInsets.fromLTRB(
           AppSpace.s4,

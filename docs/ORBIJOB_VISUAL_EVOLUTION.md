@@ -61,5 +61,16 @@ Observed on the live site after deploy (800 px window, two-column Home): the mon
 ### Verification
 `flutter analyze` clean; 1,079 Flutter tests pass. No device performance measurement; entrance animations are one-shot and limited to the first screenful, nothing animates inside scrolling lists.
 
+### Batch 2, part 2 (same day)
+| Area | Change |
+|---|---|
+| Résumés | Main résumé takes the brand edge (`selected`), file tiles get the hub gradient, rows reveal in sequence; empty state uses `OrbiArt` instead of a bare card. Upload/read/storage logic untouched. |
+| Applications | Stage badge cross-fades when the stage changes (instant with reduced motion). |
+| Saved searches | Alert state also shown by an icon (bell active / off) that scales in on toggle; cards reveal in sequence. |
+| Notifications | Unread cards take the brand edge until opened; items reveal in sequence. |
+| Settings | Language card reveals; layout and behaviour unchanged. |
+
+Evidence: `batch2/14-resumes-*` (dark one inspected: main résumé highlighted, no overflow) and `batch2/15-settings-*` (saved, not inspected). Saved searches and notifications changes are covered by the existing widget tests but have no capture yet. `flutter analyze` clean, 1,079 tests pass.
+
 ### Still open for the redesign
-Profile sub-pages (professional profile, résumé upload/progress), applications board/status transitions, saved searches and alerts, notifications, settings grouping, auth screens, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
+Professional profile sub-page, résumé upload progress, applications board, auth screens, filter chip transitions, Hero evaluation, textures, 200 % text / reduced-motion / ES-PT captures, remaining references.
