@@ -103,3 +103,11 @@ unchanged: Get on Board permission, NAV Norway registration e-mail, Jooble/Korea
   1,057 Flutter tests green.
 * Environment note: the Supabase CLI on this machine is now logged into an account that only sees the La Pelve project, so `supabase db query --linked` cannot reach
   `rpmlfxwebnlxnwadyvle` until the owner logs the CLI back into the OrbiJob organisation. Checks above used GitHub and the publishable key only.
+
+## Ceiling counts live rows only (2026-10-19, commits 70a1a0c, 889ce3c, 201fb4b)
+Found by a real check: Arbeitnow had stopped importing since 18/10. The catalogue ceiling of a source counted DEAD rows too (open but unverified for more than 72 h, which the app already
+hides); the feed had turned over almost completely, the 3,200 stored rows were no longer in it, the pass read 2,400 listings, none entered and only ≈ 460 were visible. The ceiling now counts live rows
+(open and verified in the last 72 h, plus closed ones that still keep their text); dead rows wait for the normal 7-day expiry. The first real pass after the fix imported 300 new listings (the configured
+cap) and the next scheduled passes keep filling it. `ops-health` gained a warning when most open listings of a published source are unverified for 72 h (it caught Arbeitnow, 2,739 of 3,500, and goes away
+by itself as the passes bring new listings and the dead ones expire); the PostgREST contract test follows the new count. Same day: pg_cron 153 runs in 24 h without failures, database 315 MB of 500 MB.
+Delays of 12–23 h seen in the last verification of BPCE, Calgary, mpsvcz, NYC Jobs and SINE-ES are their schedules (twice a day or once a day), far inside the 72 h window.

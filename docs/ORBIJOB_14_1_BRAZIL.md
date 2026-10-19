@@ -98,3 +98,6 @@ Worker 979 passaram (+39 de rede ignorados), `tsc` limpo; Flutter 1.018 passaram
 ## 10. Conclusão objetiva
 * **Possível melhorar**: busca para os termos brasileiros (programador, desenvolvedor de aplicativos, palavras digitadas em ordem diferente, pélvica sem virar toda fisioterapia), privacidade brasileira (DDD e CPF, que estavam abertos), primeira fonte brasileira real (SINE-ES, 309 vagas, aguardando a sua decisão), link oficial de concursos de hospitais universitários para fisioterapia (inclui saúde da mulher), linha de base reprodutível.
 * **Ainda exige acordos ou novas fontes**: qualquer vaga Flutter brasileira (hoje 0) e qualquer vaga de fisioterapia pélvica (hoje 0 no catálogo inteiro) estão em plataformas e empregadores sem licença de republicação; o caminho é permissão escrita (§8) ou a chave do dados.gov.br para os dados federais. Sem isso, o app mostra o zero com honestidade e leva a pessoa aos portais, sem copiar nada.
+
+## Nota (19/10): outras frentes do mesmo dia
+Calgary e SINE-ES entraram na página de licenças do app (a licença da Calgary exige a frase de atribuição; commit a04f136). O ORBI-001 (leitura offline e tradução automática) está em `docs/OFFLINE.md`; o teto de vagas vivas, em `docs/ORBIJOB_13_0_PROGRESS.md`. A SINE-ES foi publicada pelo dono: 309 vagas visíveis pela chave pública, Brasil = 322 visíveis.
