@@ -88,6 +88,67 @@ String? placeLabel(JobPosting j, AppLocalizations l) {
   return null;
 }
 
+const _languageNames = <String, (String, String)>{
+  // code: (Portuguese, Spanish); English is the fallback below
+  'de': ('Alemão', 'Alemán'),
+  'fr': ('Francês', 'Francés'),
+  'it': ('Italiano', 'Italiano'),
+  'nl': ('Holandês', 'Neerlandés'),
+  'sv': ('Sueco', 'Sueco'),
+  'da': ('Dinamarquês', 'Danés'),
+  'no': ('Norueguês', 'Noruego'),
+  'fi': ('Finlandês', 'Finés'),
+  'pl': ('Polonês', 'Polaco'),
+  'cs': ('Tcheco', 'Checo'),
+  'ro': ('Romeno', 'Rumano'),
+  'tr': ('Turco', 'Turco'),
+  'hu': ('Húngaro', 'Húngaro'),
+  'ru': ('Russo', 'Ruso'),
+  'ja': ('Japonês', 'Japonés'),
+  'ko': ('Coreano', 'Coreano'),
+  'zh': ('Chinês', 'Chino'),
+  'ar': ('Árabe', 'Árabe'),
+  'en': ('Inglês', 'Inglés'),
+  'pt': ('Português', 'Portugués'),
+  'es': ('Espanhol', 'Español'),
+};
+
+const _englishNames = {
+  'de': 'German',
+  'fr': 'French',
+  'it': 'Italian',
+  'nl': 'Dutch',
+  'sv': 'Swedish',
+  'da': 'Danish',
+  'no': 'Norwegian',
+  'fi': 'Finnish',
+  'pl': 'Polish',
+  'cs': 'Czech',
+  'ro': 'Romanian',
+  'tr': 'Turkish',
+  'hu': 'Hungarian',
+  'ru': 'Russian',
+  'ja': 'Japanese',
+  'ko': 'Korean',
+  'zh': 'Chinese',
+  'ar': 'Arabic',
+  'en': 'English',
+  'pt': 'Portuguese',
+  'es': 'Spanish',
+};
+
+/// Name of a language in the interface language [ui] (`pt`, `en`, `es`): "Alemão" for a Brazilian reader, not "Deutsch".
+/// Codes the table does not know fall back to [nativeLanguageName].
+String? languageName(String? code, String ui) {
+  final c = code?.toLowerCase().split('-').first;
+  if (c == null) return null;
+  if (ui == 'en' && _englishNames.containsKey(c)) return _englishNames[c];
+  final n = _languageNames[c];
+  if (n != null && ui == 'pt') return n.$1;
+  if (n != null && ui == 'es') return n.$2;
+  return nativeLanguageName(code);
+}
+
 /// Native name of a language (never translated, so a reader recognises it in any interface language).
 String? nativeLanguageName(String? code) => switch (code?.toLowerCase()) {
   'en' => 'English',

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/design/design.dart';
 import '../../../../core/format/description_text.dart';
+import '../../../../core/format/contract_labels.dart';
 import '../../../../core/format/geo_eligibility.dart';
 import '../../../../core/format/job_format.dart';
 import '../../../../core/orbi/orbi.dart';
@@ -84,7 +85,7 @@ class _JobDetailViewState extends State<JobDetailView> {
       showOriginal: _showOriginal,
       onToggle: () => setState(() => _showOriginal = !_showOriginal),
       onDownload: () => c?.downloadAndLoad(widget.scored.job),
-      onRetry: () => c?.loadDetail(widget.scored.job, retry: true),
+      onRetry: () => c?.retryDetail(widget.scored.job),
     );
     if (c == null) return body(null);
     final key = TranslationCubit.jobKey(widget.scored.job);
@@ -179,7 +180,7 @@ class _JobDetailBody extends StatelessWidget {
     final ui = Localizations.localeOf(context).languageCode;
     final lang = detail?.from ?? jobLanguage(context, j);
     final langName = (lang != null && lang.split('-').first != ui)
-        ? nativeLanguageName(lang)
+        ? languageName(lang, ui)
         : null;
     // translated text is only shown when BOTH title and description are translated (the cubit reports ready/partial only then),
     // so a translated title is never paired with a description in another language without saying so
@@ -192,6 +193,21 @@ class _JobDetailBody extends StatelessWidget {
         detail != null &&
         (detail!.status == DetailStatus.ready ||
             detail!.status == DetailStatus.partial);
+    // a foreign-language wall of text is not shown while the translation is pending or failed: an explanation takes its place and the
+    // original is one tap away (the person asks for it)
+    final withheld =
+        detail != null &&
+        !showOriginal &&
+        langName != null &&
+        const {
+          DetailStatus.loading,
+          DetailStatus.downloading,
+          DetailStatus.needsDownload,
+          DetailStatus.waitingWifi,
+          DetailStatus.offlineNoModel,
+          DetailStatus.downloadFailed,
+          DetailStatus.failed,
+        }.contains(detail!.status);
     final shownTitle = translated && detail!.title != null
         ? detail!.title!
         : j.title;
@@ -263,7 +279,15 @@ class _JobDetailBody extends StatelessWidget {
                   children: [
                     if (mode.isNotEmpty) OrbiStatusBadge(label: mode),
                     if ((j.contractType ?? '').isNotEmpty)
-                      OrbiStatusBadge(label: j.contractType!),
+                      TranslatedField(
+                        job: j,
+                        field: 'contract',
+                        text: j.contractType!,
+                        request: localizedContract(j.contractType!, ui) == null,
+                        builder: (_, text, _) => OrbiStatusBadge(
+                          label: localizedContract(j.contractType!, ui) ?? text,
+                        ),
+                      ),
                     if (langName != null)
                       OrbiStatusBadge(
                         label: langName,
@@ -308,7 +332,32 @@ class _JobDetailBody extends StatelessWidget {
             onRetry: onRetry,
           ),
         ],
-        if ((shownDescription ?? '').isNotEmpty) ...[
+        if (withheld && (j.description ?? '').isNotEmpty) ...[
+          const SizedBox(height: AppSpace.s3),
+          OrbiCard(
+            padding: const EdgeInsets.all(AppSpace.s5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Semantics(
+                  header: true,
+                  child: Text(l.jobDescriptionTitle, style: t.titleMedium),
+                ),
+                const SizedBox(height: AppSpace.s3),
+                Text(
+                  l.translationWithheld(langName.toLowerCase()),
+                  style: t.bodyMedium!.copyWith(color: c.muted),
+                ),
+                const SizedBox(height: AppSpace.s3),
+                OrbiSecondaryButton(
+                  label: l.translationViewOriginalText,
+                  icon: Icons.translate_rounded,
+                  onPressed: onToggle,
+                ),
+              ],
+            ),
+          ),
+        ] else if ((shownDescription ?? '').isNotEmpty) ...[
           const SizedBox(height: AppSpace.s3),
           OrbiCard(
             padding: const EdgeInsets.all(AppSpace.s5),

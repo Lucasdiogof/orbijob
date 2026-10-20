@@ -82,8 +82,8 @@ void main() {
         expect(find.text(s), findsOneWidget, reason: s);
       }
       // facts and footer are grouped into one quiet line each
-      expect(find.textContaining('Vollzeit'), findsOneWidget);
-      expect(find.textContaining('Deutsch'), findsOneWidget);
+      // contract by the fixed table and the language named in the interface language
+      expect(find.textContaining('Full-time · German'), findsOneWidget);
       expect(find.textContaining('Posted yesterday'), findsOneWidget);
       expect(find.textContaining('Source: Example source'), findsOneWidget);
       expect(find.text('81'), findsOneWidget);

@@ -4,6 +4,7 @@ import '../../features/search/domain/entities/job_posting.dart';
 import '../../l10n/app_localizations.dart';
 import '../../features/translation/translation_widgets.dart';
 import '../design/design.dart';
+import '../format/contract_labels.dart';
 import '../format/job_format.dart';
 import '../widgets/compatibility_indicator.dart';
 import '../widgets/favorite_button.dart';
@@ -59,16 +60,18 @@ class OrbiJobCard extends StatelessWidget {
     final ui = Localizations.localeOf(context).languageCode;
     final lang = jobLanguage(context, j);
     final langName = (lang != null && lang.split('-').first != ui)
-        ? nativeLanguageName(lang)
+        ? languageName(lang, ui)
         : null;
     final foot = <String>[
       ?published,
       if (j.sourceName != null) l.sourceLabel(j.sourceName!),
     ];
-    final facts = <String>[
-      if ((j.contractType ?? '').isNotEmpty) j.contractType!,
-      ?langName,
-    ];
+    // contract and seniority terms: the fixed table first (reliable), the on-device translation of the text second, the original last
+    final contractRaw = j.contractType ?? '';
+    final contractFixed = contractRaw.isEmpty
+        ? null
+        : localizedContract(contractRaw, ui);
+    final hasFacts = contractRaw.isNotEmpty || langName != null;
 
     return TranslatedTitle(
       job: j,
@@ -196,25 +199,37 @@ class OrbiJobCard extends StatelessWidget {
                       ],
                     ),
                   ],
-                  if (facts.isNotEmpty) ...[
+                  if (hasFacts) ...[
                     const SizedBox(height: AppSpace.s2),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          if (translated)
-                            const WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 4),
-                                child: TranslatedMark(),
+                    TranslatedField(
+                      job: j,
+                      field: 'contract',
+                      text: contractRaw,
+                      request: contractRaw.isNotEmpty && contractFixed == null,
+                      builder: (context, contractText, _) => Text.rich(
+                        TextSpan(
+                          children: [
+                            if (translated)
+                              const WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 4),
+                                  child: TranslatedMark(),
+                                ),
                               ),
+                            TextSpan(
+                              text: [
+                                if (contractRaw.isNotEmpty)
+                                  contractFixed ?? contractText,
+                                ?langName,
+                              ].join(' · '),
                             ),
-                          TextSpan(text: facts.join(' · ')),
-                        ],
+                          ],
+                        ),
+                        style: context.metadataStyle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      style: context.metadataStyle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                   if (m != null) ...[

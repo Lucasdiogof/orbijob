@@ -11,10 +11,28 @@ void main() {
     await loadBrandFonts();
   });
 
-  for (final (locale, searched, tabLabel) in [
-    (const Locale('pt'), 'Fonte: Example source', 'Explorar'),
-    (const Locale('es'), 'Fuente: Example source', 'Explorar'),
-    (const Locale('en'), 'Source: Example source', 'Explore'),
+  for (final (locale, searched, tabLabel, contract, language) in [
+    (
+      const Locale('pt'),
+      'Fonte: Example source',
+      'Explorar',
+      'Tempo integral',
+      'Alemão',
+    ),
+    (
+      const Locale('es'),
+      'Fuente: Example source',
+      'Explorar',
+      'Jornada completa',
+      'Alemán',
+    ),
+    (
+      const Locale('en'),
+      'Source: Example source',
+      'Explore',
+      'Full-time',
+      'German',
+    ),
   ]) {
     testWidgets(
       'UI follows ${locale.languageCode}; job text keeps its language',
@@ -32,11 +50,11 @@ void main() {
         await t.pumpAndSettle();
         // Original German title is never translated, whatever the interface language.
         expect(find.text('Beckenboden-Physiotherapeut:in'), findsOneWidget);
-        expect(find.textContaining('Vollzeit'), findsOneWidget);
         expect(
-          find.textContaining('Deutsch'),
+          find.textContaining('$contract · $language'),
           findsOneWidget,
-          reason: 'language of the listing',
+          reason:
+              'contract and language of the listing, in the interface language',
         );
         expect(find.textContaining(searched), findsWidgets);
       },
