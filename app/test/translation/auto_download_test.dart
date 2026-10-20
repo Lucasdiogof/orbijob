@@ -142,7 +142,7 @@ void main() {
       final c = _cubit(broken, FakeNetwork(NetworkKind.unmetered));
       await c.loadDetail(_job('1'));
       expect(broken.prepared, 1);
-      expect(c.state.details['t:1']!.status, DetailStatus.failed);
+      expect(c.state.details['t:1']!.status, DetailStatus.downloadFailed);
       expect(e.prepared, 0);
       await c.close();
     },

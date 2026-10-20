@@ -193,7 +193,7 @@ void main() {
       await t.pumpAndSettle();
       expect(
         find.text(
-          'Translated from Deutsch automatically. It may contain errors.',
+          'Translated from German automatically. It may contain errors.',
         ),
         findsOneWidget,
       );
@@ -211,7 +211,7 @@ void main() {
 
       await t.tap(find.text('Show original'));
       await t.pumpAndSettle();
-      expect(find.text('Original text (Deutsch)'), findsOneWidget);
+      expect(find.text('Original text (German)'), findsOneWidget);
       expect(find.textContaining('Ihre Aufgaben:'), findsOneWidget);
       expect(find.textContaining('[en] Ihre Aufgaben:'), findsNothing);
       expect(find.text('Pflegefachkraft (m/w/d) für unser Team'), findsWidgets);
@@ -329,10 +329,11 @@ void main() {
       await t.tap(find.text('Pflegefachkraft (m/w/d) für unser Team'));
       await t.pumpAndSettle();
       expect(
-        find.text('Could not translate this listing. Showing the original.'),
+        find.text('Could not translate this listing.'),
         findsOneWidget,
       );
-      expect(find.textContaining('Ihre Aufgaben:'), findsOneWidget);
+      // the foreign text is not shown by itself; the original is one tap away
+      expect(find.textContaining('Ihre Aufgaben:'), findsNothing);
       e.failWith = null;
       await t.tap(find.text('Try again'));
       await t.pumpAndSettle();

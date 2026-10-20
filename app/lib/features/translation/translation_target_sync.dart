@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +20,10 @@ class TranslationTargetSync extends StatelessWidget {
       final cubit = context.read<TranslationCubit>();
       // state changes must not happen during a build
       WidgetsBinding.instance.addPostFrameCallback(
-        (_) => cubit.setTarget(code),
+        (_) {
+          cubit.setTarget(code);
+          unawaited(cubit.warmUp());
+        },
       );
     }
     return child;

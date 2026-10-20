@@ -1725,7 +1725,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get translationShowTranslation => 'Ver traducción';
 
   @override
-  String get translationLoading => 'Traduciendo…';
+  String get translationLoading => 'Traduciendo al español…';
 
   @override
   String get translationNeedsTitle => '¿Traducir este empleo?';
@@ -1751,8 +1751,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get translationFailed =>
-      'No se pudo traducir este empleo. Mostrando el original.';
+  String get translationFailed => 'No se pudo traducir este empleo.';
 
   @override
   String get translationPartialCut =>
@@ -2674,11 +2673,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get translationOfflineNoModel =>
-      'Sin conexión. La traducción necesita datos del idioma que aún no están en este dispositivo; se descargan cuando haya conexión. Se muestra el original.';
+      'Sin conexión. La traducción necesita datos del idioma que aún no están en este dispositivo; se descargan cuando haya conexión.';
+
+  @override
+  String get translationDownloadFailed =>
+      'No se pudieron descargar los datos del idioma. Comprueba que el dispositivo tenga internet e inténtalo de nuevo.';
+
+  @override
+  String translationWithheld(String language) {
+    return 'La descripción de este empleo está en $language. Aparece aquí traducida en cuanto la traducción esté disponible; el texto original está a un toque.';
+  }
+
+  @override
+  String get translationViewOriginalText => 'Ver texto original';
 
   @override
   String translationWaitingWifi(int mb) {
-    return 'Esperando Wi-Fi para descargar los datos del idioma (unos $mb MB). Se muestra el original.';
+    return 'Esperando Wi-Fi para descargar los datos del idioma (unos $mb MB).';
   }
 
   @override

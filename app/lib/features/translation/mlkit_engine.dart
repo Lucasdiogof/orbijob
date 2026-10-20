@@ -60,8 +60,11 @@ class MlKitTranslationEngine implements TranslationEngine {
     try {
       for (final c in [_primary(from), _primary(to)]) {
         if (c == 'en' || await _manager.isModelDownloaded(c)) continue;
-        // the person agreed to the download in the screen that asked; mobile data is allowed
-        final ok = await _manager.downloadModel(c, isWifiRequired: false);
+        // the caller decided (policy or tap) that this connection may be used; one native download per language, also after
+        // the caller gave up waiting, so a retry joins it instead of starting another
+        final ok = await (_downloading[c] ??= _manager
+            .downloadModel(c, isWifiRequired: false)
+            .whenComplete(() => _downloading.remove(c)));
         if (!ok) return false;
       }
       return true;
@@ -69,6 +72,8 @@ class MlKitTranslationEngine implements TranslationEngine {
       return false;
     }
   }
+
+  final _downloading = <String, Future<bool>>{};
 
   OnDeviceTranslator _translatorFor(String from, String to) {
     final f = _primary(from);

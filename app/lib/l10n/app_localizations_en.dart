@@ -1715,7 +1715,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get translationShowTranslation => 'Show translation';
 
   @override
-  String get translationLoading => 'Translating…';
+  String get translationLoading => 'Translating to English…';
 
   @override
   String get translationNeedsTitle => 'Translate this listing?';
@@ -1741,8 +1741,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get translationFailed =>
-      'Could not translate this listing. Showing the original.';
+  String get translationFailed => 'Could not translate this listing.';
 
   @override
   String get translationPartialCut =>
@@ -2659,11 +2658,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get translationOfflineNoModel =>
-      'No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.';
+      'No connection. The translation needs language data that is not on this device yet; it downloads when you are online.';
+
+  @override
+  String get translationDownloadFailed =>
+      'Could not download the language data. Check that the device has internet and try again.';
+
+  @override
+  String translationWithheld(String language) {
+    return 'This listing\'s description is in $language. It appears here translated as soon as the translation is available; the original text is one tap away.';
+  }
+
+  @override
+  String get translationViewOriginalText => 'View original text';
 
   @override
   String translationWaitingWifi(int mb) {
-    return 'Waiting for Wi-Fi to download language data (about $mb MB). Showing the original.';
+    return 'Waiting for Wi-Fi to download language data (about $mb MB).';
   }
 
   @override

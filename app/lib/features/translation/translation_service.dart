@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:developer' as developer;
 
 import 'translation_cache.dart';
 import 'translation_engine.dart';
@@ -24,6 +25,9 @@ enum TranslationOutcome {
   /// The engine failed (the original stays available).
   failed,
 }
+
+/// How a language download ended.
+enum PrepareOutcome { ready, failed, timedOut }
 
 class TextTranslation {
   const TextTranslation(
@@ -60,8 +64,17 @@ class TranslationService {
     this.maxParallel = 2,
     this.maxChars = 8000,
     this.failureBackoff = const Duration(seconds: 45),
+    this.downloadTimeout = const Duration(minutes: 3),
+    this.translateTimeout = const Duration(seconds: 30),
     DateTime Function()? clock,
   }) : _clock = clock ?? DateTime.now;
+
+  /// Longest wait for one language download: 3 minutes covers two ~30 MB models on a slow (about 3 Mbit/s) connection; a download that
+  /// has not finished by then is reported as failed instead of leaving "downloading" on screen.
+  final Duration downloadTimeout;
+
+  /// Longest wait for one chunk of text: a stuck engine ends as a failure (with the back-off) instead of an endless spinner.
+  final Duration translateTimeout;
 
   final TranslationEngine engine;
   final TranslationCache cache;
@@ -119,7 +132,28 @@ class TranslationService {
     return engine.readiness(from, to);
   }
 
-  Future<bool> prepare(String from, String to) => engine.prepare(from, to);
+  /// Downloads the language data, never for longer than [downloadTimeout]: the platform plugin reports no progress and can wait
+  /// forever when the network interface is up but nothing answers (a Wi-Fi without internet). The native download may still finish
+  /// later; the next readiness check then finds the data installed.
+  Future<PrepareOutcome> prepare(String from, String to) async {
+    final started = _clock();
+    PrepareOutcome out;
+    try {
+      out = await engine.prepare(from, to).timeout(downloadTimeout)
+          ? PrepareOutcome.ready
+          : PrepareOutcome.failed;
+    } on TimeoutException {
+      out = PrepareOutcome.timedOut;
+    } catch (_) {
+      out = PrepareOutcome.failed;
+    }
+    // codes and durations only, never text
+    developer.log(
+      'prepare $from>$to ${out.name} in ${_clock().difference(started).inSeconds}s (${engine.name})',
+      name: 'orbijob.translation',
+    );
+    return out;
+  }
 
   /// A previous result for exactly this text, if any, without starting any work.
   Future<TextTranslation?> cached(
@@ -226,7 +260,11 @@ class TranslationService {
             await _acquire();
             try {
               engineCalls++;
-              pieces.add(await engine.translate(chunk, from: from, to: to));
+              pieces.add(
+                await engine
+                    .translate(chunk, from: from, to: to)
+                    .timeout(translateTimeout),
+              );
             } finally {
               _release();
             }

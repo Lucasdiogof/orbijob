@@ -570,7 +570,7 @@
   },
   "translationShowOriginal": "Ver original",
   "translationShowTranslation": "Ver tradução",
-  "translationLoading": "Traduzindo…",
+  "translationLoading": "Traduzindo para português…",
   "translationNeedsTitle": "Traduzir esta vaga?",
   "translationNeedsBody": "O OrbiJob traduz no seu aparelho, então o que você lê fica nele. Na primeira vez, são baixados dados de idioma de cerca de {mb} MB.",
   "@translationNeedsBody": {
@@ -591,7 +591,7 @@
       }
     }
   },
-  "translationFailed": "Não foi possível traduzir esta vaga. Mostrando o original.",
+  "translationFailed": "Não foi possível traduzir esta vaga.",
   "translationPartialCut": "Só a primeira parte foi traduzida; o resto está no original.",
   "translationPartialLines": "Algumas linhas ficam no original para que números, códigos e nomes continuem exatos.",
   "translationOriginalLabel": "Texto original ({language})",
@@ -861,8 +861,18 @@
   "offlineHomeNoCacheBody": "Conecte-se para ver as vagas mais recentes. Elas aparecem aqui assim que houver internet e ficam disponíveis offline depois.",
   "serverUnavailableTitle": "Catálogo de vagas indisponível",
   "serverUnavailableBody": "O catálogo não respondeu agora. Tente de novo em instantes.",
-  "translationOfflineNoModel": "Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online. Mostrando o original.",
-  "translationWaitingWifi": "Aguardando Wi-Fi para baixar os dados do idioma (cerca de {mb} MB). Mostrando o original.",
+  "translationOfflineNoModel": "Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online.",
+  "translationDownloadFailed": "Não foi possível baixar os dados de idioma. Confira se o aparelho está com internet e tente novamente.",
+  "translationWithheld": "A descrição desta vaga está em {language}. Ela aparece aqui traduzida assim que a tradução estiver disponível; o texto original está a um toque.",
+  "@translationWithheld": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationViewOriginalText": "Ver texto original",
+  "translationWaitingWifi": "Aguardando Wi-Fi para baixar os dados do idioma (cerca de {mb} MB).",
   "@translationWaitingWifi": {
     "placeholders": {
       "mb": {

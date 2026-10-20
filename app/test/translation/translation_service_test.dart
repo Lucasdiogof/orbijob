@@ -153,7 +153,7 @@ void main() {
       expect(r.outcome, TranslationOutcome.needsDownload);
       expect(r.text, isNull);
       expect(e.seen, isEmpty, reason: 'no engine call without the data');
-      expect(await s.prepare('de', 'pt'), isTrue);
+      expect(await s.prepare('de', 'pt'), PrepareOutcome.ready);
       expect((await tr(s, 'Hallo')).outcome, TranslationOutcome.ok);
     });
 

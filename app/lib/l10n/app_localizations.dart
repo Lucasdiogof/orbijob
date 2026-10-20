@@ -3127,7 +3127,7 @@ abstract class AppLocalizations {
   /// No description provided for @translationLoading.
   ///
   /// In en, this message translates to:
-  /// **'Translating…'**
+  /// **'Translating to English…'**
   String get translationLoading;
 
   /// No description provided for @translationNeedsTitle.
@@ -3169,7 +3169,7 @@ abstract class AppLocalizations {
   /// No description provided for @translationFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not translate this listing. Showing the original.'**
+  /// **'Could not translate this listing.'**
   String get translationFailed;
 
   /// No description provided for @translationPartialCut.
@@ -4651,13 +4651,31 @@ abstract class AppLocalizations {
   /// No description provided for @translationOfflineNoModel.
   ///
   /// In en, this message translates to:
-  /// **'No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.'**
+  /// **'No connection. The translation needs language data that is not on this device yet; it downloads when you are online.'**
   String get translationOfflineNoModel;
+
+  /// No description provided for @translationDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not download the language data. Check that the device has internet and try again.'**
+  String get translationDownloadFailed;
+
+  /// No description provided for @translationWithheld.
+  ///
+  /// In en, this message translates to:
+  /// **'This listing\'s description is in {language}. It appears here translated as soon as the translation is available; the original text is one tap away.'**
+  String translationWithheld(String language);
+
+  /// No description provided for @translationViewOriginalText.
+  ///
+  /// In en, this message translates to:
+  /// **'View original text'**
+  String get translationViewOriginalText;
 
   /// No description provided for @translationWaitingWifi.
   ///
   /// In en, this message translates to:
-  /// **'Waiting for Wi-Fi to download language data (about {mb} MB). Showing the original.'**
+  /// **'Waiting for Wi-Fi to download language data (about {mb} MB).'**
   String translationWaitingWifi(int mb);
 
   /// No description provided for @translationDownloadNow.

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +33,9 @@ enum DetailStatus {
 
   /// No engine on this device translates this language.
   unsupported,
+
+  /// The language data could not be downloaded (failure or timeout): the person can try again or read the original.
+  downloadFailed,
   failed,
 }
 
@@ -89,6 +94,7 @@ class TranslationState extends Equatable {
     this.policy = DownloadPolicy.wifiOnly,
     this.titles = const {},
     this.details = const {},
+    this.modelsVersion = 0,
   });
 
   /// The interface language: what listings are translated into.
@@ -96,8 +102,11 @@ class TranslationState extends Equatable {
   final bool enabled;
   final DownloadPolicy policy;
 
-  /// Translated titles by `jobKey|target|fingerprint`.
+  /// Translated short texts (titles, contract types) by `jobKey|target|fingerprint` (`jobKey|field|target|fingerprint` for other fields).
   final Map<String, String> titles;
+
+  /// Grows each time language data lands on the device, so cards that were waiting for it ask again.
+  final int modelsVersion;
 
   /// Detail translations by job key, for the current [target] only.
   final Map<String, DetailTranslation> details;
@@ -108,16 +117,25 @@ class TranslationState extends Equatable {
     DownloadPolicy? policy,
     Map<String, String>? titles,
     Map<String, DetailTranslation>? details,
+    int? modelsVersion,
   }) => TranslationState(
     target: target ?? this.target,
     enabled: enabled ?? this.enabled,
     policy: policy ?? this.policy,
     titles: titles ?? this.titles,
     details: details ?? this.details,
+    modelsVersion: modelsVersion ?? this.modelsVersion,
   );
 
   @override
-  List<Object?> get props => [target, enabled, policy, titles, details];
+  List<Object?> get props => [
+    target,
+    enabled,
+    policy,
+    titles,
+    details,
+    modelsVersion,
+  ];
 }
 
 /// Decides what to translate, when, and keeps what the screens show. Everything is on demand and non-blocking: a card asks for its
@@ -143,7 +161,9 @@ class TranslationCubit extends Cubit<TranslationState> {
 
   /// What the connection is right now; null = unknown, language data is then never downloaded without a tap (tests, platforms without a probe).
   final NetworkProbe? network;
-  final _downloads = <String, Future<bool>>{};
+  final _downloads = <String, Future<PrepareOutcome>>{};
+  String? _warmedFor;
+  final _prepareFailures = <String, ({int count, DateTime at})>{};
 
   static DownloadPolicy _readPolicy(SharedPreferences? p) {
     final v = p?.getString(_policyKey);
@@ -157,15 +177,71 @@ class TranslationCubit extends Cubit<TranslationState> {
     await _prefs?.setString(_policyKey, p.name);
     _epoch++;
     emit(state.copyWith(policy: p, details: const {}));
+    _warmedFor = null;
+    unawaited(warmUp());
   }
 
-  /// One download per language pair at a time: two screens asking for the same data share it.
-  Future<bool> _prepareOnce(String from, String to) {
+  /// One download per language pair at a time: two screens asking for the same data share it. Failures are counted for the back-off.
+  Future<PrepareOutcome> _prepareOnce(String from, String to) {
     final k = '$from>$to';
-    return _downloads[k] ??= service.prepare(from, to).whenComplete(() {
-      _downloads.remove(k);
-      _readyMemo.remove(k);
-    });
+    return _downloads[k] ??= service
+        .prepare(from, to)
+        .then((o) {
+          _readyMemo.remove(k);
+          if (o == PrepareOutcome.ready) {
+            _prepareFailures.remove(k);
+            if (!isClosed) {
+              emit(state.copyWith(modelsVersion: state.modelsVersion + 1));
+            }
+          } else {
+            _prepareFailures[k] = (
+              count: (_prepareFailures[k]?.count ?? 0) + 1,
+              at: DateTime.now(),
+            );
+          }
+          return o;
+        })
+        .whenComplete(() {
+          // a block body: returning the removed future would make whenComplete wait for itself
+          _downloads.remove(k);
+        });
+  }
+
+  /// Automatic downloads wait 30 s after the first failure, doubling up to 15 min; a tap on retry ignores the wait.
+  bool _inBackoff(String from, String to) {
+    final f = _prepareFailures['$from>$to'];
+    if (f == null) return false;
+    final wait = Duration(
+      seconds: (30 * (1 << (f.count - 1).clamp(0, 5))).clamp(30, 900),
+    );
+    return DateTime.now().difference(f.at) < wait;
+  }
+
+  /// Whether the download policy lets language data be fetched now without a tap.
+  Future<bool> _mayDownloadNow() async {
+    if (kIsWeb || state.policy == DownloadPolicy.ask) return false;
+    final net = await network?.kind();
+    return net == NetworkKind.unmetered ||
+        (net == NetworkKind.mobile && state.policy == DownloadPolicy.always);
+  }
+
+  /// Fetches language data for lists and prefetching, when the policy allows it now. Idempotent and quiet: one download per pair,
+  /// no new attempt during the back-off, and the cards that were waiting ask again when it lands (see [TranslationState.modelsVersion]).
+  Future<void> _autoPrepare(String from, String to) async {
+    if (_downloads.containsKey('$from>$to') || _inBackoff(from, to)) return;
+    if (!await _mayDownloadNow() || isClosed) return;
+    unawaited(_prepareOnce(from, to));
+  }
+
+  /// Gets the interface language's own data ready ahead of the first listing (only when the policy allows it now), so the first
+  /// card needs at most the listing's language.
+  Future<void> warmUp() async {
+    final to = state.target;
+    if (!state.enabled || to == 'en' || _warmedFor == to) return;
+    _warmedFor = to; // once per language and setting: the readiness check is a native call
+    if (await service.readiness('en', to) == EngineReadiness.needsDownload) {
+      await _autoPrepare('en', to);
+    }
   }
 
   final TranslationService service;
@@ -229,39 +305,48 @@ class TranslationCubit extends Cubit<TranslationState> {
   }
 
   /// The translated title if one is available for the current language, else null (callers show the original).
-  String? titleFor(JobPosting j) =>
-      state.titles[titleKey(jobKey(j), state.target, j.title)];
+  String? titleFor(JobPosting j) => fieldFor(j, 'title', j.title);
+
+  static String fieldKey(
+    String job,
+    String field,
+    String target,
+    String text,
+  ) => field == 'title'
+      ? titleKey(job, target, text)
+      : '$job|$field|$target|${TranslationService.fingerprint(text)}';
+
+  /// The translation of a short text of the listing (`title`, `contract`) for the current language, else null.
+  String? fieldFor(JobPosting j, String field, String text) =>
+      state.titles[fieldKey(jobKey(j), field, state.target, text)];
 
   /// Asks for the title of a card. Cheap and idempotent: it does nothing when translation is off, the listing already is in the
   /// interface language, the language cannot be identified, or the language data is not on the device (the detail screen offers
   /// the download; a list never downloads anything by itself).
-  void requestTitle(JobPosting j) {
-    if (!state.enabled) return;
+  void requestTitle(JobPosting j) => requestField(j, 'title', j.title);
+
+  void requestField(JobPosting j, String field, String text) {
+    if (!state.enabled || text.isEmpty) return;
     final target = state.target;
-    final key = titleKey(jobKey(j), target, j.title);
+    final key = fieldKey(jobKey(j), field, target, text);
     if (state.titles.containsKey(key) || !_requestedTitles.add(key)) return;
     final from = sourceLanguageOf(j);
     if (from == null || from.split('-').first == target) return;
     () async {
       try {
-        final cached = await service.cached(
-          jobKey(j),
-          'title',
-          target,
-          j.title,
-        );
+        final cached = await service.cached(jobKey(j), field, target, text);
         TextTranslation? r = cached;
         if (r == null) {
           if (await _ready(from, target) != EngineReadiness.ready) {
-            _requestedTitles.remove(
-              key,
-            ); // may become ready later (after a download)
+            // may become ready later: the download below (policy permitting) bumps modelsVersion and the card asks again
+            _requestedTitles.remove(key);
+            unawaited(_autoPrepare(from, target));
             return;
           }
           r = await service.translate(
             id: jobKey(j),
-            field: 'title',
-            text: j.title,
+            field: field,
+            text: text,
             from: from,
             to: target,
             keep: [j.company],
@@ -286,7 +371,10 @@ class TranslationCubit extends Cubit<TranslationState> {
     bool retry = false,
     bool afterDownload = false,
   }) async {
-    if (retry) service.clearFailures();
+    if (retry) {
+      service.clearFailures();
+      _prepareFailures.clear();
+    }
     final id = jobKey(j);
     if (!state.enabled) return;
     final target = state.target;
@@ -319,10 +407,11 @@ class TranslationCubit extends Cubit<TranslationState> {
       return;
     }
     if (ready == EngineReadiness.needsDownload && afterDownload) {
+      // the download reported success but the data is not there
       _setDetail(
         id,
         target,
-        DetailTranslation(DetailStatus.failed, from: from),
+        DetailTranslation(DetailStatus.downloadFailed, from: from),
         epoch: epoch,
       );
       return;
@@ -369,7 +458,16 @@ class TranslationCubit extends Cubit<TranslationState> {
         );
         return;
       }
-      // allowed by the policy: fetch the data now, without a tap
+      // allowed by the policy: fetch the data now, without a tap (but not again right after a failure: the person can retry)
+      if (_inBackoff(from, target)) {
+        _setDetail(
+          id,
+          target,
+          DetailTranslation(DetailStatus.downloadFailed, from: from),
+          epoch: epoch,
+        );
+        return;
+      }
       await downloadAndLoad(j);
       return;
     }
@@ -453,17 +551,27 @@ class TranslationCubit extends Cubit<TranslationState> {
       target,
       DetailTranslation(DetailStatus.downloading, from: from),
     );
-    final ok = await _prepareOnce(from, target);
-    if (!ok) {
+    final out = await _prepareOnce(from, target);
+    if (out != PrepareOutcome.ready) {
       _setDetail(
         id,
         target,
-        DetailTranslation(DetailStatus.failed, from: from),
+        DetailTranslation(DetailStatus.downloadFailed, from: from),
       );
       return;
     }
     _readyMemo.remove('$from>$target');
     await loadDetail(j, afterDownload: true);
+  }
+
+  /// "Try again" on the detail screen: a failed download is fetched again (the person asked), anything else is simply re-run.
+  Future<void> retryDetail(JobPosting j) {
+    final d = state.details[jobKey(j)];
+    if (d?.status == DetailStatus.downloadFailed) {
+      _prepareFailures.clear();
+      return downloadAndLoad(j);
+    }
+    return loadDetail(j, retry: true);
   }
 
   void _setDetail(String id, String target, DetailTranslation d, {int? epoch}) {

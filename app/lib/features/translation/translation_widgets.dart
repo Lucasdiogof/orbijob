@@ -27,7 +27,7 @@ String? languageLabel(String? code) => nativeLanguageName(code);
 
 /// Gives [builder] the title to show for [job] (translated when available) and whether it is translated, and asks the cubit for
 /// the translation when this is built. Never blocks: until a translation exists the original is shown.
-class TranslatedTitle extends StatefulWidget {
+class TranslatedTitle extends StatelessWidget {
   const TranslatedTitle({super.key, required this.job, required this.builder});
 
   final JobPosting job;
@@ -35,23 +35,51 @@ class TranslatedTitle extends StatefulWidget {
   builder;
 
   @override
-  State<TranslatedTitle> createState() => _TranslatedTitleState();
+  Widget build(BuildContext context) => TranslatedField(
+    job: job,
+    field: 'title',
+    text: job.title,
+    builder: builder,
+  );
 }
 
-class _TranslatedTitleState extends State<TranslatedTitle> {
+/// The same for any short text of a listing (`title`, `contract`): [builder] gets [text] translated when a translation exists,
+/// and the cubit is asked for it (or not, when [request] is false because a fixed table already covers the text).
+class TranslatedField extends StatefulWidget {
+  const TranslatedField({
+    super.key,
+    required this.job,
+    required this.field,
+    required this.text,
+    required this.builder,
+    this.request = true,
+  });
+
+  final JobPosting job;
+  final String field;
+  final String text;
+  final bool request;
+  final Widget Function(BuildContext context, String text, bool translated)
+  builder;
+
+  @override
+  State<TranslatedField> createState() => _TranslatedFieldState();
+}
+
+class _TranslatedFieldState extends State<TranslatedField> {
   void _request() {
     final c = maybeTranslation(context);
-    if (c == null) return;
+    if (c == null || !widget.request) return;
     // after the frame: requesting may emit, and a build must not cause state changes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) c.requestTitle(widget.job);
+      if (mounted) c.requestField(widget.job, widget.field, widget.text);
     });
   }
 
   @override
-  void didUpdateWidget(TranslatedTitle old) {
+  void didUpdateWidget(TranslatedField old) {
     super.didUpdateWidget(old);
-    if (old.job != widget.job) _request();
+    if (old.job != widget.job || old.text != widget.text) _request();
   }
 
   @override
@@ -63,26 +91,25 @@ class _TranslatedTitleState extends State<TranslatedTitle> {
   @override
   Widget build(BuildContext context) {
     final c = maybeTranslation(context);
-    if (c == null) return widget.builder(context, widget.job.title, false);
+    if (c == null) return widget.builder(context, widget.text, false);
+    String? at(TranslationState s) =>
+        s.titles[TranslationCubit.fieldKey(
+          TranslationCubit.jobKey(widget.job),
+          widget.field,
+          s.target,
+          widget.text,
+        )];
     return BlocBuilder<TranslationCubit, TranslationState>(
       bloc: c,
       buildWhen: (a, b) =>
           a.target != b.target ||
           a.enabled != b.enabled ||
-          a.titles[TranslationCubit.titleKey(
-                TranslationCubit.jobKey(widget.job),
-                a.target,
-                widget.job.title,
-              )] !=
-              b.titles[TranslationCubit.titleKey(
-                TranslationCubit.jobKey(widget.job),
-                b.target,
-                widget.job.title,
-              )],
+          a.modelsVersion != b.modelsVersion || // language data just landed: a card that was waiting asks again
+          at(a) != at(b),
       builder: (context, s) {
         if (s.enabled) _request(); // a language change asks again; cached results return at once
-        final t = s.enabled ? c.titleFor(widget.job) : null;
-        return widget.builder(context, t ?? widget.job.title, t != null);
+        final t = s.enabled ? at(s) : null;
+        return widget.builder(context, t ?? widget.text, t != null);
       },
     );
   }
@@ -129,7 +156,9 @@ class TranslationBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final c = context.colors;
-    final lang = languageLabel(detail.from) ?? '?';
+    final ui = Localizations.localeOf(context).languageCode;
+    final name = languageName(detail.from, ui) ?? '?';
+    final lang = ui == 'en' ? name : name.toLowerCase(); // inside a sentence
     Widget note(IconData icon, String text, {Widget? action}) => OrbiCard(
       color: c.container,
       padding: const EdgeInsets.all(AppSpace.s3),
@@ -217,6 +246,12 @@ class TranslationBanner extends StatelessWidget {
         );
       case DetailStatus.unsupported:
         return note(Icons.translate_rounded, l.translationUnsupported(lang));
+      case DetailStatus.downloadFailed:
+        return note(
+          Icons.cloud_off_outlined,
+          l.translationDownloadFailed,
+          action: OrbiTextButton(label: l.retry, onPressed: onRetry),
+        );
       case DetailStatus.failed:
         return note(
           Icons.error_outline_rounded,

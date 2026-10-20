@@ -1720,7 +1720,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get translationShowTranslation => 'Ver tradução';
 
   @override
-  String get translationLoading => 'Traduzindo…';
+  String get translationLoading => 'Traduzindo para português…';
 
   @override
   String get translationNeedsTitle => 'Traduzir esta vaga?';
@@ -1746,8 +1746,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get translationFailed =>
-      'Não foi possível traduzir esta vaga. Mostrando o original.';
+  String get translationFailed => 'Não foi possível traduzir esta vaga.';
 
   @override
   String get translationPartialCut =>
@@ -2667,11 +2666,23 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get translationOfflineNoModel =>
-      'Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online. Mostrando o original.';
+      'Sem conexão. A tradução precisa de dados do idioma que ainda não estão neste aparelho; eles são baixados quando você estiver online.';
+
+  @override
+  String get translationDownloadFailed =>
+      'Não foi possível baixar os dados de idioma. Confira se o aparelho está com internet e tente novamente.';
+
+  @override
+  String translationWithheld(String language) {
+    return 'A descrição desta vaga está em $language. Ela aparece aqui traduzida assim que a tradução estiver disponível; o texto original está a um toque.';
+  }
+
+  @override
+  String get translationViewOriginalText => 'Ver texto original';
 
   @override
   String translationWaitingWifi(int mb) {
-    return 'Aguardando Wi-Fi para baixar os dados do idioma (cerca de $mb MB). Mostrando o original.';
+    return 'Aguardando Wi-Fi para baixar os dados do idioma (cerca de $mb MB).';
   }
 
   @override

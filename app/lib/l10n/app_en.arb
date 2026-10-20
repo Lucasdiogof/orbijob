@@ -731,7 +731,7 @@
   },
   "translationShowOriginal": "Show original",
   "translationShowTranslation": "Show translation",
-  "translationLoading": "Translating…",
+  "translationLoading": "Translating to English…",
   "translationNeedsTitle": "Translate this listing?",
   "translationNeedsBody": "OrbiJob translates on your device, so what you read stays on it. The first time, language data of about {mb} MB is downloaded.",
   "@translationNeedsBody": {
@@ -752,7 +752,7 @@
       }
     }
   },
-  "translationFailed": "Could not translate this listing. Showing the original.",
+  "translationFailed": "Could not translate this listing.",
   "translationPartialCut": "Only the first part was translated; the rest is in the original.",
   "translationPartialLines": "Some lines stay in the original so numbers, codes and names remain exact.",
   "translationOriginalLabel": "Original text ({language})",
@@ -1304,8 +1304,18 @@
   "offlineHomeNoCacheBody": "Connect to see the newest jobs. They appear here as soon as there is internet and stay available offline afterwards.",
   "serverUnavailableTitle": "Job catalogue unavailable",
   "serverUnavailableBody": "The catalogue did not answer just now. Try again in a moment.",
-  "translationOfflineNoModel": "No connection. The translation needs language data that is not on this device yet; it downloads when you are online. Showing the original.",
-  "translationWaitingWifi": "Waiting for Wi-Fi to download language data (about {mb} MB). Showing the original.",
+  "translationOfflineNoModel": "No connection. The translation needs language data that is not on this device yet; it downloads when you are online.",
+  "translationDownloadFailed": "Could not download the language data. Check that the device has internet and try again.",
+  "translationWithheld": "This listing's description is in {language}. It appears here translated as soon as the translation is available; the original text is one tap away.",
+  "@translationWithheld": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "translationViewOriginalText": "View original text",
+  "translationWaitingWifi": "Waiting for Wi-Fi to download language data (about {mb} MB).",
   "@translationWaitingWifi": {
     "placeholders": {
       "mb": {
