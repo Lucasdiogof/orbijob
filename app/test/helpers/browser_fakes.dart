@@ -54,6 +54,10 @@ class FakeBrowserEngine implements BrowserEngine {
   Uri? initial;
   BrowserEvents? events;
   var views = 0;
+  var clears = 0;
+
+  @override
+  Future<void> clearData() async => clears++;
 
   @override
   Widget view({

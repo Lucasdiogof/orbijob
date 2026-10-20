@@ -144,6 +144,10 @@ void configureDependencies({
           // what this device kept for the account that leaves (saved searches' results) does not stay for the next one
           await maybe<SearchResultsCache>()?.clear();
           await maybe<ListMirror>()?.clearAll();
+          // cookies of the job portals opened in the in-app browser do not stay for the next person
+          try {
+            await sl<BrowserEngine>().clearData();
+          } catch (_) {}
         },
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();

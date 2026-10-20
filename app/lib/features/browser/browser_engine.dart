@@ -49,4 +49,7 @@ abstract class BrowserEngine {
     required BrowserEvents events,
     required ValueChanged<BrowserController> onCreated,
   });
+
+  /// Removes what the web view kept for the sites visited (cookies), so the next person on this device does not inherit a portal session.
+  Future<void> clearData();
 }

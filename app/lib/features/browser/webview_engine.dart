@@ -26,6 +26,10 @@ class WebViewBrowserEngine implements BrowserEngine {
     required BrowserEvents events,
     required ValueChanged<BrowserController> onCreated,
   }) => _WebViewHost(initial: initial, events: events, onCreated: onCreated);
+
+  // shortcut: cookies only (the platform cookie store is shared by all web views); page caches/localStorage need a live controller
+  @override
+  Future<void> clearData() => WebViewCookieManager().clearCookies();
 }
 
 class _WebViewHost extends StatefulWidget {
