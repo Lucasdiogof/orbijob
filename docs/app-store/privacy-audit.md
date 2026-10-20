@@ -150,7 +150,7 @@ Google Play (IARC, A CONFIRMAR no painel): perguntas equivalentes de navegação
 
 ## 9. Validação
 
-Ver seção 17.
+Ver seções 17 e 23.
 
 ---
 # RODADA 2 (decisões do dono)
@@ -262,3 +262,75 @@ Outros campos:
 ## 17. Validação
 
 Resultados reais no relatório da sessão. O CI (`.github/workflows/ci.yml`, job `app`, Ubuntu) roda `dart format --set-exit-if-changed lib test`, `flutter analyze`, `flutter test` e `flutter build web`; **não há runner macOS, Codemagic nem fastlane**: nada do iOS (manifest agregado, entitlement, archive) é validado automaticamente. Runbook de push iOS em `docs/app-store/ios-push-runbook.md` (NÃO VALIDADO).
+
+---
+# RODADA FINAL (estabilização)
+
+## 18. Idade (item 1): proposta CONDICIONADA às respostas oficiais da Apple
+
+Releitura em 20/10/2026 de https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions (carregou, HTTP 200). Confirmado campo a campo contra a seção 11: grupos e rótulos são os do questionário atual (In-App Controls, Capabilities, Mature Themes, Medical or Wellness, Sexuality or Nudity, Violence, Chance-Based Activities). Definição oficial: "Unrestricted Web Access: Users can navigate to any webpage within the app or freely browse the web. May include: embedded browser functionality or browser app." A faixa **16+** lista "Unrestricted web access". O número final só vale depois de o dono responder o questionário na tela do App Store Connect: **16+ é proposta**, não resultado. A navegação do app não foi restringida.
+Atenção: a mesma página cita "age rating values with region-specific requirements for Australia, Brazil, and Korea". O dono é do Brasil: **A CONFIRMAR** na tela do ASC se aparecem perguntas ou faixa específicas do Brasil. Não li a subpágina do Brasil.
+
+## 19. Aceite dos Termos: registro confiável no servidor (item 2)
+
+`user_metadata` é editável pelo próprio usuário (`auth.updateUser`): serve só como nota secundária, não como prova. Preparado, **sem aplicar**:
+- `supabase/proposals/20261028000000_terms_acceptances.sql` (+ `.down.sql`): tabela `public.terms_acceptances` (user_id, terms_version, privacy_version, `accepted_at default now()` do servidor, único por usuário+versões, FK com `on delete cascade`); RLS com **só SELECT do próprio**; nenhum INSERT/UPDATE/DELETE para o usuário; escrita **só** pela função `public.record_terms_acceptance(p_terms_version, p_privacy_version)` (`SECURITY DEFINER`, `search_path = ''`, usa `auth.uid()`, recusa sem sessão, valida contra a lista `ops.legal_versions` guardada no servidor e ilegível pelo usuário, idempotente por `on conflict do nothing` devolvendo o mesmo `accepted_at`). `execute` revogado de `public` e `anon`, concedido a `authenticated`.
+- **Por que em `supabase/proposals/` e não em `supabase/migrations/`:** verificado em `.github/workflows/ci.yml` que o CI só aplica `supabase/migrations/*.sql` em bancos Postgres descartáveis (linhas 54 e 151) e que `scripts/supabase/apply.sh` (nunca roda no CI) empurra só `supabase/migrations`; nada aplica produção ao fazer merge. Mesmo assim, pôr o arquivo na cadeia obrigaria atualizar `classify_state.mjs` (e seus testes) e `rollback_all.sql`, e o próximo `apply.sh` do dono o levaria junto. Em `proposals/` ele é inerte. O **teste SQL** `supabase/tests/19_terms_acceptance.sql` roda no CI (job supabase-sql, Postgres 16 e 17): `run.sh` aplica a proposta (duas vezes, para provar idempotência) no banco descartável, roda o teste e a remove antes das auditorias da cadeia real. Cobre: usuário não insere direto, não altera nem apaga, versão inválida recusada, idempotência (mesmo timestamp), isolamento entre usuários, `anon` sem execute nem leitura, lista de versões ilegível, registro some com a conta, chamada sem sessão recusada.
+- App (tolerante): `SupabaseConsentRecorder` chama a RPC; se a função não existir (PGRST202/42883/404) devolve `unavailable`, o cadastro segue e a causa só é impressa em debug. O aceite feito no cadastro fica no aparelho **junto com o e-mail** (`auth.consent_pending`) e é enviado quando a pessoa **com esse e-mail** tem sessão: logo após o cadastro se o projeto não exige confirmação, ou após a confirmação/OTP (a sessão só existe depois). Falha de rede mantém o pedido para a próxima sessão; "função inexistente" o descarta. Outra pessoa que entre no aparelho nunca o recebe. `user_metadata` continua gravado no cadastro como registro secundário (horário real do aceite; o `accepted_at` do servidor é o horário em que foi registrado).
+- Ordem de rollout: (1) o dono revisa e move a proposta para `supabase/migrations/`, atualiza `classify_state.mjs` e `rollback_all.sql` e aplica com o `apply.sh` com portões; (2) só então publica o app. Antes disso o app funciona igual (tolerante). A exportação de dados (`account-export/core.ts`) ainda não inclui `terms_acceptances`: acrescentar junto da migration. A exclusão de conta já apaga as linhas (FK em cascata).
+- Usuários existentes: sem registro e **sem novo aceite forçado**: decisão do dono (pedir aceite no próximo login chamaria a mesma RPC).
+- Testes Dart: `test/features/consent_record_test.dart` (espera a primeira sessão do mesmo e-mail, não entrega a outro e-mail, "função inexistente" descarta, falha de rede mantém e reenvia, codec).
+- NÃO executado aqui: o SQL (não há Postgres local): a validação é o CI do PR #74.
+
+## 20. Limpeza da WebView: o que cada chamada apaga de fato (item 3)
+
+Código lido nas versões do `pubspec.lock` (webview_flutter_android 4.14.1, webview_flutter_wkwebview 3.26.2, no pub-cache).
+
+| Chamada | Android (plugin → SDK) | iOS (plugin → WebKit) |
+|---|---|---|
+| `WebViewCookieManager.clearCookies()` | `android_webview_cookie_manager.dart:51-52` → `CookieManager.removeAllCookies` (global ao app) | `webkit_webview_cookie_manager.dart:42-45` → `WKWebsiteDataStore.removeData(ofTypes: [cookies])` do store do gerenciador (o padrão) |
+| `WebViewController.clearCache()` | `android_webview_controller.dart:501` → `WebView.clearCache(true)` (RAM e disco do cache HTTP do WebView) | `webkit_webview_controller.dart:478-485` → `removeData` de memoryCache, diskCache e offlineWebApplicationCache |
+| `WebViewController.clearLocalStorage()` | `android_webview_controller.dart:504` → `WebStorage.deleteAllData()` (localStorage, WebSQL, IndexedDB; global) | `webkit_webview_controller.dart:488-491` → `removeData` de localStorage apenas |
+
+O controller descartável e o navegador real usam o mesmo repositório global (store padrão no iOS, processo no Android), por isso a limpeza alcança as sessões mesmo sem tela aberta. O efeito exato de `removeAllCookies` no disco é comportamento do SDK do Android: **a confirmar em aparelho**.
+
+**Não apagam (limitação honesta):** iOS: IndexedDB, WebSQL, service workers, Cache Storage e dados de mídia (só os tipos acima); sessionStorage (vive e morre com a view); em ambos: cache HTTP nativo fora do WebView, senhas de gerenciadores do sistema. Credenciais HTTP persistentes: o app **não registra** `onHttpAuthRequest` (nenhuma ocorrência em `lib/`) e o plugin só responde a desafios pelo callback do app (`android_webview_controller.dart:1539-1552`), então o app não grava credenciais HTTP; `WebViewDatabase.clearHttpAuthUsernamePassword` e `URLCredentialStorage` não são limpos nem expostos pelo plugin. **A confirmar em aparelho.**
+Mitigações possíveis: (a) canal nativo Swift `WKWebsiteDataStore.removeData(ofTypes: allWebsiteDataTypes, modifiedSince: .distantPast)`, cobre IndexedDB e service workers no iOS: PENDENTE DE XCODE; (b) `WKWebsiteDataStore.nonPersistent()` para o navegador interno (nada persiste; perde o login nos portais entre aberturas: decisão de produto); (c) no Android, `dataExtractionRules` já mantém `app_webview` fora do backup.
+
+**Robustez (implementada):** `BrowserDataGuard` (`lib/features/browser/browser_data_guard.dart`) levanta a bandeira persistente `browser.data_dirty` (SharedPreferences) **antes** de limpar e só a baixa quando `clearData()` devolve verdadeiro (todas as etapas passaram). `openInApp` consulta `ensureClean()` antes de abrir o navegador interno: com a bandeira levantada, força nova limpeza; se falhar de novo, **a página abre no navegador do sistema** (outro cookie jar), nunca no WebView sujo. Ordem: no logout a limpeza roda em `beforeSignOut`, aguardada antes do `signOut` (até 5 s por etapa, sem travar); na troca de conta e na expiração roda sem aguardar, mas a bandeira já está levantada de forma síncrona e o navegador só abre depois de `ensureClean`.
+Testes (`test/features/browser_clear_on_signout_test.dart`, fake de engine com "cookies" e resultado configurável): A→B sem logout (dados de A somem, bandeira baixa, sem segunda limpeza); falha parcial (bandeira alta, dados ficam, `ensureClean` falha e depois passa quando a plataforma volta); engine que lança; `runCleanupSteps` com etapa que lança e etapa que trava. **PENDENTE DE APARELHO:** nenhum teste usa WebView real, e o desvio para o navegador do sistema não tem teste de widget.
+
+## 21. Backup: comportamento real por análise e roteiro de QA (item 4)
+
+Análise (sem aparelho): `res/xml/backup_rules.xml` e `data_extraction_rules.xml` são XML bem formados (parser local) e estão referenciados em `AndroidManifest.xml`. Nomes dos arquivos do armazenamento seguro lidos em `flutter_secure_storage-11.2.0/.../FlutterSecureStorageConfig.java`: `FlutterSecureStorage` (dados) e `FlutterSecureKeyStorage` (chave embrulhada) → `shared_prefs/FlutterSecureStorage.xml` e `FlutterSecureKeyStorage.xml`. O CI `android-resources` (aapt2) valida só recursos de ícone/splash (`docs/design/identity/build/validate_android.sh`): **não** valida estes XML. Continua no backup: `FlutterSharedPreferences.xml` (buscas recentes, espelhos de listas `mirror.v1.*`, cache `search.cache.v1`, cache de tradução `tr.index`, marcador de recuperação, idioma/tema, bandeira `browser.data_dirty`) e os demais arquivos do app. Recomendação: manter assim (sessão e WebView ficam fora); mover os espelhos de listas para um arquivo próprio excluído do backup se o dono não quiser listas salvas na nuvem do Google.
+Efeito esperado ao restaurar num aparelho novo: sem `FlutterSecureStorage.xml` o `SecureSessionStorage` não acha sessão e abre a tela de login; como o arquivo de dados também não vai, não há `Failed to unwrap key`. **Pendente de aparelho.**
+
+Roteiro de QA (um aparelho Android 12+ e outro 11 ou inferior, build release instalado):
+1. Entrar na conta de teste, abrir um portal no navegador interno, salvar uma vaga e uma busca.
+2. `adb shell bmgr enabled` (true) e `adb shell bmgr backupnow com.lucksrei.orbijob` (esperado: "Backup finished with result: Success").
+3. `adb uninstall com.lucksrei.orbijob`, reinstalar o mesmo build e restaurar (`adb shell bmgr list sets`, depois `adb shell bmgr restore <token>`, ou o restore automático da instalação).
+4. Abrir o app. Critérios: (a) pede login: a sessão NÃO foi restaurada; (b) não trava nem mostra erro de chave (`adb logcat` sem exceção fatal de `unwrap`/`InvalidKey`/`FlutterSecureStorage`); (c) o portal do passo 1 não está logado; (d) buscas recentes e idioma voltaram.
+5. Transferência D2D (Android 12+): configurar um aparelho novo copiando do antigo e repetir 4a a 4c.
+6. Android 11 ou inferior: repetir 2 a 4 (usa `fullBackupContent`).
+7. Se algum critério falhar, anexar `adb logcat` e `adb shell dumpsys backup`.
+
+## 22. Campos finais sugeridos do App Store Connect (item 7)
+
+Conferência em 20/10/2026 contra a documentação oficial (carregou, HTTP 200): https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacycollecteddatatypes/nsprivacycollecteddatatype e .../nsprivacycollecteddatatypepurposes (JSON da documentação). Verificação automática: todas as 11 chaves de dado e todas as finalidades de `PrivacyInfo.xcprivacy` existem nas listas oficiais. A página https://developer.apple.com/app-store/app-privacy-details/ (taxonomia da tela do ASC) não foi relida em texto (conteúdo dinâmico): os nomes da tela abaixo seguem a taxonomia da seção 16 e **precisam ser conferidos na tela do ASC**.
+
+| Tipo (tela do ASC) | Coletado | Finalidades | Vinculado | Tracking |
+|---|---|---|---|---|
+| Email Address, Name, Phone Number, Other User Contact Info | Sim | App Functionality | Sim | Não |
+| User ID, Device ID | Sim | App Functionality | Sim | Não |
+| Search History | Sim | App Functionality, Product Personalization | Sim | Não |
+| Product Interaction | Sim | App Functionality, Product Personalization | Sim | Não |
+| Other User Content | Sim | App Functionality, Product Personalization | Sim | Não |
+| Performance Data | Sim (SDKs Google) | Analytics | Não | Não |
+| Other Diagnostic Data | Sim (SDKs Google) | Analytics, App Functionality | Não | Não |
+| Physical Address, Sensitive Info | A CONFIRMAR (decisão do dono) | | | |
+| Todos os demais | Não | | | |
+
+Contato e metadados: marketing, suporte, privacidade, termos e exclusão: URLs da seção 1; e-mail público **marketing@lucksrei.com** (sem telefone nem WhatsApp); copyright provisório **© 2026 LUCAS DIOGO FRANCA** (sujeito à confirmação do dono). Idade: **16+ proposta** (seção 18). Privacy Report, `aps-environment`, APNs e SMTP: `xcode-validation-checklist.md`.
+
+## 23. Validação executada x pendente
+Executado aqui/CI: ver o relatório final da sessão (format, analyze, test, CI do PR #74 com supabase-sql). **Pendente de Mac/aparelho/painel:** tudo de `xcode-validation-checklist.md`, o roteiro da seção 21, WebView real, abertura real dos links de consentimento, manifest Android mesclado.

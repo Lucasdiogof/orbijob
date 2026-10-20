@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/applications/applications_cubit.dart';
+import '../../features/browser/browser_data_guard.dart';
 import '../../features/browser/browser_engine.dart';
 import '../../features/browser/link_share.dart';
 import '../../features/browser/webview_engine.dart';
@@ -110,6 +111,9 @@ void configureDependencies({
     ..registerLazySingleton<BrowserEngine>(
       () => browserEngine ?? const WebViewBrowserEngine(),
     )
+    ..registerLazySingleton<BrowserDataGuard>(
+      () => BrowserDataGuard(sl<BrowserEngine>(), preferences),
+    )
     ..registerLazySingleton<LinkShare>(() => linkShare ?? shareLinkWithSystem)
     ..registerLazySingleton<TextShare>(() => textShare ?? shareTextWithSystem)
     ..registerLazySingleton<TranslationService>(
@@ -151,7 +155,7 @@ void configureDependencies({
           await runCleanupSteps([
             () async => await maybe<SearchResultsCache>()?.clear(),
             () async => await maybe<ListMirror>()?.clearAll(),
-            () => sl<BrowserEngine>().clearData(),
+            () async => await sl<BrowserDataGuard>().clear(),
           ]);
         },
         beforeSignOut: () async {
@@ -161,7 +165,7 @@ void configureDependencies({
             await runCleanupSteps([
               () async => await maybe<SearchResultsCache>()?.clear(),
               () async => await maybe<ListMirror>()?.clearAll(),
-              () => sl<BrowserEngine>().clearData(),
+              () async => await sl<BrowserDataGuard>().clear(),
             ]);
           }
         },

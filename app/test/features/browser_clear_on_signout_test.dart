@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/di/injector.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
+import 'package:orbijob/features/browser/browser_data_guard.dart';
 import 'package:orbijob/features/browser/browser_engine.dart';
 import 'package:orbijob/features/auth/presentation/auth_cubit.dart';
 
@@ -74,6 +75,73 @@ void main() {
       expect(repo.currentUser, isNull);
       await cubit.close();
     });
+  });
+
+  group('user A then user B on the same device', () {
+    late FakeBrowserEngine engine;
+    late FakeAuth repo;
+    setUp(() async {
+      await sl.reset();
+      engine = FakeBrowserEngine();
+      repo = FakeAuth()..currentUser = const AuthUser(id: 'a', email: 'a@b.co');
+      configureDependencies(
+        authRepository: repo,
+        browserEngine: engine,
+        notificationsRefresh: null,
+        connectionRetry: null,
+      );
+    });
+    tearDown(() => sl.reset());
+
+    test('B never meets the sessions A left in the browser', () async {
+      final cubit = sl<AuthCubit>();
+      final guard = sl<BrowserDataGuard>();
+      engine.cookies.add('portal-session-of-A');
+      repo.emit(
+        const AuthUser(id: 'b', email: 'b@b.co'),
+      ); // no sign-out in between
+      await Future<void>.delayed(Duration.zero);
+      expect(engine.cookies, isEmpty);
+      expect(guard.dirty, isFalse);
+      expect(await guard.ensureClean(), isTrue);
+      expect(engine.clears, 1); // nothing pending: no second run
+      await cubit.close();
+    });
+
+    test('a partial failure leaves the dirty flag up and the browser closed until a clean-up passes', () async {
+      final cubit = sl<AuthCubit>();
+      final guard = sl<BrowserDataGuard>();
+      engine
+        ..cookies.add('portal-session-of-A')
+        ..clearResult = false; // some step failed
+      repo.emit(const AuthUser(id: 'b', email: 'b@b.co'));
+      await Future<void>.delayed(Duration.zero);
+      expect(guard.dirty, isTrue);
+      expect(engine.cookies, isNotEmpty);
+      expect(
+        await guard.ensureClean(),
+        isFalse,
+      ); // forced again, failed again: the page must not open inside
+      expect(guard.dirty, isTrue);
+      engine.clearResult = true; // the platform recovers
+      expect(await guard.ensureClean(), isTrue);
+      expect(guard.dirty, isFalse);
+      expect(engine.cookies, isEmpty);
+      await cubit.close();
+    });
+
+    test(
+      'an engine that throws leaves the flag up until a later clean-up passes',
+      () async {
+        final guard = sl<BrowserDataGuard>();
+        engine.failClear = true;
+        expect(await guard.clear(), isFalse);
+        expect(guard.dirty, isTrue);
+        engine.failClear = false;
+        expect(await guard.ensureClean(), isTrue);
+        expect(guard.dirty, isFalse);
+      },
+    );
   });
 
   test(

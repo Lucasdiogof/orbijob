@@ -56,11 +56,19 @@ class FakeBrowserEngine implements BrowserEngine {
   var views = 0;
   var clears = 0;
 
+  /// what the "web view" kept for the sites visited (stands for cookies/cache/local storage)
+  final cookies = <String>{};
+
   @override
-  Future<void> clearData() async {
+  Future<bool> clearData() async {
     clears++;
     if (failClear) throw StateError('clear failed');
+    if (clearResult) cookies.clear();
+    return clearResult;
   }
+
+  /// false = the engine ran but some step failed (partial clean-up)
+  var clearResult = true;
 
   var failClear = false;
 

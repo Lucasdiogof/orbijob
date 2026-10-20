@@ -68,5 +68,7 @@ abstract class BrowserEngine {
   });
 
   /// Removes what the web view kept for the sites visited (cookies), so the next person on this device does not inherit a portal session.
-  Future<void> clearData();
+  ///
+  /// Returns true only when EVERY step succeeded (see [BrowserDataGuard], which remembers a failed run).
+  Future<bool> clearData();
 }

@@ -31,9 +31,9 @@ class WebViewBrowserEngine implements BrowserEngine {
   /// controller reaches them even when no browser screen is open. NOT reachable through webview_flutter: IndexedDB/WebSQL/service
   /// workers on iOS, HTTP-auth credentials, the native URL cache shared with other code of the app (see docs/app-store/privacy-audit.md).
   @override
-  Future<void> clearData() async {
+  Future<bool> clearData() async {
     WebViewController? scratch;
-    await runCleanupSteps([
+    final failed = await runCleanupSteps([
       () => WebViewCookieManager().clearCookies(),
       () async {
         scratch = WebViewController();
@@ -41,6 +41,7 @@ class WebViewBrowserEngine implements BrowserEngine {
       },
       () async => await (scratch ?? WebViewController()).clearLocalStorage(),
     ]);
+    return failed == 0;
   }
 }
 
