@@ -2696,4 +2696,14 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get ntJobOffline =>
       'Sem conexão. Esta vaga ainda não foi aberta neste aparelho; conecte-se para ver os detalhes.';
+
+  @override
+  String get authConsentLabel =>
+      'Li e aceito os Termos de uso e tenho ciência da Política de privacidade.';
+
+  @override
+  String get authConsentTermsLink => 'Termos de uso';
+
+  @override
+  String get authConsentPrivacyLink => 'Política de privacidade';
 }

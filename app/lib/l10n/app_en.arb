@@ -1319,5 +1319,8 @@
   "translationPolicyAlways": "Always",
   "translationPolicyAsk": "Ask me",
   "translationPolicyHelp": "Each language is about 30 MB, downloaded once. On Wi-Fi it is fetched by itself when a listing needs it.",
-  "ntJobOffline": "No connection. This job has not been opened on this device yet; connect to see its details."
+  "ntJobOffline": "No connection. This job has not been opened on this device yet; connect to see its details.",
+  "authConsentLabel": "I have read and accept the Terms of use and I acknowledge the Privacy policy.",
+  "authConsentTermsLink": "Terms of use",
+  "authConsentPrivacyLink": "Privacy policy"
 }

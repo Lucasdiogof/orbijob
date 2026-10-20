@@ -4701,6 +4701,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No connection. This job has not been opened on this device yet; connect to see its details.'**
   String get ntJobOffline;
+
+  /// No description provided for @authConsentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and accept the Terms of use and I acknowledge the Privacy policy.'**
+  String get authConsentLabel;
+
+  /// No description provided for @authConsentTermsLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get authConsentTermsLink;
+
+  /// No description provided for @authConsentPrivacyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get authConsentPrivacyLink;
 }
 
 class _AppLocalizationsDelegate

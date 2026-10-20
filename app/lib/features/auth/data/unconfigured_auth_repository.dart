@@ -23,6 +23,7 @@ class UnconfiguredAuthRepository implements AuthRepository {
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
+    Map<String, Object>? data,
   }) async => _off();
   @override
   Future<void> sendPasswordReset(String email) async => _off();

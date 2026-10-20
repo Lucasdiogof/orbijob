@@ -876,5 +876,8 @@
   "translationPolicyAlways": "Sempre",
   "translationPolicyAsk": "Perguntar",
   "translationPolicyHelp": "Cada idioma tem cerca de 30 MB, baixados uma vez. No Wi-Fi o download acontece sozinho quando uma vaga precisa.",
-  "ntJobOffline": "Sem conexão. Esta vaga ainda não foi aberta neste aparelho; conecte-se para ver os detalhes."
+  "ntJobOffline": "Sem conexão. Esta vaga ainda não foi aberta neste aparelho; conecte-se para ver os detalhes.",
+  "authConsentLabel": "Li e aceito os Termos de uso e tenho ciência da Política de privacidade.",
+  "authConsentTermsLink": "Termos de uso",
+  "authConsentPrivacyLink": "Política de privacidade"
 }

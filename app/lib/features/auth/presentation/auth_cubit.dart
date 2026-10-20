@@ -7,6 +7,7 @@ import '../data/supabase_auth_repository.dart';
 import '../domain/auth_failure.dart';
 import '../domain/auth_repository.dart';
 import '../domain/auth_user.dart';
+import '../domain/legal_consent.dart';
 
 enum AuthNotice {
   none,
@@ -88,8 +89,13 @@ class AuthCubit extends Cubit<AuthState> {
   /// Device clean-up after the account was deleted (recent searches, translation cache): nothing of the person may stay on the phone.
   final Future<void> Function()? afterAccountDeleted;
 
+  /// Local clean-up when the session ends or changes hands without a sign-out by the person (expired session, another account signing in
+  /// on the same device): what this device kept for the previous account (caches, in-app browser sessions) must not reach the next one.
+  final Future<void> Function()? deviceCleanup;
+
   AuthCubit(
     this._repo, {
+    this.deviceCleanup,
     this.beforeSignOut,
     this.afterAccountDeleted,
     RecoveryMarker? recoveryMarker,
@@ -136,6 +142,12 @@ class AuthCubit extends Cubit<AuthState> {
     final wasSignedIn = state.signedIn;
     // Signed in -> signed out that the user did not ask for: say so instead of silently dropping to signed out.
     final ended = u == null && wasSignedIn && !_signingOut;
+    final switched =
+        u != null &&
+        wasSignedIn &&
+        state.user != null &&
+        state.user!.id != u.id;
+    if (ended || switched) unawaited(_deviceCleanup());
     // The session created by verifyOTP(recovery) arrives here as an ordinary sign-in, possibly before verifyRecoveryCode returns: it is the
     // recovery session. A session of ANOTHER person, or no session, ends any recovery.
     final recovering = u == null
@@ -154,6 +166,12 @@ class AuthCubit extends Cubit<AuthState> {
       ),
     );
     if (recovering) _marker?.write(u.id);
+  }
+
+  Future<void> _deviceCleanup() async {
+    try {
+      await deviceCleanup?.call();
+    } catch (_) {}
   }
 
   // Invalid or expired e-mail links surface as errors on the auth stream.
@@ -176,7 +194,11 @@ class AuthCubit extends Cubit<AuthState> {
   });
 
   Future<void> signUp(String email, String password) => _run(() async {
-    final o = await _repo.signUp(email: email, password: password);
+    final o = await _repo.signUp(
+      email: email,
+      password: password,
+      data: legalConsentData(DateTime.now()),
+    );
     return o == SignUpOutcome.confirmationRequired
         ? AuthNotice.confirmationSent
         : AuthNotice.none;
