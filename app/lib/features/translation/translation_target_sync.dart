@@ -19,12 +19,10 @@ class TranslationTargetSync extends StatelessWidget {
     if (_supported.contains(code)) {
       final cubit = context.read<TranslationCubit>();
       // state changes must not happen during a build
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          cubit.setTarget(code);
-          unawaited(cubit.warmUp());
-        },
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        cubit.setTarget(code);
+        unawaited(cubit.warmUp());
+      });
     }
     return child;
   }

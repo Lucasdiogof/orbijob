@@ -328,10 +328,7 @@ void main() {
       await _openFirstJob(t);
       await t.tap(find.text('Pflegefachkraft (m/w/d) für unser Team'));
       await t.pumpAndSettle();
-      expect(
-        find.text('Could not translate this listing.'),
-        findsOneWidget,
-      );
+      expect(find.text('Could not translate this listing.'), findsOneWidget);
       // the foreign text is not shown by itself; the original is one tap away
       expect(find.textContaining('Ihre Aufgaben:'), findsNothing);
       e.failWith = null;
