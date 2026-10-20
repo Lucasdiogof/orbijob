@@ -21,7 +21,7 @@ O app aponta para as três últimas em `app/lib/features/privacy/presentation/yo
 - A Apple diz que o manifest do app **não precisa cobrir dados coletados por SDKs de terceiros** (cada SDK declara os seus). Já o rótulo do App Store Connect **precisa incluir** os dados que os SDKs coletam. CONFIRMADO NA DOC OFICIAL.
 - Os valores de chave devem ser exatamente os da Apple (a doc avisa que o Xcode não gera o relatório com valores inventados). As strings usadas abaixo foram lidas na referência oficial `NSPrivacyCollectedDataType` e `...Purposes` hoje.
 
-### Linhas do manifest novo (todas Linked = true, Tracking = false)
+### Linhas do manifest (Tracking = false em todas). As 9 primeiras: Linked = true (dado do próprio app, enviado ao Supabase). As 2 últimas (rodada 2): Linked = false (dado técnico de SDK)
 
 | Tipo | Finalidades | Justificativa (evidência) |
 |---|---|---|
@@ -33,6 +33,8 @@ O app aponta para as três últimas em `app/lib/features/privacy/presentation/yo
 | DeviceID | AppFunctionality | Token FCM em `push_devices.token` (`supabase_push_devices_repository.dart:6-64`; migration `20261024000000_push_devices.sql:16-25`) |
 | SearchHistory | AppFunctionality, ProductPersonalization | `saved_searches` ligadas à conta; texto da busca enviado como filtro |
 | ProductInteraction | AppFunctionality, ProductPersonalization | `saved_jobs`, `hidden_jobs`, `viewed_jobs`, candidaturas; base do "compatibilidade" |
+| PerformanceData | Analytics | ML Kit Translate: métricas de desempenho (latência) enviadas ao Google; doc oficial (seção 10). Não vinculado: o Google descreve identificadores "por instalação, não destinados a identificar um usuário" |
+| OtherDiagnosticData | Analytics, AppFunctionality | ML Kit (idiomas configurados, info do aparelho, versão do app, códigos de erro) e Firebase user agent/installation ID (seção 10). A Apple diz que o manifest do app não precisa cobrir SDKs; incluído de forma conservadora para o rótulo |
 | OtherUserContent | AppFunctionality, ProductPersonalization | Perfil, experiências, formação, certificados, anotações, PDFs de currículo (bucket privado `resumes`) |
 
 Tracking = false, `NSPrivacyTrackingDomains` vazio: nenhum SDK de anúncio/analytics no `pubspec.yaml`, nenhum cruzamento de dados com terceiros para publicidade, sem IDFA/ATT. CONFIRMADO NO CÓDIGO (pubspec e `grep` de analytics/advertising em `lib/`). Isso é a definição da Apple de tracking (ATT).
@@ -108,7 +110,7 @@ CONFIRMADO NO CÓDIGO:
 - Não existe barra de endereço: só se chega a páginas pelos links de vagas e pelos links dentro das páginas (esquemas permitidos: http/https; `mailto/tel/sms` vão ao sistema; arquivos baixáveis vão ao navegador do sistema; resto bloqueado, `url_policy.dart`).
 - O kit de candidatura copia campos do perfil para a área de transferência só por toque do usuário (`application_kit.dart:112-125`). O app não lê a área de transferência. A área de transferência é visível a outros apps no Android < 13 e o iOS mostra aviso de colagem: risco inerente, documentado ao usuário na tela do kit ("Nada é enviado").
 - Currículo: o kit gera link assinado de curta duração e abre no **navegador do sistema** (`openExternalLink`, `launchUrl externalApplication`), não no WebView.
-- Cookies: persistem pelo padrão da plataforma; terceiros aceitos no Android (`webview_engine.dart:112-114`). Antes desta auditoria, **nada limpava cookies** no logout, na exclusão de conta nem em troca de usuário: o próximo usuário do aparelho herdaria sessões de portais de vagas. Corrigido: ver abaixo. A limpeza cobre cookies (armazenamento compartilhado da plataforma). Cache de página e localStorage dos sites só se limpam com um controller vivo: ficou como limitação.
+- Cookies: persistem pelo padrão da plataforma; terceiros aceitos no Android (`webview_engine.dart:112-114`). Antes desta auditoria, **nada limpava cookies** no logout, na exclusão de conta nem em troca de usuário. Corrigido na rodada 2: ver seção 15 (cookies, cache HTTP, localStorage; logout, exclusão, troca de conta e sessão expirada).
 - Sem logs/telemetria próprios: nenhum `print/debugPrint/developer.log`, analytics, crashlytics, advertising ID, device_info ou package_info em `lib/` (grep). O `push_devices.token` é o único identificador de aparelho; sai do export (`account-export/core.ts:23`) e é apagado na exclusão (cascade `on delete cascade`, migration linha 18) e no logout (`push_registrar.dart:48`, `deleteToken` em `firebase_push_messaging.dart:99`). `firebase_installations` é dependência transitiva do firebase_messaging (A CONFIRMAR no lock).
 - WebView Android: acesso a arquivo/conteúdo desligado, geolocalização desligada, permissões de câmera/microfone negadas, erros TLS nunca ignorados (`webview_engine.dart:103-111,94-99`).
 
@@ -127,7 +129,7 @@ Divergências **comprovadas** ou riscos para corrigir no site:
 
 ## 7. Idade mínima, aceite de termos e classificação etária
 
-CONFIRMADO NO CÓDIGO: o cadastro (`authSignUp*` em `app_*.arb`) pede só e-mail e senha: **não há checkbox de aceite dos termos nem idade mínima nem data de nascimento**. Os termos dizem "ao usar o OrbiJob você concorda" (seção 1). Decisão do dono: se quer aceite explícito no cadastro (não implementado, por não ter sido pedido).
+**Atualizado na rodada 2:** o cadastro agora tem caixa de aceite obrigatória (seção 12). Idade mínima e verificação de idade continuam inexistentes.
 
 Apple (questionário atual, tabela de definições lida hoje; faixas 4+, 9+, 13+, 16+, 18+): "Unrestricted Web Access: users can navigate to any webpage within the app or freely browse the web. May include: embedded browser functionality" e, na tabela, **"16+: Capabilities: Unrestricted web access"**. CONFIRMADO NA DOC OFICIAL. Candidatas:
 - User-Generated Content: **Não** (nenhum conteúdo de um usuário é exibido a outro; perfil/currículo só o dono lê).
@@ -148,4 +150,115 @@ Google Play (IARC, A CONFIRMAR no painel): perguntas equivalentes de navegação
 
 ## 9. Validação
 
-Ver resultados reais no relatório da sessão; comandos: `flutter analyze`, `flutter test`, validação por `plistlib` de `PrivacyInfo.xcprivacy`, `Info.plist` e `Runner.entitlements`, `curl` nas cinco URLs.
+Ver seção 17.
+
+---
+# RODADA 2 (decisões do dono)
+
+## 10. Firebase / ML Kit: dados técnicos (documentação oficial, lida em 20/10/2026)
+
+| Fonte | O que diz |
+|---|---|
+| https://firebase.google.com/docs/android/play-data-disclosure | FCM: versão do app (inscrição em tópicos) e Firebase user agent; métricas de entrega só com BigQuery ligado; eventos de interação só com Google Analytics (o app não tem). Installations: Firebase installation ID (FID), "não identifica unicamente usuário nem aparelho", e user agent (SO, modelo/marca, loja instaladora, SDKs e versões; "nunca vinculado a identificador de usuário ou aparelho"). FCM depende de Installations: declarar os dois. Criptografado em trânsito; não repassado a terceiros exceto subprocessadores. Não mapeia para categorias do Play: o mapeamento abaixo é inferência. |
+| https://firebase.google.com/docs/ios/app-store-data-collection | iOS: FirebaseCore não coleta dados; FirebaseInstallations: Firebase user agent; FirebaseMessaging: token APNs associado ao installation ID (que é o token FCM), modelo/idioma/fuso/SO/app id e versão em inscrição de tópicos, user agent. |
+| https://developers.google.com/ml-kit/android-data-disclosure | ML Kit Translate: idiomas origem/destino, métricas de desempenho (latência), info do aparelho, pacote e versão do app, identificadores por instalação "não destinados a identificar um usuário"; usa Firebase Remote Config e Installations; finalidade: diagnóstico e análise de uso. |
+| https://developers.google.com/ml-kit/ios-data-disclosure | Mesma lista para iOS; não diz se é vinculado a usuário. |
+| raw.githubusercontent.com/firebase/firebase-ios-sdk/main/FirebaseMessaging/Sources/Resources/PrivacyInfo.xcprivacy (último commit do arquivo 3539c2b6, 23/02/2024) | O manifest do SDK declara DeviceID (não vinculado, AppFunctionality), OtherDataTypes (não vinculado, Analytics) e OtherDiagnosticData (não vinculado, AppFunctionality). FirebaseCore declara UserDefaults CA92.1. Versão exata do plugin 16.7.0: A CONFIRMAR no archive. |
+| FirebaseInstallations / pods GoogleMLKit | manifest **não localizado** no GitHub nos caminhos tentados (404). A CONFIRMAR no Privacy Report. |
+
+Decisões:
+- Manifest do app: DeviceID segue **vinculado** (o app grava o token em `push_devices`, ligado à conta). Acrescentados PerformanceData e OtherDiagnosticData, **não vinculados, sem tracking**: Analytics (ML Kit) e AppFunctionality (Firebase). "Não vinculado" segue a descrição do Google; a doc do ML Kit não afirma linkagem: **A CONFIRMAR**. A Apple diz que o manifest do app não precisa cobrir SDKs; foi incluído de forma conservadora, para o rótulo do App Store Connect.
+- Google Play (Data safety), por inferência: "Device or other IDs" (token FCM vinculado; FID) e Diagnostics, coletados e não compartilhados (processadores), criptografados em trânsito. **A CONFIRMAR no Play Console.**
+- **Privacy Report: PENDENTE DE XCODE.** Passo exato para o dono, num Mac: Product > Archive no Xcode (workspace `app/ios/Runner.xcworkspace`, depois de `flutter build ios --release --no-codesign` e `pod install`), no Organizer clicar com o botão direito no archive > **Generate Privacy Report**, salvar o PDF, conferir (a) que os tipos agregados cobrem os da seção 3, (b) que nenhum SDK declara tracking, (c) que nenhuma required-reason API aparece sem motivo; guardar o PDF em `docs/app-store/` e corrigir o manifest se divergir. Nada do iOS foi validado por archive.
+
+## 11. Classificação etária: respostas campo a campo
+
+Decisão do dono: **Unrestricted Web Access = SIM (16+)** enquanto o navegador integrado seguir links arbitrários. A navegação NÃO foi restringida.
+
+### Apple (rótulos do questionário atual, lidos em developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions)
+
+| Grupo | Campo | Resposta |
+|---|---|---|
+| In-App Controls | Parental Controls | Não |
+| In-App Controls | Age Assurance | Não |
+| Capabilities | **Unrestricted Web Access** | **Sim** |
+| Capabilities | User-Generated Content | Não |
+| Capabilities | Social Media | Não |
+| Capabilities | Messaging and Chat | Não |
+| Capabilities | Advertising | Não |
+| Mature Themes | Profanity or Crude Humor; Horror/Fear Themes; Alcohol, Tobacco, or Drug Use or References | Nenhum |
+| Medical or Wellness | Medical or Treatment Information; Health or Wellness Topics | Nenhum (vagas de saúde são só catálogo) |
+| Sexuality or Nudity | Mature or Suggestive Themes; Sexual Content or Nudity; Graphic Sexual Content and Nudity | Nenhum |
+| Violence | Cartoon or Fantasy Violence; Realistic Violence; Prolonged Graphic or Sadistic Realistic Violence; Guns or Other Weapons | Nenhum |
+| Chance-Based Activities | Gambling; Simulated Gambling; Contests; Loot Boxes | Nenhum |
+
+Resultado esperado: **16+** (a tabela da Apple lista "Unrestricted web access" na faixa 16+). O App Store Connect calcula; conferir o número final na tela. Qualquer pergunta extra que apareça na tela (por exemplo "Made for Kids" = Não): A CONFIRMAR.
+
+### Google Play / IARC
+Não foi possível ler o questionário (a página de ajuda só descreve o processo; as perguntas ficam em Play Console > App content). **Respostas candidatas, A CONFIRMAR campo a campo no Console:** categoria utilitário/produtividade (não jogo nem rede social); violência: não; sexualidade/nudez: não; linguagem imprópria: não; substâncias controladas: não; apostas: não; conteúdo gerado por usuário compartilhado com outros: não; interação entre usuários: não; compartilha dados pessoais com outros usuários: não; compartilha localização: não; compras digitais: não; acesso irrestrito à internet/navegador: **sim** (coerente com a decisão). Público-alvo: adultos, não direcionado a crianças (política §11); não há idade mínima implementada.
+
+## 12. Aceite dos Termos e da Política no cadastro (implementado)
+
+- `app/lib/features/auth/domain/legal_consent.dart`: `termsVersion = '2026-10-14'`, `privacyVersion = '2026-10-20'` e `legalConsentData(now)` com `terms_version`, `privacy_version`, `accepted_at` (UTC ISO 8601). Datas conferidas nas páginas do site em 20/10/2026 (termos 2026-10-14, política 2026-10-20). **Ao republicar os textos, mude as constantes.**
+- `auth_page.dart`, só no cadastro: `CheckboxListTile` obrigatório (`authConsentLabel` em pt/en/es) e links "Termos de uso" e "Política de privacidade" que abrem `orbiTermsUrl` e `orbiPrivacyUrl` por `openExternalLink` (mesmo mecanismo da tela Seus dados). O botão "Criar conta" fica desabilitado até marcar.
+- `AuthCubit.signUp` envia `data: legalConsentData(...)`; `SupabaseAuthRepository.signUp` o passa a `auth.signUp`, que o Supabase grava em `user_metadata`. Sem migration e sem tocar no banco. O fluxo de confirmação por e-mail não mudou (um teste confere que o aviso de confirmação continua aparecendo).
+- Testes: `test/features/signup_consent_test.dart` (bloqueio em en/pt/es, metadata enviada, links presentes e tocáveis, constantes) e `test/supabase/auth_test.dart` (o corpo de `/signup` leva `data`). Não há teste que confirme a abertura real do navegador (precisa de aparelho).
+- **Usuários existentes: NÃO foi forçado novo aceite.** Pendência de decisão do dono: pedir aceite no próximo login (exigiria tela e `auth.updateUser`). Contas antigas não têm `terms_version`.
+- Sem idade mínima nem verificação de idade.
+
+## 13. SMTP real do Supabase Auth
+
+**NÃO CONFIRMADO.** Tentativa legítima e somente-leitura pela CLI já logada: `supabase link --project-ref rpmlfxwebnlxnwadyvle` em diretório descartável falhou com "Missing required permission(s): project_admin_read" (o token da CLI não lê a configuração do projeto); então `supabase config pull` não pôde ler o SMTP. Nenhum token foi extraído do cofre de credenciais. O repositório não define SMTP (sem `config.toml`; `docs/WEB_DEPLOY.md:20` diz "confirmar SMTP custom"; `docs/ORBIJOB_QA_REPORT.md:46` diz que o dono configurou o remetente depois de um 500 de SMTP). **Pedir ao dono um print de Authentication > Emails > SMTP Settings (sem a senha).** Até lá, a política não deve nomear provedor.
+
+## 14. Backup do Android e do iOS
+
+Evidência:
+- O `AndroidManifest.xml` não definia `allowBackup` (padrão ligado) nem regras: o Auto Backup copiava tudo, inclusive os arquivos do `flutter_secure_storage` (`FlutterSecureStorage.xml` com a sessão do Supabase e `FlutterSecureKeyStorage.xml` com a chave embrulhada; nomes em `FlutterSecureStorageConfig.java` do plugin). O README do plugin avisa que restaurar isso gera `InvalidKeyException: Failed to unwrap key`, porque a chave fica no Keystore e não migra de aparelho.
+- `shared_preferences` (`FlutterSharedPreferences.xml`) guarda buscas recentes, espelhos de listas (`mirror.v1.*`), cache de resultados (`search.cache.v1`), cache de tradução (`tr.index`), marcador de recuperação, idioma e tema. **Mantido no backup** (o dono pediu não desligar a restauração de forma indiscriminada). Risco: o backup do Google leva as listas salvas do usuário; não dá para excluir só algumas chaves de um XML. Alternativa futura: mover os espelhos para arquivo próprio.
+- A WebView do Android guarda `app_webview/` (cookies, localStorage, IndexedDB) e bancos `webview*.db`.
+
+Implementado: `res/xml/data_extraction_rules.xml` (Android 12+, nuvem e transferência entre aparelhos) e `res/xml/backup_rules.xml` (Android 11-), ligados por `android:dataExtractionRules` e `android:fullBackupContent`, com `android:allowBackup="true"` explícito. Excluem os dois arquivos do armazenamento seguro e os dados da WebView. Os XML foram validados como XML bem formado. **Não foi gerado AAB/APK nem testada restauração: PENDENTE DE TESTE EM APARELHO** (`adb shell bmgr backupnow com.lucksrei.orbijob`, reinstalar e restaurar; conferir também o manifest mesclado, porque plugins podem acrescentar atributos).
+
+iOS: a sessão usa Keychain com `KeychainAccessibility.first_unlock_this_device` (`secure_session_storage.dart:13-15`): fica no aparelho, não migra por backup nem pelo iCloud Keychain, e é legível depois do primeiro desbloqueio (necessário para renovar a sessão em segundo plano). `NSURLIsExcludedFromBackupKey` em `Library/WebKit` e nos espelhos exigiria código Swift novo, que não pode ser compilado nem testado sem Xcode: **não implementado, PENDENTE DE XCODE**. Risco: o backup do iTunes/iCloud leva UserDefaults (as mesmas listas) e dados do WebKit.
+
+## 15. Limpeza completa das sessões da WebView
+
+Implementado (`webview_engine.dart`, `browser_engine.dart`, `injector.dart`, `auth_cubit.dart`):
+- `WebViewBrowserEngine.clearData()` roda **etapas independentes** (`runCleanupSteps`: cada uma com try/catch e timeout de 5 s; uma falha ou travamento não impede as outras nem trava o logout): `WebViewCookieManager.clearCookies()`, `WebViewController().clearCache()` e `WebViewController().clearLocalStorage()`. Um controller descartável alcança os repositórios globais mesmo sem tela de navegador aberta.
+- Escopo real (código dos plugins: webview_flutter_android 4.14.1, webview_flutter_wkwebview 3.26.2): Android `clearCache` = `WebView.clearCache(true)` (cache do processo) e `clearLocalStorage` = `WebStorage.deleteAllData()` (localStorage, WebSQL e IndexedDB, global); iOS: `clearCache` remove memoryCache, diskCache e offlineWebApplicationCache e `clearLocalStorage` remove localStorage do `WKWebsiteDataStore` padrão; cookies pelo gerenciador do plugin.
+- Quando roda: logout, exclusão de conta, **troca de conta no mesmo aparelho sem logout** (`AuthCubit._onUser` detecta usuário diferente) e **sessão expirada ou perdida** (`deviceCleanup`). Na troca e na expiração também se limpam o cache de resultados e os espelhos de listas.
+- Testes (`test/features/browser_clear_on_signout_test.dart`): logout e exclusão; troca de conta (um segundo evento do mesmo usuário não limpa); sessão expirada; navegador que falha não bloqueia o logout; `runCleanupSteps` com etapa que lança e etapa que nunca termina (as outras rodam; 2 falhas contadas). O isolamento é verificado por contagem de chamadas em um `FakeBrowserEngine`: **não há teste com WebView real**.
+- **NÃO é possível limpar com webview_flutter** (limitações): IndexedDB, WebSQL, service workers e Cache Storage no iOS (só localStorage e caches de disco); sessionStorage (morre com a view); credenciais HTTP salvas (`WebViewDatabase` no Android, `URLCredentialStorage` no iOS); cache HTTP nativo fora do WebView; senhas de gerenciadores do sistema. Alternativa sem hack: canal nativo chamando `WKWebsiteDataStore.removeData(ofTypes: allWebsiteDataTypes)` (Swift, PENDENTE DE XCODE).
+- Um usuário diferente que abra o app já com sessão restaurada de outra conta não gera evento de troca: não detectável sem estado anterior (o logout normal cobre o caso comum).
+- Android: `setAcceptThirdPartyCookies(true)` continua (decisão do projeto).
+
+## 16. Campos exatos do App Store Connect
+
+**Data Used to Track You: Nenhum.**
+
+| Tipo (nome na tela) | Collected? | Purposes (nomes exatos) | Linked to identity? | Used for tracking? |
+|---|---|---|---|---|
+| Contact Info > Email Address | Sim | App Functionality | Sim | Não |
+| Contact Info > Name | Sim | App Functionality | Sim | Não |
+| Contact Info > Phone Number | Sim | App Functionality | Sim | Não |
+| Contact Info > Other User Contact Info | Sim | App Functionality | Sim | Não |
+| Identifiers > User ID | Sim | App Functionality | Sim | Não |
+| Identifiers > Device ID (token de push) | Sim | App Functionality | Sim | Não |
+| Search History > Search History | Sim | App Functionality; Product Personalization | Sim | Não |
+| Usage Data > Product Interaction | Sim | App Functionality; Product Personalization | Sim | Não |
+| User Content > Other User Content | Sim | App Functionality; Product Personalization | Sim | Não |
+| Diagnostics > Performance Data | Sim (SDKs Google) | Analytics | Não | Não |
+| Diagnostics > Other Diagnostic Data | Sim (SDKs Google) | Analytics; App Functionality | Não | Não |
+| Contact Info > Physical Address | **A CONFIRMAR** (cidade e país do perfil) | App Functionality | Sim | Não |
+| Sensitive Info | **A CONFIRMAR** (autorização de trabalho) | | | |
+| Health & Fitness, Financial Info, Location, Contacts, Browsing History, Purchases, Crash Data, Other Data | Não | | | |
+
+Outros campos:
+- URLs: marketing https://lucksrei.com/projects/orbijob/ ; suporte https://lucksrei.com/projects/orbijob/support/ ; privacidade https://lucksrei.com/projects/orbijob/privacy/ ; termos https://lucksrei.com/projects/orbijob/terms/ ; exclusão https://lucksrei.com/projects/orbijob/data-deletion/.
+- Copyright (provisório, sujeito à confirmação do dono): **© 2026 LUCAS DIOGO FRANCA**.
+- E-mail público: **marketing@lucksrei.com**. Telefone e WhatsApp NÃO são contato público nas lojas.
+- Criptografia: `ITSAppUsesNonExemptEncryption = false` no `Info.plist`.
+
+## 17. Validação
+
+Resultados reais no relatório da sessão. O CI (`.github/workflows/ci.yml`, job `app`, Ubuntu) roda `dart format --set-exit-if-changed lib test`, `flutter analyze`, `flutter test` e `flutter build web`; **não há runner macOS, Codemagic nem fastlane**: nada do iOS (manifest agregado, entitlement, archive) é validado automaticamente. Runbook de push iOS em `docs/app-store/ios-push-runbook.md` (NÃO VALIDADO).
