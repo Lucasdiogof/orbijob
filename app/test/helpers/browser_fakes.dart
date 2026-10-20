@@ -57,7 +57,12 @@ class FakeBrowserEngine implements BrowserEngine {
   var clears = 0;
 
   @override
-  Future<void> clearData() async => clears++;
+  Future<void> clearData() async {
+    clears++;
+    if (failClear) throw StateError('clear failed');
+  }
+
+  var failClear = false;
 
   @override
   Widget view({

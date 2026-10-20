@@ -139,15 +139,25 @@ void configureDependencies({
         recoveryMarker: preferences == null
             ? null
             : PrefsRecoveryMarker(preferences),
+        deviceCleanup: () async {
+          // what this device kept for the account that leaves (saved searches' results, lists, sessions of the job portals opened in
+          // the in-app browser) does not stay for the next one; a failure of one step never stops the others
+          await runCleanupSteps([
+            () async => await maybe<SearchResultsCache>()?.clear(),
+            () async => await maybe<ListMirror>()?.clearAll(),
+            () => sl<BrowserEngine>().clearData(),
+          ]);
+        },
         beforeSignOut: () async {
-          await sl<PushRegistrar>().beforeSignOut();
-          // what this device kept for the account that leaves (saved searches' results) does not stay for the next one
-          await maybe<SearchResultsCache>()?.clear();
-          await maybe<ListMirror>()?.clearAll();
-          // cookies of the job portals opened in the in-app browser do not stay for the next person
           try {
-            await sl<BrowserEngine>().clearData();
-          } catch (_) {}
+            await sl<PushRegistrar>().beforeSignOut();
+          } finally {
+            await runCleanupSteps([
+              () async => await maybe<SearchResultsCache>()?.clear(),
+              () async => await maybe<ListMirror>()?.clearAll(),
+              () => sl<BrowserEngine>().clearData(),
+            ]);
+          }
         },
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();
