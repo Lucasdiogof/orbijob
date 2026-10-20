@@ -19,6 +19,8 @@ import '../../features/auth/data/unconfigured_auth_repository.dart';
 import '../../features/auth/domain/auth_repository.dart';
 import '../../features/auth/presentation/auth_cubit.dart';
 import '../../features/auth/data/prefs_recovery_marker.dart';
+import '../../features/auth/data/supabase_consent_recorder.dart';
+import '../../features/auth/domain/legal_consent.dart';
 import '../../features/favorites/data/supabase_favorites_repository.dart';
 import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
@@ -139,6 +141,10 @@ void configureDependencies({
         recoveryMarker: preferences == null
             ? null
             : PrefsRecoveryMarker(preferences),
+        consentRecorder: maybe<ConsentRecorder>(),
+        consentStore: preferences == null
+            ? null
+            : PrefsConsentStore(preferences),
         deviceCleanup: () async {
           // what this device kept for the account that leaves (saved searches' results, lists, sessions of the job portals opened in
           // the in-app browser) does not stay for the next one; a failure of one step never stops the others
@@ -243,6 +249,11 @@ void registerSupabaseRepositories(
   SupabaseClient client, {
   SharedPreferences? preferences,
 }) {
+  if (!sl.isRegistered<ConsentRecorder>()) {
+    sl.registerLazySingleton<ConsentRecorder>(
+      () => SupabaseConsentRecorder(client),
+    );
+  }
   if (!sl.isRegistered<PushDevicesRepository>()) {
     sl.registerLazySingleton<PushDevicesRepository>(
       () => SupabasePushDevicesRepository(client),

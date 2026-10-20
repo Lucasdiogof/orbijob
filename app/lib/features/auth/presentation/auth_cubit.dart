@@ -93,9 +93,15 @@ class AuthCubit extends Cubit<AuthState> {
   /// on the same device): what this device kept for the previous account (caches, in-app browser sessions) must not reach the next one.
   final Future<void> Function()? deviceCleanup;
 
+  /// Trusted server record of the acceptance of the legal texts (see [legalConsentData] for the secondary note kept in `user_metadata`).
+  final ConsentRecorder? consentRecorder;
+  final ConsentStore? consentStore;
+
   AuthCubit(
     this._repo, {
     this.deviceCleanup,
+    this.consentRecorder,
+    this.consentStore,
     this.beforeSignOut,
     this.afterAccountDeleted,
     RecoveryMarker? recoveryMarker,
@@ -148,6 +154,7 @@ class AuthCubit extends Cubit<AuthState> {
         state.user != null &&
         state.user!.id != u.id;
     if (ended || switched) unawaited(_deviceCleanup());
+    if (u != null) unawaited(_flushConsent(u));
     // The session created by verifyOTP(recovery) arrives here as an ordinary sign-in, possibly before verifyRecoveryCode returns: it is the
     // recovery session. A session of ANOTHER person, or no session, ends any recovery.
     final recovering = u == null
@@ -166,6 +173,19 @@ class AuthCubit extends Cubit<AuthState> {
       ),
     );
     if (recovering) _marker?.write(u.id);
+  }
+
+  /// Sends the pending acceptance to the server when the signed-in person is the one who accepted. Never throws; an unavailable function
+  /// (not deployed yet) drops the request, any other failure keeps it for the next session.
+  Future<void> _flushConsent(AuthUser? u) async {
+    try {
+      final pending = decodePendingConsent(consentStore?.read());
+      final recorder = consentRecorder;
+      if (u == null || pending == null || recorder == null) return;
+      if (u.email?.trim().toLowerCase() != pending.email) return;
+      final r = await recorder.record(pending.terms, pending.privacy);
+      if (r != ConsentRecordResult.failed) await consentStore?.write(null);
+    } catch (_) {}
   }
 
   Future<void> _deviceCleanup() async {
@@ -199,6 +219,11 @@ class AuthCubit extends Cubit<AuthState> {
       password: password,
       data: legalConsentData(DateTime.now()),
     );
+    // the person accepted now; the server record is made once there is a session (immediately, or after the e-mail confirmation / OTP)
+    await consentStore?.write(
+      encodePendingConsent(email, termsVersion, privacyVersion),
+    );
+    unawaited(_flushConsent(_repo.currentUser));
     return o == SignUpOutcome.confirmationRequired
         ? AuthNotice.confirmationSent
         : AuthNotice.none;
