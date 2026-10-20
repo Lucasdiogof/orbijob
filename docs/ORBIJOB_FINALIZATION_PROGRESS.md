@@ -73,3 +73,8 @@ See `docs/ORBIJOB_QA_REPORT.md`: audit of every flow, production security checks
 
 ## Visual evolution (19/10/2026)
 Batches 1 to 11 done and on `main` (head `455dc7a`, CI green). Checkpoint for the next session: remaining items are the keyboard-only and screen-reader pass on the new widgets, device performance, a real-account walkthrough, and the light touch areas (Settings, Explore results). Full detail and evidence: `docs/ORBIJOB_VISUAL_EVOLUTION.md`.
+
+## P0: translation fix (20/10/2026)
+Endless "Baixando dados de idioma..." fixed at the cause (download timeout, failure state, back-off, one shared download), Explorar cards now fetch language data
+by policy and show titles, contract terms and language names in the interface language, and the detail no longer shows a foreign description while the
+translation is pending (explanation + "Ver texto original"). Details, before/after and limits in `docs/TRANSLATION.md`. Real-device download on the iPhone still pending.

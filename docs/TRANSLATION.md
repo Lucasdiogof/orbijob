@@ -70,3 +70,46 @@ interface language, shows the original one tap away, and says plainly that the t
   probe: sv/de/zh → pt/es translated on the emulator, and by tests).
 - Limits: web translation works only in Chromium desktop browsers that ship the Translator API; Firefox, Safari and mobile browsers
   show the original with a note. ML Kit supports 59 languages; others (for example Thai script variants beyond its list) show the original.
+
+## P0 fix: endless "Baixando dados de idioma..." and untranslated Explorar (20/10/2026)
+
+**Before.** (1) `MlKitTranslationEngine.prepare` awaited `downloadModel`, which reports no progress and never answers when the Wi-Fi interface is up
+but nothing reaches the internet: the detail screen stayed on "downloading" for ever, with no timeout, failure state or retry. (2) Lists never
+fetched language data ("a list never downloads anything by itself"), so with no model on the device the Explorar cards kept German titles and
+German contract text, and the detail showed the whole German description under the banner. (3) Contract and language chips were the source's raw
+text ("Unbefristeter arbeitsvertrag, berufserfahren", "Deutsch").
+
+**Root cause of the endless download:** an unbounded native future behind a status that has no other exit. The connectivity probe only says which
+interface is up, not whether the internet answers, so Wi-Fi did not prove the download could finish.
+
+**After.**
+* `TranslationService.prepare` ends in `PrepareOutcome { ready, failed, timedOut }` and never waits more than `downloadTimeout` (3 min: two ~30 MB
+  models at about 3 Mbit/s). Each translated chunk is bounded by `translateTimeout` (30 s). A late native download is not cancelled: the engine keeps
+  one native download per language, so a retry joins it, and the next readiness check finds the installed data.
+* State machine in `TranslationCubit` (detail): none, loading, ready/partial, needsDownload (policy "ask"/unknown network), waitingWifi, offlineNoModel,
+  downloading, **downloadFailed** (new: failure or timeout), failed, unsupported. Every state has an exit; "Tentar novamente" on downloadFailed fetches
+  again, on failed re-runs.
+* Back-off for automatic downloads: 30 s after the first failure, doubling to 15 min; a tap on retry ignores it. One download per language pair at a
+  time (shared by all cards and screens).
+* Lists now start the download themselves when the policy allows (Wi-Fi/unmetered by default; mobile data only with "Sempre"; never with "Perguntar" or an
+  unknown network, never on the web) and the cards that were waiting ask again when the data lands (`TranslationState.modelsVersion`). Requests are
+  lazy (only built cards), deduplicated and served by the existing 2-way queue. `warmUp()` fetches only the interface language's own data (en -> target)
+  once per language, from `TranslationTargetSync` and when the policy changes.
+* Detail: while the translation is pending or failed, the foreign description is **not** shown; a card explains it and offers "Ver texto original". The banner
+  texts no longer say "showing the original". Title, description, contract/seniority chip follow the same rule.
+* Structured terms: `core/format/contract_labels.dart` maps contract/seniority words (de, fr, es, pt, sv, nl, en, fi, da/no) to the interface language through a
+  fixed table, never free translation; unknown terms fall back to the on-device translation of that short text (field `contract`, same cache), then to the
+  original. Language names use the interface language ("Alemão", "German", "Alemán") through `languageName`.
+* Diagnostics: `developer.log` under `orbijob.translation` with language codes, outcome, duration and engine name; never any text.
+* Cache (unchanged, verified by tests): persistent, key `jobId|field|target|hash(original)`, original never overwritten, survives restart, works offline.
+
+**Per platform.** Android/iOS: ML Kit as above. Web: the browser's Translator API where present; policy downloads never start by themselves on the web
+(the detail asks); the same timeouts apply. The title translation keeps the company name as written; URLs, ids, amounts and dates are not translated.
+
+**Tests** (`app/test/translation/reliability_test.dart` and updates): de/fr/sv/es to pt translated, pt to pt untouched; hanging download ends in
+downloadFailed and works after the data lands; back-off and manual retry; stuck engine ends as failed; 40 cards start one download and are translated
+afterwards within the queue limit; mobile data and unknown network download nothing; warm-up once; persistence offline in a new session; language change;
+contract table and language names; pt UI: card text, withheld description, "Ver texto original", large text. No test uses a paid or remote service.
+
+**Not validated.** The real ML Kit download on the owner's iPhone (no device here): the fix is proven with a hanging fake engine, not with the real plugin.
+Real translation quality of ML Kit is not asserted by tests (the fake wraps text). Still open on iOS/Chrome translator as before.

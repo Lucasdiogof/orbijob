@@ -70,3 +70,11 @@ Status legend: **Done** · **Partial** · **In progress** · **Pending**. Auto/D
 
 ## Visual evolution (19/10/2026)
 Premium visual pass over the whole app through the shared design system, 12 commits (`2c33aaf` … `455dc7a`): see `docs/ORBIJOB_VISUAL_EVOLUTION.md` for per-screen changes, references, decisions, evidence and the honest list of what is not validated (no device performance measurement, no real-account walkthrough, no keyboard/screen-reader pass on new widgets). No backend or data change.
+
+## Translation P0 (20/10/2026)
+| Item | Status |
+| --- | --- |
+| Download never infinite (timeout, failure state, retry, back-off) | Implemented, tested with fakes; real iPhone download not validated |
+| Explorar titles/contract/language in the interface language | Implemented, tested |
+| Detail description withheld until translated, original one tap away | Implemented, tested |
+| Policy Wi-Fi / mobile / ask respected by lists and detail | Implemented, tested |
