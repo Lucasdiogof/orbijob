@@ -93,7 +93,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_mlkit_translation/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   google_mlkit_commons: b2c0a76e7ef4ff555e70e5d71f21d66ce3d08a97
   google_mlkit_translation: 8be5aeeee6dc8402b2ee8b64a2987e1163f76a7c
   GoogleDataTransport: a24e58982ab3ba2f64d79613e027fe7f57e88539
@@ -110,6 +110,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 752c3227f599e3467650e47ea36f433eeb10c273
   SSZipArchive: 8a6ee5677c8e304bebc109e39cf0da91ccef22ea
 
-PODFILE CHECKSUM: 9580a49fa2c095d51100c20f258df867100b916b
+PODFILE CHECKSUM: 9d92fe7458fd9ec142424b672b3af9c9e9296a82
 
 COCOAPODS: 1.16.2
