@@ -29,8 +29,15 @@ Combined: the dominant flow drops by roughly 50×. Projection, not yet confirmed
   (`job_cache_codec.dart`). With 13 users this is minor next to the ingestion; dropping the description from lists would change recommendations.
 
 ## Not done (needs the owner)
-* **Database size (455 MB)**: the CLI login on this machine has no `database_write` permission on the project (`supabase db query` now answers 403), so
-  table/index sizes could not be read and no migration could be applied. Next step once access returns: `pg_total_relation_size` per table and index,
-  compaction of closed rows' text (retention already exists), and dropping unused indexes — each with impact and rollback first.
+* **Database size** (measured after access returned, 22/10): `pg_database_size` 415 MB; `jobs` 393 MB of it = heap 54 MB + indexes 94 MB +
+  TOAST 243 MB. By column: the generated full-text column `search` 154 MB, `description` 73 MB; the GIN index on `search` 53 MB. No significant bloat
+  (1,589 dead rows of 40,394). Closed/unknown rows are already compacted (5 MB of text).
+  * `search` cannot go: the app uses it for non-profession keywords, and computing it per query took 17.8 s (limit 3 s).
+  * Its index can go (−53 MB at once, no data lost): the same app query takes ~300 ms without it instead of ~6 ms (measured in a rolled-back
+    transaction). Left to the owner: `_aplicar/2026-10-22_banco/02_opcional_remover_indice_busca.sql`.
+  * Growth gap: the sources published after 16/10 (mpsvcz, csp, the four Spanish ones, calgary, sinees, usajobs) were in no expiry job, so rows their
+    feed stopped confirming stayed `open` forever (723 older than 7 days). Owner pack: `_aplicar/2026-10-22_banco/01_expiracao_fontes_novas.sql`
+    (same authorisation phrase as the existing expiry jobs; `unknown`, never deleted; the existing retention then compacts them after 30 days).
+  * Not proposed: rewriting `search` with less text or without positions (a table rewrite needs as much free space as the table, risky at 415/500 MB).
 * **Egress logs / Top Paths**: reading them needs the Management API token; not done from here. The dashboard's Logs → Edge logs filtered on `/rest/v1/jobs`
   will show the drop directly.
