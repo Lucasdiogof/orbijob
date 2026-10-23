@@ -447,6 +447,9 @@ class _PrivacyView extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpace.s4),
       children: [
+        // first, so "delete my account" is on screen without scrolling (App Review 5.1.1(v))
+        const YourDataSection(),
+        const SizedBox(height: AppSpace.s5),
         Text(
           l.privacyIntro,
           style: context.text.bodyMedium!.copyWith(color: c.muted),
@@ -463,8 +466,6 @@ class _PrivacyView extends StatelessWidget {
           l.privacyNever2,
           l.privacyNever3,
         ]),
-        const SizedBox(height: AppSpace.s5),
-        const YourDataSection(),
       ],
     );
   }

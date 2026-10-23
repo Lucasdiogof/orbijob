@@ -2443,13 +2443,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Privacy'**
+  /// **'Privacy and data'**
   String get privacyTitle;
 
   /// No description provided for @profileHubPrivacySub.
   ///
   /// In en, this message translates to:
-  /// **'How your data is handled'**
+  /// **'Export your data or delete your account'**
   String get profileHubPrivacySub;
 
   /// No description provided for @privacyIntro.

@@ -1338,10 +1338,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profileHubSettingsSub => 'Idioma e aparência';
 
   @override
-  String get privacyTitle => 'Privacidade';
+  String get privacyTitle => 'Privacidade e dados';
 
   @override
-  String get profileHubPrivacySub => 'Como seus dados são tratados';
+  String get profileHubPrivacySub => 'Exportar seus dados ou excluir sua conta';
 
   @override
   String get privacyIntro => 'O que o OrbiJob guarda e o que ele nunca faz.';

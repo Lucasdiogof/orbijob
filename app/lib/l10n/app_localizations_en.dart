@@ -1333,10 +1333,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileHubSettingsSub => 'Language and appearance';
 
   @override
-  String get privacyTitle => 'Privacy';
+  String get privacyTitle => 'Privacy and data';
 
   @override
-  String get profileHubPrivacySub => 'How your data is handled';
+  String get profileHubPrivacySub => 'Export your data or delete your account';
 
   @override
   String get privacyIntro => 'What OrbiJob keeps, and what it never does.';

@@ -78,3 +78,14 @@ Premium visual pass over the whole app through the shared design system, 12 comm
 | Explorar titles/contract/language in the interface language | Implemented, tested |
 | Detail description withheld until translated, original one tap away | Implemented, tested |
 | Policy Wi-Fi / mobile / ask respected by lists and detail | Implemented, tested |
+
+## App Review 5.1.1(v) — account deletion (rejection of 1.0.0+2, 23/10/2026)
+
+The deletion already existed (Edge Function `account-delete`, password re-auth, confirmation dialog) but sat at the bottom of a long privacy screen. Fix: the screen is now "Privacy and data", "Your data" (export + delete) comes first, and the hub row says "Export your data or delete your account".
+
+Path: Profile → Privacy and data → Delete my account → tick the box, enter the current password → Delete permanently.
+
+Deleted: Auth user, profile, experience, education, skills, languages, resume PDFs (Storage), favourites, hidden jobs, saved searches, alerts, applications, notes, reminders, notifications, push tokens. Kept: the public job catalogue.
+
+- [ ] Ship a new build (1.0.0+3) with this change; reply to App Review with the path above.
+- [ ] Record the demo on a physical device (sign in with a QA account → path above → delete → confirmation → signed out). Not recorded yet.
