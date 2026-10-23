@@ -82,7 +82,7 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       w.calls.jobPosts++;
       if (!String(req.headers.prefer).includes('ignore-duplicates')) return json(res, 400, { message: 'discovery must insert-only' });
       if (req.method === 'POST' && w.source.id !== 'jobicy' && payload.some((r: Row) => r.source_id !== w.source.id)) return json(res, 400, { message: 'wrong source' });
-      if (w.tamper) { const first = [...w.jobs.values()][0]; if (first) first.description = 'OVERWRITTEN'; }
+      if (w.tamper) { const first = [...w.jobs.values()][0]; if (first) { first.description = 'OVERWRITTEN'; first.fingerprint = 'fp-overwritten'; } }
       const inserted: Row[] = [];
       for (const r of payload as Row[]) { if (w.jobs.has(String(r.external_id))) continue; w.jobs.set(String(r.external_id), { ...r }); inserted.push({ external_id: r.external_id }); }
       return json(res, 201, inserted);
@@ -264,5 +264,15 @@ describe('scripts/discover-local.mjs with ORBIJOB_SOURCE=arbeitnow (a source wit
     const r = await runner(['preflight'], { ORBIJOB_SOURCE: 'indeed' });
     expect(r.code).toBe(1);
     expect(r.out).toContain('ORBIJOB_SOURCE desconhecida');
+  });
+});
+
+describe('discover-local.mjs egress guard (2026-10-22)', () => {
+  it('the before/after snapshot never downloads descriptions or other long text', async () => {
+    const { readFileSync } = await import('node:fs');
+    const src = readFileSync(new URL('../scripts/discover-local.mjs', import.meta.url), 'utf8');
+    const content = /const CONTENT = \[([^\]]*)\]/.exec(src)?.[1] ?? '';
+    expect(content).not.toMatch(/description|title|company|requirements|skills/);
+    expect(src).not.toMatch(/select=\*/);
   });
 });

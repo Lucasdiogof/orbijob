@@ -68,7 +68,10 @@ const rest = async (path) => {
 };
 
 // Conteúdo que a descoberta jamais pode mexer (status e last_checked_at são da revalidação, que pode rodar ao mesmo tempo).
-const CONTENT = ['company', 'title', 'description', 'original_url', 'apply_url', 'fingerprint', 'canonical_url', 'country', 'salary_min', 'salary_max', 'salary_currency', 'salary_period', 'published_at', 'contract_type', 'geo_restrictions'];
+// The before/after check reads only identity columns: reading the full rows (description included) of the whole source three times per pass
+// (preflight, before, after) was the project's main egress (2026-10-22: ~4-6 KB a row vs ~0.3 KB, 77 passes a day). A pass only INSERTs with
+// ON CONFLICT DO NOTHING, so an existing row's text cannot change through it; the fingerprint (title/company/place) and the links still catch a rewrite.
+const CONTENT = ['original_url', 'apply_url', 'fingerprint', 'canonical_url'];
 const hash = (row) => createHash('sha256').update(JSON.stringify(CONTENT.map((c) => row[c] ?? null))).digest('hex');
 async function snapshot() {
   const jobs = new Map();
