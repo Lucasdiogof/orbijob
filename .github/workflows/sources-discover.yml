@@ -18,55 +18,27 @@ name: Sources discover
 
 on:
   schedule:
-    - cron: '23 2,8,14,20 * * *'
-    - cron: '41 5,17 * * *'
+    - cron: '23 2 * * *'
+    - cron: '41 5 * * *'
     - cron: '53 6 * * *'
-    - cron: '31 3,9,15,21 * * *'
-    # segunda serie, deslocada: o GitHub descarta agendamentos (12/10: Arbeitnow 08:23 e 14:23 e Platsbanken 09:31 e 15:31 nunca iniciaram). A lease do banco
-    # faz a repeticao ser inofensiva (uma passada por hora por fonte; se a passada anterior foi ha menos de 1 h, a nova recua com too_soon).
-    - cron: '37 5,11,17,23 * * *'
-    - cron: '13 0,6,12,18 * * *'
-    - cron: '27 8,20 * * *'
-    - cron: '51 10,22 * * *'
-    - cron: '43 1,19 * * *'
-    - cron: '16 7 * * *'
-    - cron: '5 3,9,15,21 * * *'
-    # Get on Board (LatAm tech, public API): twice a day, one polite request every two seconds; the second series is the displaced twin
-    - cron: '16 4,16 * * *'
-    - cron: '16 10,22 * * *'
-    # Teaching Vacancies (England, Open Government Licence): the whole feed (~70 pages at one request every 1.5 s) four times a day, plus a displaced twin
-    - cron: '59 1,7,13,19 * * *'
-    - cron: '31 4,10,16,22 * * *'
-    # NYC Jobs (NYC Open Data, refreshed daily): twice a day plus a displaced twin; 3 pages of 500
-    - cron: '35 6,18 * * *'
-    - cron: '59 12 * * *'
-    # Karriere.NRW (Open.NRW, dl-by-de/2.0): one 6.5 MB request per pass, twice a day plus a displaced twin
-    - cron: '12 5,17 * * *'
-    - cron: '14 11,23 * * *'
-    # Groupe BPCE (employer open data, Licence Ouverte 2.0; the portal refreshes 4 times a day): 18 requests per pass, twice a day plus a displaced twin
-    - cron: '30 7,19 * * *'
-    - cron: '28 13 * * *'
-    # Le Forem (Wallonia, CC BY-SA 4.0): the 2,500 newest offers, 25 requests at 1.5 s, twice a day plus a displaced twin
-    - cron: '46 8,20 * * *'
-    - cron: '43 14 * * *'
-    # Úřad práce ČR / MPSV (Czech open data, refreshed daily ~01:07 UTC): one ~190 MB file streamed in ~10 s, the 3,000 most recently inserted; twice a day
+    - cron: '31 3 * * *'
+    - cron: '43 1 * * *'
+    - cron: '5 3 * * *'
+    - cron: '16 4 * * *'
+    - cron: '59 1 * * *'
+    - cron: '35 6 * * *'
+    - cron: '12 5 * * *'
+    - cron: '30 7 * * *'
+    - cron: '46 8 * * *'
     - cron: '43 13 * * *'
-    - cron: '8 19 * * *'
-    - cron: '34 2,8,14,20 * * *'
-    # SEF Murcia (Spanish regional employment service open data): one small JSON read, 4 times a day
-    - cron: '18 3,9,15,21 * * *'
-    # City of Calgary (open data, ≈ 55 listings): one small JSON read a day
+    - cron: '34 2,14 * * *'
+    - cron: '18 3 * * *'
+    - cron: '2 4 * * *'
+    - cron: '36 0 * * *'
+    - cron: '13 1 * * *'
     - cron: '40 9 * * *'
-    # SINE-ES (Espírito Santo, Brazil: open data of the state employment agencies, rewritten every morning): a catalogue read and 11 small CSVs, once a day
     - cron: '20 9 * * *'
-    # USAJOBS (U.S. federal jobs, Search API with the owner's key): the newest 2,000 announcements, 4 small requests, twice a day
-    - cron: '35 10,22 * * *'
-    # Feina Activa (Catalonia, SOC open data): one ~7 MB XML read, 4 times a day
-    - cron: '2 4,10,16,22 * * *'
-    # ECYL (Castilla y León employment service open data): one ~1.2 MB JSON read, twice a day
-    - cron: '36 0,12 * * *'
-    # Lanbide (Basque employment service open data): one ~600 KB JSON read, twice a day
-    - cron: '13 1,13 * * *'
+    - cron: '35 10 * * *'
   workflow_dispatch:
     inputs:
       source:
@@ -122,39 +94,27 @@ jobs:
           CHOSEN: ${{ inputs.source }}
         run: |
           case "$SCHEDULE" in
-            '23 2,8,14,20 * * *') s=arbeitnow ;;
-            '41 5,17 * * *')      s=remoteok ;;
-            '53 6 * * *')         s=remotive ;;
-            '31 3,9,15,21 * * *') s=jobtech ;;
-            '37 5,11,17,23 * * *') s=arbeitnow ;;
-            '13 0,6,12,18 * * *') s=jobtech ;;
-            '27 8,20 * * *')      s=remoteok ;;
-            '51 10,22 * * *')     s=remotive ;;
-            '43 1,19 * * *')      s=twjobs ;;
-            '16 7 * * *')         s=twjobs ;;
-            '5 3,9,15,21 * * *')  s=jobsconz ;;
-            '16 4,16 * * *')      s=getonboard ;;
-            '16 10,22 * * *')      s=getonboard ;;
-            '59 1,7,13,19 * * *') s=teachingvacancies ;;
-            '31 4,10,16,22 * * *') s=teachingvacancies ;;
-            '35 6,18 * * *')      s=nycjobs ;;
-            '59 12 * * *')        s=nycjobs ;;
-            '12 5,17 * * *')      s=karrierenrw ;;
-            '14 11,23 * * *')      s=karrierenrw ;;
-            '30 7,19 * * *')      s=bpce ;;
-            '28 13 * * *')         s=bpce ;;
-            '46 8,20 * * *')      s=forem ;;
-            '43 14 * * *')         s=forem ;;
-            '43 13 * * *')         s=mpsvcz ;;
-            '8 19 * * *')          s=mpsvcz ;;
-            '34 2,8,14,20 * * *')  s=csp ;;
-            '18 3,9,15,21 * * *')  s=sefmurcia ;;
-            '2 4,10,16,22 * * *')  s=feinaactiva ;;
-            '36 0,12 * * *')       s=ecyl ;;
-            '13 1,13 * * *')       s=lanbide ;;
-            '40 9 * * *')          s=calgary ;;
-            '20 9 * * *')          s=sinees ;;
-            '35 10,22 * * *')      s=usajobs ;;
+            '23 2 * * *') s=arbeitnow ;;
+            '41 5 * * *') s=remoteok ;;
+            '53 6 * * *') s=remotive ;;
+            '31 3 * * *') s=jobtech ;;
+            '43 1 * * *') s=twjobs ;;
+            '5 3 * * *') s=jobsconz ;;
+            '16 4 * * *') s=getonboard ;;
+            '59 1 * * *') s=teachingvacancies ;;
+            '35 6 * * *') s=nycjobs ;;
+            '12 5 * * *') s=karrierenrw ;;
+            '30 7 * * *') s=bpce ;;
+            '46 8 * * *') s=forem ;;
+            '43 13 * * *') s=mpsvcz ;;
+            '34 2,14 * * *') s=csp ;;
+            '18 3 * * *') s=sefmurcia ;;
+            '2 4 * * *') s=feinaactiva ;;
+            '36 0 * * *') s=ecyl ;;
+            '13 1 * * *') s=lanbide ;;
+            '40 9 * * *') s=calgary ;;
+            '20 9 * * *') s=sinees ;;
+            '35 10 * * *') s=usajobs ;;
             *)                    s="$CHOSEN" ;;
           esac
           case "$s" in arbeitnow|remoteok|remotive|jobtech|twjobs|jobsconz|getonboard|teachingvacancies|nycjobs|karrierenrw|bpce|forem|mpsvcz|csp|sefmurcia|feinaactiva|ecyl|lanbide|calgary|sinees|usajobs) ;; *) echo "::error title=Fonte invalida::fonte nao reconhecida"; exit 1 ;; esac

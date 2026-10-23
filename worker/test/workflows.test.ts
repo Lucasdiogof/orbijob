@@ -195,19 +195,13 @@ describe('sources-discover.yml', () => {
 
   it('every schedule maps to exactly one source, with the cadence each source\'s own rules allow (Remotive: at most once a day)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
-    expect(crons).toEqual(['23 2,8,14,20 * * *', '41 5,17 * * *', '53 6 * * *', '31 3,9,15,21 * * *', '37 5,11,17,23 * * *', '13 0,6,12,18 * * *', '27 8,20 * * *', '51 10,22 * * *', '43 1,19 * * *', '16 7 * * *', '5 3,9,15,21 * * *', '16 4,16 * * *', '16 10,22 * * *', '59 1,7,13,19 * * *', '31 4,10,16,22 * * *', '35 6,18 * * *', '59 12 * * *', '12 5,17 * * *', '14 11,23 * * *', '30 7,19 * * *', '28 13 * * *', '46 8,20 * * *', '43 14 * * *', '43 13 * * *', '8 19 * * *', '34 2,8,14,20 * * *', '18 3,9,15,21 * * *', '40 9 * * *', '20 9 * * *', '35 10,22 * * *', '2 4,10,16,22 * * *', '36 0,12 * * *', '13 1,13 * * *']);
-    expect(c).toMatch(/'34 2,8,14,20 \* \* \*'\)\s+s=csp/);
-    expect(c).toMatch(/'18 3,9,15,21 \* \* \*'\)\s+s=sefmurcia/);
-    expect(c).toMatch(/'2 4,10,16,22 \* \* \*'\)\s+s=feinaactiva/);
-    expect(c).toMatch(/'36 0,12 \* \* \*'\)\s+s=ecyl/);
-    expect(c).toMatch(/'13 1,13 \* \* \*'\)\s+s=lanbide/);
-    expect(c).toMatch(/'40 9 \* \* \*'\)\s+s=calgary/);
-    expect(c).toMatch(/'20 9 \* \* \*'\)\s+s=sinees/);
-    expect(c).toMatch(/'35 10,22 \* \* \*'\)\s+s=usajobs/);
-    expect(c).toMatch(/'23 2,8,14,20 \* \* \*'\) s=arbeitnow/);
-    expect(c).toMatch(/'41 5,17 \* \* \*'\)\s+s=remoteok/);
-    expect(c).toMatch(/'53 6 \* \* \*'\)\s+s=remotive/);
-    expect(c).toMatch(/'31 3,9,15,21 \* \* \*'\)\s+s=jobtech/);
+    expect(crons).toEqual(['23 2 * * *', '41 5 * * *', '53 6 * * *', '31 3 * * *', '43 1 * * *', '5 3 * * *', '16 4 * * *', '59 1 * * *', '35 6 * * *', '12 5 * * *', '30 7 * * *', '46 8 * * *', '43 13 * * *', '34 2,14 * * *', '18 3 * * *', '2 4 * * *', '36 0 * * *', '13 1 * * *', '40 9 * * *', '20 9 * * *', '35 10 * * *']);
+    // one pass a day per source (egress, 2026-10-22); Choisir le Service Public twice (it confirms at most 80 offers a pass)
+    expect(crons.reduce((n, c) => n + c.split(' ')[1]!.split(',').length, 0)).toBe(22);
+    const esc = (x: string) => x.replace(/[*]/g, '\\*');
+    const sources = crons.map((cron) => new RegExp(`'${esc(cron)}'\\)\\s+s=([a-z]+) ;;`).exec(c)?.[1]);
+    expect(sources.every(Boolean)).toBe(true); // every schedule names its source
+    expect(new Set(sources).size).toBe(crons.length); // and no source has two schedule lines
     const on = c.slice(c.indexOf('\non:'), c.indexOf('\npermissions:'));
     expect(on).not.toMatch(/push:|pull_request|pull_request_target|workflow_run|issue_comment|repository_dispatch/);
     for (const cron of crons) expect(Number(cron.split(' ')[0])).toBeGreaterThan(0); // never minute 0
@@ -278,7 +272,7 @@ describe('sources-revalidate.yml (Platsbanken freshness)', () => {
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
     expect(crons).toEqual(['47 4,10,16,22 * * *']);
     const d = code(read('sources-discover.yml'));
-    expect(d).toMatch(/'31 3,9,15,21 \* \* \*'\)\s+s=jobtech/);
+    expect(d).toMatch(/'31 3 \* \* \*'\)\s+s=jobtech/);
   });
 
   it('can only revalidate the Platsbanken: a fixed source, the revalidation script and the read-only key check, in its own concurrency group', () => {
@@ -314,7 +308,7 @@ describe('csp-revalidate.yml (Choisir le Service Public freshness)', () => {
     expect(c).toMatch(/if: github\.event_name == 'schedule' \|\| inputs\.action == 'revalidate'/);
     const crons = [...c.matchAll(/- cron: '([^']+)'/g)].map((m) => m[1]!);
     expect(crons).toEqual(['7 5,11,17,23 * * *']);
-    expect(code(read('sources-discover.yml'))).toMatch(/'34 2,8,14,20 \* \* \*'\)\s+s=csp/);
+    expect(code(read('sources-discover.yml'))).toMatch(/'34 2,14 \* \* \*'\)\s+s=csp/);
   });
 
   it('can only revalidate this source: fixed source, the revalidation script and the read-only key check, its own concurrency group', () => {
