@@ -42,6 +42,23 @@ class BrowserEvents {
   final void Function(Uri uri, UrlVerdict verdict) onVerdict;
 }
 
+/// Runs every clean-up [steps] one by one: a step that throws or hangs ([timeout]) never stops the others, and the whole never blocks
+/// a sign-out for long. Returns how many steps failed.
+Future<int> runCleanupSteps(
+  Iterable<Future<void> Function()> steps, {
+  Duration timeout = const Duration(seconds: 5),
+}) async {
+  var failed = 0;
+  for (final step in steps) {
+    try {
+      await step().timeout(timeout);
+    } catch (_) {
+      failed++;
+    }
+  }
+  return failed;
+}
+
 /// Creates the platform web view. [onCreated] hands back the controller once the view exists.
 abstract class BrowserEngine {
   Widget view({
@@ -49,4 +66,9 @@ abstract class BrowserEngine {
     required BrowserEvents events,
     required ValueChanged<BrowserController> onCreated,
   });
+
+  /// Removes what the web view kept for the sites visited (cookies), so the next person on this device does not inherit a portal session.
+  ///
+  /// Returns true only when EVERY step succeeded (see [BrowserDataGuard], which remembers a failed run).
+  Future<bool> clearData();
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older (android:fullBackupContent): back up the app, except what must not be restored somewhere else. -->
+<full-backup-content>
+    <!-- flutter_secure_storage: the session and the wrapped encryption key. Keystore keys never leave the device, so a restored copy could
+         only fail to decrypt ("Failed to unwrap key"); it would also carry a sign-in session to a new device without a sign-in. -->
+    <exclude domain="sharedpref" path="FlutterSecureStorage.xml"/>
+    <exclude domain="sharedpref" path="FlutterSecureKeyStorage.xml"/>
+    <!-- Android WebView profile of the in-app browser: cookies, local storage, IndexedDB of the job portals. -->
+    <exclude domain="root" path="app_webview"/>
+    <exclude domain="database" path="webview.db"/>
+    <exclude domain="database" path="webviewCookiesChromium.db"/>
+    <exclude domain="database" path="webviewCookiesChromiumPrivate.db"/>
+</full-backup-content>

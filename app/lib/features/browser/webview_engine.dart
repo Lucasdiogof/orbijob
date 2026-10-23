@@ -26,6 +26,23 @@ class WebViewBrowserEngine implements BrowserEngine {
     required BrowserEvents events,
     required ValueChanged<BrowserController> onCreated,
   }) => _WebViewHost(initial: initial, events: events, onCreated: onCreated);
+
+  /// Cookies, HTTP cache and local storage. The stores are process-wide (Android WebView, WKWebsiteDataStore.default), so a throw-away
+  /// controller reaches them even when no browser screen is open. NOT reachable through webview_flutter: IndexedDB/WebSQL/service
+  /// workers on iOS, HTTP-auth credentials, the native URL cache shared with other code of the app (see docs/app-store/privacy-audit.md).
+  @override
+  Future<bool> clearData() async {
+    WebViewController? scratch;
+    final failed = await runCleanupSteps([
+      () => WebViewCookieManager().clearCookies(),
+      () async {
+        scratch = WebViewController();
+        await scratch!.clearCache();
+      },
+      () async => await (scratch ?? WebViewController()).clearLocalStorage(),
+    ]);
+    return failed == 0;
+  }
 }
 
 class _WebViewHost extends StatefulWidget {
