@@ -568,6 +568,7 @@ class FakeAuth implements AuthRepository {
   final _r = StreamController<void>.broadcast();
   Object? error;
   int passwordUpdates = 0;
+  Map<String, Object>? lastSignUpData;
 
   @override
   bool get isAvailable => true;
@@ -600,8 +601,10 @@ class FakeAuth implements AuthRepository {
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
+    Map<String, Object>? data,
   }) async {
     if (error != null) throw error!;
+    lastSignUpData = data;
     return SignUpOutcome.confirmationRequired;
   }
 

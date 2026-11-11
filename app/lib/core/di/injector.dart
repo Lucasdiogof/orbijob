@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/applications/applications_cubit.dart';
+import '../../features/browser/browser_data_guard.dart';
 import '../../features/browser/browser_engine.dart';
 import '../../features/browser/link_share.dart';
 import '../../features/browser/webview_engine.dart';
@@ -19,6 +20,8 @@ import '../../features/auth/data/unconfigured_auth_repository.dart';
 import '../../features/auth/domain/auth_repository.dart';
 import '../../features/auth/presentation/auth_cubit.dart';
 import '../../features/auth/data/prefs_recovery_marker.dart';
+import '../../features/auth/data/supabase_consent_recorder.dart';
+import '../../features/auth/domain/legal_consent.dart';
 import '../../features/favorites/data/supabase_favorites_repository.dart';
 import '../../features/favorites/domain/favorites_repository.dart';
 import '../../features/preferences/data/supabase_preferences_repository.dart';
@@ -108,6 +111,9 @@ void configureDependencies({
     ..registerLazySingleton<BrowserEngine>(
       () => browserEngine ?? const WebViewBrowserEngine(),
     )
+    ..registerLazySingleton<BrowserDataGuard>(
+      () => BrowserDataGuard(sl<BrowserEngine>(), preferences),
+    )
     ..registerLazySingleton<LinkShare>(() => linkShare ?? shareLinkWithSystem)
     ..registerLazySingleton<TextShare>(() => textShare ?? shareTextWithSystem)
     ..registerLazySingleton<TranslationService>(
@@ -139,11 +145,29 @@ void configureDependencies({
         recoveryMarker: preferences == null
             ? null
             : PrefsRecoveryMarker(preferences),
+        consentRecorder: maybe<ConsentRecorder>(),
+        consentStore: preferences == null
+            ? null
+            : PrefsConsentStore(preferences),
+        deviceCleanup: () async {
+          // what this device kept for the account that leaves (saved searches' results, lists, sessions of the job portals opened in
+          // the in-app browser) does not stay for the next one; a failure of one step never stops the others
+          await runCleanupSteps([
+            () async => await maybe<SearchResultsCache>()?.clear(),
+            () async => await maybe<ListMirror>()?.clearAll(),
+            () async => await sl<BrowserDataGuard>().clear(),
+          ]);
+        },
         beforeSignOut: () async {
-          await sl<PushRegistrar>().beforeSignOut();
-          // what this device kept for the account that leaves (saved searches' results) does not stay for the next one
-          await maybe<SearchResultsCache>()?.clear();
-          await maybe<ListMirror>()?.clearAll();
+          try {
+            await sl<PushRegistrar>().beforeSignOut();
+          } finally {
+            await runCleanupSteps([
+              () async => await maybe<SearchResultsCache>()?.clear(),
+              () async => await maybe<ListMirror>()?.clearAll(),
+              () async => await sl<BrowserDataGuard>().clear(),
+            ]);
+          }
         },
         afterAccountDeleted: () async {
           sl<RecentSearchesCubit>().clear();
@@ -229,6 +253,11 @@ void registerSupabaseRepositories(
   SupabaseClient client, {
   SharedPreferences? preferences,
 }) {
+  if (!sl.isRegistered<ConsentRecorder>()) {
+    sl.registerLazySingleton<ConsentRecorder>(
+      () => SupabaseConsentRecorder(client),
+    );
+  }
   if (!sl.isRegistered<PushDevicesRepository>()) {
     sl.registerLazySingleton<PushDevicesRepository>(
       () => SupabasePushDevicesRepository(client),

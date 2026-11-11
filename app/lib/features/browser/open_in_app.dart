@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/di/injector.dart';
 import '../../core/open_link.dart';
 import '../../l10n/app_localizations.dart';
 import '../applications/application_kit.dart';
 import '../auth/presentation/auth_cubit.dart';
 import '../search/domain/entities/job_posting.dart';
+import 'browser_data_guard.dart';
 import 'in_app_browser_page.dart';
 import 'url_policy.dart';
 
@@ -36,6 +38,14 @@ Future<void> openInApp(
     if (!ok) showSnackOn(messenger, l.browserCannotOpenExternal);
     return;
   }
+  // a web view that may still hold the previous person's sessions (a clean-up that failed or never finished) is not opened:
+  // it is cleaned first, and if that fails again the page goes to the system browser, which has its own cookie jar
+  if (!await sl<BrowserDataGuard>().ensureClean()) {
+    final ok = await openExternalLink(uri.toString());
+    if (!ok) showSnackOn(messenger, l.browserCannotOpenExternal);
+    return;
+  }
+  if (!context.mounted) return;
   await Navigator.of(
     context,
   ).push(MaterialPageRoute<void>(builder: (_) => InAppBrowserPage(url: uri)));

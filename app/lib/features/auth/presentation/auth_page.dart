@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/design/design.dart';
 import '../../../core/orbi/orbi.dart';
+import '../../../core/open_link.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../privacy/presentation/your_data_section.dart'
+    show orbiPrivacyUrl, orbiTermsUrl;
 import '../domain/auth_failure.dart';
 import 'auth_cubit.dart';
 import 'recovery_code_page.dart';
@@ -221,6 +224,7 @@ class _AuthPageState extends State<AuthPage> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   late bool _signUp = widget.startAsSignUp;
+  bool _consent = false;
   late final AuthNotice _opening = widget.initialNotice;
 
   @override
@@ -328,12 +332,39 @@ class _AuthPageState extends State<AuthPage> {
                       const SizedBox(height: AppSpace.s3),
                       AuthMessage(text: l.authPasswordChangedSignIn),
                     ],
+                    if (_signUp) ...[
+                      const SizedBox(height: AppSpace.s3),
+                      CheckboxListTile(
+                        key: const ValueKey('auth-consent'),
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: _consent,
+                        onChanged: s.busy
+                            ? null
+                            : (v) => setState(() => _consent = v ?? false),
+                        title: Text(l.authConsentLabel),
+                      ),
+                      Wrap(
+                        children: [
+                          OrbiTextButton(
+                            key: const ValueKey('auth-terms-link'),
+                            label: l.authConsentTermsLink,
+                            onPressed: () => openExternalLink(orbiTermsUrl),
+                          ),
+                          OrbiTextButton(
+                            key: const ValueKey('auth-privacy-link'),
+                            label: l.authConsentPrivacyLink,
+                            onPressed: () => openExternalLink(orbiPrivacyUrl),
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: AppSpace.s5),
                     OrbiPrimaryButton(
                       label: _signUp ? l.authSignUpAction : l.authSignInAction,
                       loading: s.busy,
                       expand: true,
-                      onPressed: _submit,
+                      onPressed: _signUp && !_consent ? null : _submit,
                     ),
                     const SizedBox(height: AppSpace.s2),
                     OrbiTextButton(

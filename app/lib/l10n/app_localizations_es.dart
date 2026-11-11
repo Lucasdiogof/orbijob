@@ -2714,4 +2714,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get ntJobOffline =>
       'Sin conexión. Esta vacante aún no se abrió en este dispositivo; conéctate para ver los detalles.';
+
+  @override
+  String get authConsentLabel =>
+      'He leído y acepto los Términos de uso y declaro conocer la Política de privacidad.';
+
+  @override
+  String get authConsentTermsLink => 'Términos de uso';
+
+  @override
+  String get authConsentPrivacyLink => 'Política de privacidad';
 }

@@ -2699,4 +2699,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ntJobOffline =>
       'No connection. This job has not been opened on this device yet; connect to see its details.';
+
+  @override
+  String get authConsentLabel =>
+      'I have read and accept the Terms of use and I acknowledge the Privacy policy.';
+
+  @override
+  String get authConsentTermsLink => 'Terms of use';
+
+  @override
+  String get authConsentPrivacyLink => 'Privacy policy';
 }

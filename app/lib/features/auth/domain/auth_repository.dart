@@ -17,6 +17,7 @@ abstract class AuthRepository {
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
+    Map<String, Object>? data,
   });
 
   /// Sends a 6-digit recovery code to [email] (no link, no deep link).

@@ -886,5 +886,8 @@
   "translationPolicyAlways": "Siempre",
   "translationPolicyAsk": "Preguntarme",
   "translationPolicyHelp": "Cada idioma ocupa unos 30 MB y se descarga una vez. Con Wi-Fi se descarga solo cuando un anuncio lo necesita.",
-  "ntJobOffline": "Sin conexión. Esta vacante aún no se abrió en este dispositivo; conéctate para ver los detalles."
+  "ntJobOffline": "Sin conexión. Esta vacante aún no se abrió en este dispositivo; conéctate para ver los detalles.",
+  "authConsentLabel": "He leído y acepto los Términos de uso y declaro conocer la Política de privacidad.",
+  "authConsentTermsLink": "Términos de uso",
+  "authConsentPrivacyLink": "Política de privacidad"
 }

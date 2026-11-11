@@ -34,6 +34,11 @@ run 15_push_devices.sql
 run 16_reminders.sql
 run 17_search_alternatives.sql
 run 18_accent_search.sql
+# proposal (NOT in the migration chain): applied twice (idempotence), tested, and removed again so the checks below see only the real chain
+run ../proposals/20261028000000_terms_acceptances.sql
+run ../proposals/20261028000000_terms_acceptances.sql
+run 19_terms_acceptance.sql
+run ../proposals/20261028000000_terms_acceptances.down.sql
 ./05_concurrency.sh "$URL"
 # the storage section must be re-runnable without error (idempotence of the bucket/policy statements)
 awk '/-- ───────── private storage: resumes/{f=1} f' ../migrations/20261010000000_app_integration.sql > /tmp/storage_section_$$.sql

@@ -111,10 +111,12 @@ class SupabaseAuthRepository implements AuthRepository {
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
+    Map<String, Object>? data,
   }) => _guard(() async {
     final r = await _client.auth.signUp(
       email: email.trim(),
       password: password,
+      data: data,
       emailRedirectTo: redirectTo,
     );
     return r.session == null

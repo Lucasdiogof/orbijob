@@ -54,6 +54,23 @@ class FakeBrowserEngine implements BrowserEngine {
   Uri? initial;
   BrowserEvents? events;
   var views = 0;
+  var clears = 0;
+
+  /// what the "web view" kept for the sites visited (stands for cookies/cache/local storage)
+  final cookies = <String>{};
+
+  @override
+  Future<bool> clearData() async {
+    clears++;
+    if (failClear) throw StateError('clear failed');
+    if (clearResult) cookies.clear();
+    return clearResult;
+  }
+
+  /// false = the engine ran but some step failed (partial clean-up)
+  var clearResult = true;
+
+  var failClear = false;
 
   @override
   Widget view({

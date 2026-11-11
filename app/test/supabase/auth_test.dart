@@ -32,6 +32,7 @@ class _FakeAuth implements AuthRepository {
   Future<SignUpOutcome> signUp({
     required String email,
     required String password,
+    Map<String, Object>? data,
   }) async {
     if (error != null) throw error!;
     return outcome;
@@ -357,9 +358,18 @@ void main() {
           ),
         );
         expect(
-          await SupabaseAuthRepository(b.client)
-              .signUp(email: 'a@b.co', password: 'password123'),
+          await SupabaseAuthRepository(b.client).signUp(
+            email: 'a@b.co',
+            password: 'password123',
+            data: {'terms_version': '2026-10-14'},
+          ),
           SignUpOutcome.confirmationRequired,
+        );
+        // the accepted version travels in user_metadata of the sign-up request (no migration involved)
+        expect(
+          (b.requests.firstWhere((r) => r.path.endsWith('/signup')).json
+              as Map)['data'],
+          {'terms_version': '2026-10-14'},
         );
       },
     );
