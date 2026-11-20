@@ -14,7 +14,7 @@ concurrency:
   group: deploy-web
   cancel-in-progress: true
 env:
-  FLUTTER_VERSION: "3.47.7"        # pin to the version the app is developed with
+  FLUTTER_VERSION: "3.50.1"        # pin to the version the app is developed with
   APP_DIR: "app"                    # folder with pubspec.yaml and wrangler.jsonc (OrbiJob: app)
   FLUTTER_WEB_FLAGS: "--no-web-resources-cdn"           # e.g. --no-web-resources-cdn
   SMOKE_URLS: "https://orbijob.lucksrei.com https://orbijob-web.lucasdiogo1234.workers.dev"  # public URLs checked after every deploy (space separated)
