@@ -18,7 +18,10 @@ void main() {
             MaterialApp(
               locale: Locale(lang),
               theme: dark ? AppTheme.dark() : AppTheme.light(),
-              localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                ...GlobalMaterialLocalizations.delegates,
+              ],
               supportedLocales: AppLocalizations.supportedLocales,
               builder: (c, child) => MediaQuery(
                 data: MediaQuery.of(c)
@@ -46,7 +49,10 @@ void main() {
   testWidgets('nothing to suggest renders nothing', (t) async {
     await t.pumpWidget(
       MaterialApp(
-        localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          ...GlobalMaterialLocalizations.delegates,
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: SearchSuggestionsBox(query: 'zzzzqqqq', onSearch: (_) {}),

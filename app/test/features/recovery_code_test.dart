@@ -20,7 +20,10 @@ Future<AuthCubit> _pump(WidgetTester t, FakeAuth auth) async {
       value: cubit,
       child: MaterialApp(
         theme: AppTheme.light(),
-        localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          ...GlobalMaterialLocalizations.delegates,
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
         home: AuthGate(

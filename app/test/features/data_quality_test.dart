@@ -313,7 +313,10 @@ void main() {
     Widget host(Widget child, String lang, Brightness b, double width) =>
         MaterialApp(
           theme: b == Brightness.light ? AppTheme.light() : AppTheme.dark(),
-          localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates,
+          ],
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(lang),
           home: Scaffold(

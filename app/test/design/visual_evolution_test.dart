@@ -217,7 +217,10 @@ void main() {
   group('profile completeness bar', () {
     Widget card(List<String> missing, {bool reduce = false}) => MaterialApp(
       theme: AppTheme.light(),
-      localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       supportedLocales: AppLocalizations.supportedLocales,
       locale: const Locale('en'),
       home: MediaQuery(
