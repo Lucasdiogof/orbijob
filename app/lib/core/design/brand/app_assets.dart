@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Single place that knows where brand assets live (copies of docs/design/identity/c-minimal, kept in sync by a test).
 abstract final class AppAssets {

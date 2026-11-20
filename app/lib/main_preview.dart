@@ -1,7 +1,7 @@
 // Preview entrypoint: `flutter run -t lib/main_preview.dart` (or `flutter build web -t lib/main_preview.dart`).
 // It plugs ILLUSTRATIVE fictional jobs into the real UI and pins a banner saying so on every screen.
 // The production entrypoint (lib/main.dart) never references the fixtures.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'app.dart';
 import 'core/design/design.dart';

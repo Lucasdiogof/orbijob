@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/orbi/orbi.dart';
 import 'features/translation/translation_cubit.dart';
@@ -60,11 +59,9 @@ class _OrbiJobAppState extends State<OrbiJobApp> {
           darkTheme: AppTheme.dark(),
           themeMode: mode,
           locale: locale,
-          localizationsDelegates: const [
+          localizationsDelegates: [
             AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
           builder: (context, child) {

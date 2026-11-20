@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/home/recent_searches_cubit.dart';
 import 'package:orbijob/preview/preview_fixtures.dart';

@@ -2,7 +2,7 @@
 // the main action must stay reachable. (Content correctness is covered elsewhere; this is the layout/i18n safety net.)
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/orbi/orbi.dart';

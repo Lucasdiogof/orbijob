@@ -1,6 +1,6 @@
 // Visual-evolution audit: with the system "reduce motion" setting on, the screens that gained entrance/state motion must show
 // their content at once, run no animation, and not overflow on the smallest supported phone (320 x 568) at doubled text.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/l10n/app_localizations.dart';

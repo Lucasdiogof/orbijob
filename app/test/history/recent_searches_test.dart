@@ -1,5 +1,5 @@
 import 'package:fake_async/fake_async.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/features/auth/domain/auth_user.dart';
 import 'package:orbijob/features/home/recent_searches_cubit.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/theme/app_theme.dart';
 import 'package:orbijob/features/search/presentation/widgets/search_suggestions_box.dart';
@@ -18,7 +18,7 @@ void main() {
             MaterialApp(
               locale: Locale(lang),
               theme: dark ? AppTheme.dark() : AppTheme.light(),
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
               supportedLocales: AppLocalizations.supportedLocales,
               builder: (c, child) => MediaQuery(
                 data: MediaQuery.of(c)
@@ -46,7 +46,7 @@ void main() {
   testWidgets('nothing to suggest renders nothing', (t) async {
     await t.pumpWidget(
       MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: SearchSuggestionsBox(query: 'zzzzqqqq', onSearch: (_) {}),

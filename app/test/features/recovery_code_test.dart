@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/design.dart';
@@ -20,7 +20,7 @@ Future<AuthCubit> _pump(WidgetTester t, FakeAuth auth) async {
       value: cubit,
       child: MaterialApp(
         theme: AppTheme.light(),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
         home: AuthGate(

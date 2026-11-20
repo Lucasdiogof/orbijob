@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/design/design.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
@@ -217,7 +217,7 @@ void main() {
   group('profile completeness bar', () {
     Widget card(List<String> missing, {bool reduce = false}) => MaterialApp(
       theme: AppTheme.light(),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
       supportedLocales: AppLocalizations.supportedLocales,
       locale: const Locale('en'),
       home: MediaQuery(

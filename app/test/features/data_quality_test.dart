@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:orbijob/core/orbi/orbi.dart';
 import 'package:orbijob/core/design/design.dart';
@@ -313,7 +313,7 @@ void main() {
     Widget host(Widget child, String lang, Brightness b, double width) =>
         MaterialApp(
           theme: b == Brightness.light ? AppTheme.light() : AppTheme.dark(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localizationsDelegates: [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(lang),
           home: Scaffold(
