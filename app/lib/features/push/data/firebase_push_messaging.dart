@@ -1,3 +1,5 @@
+// shortcut: API de token do firebase_messaging 17 (getToken/onTokenRefresh/deleteToken) esta deprecated; migrar para register()/onRegistered/unregister() em tarefa propria.
+// ignore_for_file: deprecated_member_use
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
